@@ -174,5 +174,5 @@
         });
     });
 </script>
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias_administrador_2.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias_administrador_3.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>

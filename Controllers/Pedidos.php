@@ -39,6 +39,13 @@ class Pedidos extends Controller
         }
         $this->views->render($this, "guias_administrador");
     }
+    public function guias_administrador3($filtro = "")
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "guias_administrador_3");
+    }
     public function guias_administrador_2($filtro = "")
     {
         $this->views->render($this, "guias_administrador_2");
@@ -542,71 +549,94 @@ class Pedidos extends Controller
         $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
         echo json_encode($data);
     }
-    private function sanitizeDate($date)
-    {
-        $timestamp = strtotime($date);
-        if ($timestamp === false) {
-            throw new InvalidArgumentException("Fecha inválida: $date");
-        }
-        return date('Y-m-d', $timestamp); // Retorna formato estándar
-    }
 
-    private function sanitizeString($string)
-    {
-        return htmlspecialchars(trim($string), ENT_QUOTES, 'UTF-8');
-    }
 
-    public function obtener_guiasAdministrador2()
+    /// sebastian
+    public function obtener_guiasAdministrador3()
     {
-        // Validación de entrada con valores predeterminados
-        $fecha_inicio = isset($_POST['fecha_inicio']) ? $this->sanitizeDate($_POST['fecha_inicio']) : "";
-        $fecha_fin = isset($_POST['fecha_fin']) ? $this->sanitizeDate($_POST['fecha_fin']) : "";
-        $transportadora = isset($_POST['transportadora']) ? $this->sanitizeString($_POST['transportadora']) : "";
-        $estado = isset($_POST['estado']) ? $this->sanitizeString($_POST['estado']) : "";
+        // Obtén el número de "draw" de la solicitud, o usa un valor por defecto
+        $draw = isset($_POST['draw']) ? intval($_POST['draw']) : 0;
+
+        // Parámetros de DataTables
+        $start = isset($_POST['start']) ? intval($_POST['start']) : 0;
+        $length = isset($_POST['length']) ? intval($_POST['length']) : 10;
+        $search = isset($_POST['search']['value']) ? $_POST['search']['value'] : "";
+        $orderColumn = isset($_POST['order'][0]['column']) ? intval($_POST['order'][0]['column']) : 0;
+        $orderDir = isset($_POST['order'][0]['dir']) ? $_POST['order'][0]['dir'] : "asc";
+
+        // Otros parámetros personalizados
+        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
+        $fecha_fin = $_POST['fecha_fin'] ?? "";
+        $transportadora = $_POST['transportadora'] ?? "";
+        $estado = $_POST['estado'] ?? "";
         $drogshipin = $_POST['drogshipin'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
-        $limit = isset($_POST['limit']) ? max(1, intval($_POST['limit'])) : 10; // Evita valores negativos o 0
-        $page = isset($_POST['page']) ? max(1, intval($_POST['page'])) : 1;
+        $despachos = $_POST['despachos'] ?? "";
 
-        // Calcular el offset para la consulta SQL
-        $start = ($page - 1) * $limit;
-
-        // Obtener los datos
-        $data = $this->model->cargarGuiasAdministrador2(
+        // Consulta paginada al modelo
+        $data = $this->model->cargarGuiasAdministrador3(
             $fecha_inicio,
             $fecha_fin,
             $transportadora,
             $estado,
             $impreso,
             $drogshipin,
+            $despachos,
             $start,
-            $limit
+            $length,
+            $search,
+            $orderColumn,
+            $orderDir
         );
 
-        // Obtener el conteo total
-        $totalData = $this->model->contarTotalGuiasAdministrador(
-            $fecha_inicio,
-            $fecha_fin,
-            $transportadora,
-            $estado,
-            $impreso,
-            $drogshipin
-        );
+        // Total de registros
+        $totalRecords = $this->model->totalGuias();
 
-        // Construir la respuesta
-        $json_data = [
-            "success" => true,
-            "message" => "Datos cargados correctamente.",
-            "recordsTotal" => intval($totalData),
-            "recordsFiltered" => intval($totalData),
-            "data" => $data,
-            "page" => $page,
-            "limit" => $limit,
-        ];
-
-        // Responder en formato JSON
-        echo json_encode($json_data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        // Respuesta a DataTables
+        echo json_encode([
+            "draw" => $draw, // Número de draw
+            "recordsTotal" => $totalRecords, // Total de registros sin filtrar
+            "recordsFiltered" => count($data), // Total después del filtrado
+            "data" => $data, // Registros
+        ]);
     }
+
+
+
+
+    //cristian
+    public function obtener_guiasAdministrador2()
+    {
+        // Capturamos los filtros enviados por el DataTable
+        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
+        $fecha_fin = $_POST['fecha_fin'] ?? "";
+        $transportadora = $_POST['transportadora'] ?? "";
+        $estado = $_POST['estado'] ?? "";
+        $drogshipin = $_POST['drogshipin'] ?? "";
+        $impreso = $_POST['impreso'] ?? "";
+        $despachos = $_POST['despachos'] ?? "";
+
+        // Capturamos los parámetros de paginación enviados por el DataTable
+        $start = $_POST['start'] ?? 1;
+        $length = $_POST['length'] ?? 25;
+        $search = $_POST['search'] ?? "";
+        $data = $this->model->cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $start, $length, $search);
+        $totalRecords = $this->model->contarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
+
+
+        $totalPages = ceil($totalRecords / $length);
+
+
+        echo json_encode([
+            "draw" => $_POST['draw'] ?? 1,
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            "totalPages" => $totalPages,
+            "data" => $data
+        ]);
+    }
+
+
 
 
     public function obtener_guiasAnuladas_admin()

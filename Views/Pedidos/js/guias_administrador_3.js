@@ -2,52 +2,86 @@ let dataTable;
 let dataTableIsInitialized = false;
 
 const dataTableOptions = {
-  columnDefs: [
-    {
-      className: "centered",
-      targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  processing: true, // Muestra un indicador de procesamiento
+  serverSide: true, // Habilita el procesamiento en el servidor
+  ajax: {
+    url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`, // URL del endpoint para la obtención de datos
+    type: "POST", // Método HTTP
+    data: function (d) {
+      // Agrega parámetros adicionales que se enviarán al servidor
+      d.fecha_inicio = $("#fecha_inicio").val();
+      d.fecha_fin = $("#fecha_fin").val();
+      d.estado = $("#estado_q").val();
+      d.drogshipin = $("#tienda_q").val();
+      d.transportadora = $("#transporte").val();
+      d.impreso = $("#impresion").val();
+      d.despachos = $("#despachos").val();
     },
-    { orderable: false, targets: 0 }, // Asegúrate de que esta sea la columna correcta
-    { visible: false, targets: 11 },
-    { visible: false, targets: 12 },
-    /* { visible: false, targets: 13 }, // Asegúrate de que esta sea la columna correcta */
+  },
+  columns: [
+    { data: "checkbox", orderable: false, render: function (data, type, row) {
+        return `<input type="checkbox" class="selectCheckbox" data-id="${row.id_factura}">`;
+      }
+    },
+    { data: "numero_guia" },
+    { data: "fecha_factura" },
+    { data: "nombre" },
+    { data: "ciudad" },
+    { data: "tienda" },
+    { data: "transporte" },
+    { data: "estado_guia", render: function (data, type, row) {
+        return `<span class="badge ${row.span_estado}">${row.estado_guia}</span>`;
+      }
+    },
+    { data: "despachado", render: function (data, type, row) {
+        return row.despachado ? 
+          `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>` : 
+          `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
+      }
+    },
+    { data: "impreso", render: function (data, type, row) {
+        return row.impreso ? 
+          `<box-icon name='printer' color='#28E418'></box-icon>` : 
+          `<box-icon name='printer' color='red'></box-icon>`;
+      }
+    },
   ],
-  order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
-  pageLength: 10,
-  destroy: true,
-  responsive: true,
-  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+  order: [[2, "desc"]], // Orden inicial por fecha descendente
+  pageLength: 25, // Número de registros por página
+  lengthMenu: [10, 25, 50, 100], // Opciones para cambiar el número de registros por página
+  responsive: true, // Tabla responsiva
+  dom: '<"d-flex justify-content-between"lBf><t><"d-flex justify-content-between"ip>', // Configuración de botones y buscadores
   buttons: [
     {
       extend: "excelHtml5",
       text: 'Excel <i class="fa-solid fa-file-excel"></i>',
-      title: "Panel de Control: Usuarios",
+      title: "Exportar a Excel",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [1, 2, 4, 5, 6, 7, 8, 11, 12],
+        columns: ":visible:not(:first-child)", // Exportar todas las columnas excepto la primera (checkbox)
       },
-      filename: "Productos" + "_" + getFecha(),
+      filename: "guias_" + getFecha(),
       footer: true,
       className: "btn-excel",
     },
     {
       extend: "csvHtml5",
       text: 'CSV <i class="fa-solid fa-file-csv"></i>',
-      title: "Panel de Control: Productos",
+      title: "Exportar a CSV",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8],
+        columns: ":visible:not(:first-child)",
       },
-      filename: "Productos" + "_" + getFecha(),
+      filename: "guias_" + getFecha(),
       footer: true,
       className: "btn-csv",
     },
   ],
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
-    zeroRecords: "Ningún usuario encontrado",
+    zeroRecords: "No se encontraron registros",
     info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
-    infoEmpty: "Ningún usuario encontrado",
+    infoEmpty: "No se encontraron registros",
     infoFiltered: "(filtrados desde _MAX_ registros totales)",
     search: "Buscar:",
     loadingRecords: "Cargando...",
@@ -87,6 +121,22 @@ const initDataTable = async () => {
   });
 };
 
+// Nueva función para recargar el DataTable manteniendo la paginación y el pageLength
+const reloadDataTable = async () => {
+  const currentPage = dataTable.page();
+  const currentLength = dataTable.page.len();
+  dataTable.destroy();
+  await listGuias();
+  dataTable = $("#datatable_guias").DataTable(dataTableOptions);
+  dataTable.page.len(currentLength).draw();
+  dataTable.page(currentPage).draw(false);
+  dataTableIsInitialized = true;
+  document.getElementById("selectAll").addEventListener("change", function () {
+    const checkboxes = document.querySelectorAll(".selectCheckbox");
+    checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
+  });
+};
+
 const listGuias = async () => {
   try {
     const formData = new FormData();
@@ -98,10 +148,13 @@ const listGuias = async () => {
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
 
-    const response = await fetch(`${SERVERURL}pedidos/obtener_guias`, {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      `${SERVERURL}pedidos/obtener_guiasAdministrador3`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
     const guias = await response.json();
 
     let content = ``;
@@ -114,6 +167,7 @@ const listGuias = async () => {
       let ruta_traking = "";
       let funcion_anular = "";
       let select_speed = "";
+      let drogshipin = "";
       let despachado = "";
       if (transporte == 2) {
         transporte_content =
@@ -143,16 +197,29 @@ const listGuias = async () => {
         ruta_traking = ``;
         funcion_anular = `anular_guiaSpeed('${guia.numero_guia}')`;
         estado = validar_estadoSpeed(guia.estado_guia_sistema);
-        if (CARGO == 10) {
-          select_speed = `
-          <select class="form-select" style="max-width: 130px;" id="select_estadoSpeed">
-              <option value="0" selected>-- Selecciona estado --</option>
-              <option value="2" selected>Generado</option>
-              <option value="3" selected>Transito</option>
-              <option value="7" selected>Entregado</option>
-              <option value="9" selected>Devuelto</option>
-          </select>`;
-        }
+        /* select_speed = `
+                    <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${
+                      guia.numero_guia
+                    }">
+                        <option value="0" ${
+                          guia.estado_guia_sistema == 0 ? "selected" : ""
+                        }>-- Selecciona estado --</option>
+                        <option value="2" ${
+                          guia.estado_guia_sistema == 2 ? "selected" : ""
+                        }>Generado</option>
+                        <option value="3" ${
+                          guia.estado_guia_sistema == 3 ? "selected" : ""
+                        }>Transito</option>
+                        <option value="7" ${
+                          guia.estado_guia_sistema == 7 ? "selected" : ""
+                        }>Entregado</option>
+                        <option value="9" ${
+                          guia.estado_guia_sistema == 9 ? "selected" : ""
+                        }>Devuelto</option>
+                        <option value="14" ${
+                          guia.estado_guia_sistema == 14 ? "selected" : ""
+                        }>Novedad</option>
+                    </select>`; */
       } else if (transporte == 3) {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
@@ -168,6 +235,12 @@ const listGuias = async () => {
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
 
+      if (guia.drogshipin == 0) {
+        drogshipin = "Local";
+      } else if (drogshipin == 1) {
+        drogshipin = "Drogshipin";
+      }
+
       // Definir la variable ciudad antes de los bloques if-else
       let ciudad = "Ciudad no especificada";
 
@@ -181,61 +254,27 @@ const listGuias = async () => {
         console.log("La ciudad no está definida o está vacía");
       }
 
-      console.log("Ciudad:", ciudad);
-
       novedad = "";
       if (guia.estado_guia_sistema == 14 && transporte == 1) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       } else if (guia.estado_guia_sistema == 6 && transporte == 3) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      } else if (guia.estado_guia_sistema == 14 && transporte == 4) {
+      } /* else if (guia.estado_guia_sistema == 14 && transporte == 4) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      }
-
-      if (
-        ((guia.estado_novedad >= 1 && guia.estado_novedad <= 7) ||
-          guia.estado_novedad == 15 ||
-          guia.estado_novedad == 27) &&
-        transporte == 3
-      ) {
-        novedad = `<span>Esta novedad es de tipo operativo y no puede ser solventada</span>`;
-      } else if (guia.terminado == 1) {
-        novedad = `<span>Proceso de guia terminado</span>`;
-      } else if (guia.solucionada == 1) {
-        novedad = `<span>Novedad solventada</span>`;
-      }
-
+      } */
       if (
         guia.estado_guia_sistema >= 318 &&
         guia.estado_guia_sistema <= 351 &&
-        transporte == 2 &&
-        guia.solucionada == 0
+        transporte == 2
       ) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      } else if (
-        guia.estado_guia_sistema >= 318 &&
-        guia.estado_guia_sistema <= 351 &&
-        transporte == 2 &&
-        guia.terminado == 1
-      ) {
-        novedad = `<span> Proceso de guia terminado</span>`;
-      } else if (
-        guia.estado_guia_sistema >= 318 &&
-        guia.estado_guia_sistema <= 351 &&
-        transporte == 2 &&
-        guia.solucionada == 1
-      ) {
-        novedad = `<span>Novedad solventada</span>`;
       }
 
       let plataforma = procesarPlataforma(guia.plataforma);
-      let boton_anular = ``;
       if (guia.impreso == 0) {
         impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
-        boton_anular = `<li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>`;
       } else {
         impresiones = `<box-icon name='printer' color= "#28E418"></box-icon>`;
-        boton_anular = ``;
       }
 
       despachado = "";
@@ -243,10 +282,9 @@ const listGuias = async () => {
         despachado = `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`;
       } else if (guia.estado_factura == 1) {
         despachado = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
+      } else if (guia.estado_factura == 3) {
+        despachado = `<i class='bx bxs-truck' style="color:red; font-size: 30px;"></i>`;
       }
-      let mostrar_tienda = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${guia.plataforma}')">${plataforma}</span></td>`;
-
-      mostrar_tienda = "";
 
       content += `
                 <tr>
@@ -254,22 +292,30 @@ const listGuias = async () => {
                       guia.id_factura
                     }"></td>
                     <td>
-                      <div>
-                      ${ruta_descarga}
-                      </div>
-                     </td>
+                    <div>
+                     ${ruta_descarga}
+                    </div>
+                    <div>
+                    ${drogshipin}
+                    </div>
+                    </td>
                     <td>
                     <div><button onclick="ver_detalle_cot('${
                       guia.id_factura
                     }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
-                    <div>${guia.fecha_guia}</td></div>
+                    <div>${guia.fecha_factura}</td></div>
                     <td>
                         <div><strong>${guia.nombre}</strong></div>
                         <div>${guia.c_principal} y ${guia.c_secundaria}</div>
                         <div>telf: ${guia.telefono}</div>
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
-                    ${mostrar_tienda}
+                    <td><span class="link-like" id="plataformaLink">${
+                      guia.tienda
+                    }</span></td>
+                    <td><span class="link-like" id="plataformaLink">${
+                      guia.nombre_proveedor
+                    }</span></td>
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
@@ -302,14 +348,20 @@ const listGuias = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        ${boton_anular}
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>
                         <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='transito(${
+                          guia.id_factura
+                        })' >Transito</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='entregar(${
+                          guia.id_factura
+                        })' >Entregado</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='devolucion(${
+                          guia.id_factura
+                        })' >Devolución</span></li>
                     </ul>
-                    </div>
+                </div>
                     </td>
-                    <td>${guia.contiene}</td>
-                    <td>${guia.monto_factura}</td>
-                    <td>${guia.costo_producto}</td>
                 </tr>`;
     });
     document.getElementById("tableBody_guias").innerHTML = content;
@@ -317,6 +369,136 @@ const listGuias = async () => {
     alert(ex);
   }
 };
+
+function transito(id_cabecera) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "pedidos/transito/" + id_cabecera,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("ERROR AL REALIZAR EL CAMBIO", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("CAMBIO REALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al realizar el cambio");
+    },
+  });
+}
+
+function entregar(id_cabecera) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "pedidos/entregar/" + id_cabecera,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("ERROR AL REALIZAR EL CAMBIO", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("CAMBIO REALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al realizar el cambio");
+    },
+  });
+}
+
+function devolucion(id_cabecera) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "pedidos/devolucion/" + id_cabecera,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("ERROR AL REALIZAR EL CAMBIO", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("CANBIO REALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al realizar el cambio");
+    },
+  });
+}
+
+// Event delegation for select change
+document.addEventListener("change", async (event) => {
+  if (event.target && event.target.classList.contains("select-estado-speed")) {
+    const numeroGuia = event.target.getAttribute("data-numero-guia");
+    const nuevoEstado = event.target.value;
+    console.log(`Cambiando estado para la guía ${numeroGuia} a ${nuevoEstado}`);
+    const formData = new FormData();
+    formData.append("estado", nuevoEstado);
+
+    if (nuevoEstado == 9) {
+      $("#tipo_speed").val("recibir").change();
+    }
+
+    try {
+      const response = await fetch(
+        `https://guias.imporsuitpro.com/Speed/estado/${numeroGuia}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const result = await response.json();
+      if (result.status == 200) {
+        toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#gestionar_novedadSpeedModal").modal("show");
+        reloadDataTable();
+      }
+    } catch (error) {
+      console.error("Error al conectar con la API", error);
+      alert("Error al conectar con la API");
+    }
+  }
+});
+
+function anular_guiaSpeed(numero_guia) {
+  $.ajax({
+    type: "GET",
+    url: "https://guias.imporsuitpro.com/Speed/anular/" + numero_guia,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        reloadDataTable();
+      }
+    },
+    error: function (xhr, status, error) {
+      alert("Hubo un problema al anular la guia de Servientrega");
+    },
+  });
+}
 
 function abrirModal_infoTienda(tienda) {
   let formData = new FormData();
@@ -481,26 +663,6 @@ function validar_estadoLaar(estado) {
   };
 }
 
-function procesarPlataforma(url) {
-  if (url == null || url == "") {
-    let respuesta_error = "La tienda ya no existe";
-    return respuesta_error;
-  }
-  // Eliminar el "https://"
-  let sinProtocolo = url.replace("https://", "");
-
-  // Encontrar la posición del primer punto
-  let primerPunto = sinProtocolo.indexOf(".");
-
-  // Obtener la subcadena desde el inicio hasta el primer punto
-  let baseNombre = sinProtocolo.substring(0, primerPunto);
-
-  // Convertir a mayúsculas
-  let resultado = baseNombre.toUpperCase();
-
-  return resultado;
-}
-
 function validar_estadoServi(estado) {
   var span_estado = "";
   var estado_guia = "";
@@ -654,23 +816,8 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
         link.click();
         document.body.removeChild(link);
 
-        let formData_cambiarImpreso = new FormData();
-        formData_cambiarImpreso.append("guias", selectedGuiasJson); // Añadir el SKU al FormData
-
-        $.ajax({
-          url: SERVERURL + "Manifiestos/cambiarImpreso",
-          type: "POST", // Cambiar a POST para enviar FormData
-          data: formData_cambiarImpreso,
-          processData: false, // No procesar los datos
-          contentType: false, // No establecer ningún tipo de contenido
-          success: function (response) {},
-          error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
-          },
-        });
-
         // Cerrar el Swal después de hacer clic en el enlace
-        initDataTable();
+        reloadDataTable();
         Swal.close();
       }
     },
@@ -731,7 +878,7 @@ function anular_guiaLaar(numero_guia) {
         });
 
         $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
+        reloadDataTable();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -750,6 +897,7 @@ function anular_guiaServi(numero_guia) {
       /* alert("Hubo un problema al anular la guia de Servientrega"); */
     },
   });
+
   $.ajax({
     type: "GET",
     /* url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia, */
@@ -765,35 +913,11 @@ function anular_guiaServi(numero_guia) {
           positionClass: "toast-bottom-center",
         });
 
-        initDataTable();
+        reloadDataTable();
       }
     },
     error: function (xhr, status, error) {
       alert("Hubo un problema al anular la guia de Servientrega");
-    },
-  });
-}
-
-function anular_guiaSpeed(numero_guia) {
-  $.ajax({
-    type: "GET",
-    url: "https://guias.imporsuitpro.com/Speed/anular/" + numero_guia,
-    dataType: "json",
-    success: function (response) {
-      if (response.status == 500) {
-        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      } else if (response.status == 200) {
-        toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        initDataTable();
-      }
-    },
-    error: function (xhr, status, error) {
-      alert("Hubo un problema al anular la guia de Speed");
     },
   });
 }
@@ -810,7 +934,7 @@ function anular_guiaGintracom(numero_guia) {
         });
 
         $("#imagen_categoriaModal").modal("hide");
-        initDataTable();
+        reloadDataTable();
       } else {
         toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
@@ -819,7 +943,7 @@ function anular_guiaGintracom(numero_guia) {
     },
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al anular guia de gintracom");
+      alert("Hubo un problema al anular gintracom");
     },
   });
 }
@@ -827,7 +951,6 @@ function anular_guiaGintracom(numero_guia) {
 //fin anular guia
 //modal novedades
 function gestionar_novedad(guia_novedad) {
-  resetModalInputs("gestionar_novedadModal");
   let transportadora = "";
   $.ajax({
     url: SERVERURL + "novedades/datos/" + guia_novedad,
@@ -842,40 +965,21 @@ function gestionar_novedad(guia_novedad) {
         $("#seccion_laar").show();
         $("#seccion_servientrega").hide();
         $("#seccion_gintracom").hide();
-        $("#seccion_speed").hide();
-
-        $("#nombre_novedadesServi").val(response.factura[0].nombre);
-        $("#ciudad_novedadesServi").val(response.factura[0].ciudad);
-        $("#callePrincipal_novedadesServi").val(
-          response.factura[0].c_principal
-        );
-        $("#calleSecundaria_novedadesServi").val(
-          response.factura[0].c_secundaria
-        );
-
-        $("#referencia_novedadesServi").val(response.factura[0].referencia);
-        $("#telefono_novedadesServi").val(response.factura[0].telefono);
-        $("#celular_novedadesServi").val(response.factura[0].telefono);
-
-        hiden_laar();
       } else if (response.novedad[0].guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").hide();
         $("#seccion_gintracom").show();
-        $("#seccion_speed").hide();
       } else if (response.novedad[0].guia_novedad.includes("SPD")) {
         transportadora = "SPEED";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").hide();
         $("#seccion_gintracom").hide();
-        $("#seccion_speed").show();
       } else {
         transportadora = "SERVIENTREGA";
         $("#seccion_laar").hide();
         $("#seccion_servientrega").show();
         $("#seccion_gintracom").hide();
-        $("#seccion_speed").hide();
       }
 
       $("#id_gestionarNov").text(response.novedad[0].id_novedad);
@@ -887,7 +991,6 @@ function gestionar_novedad(guia_novedad) {
 
       $("#id_novedad").val(response.novedad[0].id_novedad);
       $("#numero_guia").val(response.novedad[0].guia_novedad);
-      $("#id_factura_novedad").val(response.factura[0].id_factura);
 
       $("#gestionar_novedadModal").modal("show");
     },
@@ -896,44 +999,6 @@ function gestionar_novedad(guia_novedad) {
     },
   });
 }
-
-function resetModalInputs(modalId) {
-  // Selecciona el modal por su ID
-  const modal = document.querySelector(`#${modalId}`);
-
-  if (modal) {
-    // Selecciona todos los inputs y los limpia
-    const inputs = modal.querySelectorAll("input");
-    inputs.forEach((input) => {
-      input.value = "";
-    });
-
-    // Selecciona todos los select y los reinicia al valor predeterminado
-    const selects = modal.querySelectorAll("select");
-    selects.forEach((select) => {
-      select.selectedIndex = 0; // Reinicia al primer option
-    });
-
-    // Oculta las secciones opcionales que estén configuradas con "display: none"
-    const optionalSections = modal.querySelectorAll('[style*="display"]');
-    optionalSections.forEach((section) => {
-      section.style.display = "none";
-    });
-
-    console.log("Modal inputs and selects reset successfully.");
-  } else {
-    console.error("Modal not found!");
-  }
-}
-
-function hiden_laar() {
-  $("#telefono_laar_novedad").hide();
-  $("#calle_principal_laar_novedad").hide();
-  $("#calle_secundaria_laar_novedad").hide();
-  $("#observacion_laar_novedad").hide();
-  $("#solucionl_laar_novedad").hide();
-}
-
 $(document).ready(function () {
   $("#tipo_gintracom").change(function () {
     var tipo = $("#tipo_gintracom").val();
@@ -948,32 +1013,6 @@ $(document).ready(function () {
       $("#fecha_gintra").show();
     }
   });
-
-  $("#tipo_laar").change(function () {
-    var tipo = $("#tipo_laar").val();
-    if (tipo == "NI") {
-      $("#telefono_laar_novedad").show();
-      $("#solucionl_laar_novedad").show();
-
-      $("#calle_principal_laar_novedad").hide();
-      $("#calle_secundaria_laar_novedad").hide();
-      $("#observacion_laar_novedad").hide();
-    } else if (tipo == "DI") {
-      $("#calle_principal_laar_novedad").show();
-      $("#calle_secundaria_laar_novedad").show();
-      $("#solucionl_laar_novedad").show();
-
-      $("#telefono_laar_novedad").hide();
-      $("#observacion_laar_novedad").hide();
-    } else if ((tipo = "OG")) {
-      $("#observacion_laar_novedad").show();
-      $("#solucionl_laar_novedad").show();
-
-      $("#telefono_laar_novedad").hide();
-      $("#calle_principal_laar_novedad").hide();
-      $("#calle_secundaria_laar_novedad").hide();
-    }
-  });
 });
 
 function enviar_gintraNovedad() {
@@ -984,7 +1023,6 @@ function enviar_gintraNovedad() {
   var observacion = $("#Solucion_novedad").val();
   var id_novedad = $("#id_novedad").val();
   var tipo = $("#tipo_gintracom").val();
-  var estado_novedad = $("#estado_gestionarNov").text();
   var recaudo = "";
   var fecha = "";
 
@@ -1003,66 +1041,35 @@ function enviar_gintraNovedad() {
   formData.append("recaudo", recaudo);
   formData.append("fecha", fecha);
 
-  let validador = true;
-  if (estado_novedad == 26) {
-    validador = validados_numero(observacion);
-  }
+  $.ajax({
+    url: SERVERURL + "novedades/solventarNovedadGintracom",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.error === true) {
+        toastr.error("" + response.message, "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
 
-  if (validador) {
-    $.ajax({
-      url: SERVERURL + "novedades/solventarNovedadGintracom",
-      type: "POST",
-      data: formData,
-      processData: false, // No procesar los datos
-      contentType: false, // No establecer ningún tipo de contenido
-      success: function (response) {
-        response = JSON.parse(response);
-        if (response.error === true) {
-          toastr.error("" + response.message, "NOTIFICACIÓN", {
-            positionClass: "toast-bottom-center",
-          });
-
-          button.disabled = false;
-        } else if (response.error === false) {
-          toastr.success("" + response.message, "NOTIFICACIÓN", {
-            positionClass: "toast-bottom-center",
-          });
-
-          $("#gestionar_novedadModal").modal("hide");
-          button.disabled = false;
-          initDataTableNovedades();
-        }
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        alert(errorThrown);
         button.disabled = false;
-      },
-    });
-  } else {
-    toastr.error(
-      "Necesitas registrar un numero de telefono en la novedad",
-      "NOTIFICACIÓN",
-      {
-        positionClass: "toast-bottom-center",
+      } else if (response.error === false) {
+        toastr.success("" + response.message, "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#gestionar_novedadModal").modal("hide");
+        button.disabled = false;
+        initDataTableNovedades();
       }
-    );
-
-    button.disabled = false;
-  }
-}
-
-function validados_numero(observacion) {
-  // Definir una expresión regular para encontrar números de teléfono
-  // Este ejemplo considera números con formato de 10 dígitos, con o sin separadores.
-  const regexTelefono =
-    /(\+?\d{1,3})?[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}/;
-
-  // Comprobar si en la observación existe un número que coincida con la expresión regular
-  if (regexTelefono.test(observacion)) {
-    return true;
-  } else {
-    return false;
-  }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+      button.disabled = false;
+    },
+  });
 }
 
 function enviar_serviNovedad() {
@@ -1100,48 +1107,6 @@ function enviar_serviNovedad() {
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
         initDataTableNovedades();
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-      button.disabled = false;
-    },
-  });
-}
-
-function enviar_speedUsuariosNovedad() {
-  var button = document.getElementById("boton_speed");
-  button.disabled = true; // Desactivar el botón
-
-  var observacion = $("#observacion_usuario_speed").val();
-  var id_novedad = $("#id_novedad").val();
-
-  let formData = new FormData();
-  formData.append("observacion", observacion);
-  formData.append("id_novedad", id_novedad);
-
-  $.ajax({
-    url: SERVERURL + "speed/solventarNovedad",
-    type: "POST",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {
-      response = JSON.parse(response);
-      if (response.status == 500) {
-        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        button.disabled = false;
-      } else if (response.status == 200) {
-        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        $("#gestionar_novedadModal").modal("hide");
-        button.disabled = false;
-        initDataTable();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
