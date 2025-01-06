@@ -8,8 +8,6 @@ const dataTableOptions = {
   columnDefs: [
     // Por ejemplo, deshabilitamos el order en la primera columna (checkbox)
     { orderable: false, targets: 0 },
-    // Aplicas clases a tus columnas si lo deseas. Aquí es solo un ejemplo:
-    // { className: "centered", targets: [1,2,3,4,5,6,7,8,9] }
   ],
   order: [[2, "desc"]],    // Orden inicial
   pageLength: 25,
@@ -140,7 +138,7 @@ const listGuias = async () => {
     }
 
     const data = await response.json();
-    const guias = data.guias || [];
+    const guias = data.data || [];
     if (!Array.isArray(guias)) {
       throw new Error("El formato de los datos es incorrecto");
     }
@@ -185,7 +183,6 @@ const listGuias = async () => {
     alert("Hubo un problema al cargar las guías.");
   }
 };
-
 
 function transito(id_cabecera) {
   $.ajax({
