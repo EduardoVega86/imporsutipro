@@ -212,7 +212,7 @@ const listGuias = async () => {
             <td>${destino}</td>
 
             <!-- 5: Tienda -->
-            <td>${guia.tienda || "Sin tienda"}</td>
+            <td class="link-like">${guia.tienda || "Sin tienda"}</td>
 
             <!-- 6: Proveedor -->
             <td>${guia.nombre_proveedor || ""}</td>
