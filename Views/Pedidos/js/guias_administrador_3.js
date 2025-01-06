@@ -302,6 +302,8 @@ const dataTableOptions = {
       }
     }
   ],
+
+  
   // Definimos algunas columnDefs para deshabilitar sort o alinear
   columnDefs: [
     { targets: 0, orderable: false },   // la columna del checkbox no se ordena
@@ -333,6 +335,8 @@ const dataTableOptions = {
       className: "btn-csv",
     }
   ],
+  pagingType: "full_numbers", 
+  dom: '<"d-flex justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "No se encontraron registros",
