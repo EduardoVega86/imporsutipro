@@ -444,9 +444,9 @@ const listPagos = async () => {
                     <td>${pago.valor}</td>
                     <td>${pago.forma_pago}</td>
                     <td>
-                    <a href="${SERVERURL}${pago.imagen}" class="icon-link" target="_blank">
-                    <i class="fas fa-receipt"></i>
-                    </a>
+                    <button class="btn btn-primary" onclick="cargarImagenComprobante('${SERVERURL}${pago.imagen}')">
+                        <i class="fas fa-receipt"></i>
+                    </button>
                     </td>
                 </tr>`;
     });
@@ -789,3 +789,69 @@ function validar_estadoSpeed(estado) {
 /* Fin validar estado */
 
 //enviar codigo de verificación
+
+function cargarImagenComprobante(linkImagen) {
+  const modalBody = document.querySelector(
+    "#cargar_comprobanteModal .modal-body"
+  );
+
+  // Limpia el contenido actual del modal-body
+  modalBody.innerHTML = "";
+
+  // Crea el elemento de imagen
+  const imagen = document.createElement("img");
+  imagen.src = linkImagen; // URL de la imagen
+  imagen.alt = "Comprobante";
+  imagen.classList.add("comprobante-imagen");
+
+  // Agrega la imagen al modal-body
+  modalBody.appendChild(imagen);
+
+  let isZoomed = false;
+  let isDragging = false;
+  let startX = 0;
+  let startY = 0;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  // Evento para alternar zoom
+  imagen.addEventListener("click", (e) => {
+    isZoomed = !isZoomed;
+    imagen.classList.toggle("zoomed", isZoomed);
+    if (!isZoomed) {
+      // Resetea el desplazamiento al quitar el zoom
+      offsetX = 0;
+      offsetY = 0;
+      imagen.style.transform = "translate(0, 0)";
+    }
+  });
+
+  // Eventos para arrastrar la imagen
+  imagen.addEventListener("mousedown", (e) => {
+    if (isZoomed) {
+      isDragging = true;
+      startX = e.clientX - offsetX;
+      startY = e.clientY - offsetY;
+      imagen.style.cursor = "grabbing";
+    }
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (isDragging) {
+      offsetX = e.clientX - startX;
+      offsetY = e.clientY - startY;
+      imagen.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    }
+  });
+
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+    imagen.style.cursor = isZoomed ? "move" : "grab";
+  });
+
+  // Muestra el modal
+  const modal = new bootstrap.Modal(
+    document.getElementById("cargar_comprobanteModal")
+  );
+  modal.show();
+}

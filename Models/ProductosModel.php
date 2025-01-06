@@ -427,8 +427,8 @@ class ProductosModel extends Query
                 $sql = "UPDATE inventario_bodegas SET sku = ?, id_producto = ?, id_variante = ?, bodega = ?, pcp = ?, pvp = ?, pref = ?, stock_inicial = ?, saldo_stock = ? , envio_prioritario = ? WHERE id_producto = ? AND id_plataforma = ?";
                 $data = [$codigo_producto, $id, 0, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $envio_prioritario, $id, $plataforma];
             } else {
-                $sql = "UPDATE inventario_bodegas SET sku = ?, id_producto = ?, id_variante = ?, bodega = ?, pcp = ?, pvp = ?, pref = ?, stock_inicial = ?, saldo_stock = ?, envio_prioritario = ? WHERE id_producto = ? AND id_plataforma = ?";
-                $data = [$codigo_producto, $id, $producto_variable, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $envio_prioritario, $id, $plataforma];
+            //    $sql = "UPDATE inventario_bodegas SET sku = ?, id_producto = ?, id_variante = ?, bodega = ?, pcp = ?, pvp = ?, pref = ?, stock_inicial = ?, saldo_stock = ?, envio_prioritario = ? WHERE id_producto = ? AND id_plataforma = ?";
+            //   $data = [$codigo_producto, $id, $producto_variable, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $envio_prioritario, $id, $plataforma];
             }
             $editar_producto_ = $this->update($sql, $data);
         } else {

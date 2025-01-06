@@ -39,6 +39,13 @@ class Pedidos extends Controller
         }
         $this->views->render($this, "guias_administrador");
     }
+    public function guias_administrador3($filtro = "")
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "guias_administrador_3");
+    }
     public function guias_administrador_2($filtro = "")
     {
         $this->views->render($this, "guias_administrador_2");
@@ -542,20 +549,70 @@ class Pedidos extends Controller
         $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
         echo json_encode($data);
     }
-    private function sanitizeDate($date)
+
+
+    /// sebastian
+    public function obtener_guiasAdministrador3()
     {
-        $timestamp = strtotime($date);
-        if ($timestamp === false) {
-            throw new InvalidArgumentException("Fecha inválida: $date");
+        $draw = isset($_POST['draw']) ? intval($_POST['draw']) : 0;
+        // DataTables paginado
+        $start       = isset($_POST['start']) ? intval($_POST['start']) : 0;
+        $length      = isset($_POST['length']) ? intval($_POST['length']) : 10;
+        $search      = isset($_POST['search']['value']) ? $_POST['search']['value'] : "";
+        $orderColumn = isset($_POST['order'][0]['column']) ? intval($_POST['order'][0]['column']) : 0;
+        $orderDir    = isset($_POST['order'][0]['dir']) ? $_POST['order'][0]['dir'] : "asc";
+
+        // Filtros personalizados
+        $transportadora = $_POST['transportadora'] ?? "";
+        $estado         = $_POST['estado'] ?? "";
+        $drogshipin     = $_POST['drogshipin'] ?? "";
+        $impreso        = $_POST['impreso'] ?? "";
+        $despachos      = $_POST['despachos'] ?? "";
+
+        $fecha_inicio   = $_POST["fecha_inicio"] ?? "";
+        $fecha_fin      = $_POST["fecha_fin"] ?? "";
+
+        // Si vienen 'undefined'
+        if ($fecha_inicio === 'undefined') {
+            $fecha_inicio = '';
         }
-        return date('Y-m-d', $timestamp); // Retorna formato estándar
+        if ($fecha_fin === 'undefined') {
+            $fecha_fin = '';
+        }
+
+        // Consulta en el modelo
+        $data = $this->model->cargarGuiasAdministrador3(
+            $fecha_inicio,
+            $fecha_fin,
+            $transportadora,
+            $estado,
+            $impreso,
+            $drogshipin,
+            $despachos,
+            $start,
+            $length,
+            $search,
+            $orderColumn,
+            $orderDir
+        );
+
+        // Total de registros (sin filtrar)
+        $totalRecords = $this->model->totalGuias();
+
+        $recordsFiltered = count($data);
+
+        echo json_encode([
+            "draw"            => $draw,
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $recordsFiltered,
+            "data"            => $data,
+        ]);
     }
 
-    private function sanitizeString($string)
-    {
-        return htmlspecialchars(trim($string), ENT_QUOTES, 'UTF-8');
-    }
 
+
+
+    //cristian
     public function obtener_guiasAdministrador2()
     {
         // Capturamos los filtros enviados por el DataTable
@@ -568,23 +625,25 @@ class Pedidos extends Controller
         $despachos = $_POST['despachos'] ?? "";
 
         // Capturamos los parámetros de paginación enviados por el DataTable
-        $start = $_POST['start'] ?? 0;
+        $start = $_POST['start'] ?? 1;
         $length = $_POST['length'] ?? 25;
-
-
-        $data = $this->model->cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $start, $length);
-
+        $search = $_POST['search'] ?? "";
+        $data = $this->model->cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $start, $length, $search);
         $totalRecords = $this->model->contarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
 
-        // Devolver los datos en formato JSON esperado por DataTables
+
+        $totalPages = ceil($totalRecords / $length);
+
+
         echo json_encode([
-            // "draw" => $_POST['draw'],
-            "per_page" => $_POST["per_page"] ?? 25,
+            "draw" => $_POST['draw'] ?? 1,
             "recordsTotal" => $totalRecords,
             "recordsFiltered" => $totalRecords,
+            "totalPages" => $totalPages,
             "data" => $data
         ]);
     }
+
 
 
 
