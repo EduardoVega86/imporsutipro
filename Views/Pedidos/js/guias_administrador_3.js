@@ -11,7 +11,7 @@ function getFecha() {
 
 const dataTableOptions = {
   processing: true,   // Muestra indicador de “procesando”
-  serverSide: true,   // Paginación, búsqueda y orden se harán en el servidor
+  serverSide: false,   // Paginación, búsqueda y orden se harán en el servidor
   ajax: {
     url: SERVERURL + "pedidos/obtener_guiasAdministrador3", // endpoint en tu backend
     type: "POST",
@@ -132,7 +132,7 @@ const dataTableOptions = {
         return data || "";
       }
     },
-    // (7) Proveedor
+    // (7) Productos que contiene
     {
       data: "contiene",
       render: function(data) {
