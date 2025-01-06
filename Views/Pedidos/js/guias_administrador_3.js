@@ -150,6 +150,7 @@ const listGuias = async () => {
     let select_speed = "";
     let drogshipin = "";
     let despachado = "";
+    let ciudad = "";
 
     console.log("Resultado JSON:", data);
     console.log("guias:", guias);
