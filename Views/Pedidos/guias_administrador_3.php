@@ -109,6 +109,7 @@
                         <th class="centered">Destino</th>
                         <th class="centered">Tienda</th>
                         <th class="centered">Proveedor</th>
+                        <th class="centered">Productos</th>
                         <th class="centered">Transportadora</th>
                         <th class="centered">Estado</th>
                         <th class="centered">Despachado</th>
