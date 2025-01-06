@@ -1,66 +1,22 @@
 let dataTable;
 let dataTableIsInitialized = false;
 
+// Opciones del DataTable (sin serverSide ni ajax)
 const dataTableOptions = {
-  processing: true, // Muestra un indicador de procesamiento
-  serverSide: true, // Habilita el procesamiento en el servidor
-  ajax: {
-    url: `${SERVERURL}pedidos/obtener_guiasAdministrador3`, // URL del endpoint para la obtención de datos
-    type: "POST", // Método HTTP
-    data: function (d) {
-      // Agrega parámetros adicionales que se enviarán al servidor
-      d.fecha_inicio = $("#fecha_inicio").val();
-      d.fecha_fin = $("#fecha_fin").val();
-      d.estado = $("#estado_q").val();
-      d.drogshipin = $("#tienda_q").val();
-      d.transportadora = $("#transporte").val();
-      d.impreso = $("#impresion").val();
-      d.despachos = $("#despachos").val();
-    },
-  },
-  columns: [
-    {
-      data: "checkbox",
-      orderable: false,
-      render: function (data, type, row) {
-        return `<input type="checkbox" class="selectCheckbox" data-id="${row.id_factura || ''}">`;
-      },
-    },
-    { data: "numero_guia", defaultContent: "Sin datos" },
-    { data: "fecha_factura", defaultContent: "Sin datos" },
-    { data: "nombre", defaultContent: "Sin datos" },
-    { data: "ciudad", defaultContent: "Sin datos" },
-    { data: "tienda", defaultContent: "Sin datos" },
-    { data: "transporte", defaultContent: "Sin datos" },
-    {
-      data: "estado_guia",
-      render: function (data, type, row) {
-        const spanEstado = row.span_estado || "badge-default";
-        return `<span class="badge ${spanEstado}">${data || "Sin estado"}</span>`;
-      },
-    },
-    {
-      data: "despachado",
-      render: function (data) {
-        return data
-          ? `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`
-          : `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
-      },
-    },
-    {
-      data: "impreso",
-      render: function (data) {
-        return data
-          ? `<box-icon name='printer' color='#28E418'></box-icon>`
-          : `<box-icon name='printer' color='red'></box-icon>`;
-      },
-    },
+  // Definimos columnDefs para indicar estilos o configuraciones a columnas por índice
+  // Ajusta los targets según la cantidad de columnas/td que tengas
+  columnDefs: [
+    // Por ejemplo, deshabilitamos el order en la primera columna (checkbox)
+    { orderable: false, targets: 0 },
+    // Aplicas clases a tus columnas si lo deseas. Aquí es solo un ejemplo:
+    // { className: "centered", targets: [1,2,3,4,5,6,7,8,9] }
   ],
-  order: [[2, "desc"]], // Orden inicial por fecha descendente
-  pageLength: 25, // Número de registros por página
-  lengthMenu: [10, 25, 50, 100], // Opciones para cambiar el número de registros por página
-  responsive: true, // Tabla responsiva
-  dom: '<"d-flex justify-content-between"lBf><t><"d-flex justify-content-between"ip>', // Configuración de botones y buscadores
+  order: [[2, "desc"]],    // Orden inicial
+  pageLength: 25,
+  lengthMenu: [10, 25, 50, 100],
+  destroy: true,
+  responsive: true,
+  dom: '<"d-flex justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
   buttons: [
     {
       extend: "excelHtml5",
@@ -68,7 +24,8 @@ const dataTableOptions = {
       title: "Exportar a Excel",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: ":visible:not(:first-child)", // Exportar todas las columnas excepto la primera (checkbox)
+        // Ajusta qué columnas exportar
+        columns: ":visible:not(:first-child)", 
       },
       filename: "guias_" + getFecha(),
       footer: true,
@@ -104,27 +61,30 @@ const dataTableOptions = {
   },
 };
 
+// Función para generar fecha en formato YYYY-MM-DD
 function getFecha() {
   let fecha = new Date();
   let mes = fecha.getMonth() + 1;
   let dia = fecha.getDate();
   let anio = fecha.getFullYear();
-  let fechaHoy = `${anio}-${mes.toString().padStart(2, "0")}-${dia.toString().padStart(2, "0")}`;
-  return fechaHoy;
+  return `${anio}-${mes.toString().padStart(2, "0")}-${dia.toString().padStart(2, "0")}`;
 }
 
+// Inicializa DataTable una sola vez (o lo destruye y reinicia si ya existía)
 const initDataTable = async () => {
   if (dataTableIsInitialized) {
     dataTable.destroy();
   }
 
+  // Primero cargamos los datos y pintamos el <tbody> de la tabla manualmente
   await listGuias();
 
+  // Luego iniciamos el DataTable tomando las filas ya pintadas
   dataTable = $("#datatable_guias").DataTable(dataTableOptions);
 
   dataTableIsInitialized = true;
 
-  // Manejar checkbox para seleccionar todos
+  // Manejar el checkbox "Select All"
   const selectAllCheckbox = document.getElementById("selectAll");
   if (selectAllCheckbox) {
     selectAllCheckbox.addEventListener("change", function () {
@@ -134,18 +94,21 @@ const initDataTable = async () => {
   }
 };
 
-// Nueva función para recargar el DataTable manteniendo la paginación y el pageLength
+// Recarga DataTable manteniendo paginación y pageLength
 const reloadDataTable = async () => {
   const currentPage = dataTable.page();
   const currentLength = dataTable.page.len();
+
   dataTable.destroy();
-  await listGuias();
+  await listGuias(); // Volvemos a pintar el tbody manualmente
   dataTable = $("#datatable_guias").DataTable(dataTableOptions);
+
+  // Restauramos la paginación y la longitud de página
   dataTable.page.len(currentLength).draw();
   dataTable.page(currentPage).draw(false);
   dataTableIsInitialized = true;
 
-  // Reasignar el manejador del checkbox "Select All"
+  // Reasignar evento de "Select All" tras reiniciar DataTable
   const selectAllCheckbox = document.getElementById("selectAll");
   if (selectAllCheckbox) {
     selectAllCheckbox.addEventListener("change", function () {
@@ -155,6 +118,7 @@ const reloadDataTable = async () => {
   }
 };
 
+// Función que hace la petición al servidor, obtiene los datos y pinta el <tbody>
 const listGuias = async () => {
   try {
     const formData = new FormData();
@@ -166,13 +130,10 @@ const listGuias = async () => {
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
 
-    const response = await fetch(
-      `${SERVERURL}pedidos/obtener_guiasAdministrador3`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch(`${SERVERURL}pedidos/obtener_guiasAdministrador3`, {
+      method: "POST",
+      body: formData,
+    });
 
     if (!response.ok) {
       throw new Error("Error en la respuesta del servidor");
@@ -184,7 +145,7 @@ const listGuias = async () => {
       throw new Error("El formato de los datos es incorrecto");
     }
 
-    // Renderizar la tabla con los datos recibidos
+    // Armamos las filas del <tbody> manualmente
     document.getElementById("tableBody_guias").innerHTML = guias
       .map((guia) => {
         return `
@@ -196,17 +157,25 @@ const listGuias = async () => {
             <td>${guia.ciudad || "Sin ciudad"}</td>
             <td>${guia.tienda || "Sin tienda"}</td>
             <td>${guia.transporte || "Sin transporte"}</td>
-            <td>${guia.estado_guia || "Sin estado"}</td>
-            <td>${
-              guia.despachado
-                ? `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`
-                : `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`
-            }</td>
-            <td>${
-              guia.impreso
-                ? `<box-icon name='printer' color='#28E418'></box-icon>`
-                : `<box-icon name='printer' color='red'></box-icon>`
-            }</td>
+            <td>
+              <span class="badge ${guia.span_estado || "badge-default"}">
+                ${guia.estado_guia || "Sin estado"}
+              </span>
+            </td>
+            <td>
+              ${
+                guia.despachado
+                  ? `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`
+                  : `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`
+              }
+            </td>
+            <td>
+              ${
+                guia.impreso
+                  ? `<box-icon name='printer' color='#28E418'></box-icon>`
+                  : `<box-icon name='printer' color='red'></box-icon>`
+              }
+            </td>
           </tr>
         `;
       })
@@ -216,6 +185,7 @@ const listGuias = async () => {
     alert("Hubo un problema al cargar las guías.");
   }
 };
+
 
 function transito(id_cabecera) {
   $.ajax({
