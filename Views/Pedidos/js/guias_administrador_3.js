@@ -323,6 +323,7 @@ const dataTableOptions = {
         columns: [1, 2, 3, 4, 5, 6, 7, 8] 
       },
       filename: "guias_" + getFecha(),
+      footer: true,
       className: "btn-excel",
     },
     {
@@ -332,11 +333,10 @@ const dataTableOptions = {
         columns: [1, 2, 3, 4, 5, 6, 7, 8]
       },
       filename: "guias_" + getFecha(),
+      footer: true,
       className: "btn-csv",
     }
   ],
-  pagingType: "full_numbers", 
-  dom: '<"d-flex justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "No se encontraron registros",
