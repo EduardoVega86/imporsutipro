@@ -143,6 +143,8 @@ const listGuias = async () => {
 
     const data = await response.json();
     const guias = data.data; // El array de objetos con la info de cada guía.
+    
+    let ruta_descarga = "";
 
     console.log("Resultado JSON:", data);
     console.log("guias:", guias);
