@@ -1,15 +1,35 @@
 {
-    "require": {
-       "setasign/fpdi": "^2.6",
-         "setasign/fpdf": "1.8.*",
-        "dompdf/dompdf": "^3.0",
-        "picqer/php-barcode-generator": "^2.4",
-        "phpoffice/phpexcel": "^1.8",
-        "egulias/email-validator": "^3.0",
-        "google/apiclient": "^2.17",
-        "zircote/swagger-php": "^4.10",
-        "doctrine/annotations": "^2.0",
-        "firebase/php-jwt": "^6.10"
-        
+  "name": "imporsuit/imporfactory",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Jeimy Ariel Jara Bautista",
+      "email": "jjara@imporfactorylatam.com"
+    },
+    {
+      "name": "Tony Ricardo Plaza Vivar",
+      "email": "tplaza@imporfactorylatam.com"
     }
+  ],
+  "keywords": [
+    "imporfactory",
+    "gestion",
+    "erp",
+    "aplicacion"
+  ],
+  "description": "Aplicación comercial para el sistema de gestión de la empresa Imporfactory",
+  "license": "MIT",
+  "minimum-stability": "stable",
+  "require": {
+    "setasign/fpdi": "^2.6",
+    "setasign/fpdf": "1.8.*",
+    "dompdf/dompdf": "^3.0",
+    "picqer/php-barcode-generator": "^2.4",
+    "phpoffice/phpexcel": "^1.8",
+    "egulias/email-validator": "^3.0",
+    "google/apiclient": "^2.17",
+    "zircote/swagger-php": "^4.10",
+    "doctrine/annotations": "^2.0",
+    "firebase/php-jwt": "^6.10"
+  }
 }

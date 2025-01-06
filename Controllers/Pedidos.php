@@ -44,7 +44,8 @@ class Pedidos extends Controller
         if (!$this->isAuth()) {
             header("Location: " . SERVERURL . "login");
         }
-        $this->views->render($this, "guias_administrador_3");
+        $data = $this->model->obtener_guias_admin_no_progresivo();
+        $this->views->render($this, "guias_administrador_3", $data);
     }
     public function guias_administrador_2($filtro = "")
     {

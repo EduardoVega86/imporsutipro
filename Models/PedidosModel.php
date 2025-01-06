@@ -440,6 +440,14 @@ class PedidosModel extends Query
     }
 
 
+    public function obtener_guias_admin_no_progresivo()
+    {
+        $response = $this->select("SELECT * FROM facturas_cot;");
+
+        return $response;
+    }
+
+
     public function cargarGuiasAdministrador3(
         $fecha_inicio,
         $fecha_fin,
