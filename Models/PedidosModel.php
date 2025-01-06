@@ -440,23 +440,8 @@ class PedidosModel extends Query
     }
 
 
-    public function cargarGuiasAdministrador3(
-        $fecha_inicio,
-        $fecha_fin,
-        $transportadora,
-        $estado,
-        $impreso,
-        $drogshipin,
-        $despachos,
-        $start,
-        $length,
-        $search,
-        $orderColumn,
-        $orderDir
-    ) {
-        $columns = ["numero_guia", "fecha_factura", "nombre", "ciudad", "tienda", "transporte", "estado_guia"];
-        $orderColumn = $columns[$orderColumn] ?? "fecha_factura";
-
+    public function cargarGuiasAdministradorPaginado($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $rows, $offset)
+    {
         $sql = "SELECT * FROM vista_guias_administrador WHERE 1=1";
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
@@ -468,25 +453,42 @@ class PedidosModel extends Query
         }
 
         if (!empty($estado)) {
-            // Tu lógica para filtrar por estado
+            switch ($estado) {
+                case 'generada':
+                    $sql .= " AND estado_guia_sistema IN (100, 102, 103)";
+                    break;
+                case 'en_transito':
+                    $sql .= " AND estado_guia_sistema BETWEEN 300 AND 317";
+                    break;
+                case 'entregada':
+                    $sql .= " AND estado_guia_sistema BETWEEN 400 AND 403";
+                    break;
+                case 'novedad':
+                    $sql .= " AND estado_guia_sistema BETWEEN 320 AND 351";
+                    break;
+                case 'devolucion':
+                    $sql .= " AND estado_guia_sistema BETWEEN 500 AND 502";
+                    break;
+            }
         }
 
-        if ($drogshipin == 0 || $drogshipin == 1) {
+        if ($drogshipin === "0" || $drogshipin === "1") {
             $sql .= " AND drogshipin = $drogshipin";
         }
 
-        if ($impreso == 0 || $impreso == 1) {
+        if ($impreso === "0" || $impreso === "1") {
             $sql .= " AND impreso = $impreso";
         }
 
-        if (!empty($search)) {
-            $sql .= " AND (numero_guia LIKE '%$search%' OR nombre LIKE '%$search%')";
+        if (!empty($despachos)) {
+            $sql .= " AND estado_factura = $despachos";
         }
 
-        $sql .= " ORDER BY $orderColumn $orderDir LIMIT $start, $length";
+        $sql .= " ORDER BY fecha_guia DESC LIMIT $rows OFFSET $offset";
 
         return $this->select($sql);
     }
+
 
     public function totalGuias()
     {
@@ -494,8 +496,6 @@ class PedidosModel extends Query
         $result = $this->select($sql);
         return $result[0]['total'] ?? 0;
     }
-
-
 
 
     public function cargarGuiasSpeed($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $recibo)
