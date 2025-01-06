@@ -117,16 +117,21 @@ const reloadDataTable = async () => {
 };
 
 // Función que hace la petición al servidor, obtiene los datos y pinta el <tbody>
+// Función que hace la petición al servidor, obtiene los datos y pinta el <tbody>
 const listGuias = async () => {
   try {
     const formData = new FormData();
-    let fechaInicio = $("#fecha_inicio").val() || ""; // si es undefined => ""
-    let fechaFin = $("#fecha_fin").val() || ""; // si es undefined => ""
+    let fechaInicio = $("#fecha_inicio").val() || "";
+    let fechaFin = $("#fecha_fin").val() || "";
     formData.append("estado", $("#estado_q").val());
     formData.append("drogshipin", $("#tienda_q").val());
     formData.append("transportadora", $("#transporte").val());
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
+    // Si estás usando fecha_inicio y fecha_fin en el backend, 
+    // NO olvides agregarlas también:
+    formData.append("fecha_inicio", fechaInicio);
+    formData.append("fecha_fin", fechaFin);
 
     const response = await fetch(`${SERVERURL}pedidos/obtener_guiasAdministrador3`, {
       method: "POST",
@@ -138,50 +143,131 @@ const listGuias = async () => {
     }
 
     const data = await response.json();
+    const guias = data.data; // El array de objetos con la info de cada guía.
 
-    // GUARDA EL ARRAY EN guias
-    const guias = data.data;
-    
-    // OPCIONAL: MUESTRA EN CONSOLA LO QUE RECIBISTE
     console.log("Resultado JSON:", data);
     console.log("guias:", guias);
-    
-    // CHEQUEA SI ES ARRAY
+
+    // Verificamos si 'guias' es un array
     if (!Array.isArray(guias)) {
-      // Si se dispara este throw, significa que data.data NO es array
       throw new Error("El formato de los datos es incorrecto");
     }
-    
-    // Si pasa, entonces ya guias es un array y puedes hacer tu .map(...)
+
+    // Pintamos cada fila con 12 columnas en el mismo orden que el <thead>
     document.getElementById("tableBody_guias").innerHTML = guias
       .map((guia) => {
+        // Preparamos algunos campos que queremos mostrar en columnas
+        // (puedes cambiar la lógica según tu modelo de datos)
+        
+        // Destino (ciudad + provincia)
+        const destino = guia.ciudad && guia.provinciaa
+          ? `${guia.ciudad} - ${guia.provinciaa}`
+          : guia.ciudad || "Sin ciudad";
+
+        // Ícono de despachado
+        let despachadoHTML = "";
+        if (guia.estado_factura == 2) {
+          // 2 = despachado
+          despachadoHTML = `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`;
+        } else if (guia.estado_factura == 3) {
+          // 3 = devuelto u otro estado, depende de tu lógica
+          despachadoHTML = `<i class='bx bxs-truck' style="color:red; font-size: 30px;"></i>`;
+        } else {
+          // 1 = no despachado
+          despachadoHTML = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
+        }
+
+        // Ícono de impresiones
+        const impresionesHTML = guia.impreso
+          ? `<box-icon name='printer' color='#28E418'></box-icon>`
+          : `<box-icon name='printer' color='red'></box-icon>`;
+
+        // Arma las 12 <td> en el orden de tu <thead>
         return `
           <tr>
-            <td><input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura || ''}"></td>
+            <!-- 0: Checkbox -->
+            <td>
+              <input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura || ''}">
+            </td>
+
+            <!-- 1: #Guía -->
             <td>${guia.numero_guia || "Sin número de guía"}</td>
-            <td>${guia.fecha_factura || "Sin fecha"}</td>
-            <td>${guia.nombre || "Sin nombre"}</td>
-            <td>${guia.ciudad || "Sin ciudad"}</td>
+
+            <!-- 2: Detalle (ej. "Ver detalle" + fecha) -->
+            <td>
+              <button class="btn btn-sm btn-outline-primary"
+                      onclick="ver_detalle_cot('${guia.id_factura}')">
+                Ver detalle
+              </button><br>
+              <small>${guia.fecha_factura || "Sin fecha"}</small>
+            </td>
+
+            <!-- 3: Cliente (nombre, dirección, teléfono) -->
+            <td>
+              <strong>${guia.nombre || "Sin nombre"}</strong><br>
+              ${(guia.c_principal || "")} y ${(guia.c_secundaria || "")}<br>
+              telf: ${guia.telefono || ""}
+            </td>
+
+            <!-- 4: Destino -->
+            <td>${destino}</td>
+
+            <!-- 5: Tienda -->
             <td>${guia.tienda || "Sin tienda"}</td>
+
+            <!-- 6: Proveedor -->
+            <td>${guia.nombre_proveedor || ""}</td>
+
+            <!-- 7: Transportadora -->
             <td>${guia.transporte || "Sin transporte"}</td>
+
+            <!-- 8: Estado (puedes usar tu propia lógica de validación) -->
             <td>
               <span class="badge ${guia.span_estado || "badge-default"}">
                 ${guia.estado_guia || "Sin estado"}
               </span>
             </td>
+
+            <!-- 9: Despachado -->
+            <td>${despachadoHTML}</td>
+
+            <!-- 10: Impreso -->
+            <td>${impresionesHTML}</td>
+
+            <!-- 11: Acciones (ej. anular, etc.) -->
             <td>
-              ${
-                guia.despachado
-                  ? `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`
-                  : `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`
-              }
-            </td>
-            <td>
-              ${
-                guia.impreso
-                  ? `<box-icon name='printer' color='#28E418'></box-icon>`
-                  : `<box-icon name='printer' color='red'></box-icon>`
-              }
+              <div class="dropdown">
+                <button class="btn btn-sm btn-secondary dropdown-toggle" 
+                        type="button" data-bs-toggle="dropdown">
+                  <i class="fa-solid fa-gear"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <span class="dropdown-item" style="cursor: pointer;"
+                          onclick="anular_guiaServi('${guia.numero_guia}')">
+                      Anular
+                    </span>
+                  </li>
+                  <li>
+                    <span class="dropdown-item" style="cursor: pointer;"
+                          onclick='transito(${guia.id_factura})'>
+                      Transito
+                    </span>
+                  </li>
+                  <li>
+                    <span class="dropdown-item" style="cursor: pointer;"
+                          onclick='entregar(${guia.id_factura})'>
+                      Entregado
+                    </span>
+                  </li>
+                  <li>
+                    <span class="dropdown-item" style="cursor: pointer;"
+                          onclick='devolucion(${guia.id_factura})'>
+                      Devolución
+                    </span>
+                  </li>
+                </ul>
+              </div>
             </td>
           </tr>
         `;
@@ -192,6 +278,7 @@ const listGuias = async () => {
     alert("Hubo un problema al cargar las guías.");
   }
 };
+
 
 function transito(id_cabecera) {
   $.ajax({
