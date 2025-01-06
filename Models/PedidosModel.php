@@ -1419,6 +1419,7 @@ class PedidosModel extends Query
     {
         $sql = "SELECT id_plataforma FROM inventario_bodegas WHERE id_producto = $id";
 
+        echo $sql;
         $id_platafomra = $this->select($sql);
         $id_platafomra = $id_platafomra[0]['id_plataforma'];
         return $id_platafomra;
