@@ -120,8 +120,8 @@ const reloadDataTable = async () => {
 const listGuias = async () => {
   try {
     const formData = new FormData();
-    formData.append("fecha_inicio", $("#fecha_inicio").val());
-    formData.append("fecha_fin", $("#fecha_fin").val());
+    let fechaInicio = $("#fecha_inicio").val() || ""; // si es undefined => ""
+    let fechaFin = $("#fecha_fin").val() || ""; // si es undefined => ""
     formData.append("estado", $("#estado_q").val());
     formData.append("drogshipin", $("#tienda_q").val());
     formData.append("transportadora", $("#transporte").val());

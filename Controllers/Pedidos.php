@@ -565,13 +565,22 @@ class Pedidos extends Controller
         $orderDir = isset($_POST['order'][0]['dir']) ? $_POST['order'][0]['dir'] : "asc";
 
         // Otros parámetros personalizados
-        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
-        $fecha_fin = $_POST['fecha_fin'] ?? "";
         $transportadora = $_POST['transportadora'] ?? "";
         $estado = $_POST['estado'] ?? "";
         $drogshipin = $_POST['drogshipin'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
         $despachos = $_POST['despachos'] ?? "";
+
+        $fecha_inicio = $_POST["fecha_inicio"] ?? "";
+        $fecha_fin = $_POST["fecha_fin"] ?? "";
+
+        // Si vienen como 'undefined', las cambio a cadenas vacías
+        if ($fecha_inicio === 'undefined') {
+            $fecha_inicio = '';
+        }
+        if ($fecha_fin === 'undefined') {
+            $fecha_fin = '';
+        }
 
         // Consulta paginada al modelo
         $data = $this->model->cargarGuiasAdministrador3(
