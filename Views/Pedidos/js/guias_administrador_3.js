@@ -137,6 +137,7 @@ const reloadDataTable = async () => {
   });
 };
 
+
 const listGuias = async () => {
   try {
     const formData = new FormData();
@@ -155,7 +156,15 @@ const listGuias = async () => {
         body: formData,
       }
     );
-    const guias = await response.json();
+
+    if (!response.ok) {
+      throw new Error("Error en la respuesta del servidor");
+    }
+    const data = await response.json();
+    const guias = data.guias || [];
+    if (!Array.isArray(guias)) {
+      throw new Error("El formato de los datos es incorrecto");
+    }
 
     let content = ``;
     let impresiones = "";
@@ -365,8 +374,9 @@ const listGuias = async () => {
                 </tr>`;
     });
     document.getElementById("tableBody_guias").innerHTML = content;
-  } catch (ex) {
-    alert(ex);
+  } catch (error) {
+    console.error("Error al obtener las guías:", error);
+    alert("Hubo un problema al cargar las guías.");
   }
 };
 
