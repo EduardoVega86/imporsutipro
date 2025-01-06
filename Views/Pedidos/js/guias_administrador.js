@@ -325,7 +325,6 @@ const listGuias = async () => {
                     </td>
                 </tr>`;
     });
-    document.getElementById("tableBody_guias").innerHTML = content;
   } catch (ex) {
     alert(ex);
   }
