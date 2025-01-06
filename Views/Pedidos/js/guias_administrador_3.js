@@ -118,7 +118,6 @@ const reloadDataTable = async () => {
 // Función que hace la petición al servidor, obtiene los datos y pinta el <tbody>
 const listGuias = async () => {
   try {
-    // Preparamos el FormData con los filtros (fecha, estado, etc.)
     const formData = new FormData();
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
@@ -128,7 +127,6 @@ const listGuias = async () => {
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
 
-    // Petición al servidor
     const response = await fetch(`${SERVERURL}pedidos/obtener_guiasAdministrador`, {
       method: "POST",
       body: formData,
@@ -136,126 +134,89 @@ const listGuias = async () => {
     if (!response.ok) {
       throw new Error("Error al obtener las guías desde el servidor");
     }
-
-    // Supongo que el backend retorna un array JSON (por ejemplo: [{"id_factura":..., "numero_guia":...}, ...])
     const guias = await response.json();
 
-    // Llenamos la variable 'content' con las filas HTML
     let content = ``;
 
     guias.forEach((guia) => {
-      // Preparamos algunas variables:
-      let transporte = guia.id_transporte; // (1 = Laar, 2 = Servientrega, etc.)
+      // 1) Determinar transportadora, link de descarga, tracking, función de anular, etc.
+      let transporte = guia.id_transporte;
+      let transporte_content = "";
       let ruta_descarga = "";
       let ruta_tracking = "";
       let funcion_anular = "";
-      let estado = {};
-      let transporte_content = "";
-      let select_speed = ""; // si quieres el <select> para Speed
-      let novedad = "";      // si hay que mostrar el botón "Gestionar novedad"
+      let estadoObj = {};
 
-      // 1) Determinar cómo mostrar la **transportadora**, la **descarga** y la **tracking**:
       if (transporte == 2) {
         // SERVIENTREGA
         transporte_content = `<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>`;
-        ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Servientrega/guia/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
+        ruta_descarga = `<a href="https://guias.imporsuitpro.com/Servientrega/guia/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
         ruta_tracking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=GUIA`;
         funcion_anular = `anular_guiaServi('${guia.numero_guia}')`;
-        estado = validar_estadoServi(guia.estado_guia_sistema); 
+        estadoObj = validar_estadoServi(guia.estado_guia_sistema);
       } else if (transporte == 1) {
         // LAAR
         transporte_content = `<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>`;
-        ruta_descarga = `<a class="w-100" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
+        ruta_descarga = `<a href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
         ruta_tracking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
         funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
-        estado = validar_estadoLaar(guia.estado_guia_sistema); 
+        estadoObj = validar_estadoLaar(guia.estado_guia_sistema);
       } else if (transporte == 3) {
         // GINTRACOM
         transporte_content = `<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>`;
-        ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
+        ruta_descarga = `<a href="https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
         ruta_tracking = `https://ec.gintracom.site/web/site/tracking`;
         funcion_anular = `anular_guiaGintracom('${guia.numero_guia}')`;
-        estado = validar_estadoGintracom(guia.estado_guia_sistema); 
+        estadoObj = validar_estadoGintracom(guia.estado_guia_sistema);
       } else if (transporte == 4) {
         // SPEED
         transporte_content = `<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>`;
-        ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
-        ruta_tracking = "";  // (si no hay tracking)
+        ruta_descarga = `<a href="https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
+        ruta_tracking = "";
         funcion_anular = `anular_guiaSpeed('${guia.numero_guia}')`;
-        estado = validar_estadoSpeed(guia.estado_guia_sistema);
-
-        // (Opcional) si quieres un <select> para cambiar estado Speed:
-        /*
-        select_speed = `
-          <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${guia.numero_guia}">
-            <option value="0" ${guia.estado_guia_sistema == 0 ? "selected" : ""}>-- Selecciona --</option>
-            <option value="2" ${guia.estado_guia_sistema == 2 ? "selected" : ""}>Generado</option>
-            <option value="3" ${guia.estado_guia_sistema == 3 ? "selected" : ""}>En transito</option>
-            <option value="7" ${guia.estado_guia_sistema == 7 ? "selected" : ""}>Entregado</option>
-            <option value="9" ${guia.estado_guia_sistema == 9 ? "selected" : ""}>Devuelto</option>
-            <option value="14" ${guia.estado_guia_sistema == 14 ? "selected" : ""}>Novedad</option>
-          </select>
-        `;
-        */
+        estadoObj = validar_estadoSpeed(guia.estado_guia_sistema);
       } else {
-        // Transportadora desconocida o sin enviar
+        // sin transporte
         transporte_content = `<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guía no enviada</span>`;
         ruta_descarga = guia.numero_guia || "N/A";
       }
 
-      // 2) Determinar el badge de estado, usando la función que te retorne: {span_estado, estado_guia}
-      const span_estado = estado.span_estado; 
-      const estado_guia = estado.estado_guia;
+      const span_estado = estadoObj.span_estado || "badge-default";
+      const estado_guia = estadoObj.estado_guia || "Sin estado";
 
-      // 3) Determinar la lógica para "drogshipin" (proveedor) vs "Local"
-      let droguishipinTXT = "";
-      if (guia.drogshipin == 0) {
-        droguishipinTXT = "Local";
-      } else if (guia.drogshipin == 1) {
-        droguishipinTXT = "Drogshipin";
-      }
-      // 4) Determinar la ciudad (split o no)
-      let ciudad = "Ciudad no especificada";
+      // 2) droguishipin (texto: "Local" o "Drogshipin")
+      let droguishipinTXT = guia.drogshipin == 1 ? "Drogshipin" : "Local";
+
+      // 3) ciudad (separas con split "/")
+      let ciudad = "No especificada";
       if (guia.ciudad) {
-        // A veces tu BD trae "QUITO/PICHINCHA" y tú quieres solo "QUITO"
         let parts = guia.ciudad.split("/");
         ciudad = parts[0];
       }
 
-      // 5) Determinar si hay "novedad" (botón "Gestionar novedad")
-      //   (este es tu if/else original)
-      if (guia.estado_guia_sistema == 14 && transporte == 1) {
-        novedad = `<button class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      } else if (guia.estado_guia_sistema == 6 && transporte == 3) {
-        novedad = `<button class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      }
-      if (
-        guia.estado_guia_sistema >= 318 &&
-        guia.estado_guia_sistema <= 351 &&
-        transporte == 2
-      ) {
-        novedad = `<button class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      }
-
-      // 6) Determinar icono de "Impreso" (box-icon)  
+      // 4) Impresiones
       let impresiones = guia.impreso
         ? `<box-icon name='printer' color='#28E418'></box-icon>`
         : `<box-icon name='printer' color='red'></box-icon>`;
 
-      // 7) Determinar despachado (estado_factura)
+      // 5) despachado
       let despachado = "";
       if (guia.estado_factura == 2) {
-        // 2 = despachado
         despachado = `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`;
       } else if (guia.estado_factura == 1) {
-        // 1 = no despachado
         despachado = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
       } else if (guia.estado_factura == 3) {
-        // 3 = devuelto
         despachado = `<i class='bx bxs-truck' style="color:red; font-size: 30px;"></i>`;
       }
 
-      // 8) Armamos el HTML de cada <tr> con 12 <td>
+      // 6) Botón "novedad" si aplica
+      let novedad = "";
+      // ejemplo corto:
+      if (guia.estado_guia_sistema == 14 && transporte == 1) {
+        novedad = `<button class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+      }
+
+      // 7) Armar HTML con 12 columnas
       content += `
         <tr>
           <!-- Col 0: checkbox -->
@@ -263,13 +224,13 @@ const listGuias = async () => {
             <input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura}">
           </td>
 
-          <!-- Col 1: #Guía (descarga link) + info droguishipin -->
+          <!-- Col 1: #Guía + droguishipin -->
           <td>
             <div>${ruta_descarga}</div>
             <div>${droguishipinTXT}</div>
           </td>
 
-          <!-- Col 2: Detalle (botón ver_detalle + fecha) -->
+          <!-- Col 2: Botón "Ver detalle" + fecha_factura -->
           <td>
             <div>
               <button onclick="ver_detalle_cot('${guia.id_factura}')" 
@@ -280,54 +241,55 @@ const listGuias = async () => {
             <div>${guia.fecha_factura || ""}</div>
           </td>
 
-          <!-- Col 3: Cliente (nombre, dir, tel) -->
+          <!-- Col 3: Cliente -->
           <td>
-            <div><strong>${guia.nombre}</strong></div>
-            <div>${guia.c_principal} y ${guia.c_secundaria}</div>
-            <div>telf: ${guia.telefono}</div>
+            <strong>${guia.nombre || ""}</strong><br>
+            ${guia.c_principal || ""} y ${guia.c_secundaria || ""}<br>
+            telf: ${guia.telefono || ""}
           </td>
 
-          <!-- Col 4: Destino (provinciaa - ciudad) -->
-          <td>${guia.provinciaa || ""} - ${ciudad}</td>
+          <!-- Col 4: Destino (provincia - ciudad) -->
+          <td>
+            ${guia.provinciaa || ""} - ${ciudad}
+          </td>
 
           <!-- Col 5: Tienda -->
-          <td><span id="plataformaLink">${guia.tienda || ""}</span></td>
+          <td>
+            <span class="link-like">${guia.tienda || ""}</span>
+          </td>
 
           <!-- Col 6: Proveedor -->
-          <td><span id="plataformaLink">${guia.nombre_proveedor || ""}</span></td>
+          <td>
+            <span class="link-like">${guia.nombre_proveedor || ""}</span>
+          </td>
 
-          <!-- Col 7: Transportadora (con background color) -->
+          <!-- Col 7: Transportadora (badge) -->
           <td>${transporte_content}</td>
 
-          <!-- Col 8: Estado (badge) + tracking + WhatsApp + (opcional) select_speed + novedad -->
-          <td>
-            <div style="text-align: center;">
-              <!-- badge de estado -->
-              <div>
-                <span class="w-100 text-nowrap ${span_estado}">
-                  ${estado_guia}
-                </span>
-              </div>
-              <!-- tracking + WhatsApp icons -->
-              <div style="position: relative; display: inline-block;">
-                ${ruta_tracking 
-                  ? `<a href="${ruta_tracking}" target="_blank">
-                      <img src="https://new.imporsuitpro.com/public/img/tracking.png"
-                          width="40px" alt="tracking-icon">
-                     </a>`
-                  : ""
-                }
-                <a href="https://wa.me/${formatPhoneNumber(guia.telefono)}" target="_blank"
-                   style="font-size: 45px; vertical-align: middle; margin-left: 10px;">
-                  <i class='bx bxl-whatsapp-square' style="color: green;"></i>
-                </a>
-              </div>
-              <div style="text-align: -webkit-center;">
-                ${select_speed}
-              </div>
-              <div>
-                ${novedad}
-              </div>
+          <!-- Col 8: Estado + tracking + WhatsApp + novedad -->
+          <td style="text-align: center;">
+            <div>
+              <span class="w-100 text-nowrap ${span_estado}">
+                ${estado_guia}
+              </span>
+            </div>
+            <div style="display: inline-block; margin-top: 5px;">
+              ${
+                ruta_tracking
+                  ? `<a href="${ruta_tracking}" target="_blank" style="vertical-align: middle;">
+                      <img src="https://new.imporsuitpro.com/public/img/tracking.png" 
+                           width="40px" alt="tracking-icon">
+                    </a>`
+                  : ``
+              }
+              <a href="https://wa.me/${formatPhoneNumber(guia.telefono || "")}" 
+                 target="_blank" 
+                 style="font-size: 40px; margin-left: 10px; vertical-align: middle;">
+                <i class='bx bxl-whatsapp-square' style="color: green;"></i>
+              </a>
+            </div>
+            <div style="margin-top: 5px;">
+              ${novedad}
             </div>
           </td>
 
@@ -337,8 +299,8 @@ const listGuias = async () => {
           <!-- Col 10: Impreso -->
           <td>${impresiones}</td>
 
-          <!-- Col 11: Acciones -->
-          <td>
+          <!-- Col 11: Acciones - a la derecha -->
+          <td style="text-align: right;">
             <div class="dropdown">
               <button class="btn btn-sm btn-secondary dropdown-toggle" 
                       type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -346,7 +308,7 @@ const listGuias = async () => {
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <span class="dropdown-item" style="cursor: pointer;" 
+                  <span class="dropdown-item" style="cursor: pointer;"
                         onclick="${funcion_anular}">
                     Anular
                   </span>
@@ -357,19 +319,19 @@ const listGuias = async () => {
                   </span>
                 </li>
                 <li>
-                  <span class="dropdown-item" style="cursor: pointer;" 
+                  <span class="dropdown-item" style="cursor: pointer;"
                         onclick="transito(${guia.id_factura})">
                     Transito
                   </span>
                 </li>
                 <li>
-                  <span class="dropdown-item" style="cursor: pointer;" 
+                  <span class="dropdown-item" style="cursor: pointer;"
                         onclick="entregar(${guia.id_factura})">
                     Entregado
                   </span>
                 </li>
                 <li>
-                  <span class="dropdown-item" style="cursor: pointer;" 
+                  <span class="dropdown-item" style="cursor: pointer;"
                         onclick="devolucion(${guia.id_factura})">
                     Devolución
                   </span>
@@ -381,13 +343,13 @@ const listGuias = async () => {
       `;
     });
 
-    // Finalmente, inyectamos todo en el <tbody>
     document.getElementById("tableBody_guias").innerHTML = content;
   } catch (error) {
     console.error("Error en listGuias():", error);
     alert("Hubo un problema al cargar las guías.");
   }
 };
+
 
 
 
