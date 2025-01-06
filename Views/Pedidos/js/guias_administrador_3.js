@@ -138,12 +138,21 @@ const listGuias = async () => {
     }
 
     const data = await response.json();
-    const guias = data.data || [];
+
+    // GUARDA EL ARRAY EN guias
+    const guias = data.data;
+    
+    // OPCIONAL: MUESTRA EN CONSOLA LO QUE RECIBISTE
+    console.log("Resultado JSON:", data);
+    console.log("guias:", guias);
+    
+    // CHEQUEA SI ES ARRAY
     if (!Array.isArray(guias)) {
+      // Si se dispara este throw, significa que data.data NO es array
       throw new Error("El formato de los datos es incorrecto");
     }
-
-    // Armamos las filas del <tbody> manualmente
+    
+    // Si pasa, entonces ya guias es un array y puedes hacer tu .map(...)
     document.getElementById("tableBody_guias").innerHTML = guias
       .map((guia) => {
         return `
