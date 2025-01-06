@@ -554,27 +554,25 @@ class Pedidos extends Controller
     /// sebastian
     public function obtener_guiasAdministrador3()
     {
-        // Obtén el número de "draw" de la solicitud, o usa un valor por defecto
         $draw = isset($_POST['draw']) ? intval($_POST['draw']) : 0;
-
-        // Parámetros de DataTables
-        $start = isset($_POST['start']) ? intval($_POST['start']) : 0;
-        $length = isset($_POST['length']) ? intval($_POST['length']) : 10;
-        $search = isset($_POST['search']['value']) ? $_POST['search']['value'] : "";
+        // DataTables paginado
+        $start       = isset($_POST['start']) ? intval($_POST['start']) : 0;
+        $length      = isset($_POST['length']) ? intval($_POST['length']) : 10;
+        $search      = isset($_POST['search']['value']) ? $_POST['search']['value'] : "";
         $orderColumn = isset($_POST['order'][0]['column']) ? intval($_POST['order'][0]['column']) : 0;
-        $orderDir = isset($_POST['order'][0]['dir']) ? $_POST['order'][0]['dir'] : "asc";
+        $orderDir    = isset($_POST['order'][0]['dir']) ? $_POST['order'][0]['dir'] : "asc";
 
-        // Otros parámetros personalizados
+        // Filtros personalizados
         $transportadora = $_POST['transportadora'] ?? "";
-        $estado = $_POST['estado'] ?? "";
-        $drogshipin = $_POST['drogshipin'] ?? "";
-        $impreso = $_POST['impreso'] ?? "";
-        $despachos = $_POST['despachos'] ?? "";
+        $estado         = $_POST['estado'] ?? "";
+        $drogshipin     = $_POST['drogshipin'] ?? "";
+        $impreso        = $_POST['impreso'] ?? "";
+        $despachos      = $_POST['despachos'] ?? "";
 
-        $fecha_inicio = $_POST["fecha_inicio"] ?? "";
-        $fecha_fin = $_POST["fecha_fin"] ?? "";
+        $fecha_inicio   = $_POST["fecha_inicio"] ?? "";
+        $fecha_fin      = $_POST["fecha_fin"] ?? "";
 
-        // Si vienen como 'undefined', las cambio a cadenas vacías
+        // Si vienen 'undefined'
         if ($fecha_inicio === 'undefined') {
             $fecha_inicio = '';
         }
@@ -582,7 +580,7 @@ class Pedidos extends Controller
             $fecha_fin = '';
         }
 
-        // Consulta paginada al modelo
+        // Consulta en el modelo
         $data = $this->model->cargarGuiasAdministrador3(
             $fecha_inicio,
             $fecha_fin,
@@ -598,15 +596,16 @@ class Pedidos extends Controller
             $orderDir
         );
 
-        // Total de registros
+        // Total de registros (sin filtrar)
         $totalRecords = $this->model->totalGuias();
 
-        // Respuesta a DataTables
+        $recordsFiltered = count($data);
+
         echo json_encode([
-            "draw" => $draw, // Número de draw
-            "recordsTotal" => $totalRecords, // Total de registros sin filtrar
-            "recordsFiltered" => count($data), // Total después del filtrado
-            "data" => $data, // Registros
+            "draw"            => $draw,
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $recordsFiltered,
+            "data"            => $data,
         ]);
     }
 

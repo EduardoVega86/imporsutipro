@@ -454,40 +454,56 @@ class PedidosModel extends Query
         $orderColumn,
         $orderDir
     ) {
-        $columns = ["numero_guia", "fecha_factura", "nombre", "ciudad", "tienda", "transporte", "estado_guia"];
-        $orderColumn = $columns[$orderColumn] ?? "fecha_factura";
+        // Mapea "column index" => "campo de tu tabla"
+        $columns = [
+            0 => "id_factura",
+            1 => "numero_guia",
+            2 => "fecha_factura",
+            3 => "nombre",
+            4 => "ciudad",
+            5 => "tienda",
+            6 => "nombre_proveedor",
+            7 => "id_transporte",
+            8 => "estado_guia_sistema",
+            9 => "estado_factura",
+            10 => "impreso",
+            11 => "id_factura" // la 11 es "acciones" (no se filtra), p.e.
+        ];
+        // Si $orderColumn sale del rango, ajustas:
+        if (!isset($columns[$orderColumn])) $orderColumn = 2; // ej. la de fecha
+        $orderBy = $columns[$orderColumn];
+        if ($orderDir != 'desc') $orderDir = 'asc';
 
         $sql = "SELECT * FROM vista_guias_administrador WHERE 1=1";
 
-        if (!empty($fecha_inicio) && !empty($fecha_fin) && $fecha_inicio != 'undefined' && $fecha_fin != 'undefined') {
+        // Filtros
+        if ($fecha_inicio && $fecha_fin) {
             $sql .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
-
-
-        if (!empty($transportadora)) {
+        if ($transportadora) {
+            // Ej. AND id_transporte = $transportadora (o if number, or like if text)
             $sql .= " AND transporte = '$transportadora'";
         }
+        // igual con $estado, $impreso, $drogshipin, $despachos
 
-        if (!empty($estado)) {
-            // Tu lógica para filtrar por estado
-        }
-
-        if ($drogshipin == 0 || $drogshipin == 1) {
-            $sql .= " AND drogshipin = $drogshipin";
-        }
-
-        if ($impreso == 0 || $impreso == 1) {
-            $sql .= " AND impreso = $impreso";
-        }
-
+        // Buscador general
         if (!empty($search)) {
-            $sql .= " AND (numero_guia LIKE '%$search%' OR nombre LIKE '%$search%')";
+            // Haz un LIKE
+            $sql .= " AND (numero_guia LIKE '%$search%'
+                     OR nombre LIKE '%$search%'
+                     OR provinciaa LIKE '%$search%'
+                     OR ciudad LIKE '%$search%')";
         }
 
-        $sql .= " ORDER BY $orderColumn $orderDir LIMIT $start, $length";
+        // ORDER
+        $sql .= " ORDER BY $orderBy $orderDir";
+
+        // LIMIT
+        $sql .= " LIMIT $start, $length";
 
         return $this->select($sql);
     }
+
 
     public function totalGuias()
     {
