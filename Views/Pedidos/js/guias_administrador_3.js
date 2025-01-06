@@ -143,15 +143,6 @@ const listGuias = async () => {
 
     const data = await response.json();
     const guias = data.data; // El array de objetos con la info de cada guía.
-    
-    let ruta_descarga = "";
-    let ruta_traking = "";
-    let funcion_anular = "";
-    let select_speed = "";
-    let drogshipin = "";
-    let despachado = "";
-    let ciudad = "";
-    let transporte_content = "";
 
     console.log("Resultado JSON:", data);
     console.log("guias:", guias);
@@ -192,82 +183,90 @@ const listGuias = async () => {
 
         // Arma las 12 <td> en el orden de tu <thead>
         return `
-                <tr>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${
-                      guia.id_factura
-                    }"></td>
-                    <td>
-                    <div>
-                     ${ruta_descarga}
-                    </div>
-                    <div>
-                    ${drogshipin}
-                    </div>
-                    </td>
-                    <td>
-                    <div><button onclick="ver_detalle_cot('${
-                      guia.id_factura
-                    }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
-                    <div>${guia.fecha_factura}</td></div>
-                    <td>
-                        <div><strong>${guia.nombre}</strong></div>
-                        <div>${guia.c_principal} y ${guia.c_secundaria}</div>
-                        <div>telf: ${guia.telefono}</div>
-                    </td>
-                    <td>${guia.provinciaa}-${ciudad}</td>
-                    <td><span class="link-like" id="plataformaLink">${
-                      guia.tienda
-                    }</span></td>
-                    <td><span class="link-like" id="plataformaLink">${
-                      guia.nombre_proveedor
-                    }</span></td>
-                    <td>${transporte_content}</td>
-                    <td>
-                     <div style="text-align: center;">
-                     <div>
-                      <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
-                     </div>
-                     <div style="position: relative; display: inline-block;">
-                      <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
-                        <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
-                      </a>
-                      <a href="https://wa.me/${formatPhoneNumber(
-                        guia.telefono
-                      )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
-                      <i class='bx bxl-whatsapp-square' style="color: green;"></i>
-                      </a>
-                     </div>
-                     <div style="text-align: -webkit-center;">
-                     ${select_speed}
-                     </div>
-                     <div>
-                     ${novedad}
-                     </div>
-                     </div>
-                    </td>
-                    <td>${despachado}</td>
-                    <td>${impresiones}</td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='transito(${
-                          guia.id_factura
-                        })' >Transito</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='entregar(${
-                          guia.id_factura
-                        })' >Entregado</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='devolucion(${
-                          guia.id_factura
-                        })' >Devolución</span></li>
-                    </ul>
-                </div>
-                    </td>
-                </tr>`;
+          <tr>
+            <!-- 0: Checkbox -->
+            <td>
+              <input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura || ''}">
+            </td>
+
+            <!-- 1: #Guía -->
+            <td>${guia.numero_guia || "Sin número de guía"}</td>
+
+            <!-- 2: Detalle (ej. "Ver detalle" + fecha) -->
+            <td>
+              <button class="btn btn-sm btn-outline-primary"
+                      onclick="ver_detalle_cot('${guia.id_factura}')">
+                Ver detalle
+              </button><br>
+              <small>${guia.fecha_factura || "Sin fecha"}</small>
+            </td>
+
+            <!-- 3: Cliente (nombre, dirección, teléfono) -->
+            <td>
+              <strong>${guia.nombre || "Sin nombre"}</strong><br>
+              ${(guia.c_principal || "")} y ${(guia.c_secundaria || "")}<br>
+              telf: ${guia.telefono || ""}
+            </td>
+
+            <!-- 4: Destino -->
+            <td>${destino}</td>
+
+            <!-- 5: Tienda -->
+            <td>${guia.tienda || "Sin tienda"}</td>
+
+            <!-- 6: Proveedor -->
+            <td>${guia.nombre_proveedor || ""}</td>
+
+            <!-- 7: Transportadora -->
+            <td>${guia.transporte || "Sin transporte"}</td>
+
+            <!-- 8: Estado (puedes usar tu propia lógica de validación) -->
+            <td>
+              <span class="badge ${guia.span_estado || "badge-default"}">
+                ${guia.estado_guia || "Sin estado"}
+              </span>
+            </td>
+
+            <!-- 9: Despachado -->
+            <td>${despachadoHTML}</td>
+
+            <!-- 10: Impreso -->
+            <td>${impresionesHTML}</td>
+
+            <!-- 11: Acciones (ej. anular, etc.) -->
+            <td>
+              <div class="dropdown">
+                <button class="btn btn-sm btn-secondary dropdown-toggle" 
+                        type="button" data-bs-toggle="dropdown">
+                  <i class="fa-solid fa-gear"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <span class="dropdown-item" style="cursor: pointer;"
+                          onclick="anular_guiaServi('${guia.numero_guia}')">
+                      Anular
+                    </span>
+                  </li>
+                  <li>
+                    <span class="dropdown-item" style="cursor: pointer;"
+                          onclick='transito(${guia.id_factura})'>
+                      Transito
+                    </span>
+                  </li>
+                  <li>
+                    <span class="dropdown-item" style="cursor: pointer;"
+                          onclick='entregar(${guia.id_factura})'>
+                      Entregado
+                    </span>
+                  </li>
+                      <li><span class="dropdown-item" style="cursor: pointer;" onclick='devolucion(${
+                        guia.id_factura
+                      })' >Devolución</span></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        `;
       })
       .join("");
   } catch (error) {
