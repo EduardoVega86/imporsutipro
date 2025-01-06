@@ -459,9 +459,10 @@ class PedidosModel extends Query
 
         $sql = "SELECT * FROM vista_guias_administrador WHERE 1=1";
 
-        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+        if (!empty($fecha_inicio) && !empty($fecha_fin) && $fecha_inicio != 'undefined' && $fecha_fin != 'undefined') {
             $sql .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
+
 
         if (!empty($transportadora)) {
             $sql .= " AND transporte = '$transportadora'";
