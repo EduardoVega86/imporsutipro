@@ -151,6 +151,7 @@ const listGuias = async () => {
     let drogshipin = "";
     let despachado = "";
     let ciudad = "";
+    let transporte_content = "";
 
     console.log("Resultado JSON:", data);
     console.log("guias:", guias);
