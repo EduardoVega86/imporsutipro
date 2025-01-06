@@ -132,7 +132,14 @@ const dataTableOptions = {
         return data || "";
       }
     },
-    // (7) Transportadora (badge)
+    // (7) Proveedor
+    {
+      data: "contiene",
+      render: function(data) {
+        return data || "";
+      }
+    },
+    // (8) Transportadora (badge)
     {
       data: "id_transporte",
       render: function(data, type, row) {
@@ -149,7 +156,7 @@ const dataTableOptions = {
         return `<span style="background-color: #CCC; padding: 5px;">No enviado</span>`;
       }
     },
-    // (8) Estado + tracking + WhatsApp + novedad
+    // (9) Estado + tracking + WhatsApp + novedad
     {
       data: null,
       render: function(data, type, row) {
@@ -216,7 +223,7 @@ const dataTableOptions = {
         `;
       }
     },
-    // (9) Despachado (icono)
+    // (10) Despachado (icono)
     {
       data: "estado_factura",
       render: function(data) {
@@ -230,7 +237,7 @@ const dataTableOptions = {
         return "";
       }
     },
-    // (10) Impreso
+    // (11) Impreso
     {
       data: "impreso",
       render: function(data) {
@@ -240,7 +247,7 @@ const dataTableOptions = {
         return `<box-icon name='printer' color='red'></box-icon>`;
       }
     },
-    // (11) Acciones (alineadas a la derecha)
+    // (12) Acciones (alineadas a la derecha)
     {
       data: null,
       className: "text-end", // o text-right, depende de tu CSS
