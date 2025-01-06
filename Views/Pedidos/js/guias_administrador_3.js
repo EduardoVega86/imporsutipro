@@ -145,6 +145,11 @@ const listGuias = async () => {
     const guias = data.data; // El array de objetos con la info de cada guía.
     
     let ruta_descarga = "";
+    let ruta_traking = "";
+    let funcion_anular = "";
+    let select_speed = "";
+    let drogshipin = "";
+    let despachado = "";
 
     console.log("Resultado JSON:", data);
     console.log("guias:", guias);
