@@ -155,7 +155,6 @@ class Swagger extends Controller
                 echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
                 return;
             }
-            $data = $data["customData"];
             $correo = $data['correo'] ?? null;
             $contrasena = $data['contrasena'] ?? null;
             if (!$correo || !$contrasena) {
