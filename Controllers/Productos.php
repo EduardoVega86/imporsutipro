@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'AccesoModel.php';
+require 'vendor/autoload.php';
 //use PHPExcel_IOFactory;
 
 
