@@ -34,7 +34,7 @@
 
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4">
-        <h1>Despacho de producto</h1>
+        <h1>Despacho de productos</h1>
         <div class="form-group">
             <label for="numeroGuia">Escanee los productos que desea despachar</label>
             <input type="text" id="numeroGuia" class="form-control" placeholder="Coloca el cursor aquí">
