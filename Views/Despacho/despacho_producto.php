@@ -91,7 +91,7 @@
 <div class="full-screen-container">
     <!-- Formulario -->
     <div class="custom-container-fluid">
-        <h1>Despacho de productos</h1>
+        <h1>Despacho de producto</h1>
         <div class="form-group">
             <label for="numeroGuia">Escanee los productos que desea despachar</label>
             <input type="text" id="numeroGuia" class="form-control" placeholder="Coloca el cursor aquí">
