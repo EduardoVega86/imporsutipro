@@ -40,7 +40,7 @@
                                 <div class="d-flex flex-row gap-3">
                                     <div class="form-group w-100">
                                         <label for="codigo">Código:</label>
-                                        <input type="text" class="form-control" id="codigo" value="10088">
+                                        <input type="text" class="form-control" id="codigo" require>
                                     </div>
                                     <div class="form-group w-100">
                                         <label for="nombre">Nombre:</label>
@@ -93,9 +93,9 @@
                                         <div class="form-group">
                                             <label for="envio_prioritario">Envio prioritario:</label>
                                             <select class="form-select" id="envio_prioritario" required>
-                                                <option selected value="">-- Selecciona --</option>
+                                                <option value="">-- Selecciona --</option>
                                                 <option value="1">Si</option>
-                                                <option value="0">No</option>
+                                                <option selected value="0">No</option>
                                             </select>
                                         </div>
                                     </div>

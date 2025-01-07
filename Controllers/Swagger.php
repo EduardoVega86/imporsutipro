@@ -28,10 +28,10 @@ class Swagger extends Controller
 
     /**
      * @OA\Post(
-     *    path="/api/registro",
+     *    path="/swagger/registro",
      *   tags={"Usuarios"},
      *  summary="Registro de usuarios",
-     * description="Registro de usuarios",
+     * description="Endpoint utilizado para el registro de usuarios",
      * @OA\RequestBody(
      *   required=true,
      *  @OA\MediaType(
@@ -78,7 +78,7 @@ class Swagger extends Controller
     public function registro()
     {
         try {
-            $this->logRequest('api/registro', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $this->logRequest('swagger/registro', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
             $data = json_decode(file_get_contents("php://input"), true);
 
             if (!$data) {
@@ -86,7 +86,7 @@ class Swagger extends Controller
                 echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
                 return;
             }
-            $data = $data["customData"];
+
             $nombre = $data['nombre'] ?? null;
             $correo = $data['correo'] ?? null;
             $pais = $data['pais'] ?? null;
@@ -113,10 +113,10 @@ class Swagger extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/login",
+     *      path="/swagger/login",
      *      tags={"Usuarios"},
      *      summary="Inicio de sesión",
-     *      description="Inicio de sesión",
+     *      description="Endpoint utilizado para el inicio de sesión de los usuarios",
      *          @OA\RequestBody(
      *          required=true,
      *              @OA\MediaType(
@@ -155,7 +155,6 @@ class Swagger extends Controller
                 echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
                 return;
             }
-            // $data = $data["customData"];
             $correo = $data['correo'] ?? null;
             $contrasena = $data['contrasena'] ?? null;
             if (!$correo || !$contrasena) {
@@ -178,7 +177,7 @@ class Swagger extends Controller
 
     /**
      * @OA\Get(
-     *   path="/api/pedidos",
+     *   path="/swagger/pedidos",
      *  tags={"Pedidos"},
      * summary="Obtener pedidos",
      * description="Obtener pedidos por plataforma",
