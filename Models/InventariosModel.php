@@ -584,14 +584,10 @@ class InventariosModel extends Query
                 $response['title'] = 'Error';
                 $response['message'] = 'El sku del producto esta mal configurado verifique y vuelva a intentarlo';
             }  else{
-            $id_factura = $factura[0]['id_factura'];
-            $estado_factura = $factura[0]['estado_factura'];
 
-            $sql_plataforma_bodega = "SELECT b.id_plataforma FROM `detalle_fact_cot` dfc, inventario_bodegas  ib, bodega b where ib.bodega=b.id and id_factura=$id_factura and dfc.id_inventario=ib.id_inventario GROUP by bodega";
-            // echo $sql_plataforma_bodega;
-            //echo $sql_factura;$id_factura
-            $plataforma_bodega = $this->select($sql_plataforma_bodega);
-            $id_plataforma_bodega = $plataforma_bodega[0]['id_plataforma'];
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Despacho Exitoso';
 
         } 
         } else {
