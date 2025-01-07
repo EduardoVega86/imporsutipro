@@ -1,60 +1,37 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Despacho/css/despacho_style.php'; ?>
 
-<style>
-    .full-screen-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start; /* Alinear verticalmente al inicio */
-        align-items: center; /* Centrar horizontalmente */
-        padding: 20px;
-    }
-
-    .custom-container-fluid,
-    .guides-list-container {
-        width: 100%; /* Ocupa todo el ancho disponible */
-        max-width: 800px; /* Define un ancho máximo para no excederse */
-        margin-bottom: 20px; /* Espaciado entre secciones */
-    }
-
-    .table {
-        margin-top: 10px;
-    }
-</style>
-
-
 
 <div class="full-screen-container">
-    <div class="custom-container-fluid mt-4">
-        <h1>Despacho de producto</h1>
+    <div class="custom-container-fluid mt-4" style="margin-right: 20px;">
+        <h1>Despacho de producto </span></h1>
         <div class="form-group">
             <label for="numeroGuia">Escanee los productos que desea despachar</label>
-            <input type="text" id="numeroGuia" class="form-control" placeholder="Coloca el cursor aquí">
+            <input type="text" id="numeroGuia" placeholder="Coloca el cursor aquí antes de">
         </div>
-        <button id="despachoBtn" class="btn btn-success mt-2">Despacho</button>
+        <button id="despachoBtn" class="btn btn-success">Despacho</button>
     </div>
-    <div class="guides-list-container">
-        <h2>Lista de productos</h2>
-        <table id="guidesTable" class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>SKU</th>
-                    <th>Nombre del Producto</th>
-                    <th>Cantidad</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Filas dinámicas se agregarán aquí -->
-            </tbody>
-        </table>
-        <div style="padding-top: 10px;">
-            <button id="generarImpresionBtn" class="btn btn-success">Generar Impresión</button>
-        </div>
+    <div class="guides-list-container mt-4" style="margin-right: auto; margin-left: 30px;">
+    <h2>Lista de productos</h2>
+    <table id="guidesTable" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>SKU</th>
+                <th>Nombre del Producto</th>
+                <th>Cantidad</th>
+                <th>Acciones</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <!-- Filas dinámicas se agregarán aquí -->
+        </tbody>
+    </table>
+    <div style="padding-top:10px;">
+        <button id="generarImpresionBtn" class="btn btn-success">Generar Impresión</button>
     </div>
 </div>
-
-
+</div>
 
 
 <script>
