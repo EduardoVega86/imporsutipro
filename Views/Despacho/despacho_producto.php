@@ -48,15 +48,23 @@ function ejecutarDespacho() {
     // Verificar si la guía ya está en la lista
     var guiasExistentes = document.querySelectorAll('#guidesList .list-group-item');
     for (var i = 0; i < guiasExistentes.length; i++) {
-        var contenidoGuia = guiasExistentes[i].querySelector('.codigo').textContent.trim();
-        if (contenidoGuia === numeroGuia) {
+        var contenidoGuia = guiasExistentes[i].querySelector('.codigo');
+        
+        // Validar si el elemento '.codigo' existe
+        if (contenidoGuia && contenidoGuia.textContent.trim() === numeroGuia) {
             // Incrementar la cantidad si ya existe
             var cantidadElement = guiasExistentes[i].querySelector('.cantidad');
-            var cantidadActual = parseInt(cantidadElement.textContent, 10);
-            cantidadElement.textContent = cantidadActual + 1; // Incrementar la cantidad
-            toastr.success("Cantidad actualizada", "NOTIFICACIÓN", {
-                positionClass: "toast-bottom-center",
-            });
+            
+            // Validar si el elemento '.cantidad' existe antes de usarlo
+            if (cantidadElement) {
+                var cantidadActual = parseInt(cantidadElement.textContent, 10) || 0; // Valor por defecto 0 si no es un número
+                cantidadElement.textContent = cantidadActual + 1; // Incrementar la cantidad
+                toastr.success("Cantidad actualizada", "NOTIFICACIÓN", {
+                    positionClass: "toast-bottom-center",
+                });
+            } else {
+                console.error("Elemento '.cantidad' no encontrado en la lista existente.");
+            }
             return; // Salir de la función, no es necesario agregar un nuevo elemento
         }
     }
@@ -109,30 +117,6 @@ function agregarGuia(numeroGuia) {
     guidesList.appendChild(listItem);
 }
 
-
-
-    // Función para agregar una guía a la lista
-    function agregarGuia(numeroGuia) {
-        var listItem = document.createElement('li');
-        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-        listItem.textContent = numeroGuia;
-
-        var deleteBtn = document.createElement('span');
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.innerHTML = '&times;';
-
-        deleteBtn.addEventListener('click', function() {
-            eliminarGuia(numeroGuia, listItem);
-        });
-
-        listItem.appendChild(deleteBtn);
-        document.getElementById('guidesList').appendChild(listItem);
-
-        // Limpiar el campo de entrada y enfocar el cursor
-        var inputGuia = document.getElementById('numeroGuia');
-        inputGuia.value = '';
-        inputGuia.focus();
-    }
 
     // Función para eliminar una guía de la lista
     function eliminarGuia(numeroGuia, listItem) {
