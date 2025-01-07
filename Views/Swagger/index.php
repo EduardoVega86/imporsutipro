@@ -22,7 +22,7 @@
     <script>
         window.onload = () => {
             SwaggerUIBundle({
-                url: "<?php echo SERVERURL; ?>swagger/index", // URL donde generaste el JSON
+                url: "<?php echo SERVERURL; ?>swagger/docs", // URL donde generaste el JSON
                 dom_id: '#swagger-ui',
             });
         };
