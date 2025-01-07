@@ -218,18 +218,35 @@
 
     document.getElementById('despachoBtn').addEventListener('click', ejecutarDespacho);
 
-    document.getElementById('generarImpresionBtn').addEventListener('click', function() {
-        var productos = [];
-        var filas = document.querySelectorAll('#guidesTable tbody tr');
-        filas.forEach(function(fila) {
-            var sku = fila.querySelector('.sku').textContent.trim();
-            var nombreProducto = fila.cells[1].textContent.trim();
-            var cantidad = fila.querySelector('.cantidad-input').value.trim();
-            productos.push({ sku, nombreProducto, cantidad });
-        });
-
-        console.log(JSON.stringify(productos, null, 2));
+    document.getElementById('generarImpresionBtn').addEventListener('click', function () {
+    var productos = [];
+    var filas = document.querySelectorAll('#guidesTable tbody tr');
+    filas.forEach(function (fila) {
+        var sku = fila.querySelector('.sku').textContent.trim();
+        var nombreProducto = fila.cells[1].textContent.trim();
+        var cantidad = fila.querySelector('.cantidad-input').value.trim();
+        productos.push({ sku, nombreProducto, cantidad });
     });
+
+    // Convertir el arreglo a JSON
+    var productosJSON = JSON.stringify(productos);
+
+    // Enviar la solicitud al servicio web
+    $.ajax({
+        url: '/Manifiestos/generarSalidaProducto', // Cambia la URL al endpoint correcto
+        type: 'POST',
+        contentType: 'application/json',
+        data: productosJSON,
+        success: function (response) {
+            console.log('Respuesta del servidor:', response);
+            alert('Productos enviados correctamente');
+        },
+        error: function (xhr, status, error) {
+            console.error('Error al enviar los datos:', error);
+            alert('Hubo un problema al enviar los productos');
+        },
+    });
+});
 </script>
 
 <?php require_once './Views/templates/footer.php'; ?>
