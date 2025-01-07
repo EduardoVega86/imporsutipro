@@ -35,52 +35,57 @@
     // Obtener el valor del parámetro "bodega"
     var bodega = getParameterByName('bodega');
 
-    function ejecutarDespacho() {
-        var numeroGuia = document.getElementById('numeroGuia').value;
+    var contadorGuias = 1;
 
-        // Verificar si la guía ya está en la lista
-        var guiasExistentes = document.querySelectorAll('#guidesList .list-group-item');
-        for (var i = 0; i < guiasExistentes.length; i++) {
-            if (guiasExistentes[i].childNodes[0].textContent.trim() === numeroGuia) {
-                toastr.warning("La guía ya está en la lista", "NOTIFICACIÓN", {
+function ejecutarDespacho() {
+    var numeroGuia = document.getElementById('numeroGuia').value;
+
+    // Verificar si la guía ya está en la lista
+    var guiasExistentes = document.querySelectorAll('#guidesList .list-group-item');
+    for (var i = 0; i < guiasExistentes.length; i++) {
+        if (guiasExistentes[i].childNodes[0].textContent.trim() === numeroGuia) {
+            toastr.warning("La guía ya está en la lista", "NOTIFICACIÓN", {
+                positionClass: "toast-bottom-center",
+            });
+            return; // No agregar la guía si ya existe
+        }
+    }
+
+    // Asignar el número incremental al campo 'numeroGuia'
+    numeroGuia = `${numeroGuia}-${contadorGuias}`;
+
+    let formData = new FormData();
+    formData.append("bodega", bodega);
+
+    $.ajax({
+        type: "POST",
+        url: SERVERURL + "Inventarios/generarDespachoProducto/" + numeroGuia,
+        data: formData,
+        processData: false, // No procesar los datos
+        contentType: false, // No establecer ningún tipo de contenido
+        success: function(response) {
+            response = JSON.parse(response);
+            if (response.status == 500) {
+                toastr.error(
+                    "" + response.message,
+                    "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center"
+                    }
+                );
+            } else if (response.status == 200) {
+                toastr.success("" + response.message, "NOTIFICACIÓN", {
                     positionClass: "toast-bottom-center",
                 });
-                return; // No agregar la guía si ya existe
+                agregarGuia(numeroGuia);
+                contadorGuias++; // Incrementar el contador después de un despacho exitoso
             }
-        }
-
-        let formData = new FormData();
-        //formData.append("transportadora", transportadora);
-        formData.append("bodega", bodega);
-//alert();
-        $.ajax({
-            type: "POST",
-            url: SERVERURL + "Inventarios/generarDespachoProducto/" + numeroGuia,
-            data: formData,
-            processData: false, // No procesar los datos
-            contentType: false, // No establecer ningún tipo de contenido
-            success: function(response) {
-                response = JSON.parse(response);
-                if (response.status == 500) {
-                    toastr.error(
-                        "" + response.message,
-                        "NOTIFICACIÓN", {
-                            positionClass: "toast-bottom-center"
-                        }
-                    );
-                } else if (response.status == 200) {
-                    toastr.success("" + response.message, "NOTIFICACIÓN", {
-                        positionClass: "toast-bottom-center",
-                    });
-                    agregarGuia(numeroGuia);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error en la solicitud AJAX:", error);
-                alert("Hubo un problema al generar despacho");
-            },
-        });
-    }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error en la solicitud AJAX:", error);
+            alert("Hubo un problema al generar despacho");
+        },
+    });
+}
 
     // Función para agregar una guía a la lista
     function agregarGuia(numeroGuia) {
