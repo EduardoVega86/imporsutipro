@@ -29,7 +29,7 @@ class Swagger extends Controller
 
     public function docs()
     {
-        $openapi = \OpenApi\Generator::scan([__DIR__ . "/Acceso.php"]);
+        $openapi = \OpenApi\Generator::scan([__DIR__]);
         header('Content-Type: application/json');
         echo $openapi->toJson();
     }
