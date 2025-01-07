@@ -568,73 +568,38 @@ class InventariosModel extends Query
     }
 
 
-    function ejecutarDespacho() {
-        var numeroGuia = document.getElementById('numeroGuia').value;
-    
-        // Verificar si la guía ya está en la lista
-        var guiasExistentes = document.querySelectorAll('#guidesList .list-group-item');
-        for (var i = 0; i < guiasExistentes.length; i++) {
-            var contenidoGuia = guiasExistentes[i].querySelector('.codigo').textContent.trim();
-            if (contenidoGuia === numeroGuia) {
-                // Incrementar la cantidad si ya existe
-                var cantidadElement = guiasExistentes[i].querySelector('.cantidad');
-                var cantidadActual = parseInt(cantidadElement.textContent, 10);
-                cantidadElement.textContent = cantidadActual + 1; // Incrementar la cantidad
-                toastr.success("Cantidad actualizada", "NOTIFICACIÓN", {
-                    positionClass: "toast-bottom-center",
-                });
-                return; // Salir de la función, no es necesario agregar un nuevo elemento
-            }
+    public function despacho_producto($sku, $plataforma, $bodega)
+    {
+
+        $response = $this->initialResponse();
+
+        $sql_producto = "SELECT * FROM inventario_bodegas ib, productos p WHERE sku = '$sku' and bodega=$bodega and ib.id_plataforma = $plataforma and p.id_producto=ib.id_producto";
+       //echo $sql_producto;
+        //echo $sql_factura;
+        $producto = $this->select($sql_producto);
+      //  $producto = $this->select($sql_producto);
+       // print_r($producto);
+        if (count($producto) > 0) {
+            if (count($producto) > 1) {
+                //print_r($producto);
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'El sku del producto esta mal configurado verifique y vuelva a intentarlo';
+            }  else{
+                $nombre = $producto[0]['nombre_producto'];
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['producto'] = $nombre;
+                $response['message'] = 'Despacho Exitoso';
+
+        } 
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'No se encuentra el producto';
         }
-    
-        // Si no existe, agregarlo como nuevo elemento con cantidad 1
-        let formData = new FormData();
-        formData.append("bodega", bodega);
-    
-        $.ajax({
-            type: "POST",
-            url: SERVERURL + "Inventarios/generarDespachoProducto/" + numeroGuia,
-            data: formData,
-            processData: false, // No procesar los datos
-            contentType: false, // No establecer ningún tipo de contenido
-            success: function(response) {
-                response = JSON.parse(response);
-                if (response.status == 500) {
-                    toastr.error(
-                        "" + response.message,
-                        "NOTIFICACIÓN", {
-                            positionClass: "toast-bottom-center"
-                        }
-                    );
-                } else if (response.status == 200) {
-                    toastr.success("" + response.message, "NOTIFICACIÓN", {
-                        positionClass: "toast-bottom-center",
-                    });
-                    agregarGuia(numeroGuia); // Agregar al listado como nuevo con cantidad 1
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error en la solicitud AJAX:", error);
-                alert("Hubo un problema al generar despacho");
-            },
-        });
+        return $response;
     }
-    
-    // Función para agregar la guía al listado
-    function agregarGuia(numeroGuia) {
-        var guidesList = document.getElementById('guidesList');
-    
-        // Crear un nuevo elemento con cantidad inicial 1
-        var listItem = document.createElement('li');
-        listItem.className = 'list-group-item';
-        listItem.innerHTML = `
-            <span class="codigo">${numeroGuia}</span> 
-            - Cantidad: <span class="cantidad">1</span>
-        `;
-    
-        guidesList.appendChild(listItem);
-    }
-    
 
     public function devolucion_guia($num_guia, $plataforma)
     {

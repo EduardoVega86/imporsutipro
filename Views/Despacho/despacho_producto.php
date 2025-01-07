@@ -44,14 +44,20 @@ function ejecutarDespacho() {
     // Verificar si la guía ya está en la lista
     var guiasExistentes = document.querySelectorAll('#guidesList .list-group-item');
     for (var i = 0; i < guiasExistentes.length; i++) {
-        if (guiasExistentes[i].childNodes[0].textContent.trim() === numeroGuia) {
-            toastr.warning("La guía ya está en la lista", "NOTIFICACIÓN", {
+        var contenidoGuia = guiasExistentes[i].querySelector('.codigo').textContent.trim();
+        if (contenidoGuia === numeroGuia) {
+            // Incrementar la cantidad si ya existe
+            var cantidadElement = guiasExistentes[i].querySelector('.cantidad');
+            var cantidadActual = parseInt(cantidadElement.textContent, 10);
+            cantidadElement.textContent = cantidadActual + 1; // Incrementar la cantidad
+            toastr.success("Cantidad actualizada", "NOTIFICACIÓN", {
                 positionClass: "toast-bottom-center",
             });
-            return; // No agregar la guía si ya existe
+            return; // Salir de la función, no es necesario agregar un nuevo elemento
         }
     }
 
+    // Si no existe, agregarlo como nuevo elemento con cantidad 1
     let formData = new FormData();
     formData.append("bodega", bodega);
 
@@ -74,11 +80,7 @@ function ejecutarDespacho() {
                 toastr.success("" + response.message, "NOTIFICACIÓN", {
                     positionClass: "toast-bottom-center",
                 });
-
-                // Asignar número incremental al listado
-                let numeroGuiaConContador = `${numeroGuia}-${contadorGuiasListado}`;
-                agregarGuia(numeroGuiaConContador); // Agregar al listado con el contador
-                contadorGuiasListado++; // Incrementar el contador del listado
+                agregarGuia(numeroGuia); // Agregar al listado como nuevo con cantidad 1
             }
         },
         error: function(xhr, status, error) {
@@ -92,12 +94,17 @@ function ejecutarDespacho() {
 function agregarGuia(numeroGuia) {
     var guidesList = document.getElementById('guidesList');
 
+    // Crear un nuevo elemento con cantidad inicial 1
     var listItem = document.createElement('li');
     listItem.className = 'list-group-item';
-    listItem.textContent = numeroGuia;
+    listItem.innerHTML = `
+        <span class="codigo">${numeroGuia}</span> 
+        - Cantidad: <span class="cantidad">1</span>
+    `;
 
     guidesList.appendChild(listItem);
 }
+
 
 
     // Función para agregar una guía a la lista
