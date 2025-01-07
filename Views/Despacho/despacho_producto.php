@@ -1,6 +1,28 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Despacho/css/despacho_style.php'; ?>
 
+<style>
+    .full-screen-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Centrar verticalmente */
+        align-items: center; /* Centrar horizontalmente */
+        min-height: 100vh; /* Ocupa toda la altura de la ventana */
+        padding: 20px; /* Espaciado interno opcional */
+    }
+
+    .custom-container-fluid,
+    .guides-list-container {
+        width: 100%; /* Asegura que se ajuste al ancho disponible */
+        max-width: 800px; /* Limita el ancho máximo */
+        margin-bottom: 20px; /* Espacio entre secciones */
+    }
+
+    .guides-list-container .table {
+        margin-top: 10px;
+    }
+</style>
+
 
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4" style="margin-right: 20px;">
