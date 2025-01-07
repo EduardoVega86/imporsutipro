@@ -913,6 +913,116 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
     }
 
 
+    public function despacho_producto($num_guia, $plataforma, $id_cabecera)
+    {
+
+        $response = $this->initialResponse();
+
+
+        $sql = "INSERT INTO detalle_relacion_despacho (numero_guia, id_cabecera_despacho) VALUES (?, ?)";
+        $data = [$num_guia, $id_cabecera];
+        // Ejecuta la inserción
+        $insertar_detalle_rd = $this->insert($sql, $data);
+
+        $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia'";
+        //  echo $sql_factura;
+        $factura = $this->select($sql_factura);
+        $id_factura = $factura[0]['id_factura'];
+        $estado_factura = $factura[0]['estado_factura'];
+
+        $sql_plataforma_bodega = "SELECT b.id_plataforma FROM `detalle_fact_cot` dfc, inventario_bodegas  ib, bodega b where ib.bodega=b.id and id_factura=$id_factura and dfc.id_inventario=ib.id_inventario GROUP by bodega";
+        //echo $sql_factura;$id_factura
+        $plataforma_bodega = $this->select($sql_plataforma_bodega);
+        $id_plataforma_bodega = $plataforma_bodega[0]['id_plataforma'];
+
+        if ($id_plataforma_bodega == $plataforma) {
+            if ($estado_factura == 1) {
+                //  echo $id_factura;
+
+                $tmp_cotizaciones = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = $id_factura");
+                $detalle_sql_despacho = "INSERT INTO `historial_depacho` (`id_pedido`, `guia`, `id_producto`, `sku`, `cantidad`, `id_usuario`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                // $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                //print_r($tmp_cotizaciones);
+                //$nota='Se descuenta'
+                $id_usuario = $_SESSION['id'];
+                foreach ($tmp_cotizaciones as $tmp) {
+                    //  echo 'enta';
+                    $despacho_data = array(
+                        $id_factura,
+                        $num_guia,
+                        $tmp['id_producto'],
+                        $tmp['sku'],
+                        $tmp['cantidad'],
+                        $id_usuario,
+                        $plataforma
+                    );
+                    $guardar_detalle = $this->insert($detalle_sql_despacho, $despacho_data);
+                    $nota = 'Se elimina ' . $tmp['cantidad'] . ' productos(s) del inventario -DESPACHO GUIA-';
+                    $id_inventario = $tmp['id_inventario'];
+                    $sql_bodega = "SELECT bodega FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+                    //echo $sql_bodega;
+                    $bodega = $this->select($sql_bodega);
+                    //print_r($bodega);
+                    $id_bodega = $bodega[0]['bodega'];
+
+                    $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+                    $stock = $this->select($sql_id);
+                    $stock_inventario = $stock[0]['saldo_stock'];
+                    $saldo_stock = $stock_inventario - $tmp['cantidad'];
+                    $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
+                    $data = [$saldo_stock, $id_inventario];
+                    $actualizar_stock = $this->update($sql_update, $data);
+                    
+                    $historial_data = array(
+                        $id_usuario,
+                        $tmp['id_inventario'],
+                        $plataforma,
+                        $tmp['sku'],
+                        $nota,
+                        $num_guia,
+                        $tmp['cantidad'],
+                        2,
+                        $id_bodega,
+                        $tmp['id_producto'],
+                        $saldo_stock
+                    );
+                    $guardar_detalle = $this->insert($detalle_sql_historial, $historial_data);
+
+                    
+
+
+                    //print_r($guardar_detalle);
+                }
+
+                $sql = "UPDATE `facturas_cot` SET `estado_factura` = ? WHERE `id_factura` = ?";
+                $data = [2, $id_factura];
+                $editar_categoria = $this->update($sql, $data);
+
+                //print_r($tmp_cotizaciones);
+
+                if ($editar_categoria == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Despacho Exitoso';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al generar el despacho';
+                }
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Esta guia ya ha sido despachada';
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'La guía no pertenece a esta bodega';
+        }
+        return $response;
+    }
+
     public function despacho_guia_devolucion($num_guia, $plataforma, $id_cabecera)
     {
 
