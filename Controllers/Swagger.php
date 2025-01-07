@@ -1,4 +1,5 @@
 <?php
+require 'vendor/autoload.php';
 
 use OpenApi\Annotations as OA;
 
@@ -219,7 +220,7 @@ class Swagger extends Controller
 
     public function docs()
     {
-        $openapi = \OpenApi\Generator::scan([__DIR__ . "/Swagger.php"]);;
+        $openapi = \OpenApi\Generator::scan([__DIR__ . "/Swagger.php"]);
         header('Content-Type: application/json');
         echo $openapi->toJson();
     }
