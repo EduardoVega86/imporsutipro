@@ -434,7 +434,7 @@ class ProductosModel extends Query
             //   $data = [$codigo_producto, $id, $producto_variable, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $envio_prioritario, $id, $plataforma];
             }
             $editar_producto_ = $this->update($sql, $data);
-            print_r($editar_producto_);
+           // print_r($editar_producto_);
         } else {
             $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma limit 1";
             $bodega = $this->select($sql_bodega);
