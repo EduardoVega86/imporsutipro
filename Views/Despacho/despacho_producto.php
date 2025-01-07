@@ -11,14 +11,24 @@
         <button id="despachoBtn" class="btn btn-success">Despacho</button>
     </div>
     <div class="guides-list-container mt-4" style="margin-right: auto; margin-left: 30px;">
-        <h2>Lista de productos</h2>
-        <ul id="guidesList">
-   
-</ul>
-        <div style="padding-top:10px;">
-            <button id="generarImpresionBtn" class="btn btn-success">Generar Impresion</button>
-        </div>
+    <h2>Lista de productos</h2>
+    <table id="guidesTable" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>SKU</th>
+                <th>Nombre del Producto</th>
+                <th>Cantidad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Filas dinámicas se agregarán aquí -->
+        </tbody>
+    </table>
+    <div style="padding-top:10px;">
+        <button id="generarImpresionBtn" class="btn btn-success">Generar Impresión</button>
     </div>
+</div>
 </div>
 
 
@@ -43,31 +53,7 @@ var contadorGuiasListado = 1;
 function ejecutarDespacho() {
     var numeroGuia = document.getElementById('numeroGuia').value;
 
-    // Verificar si la guía ya está en la lista
-    var guiasExistentes = document.querySelectorAll('#guidesList .list-group-item');
-    for (var i = 0; i < guiasExistentes.length; i++) {
-        var contenidoGuia = guiasExistentes[i].querySelector('.codigo');
-        
-        // Validar si el elemento '.codigo' existe
-        if (contenidoGuia && contenidoGuia.textContent.trim() === numeroGuia) {
-            // Incrementar la cantidad si ya existe
-            var cantidadElement = guiasExistentes[i].querySelector('.cantidad');
-            
-            // Validar si el elemento '.cantidad' existe antes de usarlo
-            if (cantidadElement) {
-                var cantidadActual = parseInt(cantidadElement.textContent, 10) || 0; // Valor por defecto 0 si no es un número
-                cantidadElement.textContent = cantidadActual + 1; // Incrementar la cantidad
-                toastr.success("Cantidad actualizada", "NOTIFICACIÓN", {
-                    positionClass: "toast-bottom-center",
-                });
-            } else {
-                console.error("Elemento '.cantidad' no encontrado en la lista existente.");
-            }
-            return; // Salir de la función, no es necesario agregar un nuevo elemento
-        }
-    }
-
-    // Si no existe, agregarlo como nuevo elemento con cantidad 1
+    // Simular obtener datos del producto del servidor
     let formData = new FormData();
     formData.append("bodega", bodega);
 
@@ -75,8 +61,8 @@ function ejecutarDespacho() {
         type: "POST",
         url: SERVERURL + "Inventarios/generarDespachoProducto/" + numeroGuia,
         data: formData,
-        processData: false, // No procesar los datos
-        contentType: false, // No establecer ningún tipo de contenido
+        processData: false,
+        contentType: false,
         success: function(response) {
             response = JSON.parse(response);
             if (response.status == 500) {
@@ -90,7 +76,11 @@ function ejecutarDespacho() {
                 toastr.success("" + response.message, "NOTIFICACIÓN", {
                     positionClass: "toast-bottom-center",
                 });
-                agregarGuia(numeroGuia); // Agregar al listado como nuevo con cantidad 1
+
+                // Datos ficticios para demostrar (esto lo obtendrás del servidor)
+                let sku = response.sku || numeroGuia;
+                let nombreProducto = response.nombre_producto || "Producto genérico";
+                agregarProductoATabla(sku, nombreProducto);
             }
         },
         error: function(xhr, status, error) {
@@ -100,85 +90,114 @@ function ejecutarDespacho() {
     });
 }
 
-// Función para agregar la guía al listado
-function agregarGuia(numeroGuia) {
-    var guidesList = document.getElementById('guidesList');
+// Función para agregar un producto a la tabla
+function agregarProductoATabla(sku, nombreProducto) {
+    var tableBody = document.querySelector('#guidesTable tbody');
 
-    // Crear un nuevo elemento con cantidad inicial 1
-    var listItem = document.createElement('li');
-    listItem.className = 'list-group-item';
-    listItem.innerHTML = `
-        <span class="codigo">${numeroGuia}</span> 
-        - Cantidad: <span class="cantidad">1</span>
+    // Verificar si el SKU ya está en la tabla
+    var filas = document.querySelectorAll('#guidesTable tbody tr');
+    for (var i = 0; i < filas.length; i++) {
+        var filaSku = filas[i].querySelector('.sku').textContent.trim();
+        if (filaSku === sku) {
+            // Incrementar la cantidad si ya existe
+            var cantidadElement = filas[i].querySelector('.cantidad');
+            var cantidadActual = parseInt(cantidadElement.textContent, 10);
+            cantidadElement.textContent = cantidadActual + 1; // Incrementar cantidad
+            toastr.success("Cantidad actualizada", "NOTIFICACIÓN", {
+                positionClass: "toast-bottom-center",
+            });
+            return; // Salir de la función
+        }
+    }
+
+    // Crear una nueva fila si no existe
+    var nuevaFila = document.createElement('tr');
+    nuevaFila.innerHTML = `
+        <td class="sku">${sku}</td>
+        <td>${nombreProducto}</td>
+        <td class="cantidad">1</td>
+        <td>
+            <button class="btn btn-danger btn-sm eliminarBtn">Eliminar</button>
+        </td>
     `;
 
-    guidesList.appendChild(listItem);
-}
-
-
-    // Función para eliminar una guía de la lista
-    function eliminarGuia(numeroGuia, listItem) {
-        listItem.remove();
-        toastr.success("Guía eliminada exitosamente", "NOTIFICACIÓN", {
-            positionClass: "toast-bottom-center",
-        });
-    }
-
-    // Escuchar el evento 'keypress' del input
-    document.getElementById('numeroGuia').addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') {
-            ejecutarDespacho();
-        }
+    // Agregar evento para eliminar fila
+    nuevaFila.querySelector('.eliminarBtn').addEventListener('click', function() {
+        eliminarProductoDeTabla(nuevaFila);
     });
 
-    // Escuchar el evento 'click' del botón
-    document.getElementById('despachoBtn').addEventListener('click', ejecutarDespacho);
+    tableBody.appendChild(nuevaFila);
+}
 
-    // Función para generar JSON con la lista de guías y imprimirlo en consola
-    function generarImpresion() {
-        var button = document.getElementById("generarImpresionBtn");
-        button.disabled = true; // Desactivar el botón
+// Función para eliminar un producto de la tabla
+function eliminarProductoDeTabla(fila) {
+    fila.remove();
+    toastr.success("Producto eliminado de la tabla", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+    });
+}
 
-        var guias = [];
-        var listItems = document.querySelectorAll('#guidesList .list-group-item');
-        listItems.forEach(function(item) {
-            var numeroGuia = item.childNodes[0].textContent.trim(); // Obtener solo el número de guía
-            guias.push(numeroGuia);
-        });
-        var guiasJSON = JSON.stringify(guias, null, 2);
-        console.log(guiasJSON);
-
-        let formData = new FormData();
-        formData.append("transportadora", transportadora);
-        formData.append("bodega", bodega);
-        formData.append("guias", guiasJSON);
-
-        $.ajax({
-            type: "POST",
-            url: SERVERURL + "/Manifiestos/generarManifiesto",
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: "json",
-            success: function(response) {
-                if (response.status == 200) {
-                    const link = document.createElement("a");
-                    link.href = response.download;
-                    link.download = "";
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-
-                    button.disabled = false;
-                    window.location.href = '' + SERVERURL + 'despacho/lista_despachos';
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error en la solicitud AJAX:", error);
-                alert("Hubo un problema al generar impresion");
-            },
-        });
+// Escuchar el evento 'keypress' del input
+document.getElementById('numeroGuia').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        ejecutarDespacho();
     }
+});
+
+// Escuchar el evento 'click' del botón
+document.getElementById('despachoBtn').addEventListener('click', ejecutarDespacho);
+
+// Escuchar el evento 'click' del botón de generar impresión
+document.getElementById('generarImpresionBtn').addEventListener('click', generarImpresion);
+
+// Función para generar JSON con la tabla y enviarlo
+function generarImpresion() {
+    var button = document.getElementById("generarImpresionBtn");
+    button.disabled = true; // Desactivar el botón
+
+    var productos = [];
+    var filas = document.querySelectorAll('#guidesTable tbody tr');
+    filas.forEach(function(fila) {
+        var sku = fila.querySelector('.sku').textContent.trim();
+        var nombreProducto = fila.cells[1].textContent.trim();
+        var cantidad = fila.querySelector('.cantidad').textContent.trim();
+        productos.push({ sku, nombreProducto, cantidad });
+    });
+
+    var productosJSON = JSON.stringify(productos, null, 2);
+    console.log(productosJSON);
+
+    let formData = new FormData();
+    formData.append("bodega", bodega);
+    formData.append("productos", productosJSON);
+
+    $.ajax({
+        type: "POST",
+        url: SERVERURL + "/Manifiestos/generarManifiesto",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function(response) {
+            if (response.status == 200) {
+                const link = document.createElement("a");
+                link.href = response.download;
+                link.download = "";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                button.disabled = false;
+                window.location.href = '' + SERVERURL + 'despacho/lista_despachos';
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error en la solicitud AJAX:", error);
+            alert("Hubo un problema al generar impresión");
+        },
+    });
+}
+
 
     // Escuchar el evento 'click' del botón de generar impresión
     document.getElementById('generarImpresionBtn').addEventListener('click', generarImpresion);
