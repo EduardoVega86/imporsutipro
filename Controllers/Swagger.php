@@ -5,6 +5,7 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Info(
+ *     swagger= "2.0.0",
  *     title="Documentación de la API Externa",
  *     version="1.0.0",
  *     description="Documentación de la API generada con Swagger | Ante cualquier duda, contactar con el administrador",
