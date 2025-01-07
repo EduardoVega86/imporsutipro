@@ -13,7 +13,7 @@ use OpenApi\Annotations as OA;
  * )
  */
 
-class Api extends Controller
+class Swagger extends Controller
 {
     public function __construct()
     {
