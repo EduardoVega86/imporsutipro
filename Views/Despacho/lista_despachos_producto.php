@@ -38,5 +38,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Despacho/js/lista_despachos.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Despacho/js/lista_despachos_producto.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
