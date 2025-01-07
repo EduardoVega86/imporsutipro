@@ -189,7 +189,7 @@
 
         var nuevaFila = document.createElement('tr');
         nuevaFila.innerHTML = `
-         <td class="sku">${id_inventario}</td>
+         <td class="id_inventario">${id_inventario}</td>
             <td class="sku">${sku}</td>
             <td>${nombreProducto}</td>
             <td>
@@ -225,15 +225,22 @@
     document.getElementById('generarImpresionBtn').addEventListener('click', function () {
     var productos = [];
     var filas = document.querySelectorAll('#guidesTable tbody tr');
+
+    // Recorre las filas de la tabla
     filas.forEach(function (fila) {
+        var id_inventario = fila.querySelector('.id_inventario').textContent.trim();
         var sku = fila.querySelector('.sku').textContent.trim();
-        var nombreProducto = fila.cells[1].textContent.trim();
+        var nombreProducto = fila.cells[2].textContent.trim(); // Cambié el índice porque la posición cambia con el ID
         var cantidad = fila.querySelector('.cantidad-input').value.trim();
-        productos.push({ sku, nombreProducto, cantidad });
+
+        // Agregar el producto al arreglo con todos los campos
+        productos.push({ id_inventario, sku, nombreProducto, cantidad });
     });
 
     // Convertir el arreglo a JSON
     var productosJSON = JSON.stringify(productos);
+
+    console.log('Datos enviados:', productosJSON); // Verifica en la consola antes de enviar
 
     // Enviar la solicitud al servicio web
     $.ajax({
@@ -251,6 +258,7 @@
         },
     });
 });
+
 </script>
 
 <?php require_once './Views/templates/footer.php'; ?>
