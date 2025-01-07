@@ -1,31 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
-    <title>Swagger UI</title>
-    <!-- Incluimos los estilos de swagger-ui-dist desde un CDN -->
-    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4/swagger-ui.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación de la API</title>
+    <!-- Incluir el CSS de Swagger -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+    </style>
 </head>
 
 <body>
     <div id="swagger-ui"></div>
-
-    <!-- Incluimos los scripts de swagger-ui-dist -->
-    <script src="https://unpkg.com/swagger-ui-dist@4/swagger-ui-bundle.js"></script>
-    <script src="https://unpkg.com/swagger-ui-dist@4/swagger-ui-standalone-preset.js"></script>
-
+    <!-- Incluir el script de Swagger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js"></script>
     <script>
-        // Aquí indicamos la URL de tu JSON (el endpoint que creaste)
-        window.onload = function() {
-            window.ui = SwaggerUIBundle({
-                url: '/swagger/docs', // <-- Ruta a tu JSON (método docs())
+        window.onload = () => {
+            SwaggerUIBundle({
+                url: "<?php echo SERVERURL; ?>api/docs", // URL donde generaste el JSON
                 dom_id: '#swagger-ui',
-                presets: [
-                    SwaggerUIBundle.presets.apis,
-                    SwaggerUIStandalonePreset
-                ],
-                layout: "BaseLayout",
             });
         };
     </script>
