@@ -85,7 +85,7 @@ function ejecutarDespacho() {
 
                 // Datos ficticios para demostrar (esto lo obtendrás del servidor)
                 let sku = response.sku || numeroGuia;
-                let nombreProducto = response.nombre_producto || "Producto genérico";
+                let nombreProducto = response.producto	 || "Producto genérico";
                 agregarProductoATabla(sku, nombreProducto);
             }
         },
