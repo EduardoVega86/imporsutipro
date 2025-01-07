@@ -11,7 +11,7 @@
         <button id="despachoBtn" class="btn btn-success">Despacho</button>
     </div>
     <div class="guides-list-container mt-4" style="margin-right: auto; margin-left: 30px;">
-        <h2>Guías Ingresadas</h2>
+        <h2>Lista de productos</h2>
         <ul id="guidesList" class="list-group"></ul>
         <div style="padding-top:10px;">
             <button id="generarImpresionBtn" class="btn btn-success">Generar Impresion</button>
