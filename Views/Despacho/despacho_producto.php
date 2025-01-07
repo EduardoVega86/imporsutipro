@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Despacho/css/despacho_style.php'; ?>
+<?php require_once './Views/Despacho/css/despacho_style2.php'; ?>
 
 <style>
     .full-screen-container {
@@ -7,7 +7,6 @@
         flex-direction: column;
         align-items: center; /* Centrar horizontalmente */
         padding: 20px;
-        min-height: 100vh; /* Asegurar altura completa */
     }
 
     .custom-container-fluid {
