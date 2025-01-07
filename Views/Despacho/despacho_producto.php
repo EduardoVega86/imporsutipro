@@ -2,65 +2,58 @@
 <?php require_once './Views/Despacho/css/despacho_style.php'; ?>
 
 <style>
-    .container-flex {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start; /* Alinear verticalmente al inicio */
-    }
-
-    .form-container {
-        width: 40%; /* Ajusta el ancho de la sección del formulario */
-    }
-
-    .table-container {
-        width: 55%; /* Ajusta el ancho de la sección de la tabla */
-    }
-
     .full-screen-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* Alinear verticalmente al inicio */
+        align-items: center; /* Centrar horizontalmente */
         padding: 20px;
     }
 
-    .table-container .table {
-        margin: 0; /* Asegura que la tabla no tenga margen adicional */
+    .custom-container-fluid,
+    .guides-list-container {
+        width: 100%; /* Ocupa todo el ancho disponible */
+        max-width: 800px; /* Define un ancho máximo para no excederse */
+        margin-bottom: 20px; /* Espaciado entre secciones */
+    }
+
+    .table {
+        margin-top: 10px;
     }
 </style>
 
 
-<div class="full-screen-container">
-   
-    <div class="container-flex">
-        <!-- Sección del formulario (izquierda) -->
-        <div class="form-container">
-            <div class="form-group">
-            <h1>Despacho de producto</h1>
-                <label for="numeroGuia">Escanee los productos que desea despachar</label>
-                <input type="text" id="numeroGuia" class="form-control" placeholder="Coloca el cursor aquí">
-            </div>
-            <button id="despachoBtn" class="btn btn-success mt-2">Despacho</button>
-        </div>
 
-        <!-- Sección de la tabla (derecha) -->
-        <div class="table-container">
-            <h2>Lista de productos</h2>
-            <table id="guidesTable" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>SKU</th>
-                        <th>Nombre del Producto</th>
-                        <th>Cantidad</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Filas dinámicas se agregarán aquí -->
-                </tbody>
-            </table>
-            <div style="padding-top: 10px;">
-                <button id="generarImpresionBtn" class="btn btn-success">Generar Impresión</button>
-            </div>
+<div class="full-screen-container">
+    <div class="custom-container-fluid mt-4">
+        <h1>Despacho de producto</h1>
+        <div class="form-group">
+            <label for="numeroGuia">Escanee los productos que desea despachar</label>
+            <input type="text" id="numeroGuia" class="form-control" placeholder="Coloca el cursor aquí">
+        </div>
+        <button id="despachoBtn" class="btn btn-success mt-2">Despacho</button>
+    </div>
+    <div class="guides-list-container">
+        <h2>Lista de productos</h2>
+        <table id="guidesTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>SKU</th>
+                    <th>Nombre del Producto</th>
+                    <th>Cantidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas dinámicas se agregarán aquí -->
+            </tbody>
+        </table>
+        <div style="padding-top: 10px;">
+            <button id="generarImpresionBtn" class="btn btn-success">Generar Impresión</button>
         </div>
     </div>
 </div>
+
 
 
 
