@@ -7,35 +7,35 @@
 
 
 <div class="full-screen-container">
-    <div class="custom-container-fluid mt-4" style="margin-right: 20px;">
-        <h1>Despacho de productos</span></h1>
+    <div class="custom-container-fluid mt-4">
+        <h1>Despacho de producto</h1>
         <div class="form-group">
             <label for="numeroGuia">Escanee los productos que desea despachar</label>
-            <input type="text" id="numeroGuia" placeholder="Coloca el cursor aquí antes de">
+            <input type="text" id="numeroGuia" class="form-control" placeholder="Coloca el cursor aquí">
         </div>
-        <button id="despachoBtn" class="btn btn-success">Despacho</button>
+        <button id="despachoBtn" class="btn btn-success mt-2">Despacho</button>
     </div>
-    <div class="guides-list-container mt-4" style="margin-right: auto; margin-left: 30px;">
-    <h2>Lista de productos</h2>
-    <table id="guidesTable" class="table table-bordered">
-        <thead>
-            <tr>
-                <th>SKU</th>
-                <th>Nombre del Producto</th>
-                <th>Cantidad</th>
-                <th>Acciones</th>
-            </tr>
+    <div class="guides-list-container mt-4">
+        <h2>Lista de productos</h2>
+        <table id="guidesTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>SKU</th>
+                    <th>Nombre del Producto</th>
+                    <th>Cantidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas dinámicas se agregarán aquí -->
+            </tbody>
+        </table>
+        <div style="padding-top:10px;">
+            <button id="generarImpresionBtn" class="btn btn-success">Generar Impresión</button>
+        </div>
+    </div>
+</div>
 
-        </thead>
-        <tbody>
-            <!-- Filas dinámicas se agregarán aquí -->
-        </tbody>
-    </table>
-    <div style="padding-top:10px;">
-        <button id="generarImpresionBtn" class="btn btn-success">Generar Impresión</button>
-    </div>
-</div>
-</div>
 
 
 <script>
@@ -97,6 +97,7 @@ function ejecutarDespacho() {
 }
 
 // Función para agregar un producto a la tabla
+// Función para agregar un producto a la tabla
 function agregarProductoATabla(sku, nombreProducto) {
     var tableBody = document.querySelector('#guidesTable tbody');
 
@@ -106,9 +107,9 @@ function agregarProductoATabla(sku, nombreProducto) {
         var filaSku = filas[i].querySelector('.sku').textContent.trim();
         if (filaSku === sku) {
             // Incrementar la cantidad si ya existe
-            var cantidadElement = filas[i].querySelector('.cantidad');
-            var cantidadActual = parseInt(cantidadElement.textContent, 10);
-            cantidadElement.textContent = cantidadActual + 1; // Incrementar cantidad
+            var cantidadInput = filas[i].querySelector('.cantidad-input');
+            var cantidadActual = parseInt(cantidadInput.value, 10);
+            cantidadInput.value = cantidadActual + 1; // Incrementar cantidad
             toastr.success("Cantidad actualizada", "NOTIFICACIÓN", {
                 positionClass: "toast-bottom-center",
             });
@@ -121,7 +122,9 @@ function agregarProductoATabla(sku, nombreProducto) {
     nuevaFila.innerHTML = `
         <td class="sku">${sku}</td>
         <td>${nombreProducto}</td>
-        <td class="cantidad">1</td>
+        <td>
+            <input type="number" class="cantidad-input form-control" value="1" min="1">
+        </td>
         <td>
             <button class="btn btn-danger btn-sm eliminarBtn">Eliminar</button>
         </td>
@@ -142,6 +145,7 @@ function eliminarProductoDeTabla(fila) {
         positionClass: "toast-bottom-center",
     });
 }
+
 
 // Escuchar el evento 'keypress' del input
 document.getElementById('numeroGuia').addEventListener('keypress', function(event) {
