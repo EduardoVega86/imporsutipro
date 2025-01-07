@@ -12,7 +12,11 @@
     </div>
     <div class="guides-list-container mt-4" style="margin-right: auto; margin-left: 30px;">
         <h2>Lista de productos</h2>
-        <ul id="guidesList" class="list-group"></ul>
+        <ul id="guidesList">
+    <li class="list-group-item">
+        <span class="codigo">ABC123</span> - Cantidad: <span class="cantidad">1</span>
+    </li>
+</ul>
         <div style="padding-top:10px;">
             <button id="generarImpresionBtn" class="btn btn-success">Generar Impresion</button>
         </div>
