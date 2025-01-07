@@ -2,24 +2,7 @@
 <?php require_once './Views/Despacho/css/despacho_style.php'; ?>
 
 <style>
-    .full-screen-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center; /* Centrar verticalmente */
-        align-items: center; /* Centrar horizontalmente */
-        min-height: 100vh; /* Ocupa toda la altura de la ventana */
-        padding: 20px; /* Espaciado interno opcional */
-    }
-
-    .custom-container-fluid,
-    .guides-list-container {
-     
-        margin-bottom: 20px; /* Espacio entre secciones */
-    }
-
-    .guides-list-container .table {
-        margin-top: 10px;
-    }
+  
 </style>
 
 
