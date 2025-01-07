@@ -104,27 +104,23 @@ const listListaDespachos = async () => {
 document
   .getElementById("generarDespachoBtn")
   .addEventListener("click", function () {
-    const transportadoraSelect = document.getElementById("transportadora");
+    //const transportadoraSelect = document.getElementById("transportadora");
     const bodegaSelect = document.getElementById("select_bodega");
-    const transportadoraValue = transportadoraSelect.value;
+   // const transportadoraValue = transportadoraSelect.value;
     const bodegaValue = bodegaSelect.value;
 
-    if (transportadoraValue !== "") {
+   
       if (bodegaValue !== "") {
         const url =
           SERVERURL +
-          `despacho/despacho?transportadora=${transportadoraValue}&bodega=${bodegaValue}`;
+          `despacho/despacho_producto?bodega=${bodegaValue}`;
         window.location.href = url;
       } else {
         toastr.error("Por favor selecciona una bodega.", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       }
-    } else {
-      toastr.error("Por favor selecciona una transportadora.", "NOTIFICACIÓN", {
-        positionClass: "toast-bottom-center",
-      });
-    }
+    
   });
 
 window.addEventListener("load", async () => {
