@@ -52,7 +52,7 @@ function ejecutarDespacho() {
     }
 
     // Asignar el número incremental al campo 'numeroGuia'
-    numeroGuia = `${numeroGuia}-${contadorGuias}`;
+    numeroGuia = `${numeroGuia}`;
 
     let formData = new FormData();
     formData.append("bodega", bodega);
