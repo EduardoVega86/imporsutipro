@@ -4,7 +4,7 @@ require_once 'PHPMailer/PHPMailer.php';
 require_once 'PHPMailer/SMTP.php';
 require_once 'PHPMailer/Exception.php';
 
-require_once 'AccesoModel.php';
+require_once 'Models/AccesoModel.php';
 
 class SwaggerModel extends Query
 {
@@ -18,10 +18,10 @@ class SwaggerModel extends Query
     {
         try {
 
-            // 2. Instanciar la clase AccesoModel
+            // Instanciamos la clase AccesoModel para no reescribirla
             $accesoModel = new AccesoModel();
 
-            // 3. Llamar al método registro del AccesoModel
+            // Llamamos al método registro del AccesoModel
             $response = $accesoModel->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
 
             // Manejo de la respuesta según tus necesidades
