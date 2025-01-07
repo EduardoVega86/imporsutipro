@@ -34,20 +34,4 @@ class Swagger extends Controller
         header('Content-Type: application/json');
         echo $openapi->toJson();
     }
-
-    private function logRequest($endpoint, $method, $body)
-    {
-        $logData = [
-            'endpoint' => $endpoint,
-            'method' => $method,
-            'body' => $body,
-            'ip_address' => $_SERVER['REMOTE_ADDR'],
-            'user_agent' => $_SERVER['HTTP_USER_AGENT'],
-            'timestamp' => date('Y-m-d H:i:s'),
-        ];
-
-        // Guardar en un archivo o base de datos
-        $logFile = __DIR__ . '/../../api_requests ' . date('Y-m-d HH:ii:ss') . '.log';
-        file_put_contents($logFile, json_encode($logData) . PHP_EOL, FILE_APPEND);
-    }
 }
