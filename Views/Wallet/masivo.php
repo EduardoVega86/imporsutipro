@@ -191,6 +191,15 @@
                         <div class="grid grid-cols-2 items-center">
                             <span class="text-xs font-bold">Venta:</span>
                              <p class="font-thin text-xs">${dato.total_venta}</p>
+                             
+                            <span class="text-xs font-bold">Costo:</span>
+                             <p class="font-thin text-xs">${dato.costo}</p>
+
+                             <span class="text-xs font-bold">Envio:</span>
+                             <p class="font-thin text-xs">${dato.precio_envio}</p>
+
+                            <span class="text-xs font-bold">Peso:</span>
+                            <p class="font-thin text-xs">${peso}</p>
                         </div>
                     </td>
                     <td class="px-4 py-2 text-nowrap">${dato.monto_recibir}</td>

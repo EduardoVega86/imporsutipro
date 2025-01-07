@@ -423,14 +423,18 @@ class ProductosModel extends Query
         $editar_producto = $this->update($sql, $data);
 
         if ($inv_producto == 1) {
-            if ($producto_variable === 0) {
+           // echo 'as'.$producto_variable;
+            if ($producto_variable == 0) {
+
                 $sql = "UPDATE inventario_bodegas SET sku = ?, id_producto = ?, id_variante = ?, bodega = ?, pcp = ?, pvp = ?, pref = ?, stock_inicial = ?, saldo_stock = ? , envio_prioritario = ? WHERE id_producto = ? AND id_plataforma = ?";
+              // echo 'entra';
                 $data = [$codigo_producto, $id, 0, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $envio_prioritario, $id, $plataforma];
             } else {
             //    $sql = "UPDATE inventario_bodegas SET sku = ?, id_producto = ?, id_variante = ?, bodega = ?, pcp = ?, pvp = ?, pref = ?, stock_inicial = ?, saldo_stock = ?, envio_prioritario = ? WHERE id_producto = ? AND id_plataforma = ?";
             //   $data = [$codigo_producto, $id, $producto_variable, $bodega, $pcp, $pvp, $pref, $stock_inicial, $stock_inicial, $envio_prioritario, $id, $plataforma];
             }
             $editar_producto_ = $this->update($sql, $data);
+           // print_r($editar_producto_);
         } else {
             $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma limit 1";
             $bodega = $this->select($sql_bodega);
