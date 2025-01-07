@@ -567,6 +567,42 @@ class InventariosModel extends Query
         return $response;
     }
 
+
+    public function despacho_producto($sku, $plataforma, $bodega)
+    {
+
+        $response = $this->initialResponse();
+
+        $sql_producto = "SELECT * FROM inventario_bodegas ib, productos p WHERE sku = '$sku' and bodega=$bodega and ib.id_plataforma = $plataforma and p.id_producto=ib.id_producto";
+       //echo $sql_producto;
+        //echo $sql_factura;
+        $producto = $this->select($sql_producto);
+      //  $producto = $this->select($sql_producto);
+       // print_r($producto);
+        if (count($producto) > 0) {
+            if (count($producto) > 1) {
+                //print_r($producto);
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'El sku del producto esta mal configurado verifique y vuelva a intentarlo';
+            }  else{
+                $nombre = $producto[0]['nombre_producto'];
+                $id_inventario = $producto[0]['id_inventario'];
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['producto'] = $nombre;
+                $response['id_inventario'] = $id_inventario;
+                $response['message'] = 'Despacho Exitoso';
+
+        } 
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'No se encuentra el producto';
+        }
+        return $response;
+    }
+
     public function devolucion_guia($num_guia, $plataforma)
     {
 

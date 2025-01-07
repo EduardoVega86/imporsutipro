@@ -110,6 +110,17 @@ class Inventarios extends Controller
         // print_r($response);
         echo json_encode($response);
     }
+
+    public function generarDespachoProducto($num_guia)
+    {
+       
+      
+        $bodega= $_POST['bodega'];
+       $response = $this->model->despacho_producto($num_guia, $_SESSION['id_plataforma'], $bodega);
+        // print_r($response);
+        echo json_encode($response);
+    }
+
      public function generarDevolucion($num_guia)
     {
        
