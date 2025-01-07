@@ -27,11 +27,12 @@
 
 
 <div class="full-screen-container">
-    <h1>Despacho de productos</h1>
+   
     <div class="container-flex">
         <!-- Sección del formulario (izquierda) -->
         <div class="form-container">
             <div class="form-group">
+            <h1>Despacho de productos</h1>
                 <label for="numeroGuia">Escanee los productos que desea despachar</label>
                 <input type="text" id="numeroGuia" class="form-control" placeholder="Coloca el cursor aquí">
             </div>
