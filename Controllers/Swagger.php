@@ -20,7 +20,7 @@ class Swagger extends Controller
         parent::__construct();
     }
 
-    public function swagger()
+    public function index()
     {
         $this->views->render($this, "index");
     }
