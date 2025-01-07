@@ -578,7 +578,7 @@ class InventariosModel extends Query
         //echo $sql_factura;
         $producto = $this->select($sql_producto);
       //  $producto = $this->select($sql_producto);
-        print_r($producto);
+       // print_r($producto);
         if (count($producto) > 0) {
             if (count($producto) > 1) {
                 //print_r($producto);
