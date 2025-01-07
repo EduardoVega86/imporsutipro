@@ -4,7 +4,7 @@ require_once 'PHPMailer/PHPMailer.php';
 require_once 'PHPMailer/SMTP.php';
 require_once 'PHPMailer/Exception.php';
 
-require 'vendor/autoload.php';
+require_once 'AccesoModel.php';
 
 class SwaggerModel extends Query
 {
