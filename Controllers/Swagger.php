@@ -31,7 +31,7 @@ class Swagger extends Controller
      *    path="/swagger/registro",
      *   tags={"Usuarios"},
      *  summary="Registro de usuarios",
-     * description="Registro de usuarios",
+     * description="Endpoint utilizado para el registro de usuarios",
      * @OA\RequestBody(
      *   required=true,
      *  @OA\MediaType(
@@ -116,7 +116,7 @@ class Swagger extends Controller
      *      path="/swagger/login",
      *      tags={"Usuarios"},
      *      summary="Inicio de sesión",
-     *      description="Inicio de sesión",
+     *      description="Endpoint utilizado para el inicio de sesión de los usuarios",
      *          @OA\RequestBody(
      *          required=true,
      *              @OA\MediaType(
