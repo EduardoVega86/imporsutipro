@@ -27,47 +27,6 @@ class Swagger extends Controller
     }
 
 
-    /**
-     * @OA\Get(
-     *   path="/swagger/pedidos",
-     *  tags={"Pedidos"},
-     * summary="Obtener pedidos",
-     * description="Obtener pedidos por plataforma",
-     * @OA\Parameter(
-     *  name="uuid",
-     * in="query",
-     * description="UUID de la plataforma",
-     * required=true,
-     * @OA\Schema(
-     * type="string"
-     * )
-     * ),
-     * @OA\Response(
-     * response=200,
-     * description="Pedidos obtenidos"
-     * ),
-     * @OA\Response(
-     * response=400,
-     * description="Error al obtener pedidos"
-     * )
-     * )
-     */
-    public function pedidos($uuid)
-    {
-        try {
-            $this->logRequest('api/pedidos', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
-            $response = $this->model->getPedidos($uuid);
-            if ($response['status'] === 200) {
-                http_response_code(200);
-            } else {
-                http_response_code(400);
-            }
-            echo json_encode($response);
-        } catch (Exception $e) {
-            http_response_code(500);
-            echo json_encode(['status' => 500, 'message' => 'Error interno del servidor', 'error' => $e->getMessage()]);
-        }
-    }
 
     public function docs()
     {
