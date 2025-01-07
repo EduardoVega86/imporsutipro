@@ -55,7 +55,7 @@
 
         $.ajax({
             type: "POST",
-            url: SERVERURL + "Inventarios/generarDespacho/" + numeroGuia,
+            url: SERVERURL + "Inventarios/generarDespachoProducto/" + numeroGuia,
             data: formData,
             processData: false, // No procesar los datos
             contentType: false, // No establecer ningún tipo de contenido

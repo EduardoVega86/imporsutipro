@@ -567,6 +567,40 @@ class InventariosModel extends Query
         return $response;
     }
 
+
+    public function despacho_producto($sku, $plataforma, $bodega)
+    {
+
+        $response = $this->initialResponse();
+
+        $sql_producto = "SELECT * FROM inventario_bodegas WHERE sku = '$sku' and bodega=$bodega and plataforma = $plataforma ";
+        //echo $sql_factura;
+        //echo $sql_factura;
+        $producto = $this->select($sql_producto);
+        if (count($producto) > 0) {
+            if (count($producto) > 1) {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'El sku del producto esta mal configurado verifique y vuelva a intentarlo';
+            }  else{
+            $id_factura = $factura[0]['id_factura'];
+            $estado_factura = $factura[0]['estado_factura'];
+
+            $sql_plataforma_bodega = "SELECT b.id_plataforma FROM `detalle_fact_cot` dfc, inventario_bodegas  ib, bodega b where ib.bodega=b.id and id_factura=$id_factura and dfc.id_inventario=ib.id_inventario GROUP by bodega";
+            // echo $sql_plataforma_bodega;
+            //echo $sql_factura;$id_factura
+            $plataforma_bodega = $this->select($sql_plataforma_bodega);
+            $id_plataforma_bodega = $plataforma_bodega[0]['id_plataforma'];
+
+        } 
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'No se encuentra el producto';
+        }
+        return $response;
+    }
+
     public function devolucion_guia($num_guia, $plataforma)
     {
 
