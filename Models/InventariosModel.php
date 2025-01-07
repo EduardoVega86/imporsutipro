@@ -579,6 +579,7 @@ class InventariosModel extends Query
         $producto = $this->select($sql_producto);
         if (count($producto) > 0) {
             if (count($producto) > 1) {
+                print_r($producto);
                 $response['status'] = 500;
                 $response['title'] = 'Error';
                 $response['message'] = 'El sku del producto esta mal configurado verifique y vuelva a intentarlo';
