@@ -32,7 +32,7 @@
         <!-- Sección del formulario (izquierda) -->
         <div class="form-container">
             <div class="form-group">
-            <h1>Despacho de productos</h1>
+            <h1>Despacho de producto</h1>
                 <label for="numeroGuia">Escanee los productos que desea despachar</label>
                 <input type="text" id="numeroGuia" class="form-control" placeholder="Coloca el cursor aquí">
             </div>
