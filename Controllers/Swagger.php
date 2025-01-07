@@ -10,7 +10,6 @@ use OpenApi\Annotations as OA;
  *       @OA\Contact(
  *           email="jjara@imporfactorylatam.com"
  *       )
- *   )
  * )
  */
 
