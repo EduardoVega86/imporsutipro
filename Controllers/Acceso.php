@@ -1,6 +1,9 @@
 <?php
+
 require 'vendor/autoload.php';
 
+use FontLib\Table\Type\head;
+use OpenApi\Annotations as OA;
 
 class Acceso extends Controller
 {
@@ -14,6 +17,7 @@ class Acceso extends Controller
         $this->views->render($this, "recovery");
     }
 
+    ///Funciones
     /**
      * @OA\Post(
      *      path="/swagger/login",
