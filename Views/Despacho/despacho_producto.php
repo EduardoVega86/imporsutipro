@@ -3,9 +3,9 @@
 
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4" style="margin-right: 20px;">
-        <h1>Despacho de guías <span id="nombre_transportadora"></span></h1>
+        <h1>Despacho de producto </span></h1>
         <div class="form-group">
-            <label for="numeroGuia">Número de Guía</label>
+            <label for="numeroGuia">Escanee los productos que desea despachar</label>
             <input type="text" id="numeroGuia" placeholder="Coloca el cursor aquí antes de">
         </div>
         <button id="despachoBtn" class="btn btn-success">Despacho</button>
