@@ -223,33 +223,45 @@
     document.getElementById('despachoBtn').addEventListener('click', ejecutarDespacho);
 
     document.getElementById('generarImpresionBtn').addEventListener('click', function () {
-        var productos = [];
-var filas = document.querySelectorAll('#guidesTable tbody tr');
-filas.forEach(function (fila) {
-    var id_inventario = fila.querySelector('.id_inventario').textContent.trim();
-    var sku = fila.querySelector('.sku').textContent.trim();
-    var nombreProducto = fila.cells[2].textContent.trim();
-    var cantidad = fila.querySelector('.cantidad-input').value.trim();
-    productos.push({ id_inventario, sku, nombreProducto, cantidad });
+    var productos = [];
+    var filas = document.querySelectorAll('#guidesTable tbody tr');
+
+    // Recorre las filas de la tabla
+    filas.forEach(function (fila) {
+        var id_inventario = fila.querySelector('.id_inventario').textContent.trim();
+        var sku = fila.querySelector('.sku').textContent.trim();
+        var nombreProducto = fila.cells[2].textContent.trim();
+        var cantidad = fila.querySelector('.cantidad-input').value.trim();
+        productos.push({ id_inventario, sku, nombreProducto, cantidad });
+    });
+
+    // Crear el JSON incluyendo la bodega
+    var datos = {
+        bodega: getParameterByName('bodega'), // Obtén la bodega desde el parámetro de la URL
+        productos: productos,
+    };
+
+    var datosJSON = JSON.stringify(datos);
+
+    console.log('Datos enviados:', datosJSON); // Verifica en la consola antes de enviar
+
+    // Enviar la solicitud al servicio web
+    $.ajax({
+        url: '/Manifiestos/generarSalidaProducto', // Cambia la URL al endpoint correcto
+        type: 'POST',
+        contentType: 'application/json', // Indicamos que enviamos JSON
+        data: datosJSON, // Enviamos el JSON completo
+        success: function (response) {
+            console.log('Respuesta del servidor:', response);
+            alert('Productos enviados correctamente');
+        },
+        error: function (xhr, status, error) {
+            console.error('Error al enviar los datos:', error);
+            alert('Hubo un problema al enviar los productos');
+        },
+    });
 });
 
-var productosJSON = JSON.stringify(productos);
-
-$.ajax({
-    url: '/Manifiestos/generarSalidaProducto',
-    type: 'POST',
-    contentType: 'application/json', // Indicamos que enviamos JSON
-    data: productosJSON, // Enviamos directamente el JSON
-    success: function (response) {
-        console.log('Respuesta del servidor:', response);
-        alert('Productos enviados correctamente');
-    },
-    error: function (xhr, status, error) {
-        console.error('Error al enviar los datos:', error);
-        alert('Hubo un problema al enviar los productos');
-    },
-});
-});
 
 </script>
 

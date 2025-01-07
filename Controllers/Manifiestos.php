@@ -78,41 +78,34 @@ class Manifiestos extends Controller
     $jsonInput = file_get_contents('php://input');
     
     // Decodificar el JSON
-    $arreglo = json_decode($jsonInput, true);
+    $datos = json_decode($jsonInput, true);
 
-    // Verificar que el JSON fue recibido y decodificado correctamente
-    if (!$arreglo || !is_array($arreglo)) {
-        echo json_encode(['error' => 'Datos inválidos']);
+    // Verificar que los datos son válidos
+    if (!$datos || !isset($datos['bodega']) || !isset($datos['productos'])) {
+        echo json_encode(['error' => 'Datos inválidos o incompletos']);
         return;
     }
 
-    // Supongo que "bodega" también se incluye en el JSON enviado
-    $bodega = $_POST['bodega'] ?? null;
+    // Extraer bodega y productos
+    $bodega = $datos['bodega'];
+    $productos = $datos['productos'];
 
-    if (!$bodega) {
-        echo json_encode(['error' => 'Bodega no especificada']);
-        return;
-    }
-
-    // Procesar los datos
-    if (count($arreglo) > 0) {
+    if (count($productos) > 0) {
         $id_cabecera = $this->model->guardarCabecera($bodega, $transportadora, $_SESSION['id_plataforma']);
 
         $resultados = [];
-        foreach ($arreglo as $producto) {
-            // Aquí esperas recibir "id_inventario", "sku", "nombreProducto" y "cantidad"
+        foreach ($productos as $producto) {
             $resultado = $this->model->despacho_guia($producto, $_SESSION['id_plataforma'], $id_cabecera);
             $resultados[] = $resultado;
         }
 
-        // Generar el manifiesto
-        $html = $this->model->generarManifiestoGuias($arreglo, $id_cabecera, $transportadora);
-
+        $html = $this->model->generarManifiestoGuias($productos, $id_cabecera, $transportadora);
         echo json_encode($html);
     } else {
         echo json_encode(['error' => 'No se encontraron productos para procesar']);
     }
 }
+
 
     public function generarManifiestoDevolucion()
     {
