@@ -52,7 +52,7 @@
         let formData = new FormData();
         //formData.append("transportadora", transportadora);
         formData.append("bodega", bodega);
-alert();
+//alert();
         $.ajax({
             type: "POST",
             url: SERVERURL + "Inventarios/generarDespachoProducto/" + numeroGuia,
