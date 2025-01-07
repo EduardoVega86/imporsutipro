@@ -74,10 +74,10 @@ class Manifiestos extends Controller
     
     public function generarSalidaProducto()
     {
-        $arreglo = $_POST['guias'];
+        $arreglo = $_POST['productosJSON'];
         // $transportadora = $_POST['transportadora'];
         $arreglo = json_decode($arreglo, true);
-        $transportadora = $_POST['transportadora'];
+        //$transportadora = $_POST['transportadora'];
         $bodega = $_POST['bodega'];
         // echo count($arreglo);
         if (count($arreglo) > 0) {

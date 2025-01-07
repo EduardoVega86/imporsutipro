@@ -105,9 +105,11 @@
         <table id="guidesTable" class="table table-bordered">
             <thead>
                 <tr>
+                <th>ID</th>
                     <th>SKU</th>
                     <th>Nombre del Producto</th>
                     <th>Cantidad</th>
+                    
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -156,8 +158,9 @@
                     });
 
                     let sku = response.sku || numeroGuia;
+                    let id_inventario = response.id_inventario || id_inventario;
                     let nombreProducto = response.producto || "Producto genérico";
-                    agregarProductoATabla(sku, nombreProducto);
+                    agregarProductoATabla(sku, nombreProducto, id_inventario);
                 }
             },
             error: function(xhr, status, error) {
@@ -167,7 +170,7 @@
         });
     }
 
-    function agregarProductoATabla(sku, nombreProducto) {
+    function agregarProductoATabla(sku, nombreProducto, id_inventario) {
         var tableBody = document.querySelector('#guidesTable tbody');
 
         var filas = document.querySelectorAll('#guidesTable tbody tr');
@@ -186,6 +189,7 @@
 
         var nuevaFila = document.createElement('tr');
         nuevaFila.innerHTML = `
+         <td class="sku">${id_inventario}</td>
             <td class="sku">${sku}</td>
             <td>${nombreProducto}</td>
             <td>
