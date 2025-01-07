@@ -146,13 +146,34 @@ class Swagger extends Controller
 
     public function login()
     {
-        $data = json_decode(file_get_contents("php://input"), true);
+        try {
+            $this->logRequest('api/login', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
 
-        $correo = $data['correo'];
-        $contrasena = $data['contrasena'];
-        $response = $this->model->login($correo, $contrasena);
-
-        echo json_encode($response);
+            if (!$data) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
+                return;
+            }
+            $data = $data["customData"];
+            $correo = $data['correo'] ?? null;
+            $contrasena = $data['contrasena'] ?? null;
+            if (!$correo || !$contrasena) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
+            $response = $this->model->login($correo, $contrasena);
+            if ($response['status'] === 200) {
+                http_response_code(200);
+            } else {
+                http_response_code(400);
+            }
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['status' => 500, 'message' => 'Error interno del servidor', 'error' => $e->getMessage()]);
+        }
     }
 
     /**
