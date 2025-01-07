@@ -22,6 +22,7 @@
                         <th class="centered"># Orden</th>
                         <th class="centered">Detalle</th>
                         <th class="centered">Cliente</th>
+                        <th class="centered">Contiene</th>
                         <th class="centered">Destino</th>
                         <th class="centered">Tienda</th>
                         <th class="centered">Estado Pedido</th>
@@ -33,5 +34,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL?>/Views/Pedidos/js/historial.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/historial.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>

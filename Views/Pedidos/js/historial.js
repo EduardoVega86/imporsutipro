@@ -134,6 +134,7 @@ const listHistorialPedidos = async () => {
                         <div>${historialPedido.c_principal} - ${historialPedido.c_secundaria}</div>
                         <div>telf: ${historialPedido.telefono}</div>
                     </td>
+                    <td>${historialPedido.contiene}</td>
                     <td>${historialPedido.provinciaa}-${ciudad}</td>
                     <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${historialPedido.plataforma}')">${plataforma}</span></td>
                     <td>
