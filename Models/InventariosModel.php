@@ -574,7 +574,7 @@ class InventariosModel extends Query
         $response = $this->initialResponse();
 
         $sql_producto = "SELECT * FROM inventario_bodegas WHERE sku = '$sku' and bodega=$bodega and id_plataforma = $plataforma ";
-        echo $sql_producto;
+       // echo $sql_producto;
         //echo $sql_factura;
         $producto = $this->select($sql_producto);
         if (count($producto) > 0) {
