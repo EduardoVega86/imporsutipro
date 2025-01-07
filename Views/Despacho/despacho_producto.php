@@ -13,8 +13,7 @@
 
     .custom-container-fluid,
     .guides-list-container {
-        width: 100%; /* Asegura que se ajuste al ancho disponible */
-        max-width: 800px; /* Limita el ancho máximo */
+     
         margin-bottom: 20px; /* Espacio entre secciones */
     }
 
