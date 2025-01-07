@@ -3,19 +3,10 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Lista Despacho</h2>
+        <h2 class="text-center mb-4">Lista Despacho Productos</h2>
         <div>
             <div class="selects">
-                <div class="form-group">
-                    <label for="transportadora">Transportadora:</label>
-                    <select class="form-select" id="transportadora">
-                        <option value=""> Seleccione Transportadora</option>
-                        <option value="1">Laar</option>
-                        <option value="4">Speed</option>
-                        <option value="2">Servientrega</option>
-                        <option value="3">Gintracom</option>
-                    </select>
-                </div>
+            
                 <div class="form-group" id="bodega-field">
                     <label for="bodega">Bodega:</label>
                     <select class="form-select" id="select_bodega">
