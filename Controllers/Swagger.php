@@ -4,7 +4,7 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\OpenApi(
- *   openapi="2.0.0",
+ *   openapi="3.0.0",
  *   @OA\Info(
  *       title="Documentación de la API Externa",
  *       version="1.0.0",
