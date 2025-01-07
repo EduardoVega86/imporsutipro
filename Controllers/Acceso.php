@@ -1,6 +1,7 @@
 <?php
 
 use FontLib\Table\Type\head;
+use OpenApi\Annotations as OA;
 
 class Acceso extends Controller
 {
@@ -15,6 +16,39 @@ class Acceso extends Controller
     }
 
     ///Funciones
+    /**
+     * @OA\Post(
+     *      path="/swagger/login",
+     *      tags={"Usuarios"},
+     *      summary="Inicio de sesión",
+     *      description="Inicio de sesión",
+     *          @OA\RequestBody(
+     *          required=true,
+     *              @OA\MediaType(
+     *              mediaType="application/json",
+     *                  @OA\Schema(
+     *                      @OA\Property(
+     *                      property="correo",
+     *                      type="string"
+     *                  ),
+     *                  @OA\Property(
+     *                  property="contrasena",
+     *                  type="string"
+     *                  )
+     *              )
+     *        )
+     * ),
+     * @OA\Response(
+     *      response=200,
+     *      description="Inicio de sesión exitoso"
+     * ),
+     * @OA\Response(
+     *      response=400,
+     *      description="Error en el inicio de sesión"
+     * )
+     * )
+     */
+
     public function login()
     {
         $data = json_decode(file_get_contents("php://input"), true);
