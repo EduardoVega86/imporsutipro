@@ -19,6 +19,7 @@
     </div>
 </div>
 
+
 <script>
     // Función para obtener el valor de un parámetro de la URL
     function getParameterByName(name) {
