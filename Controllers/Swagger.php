@@ -32,7 +32,7 @@ class Swagger extends Controller
     {
         // Escanea SOLO este archivo
         // (lo ideal sería escanear todo el directorio con anotaciones)
-        $openapi = \OpenApi\Generator::scan([__DIR__ . "/Swagger.php"]);
+        $openapi = \OpenApi\Generator::scan([__DIR__]);
         header('Content-Type: application/json');
         echo $openapi->toJson();
     }
