@@ -20,6 +20,7 @@
                 <th>Cantidad</th>
                 <th>Acciones</th>
             </tr>
+            
         </thead>
         <tbody>
             <!-- Filas dinámicas se agregarán aquí -->
