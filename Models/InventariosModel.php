@@ -573,20 +573,21 @@ class InventariosModel extends Query
 
         $response = $this->initialResponse();
 
-        $sql_producto = "SELECT * FROM inventario_bodegas WHERE sku = '$sku' and bodega=$bodega and id_plataforma = $plataforma ";
+        $sql_producto = "SELECT * FROM inventario_bodegas ib, productos p WHERE sku = '$sku' and bodega=$bodega and ib.id_plataforma = $plataforma and p.id_producto=ib.id_producto";
        // echo $sql_producto;
         //echo $sql_factura;
         $producto = $this->select($sql_producto);
         if (count($producto) > 0) {
             if (count($producto) > 1) {
-                print_r($producto);
+                //print_r($producto);
                 $response['status'] = 500;
                 $response['title'] = 'Error';
                 $response['message'] = 'El sku del producto esta mal configurado verifique y vuelva a intentarlo';
             }  else{
-
+                $nombre = $producto['nombre'];
                 $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
+                $response['producto'] = 'Peticion exitosa';
                 $response['message'] = 'Despacho Exitoso';
 
         } 
