@@ -3,12 +3,15 @@
 use OpenApi\Annotations as OA;
 
 /**
- * @OA\Info(
- *     title="Documentación de la API Externa",
- *     version="1.0.0",
- *     description="Documentación de la API generada con Swagger | Ante cualquier duda, contactar con el administrador",
- *    @OA\Contact(
- *        email="jjara@imporfactorylatam.com"
+ * @OA\OpenApi(
+ *   openapi="3.0.0",
+ *   @OA\Info(
+ *       title="Documentación de la API Externa",
+ *       version="1.0.0",
+ *       description="Documentación generada con swagger-php para OpenAPI",
+ *       @OA\Contact(
+ *           email="jjara@imporfactorylatam.com"
+ *       )
  *   )
  * )
  */
