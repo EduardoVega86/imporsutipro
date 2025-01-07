@@ -584,10 +584,10 @@ class InventariosModel extends Query
                 $response['title'] = 'Error';
                 $response['message'] = 'El sku del producto esta mal configurado verifique y vuelva a intentarlo';
             }  else{
-                $nombre = $producto['nombre'];
+                $nombre = $producto['nombre_producto'];
                 $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
-                $response['producto'] = 'Peticion exitosa';
+                $response['producto'] = $nombre;
                 $response['message'] = 'Despacho Exitoso';
 
         } 
