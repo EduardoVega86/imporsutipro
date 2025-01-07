@@ -423,7 +423,7 @@ class ProductosModel extends Query
         $editar_producto = $this->update($sql, $data);
 
         if ($inv_producto == 1) {
-            //echo $producto_variable;
+            echo 'as'.$producto_variable;
             if ($producto_variable == 0) {
 
                 $sql = "UPDATE inventario_bodegas SET sku = ?, id_producto = ?, id_variante = ?, bodega = ?, pcp = ?, pvp = ?, pref = ?, stock_inicial = ?, saldo_stock = ? , envio_prioritario = ? WHERE id_producto = ? AND id_plataforma = ?";
