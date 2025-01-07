@@ -3,6 +3,19 @@ require 'vendor/autoload.php';
 
 use OpenApi\Annotations as OA;
 
+
+/**
+ * @OA\Server(
+ *     url="https://new.imporsuitpro.com/",
+ *     description="Servidor de Producción"
+ * )
+ * @OA\Server(
+ *     url="https://desarrollo.imporsuitpro.com/",
+ *     description="Servidor de Desarrollo"
+ * )
+ */
+
+
 /**
  * @OA\Info(
  *     title="Documentación de la API Externa",
@@ -20,6 +33,17 @@ class Swagger extends Controller
     {
         parent::__construct();
     }
+    /**
+     * @OA\Get(
+     *     path="/swagger/",
+     *     summary="Indice de Swagger",
+     *     tags={"Swagger"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Operación exitosa"
+     *     )
+     * )
+     */
 
     public function index()
     {
@@ -29,6 +53,8 @@ class Swagger extends Controller
 
     public function docs()
     {
+
+
         $openapi = \OpenApi\Generator::scan([__DIR__]);
         header('Content-Type: application/json');
         echo $openapi->toJson();
