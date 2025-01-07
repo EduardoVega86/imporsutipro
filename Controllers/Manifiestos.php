@@ -73,35 +73,46 @@ class Manifiestos extends Controller
     }
     
     public function generarSalidaProducto()
-    {
-        $arreglo = $_POST['productosJSON'];
-        // $transportadora = $_POST['transportadora'];
-        $arreglo = json_decode($arreglo, true);
-        //$transportadora = $_POST['transportadora'];
-        $bodega = $_POST['bodega'];
-        // echo count($arreglo);
-        if (count($arreglo) > 0) {
-            $id_cabecera =    $this->model->guardarCabecera($bodega, $transportadora, $_SESSION['id_plataforma']);
-            // echo $id_cabecera;
-            $resultados = [];
-            foreach ($arreglo as $guia) {
-                // Llama a la función del modelo para cada guía
-                $resultado = $this->model->despacho_guia($guia, $_SESSION['id_plataforma'],  $id_cabecera);
-                // Puedes almacenar los resultados si es necesario
-                $resultados[] = $resultado;
-            }
-            // print_r($resultados);
+{
+    // Leer el JSON desde el cuerpo de la solicitud
+    $jsonInput = file_get_contents('php://input');
+    
+    // Decodificar el JSON
+    $arreglo = json_decode($jsonInput, true);
 
+    // Verificar que el JSON fue recibido y decodificado correctamente
+    if (!$arreglo || !is_array($arreglo)) {
+        echo json_encode(['error' => 'Datos inválidos']);
+        return;
+    }
 
-            $html =    $this->model->generarManifiestoGuias($arreglo, $id_cabecera, $transportadora);
+    // Supongo que "bodega" también se incluye en el JSON enviado
+    $bodega = $_POST['bodega'] ?? null;
+
+    if (!$bodega) {
+        echo json_encode(['error' => 'Bodega no especificada']);
+        return;
+    }
+
+    // Procesar los datos
+    if (count($arreglo) > 0) {
+        $id_cabecera = $this->model->guardarCabecera($bodega, $transportadora, $_SESSION['id_plataforma']);
+
+        $resultados = [];
+        foreach ($arreglo as $producto) {
+            // Aquí esperas recibir "id_inventario", "sku", "nombreProducto" y "cantidad"
+            $resultado = $this->model->despacho_guia($producto, $_SESSION['id_plataforma'], $id_cabecera);
+            $resultados[] = $resultado;
         }
-        //print_r($arreglo);
-        //devuelve el html
-        // Itera sobre cada elemento del arreglo
 
+        // Generar el manifiesto
+        $html = $this->model->generarManifiestoGuias($arreglo, $id_cabecera, $transportadora);
 
         echo json_encode($html);
+    } else {
+        echo json_encode(['error' => 'No se encontraron productos para procesar']);
     }
+}
 
     public function generarManifiestoDevolucion()
     {
