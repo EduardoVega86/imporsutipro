@@ -28,7 +28,7 @@ class Swagger extends Controller
 
     /**
      * @OA\Post(
-     *    path="/api/registro",
+     *    path="/swagger/registro",
      *   tags={"Usuarios"},
      *  summary="Registro de usuarios",
      * description="Registro de usuarios",
@@ -78,7 +78,7 @@ class Swagger extends Controller
     public function registro()
     {
         try {
-            $this->logRequest('api/registro', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $this->logRequest('swagger/registro', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
             $data = json_decode(file_get_contents("php://input"), true);
 
             if (!$data) {
@@ -113,7 +113,7 @@ class Swagger extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/login",
+     *      path="/swagger/login",
      *      tags={"Usuarios"},
      *      summary="Inicio de sesión",
      *      description="Inicio de sesión",
@@ -178,7 +178,7 @@ class Swagger extends Controller
 
     /**
      * @OA\Get(
-     *   path="/api/pedidos",
+     *   path="/swagger/pedidos",
      *  tags={"Pedidos"},
      * summary="Obtener pedidos",
      * description="Obtener pedidos por plataforma",
