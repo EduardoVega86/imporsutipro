@@ -27,7 +27,7 @@
 
 
 <div class="full-screen-container">
-    <h1>Despacho de producto</h1>
+    <h1>Despacho de productos</h1>
     <div class="container-flex">
         <!-- Sección del formulario (izquierda) -->
         <div class="form-container">
