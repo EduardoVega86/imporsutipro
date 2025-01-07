@@ -1,4 +1,5 @@
 <?php
+require 'vendor/autoload.php';
 
 use FontLib\Table\Type\head;
 use OpenApi\Annotations as OA;
