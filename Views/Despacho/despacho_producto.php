@@ -2,8 +2,34 @@
 <?php require_once './Views/Despacho/css/despacho_style.php'; ?>
 
 <style>
-  
+    .full-screen-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centrar horizontalmente */
+        padding: 20px;
+        min-height: 100vh; /* Asegurar altura completa */
+    }
+
+    .custom-container-fluid {
+        width: 100%;
+        max-width: 800px; /* Limitar el ancho del formulario */
+        margin-bottom: 20px; /* Espaciado con la tabla */
+    }
+
+    .guides-list-container {
+        width: 100%;
+        max-width: 800px; /* Limitar el ancho de la tabla */
+    }
+
+    .table {
+        margin-top: 10px;
+    }
+
+    .cantidad-input {
+        max-width: 80px; /* Limitar el tamaño del input de cantidad */
+    }
 </style>
+
 
 
 <div class="full-screen-container">
