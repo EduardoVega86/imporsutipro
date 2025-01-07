@@ -35,7 +35,8 @@
     // Obtener el valor del parámetro "bodega"
     var bodega = getParameterByName('bodega');
 
-    var contadorGuias = 1;
+    // Declarar un contador global para los números de guía en el listado
+var contadorGuiasListado = 1;
 
 function ejecutarDespacho() {
     var numeroGuia = document.getElementById('numeroGuia').value;
@@ -50,9 +51,6 @@ function ejecutarDespacho() {
             return; // No agregar la guía si ya existe
         }
     }
-
-    // Asignar el número incremental al campo 'numeroGuia'
-    numeroGuia = `${numeroGuia}`;
 
     let formData = new FormData();
     formData.append("bodega", bodega);
@@ -76,8 +74,11 @@ function ejecutarDespacho() {
                 toastr.success("" + response.message, "NOTIFICACIÓN", {
                     positionClass: "toast-bottom-center",
                 });
-                agregarGuia(numeroGuia);
-                contadorGuias++; // Incrementar el contador después de un despacho exitoso
+
+                // Asignar número incremental al listado
+                let numeroGuiaConContador = `${numeroGuia}-${contadorGuiasListado}`;
+                agregarGuia(numeroGuiaConContador); // Agregar al listado con el contador
+                contadorGuiasListado++; // Incrementar el contador del listado
             }
         },
         error: function(xhr, status, error) {
@@ -86,6 +87,18 @@ function ejecutarDespacho() {
         },
     });
 }
+
+// Función para agregar la guía al listado
+function agregarGuia(numeroGuia) {
+    var guidesList = document.getElementById('guidesList');
+
+    var listItem = document.createElement('li');
+    listItem.className = 'list-group-item';
+    listItem.textContent = numeroGuia;
+
+    guidesList.appendChild(listItem);
+}
+
 
     // Función para agregar una guía a la lista
     function agregarGuia(numeroGuia) {
