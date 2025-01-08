@@ -326,7 +326,7 @@ class Swagger extends Controller
             $tienda = $data['tienda'] ?? null;
 
             // Log para verificar la tienda enviada
-            error_log("Tienda recibida: " . print_r($tienda, true));
+            print_r([$tienda]);
 
             // Verificación del dato requerido
             if (!$tienda) {
