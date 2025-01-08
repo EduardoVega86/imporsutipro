@@ -210,7 +210,7 @@ class Swagger extends Controller
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
             }
-            $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $id);
+            $response = $this->model->registro_referido($nombre, $correo, $pais, $telefono, $contrasena, $id);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
