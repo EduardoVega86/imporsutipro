@@ -48,7 +48,6 @@ class SwaggerModel extends Query
             $this->handleResponse($response);
         } catch (Exception $e) {
             // Manejo de la excepcion
-
             $this->handleException($e);
         }
     }
