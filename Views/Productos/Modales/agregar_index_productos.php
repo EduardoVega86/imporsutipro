@@ -263,7 +263,6 @@
             formData.append('envio_prioritario', 0);
             formData.append('inv_producto', $('#maneja-inventario').val());
             formData.append('producto_variable', $('#producto-variable').val());
-            formData.append('costo_producto', $('#costo').val());
             formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
             formData.append('estado_producto', 1); // Suponiendo que el estado es activo
             formData.append('date_added', new Date().toISOString().split('T')[0]);

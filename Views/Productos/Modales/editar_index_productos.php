@@ -175,7 +175,6 @@
             formData.append('id_linea_producto', $('#editar_categoria').val());
             formData.append('inv_producto', $('#editar_maneja_inventario').val());
             formData.append('producto_variable', $('#editar_producto_variable').val());
-            formData.append('costo_producto', $('#editar_ultimo_costo').val());
             formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
             formData.append('estado_producto', 1); // Suponiendo que el estado es activo
             formData.append('date_added', new Date().toISOString().split('T')[0]);
