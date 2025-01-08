@@ -204,7 +204,7 @@ class Swagger extends Controller
             $telefono = $data['telefono'] ?? null;
             $contrasena = $data['contrasena'] ?? null;
             $tienda = $data['tienda'] ?? null;
-            $id = $data['id'] ?? null;
+            $id = $data['id_plataforma'] ?? null;
             if (!$nombre || !$correo || !$pais || !$telefono || !$contrasena || !$tienda || !$id) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
