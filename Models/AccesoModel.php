@@ -375,6 +375,7 @@ class AccesoModel extends Query
             $response['status']  = 401;
             $response['title']   = 'Error';
             $response['message'] = 'Usuario no encontrado';
+
             return $response;
         }
 
@@ -469,6 +470,7 @@ class AccesoModel extends Query
         ]);
 
         // 9. Retornamos la respuesta final
+        print_r($response);
         return $response;
     }
 
