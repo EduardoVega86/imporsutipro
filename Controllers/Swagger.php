@@ -318,7 +318,7 @@ class Swagger extends Controller
     public function validarTiendas()
     {
         try {
-            $this->logRequest('api/validar_tiendas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $this->logRequest('api/validarTiendas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
             $data = json_decode(file_get_contents("php://input"), true);
             $tienda = $data['tienda'] ?? null;
 
