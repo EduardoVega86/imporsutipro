@@ -92,4 +92,16 @@ class SwaggerModel extends Query
             //$this->handleException($e);
         }
     }
+
+    public function recuperar_contrasena($correo)
+    {
+        try {
+            $response = $this->accesoModel->recuperar_contrasena($correo);
+
+            // Retornar la respuesta obtenida
+            return $response;
+        } catch (Exception $e) {
+            //$this->handleException($e);
+        }
+    }
 }

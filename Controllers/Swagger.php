@@ -359,15 +359,66 @@ class Swagger extends Controller
 
 
 
+    /**
+     * @OA\Post(
+     *     path="/swagger/recuperar_contrasena",
+     *     tags={"Usuarios"},
+     *     summary="Recuperación de contraseña",
+     *     description="Permite generar un token de recuperación y enviar un correo al usuario con un enlace para restablecer la contraseña.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="correo",
+     *                     type="string",
+     *                     description="Correo electrónico del usuario"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Correo enviado correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="El campo correo es requerido"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al procesar la solicitud"
+     *     )
+     * )
+     */
+    public function recuperar_contrasena()
+    {
+        try {
+            // Log de la solicitud para depuración
+            $this->logRequest('api/validar_tiendas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            // Obtener el cuerpo de la solicitud
+            $data = json_decode(file_get_contents("php://input"), true);
+            $correo = $data['correo'] ?? null;
 
+            // Validar que se envíe el correo
+            if (!$correo) {
+                echo json_encode([
+                    'status' => 400,
+                    'title' => 'Error',
+                    'message' => 'El campo correo es requerido'
+                ]);
+                return;
+            }
 
-
-
-
-
-
-
-
+            // Llamar al modelo para realizar la recuperación de contraseña
+            $response = $this->model->recuperar_contrasena($correo);
+            echo json_encode($response);
+        } catch (Exception $e) {
+            // Manejo de errores
+            $this->handleException($e);
+        }
+    }
 
 
 
