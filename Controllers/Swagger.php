@@ -116,28 +116,17 @@ class Swagger extends Controller
             $telefono = $data['telefono'] ?? null;
             $contrasena = $data['contrasena'] ?? null;
             $tienda = $data['tienda'] ?? null;
-
             if (!$nombre || !$correo || !$pais || !$telefono || !$contrasena || !$tienda) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
             }
-
             $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
-
-            // Validar la respuesta del modelo
-            if (!is_array($response) || !isset($response['status'])) {
-                http_response_code(500);
-                echo json_encode(['status' => 500, 'message' => 'Error inesperado en el servidor']);
-                return;
-            }
-
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
         }
     }
-
 
     /**
      * @OA\Post(

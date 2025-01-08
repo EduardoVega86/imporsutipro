@@ -48,128 +48,135 @@ class AccesoModel extends Query
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-
+        //Inicia la respuesta
         $response = $this->initialResponse();
 
-        try {
-            // Iniciar la transacción
-            $this->beginTransaction();
+        //Se general el usuario
+        $date_added       = date("Y-m-d H:i:s");
 
-            // Verificar si el usuario ya existe
-            $existeUsuario = $this->dselect("SELECT id_users FROM users WHERE email_users = ?", [$correo]);
-            if (!empty($existeUsuario)) {
-                throw new Exception("El usuario $correo ya existe en la base de datos.");
+        $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO users (nombre_users, email_users, con_users, usuario_users, date_added, cargo_users) VALUES (?, ?, ?, ?, ?, ?)";
+        //   echo $sql;
+        $data = [$nombre, $correo, $contrasena, $correo, $date_added, 1];
+        $insertar_usuario = $this->insert($sql, $data);
+        //print_r($insertar_usuario);
+        //echo 'erro'.$insertar_usuario;;
+        if ($insertar_usuario == 1) {
+            $id = $this->select("SELECT id_users FROM users WHERE usuario_users = '$correo'");
+
+            $id_matriz = $this->obtenerMatriz();
+            //print_r($id_matriz);
+            $id_matriz = $id_matriz[0]['idmatriz'];
+            //print_r($id);
+            //Se genera la plataforma
+            $sql = "INSERT INTO plataformas (`nombre_tienda`, `contacto`, `whatsapp`, `fecha_ingreso`, `fecha_actualza`, `id_plan`, `url_imporsuit`, `carpeta_servidor`, `email`,  `referido`, `token_referido`, `refiere`, `pais`, `id_matriz`) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $data = [$tienda, $nombre, $telefono, date('Y-m-d H:i:s'), date('Y-m-d H:i:s'), 1, 'https://' . $tienda . '.' . DOMINIO, '/public_html/' . $tienda, $correo, 0, '', '', $pais, $id_matriz];
+            $insertar_plataforma = $this->insert($sql, $data);
+            //  print_r($insertar_plataforma);
+            //si se guarda correctamente la plataforma 
+            if ($insertar_plataforma == 1) {
+                $idPlataforma = $this->select("SELECT id_plataforma FROM plataformas WHERE email = '$correo'");
+                //print_r($idPlataforma);
+                $sql = "INSERT INTO `perfil` ( `nombre_empresa`,`telefono`, `whatsapp`,  `id_plataforma`) VALUES (?,?,?,?)";
+                $data = [$tienda, $telefono, $telefono, $idPlataforma[0]['id_plataforma']];
+                $insertar_perfil = $this->insert($sql, $data);
+                // print_r($insertar_perfil);
+                if ($insertar_perfil == 1) {
+
+                    $sql = "INSERT INTO usuario_plataforma (id_usuario, id_plataforma) VALUES (?, ?)";
+                    $data = [$id[0]['id_users'], $idPlataforma[0]['id_plataforma']];
+                    $insertar_relacion = $this->insert($sql, $data);
+
+
+                    if ($insertar_relacion == 1) {
+                        $id_plataforma = $idPlataforma[0]['id_plataforma'];
+                        $sql_caracteristicas = "INSERT INTO `caracteristicas_tienda` (`id_producto`, `texto`, `icon_text`, `enlace_icon`, `subtexto_icon`, `accion`, `id_plataforma`) VALUES
+                        (0, 'Envío Gratis a todo el País', 'fa-check', '', 'Llegamos a todo el País', 1, $id_plataforma),
+                        (0, 'Pago Contra Entrega', 'fa-lock', NULL, 'Paga cuando recibes el producto', 2, $id_plataforma),
+                        (0, 'Atención al cliente', 'fa-headset', NULL, 'Soporte 100% garantizado', 2, $id_plataforma);";
+
+                        $registro_caracteristicas = $this->simple_insert($sql_caracteristicas);
+
+                        $sql_bodega = "INSERT INTO `bodega`(`nombre`,`id_empresa`,`responsable`,`contacto`,`id_plataforma`)VALUES
+                       ('$tienda',$id_plataforma,'$nombre','$telefono',$id_plataforma);";
+
+                        $registro_bodega = $this->simple_insert($sql_bodega);
+
+                        //echo $registro_caracteristicas;
+                        // print_r($registro_caracteristicas);
+                        if ($registro_caracteristicas > 0 && $registro_bodega > 0) {
+
+                            $response['status'] = 200;
+                            $response['title'] = 'Peticion exitosa';
+                            $response['message'] = 'Usuario registrado correctamente';
+                            $response['data'] = ['id' => $id[0]['id_users'], 'idPlataforma' => $idPlataforma[0]['id_plataforma']];
+                            //session_start();
+                            $_SESSION["user"] = $correo;
+                            $_SESSION["id_plataforma"] = $idPlataforma[0]['id_plataforma'];
+                            $_SESSION['login_time'] = time();
+                            $_SESSION['cargo'] = 1;
+                            $_SESSION['id'] = $id[0]['id_users'];
+                            $_SESSION['tienda'] = $tienda;
+                            $_SESSION['matriz'] = $id_matriz;
+                            $_SESSION["enlace"] = "https://" . $tienda . "." . DOMINIO;
+                            $_SESSION['cargo'] = 1;
+                            $_SESSION["session_lifetime"] = 3600;
+
+                            //compartir cookie con subdominio
+                            setcookie("user", $correo, time() + 3600, "/", "." . DOMINIO);
+                            setcookie("id_plataforma", $idPlataforma[0]['id_plataforma'], time() + 3600, "/", "." . DOMINIO);
+                            setcookie("login_time", time(), time() + 3600, "/", "." . DOMINIO);
+                            setcookie("cargo", 1, time() + 3600, "/", "." . DOMINIO);
+                            setcookie("id", $id[0]['id_users'], time() + 3600, "/", "." . DOMINIO);
+
+
+                            //enviar correo
+                            $url_change = "https://" . $tienda . "." . DOMINIO;
+                            require_once 'PHPMailer/Mail.php';
+                            $mail = new PHPMailer();
+                            $mail->isSMTP();
+                            $mail->SMTPDebug = 0;
+                            $mail->Host = $smtp_host;
+                            $mail->SMTPAuth = true;
+                            $mail->Username = $smtp_user;
+                            $mail->Password = $smtp_pass;
+                            $mail->Port = 465;
+                            $mail->SMTPSecure = $smtp_secure;
+                            $mail->isHTML(true);
+                            $mail->CharSet = 'UTF-8';
+                            $mail->setFrom($smtp_from, $smtp_from_name);
+                            $mail->addAddress($correo);
+                            $mail->Subject = 'Registro en ' . MARCA;
+                            $mail->Body = $message_body;
+                            // $this->crearSubdominio($tienda);
+
+                            if ($mail->send()) {
+                                //echo "Correo enviado";
+                                if (MATRIZ == 1) {
+                                    $this->bienvenida($correo);
+                                }
+                            } else {
+                                //  echo "Error al enviar el correo: " . $mail->ErrorInfo;
+                            }
+                        }
+                    }
+                } else {
+                    $response['message'] = "Error al crear el perfil";
+                }
+            } else {
+                $response['message'] = $insertar_plataforma["message"];
+                //$borrar_usuario=$this->delete($sql, $data);
             }
 
-            // Crear el usuario
-            $date_added = date("Y-m-d H:i:s");
-            $hashedPassword = password_hash($contrasena, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO users (nombre_users, email_users, con_users, usuario_users, date_added, cargo_users) 
-                    VALUES (?, ?, ?, ?, ?, ?)";
-            $this->insert($sql, [$nombre, $correo, $hashedPassword, $correo, $date_added, 1]);
+            //Se genera la relacion
 
-            // Obtener el ID del usuario recién creado
-            $idUsuario = $this->lastInsertId();
+        } else {
 
-            // Obtener la matriz
-            $idMatriz = $this->obtenerMatriz()[0]['idmatriz'];
+            $response['message'] = "El usuario $correo ya existe en la base de datos, intente con otro correo electrónico!";
+            //$id = $this->select("SELECT users_id FROM users WHERE correo = '$correo'");
 
-            // Crear la plataforma
-            $sql = "INSERT INTO plataformas (nombre_tienda, contacto, whatsapp, fecha_ingreso, fecha_actualza, id_plan, 
-                    url_imporsuit, carpeta_servidor, email, referido, token_referido, refiere, pais, id_matriz) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $this->insert($sql, [
-                $tienda,
-                $nombre,
-                $telefono,
-                $date_added,
-                $date_added,
-                1,
-                "https://$tienda." . DOMINIO,
-                "/public_html/$tienda",
-                $correo,
-                0,
-                '',
-                '',
-                $pais,
-                $idMatriz
-            ]);
-
-            // Obtener el ID de la plataforma recién creada
-            $idPlataforma = $this->lastInsertId();
-
-            // Crear el perfil
-            $sql = "INSERT INTO perfil (nombre_empresa, telefono, whatsapp, id_plataforma) VALUES (?, ?, ?, ?)";
-            $this->insert($sql, [$tienda, $telefono, $telefono, $idPlataforma]);
-
-            // Crear la relación usuario-plataforma
-            $sql = "INSERT INTO usuario_plataforma (id_usuario, id_plataforma) VALUES (?, ?)";
-            $this->insert($sql, [$idUsuario, $idPlataforma]);
-
-            // Crear características de la tienda
-            $sql = "INSERT INTO caracteristicas_tienda (id_producto, texto, icon_text, enlace_icon, subtexto_icon, accion, id_plataforma) VALUES
-                    (0, 'Envío Gratis a todo el País', 'fa-check', '', 'Llegamos a todo el País', 1, ?),
-                    (0, 'Pago Contra Entrega', 'fa-lock', NULL, 'Paga cuando recibes el producto', 2, ?),
-                    (0, 'Atención al cliente', 'fa-headset', NULL, 'Soporte 100% garantizado', 2, ?)";
-            $this->simple_insert($sql, [$idPlataforma, $idPlataforma, $idPlataforma]);
-
-            // Crear bodega
-            $sql = "INSERT INTO bodega (nombre, id_empresa, responsable, contacto, id_plataforma) VALUES (?, ?, ?, ?, ?)";
-            $this->insert($sql, [$tienda, $idPlataforma, $nombre, $telefono, $idPlataforma]);
-
-            // Confirmar la transacción
-            $this->commit();
-
-            // Configurar la respuesta exitosa
-            $response['status'] = 200;
-            $response['title'] = 'Petición exitosa';
-            $response['message'] = 'Usuario registrado correctamente';
-            $response['data'] = [
-                'id' => $idUsuario,
-                'idPlataforma' => $idPlataforma
-            ];
-
-            // Configurar sesión y cookies
-            $_SESSION["user"] = $correo;
-            $_SESSION["id_plataforma"] = $idPlataforma;
-            $_SESSION["login_time"] = time();
-            $_SESSION["cargo"] = 1;
-
-            setcookie("user", $correo, time() + 3600, "/", "." . DOMINIO);
-            setcookie("id_plataforma", $idPlataforma, time() + 3600, "/", "." . DOMINIO);
-
-            // Enviar correo de confirmación
-            $url = "https://" . $tienda . "." . DOMINIO;
-            require_once 'PHPMailer/Mail.php';
-
-            $mail = new PHPMailer();
-            $mail->isSMTP();
-            $mail->SMTPDebug = 0;
-            $mail->Host = $smtp_host;
-            $mail->SMTPAuth = true;
-            $mail->Username = $smtp_user;
-            $mail->Password = $smtp_pass;
-            $mail->Port = 465;
-            $mail->SMTPSecure = $smtp_secure;
-            $mail->isHTML(true);
-            $mail->CharSet = 'UTF-8';
-            $mail->setFrom($smtp_from, $smtp_from_name);
-            $mail->addAddress($correo);
-            $mail->Subject = 'Registro en ' . MARCA;
-            $mail->Body = "Bienvenido a nuestra plataforma. Puedes acceder a tu tienda aquí: $url";
-
-            if (!$mail->send()) {
-                throw new Exception("El correo no pudo enviarse: " . $mail->ErrorInfo);
-            }
-        } catch (Exception $e) {
-            // Si ocurre un error, revertir la transacción
-            $this->rollBack();
-
-            // Configurar la respuesta de error
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = $e->getMessage();
         }
+
 
         return $response;
     }
