@@ -481,9 +481,15 @@ class AccesoModel extends Query
         $result = $this->simple_select($sql, $params);
 
         if ($result > 0) {
-            return ['exists' => true];
+            return [
+                'exists' => true,
+                'message' => "La tienda '$tienda' existe en la base de datos."
+            ];
         }
-        return ['exists' => false];
+        return [
+            'exists' => false,
+            'message' => "La tienda '$tienda' no existe en la base de datos."
+        ];
     }
 
 
