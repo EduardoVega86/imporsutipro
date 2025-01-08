@@ -18,7 +18,6 @@ class SwaggerModel extends Query
     //Manejo de las respuestas
     private function handleResponse(array $response)
     {
-        print_r($response);
         if (isset($response['status']) && $response['status'] == 200) {
             http_response_code(200);
         } else {
@@ -61,6 +60,7 @@ class SwaggerModel extends Query
 
             // Manejo de la respuesta 
             $this->handleResponse($response);
+            exit();
         } catch (Exception $e) {
             //Manejo de la excepcion
             $this->handleException($e);
