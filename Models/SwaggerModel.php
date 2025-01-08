@@ -58,8 +58,8 @@ class SwaggerModel extends Query
             // Llamamos al método registro del AccesoModel
             $response = $this->accesoModel->login($usuario, $password);
 
-            /*  // Manejo de la respuesta 
-            $this->handleResponse($response); */
+            // Manejo de la respuesta 
+            $this->handleResponse($response);
         } catch (Exception $e) {
             //Manejo de la excepcion
             $this->handleException($e);
