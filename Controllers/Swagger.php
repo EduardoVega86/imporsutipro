@@ -163,10 +163,6 @@ class Swagger extends Controller
                 return;
             }
             $response = $this->model->login($correo, $contrasena);
-            // Agrega estas dos líneas antes de tu if
-            var_dump($response);
-            die();
-
             if ($response['status'] === 200) {
                 http_response_code(200);
             } else {
