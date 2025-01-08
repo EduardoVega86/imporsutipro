@@ -290,7 +290,7 @@ class Swagger extends Controller
      * @OA\Post(
      *      path="/swagger/validar_tiendas",
      *      tags={"Usuarios"},
-     *      summary="Validar tiendas",
+     *      summary="Validación de tiendas",
      *      description="Endpoint utilizado para validar tiendas existentes.",
      *          @OA\RequestBody(
      *          required=true,
