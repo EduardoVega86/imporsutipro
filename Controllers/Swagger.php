@@ -288,7 +288,7 @@ class Swagger extends Controller
 
     /**
      * @OA\Post(
-     *      path="/swagger/validarTiendas",
+     *      path="/swagger/validar_tiendas",
      *      tags={"Usuarios"},
      *      summary="Validar tiendas",
      *      description="Endpoint utilizado para validar tiendas existentes.",
@@ -315,11 +315,11 @@ class Swagger extends Controller
      * )
      */
 
-    public function validarTiendas()
+    public function validar_tiendas()
     {
         try {
             // Log de la solicitud para depuración
-            $this->logRequest('api/validarTiendas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $this->logRequest('api/validar_tiendas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
 
             // Decodificación del cuerpo de la solicitud
             $data = json_decode(file_get_contents("php://input"), true);
