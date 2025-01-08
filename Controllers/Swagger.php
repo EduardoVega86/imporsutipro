@@ -167,14 +167,8 @@ class Swagger extends Controller
             // Evitar warnings
             if (!is_array($response) || !isset($response['status'])) {
                 http_response_code(400);
-                echo json_encode([
-                    'status'  => 400,
-                    'title'   => 'Error',
-                    'message' => 'Error en la respuesta del modelo',
-                    'data'    => []
-                ]);
-                return;
             }
+
             if ($response['status'] === 200) {
                 http_response_code(200);
             } else {
