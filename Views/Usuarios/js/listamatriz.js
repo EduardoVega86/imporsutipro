@@ -63,6 +63,25 @@ const listListaUsuarioMatriz = async () => {
         checkboxStateFull = "";
       }
 
+      let select_cargos = "";
+      select_cargos = `
+                    <select class="form-select select-cargos" style="max-width: 90%; margin-top: 10px;" data-id-users="${
+                      usuario.id_users
+                    }">
+                        <option value="1" ${
+                          usuario.cargo_users == 1 ? "selected" : ""
+                        }>Por defecto</option>
+                        <option value="10" ${
+                          usuario.cargo_users == 10 ? "selected" : ""
+                        }>Administrador global</option>
+                        <option value="35" ${
+                          usuario.cargo_users == 35 ? "selected" : ""
+                        }>Repartidor</option>
+                        <option value="5" ${
+                          usuario.cargo_users == 5 ? "selected" : ""
+                        }>Colaborador</option>
+                    </select>`;
+
       content += `
                 <tr>
                     <td>${usuario.id_users}</td>
@@ -76,16 +95,17 @@ const listListaUsuarioMatriz = async () => {
                     <i class='bx bxl-whatsapp-square' style="color: green;"></i>
                     </a></td>
                     <td>${usuario.nombre_tienda}</td>
+                    <td>${select_cargos}</td>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${
                       usuario.id_users
                     }" ${checkboxState} onclick="toggleProveedor(${
-                    usuario.id_plataforma
-                    }, this.checked)"></td>
+        usuario.id_plataforma
+      }, this.checked)"></td>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${
                       usuario.id_users
                     }" ${checkboxStateFull} onclick="toggleFull(${
-                    usuario.id_plataforma
-                    }, this.checked)"></td>
+        usuario.id_plataforma
+      }, this.checked)"></td>
                     <td>${usuario.date_added}</td>
                     <td><button class="btn btn-sm btn-primary" onclick="editarUsuario(${
                       usuario.id_users
@@ -98,6 +118,35 @@ const listListaUsuarioMatriz = async () => {
     alert(ex);
   }
 };
+
+// Event delegation for select change
+document.addEventListener("change", async (event) => {
+  if (event.target && event.target.classList.contains("select-cargos")) {
+    const id_user = event.target.getAttribute("data-id-users");
+    const nuevoCargo = event.target.value;
+    const formData = new FormData();
+    formData.append("id_user", id_user);
+    formData.append("cargo_nuevo", nuevoCargo);
+
+    try {
+      const response = await fetch(SERVERURL + `Usuarios/cambiar_cargo`, {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+      if (result.status == 200) {
+        toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        initDataTableListaUsuarioMatriz();
+      }
+    } catch (error) {
+      console.error("Error al conectar con la API", error);
+      alert("Error al conectar con la API");
+    }
+  }
+});
 
 // Función para manejar el evento click del checkbox
 const toggleProveedor = async (userId, isChecked) => {
@@ -177,6 +226,6 @@ function formatPhoneNumber(number) {
 
 function editarUsuario(id) {
   $("#id_usuarioCambiar").val(id);
-  
+
   $("#cambiarClave_usuarioModal").modal("show");
 }
