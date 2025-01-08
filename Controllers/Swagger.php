@@ -192,6 +192,11 @@ class Swagger extends Controller
             $this->logRequest('swagger/registro_referido', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
             $data = json_decode(file_get_contents("php://input"), true);
 
+            // Si $id está vacío, intenta capturarlo desde $_GET
+            if (empty($id)) {
+                $id = $_GET['id_plataforma'] ?? null;
+            }
+
             if (!$data) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
@@ -205,21 +210,21 @@ class Swagger extends Controller
             $contrasena = $data['contrasena'] ?? null;
             $tienda = $data['tienda'] ?? null;
 
-            if (empty($id)) {
-                $id = $_GET['id_plataforma'] ?? null;
-            }
-
+            // Validación de todos los datos requeridos
             if (!$nombre || !$correo || !$pais || !$telefono || !$contrasena || !$tienda || !$id) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
             }
+
+            // Llamada al modelo para registrar el referido
             $response = $this->model->registro_referido($nombre, $correo, $pais, $telefono, $contrasena, $id);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
         }
     }
+
 
     /**
      * @OA\Post(
