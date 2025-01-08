@@ -188,14 +188,19 @@ class Swagger extends Controller
             }
             $response = $this->model->login($correo, $contrasena);
 
-            if (!is_array($response) || !isset($response['status'])) {
-                // Forzamos un array mínimo para evitar warnings
+            // 1. Si de plano el modelo no regresó nada, definimos un fallback
+            if ($response === null || !is_array($response)) {
                 $response = [
-                    'status'  => 400,
+                    'status'  => 500,
                     'title'   => 'Error',
-                    'message' => 'Ocurrió un problema al obtener la respuesta del modelo.',
+                    'message' => 'No se obtuvo respuesta válida del modelo.',
                     'data'    => []
                 ];
+            }
+
+            // 2. Ahora revisamos si tiene la clave 'status'
+            if (!isset($response['status'])) {
+                $response['status'] = 500;
             }
 
             // Manejo de la respuesta 
