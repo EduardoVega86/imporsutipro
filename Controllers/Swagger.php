@@ -306,11 +306,11 @@ class Swagger extends Controller
      * ),
      * @OA\Response(
      *      response=200,
-     *      description="Inicio de sesión exitoso"
+     *      description="Validación exitosa de la tienda"
      * ),
      * @OA\Response(
      *      response=400,
-     *      description="Error en el inicio de sesión"
+     *      description="Error en la validación de la tienda"
      * )
      * )
      */
