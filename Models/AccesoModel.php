@@ -483,12 +483,10 @@ class AccesoModel extends Query
         if ($result > 0) {
             return [
                 'exists' => true,
-                'message' => "La tienda '$tienda' existe en la base de datos."
             ];
         }
         return [
             'exists' => false,
-            'message' => "La tienda '$tienda' no existe en la base de datos."
         ];
     }
 
