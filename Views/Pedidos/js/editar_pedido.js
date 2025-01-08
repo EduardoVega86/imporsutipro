@@ -811,7 +811,9 @@ function generar_guia() {
   Swal.fire({
     title: "Cargando",
     text: "Creando Guia",
-    allowOutsideClick: false,
+    allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
+    allowEscapeKey: false, // Evita cerrar al presionar Escape
+    allowEnterKey: false, // Evita cerrar al presionar Enter
     showConfirmButton: false,
     timer: 2000,
     willOpen: () => {
@@ -843,6 +845,9 @@ function generar_guia() {
           icon: "error",
           title:
             "Error al crear la guia, no se encuentra la ciudad o provincia de destino",
+          allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
+          allowEscapeKey: false, // Evita cerrar al presionar Escape
+          allowEnterKey: false, // Evita cerrar al presionar Enter
         });
         var button2 = document.getElementById("generarGuiaBtn");
         button2.disabled = false; // Desactivar el botón
@@ -852,12 +857,18 @@ function generar_guia() {
           title: "Servicio Temporalmente No Disponible",
           text: "Estimado usuario, actualmente Servientrega está experimentando problemas de comunicación con nuestro sistema de generación de guías. Estamos trabajando junto con su equipo técnico para resolver este inconveniente a la mayor brevedad. Agradecemos su comprensión.",
           timer: 5000, // Incrementa el tiempo para que el usuario tenga más oportunidad de leer
+          allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
+          allowEscapeKey: false, // Evita cerrar al presionar Escape
+          allowEnterKey: false, // Evita cerrar al presionar Enter
           showConfirmButton: false,
         });
       } else if (response.status == 200) {
         Swal.fire({
           icon: "success",
           title: "Creacion de guia Completada",
+          allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
+          allowEscapeKey: false, // Evita cerrar al presionar Escape
+          allowEnterKey: false, // Evita cerrar al presionar Enter
           showConfirmButton: false,
           timer: 2000,
         }).then(() => {
@@ -868,6 +879,9 @@ function generar_guia() {
         Swal.fire({
           icon: "warning",
           title: response.message,
+          allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
+          allowEscapeKey: false, // Evita cerrar al presionar Escape
+          allowEnterKey: false, // Evita cerrar al presionar Enter
         });
         var button2 = document.getElementById("generarGuiaBtn");
         button2.disabled = false; // Desactivar el botón

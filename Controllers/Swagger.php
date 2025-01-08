@@ -26,6 +26,30 @@ class Swagger extends Controller
         $this->views->render($this, "index");
     }
 
+    //Manejo de las respuestas
+    private function handleResponse(array $response)
+    {
+        if (isset($response['status']) && $response['status'] == 200) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        echo json_encode($response);
+    }
+
+    //Manejo de excepciones
+    private function handleException(Exception $e)
+    {
+        http_response_code(500);
+        echo json_encode([
+            'status' => 500,
+            'message' => 'message',
+            'error' => $e->getMessage()
+
+        ]);
+    }
+
+
     /**
      * @OA\Post(
      *     path="/swagger/registro",
@@ -163,15 +187,22 @@ class Swagger extends Controller
                 return;
             }
             $response = $this->model->login($correo, $contrasena);
-            if ($response['status'] === 200) {
-                http_response_code(200);
-            } else {
-                http_response_code(400);
+
+            if (!is_array($response) || !isset($response['status'])) {
+                // Forzamos un array mínimo para evitar warnings
+                $response = [
+                    'status'  => 400,
+                    'title'   => 'Error',
+                    'message' => 'Ocurrió un problema al obtener la respuesta del modelo.',
+                    'data'    => []
+                ];
             }
-            echo json_encode($response);
+
+            // Manejo de la respuesta 
+            $this->handleResponse($response);
         } catch (Exception $e) {
-            http_response_code(500);
-            echo json_encode(['status' => 500, 'message' => 'Error interno del servidor', 'error' => $e->getMessage()]);
+            // Manejo de la excepcion
+            $this->handleException($e);
         }
     }
 
