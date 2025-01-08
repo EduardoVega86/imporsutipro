@@ -37,7 +37,6 @@ class SwaggerModel extends Query
 
         ]);
     }
-
     public function registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
     {
         try {
@@ -59,8 +58,7 @@ class SwaggerModel extends Query
             $response = $this->accesoModel->login($usuario, $password);
 
             // Manejo de la respuesta 
-            $this->handleResponse($response);
-            exit();
+            return $response;
         } catch (Exception $e) {
             //Manejo de la excepcion
             $this->handleException($e);

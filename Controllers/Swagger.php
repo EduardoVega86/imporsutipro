@@ -163,16 +163,31 @@ class Swagger extends Controller
                 return;
             }
             $response = $this->model->login($correo, $contrasena);
-            /* if ($response['status'] === 200) {
-                http_response_code(200);
-            } else {
-                http_response_code(400);
-            }
-            echo json_encode($response); */
+            $this->handleResponse($response);
         } catch (Exception $e) {
-            http_response_code(500);
-            echo json_encode(['status' => 500, 'message' => 'Error interno del servidor', 'error' => $e->getMessage()]);
+            $this->handleException($e);
         }
+    }
+    private function handleResponse(array $response)
+    {
+        if (isset($response['status']) && $response['status'] == 200) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        echo json_encode($response);
+    }
+
+    //Manejo de excepciones
+    private function handleException(Exception $e)
+    {
+        http_response_code(500);
+        echo json_encode([
+            'status' => 500,
+            'message' => 'message',
+            'error' => $e->getMessage()
+
+        ]);
     }
 
     /**
