@@ -337,8 +337,20 @@ class Swagger extends Controller
             // Llamada al modelo para validar la tienda
             $response = $this->model->validarTiendas($tienda);
 
-            // Manejo de la respuesta del modelo
-            $this->handleResponse($response);
+            // Construcción de la respuesta basada en la validación
+            if ($response['exists']) {
+                $this->handleResponse([
+                    'status' => 200,
+                    'message' => "La tienda '$tienda' existe en la base de datos.",
+                    'data' => $response
+                ], 200); // Devuelve explícitamente el código 200
+            } else {
+                $this->handleResponse([
+                    'status' => 200,
+                    'message' => "La tienda '$tienda' no existe en la base de datos.",
+                    'data' => $response
+                ], 200); // También 200 porque la solicitud fue válida, aunque no exista
+            }
         } catch (Exception $e) {
             // Manejo de excepciones
             $this->handleException($e);
