@@ -164,9 +164,10 @@ class Swagger extends Controller
             }
             $response = $this->model->login($correo, $contrasena);
 
-            // Evitar warnings
-            if (!is_array($response) || !isset($response['status'])) {
-                http_response_code(400);
+            // Si por algún error $response no es array, evitamos crashear
+            if (!is_array($response)) {
+                // Aquí mismo podrías forzar un array mínimo o hacer un return silencioso 
+                $response = ['status' => 500, 'message' => 'Error interno', 'data' => []];
             }
 
             if ($response['status'] === 200) {
