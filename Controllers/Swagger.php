@@ -26,30 +26,6 @@ class Swagger extends Controller
         $this->views->render($this, "index");
     }
 
-    //Manejo de las respuestas
-    private function handleResponse(array $response)
-    {
-        if (isset($response['status']) && $response['status'] == 200) {
-            http_response_code(200);
-        } else {
-            http_response_code(400);
-        }
-        echo json_encode($response);
-    }
-
-    //Manejo de excepciones
-    private function handleException(Exception $e)
-    {
-        http_response_code(500);
-        echo json_encode([
-            'status' => 500,
-            'message' => 'message',
-            'error' => $e->getMessage()
-
-        ]);
-    }
-
-
     /**
      * @OA\Post(
      *     path="/swagger/registro",
@@ -187,12 +163,15 @@ class Swagger extends Controller
                 return;
             }
             $response = $this->model->login($correo, $contrasena);
-
-            // Manejo de la respuesta 
-            $this->handleResponse($response);
+            if ($response['status'] === 200) {
+                http_response_code(200);
+            } else {
+                http_response_code(400);
+            }
+            echo json_encode($response);
         } catch (Exception $e) {
-            // Manejo de la excepcion
-            $this->handleException($e);
+            http_response_code(500);
+            echo json_encode(['status' => 500, 'message' => 'Error interno del servidor', 'error' => $e->getMessage()]);
         }
     }
 

@@ -88,17 +88,6 @@
                                             <img src="https://new.imporsuitpro.com/public/img/formato_pro.jpg" alt="Formato" class="me-2" width="350px;">
                                         </div>
                                     </div>
-
-                                    <div class="d-flex flex-column w-100">
-                                        <div class="form-group">
-                                            <label for="envio_prioritario">Envio prioritario:</label>
-                                            <select class="form-select" id="envio_prioritario" required>
-                                                <option value="">-- Selecciona --</option>
-                                                <option value="1">Si</option>
-                                                <option selected value="0">No</option>
-                                            </select>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                     </div>
@@ -220,7 +209,6 @@
             var producto_variable = $('#producto-variable').val();
             var categoria = $('#categoria').val();
             var bodega = $('#bodega').val();
-            var envio_prioritario = $('#envio_prioritario').val();
 
             if (maneja_inventario == "") {
                 toastr.error(
@@ -252,16 +240,6 @@
                 return
             }
 
-            if (envio_prioritario == "") {
-                toastr.error(
-                    "Falta llenar el envio prioritario",
-                    "NOTIFICACIÓN", {
-                        positionClass: "toast-bottom-center"
-                    }
-                );
-                return
-            }
-
             if (bodega == "0") {
                 toastr.error(
                     "Falta llenar la bodega",
@@ -282,7 +260,7 @@
             formData.append('nombre_producto', $('#nombre').val());
             formData.append('descripcion_producto', $('#descripcion').val());
             formData.append('id_linea_producto', $('#categoria').val());
-            formData.append('envio_prioritario', $('#envio_prioritario').val());
+            formData.append('envio_prioritario', 0);
             formData.append('inv_producto', $('#maneja-inventario').val());
             formData.append('producto_variable', $('#producto-variable').val());
             formData.append('costo_producto', $('#costo').val());
