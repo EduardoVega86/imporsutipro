@@ -135,7 +135,7 @@ class Swagger extends Controller
      *     summary="Registro de usuarios referidos",
      *     description="Endpoint utilizado para el registro de usuarios referidos",
      *     @OA\Parameter(
-     *        name="id",
+     *        name="id_plataforma",
      *        in="query",
      *        description="id de la plataforma",
      *        required=true,
@@ -198,12 +198,17 @@ class Swagger extends Controller
                 return;
             }
 
+            if (empty($id)) {
+                $id = $_GET['id_plataforma'] ?? null;
+            }
+
             $nombre = $data['nombre'] ?? null;
             $correo = $data['correo'] ?? null;
             $pais = $data['pais'] ?? null;
             $telefono = $data['telefono'] ?? null;
             $contrasena = $data['contrasena'] ?? null;
             $tienda = $data['tienda'] ?? null;
+
             if (!$nombre || !$correo || !$pais || !$telefono || !$contrasena || !$tienda || !$id) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
