@@ -325,9 +325,6 @@ class Swagger extends Controller
             $data = json_decode(file_get_contents("php://input"), true);
             $tienda = $data['tienda'] ?? null;
 
-            // Log para verificar la tienda enviada
-            print_r([$tienda]);
-
             // Verificación del dato requerido
             if (!$tienda) {
                 $this->handleResponse([
