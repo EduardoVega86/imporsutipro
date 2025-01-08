@@ -198,16 +198,16 @@ class Swagger extends Controller
                 return;
             }
 
-            if (empty($id)) {
-                $id = $_GET['id_plataforma'] ?? null;
-            }
-
             $nombre = $data['nombre'] ?? null;
             $correo = $data['correo'] ?? null;
             $pais = $data['pais'] ?? null;
             $telefono = $data['telefono'] ?? null;
             $contrasena = $data['contrasena'] ?? null;
             $tienda = $data['tienda'] ?? null;
+
+            if (empty($id)) {
+                $id = $_GET['id_plataforma'] ?? null;
+            }
 
             if (!$nombre || !$correo || !$pais || !$telefono || !$contrasena || !$tienda || !$id) {
                 http_response_code(400);
