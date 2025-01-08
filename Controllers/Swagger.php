@@ -218,7 +218,7 @@ class Swagger extends Controller
             }
 
             // Llamada al modelo para registrar el referido
-            $response = $this->model->registro_referido($nombre, $correo, $pais, $telefono, $contrasena, $id);
+            $response = $this->model->registro_referido($nombre, $correo, $pais, $telefono, $tienda, $contrasena, $id);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
