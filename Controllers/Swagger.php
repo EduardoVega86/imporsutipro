@@ -122,10 +122,15 @@ class Swagger extends Controller
                 return;
             }
             $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
-            $this->handleResponse($response);
+            if ($response['status'] === 200) {
+                http_response_code(200);
+            } else {
+                http_response_code(400);
+            }
             echo json_encode($response);
         } catch (Exception $e) {
-            $this->handleException($e);
+            http_response_code(500);
+            echo json_encode(['status' => 500, 'message' => 'Error interno del servidor', 'error' => $e->getMessage()]);
         }
     }
 
