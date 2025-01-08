@@ -130,6 +130,107 @@ class Swagger extends Controller
 
     /**
      * @OA\Post(
+     *     path="/swagger/registro_referido",
+     *     tags={"Usuarios"},
+     *     summary="Registro de usuarios referidos",
+     *     description="Endpoint utilizado para el registro de usuarios referidos",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="nombre",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="correo",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="pais",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="telefono",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="contrasena",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="tienda",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="referido",
+     *                     type="string"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Registro exitoso"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error en el registro"
+     *     )
+     * )
+     */
+
+    public function registro_referido()
+    {
+        try {
+            $this->logRequest('swagger/registro_referido', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if (!$data) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
+                return;
+            }
+
+            $nombre = $data['nombre'] ?? null;
+            $correo = $data['correo'] ?? null;
+            $pais = $data['pais'] ?? null;
+            $telefono = $data['telefono'] ?? null;
+            $contrasena = $data['contrasena'] ?? null;
+            $tienda = $data['tienda'] ?? null;
+            $referido = $data['referido'] ?? null;
+            if (!$nombre || !$correo || !$pais || !$telefono || !$contrasena || !$tienda || !$referido) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
+            $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $referido);
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * @OA\Post(
      *      path="/swagger/login",
      *      tags={"Usuarios"},
      *      summary="Inicio de sesión",
