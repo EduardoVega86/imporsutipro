@@ -37,7 +37,6 @@ class SwaggerModel extends Query
 
         ]);
     }
-
     public function registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
     {
         try {
@@ -45,10 +44,24 @@ class SwaggerModel extends Query
             $response = $this->accesoModel->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
 
             // Manejo de la respuesta 
-            $this->handleResponse($response);
+            return $response;
         } catch (Exception $e) {
             // Manejo de la excepcion
-            $this->handleException($e);
+            //$this->handleException($e);
+        }
+    }
+
+    public function registro_referido($nombre, $correo, $pais, $telefono, $contrasena, $tienda, $referido)
+    {
+        try {
+            // Llamamos al método registro del AccesoModel
+            $response = $this->accesoModel->registro_referido($nombre, $correo, $pais, $telefono, $contrasena, $tienda, $referido);
+
+            // Manejo de la respuesta 
+            return $response;
+        } catch (Exception $e) {
+            // Manejo de la excepcion
+            //$this->handleException($e);
         }
     }
 
@@ -59,11 +72,10 @@ class SwaggerModel extends Query
             $response = $this->accesoModel->login($usuario, $password);
 
             // Manejo de la respuesta 
-            $this->handleResponse($response);
-            exit();
+            return $response;
         } catch (Exception $e) {
             //Manejo de la excepcion
-            $this->handleException($e);
+            /* $this->handleException($e); */
         }
     }
 }
