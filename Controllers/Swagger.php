@@ -26,6 +26,29 @@ class Swagger extends Controller
         $this->views->render($this, "index");
     }
 
+    private function handleResponse(array $response)
+    {
+        if (isset($response['status']) && $response['status'] == 200) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        echo json_encode($response);
+    }
+
+    //Manejo de excepciones
+    private function handleException(Exception $e)
+    {
+        http_response_code(500);
+        echo json_encode([
+            'status' => 500,
+            'message' => 'message',
+            'error' => $e->getMessage()
+
+        ]);
+    }
+
+
     /**
      * @OA\Post(
      *     path="/swagger/registro",
@@ -99,15 +122,10 @@ class Swagger extends Controller
                 return;
             }
             $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
-            if ($response['status'] === 200) {
-                http_response_code(200);
-            } else {
-                http_response_code(400);
-            }
+            $this->handleResponse($response);
             echo json_encode($response);
         } catch (Exception $e) {
-            http_response_code(500);
-            echo json_encode(['status' => 500, 'message' => 'Error interno del servidor', 'error' => $e->getMessage()]);
+            $this->handleException($e);
         }
     }
 
@@ -144,6 +162,7 @@ class Swagger extends Controller
      * )
      */
 
+
     public function login()
     {
         try {
@@ -168,27 +187,7 @@ class Swagger extends Controller
             $this->handleException($e);
         }
     }
-    private function handleResponse(array $response)
-    {
-        if (isset($response['status']) && $response['status'] == 200) {
-            http_response_code(200);
-        } else {
-            http_response_code(400);
-        }
-        echo json_encode($response);
-    }
 
-    //Manejo de excepciones
-    private function handleException(Exception $e)
-    {
-        http_response_code(500);
-        echo json_encode([
-            'status' => 500,
-            'message' => 'message',
-            'error' => $e->getMessage()
-
-        ]);
-    }
 
     /**
      * @OA\Get(
