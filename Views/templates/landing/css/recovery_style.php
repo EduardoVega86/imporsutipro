@@ -42,12 +42,12 @@
     }
 
     .btn-primary {
-        background-color: <?php echo COLOR_BOTON_LOGIN;?>;
+        background-color: <?php echo COLOR_BOTON_LOGIN; ?>;
         border: none;
     }
 
     .btn-primary:hover {
-        background-color: <?php echo COLOR_HOVER_LOGIN;?>;
+        background-color: <?php echo COLOR_HOVER_LOGIN; ?>;
     }
 
     .imagen_logo {
@@ -70,4 +70,32 @@
     .forgot-password:hover {
         color: #333;
     }
+
+    /* whatsapp flotante */
+    .whatsapp-float {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #25D366;
+        color: white;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-decoration: none;
+        /* Elimina la raya */
+    }
+
+    .whatsapp-float:hover {
+        transform: scale(1.1);
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Fin whatsapp flotante */
 </style>
