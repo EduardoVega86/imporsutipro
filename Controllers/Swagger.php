@@ -28,50 +28,50 @@ class Swagger extends Controller
 
     /**
      * @OA\Post(
-     *    path="/swagger/registro",
-     *   tags={"Usuarios"},
-     *  summary="Registro de usuarios",
-     * description="Endpoint utilizado para el registro de usuarios",
-     * @OA\RequestBody(
-     *   required=true,
-     *  @OA\MediaType(
-     *    mediaType="application/json",
-     *  @OA\Schema(
-     *   @OA\Property(
-     *    property="nombre",
-     *  type="string"
-     * ),
-     * @OA\Property(
-     *   property="correo",
-     * type="string"
-     * ),
-     * @OA\Property(
-     *  property="pais",
-     * type="string"
-     * ),
-     * @OA\Property(
-     * property="telefono",
-     * type="string"
-     * ),
-     * @OA\Property(
-     * property="contrasena",
-     * type="string"
-     * ),
-     * @OA\Property(
-     * property="tienda",
-     * type="string"
-     * )
-     * )
-     * )
-     * ),
-     * @OA\Response(
-     * response=200,
-     * description="Registro exitoso"
-     * ),
-     * @OA\Response(
-     * response=400,
-     * description="Error en el registro"
-     * )
+     *     path="/swagger/registro",
+     *     tags={"Usuarios"},
+     *     summary="Registro de usuarios",
+     *     description="Endpoint utilizado para el registro de usuarios",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="nombre",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="correo",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="pais",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="telefono",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="contrasena",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="tienda",
+     *                     type="string"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Registro exitoso"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error en el registro"
+     *     )
      * )
      */
 
