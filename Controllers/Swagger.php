@@ -54,7 +54,7 @@ class Swagger extends Controller
      *     path="/swagger/registro",
      *     tags={"Usuarios"},
      *     summary="Registro de usuarios",
-     *     description="Endpoint utilizado para el registro de usuarios",
+     *     description="Endpoint utilizado para el registro de usuarios.",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
@@ -133,7 +133,7 @@ class Swagger extends Controller
      *     path="/swagger/registro_referido",
      *     tags={"Usuarios"},
      *     summary="Registro de usuarios referidos",
-     *     description="Endpoint utilizado para el registro de usuarios referidos",
+     *     description="Endpoint utilizado para el registro de usuarios referidos.",
      *     @OA\Parameter(
      *        name="id_plataforma",
      *        in="query",
@@ -231,7 +231,7 @@ class Swagger extends Controller
      *      path="/swagger/login",
      *      tags={"Usuarios"},
      *      summary="Inicio de sesión",
-     *      description="Endpoint utilizado para el inicio de sesión de los usuarios",
+     *      description="Endpoint utilizado para el inicio de sesión de los usuarios.",
      *          @OA\RequestBody(
      *          required=true,
      *              @OA\MediaType(
@@ -284,6 +284,80 @@ class Swagger extends Controller
             $this->handleException($e);
         }
     }
+
+
+    /**
+     * @OA\Post(
+     *      path="/swagger/validar_tiendas",
+     *      tags={"Usuarios"},
+     *      summary="Validar tiendas",
+     *      description="Endpoint utilizado para validar tiendas existentes.",
+     *          @OA\RequestBody(
+     *          required=true,
+     *              @OA\MediaType(
+     *              mediaType="application/json",
+     *                  @OA\Schema(
+     *                      @OA\Property(
+     *                      property="tienda",
+     *                      type="string"
+     *                  )
+     *              )
+     *        )
+     * ),
+     * @OA\Response(
+     *      response=200,
+     *      description="Inicio de sesión exitoso"
+     * ),
+     * @OA\Response(
+     *      response=400,
+     *      description="Error en el inicio de sesión"
+     * )
+     * )
+     */
+
+    public function validarTiendas()
+    {
+        try {
+            $this->logRequest('api/validar_tiendas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+            $tienda = $data['tienda'] ?? null;
+
+            if (!$data) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Tienda inexistente']);
+                return;
+            }
+            $response = $this->model->validar_tiendas($tienda);
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**

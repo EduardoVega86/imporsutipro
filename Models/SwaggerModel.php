@@ -78,4 +78,18 @@ class SwaggerModel extends Query
             /* $this->handleException($e); */
         }
     }
+
+    public function validarTiendas($tienda)
+    {
+        try {
+            // Llamamos al método registro del AccesoModel
+            $response = $this->accesoModel->validarTiendas($tienda);
+
+            // Manejo de la respuesta 
+            return $response;
+        } catch (Exception $e) {
+            // Manejo de la excepcion
+            //$this->handleException($e);
+        }
+    }
 }
