@@ -243,6 +243,25 @@ ON
         return $response;
     }
 
+    public function cambiar_cargo($id_user, $cargo_nuevo)
+    {
+        $response = $this->initialResponse();
+
+        $sql = "UPDATE `users` SET `cargo_users` = ? WHERE `id_users` = ?";
+        $data = [$cargo_nuevo, $id_user];
+        $editar_cargo = $this->update($sql, $data);
+        /* print_r($editar_cargo); */
+        if ($editar_cargo == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Cargo cambiado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            // $response['message'] = $editar_producto['message'];
+        }
+        return $response;
+    }
 
     public function agregarFull($plataforma, $proveedor)
     {

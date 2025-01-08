@@ -134,6 +134,15 @@ class Swagger extends Controller
      *     tags={"Usuarios"},
      *     summary="Registro de usuarios referidos",
      *     description="Endpoint utilizado para el registro de usuarios referidos",
+     *     @OA\Parameter(
+     *        name="id_plataforma",
+     *        in="query",
+     *        description="id de la plataforma",
+     *        required=true,
+     *        @OA\Schema(
+     *            type="string"
+     *        )
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
@@ -163,10 +172,6 @@ class Swagger extends Controller
      *                     property="tienda",
      *                     type="string"
      *                 ),
-     *                 @OA\Property(
-     *                     property="referido",
-     *                     type="string"
-     *                 )
      *             )
      *         )
      *     ),
@@ -181,7 +186,7 @@ class Swagger extends Controller
      * )
      */
 
-    public function registro_referido()
+    public function registro_referido($id)
     {
         try {
             $this->logRequest('swagger/registro_referido', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
@@ -199,35 +204,18 @@ class Swagger extends Controller
             $telefono = $data['telefono'] ?? null;
             $contrasena = $data['contrasena'] ?? null;
             $tienda = $data['tienda'] ?? null;
-            $referido = $data['referido'] ?? null;
-            if (!$nombre || !$correo || !$pais || !$telefono || !$contrasena || !$tienda || !$referido) {
+            $id = $data['id'] ?? null;
+            if (!$nombre || !$correo || !$pais || !$telefono || !$contrasena || !$tienda || !$id) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
             }
-            $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $referido);
+            $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $id);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * @OA\Post(
@@ -291,29 +279,30 @@ class Swagger extends Controller
 
     /**
      * @OA\Get(
-     *   path="/swagger/pedidos",
-     *  tags={"Pedidos"},
-     * summary="Obtener pedidos",
-     * description="Obtener pedidos por plataforma",
-     * @OA\Parameter(
-     *  name="uuid",
-     * in="query",
-     * description="UUID de la plataforma",
-     * required=true,
-     * @OA\Schema(
-     * type="string"
-     * )
-     * ),
-     * @OA\Response(
-     * response=200,
-     * description="Pedidos obtenidos"
-     * ),
-     * @OA\Response(
-     * response=400,
-     * description="Error al obtener pedidos"
-     * )
+     *     path="/swagger/pedidos",
+     *     tags={"Pedidos"},
+     *     summary="Obtener pedidos",
+     *     description="Obtener pedidos por plataforma",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID de la plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Pedidos obtenidos"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error al obtener pedidos"
+     *     )
      * )
      */
+
     public function pedidos($uuid)
     {
         try {
