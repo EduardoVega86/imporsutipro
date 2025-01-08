@@ -135,7 +135,7 @@ class Swagger extends Controller
      *     summary="Registro de usuarios referidos",
      *     description="Endpoint utilizado para el registro de usuarios referidos",
      *     @OA\Parameter(
-     *        name="id_plataforma",
+     *        name="id",
      *        in="query",
      *        description="id de la plataforma",
      *        required=true,
