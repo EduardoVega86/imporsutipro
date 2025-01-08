@@ -476,15 +476,16 @@ class AccesoModel extends Query
 
     public function validarTiendas($tienda)
     {
-
         $sql = "SELECT * FROM plataformas WHERE nombre_tienda = ?";
         $params = [$tienda];
         $result = $this->simple_select($sql, $params);
+
         if ($result > 0) {
-            return true;
+            return ['exists' => true];
         }
-        return false;
+        return ['exists' => false];
     }
+
 
     public function validarToken($token)
     {
