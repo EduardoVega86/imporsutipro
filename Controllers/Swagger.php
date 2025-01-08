@@ -163,6 +163,17 @@ class Swagger extends Controller
                 return;
             }
             $response = $this->model->login($correo, $contrasena);
+
+            if (!is_array($response) || !isset($response['status'])) {
+                // Forzamos un array mínimo para evitar warnings
+                $response = [
+                    'status'  => 400,
+                    'title'   => 'Error',
+                    'message' => 'Ocurrió un problema al obtener la respuesta del modelo.',
+                    'data'    => []
+                ];
+            }
+
             if ($response['status'] === 200) {
                 http_response_code(200);
             } else {
