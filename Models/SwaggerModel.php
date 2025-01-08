@@ -44,10 +44,10 @@ class SwaggerModel extends Query
             $response = $this->accesoModel->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
 
             // Manejo de la respuesta 
-            $this->handleResponse($response);
+            return $response;
         } catch (Exception $e) {
             // Manejo de la excepcion
-            $this->handleException($e);
+            //$this->handleException($e);
         }
     }
 

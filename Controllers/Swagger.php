@@ -122,13 +122,7 @@ class Swagger extends Controller
                 return;
             }
             $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
-            // Validación de la respuesta
-            if (is_array($response)) {
-                $this->handleResponse($response);
-            } else {
-                http_response_code(500);
-                echo json_encode(['status' => 500, 'message' => 'Respuesta inválida del modelo']);
-            }
+            $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
         }
