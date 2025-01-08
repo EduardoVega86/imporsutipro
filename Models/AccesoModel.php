@@ -470,7 +470,7 @@ class AccesoModel extends Query
         ]);
 
         // 9. Retornamos la respuesta final
-        print_r($this->initialResponse());
+        print_r($this->initialResponse() ?? "false");
         return $response;
     }
 
