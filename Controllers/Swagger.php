@@ -396,7 +396,7 @@ class Swagger extends Controller
     {
         try {
             // Log de la solicitud para depuración
-            $this->logRequest('api/validar_tiendas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $this->logRequest('api/recuperar_contrasena', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
             // Obtener el cuerpo de la solicitud
             $data = json_decode(file_get_contents("php://input"), true);
             $correo = $data['correo'] ?? null;
