@@ -315,24 +315,51 @@ class Swagger extends Controller
      * )
      */
 
-    public function validarTiendas()
+    public function validarTiendas($id)
     {
         try {
+            // Log de la solicitud para depuración
             $this->logRequest('api/validarTiendas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
+            // Decodificación del cuerpo de la solicitud
             $data = json_decode(file_get_contents("php://input"), true);
             $tienda = $data['tienda'] ?? null;
 
-            if (!$data) {
-                http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Tienda inexistente']);
+            // Verificación del dato requerido
+            if (!$tienda) {
+                $this->handleResponse([
+                    'status' => 400,
+                    'message' => 'El campo tienda es requerido'
+                ]);
                 return;
             }
+
+            // Llamada al modelo para validar la tienda
             $response = $this->model->validarTiendas($tienda);
-            $this->handleResponse($response);
+
+            // Manejo de la respuesta del modelo
+            if (isset($response['exists'])) {
+                $this->handleResponse([
+                    'status' => 200,
+                    'message' => 'Validación exitosa',
+                    'data' => $response
+                ]);
+            } else {
+                $this->handleResponse([
+                    'status' => 400,
+                    'message' => 'La tienda no existe o respuesta inválida'
+                ]);
+            }
         } catch (Exception $e) {
-            $this->handleException($e);
+            // Manejo de excepciones
+            $this->handleResponse([
+                'status' => 500,
+                'message' => 'Error interno',
+                'error' => $e->getMessage()
+            ]);
         }
     }
+
 
 
 
