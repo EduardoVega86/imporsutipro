@@ -815,7 +815,6 @@ function generar_guia() {
     allowEscapeKey: false, // Evita cerrar al presionar Escape
     allowEnterKey: false, // Evita cerrar al presionar Enter
     showConfirmButton: false,
-    timer: 2000,
     willOpen: () => {
       Swal.showLoading();
     },
