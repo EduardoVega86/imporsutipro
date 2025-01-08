@@ -288,7 +288,7 @@ class Swagger extends Controller
 
     /**
      * @OA\Post(
-     *      path="/swagger/validar_tiendas",
+     *      path="/swagger/validarTiendas",
      *      tags={"Usuarios"},
      *      summary="Validar tiendas",
      *      description="Endpoint utilizado para validar tiendas existentes.",
