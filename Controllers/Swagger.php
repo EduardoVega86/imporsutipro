@@ -188,21 +188,6 @@ class Swagger extends Controller
             }
             $response = $this->model->login($correo, $contrasena);
 
-            // 1. Si de plano el modelo no regresó nada, definimos un fallback
-            if ($response === null || !is_array($response)) {
-                $response = [
-                    'status'  => 500,
-                    'title'   => 'Error',
-                    'message' => 'No se obtuvo respuesta válida del modelo.',
-                    'data'    => []
-                ];
-            }
-
-            // 2. Ahora revisamos si tiene la clave 'status'
-            if (!isset($response['status'])) {
-                $response['status'] = 500;
-            }
-
             // Manejo de la respuesta 
             $this->handleResponse($response);
         } catch (Exception $e) {
