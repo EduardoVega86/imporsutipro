@@ -338,25 +338,10 @@ class Swagger extends Controller
             $response = $this->model->validarTiendas($tienda);
 
             // Manejo de la respuesta del modelo
-            if (isset($response['exists'])) {
-                $this->handleResponse([
-                    'status' => 200,
-                    'message' => 'Validación exitosa',
-                    'data' => $response
-                ]);
-            } else {
-                $this->handleResponse([
-                    'status' => 400,
-                    'message' => 'La tienda no existe o respuesta inválida'
-                ]);
-            }
+            $this->handleResponse($response);
         } catch (Exception $e) {
             // Manejo de excepciones
-            $this->handleResponse([
-                'status' => 500,
-                'message' => 'Error interno',
-                'error' => $e->getMessage()
-            ]);
+            $this->handleException($e);
         }
     }
 
