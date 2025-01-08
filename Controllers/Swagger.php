@@ -315,7 +315,7 @@ class Swagger extends Controller
      * )
      */
 
-    public function validarTiendas($id)
+    public function validarTiendas()
     {
         try {
             // Log de la solicitud para depuración
@@ -324,6 +324,9 @@ class Swagger extends Controller
             // Decodificación del cuerpo de la solicitud
             $data = json_decode(file_get_contents("php://input"), true);
             $tienda = $data['tienda'] ?? null;
+
+            // Log para verificar la tienda enviada
+            error_log("Tienda recibida: " . print_r($tienda, true));
 
             // Verificación del dato requerido
             if (!$tienda) {
