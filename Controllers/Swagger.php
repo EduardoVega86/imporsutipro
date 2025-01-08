@@ -168,7 +168,7 @@ class Swagger extends Controller
             if (!is_array($response)) {
                 // Aquí mismo podrías forzar un array mínimo o hacer un return silencioso 
                 $response = ['status' => 500, 'message' => 'Error interno', 'data' => []];
-                echo $response;
+                print_r($response);
             }
 
             if ($response['status'] === 200) {
