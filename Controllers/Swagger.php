@@ -327,7 +327,7 @@ class Swagger extends Controller
                 echo json_encode(['status' => 400, 'message' => 'Tienda inexistente']);
                 return;
             }
-            $response = $this->model->validar_tiendas($tienda);
+            $response = $this->model->validarTiendas($tienda);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
