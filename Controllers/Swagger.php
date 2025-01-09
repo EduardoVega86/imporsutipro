@@ -374,6 +374,11 @@ class Swagger extends Controller
      *                     property="correo",
      *                     type="string",
      *                     description="Correo electrónico del usuario"
+     *                 ),
+     *                 @QA\Property(
+     *                     property="contrasena",
+     *                     type="string",
+     *                     description="Contraseña"  
      *                 )
      *             )
      *         )
@@ -497,30 +502,31 @@ class Swagger extends Controller
 
     /**
      * @OA\Post(
-     *     path="/swagger/recuperar_contrasena",
+     *     path="/swagger/cambiar_contrasena",
      *     tags={"Usuarios"},
-     *     summary="Recuperación de contraseña",
-     *     description="Permite generar un token de recuperación y enviar un correo al usuario con un enlace para restablecer la contraseña.",
+     *     summary="Modificación de contraseña",
+     *     description="Permite cambiar la contraseña del usuario.",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 @OA\Property(
-     *                     property="correo",
+     *                     property="token",
      *                     type="string",
-     *                     description="Correo electrónico del usuario"
-     *                 )
+     *                     description=Token del usuario"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="contrasena",
+     *                     type="string",
+     *                     description="Contraseña a actualizar del usuario"
+     *                 ),
      *             )
      *         )
      *     ),
      *     @OA\Response(
-     *         response=200,
-     *         description="Correo enviado correctamente"
-     *     ),
-     *     @OA\Response(
      *         response=400,
-     *         description="El campo correo es requerido"
+     *         description="El campo contraseña es requerido"
      *     ),
      *     @OA\Response(
      *         response=500,
