@@ -520,10 +520,6 @@ class Swagger extends Controller
      *         description="Validación exitosa"
      *     ),
      *     @OA\Response(
-     *         response=400,
-     *         description="El campo token es requerido"
-     *     ),
-     *     @OA\Response(
      *         response=500,
      *         description="Error al procesar la solicitud"
      *     )
@@ -539,7 +535,7 @@ class Swagger extends Controller
             // Obtener el cuerpo de la solicitud
             $data = json_decode(file_get_contents("php://input"), true);
             $contrasena = $data['contrasena'] ?? null;
-            $token = $data['contrasena'] ?? null;
+            $token = $data['token'] ?? null;
 
             // Validar que se envíe el correo
             if (!$contrasena) {
