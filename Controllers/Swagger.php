@@ -521,11 +521,7 @@ class Swagger extends Controller
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="El campo contraseña es requerido"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="El campo token es requerido"
+     *         description="Solicitud incorrecta. Puede deberse a que faltan campos obligatorios (contraseña o token)."
      *     ),
      *     @OA\Response(
      *         response=500,
@@ -542,7 +538,7 @@ class Swagger extends Controller
             $this->logRequest('api/cambiar_contrasena', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
             // Obtener el cuerpo de la solicitud
             $data = json_decode(file_get_contents("php://input"), true);
-            $contrasena = $data['contrasena'] ?? null;
+            $contrasena = $data['contraseña'] ?? null;
             $token = $data['token'] ?? null;
 
             // Validar que se envíe el correo
