@@ -364,7 +364,7 @@ class Swagger extends Controller
      *     path="/swagger/recuperar_contrasena",
      *     tags={"Usuarios"},
      *     summary="Recuperación de contraseña",
-     *     description="Permite generar un token de recuperación y enviar un correo al usuario con un enlace para restablecer la contraseña.",
+     *     description="Endpoint que permite generar un token de recuperación y enviar un correo al usuario con un enlace para restablecer la contraseña.",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
@@ -424,7 +424,7 @@ class Swagger extends Controller
      *     path="/swagger/validar_token",
      *     tags={"Usuarios"},
      *     summary="Validación del token",
-     *     description="Permite validar el token del usuario.",
+     *     description="Endpoint que permite validar el token del usuario.",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
@@ -498,7 +498,7 @@ class Swagger extends Controller
      *     path="/swagger/cambiar_contrasena",
      *     tags={"Usuarios"},
      *     summary="Modificación de contraseña",
-     *     description="Permite cambiar la contraseña de los usuarios.",
+     *     description="Endpoint que permite cambiar la contraseña de los usuarios.",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
@@ -545,7 +545,7 @@ class Swagger extends Controller
             if (!$contrasena) {
                 $this->handleResponse([
                     'status' => 400,
-                    'message' => 'El campo correo es requerido'
+                    'message' => 'El campo contrasena es requerido'
                 ]);
                 return;
             }
