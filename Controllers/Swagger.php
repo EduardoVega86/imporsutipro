@@ -659,19 +659,11 @@ class Swagger extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Token válido, sesión iniciada",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example=200),
-     *             @OA\Property(property="message", type="string", example="Token válido, sesión iniciada"),
-     *             @OA\Property(property="data", type="object", example={"user_id": 1, "correo": "usuario@example.com"})
      *         )
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Token inválido o expirado",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example=401),
-     *             @OA\Property(property="message", type="string", example="Token no válido")
-     *         )
      *     ),
      *     @OA\Response(
      *         response=400,
