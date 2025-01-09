@@ -291,7 +291,7 @@ class Swagger extends Controller
      *      path="/swagger/validar_tiendas",
      *      tags={"Usuarios"},
      *      summary="Validación de tiendas",
-     *      description="Endpoint utilizado para validar tiendas existentes.",
+     *      description="Endpoint utilizado para validar las tiendas existentes.",
      *          @OA\RequestBody(
      *          required=true,
      *              @OA\MediaType(
@@ -411,7 +411,7 @@ class Swagger extends Controller
             }
 
             // Llamar al modelo para realizar la recuperación de contraseña
-            $response = $this->model->recuperar_contrasena($correo);
+            $response = $this->model->recuperarContrasena($correo);
             $this->handleResponse($response);
         } catch (Exception $e) {
             // Manejo de errores
@@ -419,7 +419,65 @@ class Swagger extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/swagger/validar_token",
+     *     tags={"Usuarios"},
+     *     summary="Validación del token",
+     *     description="Permite validar el token del usuario.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="token",
+     *                     type="string",
+     *                     description="Token del usuario"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Validación exitosa"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="El campo token es requerido"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al procesar la solicitud"
+     *     )
+     * )
+     */
 
+    public function validar_token()
+    {
+        try {
+            // Log de la solicitud para depuración
+            $this->logRequest('api/validar_token', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            // Obtener el cuerpo de la solicitud
+            $data = json_decode(file_get_contents("php://input"), true);
+            $token = $data['token'] ?? null;
+
+            // Validar que se envíe el correo
+            if (!$token) {
+                $this->handleResponse([
+                    'status' => 400,
+                    'message' => 'El campo token es requerido'
+                ]);
+                return;
+            }
+
+            $response = $this->model->validarToken($token);
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            // Manejo de errores
+            $this->handleException($e);
+        }
+    }
 
 
 

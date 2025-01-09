@@ -46,7 +46,6 @@ class SwaggerModel extends Query
             // Manejo de la respuesta 
             return $response;
         } catch (Exception $e) {
-            // Manejo de la excepcion
             //$this->handleException($e);
         }
     }
@@ -60,7 +59,6 @@ class SwaggerModel extends Query
             // Manejo de la respuesta 
             return $response;
         } catch (Exception $e) {
-            // Manejo de la excepcion
             //$this->handleException($e);
         }
     }
@@ -74,7 +72,6 @@ class SwaggerModel extends Query
             // Manejo de la respuesta 
             return $response;
         } catch (Exception $e) {
-            //Manejo de la excepcion
             /* $this->handleException($e); */
         }
     }
@@ -93,10 +90,22 @@ class SwaggerModel extends Query
         }
     }
 
-    public function recuperar_contrasena($correo)
+    public function recuperarContrasena($correo)
     {
         try {
             $response = $this->accesoModel->recuperar_contrasena($correo);
+
+            // Retornar la respuesta obtenida
+            return $response;
+        } catch (Exception $e) {
+            //$this->handleException($e);
+        }
+    }
+
+    public function validarToken($token)
+    {
+        try {
+            $response = $this->accesoModel->validarToken($token);
 
             // Retornar la respuesta obtenida
             return $response;
