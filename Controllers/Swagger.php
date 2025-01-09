@@ -500,40 +500,6 @@ class Swagger extends Controller
 
 
 
-    /**
-     * @OA\Post(
-     *     path="/swagger/cambiar_contrasena",
-     *     tags={"Usuarios"},
-     *     summary="Modificación de contraseña",
-     *     description="Permite cambiar la contraseña del usuario.",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 @OA\Property(
-     *                     property="token",
-     *                     type="string",
-     *                     description=Token del usuario"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="contrasena",
-     *                     type="string",
-     *                     description="Contraseña a actualizar del usuario"
-     *                 ),
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="El campo contraseña es requerido"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Error al procesar la solicitud"
-     *     )
-     * )
-     */
     public function cambiar_contrasena()
     {
         try {
