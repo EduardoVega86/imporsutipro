@@ -641,64 +641,6 @@ class Swagger extends Controller
     }
 
 
-    /**
-     * @OA\Post(
-     *     path="/swagger/jwt",
-     *     tags={"Usuarios"},
-     *     summary="Validación del token JWT",
-     *     description="Endpoint utilizado para la validación de token JWT y permitir el ingreso a los usuarios.",
-     *     @OA\Parameter(
-     *         name="Authorization",
-     *         in="header",
-     *         description="Token JWT del usuario (Formato: Bearer {jwt})",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Token vakudi"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="El token ha expirado"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Error al procesar la solicitud"
-     *     )
-     * )
-     */
-
-
-    public function jwt($token)
-    {
-        try {
-            $this->logRequest('swagger/jwt', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
-            $data = json_decode(file_get_contents("php://input"), true);
-
-            // Si $id está vacío, intenta capturarlo desde $_GET
-            // if (empty($id)) {
-            //     $id = $_GET['id_plataforma'] ?? null;
-            // }
-            // Validación de todos los datos requeridos
-            if (!$token) {
-                http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
-                return;
-            }
-
-            $response = $this->model->jwt($token);
-            $this->handleResponse($response);
-        } catch (Exception $e) {
-            $this->handleException($e);
-        }
-    }
-
-
-
-
 
 
 

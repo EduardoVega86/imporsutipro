@@ -139,15 +139,4 @@ class SwaggerModel extends Query
             //$this->handleException($e);
         }
     }
-
-    public function jwt($token)
-    {
-        try {
-            $response = $this->accesoModel->jwt($token);
-
-            return $response;
-        } catch (Exception $e) {
-            // $this->handleException($e);
-        }
-    }
 }
