@@ -571,7 +571,7 @@ class Swagger extends Controller
      *     path="/swagger/validar_refiere",
      *     tags={"Usuarios"},
      *     summary="Validación del token refiere",
-     *     description="Endpoint que permite validar el token referido del usuario.",
+     *     description="Endpoint que permite validar el token referido de las plataformas.",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
@@ -580,7 +580,7 @@ class Swagger extends Controller
      *                 @OA\Property(
      *                     property="id_referido",
      *                     type="string",
-     *                     description="Token referido del usuario"
+     *                     description="Token referido de plataforma"
      *                 )
      *             )
      *         )
