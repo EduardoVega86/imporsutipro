@@ -517,7 +517,7 @@ class Swagger extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Validación exitosa"
+     *         description="Actualización exitosa"
      *     ),
      *     @OA\Response(
      *         response=500,
@@ -541,7 +541,7 @@ class Swagger extends Controller
             if (!$contrasena) {
                 $this->handleResponse([
                     'status' => 400,
-                    'message' => 'El campo correo es requerido'
+                    'message' => 'El campo contraseñ es requerido'
                 ]);
                 return;
             }
