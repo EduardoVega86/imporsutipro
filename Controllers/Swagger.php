@@ -570,8 +570,8 @@ class Swagger extends Controller
      * @OA\Post(
      *     path="/swagger/validar_refiere",
      *     tags={"Usuarios"},
-     *     summary="Validación del token refiere,
-     *     description="Endpoint que permite validar el token referido de los usuarios.",
+     *     summary="Validación del token refiere",
+     *     description="Endpoint que permite validar el token referido del usuario.",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
@@ -579,27 +579,26 @@ class Swagger extends Controller
      *             @OA\Schema(
      *                 @OA\Property(
      *                     property="id_referido",
-     *                     type="string"
+     *                     type="string",
+     *                     description="Token referido del usuario"
      *                 )
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Validacion exitosa"
+     *         description="Validación exitosa"
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Error al verificar el token refiere"
+     *         description="El campo token referido es requerido"
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Error interno al procesar la solicitud"
+     *         description="Error al procesar la solicitud"
      *     )
      * )
      */
-
-
 
     public function validar_refiere()
     {
