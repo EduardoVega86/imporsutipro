@@ -520,10 +520,6 @@ class Swagger extends Controller
      *         description="Actualización exitosa"
      *     ),
      *     @OA\Response(
-     *         response=400,
-     *         description="Solicitud incorrecta. Puede deberse a que faltan campos obligatorios (contraseña o token)."
-     *     ),
-     *     @OA\Response(
      *         response=500,
      *         description="Error al procesar la solicitud"
      *     )
