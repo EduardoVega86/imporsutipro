@@ -558,10 +558,15 @@ class AccesoModel extends Query
         $sql = "SELECT * FROM users WHERE token_act = ? AND estado_token = 1";
         $params = [$token];
         $result = $this->simple_select($sql, $params);
+
         if ($result > 0) {
-            return true;
+            return [
+                'exists' => true,
+            ];
         }
-        return false;
+        return [
+            'exists' => false,
+        ];
     }
 
     public function recuperar_contrasena($correo)

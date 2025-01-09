@@ -472,7 +472,21 @@ class Swagger extends Controller
             }
 
             $response = $this->model->validarToken($token);
-            $this->handleResponse($response);
+
+            // Construcción de la respuesta basada en la validación
+            if ($response['exists']) {
+                $this->handleResponse([
+                    'status' => 200,
+                    'message' => "El '$token' es valido.",
+                    'data' => $response
+                ], 200); // Devuelve explícitamente el código 200
+            } else {
+                $this->handleResponse([
+                    'status' => 200,
+                    'message' => "El '$token' es invalido.",
+                    'data' => $response
+                ], 200); // También 200 porque la solicitud fue válida, aunque no exista
+            }
         } catch (Exception $e) {
             // Manejo de errores
             $this->handleException($e);
