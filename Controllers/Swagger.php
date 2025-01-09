@@ -524,10 +524,6 @@ class Swagger extends Controller
      *         description="El campo token es requerido"
      *     ),
      *     @OA\Response(
-     *         response=400,
-     *         description="El campo contraseña es requerido"
-     *     ),
-     *     @OA\Response(
      *         response=500,
      *         description="Error al procesar la solicitud"
      *     )
