@@ -658,16 +658,15 @@ class Swagger extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Token válido, sesión iniciada",
-     *         )
+     *         description="Token vakudi"
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="Token inválido o expirado",
+     *         description="El token ha expirado"
      *     ),
      *     @OA\Response(
-     *         response=400,
-     *         description="Solicitud mal formada"
+     *         response=500,
+     *         description="Error al procesar la solicitud"
      *     )
      * )
      */
