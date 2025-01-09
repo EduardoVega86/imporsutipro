@@ -650,7 +650,7 @@ class AccesoModel extends Query
         $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
         $sql = "UPDATE users SET con_users = ?, token_act = '', estado_token = 0 WHERE token_act = ?";
         $data = [$contrasena, $token];
-        print_r($data);
+        //print_r($data);
         $response1 = $this->update($sql, $data);
         if ($response1 == 1) {
             $response = $this->initialResponse();
@@ -662,7 +662,7 @@ class AccesoModel extends Query
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'Error al actualizar la contraseña';
-            print_r($response1);
+            //   print_r($response1);
         }
         return $response;
     }
