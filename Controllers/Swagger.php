@@ -539,13 +539,13 @@ class Swagger extends Controller
             // Obtener el cuerpo de la solicitud
             $data = json_decode(file_get_contents("php://input"), true);
             $contrasena = $data['contrasena'] ?? null;
-            $token = $data['token'] ?? null;
+            $token = $data['contrasena'] ?? null;
 
             // Validar que se envíe el correo
             if (!$contrasena) {
                 $this->handleResponse([
                     'status' => 400,
-                    'message' => 'El campo contrasena es requerido'
+                    'message' => 'El campo correo es requerido'
                 ]);
                 return;
             }
