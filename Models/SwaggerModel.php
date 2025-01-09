@@ -4,15 +4,19 @@ require_once 'PHPMailer/PHPMailer.php';
 require_once 'PHPMailer/SMTP.php';
 require_once 'PHPMailer/Exception.php';
 
+require_once 'Models/HomeModel.php';
 require_once 'Models/AccesoModel.php';
+
 
 class SwaggerModel extends Query
 {
     private $accesoModel;
+    private $homeModel;
     public function __construct()
     {
         parent::__construct();
         $this->accesoModel = new AccesoModel();
+        $this->homeModel = new HomeModel;
     }
 
     //Manejo de las respuestas
@@ -118,6 +122,17 @@ class SwaggerModel extends Query
     {
         try {
             $response = $this->accesoModel->cambiarContrasena($token, $contrasena);
+
+            return $response;
+        } catch (Exception $e) {
+            //$this->handleException($e);
+        }
+    }
+
+    public function validarRefiere($id)
+    {
+        try {
+            $response = $this->homeModel->validarRefiere($id);
 
             return $response;
         } catch (Exception $e) {

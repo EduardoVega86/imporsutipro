@@ -462,7 +462,6 @@ class Swagger extends Controller
             $data = json_decode(file_get_contents("php://input"), true);
             $token = $data['token'] ?? null;
 
-            // Validar que se envíe el correo
             if (!$token) {
                 $this->handleResponse([
                     'status' => 400,
@@ -542,7 +541,6 @@ class Swagger extends Controller
             $contrasena = $data['contraseña'] ?? null;
             $token = $data['token'] ?? null;
 
-            // Validar que se envíe el correo
             if (!$contrasena) {
                 $this->handleResponse([
                     'status' => 400,
@@ -559,7 +557,7 @@ class Swagger extends Controller
                 return;
             }
 
-            // Llamar al modelo para realizar la recuperación de contraseña
+            // Llamar al modelo para realizar el cambio de contraseña
             $response = $this->model->cambiarContrasena($token, $contrasena);
             $this->handleResponse($response);
         } catch (Exception $e) {
@@ -567,6 +565,70 @@ class Swagger extends Controller
             $this->handleException($e);
         }
     }
+
+    /**
+     * @OA\Post(
+     *     path="/swagger/validar_refiere",
+     *     tags={"Usuarios"},
+     *     summary="Validación del token refiere,
+     *     description="Endpoint que permite validar el token referido de los usuarios.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="id_referido",
+     *                     type="string"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Validacion exitosa"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error al verificar el token refiere"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno al procesar la solicitud"
+     *     )
+     * )
+     */
+
+
+
+    public function validar_refiere()
+    {
+        try {
+            // Log de la solicitud para depuración
+            $this->logRequest('api/validar_refiere', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            // Obtener el cuerpo de la solicitud
+            $data = json_decode(file_get_contents("php://input"), true);
+            $id_referido = $data['id_referido'] ?? null;
+
+            // Validar que se envíe el correo
+            if (!$id_referido) {
+                $this->handleResponse([
+                    'status' => 400,
+                    'message' => 'El campo id referido es requerido'
+                ]);
+                return;
+            }
+
+            // Llamar al modelo para realizar la validacion del token
+            $response = $this->model->validarRefiere($id_referido);
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            // Manejo de errores
+            $this->handleException($e);
+        }
+    }
+
+
 
 
 
