@@ -403,9 +403,8 @@ class Swagger extends Controller
 
             // Validar que se envíe el correo
             if (!$correo) {
-                echo json_encode([
+                $this->handleResponse([
                     'status' => 400,
-                    'title' => 'Error',
                     'message' => 'El campo correo es requerido'
                 ]);
                 return;
@@ -413,7 +412,7 @@ class Swagger extends Controller
 
             // Llamar al modelo para realizar la recuperación de contraseña
             $response = $this->model->recuperar_contrasena($correo);
-            echo json_encode($response);
+            $this->handleResponse($response);
         } catch (Exception $e) {
             // Manejo de errores
             $this->handleException($e);
