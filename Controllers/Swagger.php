@@ -640,6 +640,67 @@ class Swagger extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/swagger/obtener_productos",
+     *     tags={"Productos"},
+     *     summary="Obtener productos por plataforma",
+     *     description="Endpoint para obtener la lista de productos asociados a una plataforma.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Productos obtenidos exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error al obtener productos"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado"
+     *     )
+     * )
+     */
+    public function obtener_productos()
+    {
+        try {
+            // Capturar el UUID desde los parámetros de la solicitud
+            $uuid = $_GET['uuid'] ?? null;
+
+            if (!$uuid) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'El campo UUID es requerido']);
+                return;
+            }
+
+            // Llamar al modelo para obtener los productos
+            $response = $this->model->obtener_productos($uuid);
+
+            if ($response['status'] === 200) {
+                http_response_code(200);
+            } else {
+                http_response_code(400);
+            }
+
+            echo json_encode($response);
+        } catch (Exception $e) {
+            // Manejo de errores
+            http_response_code(500);
+            echo json_encode(['status' => 500, 'message' => 'Error interno del servidor', 'error' => $e->getMessage()]);
+        }
+    }
+
+
+
+
 
 
 
