@@ -661,6 +661,7 @@ class AccesoModel extends Query
             $response['status'] = 500;
             $response['title'] = 'Error';
             $response['message'] = 'Error al actualizar la contraseña';
+            print_r($response);
         }
         return $response;
     }
