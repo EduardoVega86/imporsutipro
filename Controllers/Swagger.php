@@ -495,6 +495,81 @@ class Swagger extends Controller
 
 
 
+    /**
+     * @OA\Post(
+     *     path="/swagger/recuperar_contrasena",
+     *     tags={"Usuarios"},
+     *     summary="Recuperación de contraseña",
+     *     description="Permite generar un token de recuperación y enviar un correo al usuario con un enlace para restablecer la contraseña.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="correo",
+     *                     type="string",
+     *                     description="Correo electrónico del usuario"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Correo enviado correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="El campo correo es requerido"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al procesar la solicitud"
+     *     )
+     * )
+     */
+    public function cambiar_contrasena()
+    {
+        try {
+            // Log de la solicitud para depuración
+            $this->logRequest('api/cambiar_contrasena', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            // Obtener el cuerpo de la solicitud
+            $data = json_decode(file_get_contents("php://input"), true);
+            $contrasena = $data['contrasena'] ?? null;
+            $token = $data['contrasena'] ?? null;
+
+            // Validar que se envíe el correo
+            if (!$contrasena) {
+                $this->handleResponse([
+                    'status' => 400,
+                    'message' => 'El campo correo es requerido'
+                ]);
+                return;
+            }
+
+            if (!$token) {
+                $this->handleResponse([
+                    'status' => 400,
+                    'message' => 'El campo token es requerido'
+                ]);
+                return;
+            }
+
+            // Llamar al modelo para realizar la recuperación de contraseña
+            $response = $this->model->cambiarContrasena($contrasena, $token);
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            // Manejo de errores
+            $this->handleException($e);
+        }
+    }
+
+
+
+
+
+
+
 
 
 

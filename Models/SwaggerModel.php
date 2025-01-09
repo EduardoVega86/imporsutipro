@@ -113,4 +113,15 @@ class SwaggerModel extends Query
             //$this->handleException($e);
         }
     }
+
+    public function cambiarContrasena($token, $contrasena)
+    {
+        try {
+            $response = $this->accesoModel->cambiarContrasena($token, $contrasena);
+
+            return $response;
+        } catch (Exception $e) {
+            //$this->handleException($e);
+        }
+    }
 }
