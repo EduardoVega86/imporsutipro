@@ -546,7 +546,7 @@ class Swagger extends Controller
             if (!$contrasena) {
                 $this->handleResponse([
                     'status' => 400,
-                    'message' => 'El campo contraseñ es requerido'
+                    'message' => 'El campo contraseña es requerido'
                 ]);
                 return;
             }
@@ -560,7 +560,7 @@ class Swagger extends Controller
             }
 
             // Llamar al modelo para realizar la recuperación de contraseña
-            $response = $this->model->cambiarContrasena($contrasena, $token);
+            $response = $this->model->cambiarContrasena($token, $contrasena);
             $this->handleResponse($response);
         } catch (Exception $e) {
             // Manejo de errores
