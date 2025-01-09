@@ -520,11 +520,16 @@ class Swagger extends Controller
      *         description="Actualización exitosa"
      *     ),
      *     @OA\Response(
+     *         response=400,
+     *         description="Error al actualizar la contraseña"
+     *     ),
+     *     @OA\Response(
      *         response=500,
-     *         description="Error al procesar la solicitud"
+     *         description="Error interno al procesar la solicitud"
      *     )
      * )
      */
+
 
 
     public function cambiar_contrasena()
