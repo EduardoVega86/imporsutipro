@@ -502,7 +502,41 @@ class Swagger extends Controller
 
 
 
+    public function cambiar_contrasena()
+    {
+        try {
+            // Log de la solicitud para depuración
+            $this->logRequest('api/cambiar_contrasena', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            // Obtener el cuerpo de la solicitud
+            $data = json_decode(file_get_contents("php://input"), true);
+            $contrasena = $data['contrasena'] ?? null;
+            $token = $data['contrasena'] ?? null;
 
+            // Validar que se envíe el correo
+            if (!$contrasena) {
+                $this->handleResponse([
+                    'status' => 400,
+                    'message' => 'El campo correo es requerido'
+                ]);
+                return;
+            }
+
+            if (!$token) {
+                $this->handleResponse([
+                    'status' => 400,
+                    'message' => 'El campo token es requerido'
+                ]);
+                return;
+            }
+
+            // Llamar al modelo para realizar la recuperación de contraseña
+            $response = $this->model->cambiarContrasena($contrasena, $token);
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            // Manejo de errores
+            $this->handleException($e);
+        }
+    }
 
 
 
