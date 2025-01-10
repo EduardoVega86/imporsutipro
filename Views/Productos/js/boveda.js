@@ -29,7 +29,7 @@ const dataTableOptions = {
 const initDataTable = async () =>{
     //si ya fue inicializada, destruimos y volvemos a crear
     if (dataTableIsInitialized){
-        dataTableIsInitialized.destroy();
+        Datatable.destroy();
     }
 
     //llamamos al listado de bovedas para cargar dinamicamente al tbody

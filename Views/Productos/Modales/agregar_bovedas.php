@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalAgregarBovedaLabel">Agregar Nuevo</h1>
+                <h1 class="modal-title fs-5" id="modalAgregarBovedaLabel">Nuevo Producto</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
 
@@ -58,7 +58,7 @@
                         </button>
                         <button
                             type="submit"
-                            class="btn btn-primary">
+                            class="btn btn-success mb-3">
                             Guardar
                         </button>
                     </div>
