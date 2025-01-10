@@ -94,7 +94,7 @@ const cargarCategorias = async () => {
 // Llenar select de Proveedores
 const cargarProveedores = async () => {
     try {
-    const response = await fetch(`${SERVERURL}Productos/obtener_proveedores`);
+    const response = await fetch(`${SERVERURL}Productos/obtenerProveedores`);
     const proveedores = await response.json();
 
     let opciones = "<option value=''>Seleccione un Proveedor</option>";
