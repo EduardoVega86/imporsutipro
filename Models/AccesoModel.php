@@ -436,11 +436,13 @@ class AccesoModel extends Query
         $datos_usuario = $this->select($sql, [$usuario]);
 
         // 2. Validar si la consulta devolvió resultados
-        if (empty($datos_usuario) || !isset($datos_usuario[0])) {
-            return [
-                "status" => 401,
-                "message" => "Usuario no encontrado"
-            ];
+        if (empty($datos_usuario)) {
+            $response = $this->initialResponse();
+            $response['status'] = 401;
+            $response['title'] = 'Error';
+            $response['message'] = 'Usuario no encontrado';
+
+            return $response;
         }
 
 
