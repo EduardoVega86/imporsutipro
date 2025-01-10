@@ -29,7 +29,7 @@ class ProductosModel extends Query
 
     public function obtenerProveedores()
     {
-        $sql = "SELECT nombre_tienda
+        $sql = "SELECT nombre_tienda, id_plataforma
                 FROM plataformas
                 WHERE proveedor = 1";
         return $this->select($sql);
