@@ -36,7 +36,7 @@ const initDataTable = async () =>{
     await listBovedas();
 
     //Inicializamos la datatable sobre la tabla con id = "datatable_bovedas"
-    Datatable = $("#datatable_bovedas").Datatable(dataTableOptions);
+    Datatable = $("#datatable_bovedas").DataTable(dataTableOptions);
 
     //Maracamos como inicializada
     dataTableIsInitialized= true;
