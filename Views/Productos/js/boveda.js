@@ -87,6 +87,11 @@ const initSelect2 = () => {
     });
 };
 
+cargarCategorias();
+cargarProveedores();
+
+
+
 // Llenar select de Categorías
 const cargarCategorias = async () => {
     try {
