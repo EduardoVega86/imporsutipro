@@ -642,7 +642,7 @@ class Wallet extends Controller
         $fecha = $_POST['fecha'] ?? 0;
         $search = $_POST['search'] ?? "";
 
-        $response = $this->model->obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search);
+        $response = $this->model->obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search, $page);
 
         echo json_encode($response);
     }

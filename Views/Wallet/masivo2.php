@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Filters</title>
+    <title>Guías Masivas</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="https://tiendas.imporsuitpro.com/imgs/favicon.png">
     <script>
         function toggleFilters() {
             const filters = document.getElementById('filters-section');
@@ -31,7 +32,7 @@
     <main class="container mx-auto p-4">
         <!-- Encabezado -->
         <section class="text-center">
-            <h1 class="font-bold text-xl text-white md:text-2xl mb-4">Guias por acreditar</h1>
+            <h1 class="font-bold text-xl text-white md:text-2xl mb-4">Guias Masivo</h1>
         </section>
 
         <!-- Filtros -->
@@ -135,6 +136,17 @@
                 <div id="card-results" class="block md:hidden space-y-4">
                     <!-- Aquí se llenarán las tarjetas dinámicamente -->
                 </div>
+
+
+            </div>
+            <div id="download" class="flex justify-center mt-4 hidden">
+                <button class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 text-nowrap rounded-md">Descargar</button>
+            </div>
+        </section>
+        <section id="pagination-info" class="p-4 text-gray-700">
+            <p id="showing-info"></p>
+            <div id="pagination-controls" class="flex justify-center space-x-2 mt-4">
+                <!-- Controles de paginación dinámicos -->
             </div>
         </section>
     </main>
@@ -144,7 +156,6 @@
 
         async function loadData(limit = 10, page = 1) {
             try {
-
                 limit = document.getElementById('cantidad').value;
                 const formData = new FormData();
                 formData.append('limit', limit);
@@ -154,13 +165,25 @@
                     method: 'POST',
                     body: formData
                 });
+
                 if (!response.ok) {
                     throw new Error("Error al obtener los datos");
                 }
 
-                const datos = await response.json();
+                const data = await response.json();
+                const datos = data.data;
+
+                // Actualiza la tabla y tarjetas
                 populateTable(datos);
                 populateCards(datos);
+
+                // Muestra la información total
+                const showingInfo = document.getElementById('showing-info');
+                const total = data.total || 0;
+                showingInfo.innerText = `Mostrando ${Math.min(limit * page, total)} de ${total} resultados`;
+
+                // Genera los controles de paginación
+                renderPaginationControls(limit, page, total);
             } catch (error) {
                 console.error("Error:", error);
                 alert("Hubo un error al cargar los datos.");
@@ -277,7 +300,85 @@
                 `;
                 tableBody.appendChild(row);
             });
+            const download = document.getElementById('download');
+            download.classList.remove('hidden');
         }
+
+        function renderPaginationControls(limit, currentPage, total) {
+            const paginationControls = document.getElementById('pagination-controls');
+            paginationControls.innerHTML = ""; // Limpia los controles previos
+
+            const totalPages = Math.ceil(total / limit);
+            const maxButtonsToShow = 10;
+
+            // Botón para ir al inicio
+            if (currentPage > 1) {
+                const firstButton = document.createElement('button');
+                firstButton.classList.add('bg-indigo-500', 'hover:bg-indigo-600', 'text-white', 'px-4', 'py-2', 'rounded-md');
+                firstButton.innerText = 'Inicio';
+                firstButton.onclick = () => loadData(limit, 1);
+                paginationControls.appendChild(firstButton);
+            }
+
+            // Botón para página anterior
+            if (currentPage > 1) {
+                const prevButton = document.createElement('button');
+                prevButton.classList.add('bg-indigo-500', 'hover:bg-indigo-600', 'text-white', 'px-4', 'py-2', 'rounded-md');
+                prevButton.innerText = 'Anterior';
+                prevButton.onclick = () => loadData(limit, currentPage - 1);
+                paginationControls.appendChild(prevButton);
+            }
+
+            // Mostrar un rango limitado de botones de página
+            const startPage = Math.max(1, currentPage - Math.floor(maxButtonsToShow / 2));
+            const endPage = Math.min(totalPages, startPage + maxButtonsToShow - 1);
+
+            if (startPage > 1) {
+                const dotsBefore = document.createElement('span');
+                dotsBefore.innerText = '...';
+                dotsBefore.classList.add('px-3', 'py-2', 'text-gray-500');
+                paginationControls.appendChild(dotsBefore);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.classList.add('px-3', 'py-2', 'rounded-md');
+                if (i === currentPage) {
+                    pageButton.classList.add('bg-indigo-600', 'text-white');
+                } else {
+                    pageButton.classList.add('bg-gray-200', 'text-gray-800');
+                    pageButton.onclick = () => loadData(limit, i);
+                }
+                pageButton.innerText = i;
+                paginationControls.appendChild(pageButton);
+            }
+
+            if (endPage < totalPages) {
+                const dotsAfter = document.createElement('span');
+                dotsAfter.innerText = '...';
+                dotsAfter.classList.add('px-3', 'py-2', 'text-gray-500');
+                paginationControls.appendChild(dotsAfter);
+            }
+
+            // Botón para página siguiente
+            if (currentPage < totalPages) {
+                const nextButton = document.createElement('button');
+                nextButton.classList.add('bg-indigo-500', 'hover:bg-indigo-600', 'text-white', 'px-4', 'py-2', 'rounded-md');
+                nextButton.innerText = 'Siguiente';
+                nextButton.onclick = () => loadData(limit, currentPage + 1);
+                paginationControls.appendChild(nextButton);
+            }
+
+            // Botón para ir al final
+            if (currentPage < totalPages) {
+                const lastButton = document.createElement('button');
+                lastButton.classList.add('bg-indigo-500', 'hover:bg-indigo-600', 'text-white', 'px-4', 'py-2', 'rounded-md');
+                lastButton.innerText = 'Final';
+                lastButton.onclick = () => loadData(limit, totalPages);
+                paginationControls.appendChild(lastButton);
+            }
+        }
+
 
         function populateCards(datos) {
             const cardResults = document.getElementById('card-results');

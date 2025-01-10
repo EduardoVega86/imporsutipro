@@ -1914,7 +1914,7 @@ class WalletModel extends Query
         return $response;
     }
 
-    public function obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search)
+    public function obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search, $page)
     {
         $visto = 0;
         $conditions = [];
@@ -2004,9 +2004,9 @@ class WalletModel extends Query
 
 
 
-        if ($visto == 0) {
+        /*  if ($visto == 0) {
             $conditions[] = "visto = 0";
-        }
+        } */
 
         // Filtro por fecha
         if ($fecha) {
@@ -2035,13 +2035,26 @@ class WalletModel extends Query
                 GROUP BY ccp.id_cabecera, cc.ciudad, cc.provincia, fc.plataforma_importa, fc.telefono
                 ORDER BY ccp.id_cabecera DESC
                 LIMIT $limit OFFSET $offset";
+        $sqlcount = "SELECT COUNT(DISTINCT ccp.id_cabecera) as total 
+       FROM cabecera_cuenta_pagar ccp
+       INNER JOIN facturas_cot fc ON ccp.numero_factura = fc.numero_factura
+       LEFT JOIN ciudad_cotizacion cc ON fc.ciudad_cot = cc.id_cotizacion
+       LEFT JOIN detalle_fact_cot dfc ON fc.numero_factura = dfc.numero_factura
+       LEFT JOIN productos p ON dfc.id_producto = p.id_producto
+       $whereClause";
 
 
+        $total_guias = $this->select($sqlcount, $params);
+        $total = $total_guias[0]['total'];
 
         // Ejecutar la consulta
         $response = $this->dselect($sql, $params);
 
+        $respuesta['data'] = $response;
+        $respuesta['total'] = $total;
+        $respuesta['page'] = $page;
+        $respuesta["limit"] = $limit;
 
-        return $response;
+        return $respuesta;
     }
 }
