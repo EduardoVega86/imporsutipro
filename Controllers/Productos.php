@@ -113,9 +113,9 @@ class Productos extends Controller
         $this->views->render($this, "landing_tienda", $existe_producto);
     }
 
-    public function bobeda()
+    public function boveda()
     {
-        $this->views->render($this, "bobeda");
+        $this->views->render($this, "bovedas");
     }
 
 
