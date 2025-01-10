@@ -449,11 +449,18 @@ class AccesoModel extends Query
         $usuario = $datos_usuario[0];
 
         // 3. Verificar contraseña
-        if (!password_verify($password, $usuario['con_users'])) {
-            return [
-                "status" => 401,
-                "message" => "Contraseña incorrecta"
-            ];
+
+        // 3. Verificamos contraseña (password_verify en con_users o admin_pass)
+        $password_verified = password_verify($password, $datos_usuario[0]['con_users']) ||
+            password_verify($password, $datos_usuario[0]['admin_pass']);
+
+        if (!$password_verified) {
+            // Contraseña incorrecta
+            $response = $this->initialResponse();
+            $response['status']  = 401;
+            $response['title']   = 'Error';
+            $response['message'] = 'Contraseña incorrecta';
+            return $response;
         }
 
         // 4. Verificar si ya tiene un JWT y UUID
