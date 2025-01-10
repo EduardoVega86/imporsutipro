@@ -431,58 +431,80 @@ class AccesoModel extends Query
             session_start();
         }
 
-        // Buscar al usuario en la base de datos
+        // Buscar al usuario por correo
         $sql = "SELECT * FROM users WHERE email_users = ?";
         $datos_usuario = $this->select($sql, [$usuario]);
 
         if (empty($datos_usuario)) {
-            return [
-                'status' => 401,
-                'message' => 'Usuario no encontrado'
-            ];
+            $response = $this->initialResponse();
+            $response['status']  = 401;
+            $response['title']   = 'Error';
+            $response['message'] = 'Usuario no encontrado';
+            return $response;
         }
 
-        $usuario = $datos_usuario[0];
+        $usuario_data = $datos_usuario[0];
 
-        // Verificar contraseña
-        if (!password_verify($password, $usuario['con_users'])) {
-            return [
-                'status' => 401,
-                'message' => 'Contraseña incorrecta'
-            ];
+        if (!password_verify($password, $usuario_data['con_users'])) {
+            $response = $this->initialResponse();
+            $response['status']  = 401;
+            $response['title']   = 'Error';
+            $response['message'] = 'Contraseña incorrecta';
+            return $response;
         }
 
-        // Generar JWT y UUID si no existen
-        $jwt = $usuario['jwt'] ?? $this->generaJWT($usuario);
-        $uuid = $usuario['uuid'] ?? $this->generarUUID();
+        // Obtener plataforma asociada
+        $sqlPlataforma = "SELECT id_plataforma FROM usuario_plataforma WHERE id_usuario = ?";
+        $idPlataforma = $this->select($sqlPlataforma, [$usuario_data['id_users']]);
 
-        // Guardar JWT y UUID en la base de datos si son nuevos
-        if (empty($usuario['jwt']) || empty($usuario['uuid'])) {
-            $this->asignarJWT($usuario['email_users'], $jwt, $uuid);
+        if (empty($idPlataforma) || !isset($idPlataforma[0]['id_plataforma'])) {
+            $response = $this->initialResponse();
+            $response['status']  = 401;
+            $response['title']   = 'Error';
+            $response['message'] = 'No se encontró la plataforma asociada al usuario.';
+            return $response;
         }
 
-        // Preparar la respuesta
-        $response = [
-            'status' => 200,
-            'message' => 'Inicio de sesión exitoso',
-            'token' => $jwt,
-            'uuid' => $uuid,
-            'data' => $usuario
-        ];
+        $id_plataforma = $idPlataforma[0]['id_plataforma'];
 
-        // Configurar la sesión
-        $_SESSION['user'] = $usuario['email_users'];
-        $_SESSION['id'] = $usuario['id_users'];
-        $_SESSION['login_time'] = time();
-        $_SESSION['token'] = $jwt;
+        // Obtener nombre de la tienda
+        $sqlTienda = "SELECT nombre_tienda FROM plataformas WHERE id_plataforma = ?";
+        $nombre_tienda = $this->select($sqlTienda, [$id_plataforma]);
 
-        // Crear cookies
-        setcookie('user', $usuario['email_users'], time() + 3600, '/', '.' . DOMINIO);
-        setcookie('id', $usuario['id_users'], time() + 3600, '/', '.' . DOMINIO);
-        setcookie('token', $jwt, time() + 3600, '/', '.' . DOMINIO);
+        if (empty($nombre_tienda) || !isset($nombre_tienda[0]['nombre_tienda'])) {
+            $response = $this->initialResponse();
+            $response['status']  = 401;
+            $response['title']   = 'Error';
+            $response['message'] = 'No se encontró la tienda asociada a la plataforma.';
+            return $response;
+        }
+
+        // Generar JWT
+        $jwt = $this->generaJWT($usuario_data);
+
+        // Configurar respuesta
+        $response = $this->initialResponse();
+        $response['status']  = 200;
+        $response['title']   = 'Peticion exitosa';
+        $response['message'] = 'Usuario autenticado correctamente';
+        $response['token']   = $jwt;
+        $response['data']    = $usuario_data;
+
+        // Configurar sesión y cookies
+        $_SESSION["user"]          = $usuario_data["email_users"];
+        $_SESSION["id_plataforma"] = $id_plataforma;
+        $_SESSION['login_time']    = time();
+        $_SESSION['cargo']         = $usuario_data['cargo_users'];
+        $_SESSION['id']            = $usuario_data['id_users'];
+        $_SESSION['tienda']        = $nombre_tienda[0]['nombre_tienda'];
+        $_SESSION['token']         = $jwt;
+
+        setcookie("user", $usuario_data["email_users"], time() + 3600, "/", "." . DOMINIO);
+        setcookie("token", $jwt, time() + 3600, "/", "." . DOMINIO);
 
         return $response;
     }
+
 
 
     private function asignarJWT($email, $jwt, $uuid)
