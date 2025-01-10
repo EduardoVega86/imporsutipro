@@ -99,7 +99,7 @@ const cargarProveedores = async () => {
 
     let opciones = "<option value=''>Seleccione un Proveedor</option>";
     proveedores.forEach((prov) => {
-        opciones += `<option value="${prov.id_proveedor}">${prov.nombre_proveedor}</option>`;
+        opciones += `<option value="${prov.id_plataforma}">${prov.nombre_tienda}</option>`;
     });
 
     document.getElementById("proveedorBoveda").innerHTML = opciones;
