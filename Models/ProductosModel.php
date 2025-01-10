@@ -45,7 +45,7 @@ class ProductosModel extends Query
 
     public function insertarBoveda($nombre, $idLinea, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)
     {
-        $sql = "INSERT INTO bobedas (nombre, id_linea, id_plataforma, ejemplo_landing, duplicar_funnel, videos)
+        $sql = "INSERT INTO bovedas (nombre, id_linea, id_plataforma, ejemplo_landing, duplicar_funnel, videos)
                 VALUES (?, ?, ?, ?, ?, ?)";
 
         $datos = [
