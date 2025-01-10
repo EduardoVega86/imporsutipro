@@ -144,7 +144,7 @@
             </div>
         </section>
         <section id="pagination-info" class="p-4 text-gray-700">
-            <p id="showing-info"></p>
+            <p class="text-white" id="showing-info"></p>
             <div id="pagination-controls" class="flex justify-center space-x-2 mt-4">
                 <!-- Controles de paginación dinámicos -->
             </div>
