@@ -193,7 +193,7 @@ class GuiasModel extends Query
         return $ciudad[0]['codigo_ciudad_laar'];
     }
 
-    public function actualizarGuia($numero_factura, $guia, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $usuario, $calle_principal, $calle_secundaria, $contiene, $provincia, $costo_flete, $transp, $estado_guia)
+    public function actualizarGuia($numero_factura, $guia, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $usuario, $calle_principal, $calle_secundaria, $contiene, $provincia, $costo_flete, $transp, $estado_guia, $url_google_maps = null)
     {
         switch ($transp) {
             case 'LAAR':
@@ -210,7 +210,8 @@ class GuiasModel extends Query
                 break;
         }
         $fecha_guia = date("Y-m-d H:i:s");
-        $sql =  "UPDATE `facturas_cot` SET `id_usuario`=?,`monto_factura`=?,`nombre`=?,`telefono`=?,`provincia`=?,`c_principal`=?,`ciudad_cot`=?,`c_secundaria`=?,`referencia`=?,`observacion`=?,`guia_enviada`=1,`transporte`='$transp',`celular`=?,`estado_guia_sistema`=$estado_guia,`numero_guia`=?,`cod`=?,`contiene`=?,`comentario`=?,`id_transporte`='$id_transporte', `costo_flete` =$costo_flete, `fecha_guia` = '$fecha_guia' WHERE `numero_factura`=?";
+        $sql =  "UPDATE `facturas_cot` SET `id_usuario`=?,`monto_factura`=?,`nombre`=?,`telefono`=?,`provincia`=?,`c_principal`=?,`ciudad_cot`=?,`c_secundaria`=?,`referencia`=?,`observacion`=?,`guia_enviada`=1,`transporte`='$transp',`celular`=?,`estado_guia_sistema`=$estado_guia,`numero_guia`=?,`cod`=?,`contiene`=?,`comentario`=?,`id_transporte`='$id_transporte', `costo_flete` =$costo_flete, `fecha_guia` = '$fecha_guia', `googlemaps` = '$url_google_maps'
+         WHERE `numero_factura`=?";
         $data = array($usuario, $costo_producto, $nombreDestino, $telefonoDestino, $provincia, $calle_principal, $ciudadDestino, $calle_secundaria, $referenciaDestino, $comentario, $celularDestino, $guia, $cod, $contiene, $comentario, $numero_factura);
         $response = $this->insert($sql, $data);
         return $response;
@@ -716,7 +717,7 @@ class GuiasModel extends Query
 
     //speed
 
-    public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $plataforma, $observacion, $recaudo, $monto_factura, $matriz)
+    public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $plataforma, $observacion, $recaudo, $monto_factura, $matriz, $url_google_maps)
     {
         $sql = "SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$plataforma'";
         $url = $this->select($sql);
@@ -741,7 +742,8 @@ class GuiasModel extends Query
             "observacion" => $observacion,
             "recaudo" => $recaudo,
             "monto_factura" => $monto_factura,
-            "matriz" => $matriz
+            "matriz" => $matriz,
+            "url_google_maps" => $url_google_maps
         );
 
 

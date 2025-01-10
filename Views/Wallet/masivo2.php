@@ -330,7 +330,7 @@
             if (currentPage > 1) {
                 const firstButton = document.createElement('button');
                 firstButton.classList.add('bg-indigo-500', 'hover:bg-indigo-600', 'text-white', 'px-4', 'py-2', 'rounded-md');
-                firstButton.innerText = 'Inicio';
+                firstButton.innerText = '«';
                 firstButton.onclick = () => loadData(limit, 1);
                 paginationControls.appendChild(firstButton);
             }
@@ -339,7 +339,7 @@
             if (currentPage > 1) {
                 const prevButton = document.createElement('button');
                 prevButton.classList.add('bg-indigo-500', 'hover:bg-indigo-600', 'text-white', 'px-4', 'py-2', 'rounded-md');
-                prevButton.innerText = 'Anterior';
+                prevButton.innerText = '<';
                 prevButton.onclick = () => loadData(limit, currentPage - 1);
                 paginationControls.appendChild(prevButton);
             }
@@ -379,7 +379,7 @@
             if (currentPage < totalPages) {
                 const nextButton = document.createElement('button');
                 nextButton.classList.add('bg-indigo-500', 'hover:bg-indigo-600', 'text-white', 'px-4', 'py-2', 'rounded-md');
-                nextButton.innerText = 'Siguiente';
+                nextButton.innerText = '>';
                 nextButton.onclick = () => loadData(limit, currentPage + 1);
                 paginationControls.appendChild(nextButton);
             }
@@ -388,7 +388,7 @@
             if (currentPage < totalPages) {
                 const lastButton = document.createElement('button');
                 lastButton.classList.add('bg-indigo-500', 'hover:bg-indigo-600', 'text-white', 'px-4', 'py-2', 'rounded-md');
-                lastButton.innerText = 'Final';
+                lastButton.innerText = '»';
                 lastButton.onclick = () => loadData(limit, totalPages);
                 paginationControls.appendChild(lastButton);
             }
