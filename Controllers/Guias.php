@@ -419,8 +419,12 @@ class Guias extends Controller
 
     public function anularGuia()
     {
-        if (!$this->isAuth())
+        if (!$this->isAuth()) {
+
             header("Location:  " . SERVERURL . "login");
+            exit();
+        }
+
         $id = $_POST['guia'];
         $datos = $this->model->anularGuia($id);
         echo json_encode($datos);

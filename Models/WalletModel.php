@@ -2019,15 +2019,22 @@ class WalletModel extends Query
         $sql = "SELECT ccp.*, 
                 cc.ciudad,
                 cc.provincia,
+                fc.plataforma_importa,
+                fc.telefono,
+                GROUP_CONCAT(p.nombre_producto SEPARATOR '|') AS nombres_productos,
+                dfc.cantidad,
+                dfc.precio_venta,
+                fc.transporte,
                 $logica 
                 FROM cabecera_cuenta_pagar ccp
                 INNER JOIN facturas_cot fc ON ccp.numero_factura = fc.numero_factura
                 LEFT JOIN ciudad_cotizacion cc ON fc.ciudad_cot = cc.id_cotizacion
-
-
+                LEFT JOIN detalle_fact_cot dfc ON fc.numero_factura = dfc.numero_factura
+                LEFT JOIN productos p ON dfc.id_producto = p.id_producto
                 $whereClause 
-                ORDER BY id_cabecera 
-                DESC LIMIT $limit OFFSET $offset ";
+                GROUP BY ccp.id_cabecera, cc.ciudad, cc.provincia, fc.plataforma_importa, fc.telefono
+                ORDER BY ccp.id_cabecera DESC
+                LIMIT $limit OFFSET $offset";
 
 
 

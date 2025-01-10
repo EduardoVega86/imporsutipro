@@ -25,6 +25,10 @@ class Wallet extends Controller
     {
         $this->views->render($this, "masivo");
     }
+    public function masivo2()
+    {
+        $this->views->render($this, "masivo2");
+    }
 
     public function billetera()
     {
