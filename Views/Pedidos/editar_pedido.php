@@ -7,6 +7,8 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
 <?php require_once './Views/Pedidos/css/editar_pedido_style.php'; ?>
 
 <?php require_once './Views/Pedidos/Modales/agregar_productos_editarPedido.php'; ?>
+<?php require_once './Views/Pedidos/Modales/subir_direccion_speed_pedido.php'; ?>
+
 <div class="custom-container-fluid mt-4">
     <div class="row">
         <div class="col">
@@ -171,6 +173,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     <input type="hidden" id="comision" name="comision">
                     <input type="hidden" id="otros" name="otros">
                     <input type="hidden" id="impuestos" name="impuestos">
+                    <input type="hidden" id="url_google_speed_pedido" name="url_google_speed_pedido">
                 </div>
                 <form>
                     <div class="mb-3">

@@ -532,6 +532,10 @@ $(document).ready(function () {
       $("#costo_flete").val(priceValue);
       $("#transportadora_selected").val(selectedCompany);
 
+      if ((selectedCompany = "speed")) {
+        $("#subir_direccion_speedModal").modal("show");
+      }
+
       // Remove 'selected' class from all transportadora elements
       $(".transportadora").removeClass("selected");
 
@@ -795,6 +799,10 @@ function generar_guia() {
   formData.append("costo_producto", costo_producto);
   formData.append("comentario", "Enviado por x");
   formData.append("id_transporte", transportadora_selected);
+  formData.append(
+    "url_google_speed_pedido",
+    $("#url_google_speed_pedido").val()
+  );
 
   // Realiza la solicitud AJAX
   if (transportadora_selected == 1) {
