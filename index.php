@@ -1,8 +1,27 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
+
+// Cargar autoload de Composer
+require_once 'vendor/autoload.php';
+
+// Cargar configuración de la aplicación
 require_once 'Config/Config.php';
 
+// Inicializar Dotenv para cargar las variables del archivo .env
+use Dotenv\Dotenv;
+
+// Ruta al directorio raíz
+$rootPath = __DIR__;
+try {
+    $dotenv = Dotenv::createImmutable($rootPath);
+    $dotenv->load();
+} catch (Exception $e) {
+    die('Error al cargar las variables de entorno: ' . $e->getMessage());
+}
+
+
+// Parsear la URL
 $rute = !empty($_GET['url']) ? $_GET['url'] : 'Home/index';
 if ($rute == "registro") {
     $rute = "Home/registro";
@@ -15,7 +34,7 @@ if ($rute == "registro") {
 }
 $array = explode('/', $rute);
 $controller = $array[0];
-// hacer mayuscula la primera letra
+// Hacer mayúscula la primera letra
 $controller = ucwords($controller);
 
 $method = "index";
@@ -33,7 +52,11 @@ if (!empty($array[2])) {
         $parameter = trim($parameter, '-||-');
     }
 }
+
+// Cargar archivos necesarios
 require_once 'Config/App/autoload.php';
+
+// Resolver el controlador y método
 $dirController = 'Controllers/' . $controller . '.php';
 if (file_exists($dirController)) {
     require_once($dirController);
@@ -41,7 +64,7 @@ if (file_exists($dirController)) {
     if (method_exists($controller, $method)) {
         $controller->$method($parameter);
     } else {
-        echo "No existe el metodo";
+        echo "No existe el método";
     }
 } else {
     echo "No existe el controlador";

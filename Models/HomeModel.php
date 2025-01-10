@@ -16,13 +16,12 @@ class HomeModel extends Query
         $params = [$id];
         $result = $this->simple_select($sql, $params);
         if ($result > 0) {
-            return true;
+            return [
+                'exists' => true,
+            ];
         }
-        return false;
+        return [
+            'exists' => false
+        ];
     }
-    
-    
-    
-
-
 }
