@@ -75,16 +75,50 @@ const listBovedas = async ()=>{
 };
 
 
-const initSelect2 = () => {
-    $("#categoriaBoveda").select2({
-      placeholder: "Seleccione una Categoría",
-      allowClear: true,
+
+
+$("#categoriaBoveda").select2({
+  placeholder: "Seleccione una Categoría",
+  allowClear: true,
+});
+
+$("#proveedorBoveda").select2({
+  placeholder: "Seleccione un Proveedor",
+  allowClear: true,
+});
+
+// Llenar select de Categorías
+const cargarCategorias = async () => {
+    try {
+    const response = await fetch(`${SERVERURL}Productos/obtener_lineas_global`);
+    const categorias = await response.json();
+
+    let opciones = "<option value=''>Seleccione una Categoría</option>";
+    categorias.forEach((cat) => {
+        opciones += `<option value="${cat.id_linea}">${cat.nombre_linea}</option>`;
     });
-  
-    $("#proveedorBoveda").select2({
-      placeholder: "Seleccione un Proveedor",
-      allowClear: true,
+
+    document.getElementById("categoriaBoveda").innerHTML = opciones;
+    } catch (error) {
+    console.error("Error al cargar categorías:", error);
+    }
+};
+
+// Llenar select de Proveedores
+const cargarProveedores = async () => {
+    try {
+    const response = await fetch(`${SERVERURL}Productos/obtenerProveedores`);
+    const proveedores = await response.json();
+
+    let opciones = "<option value=''>Seleccione un Proveedor</option>";
+    proveedores.forEach((prov) => {
+        opciones += `<option value="${prov.id_plataforma}">${prov.nombre_tienda}</option>`;
     });
+
+    document.getElementById("proveedorBoveda").innerHTML = opciones;
+    } catch (error) {
+    console.error("Error al cargar proveedores:", error);
+    }
 };
 
 
@@ -94,40 +128,6 @@ window.addEventListener("load", async()=>{
     await cargarCategorias();
     await cargarProveedores();
 
-
-    // Llenar select de Categorías
-    const cargarCategorias = async () => {
-        try {
-        const response = await fetch(`${SERVERURL}Productos/obtener_lineas_global`);
-        const categorias = await response.json();
-
-        let opciones = "<option value=''>Seleccione una Categoría</option>";
-        categorias.forEach((cat) => {
-            opciones += `<option value="${cat.id_linea}">${cat.nombre_linea}</option>`;
-        });
-
-        document.getElementById("categoriaBoveda").innerHTML = opciones;
-        } catch (error) {
-        console.error("Error al cargar categorías:", error);
-        }
-    };
-
-    // Llenar select de Proveedores
-    const cargarProveedores = async () => {
-        try {
-        const response = await fetch(`${SERVERURL}Productos/obtenerProveedores`);
-        const proveedores = await response.json();
-
-        let opciones = "<option value=''>Seleccione un Proveedor</option>";
-        proveedores.forEach((prov) => {
-            opciones += `<option value="${prov.id_plataforma}">${prov.nombre_tienda}</option>`;
-        });
-
-        document.getElementById("proveedorBoveda").innerHTML = opciones;
-        } catch (error) {
-        console.error("Error al cargar proveedores:", error);
-        }
-    };    
 
         // Escuchar el submit del formulario "formAgregarBoveda"
         document.getElementById("formAgregarBoveda").addEventListener("submit", async (e) => {
