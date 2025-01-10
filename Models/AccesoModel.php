@@ -14,7 +14,18 @@ use \Firebase\JWT\Key;
 
 class AccesoModel extends Query
 {
-    private $jwt_secret = 'semeljxAFrbOvDCHQ98jRHuwhLRdPw6GY0hhhvJdQ6rbkc5SMsXVCcgUTtzsLQyR'; // Cambia 'your_secret_key' por una clave secreta segura
+    private $jwt_secret;
+
+    public function __construct()
+    {
+        parent::__construct(); // Llama al constructor de la clase Query
+
+        // Carga el secreto JWT desde las variables de entorno
+        if (!isset($_ENV['JWT_SECRET'])) {
+            throw new Exception("JWT_SECRET no está definido en el archivo .env");
+        }
+        $this->jwt_secret = $_ENV['JWT_SECRET'];
+    }
 
     /**
      * Genera un JWT con los datos de usuario.
@@ -35,7 +46,6 @@ class AccesoModel extends Query
             'nbf'     => time()
         ];
 
-        // Codificamos con la clave secreta que definiste en $this->jwt_secret
         return JWT::encode($payload, $this->jwt_secret, 'HS256');
     }
 
@@ -498,7 +508,6 @@ class AccesoModel extends Query
     private function generarJWTUnico($email, $data)
     {
         $id_plataforma = $data['id_plataforma'] ?? null;
-        $key = $this->jwt_secret;
 
         $payload = [
             "iat" => time(),
@@ -507,7 +516,7 @@ class AccesoModel extends Query
             "id_plataforma" => $id_plataforma
         ];
 
-        return JWT::encode($payload, $key, 'HS256');
+        return JWT::encode($payload, $this->jwt_secret, 'HS256');
     }
 
     public function uuid()
