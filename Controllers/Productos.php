@@ -135,6 +135,54 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    // Productos Controller
+
+    public function agregar_boveda()
+    {
+        // Verificamos si llegan los campos que necesitamos (nombre, categoria, etc.)
+        if (isset($_POST['nombre']) && isset($_POST['categoria']) && isset($_POST['proveedor']) && isset($_POST['ejemploLanding']) && isset($_POST['duplicarFunnel']) && isset($_POST['videosBoveda'])) {
+            $nombre = $_POST['nombre'];
+            $categoria = $_POST['categoria'];
+            $proveedor = $_POST['proveedor'];
+            $ejemplo_landing = $_POST['ejemploLanding'] ?? '';
+            $duplicar_funnel = $_POST['duplicarFunnel'] ?? '';
+            $videos = $_POST['videosBoveda'] ?? '';
+
+            // Llamada al modelo para insertar
+            $result = $this->model->insertarBoveda(
+                $nombre,
+                $categoria,
+                $proveedor,
+                $ejemplo_landing,
+                $duplicar_funnel,
+                $videos
+            );
+
+            if ($result > 0) {
+                $response = [
+                    "status" => 200,
+                    "title" => "Bóveda agregada",
+                    "message" => "La bóveda se agregó correctamente."
+                ];
+            } else {
+                $response = [
+                    "status" => 500,
+                    "title" => "Error",
+                    "message" => "Hubo un problema al guardar la bóveda."
+                ];
+            }
+        } else {
+            $response = [
+                "status" => 400,
+                "title" => "Datos incompletos",
+                "message" => "Faltan campos obligatorios."
+            ];
+        }
+
+        echo json_encode($response);
+        die();
+    }
+
     public function obtener_productos_bodega($bodega)
     {
         $response = $this->model->obtener_productos_bodega($bodega);

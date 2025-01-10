@@ -77,4 +77,72 @@ const listBovedas = async ()=>{
 //Cuando cargue la ventana se inicialzia Datatable
 window.addEventListener("load", async()=>{
     await initDataTable();
+
+    // Escuchar el submit del formulario "formAgregarBoveda"
+    document.getElementById("formAgregarBoveda").addEventListener("submit", async (e) => {
+        e.preventDefault(); // Evita que se recargue la página
+        
+        // Capturar datos del formulario
+        const nombre = document.getElementById("nombreBoveda").value;
+        const categoria = document.getElementById("categoriaBoveda").value;
+        const proveedor = document.getElementById("proveedorBoveda").value;
+        const ejemploLanding = document.getElementById("ejemploLanding").value;
+        const duplicarFunnel = document.getElementById("duplicarFunnel").value;
+        const videosBoveda = document.getElementById("videosBoveda").value;
+
+        // Crear objeto con los datos
+        let formData = new FormData();
+        formData.append("nombre", nombre);
+        formData.append("categoria", categoria);
+        formData.append("proveedor", proveedor);
+        formData.append("ejemploLanding", ejemploLanding);
+        formData.append("duplicarFunnel", duplicarFunnel);
+        formData.append("videosBoveda", videosBoveda);
+
+        try {
+            // Enviar peticion POST con fetch
+            const response = await fetch(`${SERVERURL}Productos/agregar_boveda`, {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.status === 200) {
+                // Éxito
+                Swal.fire({
+                    icon: "success",
+                    title: result.title,
+                    text: result.message,
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+
+                // Cerrar modal (si usas Bootstrap 5)
+                const modal = document.getElementById("modalAgregarBoveda");
+                const modalBootstrap = bootstrap.Modal.getInstance(modal);
+                modalBootstrap.hide();
+
+                // Limpiar formulario
+                document.getElementById("formAgregarBoveda").reset();
+
+                // Recargar dataTable
+                initDataTable();
+            } else {
+                // Error
+                Swal.fire({
+                    icon: "error",
+                    title: result.title,
+                    text: result.message,
+                });
+            }
+        } catch (error) {
+            console.error("Error al agregar Boveda:", error);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "No se pudo procesar la solicitud",
+            });
+        }
+    });
 })

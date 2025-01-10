@@ -26,6 +26,16 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
+    public function insertarBoveda($nombre, $categoria, $proveedor, $ejemploLanding, $duplicarFunnel, $videos)
+    {
+        $sql = "INSERT INTO bovedas 
+                (nombre, id_linea, id_plataforma, ejemplo_landing, duplicar_funnel, videos) 
+                VALUES (?, ?, ?, ?, ?, ?)";
+
+        $datos = [$nombre, $categoria, $proveedor, $ejemploLanding, $duplicarFunnel, $videos];
+        return $this->insert($sql, $datos);
+    }
+
 
     public function obtener_productos_bodega($bodega)
     {
