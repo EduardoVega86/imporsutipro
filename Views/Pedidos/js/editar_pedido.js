@@ -532,7 +532,7 @@ $(document).ready(function () {
       $("#costo_flete").val(priceValue);
       $("#transportadora_selected").val(selectedCompany);
 
-      if ((selectedCompany = "speed")) {
+      if (selectedCompany == "speed") {
         $("#subir_direccion_speedModal").modal("show");
       }
 
