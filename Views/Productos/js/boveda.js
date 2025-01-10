@@ -182,3 +182,17 @@ window.addEventListener("load", async()=>{
         }
     });
 })
+
+
+const initSelect2 = () => {
+    // Se realiza select2 teniendo en cuenta la dependencia en query y se inyecta despues de cargar la pagina 
+    $("#categoriaBoveda").select2({
+      placeholder: "Seleccione una Categoría",
+      allowClear: true
+    });
+  
+    $("#proveedorBoveda").select2({
+      placeholder: "Seleccione un Proveedor",
+      allowClear: true
+    });
+  };
