@@ -176,7 +176,6 @@ class Productos extends Controller
     {
         $proveedores = $this->model->obtenerProveedores();
         echo json_encode($proveedores);
-        die();
     }
 
 
