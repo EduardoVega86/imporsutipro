@@ -1916,7 +1916,7 @@ class WalletModel extends Query
 
     public function obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search, $page)
     {
-        $visto = 0;
+        /*   $visto = 0; */
         $conditions = [];
         $params = [];
 

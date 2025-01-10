@@ -309,7 +309,7 @@
             paginationControls.innerHTML = ""; // Limpia los controles previos
 
             const totalPages = Math.ceil(total / limit);
-            const maxButtonsToShow = 10;
+            const maxButtonsToShow = 5;
 
             // Botón para ir al inicio
             if (currentPage > 1) {
