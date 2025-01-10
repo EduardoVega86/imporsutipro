@@ -87,10 +87,6 @@ const initSelect2 = () => {
     });
 };
 
-cargarCategorias();
-cargarProveedores();
-
-
 
 // Llenar select de Categorías
 const cargarCategorias = async () => {
@@ -125,6 +121,10 @@ const cargarProveedores = async () => {
     console.error("Error al cargar proveedores:", error);
     }
 };
+
+
+cargarCategorias();
+cargarProveedores();
 
 
 
