@@ -129,9 +129,9 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-    public function obtener_bobeda()
+    public function obtener_bovedas()
     {
-        $response = $this->model->bobedaModel();
+        $response = $this->model->obtenerBovedas();
         echo json_encode($response);
     }
 

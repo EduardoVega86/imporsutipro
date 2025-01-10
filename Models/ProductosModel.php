@@ -19,9 +19,9 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    public function bobedaModel()
+    public function obtenerBovedas()
     {
-        $sql = "SELECT * FROM bobedas";
+        $sql = "SELECT * FROM bovedas";
 
         return $this->select($sql);
     }
