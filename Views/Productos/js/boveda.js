@@ -108,18 +108,7 @@ const cargarProveedores = async () => {
     }
 };
 
-// const initSelect2 = () => {
-//     // Se realiza select2 teniendo en cuenta la dependencia en query y se inyecta despues de cargar la pagina 
-//     $("#categoriaBoveda").select2({
-//       placeholder: "Seleccione una Categoría",
-//       allowClear: true
-//     });
-  
-//     $("#proveedorBoveda").select2({
-//       placeholder: "Seleccione un Proveedor",
-//       allowClear: true
-//     });
-//   };
+
 
 //Cuando cargue la ventana se inicialzia Datatable
 window.addEventListener("load", async()=>{
@@ -127,7 +116,20 @@ window.addEventListener("load", async()=>{
     await cargarCategorias();
     await cargarProveedores();
 
-    // initSelect2();    
+    const initSelect2 = () => {
+        // Se realiza select2 teniendo en cuenta la dependencia en query y se inyecta despues de cargar la pagina 
+        $("#categoriaBoveda").select2({
+          placeholder: "Seleccione una Categoría",
+          allowClear: true
+        });
+      
+        $("#proveedorBoveda").select2({
+          placeholder: "Seleccione un Proveedor",
+          allowClear: true
+        });
+      };
+
+    initSelect2();    
 
         // Escuchar el submit del formulario "formAgregarBoveda"
         document.getElementById("formAgregarBoveda").addEventListener("submit", async (e) => {
