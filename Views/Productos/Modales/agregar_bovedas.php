@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalAgregarBovedaLabel">Agregar Nuevo</h1>
+                <h1 class="modal-title fs-5" id="modalAgregarBovedaLabel">Nuevo Producto</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
 
@@ -18,13 +18,17 @@
                     <!-- Categoría -->
                     <div class="mb-3">
                         <label for="categoriaBoveda" class="form-label">Categoría</label>
-                        <input type="text" id="categoriaBoveda" name="categoriaBoveda" class="form-control" required>
+                        <select id="categoriaBoveda" name="categoriaBoveda" class="form-select" required>
+                            <!-- Opciones dinámicas -->
+                        </select>
                     </div>
 
                     <!-- Proveedor -->
                     <div class="mb-3">
                         <label for="proveedorBoveda" class="form-label">Proveedor</label>
-                        <input type="text" id="proveedorBoveda" name="proveedorBoveda" class="form-control" required>
+                        <select id="proveedorBoveda" name="proveedorBoveda" class="form-select" required>
+                            <!-- Opciones dinámicas -->
+                        </select>
                     </div>
 
                     <!-- Ejemplo Landing -->
@@ -54,7 +58,7 @@
                         </button>
                         <button
                             type="submit"
-                            class="btn btn-primary">
+                            class="btn btn-success mb-3">
                             Guardar
                         </button>
                     </div>

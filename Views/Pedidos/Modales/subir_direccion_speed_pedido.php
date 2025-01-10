@@ -77,8 +77,6 @@
             </div>
             <div class="modal-body">
                 <div class="d-flex flex-column">
-                    <input type="hidden" id="numero_guia_url" name="numero_guia_url">
-
                     <div id="seccion_transito">
                         <label for="url_direccion_google">Link ubicacion google:</label>
                         <input type="text" class="form-control" id="url_direccion_google">
@@ -96,40 +94,11 @@
 
 <script>
     function guardar_direccion_speed() {
-        var numero_guia_url = $('#numero_guia_url').val();
+
         var url_direccion_google = $('#url_direccion_google').val();
 
-        let formData = new FormData();
-        formData.append("guia", numero_guia_url);
-        formData.append("url", url_direccion_google);
+        $("#url_google_speed_pedido").val(url_direccion_google);
 
-        $.ajax({
-            url: "https://guias.imporsuitpro.com/Speed/asignarUrl",
-            type: "POST",
-            data: formData,
-            processData: false, // No procesar los datos
-            contentType: false, // No establecer ningún tipo de contenido
-            dataType: "json",
-            success: function(response) {
-                if (response.status == 500) {
-                    toastr.error(
-                        "NO SE GUARDO CORRECTAMENTE",
-                        "NOTIFICACIÓN", {
-                            positionClass: "toast-bottom-center"
-                        }
-                    );
-                } else if (response.status == 200) {
-                    toastr.success("GUARDADO CORRECTAMENTE", "NOTIFICACIÓN", {
-                        positionClass: "toast-bottom-center",
-                    });
-                    $('#subir_direccion_speedModal').modal('hide');
-                }
-
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert(errorThrown);
-            },
-        });
-
+        $('#subir_direccion_speedModal').modal('hide');
     }
 </script>

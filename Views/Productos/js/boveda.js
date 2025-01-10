@@ -29,7 +29,7 @@ const dataTableOptions = {
 const initDataTable = async () =>{
     //si ya fue inicializada, destruimos y volvemos a crear
     if (dataTableIsInitialized){
-        dataTableIsInitialized.destroy();
+        Datatable.destroy();
     }
 
     //llamamos al listado de bovedas para cargar dinamicamente al tbody
@@ -74,18 +74,54 @@ const listBovedas = async ()=>{
     }
 };
 
+// Llenar select de Categorías
+const cargarCategorias = async () => {
+    try {
+    const response = await fetch(`${SERVERURL}Productos/obtener_lineas_global`);
+    const categorias = await response.json();
+
+    let opciones = "<option value=''>Seleccione una Categoría</option>";
+    categorias.forEach((cat) => {
+        opciones += `<option value="${cat.id_linea}">${cat.nombre_linea}</option>`;
+    });
+
+    document.getElementById("categoriaBoveda").innerHTML = opciones;
+    } catch (error) {
+    console.error("Error al cargar categorías:", error);
+    }
+};
+
+// Llenar select de Proveedores
+const cargarProveedores = async () => {
+    try {
+    const response = await fetch(`${SERVERURL}Productos/obtenerProveedores`);
+    const proveedores = await response.json();
+
+    let opciones = "<option value=''>Seleccione un Proveedor</option>";
+    proveedores.forEach((prov) => {
+        opciones += `<option value="${prov.id_plataforma}">${prov.nombre_tienda}</option>`;
+    });
+
+    document.getElementById("proveedorBoveda").innerHTML = opciones;
+    } catch (error) {
+    console.error("Error al cargar proveedores:", error);
+    }
+};
+
 //Cuando cargue la ventana se inicialzia Datatable
 window.addEventListener("load", async()=>{
     await initDataTable();
+    await cargarCategorias();
+    await cargarProveedores();
 
-    // Escuchar el submit del formulario "formAgregarBoveda"
-    document.getElementById("formAgregarBoveda").addEventListener("submit", async (e) => {
-        e.preventDefault(); // Evita que se recargue la página
-        
+        // Escuchar el submit del formulario "formAgregarBoveda"
+        document.getElementById("formAgregarBoveda").addEventListener("submit", async (e) => {
+            e.preventDefault(); // Evita que se recargue la página
+              
         // Capturar datos del formulario
         const nombre = document.getElementById("nombreBoveda").value;
-        const categoria = document.getElementById("categoriaBoveda").value;
-        const proveedor = document.getElementById("proveedorBoveda").value;
+        const categoria = document.getElementById("categoriaBoveda").value;  
+        const proveedor = document.getElementById("proveedorBoveda").value; 
         const ejemploLanding = document.getElementById("ejemploLanding").value;
         const duplicarFunnel = document.getElementById("duplicarFunnel").value;
         const videosBoveda = document.getElementById("videosBoveda").value;
@@ -146,3 +182,17 @@ window.addEventListener("load", async()=>{
         }
     });
 })
+
+
+const initSelect2 = () => {
+    // Se realiza select2 teniendo en cuenta la dependencia en query y se inyecta despues de cargar la pagina 
+    $("#categoriaBoveda").select2({
+      placeholder: "Seleccione una Categoría",
+      allowClear: true
+    });
+  
+    $("#proveedorBoveda").select2({
+      placeholder: "Seleccione un Proveedor",
+      allowClear: true
+    });
+  };
