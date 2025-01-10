@@ -26,13 +26,37 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    public function insertarBoveda($nombre, $categoria, $proveedor, $ejemploLanding, $duplicarFunnel, $videos)
+
+    public function obtenerProveedores()
     {
-        $sql = "INSERT INTO bovedas 
-                (nombre, id_linea, id_plataforma, ejemplo_landing, duplicar_funnel, videos) 
+        $sql = "SELECT nombre_tienda
+                FROM plataformas
+                WHERE proveedor = 1";
+        return $this->select($sql);
+    }
+
+
+    public function obtenerLineasGlobal()
+    {
+        $sql = "SELECT id_linea, nombre_linea FROM lineas WHERE global=1";
+        return $this->select($sql);
+    }
+
+
+    public function insertarBoveda($nombre, $idLinea, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)
+    {
+        $sql = "INSERT INTO bobedas (nombre, id_linea, id_plataforma, ejemplo_landing, duplicar_funnel, videos)
                 VALUES (?, ?, ?, ?, ?, ?)";
 
-        $datos = [$nombre, $categoria, $proveedor, $ejemploLanding, $duplicarFunnel, $videos];
+        $datos = [
+            $nombre,
+            $idLinea,
+            $idProveedor,
+            $ejemploLanding,
+            $duplicarFunnel,
+            $videos
+        ];
+
         return $this->insert($sql, $datos);
     }
 

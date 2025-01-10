@@ -137,24 +137,16 @@ class Productos extends Controller
 
     public function agregar_boveda()
     {
-        // Verificamos si llegan los campos que necesitamos (nombre, categoria, etc.)
-        if (isset($_POST['nombre']) && isset($_POST['categoria']) && isset($_POST['proveedor']) && isset($_POST['ejemploLanding']) && isset($_POST['duplicarFunnel']) && isset($_POST['videosBoveda'])) {
+        if (isset($_POST['nombre'], $_POST['categoria'], $_POST['proveedor'])) {
             $nombre = $_POST['nombre'];
-            $categoria = $_POST['categoria'];
-            $proveedor = $_POST['proveedor'];
+            $idLinea = $_POST['categoria'];
+            $idProveedor = $_POST['proveedor'];
             $ejemplo_landing = $_POST['ejemploLanding'] ?? '';
             $duplicar_funnel = $_POST['duplicarFunnel'] ?? '';
             $videos = $_POST['videosBoveda'] ?? '';
 
-            // Llamada al modelo para insertar
-            $result = $this->model->insertarBoveda(
-                $nombre,
-                $categoria,
-                $proveedor,
-                $ejemplo_landing,
-                $duplicar_funnel,
-                $videos
-            );
+            // Insertar
+            $result = $this->model->insertarBoveda($nombre, $idLinea, $idProveedor, $ejemplo_landing, $duplicar_funnel, $videos);
 
             if ($result > 0) {
                 $response = [
@@ -178,7 +170,20 @@ class Productos extends Controller
         }
 
         echo json_encode($response);
+    }
+
+    public function obtenerProveedores()
+    {
+        $proveedores = $this->model->obtenerProveedores();
+        echo json_encode($proveedores);
         die();
+    }
+
+
+    public function obtener_lineas_global()
+    {
+        $response = $this->model->obtenerLineasGlobal();
+        echo json_encode($response);
     }
 
     public function obtener_productos_bodega($bodega)

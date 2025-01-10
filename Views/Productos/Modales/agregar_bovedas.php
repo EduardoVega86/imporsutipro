@@ -18,13 +18,17 @@
                     <!-- Categoría -->
                     <div class="mb-3">
                         <label for="categoriaBoveda" class="form-label">Categoría</label>
-                        <input type="text" id="categoriaBoveda" name="categoriaBoveda" class="form-control" required>
+                        <select id="categoriaBoveda" name="categoriaBoveda" class="form-select" required>
+                            <!-- Opciones dinámicas -->
+                        </select>
                     </div>
 
                     <!-- Proveedor -->
                     <div class="mb-3">
                         <label for="proveedorBoveda" class="form-label">Proveedor</label>
-                        <input type="text" id="proveedorBoveda" name="proveedorBoveda" class="form-control" required>
+                        <select id="proveedorBoveda" name="proveedorBoveda" class="form-select" required>
+                            <!-- Opciones dinámicas -->
+                        </select>
                     </div>
 
                     <!-- Ejemplo Landing -->
