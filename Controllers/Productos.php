@@ -135,8 +135,6 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-    // Productos Controller
-
     public function agregar_boveda()
     {
         // Verificamos si llegan los campos que necesitamos (nombre, categoria, etc.)
