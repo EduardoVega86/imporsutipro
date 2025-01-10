@@ -74,6 +74,40 @@ const listBovedas = async ()=>{
     }
 };
 
+// Llenar select de Categorías
+const cargarCategorias = async () => {
+    try {
+    const response = await fetch(`${SERVERURL}Productos/obtener_lineas_global`);
+    const categorias = await response.json();
+
+    let opciones = "<option value=''>Seleccione una Categoría</option>";
+    categorias.forEach((cat) => {
+        opciones += `<option value="${cat.id_linea}">${cat.nombre_linea}</option>`;
+    });
+
+    document.getElementById("categoriaBoveda").innerHTML = opciones;
+    } catch (error) {
+    console.error("Error al cargar categorías:", error);
+    }
+};
+
+// Llenar select de Proveedores
+const cargarProveedores = async () => {
+    try {
+    const response = await fetch(`${SERVERURL}Productos/obtener_proveedores`);
+    const proveedores = await response.json();
+
+    let opciones = "<option value=''>Seleccione un Proveedor</option>";
+    proveedores.forEach((prov) => {
+        opciones += `<option value="${prov.id_proveedor}">${prov.nombre_proveedor}</option>`;
+    });
+
+    document.getElementById("proveedorBoveda").innerHTML = opciones;
+    } catch (error) {
+    console.error("Error al cargar proveedores:", error);
+    }
+};
+
 //Cuando cargue la ventana se inicialzia Datatable
 window.addEventListener("load", async()=>{
     await initDataTable();
@@ -83,42 +117,7 @@ window.addEventListener("load", async()=>{
         // Escuchar el submit del formulario "formAgregarBoveda"
         document.getElementById("formAgregarBoveda").addEventListener("submit", async (e) => {
             e.preventDefault(); // Evita que se recargue la página
-            
-        // Llenar select de Categorías
-        const cargarCategorias = async () => {
-            try {
-            const response = await fetch(`${SERVERURL}Productos/obtener_lineas_global`);
-            const categorias = await response.json();
-        
-            let opciones = "<option value=''>Seleccione una Categoría</option>";
-            categorias.forEach((cat) => {
-                opciones += `<option value="${cat.id_linea}">${cat.nombre_linea}</option>`;
-            });
-        
-            document.getElementById("categoriaBoveda").innerHTML = opciones;
-            } catch (error) {
-            console.error("Error al cargar categorías:", error);
-            }
-        };
-        
-        // Llenar select de Proveedores
-        const cargarProveedores = async () => {
-            try {
-            const response = await fetch(`${SERVERURL}Productos/obtener_proveedores`);
-            const proveedores = await response.json();
-        
-            let opciones = "<option value=''>Seleccione un Proveedor</option>";
-            proveedores.forEach((prov) => {
-                opciones += `<option value="${prov.id_proveedor}">${prov.nombre_proveedor}</option>`;
-            });
-        
-            document.getElementById("proveedorBoveda").innerHTML = opciones;
-            } catch (error) {
-            console.error("Error al cargar proveedores:", error);
-            }
-        };
-  
-
+              
         // Capturar datos del formulario
         const nombre = document.getElementById("nombreBoveda").value;
         const categoria = document.getElementById("categoriaBoveda").value;  
