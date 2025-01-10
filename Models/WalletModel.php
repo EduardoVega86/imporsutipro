@@ -2025,6 +2025,8 @@ class WalletModel extends Query
                 dfc.cantidad,
                 dfc.precio_venta,
                 fc.transporte,
+                fc.fecha_factura,
+                fc.fecha_guia,
                 $logica 
                 FROM cabecera_cuenta_pagar ccp
                 INNER JOIN facturas_cot fc ON ccp.numero_factura = fc.numero_factura
@@ -2050,6 +2052,9 @@ class WalletModel extends Query
 
         // Ejecutar la consulta
         $response = $this->dselect($sql, $params);
+
+
+        $respuesta["sql"] = $sql;
 
         $respuesta['data'] = $response;
         $respuesta['total'] = $total;

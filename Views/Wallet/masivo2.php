@@ -100,33 +100,48 @@
                 <table class="hidden md:table min-w-full table-auto border-collapse border border-gray-300">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Canal</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">F. Pedido</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Id Pedido</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Telefono</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Ciudad</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Producto</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Cantidad</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Total</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">F. Entrega</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Forma de Pago</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Transportadora</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Guia</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Estado Empresa</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Recepción</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Estado Cliente</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Precio Delivery</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Precio Delivery 2</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Precio Call Center</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Comisión Dropshipper</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Comisión Proveedor</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Comisión Fulfillment</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Costo Fulfillment</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Ganancia Dropshipper</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Ganancia Proveedor</th>
-                            <th class="px-4 py-2 text-nowrap text-left text-xs font-medium text-gray-500 uppercase">Nota</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-red-200">Número Guía</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-red-200">Transportadora</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-red-200">Estado Guía</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-red-200">Trayecto</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-red-200">Fecha Pedido</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-red-200">Fecha Creación Guía</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-red-200">Estado Recolección</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-red-200">Fecha Recolección</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-red-200">Fecha Entrega</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-red-200"># Orden</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-blue-100">Canal</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-blue-100">Cliente</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-blue-100">Telefono</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-blue-100">Ciudad</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-blue-100">Estado</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-blue-100">Colonia</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-blue-100">Codigo Postal</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-blue-100">Dirección</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-orange-100">Contiene</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-orange-100">Cantidad</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-orange-100">Producto</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-orange-100">Tienda</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-orange-100">Proveedor</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-yellow-400">Valor a Cobrar</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-yellow-400">Costo Producto</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-yellow-400">Valor Flete</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-blue-200">Comisión Proveedor</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-blue-200">Rentabilidad</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-green-500">Valor Ticket</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-green-500">Costo PRoducto</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-green-500">Flete Imporsuit</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-green-500">Full Filment</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-green-500">Call Center</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-green-500">Ganancia Dropship</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-yellow-500">Cobro Transportadora</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-yellow-500">Base Imporsuit</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-yellow-500">COD Imporsuit</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-yellow-500">Flete Imporsuit</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-yellow-500">Comisión Proveedor</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-yellow-500">Comisión Call Center</th>
+                            <th class="px-4 py-2 text-nowrap text-left text-xs font-bold text-gray-500 uppercase bg-yellow-500">Rentabilidad</th>
+
                         </tr>
                     </thead>
                     <tbody id="results" class="text-sm text-gray-700 divide-y divide-gray-200">
@@ -139,15 +154,16 @@
 
 
             </div>
-            <div id="download" class="flex justify-center mt-4 hidden">
-                <button class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 text-nowrap rounded-md">Descargar</button>
-            </div>
+
         </section>
         <section id="pagination-info" class="p-4 text-gray-700">
             <p class="text-white" id="showing-info"></p>
             <div id="pagination-controls" class="flex justify-center space-x-2 mt-4">
                 <!-- Controles de paginación dinámicos -->
             </div>
+        </section>
+        <section class="p-4">
+            <button id="download" class="hidden bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 text-nowrap rounded-md">Descargar</button>
         </section>
     </main>
 
@@ -210,27 +226,26 @@
 
                 const row = document.createElement('tr');
                 // añade clase de color según el estado
-                row.classList.add(dato.estado_guia == '7' || dato.estado_guia == '400' ? 'bg-green-100' : 'bg-red-100');
                 let peso = dato.peso == null ? 0 : dato.peso;
                 row.innerHTML = `
-                    <td class="px-4 py-2 text-nowrap ${dato.cod == '1' ? 'bg-purple-100' : 'bg-red-100'}">
-                        <span class="text-xs font-bold"> ${dato.plataforma_importa == 0 ? 'Manual': dato.plataforma_importa} </span>
+                    <td class="px-4 py-2 text-nowrap">
+                        <span class="text-xs font-bold"> ${dato.guia} </span>
                     </td>
                     <td class="px-4 py-2 text-nowrap">
-                        <span class="text-xs text-gray-500">${dato.fecha}</span>
+                       <span class="text-xs text-gray-500">${dato.transporte != "0" ? dato.transporte : "No definido"}</span>
                     </td>
                     <td class="px-4 py-2 text-nowrap">
-                       <span class="text-xs text-gray-500">${dato.numero_factura}</span>
+                       <span class="text-xs text-gray-500">${dato.estado_guia == 7 ? "ENTREGADO": dato.estado_guia == 9 ? "DEVUELTO" : "PROCESAMIENTO"}</span>
                     </td>
                     <td class="px-4 py-2 text-nowrap">
-                       <span class="text-xs text-gray-500">${dato.cliente}</span>
+                       <span class="text-xs text-gray-500">${dato.trayecto}</span>
                     </td>
                     <td class="px-4 py-2 text-nowrap">
-                       <span class="text-xs text-gray-500">${dato.telefono}</span>
+                       <span class="text-xs text-gray-500">${dato.fecha_factura}</span>
                     </td>
                     
                     <td class="px-4 py-2 text-nowrap">
-                       <span class="text-xs text-gray-500">${dato.ciudad}</span>
+                       <span class="text-xs text-gray-500">${dato.fecha_guia}</span>
                     </td>
                     <td class="px-4 py-2 text-nowrap">
                        <span class="text-xs text-gray-500">${dato.provincia}</span>
