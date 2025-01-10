@@ -13,8 +13,13 @@ use Dotenv\Dotenv;
 
 // Ruta al directorio raíz
 $rootPath = __DIR__;
-$dotenv = Dotenv::createImmutable($rootPath);
-$dotenv->load();
+try {
+    $dotenv = Dotenv::createImmutable($rootPath);
+    $dotenv->load();
+} catch (Exception $e) {
+    die('Error al cargar las variables de entorno: ' . $e->getMessage());
+}
+
 
 // Parsear la URL
 $rute = !empty($_GET['url']) ? $_GET['url'] : 'Home/index';
