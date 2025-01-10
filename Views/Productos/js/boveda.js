@@ -74,6 +74,19 @@ const listBovedas = async ()=>{
     }
 };
 
+
+const initSelect2 = () => {
+    $("#categoriaBoveda").select2({
+      placeholder: "Seleccione una Categoría",
+      allowClear: true,
+    });
+  
+    $("#proveedorBoveda").select2({
+      placeholder: "Seleccione un Proveedor",
+      allowClear: true,
+    });
+};
+
 // Llenar select de Categorías
 const cargarCategorias = async () => {
     try {
@@ -106,18 +119,6 @@ const cargarProveedores = async () => {
     } catch (error) {
     console.error("Error al cargar proveedores:", error);
     }
-};
-
-const initSelect2 = () => {
-    $("#categoriaBoveda").select2({
-      placeholder: "Seleccione una Categoría",
-      allowClear: true,
-    });
-  
-    $("#proveedorBoveda").select2({
-      placeholder: "Seleccione un Proveedor",
-      allowClear: true,
-    });
 };
 
 
