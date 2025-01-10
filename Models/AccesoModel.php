@@ -435,13 +435,14 @@ class AccesoModel extends Query
         $sql = "SELECT * FROM users WHERE email_users = ?";
         $datos_usuario = $this->select($sql, [$usuario]);
 
-        // 2. Si no encontró nada, devolvemos un error
-        if (empty($datos_usuario)) {
+        // 2. Validar si la consulta devolvió resultados
+        if (empty($datos_usuario) || !isset($datos_usuario[0])) {
             return [
                 "status" => 401,
                 "message" => "Usuario no encontrado"
             ];
         }
+
 
         $usuario = $datos_usuario[0];
 
