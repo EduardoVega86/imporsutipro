@@ -73,7 +73,6 @@ class AccesoModel extends Query
             VALUES (?, ?, ?, ?, ?, ?)";
             $data = [$nombre, $correo, $contrasena, $correo, $date_added, 1];
             $insertar_usuario = $this->insert($sql, $data);
-            print_r($insertar_usuario);
 
             // Verificamos si se insertó correctamente
             if ($insertar_usuario == 1) {

@@ -2035,6 +2035,7 @@ class WalletModel extends Query
                 GROUP BY ccp.id_cabecera, cc.ciudad, cc.provincia, fc.plataforma_importa, fc.telefono
                 ORDER BY ccp.id_cabecera DESC
                 LIMIT $limit OFFSET $offset";
+
         $sqlcount = "SELECT COUNT(DISTINCT ccp.id_cabecera) as total 
        FROM cabecera_cuenta_pagar ccp
        INNER JOIN facturas_cot fc ON ccp.numero_factura = fc.numero_factura
