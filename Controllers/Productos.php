@@ -113,6 +113,12 @@ class Productos extends Controller
         $this->views->render($this, "landing_tienda", $existe_producto);
     }
 
+    public function bobeda()
+    {
+        $this->views->render($this, "bobeda");
+    }
+
+
 
 
     ///Funciones
@@ -120,6 +126,12 @@ class Productos extends Controller
     public function obtener_productos()
     {
         $response = $this->model->obtener_productos($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function obtener_bobeda()
+    {
+        $response = $this->model->bobedaModel();
         echo json_encode($response);
     }
 
