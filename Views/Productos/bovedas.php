@@ -14,7 +14,7 @@
 
         <!-- Container -->
         <div class="table-responsive">
-            <table id="datatable_bovedas" class="table table-striped table-bordered">
+            <table id="datatable_bovedas" class="table table-striped">
                 <thead>
                     <tr>
                         <th>Nombre</th>
