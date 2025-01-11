@@ -58,7 +58,7 @@
                         </button>
                         <button
                             type="submit"
-                            class="btn btn-success mb-3">
+                            class="btn btn-success">
                             Guardar
                         </button>
                     </div>

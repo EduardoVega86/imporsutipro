@@ -6,10 +6,10 @@
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <button type="button"
-            class="btn btn-primary mb-3"
+            class="btn btn-success"
             data-bs-toggle="modal"
             data-bs-target="#modalAgregarBoveda">
-            Agregar Nuevo
+            Agregar
         </button>
 
         <!-- Container -->
