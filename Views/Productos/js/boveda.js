@@ -50,8 +50,8 @@ const listBovedas = async () => {
       content += `
         <tr>
           <td>${boveda.nombre}</td>
-          <td>${boveda.nombre_linea}</td>
-          <td>${boveda.nombre_tienda}</td>
+          <td>${boveda.categoria}</td>
+          <td>${boveda.proveedor}</td>
           <td>${boveda.ejemplo_landing}</td>
           <td>${boveda.duplicar_funnel}</td>
           <td>${boveda.videos}</td>

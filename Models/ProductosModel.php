@@ -26,6 +26,31 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
+    //Inner join que obtiene el nombre de id plataforma y id_linea de forma correcta para mostrar en tabla bovedas
+
+    public function obtenerBovedas()
+    {
+        $sql = "
+            SELECT 
+                bovedas.nombre,
+                lineas.nombre_linea AS categoria,
+                plataformas.nombre_tienda AS proveedor,
+                bovedas.ejemplo_landing,
+                bovedas.duplicar_funnel,
+                bovedas.videos,
+                bovedas.id_boveda
+            FROM 
+                bovedas
+            INNER JOIN 
+                lineas ON bovedas.id_linea = lineas.id_linea
+            INNER JOIN 
+                plataformas ON bovedas.id_plataforma = plataformas.id_plataforma";
+    
+        return $this->select($sql);
+    }
+    
+
+
 
     public function obtenerProveedores()
     {
