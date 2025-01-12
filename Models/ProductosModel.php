@@ -19,12 +19,13 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    public function obtenerBovedas()
-    {
-        $sql = "SELECT * FROM bovedas";
+    
+    // public function obtenerBovedas()
+    // {
+    //     $sql = "SELECT * FROM bovedas";
 
-        return $this->select($sql);
-    }
+    //     return $this->select($sql);
+    // }
 
     //Inner join que obtiene el nombre de id plataforma y id_linea de forma correcta para mostrar en tabla bovedas
 
