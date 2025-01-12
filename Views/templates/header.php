@@ -95,7 +95,6 @@
 
 
                     <a href="<?php echo SERVERURL ?>Productos/bodegas"><i class='bx bxs-truck menu-icon'></i> <span class="menu-text">Bodegas</span></a>
-                    <a href="<?php echo SERVERURL ?>Productos/bovedas"><i class='bx bxs-truck menu-icon'></i> <span class="menu-text">Bovedas</span></a>
                     <a href="<?php echo SERVERURL ?>Productos/inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventario</span></a>
                     <a href="<?php echo SERVERURL ?>despacho/lista_despachos"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Relacion Despacho</span></a>
                     <a href="<?php echo SERVERURL ?>despacho/lista_despachos_producto"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Salida productos</span></a>
@@ -150,6 +149,7 @@
 
                 <?php if ($_SESSION['cargo'] != 5) { ?>
                     <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
+                    <a href="<?php echo SERVERURL ?>Productos/bovedas"><i class='bx bxs-lock menu-icon'></i> <span class="menu-text">Bovedas</span></a>
                 <?php } ?>
                 <div class="submenu" id="submenu4">
                     <?php if ($_SESSION['cargo'] == 10) { ?>
