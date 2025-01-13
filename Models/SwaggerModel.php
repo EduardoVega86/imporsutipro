@@ -164,6 +164,7 @@ class SwaggerModel extends Query
 
             // 3. Obtener la plataforma asociada
             $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+            print_r($plataforma);
             if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
                 return [
                     'status'  => 404,
