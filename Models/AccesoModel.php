@@ -570,6 +570,21 @@ class AccesoModel extends Query
         return $response;
     }
 
+    public function getUserByUUID($uuid)
+    {
+        $sql = "SELECT * FROM users WHERE uuid = ?";
+        $result = $this->select($sql, [$uuid]);
+
+        return $result;
+    }
+
+    public function getPlatformByUserId($id_user)
+    {
+        $sql = "SELECT id_plataforma 
+            FROM usuario_plataforma 
+            WHERE id_usuario = ?";
+        return $this->select($sql, [$id_user]);
+    }
 
 
 
