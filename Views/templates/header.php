@@ -170,7 +170,12 @@
                     <a href="<?php echo SERVERURL ?>integraciones"><i class="fa-solid fa-globe menu-icon"></i> <span class="menu-text">Integracio- nes</span></a>
                 </div>
 
-                <a href="<?php echo SERVERURL ?>Productos/bovedas"><i class='bx bxs-lock menu-icon'></i> <span class="menu-text">Bovedas</span></a>
+                <?php if ($_SESSION['cargo'] == 10) { ?>
+                    <a href="<?php echo SERVERURL ?>Productos/bovedas"><i class='bx bxs-lock menu-icon'></i> <span class="menu-text">Bovedas</span></a>
+                <?php
+                }
+                ?>
+
             <?php } else { ?>
                 <a href="<?php echo SERVERURL ?>Pedidos/scanner_speed"><i class='fa-solid fa-motorcycle menu-icon'></i> <span class="menu-text">Scanner Speed</span></a>
             <?php } ?>
