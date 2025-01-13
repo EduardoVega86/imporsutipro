@@ -967,7 +967,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                         $id_producto,
                         $saldo_stock
                     );
-                  //  $guardar_detalle = $this->insert($detalle_sql_historial, $historial_data);
+                    $guardar_detalle = $this->insert($detalle_sql_historial, $historial_data);
 
                     
 
