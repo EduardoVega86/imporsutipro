@@ -1000,7 +1000,7 @@ $data = [
 ];
 
 
-$result = $this->insert($detalle_sql_historial, $data);
+$resultado = $this->insert($detalle_sql_historial, $data);
 
 echo 'enta2';
 //print_r($result);
