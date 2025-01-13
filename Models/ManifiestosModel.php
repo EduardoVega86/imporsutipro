@@ -945,7 +945,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                 $nota='Se descuenta por despacho externo';
                 $id_usuario = $_SESSION['id'];
          
-                    //  echo 'enta';
+                    
                     $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
                     $stock = $this->select($sql_id);
                     $stock_inventario = $stock[0]['saldo_stock'];
@@ -974,7 +974,7 @@ echo $detalle_sql_historial;
                     $guardar_detalle = $this->simple_insert($detalle_sql_historial);
 
                     
-
+                    echo 'enta';
 
                     //print_r($guardar_detalle
 
