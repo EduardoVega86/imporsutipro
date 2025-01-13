@@ -90,8 +90,8 @@ class ProductosModel extends Query
     public function getProductosPorPlataforma($id_plataforma)
     {
         // Ajusta la tabla / campos a tu realidad
-        $sql = "SELECT * FROM productos WHERE id_plataforma = ?";
-        return $this->select($sql, [$id_plataforma]);
+        $sql = "SELECT * FROM productos WHERE id_plataforma = $id_plataforma'";
+        return $this->select($sql);
     }
 
 
