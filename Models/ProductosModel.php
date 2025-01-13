@@ -59,6 +59,14 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
+    public function obtener_productos_boveda1()
+    {
+        $sql = "SELECT *
+                FROM productos
+                WHERE producto_privado = 0";
+        return $this->select($sql);
+    }
+
 
     //Funcion para ser accedida desde Swagger Model
     public function getBovedasPorPlataforma($id_plataforma)

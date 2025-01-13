@@ -68,7 +68,7 @@ const listBovedas = async () => {
 // Llenar select de Nombres
 const cargarNombres = async () => {
   try {
-    const response = await fetch(`${SERVERURL}Productos/obtener_productos_boveda`);
+    const response = await fetch(`${SERVERURL}Productos/obtener_productos_boveda1`);
     const categorias = await response.json();
 
     let opciones = "<option value=''>Seleccione un Nombre</option>";
@@ -126,7 +126,7 @@ window.addEventListener("load", async () => {
   await cargarNombres();
   //2) inicializamos Select2 para nombre
   $("#nombreBoveda").select2({
-    placeholder: "Seleccione un Nmbre",
+    placeholder: "Seleccione un Nombre",
     allowClear: true,
     //Como esta dentro de un modal
     dropdownParent: $("#nombreBoveda"),
