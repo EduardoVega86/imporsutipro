@@ -1009,18 +1009,10 @@ print_r($result);
 
                 //print_r($tmp_cotizaciones);
 
-                if ($result == 1) {
-                    $response['status'] = 200;
-                    $response['title'] = 'Peticion exitosa';
-                    $response['message'] = 'Despacho Exitoso';
-                } else {
-                    $response['status'] = 500;
-                    $response['title'] = 'Error';
-                    $response['message'] = 'Error al generar el despacho';
-                }
+             
           
        
-        return $response;
+        return $result;
     }
 
     public function despacho_guia_devolucion($num_guia, $plataforma, $id_cabecera)

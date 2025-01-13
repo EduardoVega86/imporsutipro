@@ -97,7 +97,7 @@ class Manifiestos extends Controller
 
         $resultados = [];
         foreach ($productos as $producto) {
-            print_r($producto);
+           // print_r($producto);
             $resultado = $this->model->despacho_producto($producto, $_SESSION['id_plataforma'], $id_cabecera);
             $resultados[] = $resultado;
         }
