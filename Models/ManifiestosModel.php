@@ -920,7 +920,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
 
 
         $sql = "INSERT INTO detalle_relacion_despacho_producto (numero_guia, id_cabecera_despacho) VALUES (?, ?)";
-        echo $num_guia;
+        echo 'asdas'.$num_guia;
         $data = [$num_guia, $id_cabecera];
         // Ejecuta la inserción
         $insertar_detalle_rd = $this->insert($sql, $data);
