@@ -570,6 +570,23 @@ class AccesoModel extends Query
         return $response;
     }
 
+    //Funciones para poder ser accedidas desde SwaggerModel
+
+    public function getUserByUUID($uuid)
+    {
+        $sql = "SELECT * FROM users WHERE uuid = '$uuid'";
+        $result = $this->select($sql);
+
+        return $result;
+    }
+
+    public function getPlatformByUserId($id_user)
+    {
+        $sql = "SELECT id_plataforma 
+            FROM usuario_plataforma 
+            WHERE id_usuario = '$id_user'";
+        return $this->select($sql);
+    }
 
 
 

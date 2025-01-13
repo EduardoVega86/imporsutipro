@@ -19,7 +19,7 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    
+
     // public function obtenerBovedas()
     // {
     //     $sql = "SELECT * FROM bovedas";
@@ -46,10 +46,10 @@ class ProductosModel extends Query
                 lineas ON bovedas.id_linea = lineas.id_linea
             INNER JOIN 
                 plataformas ON bovedas.id_plataforma = plataformas.id_plataforma";
-    
+
         return $this->select($sql);
     }
-    
+
 
 
 
@@ -84,6 +84,14 @@ class ProductosModel extends Query
         ];
 
         return $this->insert($sql, $datos);
+    }
+
+    //Funcion para ser accedida desde Swagger Model
+    public function getProductosPorPlataforma($id_plataforma)
+    {
+        // Ajusta la tabla / campos a tu realidad
+        $sql = "SELECT * FROM productos WHERE id_plataforma = '$id_plataforma'";
+        return $this->select($sql);
     }
 
 

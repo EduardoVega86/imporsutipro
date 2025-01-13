@@ -672,29 +672,24 @@ class Swagger extends Controller
     public function obtener_productos()
     {
         try {
-            // Capturar el UUID desde los parámetros de la solicitud
+            // Log de la solicitud
+            $this->logRequest('swagger/obtener_productos', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
+            // Captura el UUID desde los parámetros GET
             $uuid = $_GET['uuid'] ?? null;
 
+            // Validar UUID
             if (!$uuid) {
                 http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'El campo UUID es requerido']);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos: uuid']);
                 return;
             }
 
-            // Llamar al modelo para obtener los productos
+            // Llamar al modelo para obtener productos
             $response = $this->model->obtener_productos($uuid);
-
-            if ($response['status'] === 200) {
-                http_response_code(200);
-            } else {
-                http_response_code(400);
-            }
-
-            echo json_encode($response);
+            $this->handleResponse($response);
         } catch (Exception $e) {
-            // Manejo de errores
-            http_response_code(500);
-            echo json_encode(['status' => 500, 'message' => 'Error interno del servidor', 'error' => $e->getMessage()]);
+            $this->handleException($e);
         }
     }
 

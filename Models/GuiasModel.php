@@ -45,7 +45,13 @@ class GuiasModel extends Query
         return $this->select($sql);
     }
 
-    public function generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras)
+    public function obtenerVendedor($id_plataforma)
+    {
+        $sql = "SELECT nombre_tienda, whatsapp FROM plataformas WHERE id_plataforma = $id_plataforma";
+        return $this->select($sql)[0];
+    }
+
+    public function generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $vendedor, $telf)
     {
         if ($cod == 1) {
             $cod = true;
@@ -56,11 +62,11 @@ class GuiasModel extends Query
         $datos = array(
             "origen" => array(
                 "identificacionO" => $identificacion,
-                "nombreO" => "$nombreOrigen",
+                "nombreO" => "$vendedor",
                 "ciudadO" => "$ciudadOrigen",
                 "direccion" => "$direccionOrigen",
-                "telefono" => "$telefonoOrigen",
-                "celular" => "$telefonoOrigen",
+
+                "celular" => "$telf",
                 "referenciaO" => "$referenciaOrigen",
                 "celularO" => "$celularOrigen",
                 "postal" => "$postal",
@@ -407,7 +413,7 @@ class GuiasModel extends Query
     }
 
     //servientrega
-    public function generarServientrega($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos)
+    public function generarServientrega($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos, $vendedor, $telf)
     {
         $razon_social_remitente = "IMPORCOMEX S.A.";
         $razon_zocial_destinatario = "Entrega a Domicilio";
@@ -431,11 +437,11 @@ class GuiasModel extends Query
             "CORREO_DESTINATARIO" => "desarrollo1@imporfactoryusa.com",
             "ID_REMITENTE_CL" => "",
             "RAZON_SOCIAL_REMITE" => $razon_social_remitente,
-            "NOMBRE_REMITENTE" => "$nombreOrigen",
+            "NOMBRE_REMITENTE" => "$vendedor",
             "APELLIDO_REMITE" =>    "",
             "DIRECCION1_REMITE" => "$direccionOrigen",
             "SECTOR_REMITE" => "",
-            "TELEFONO1_REMITE" => $telefonoOrigen,
+            "TELEFONO1_REMITE" => $telf,
             "TELEFONO2_REMITE" => "",
             "CODIGO_POSTAL_REMI" => "",
             "ID_PRODUCTO" => 2,
@@ -499,7 +505,7 @@ class GuiasModel extends Query
         return $response;
     }
 
-    public function generarServientregaSinRecaudo($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos)
+    public function generarServientregaSinRecaudo($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos, $vendedor, $telf)
     {
         $razon_social_remitente = "IMPORCOMEX S.A.";
         $razon_zocial_destinatario = "Entrega a Domicilio";
@@ -522,11 +528,11 @@ class GuiasModel extends Query
             "codigo_postal_dest_ne" => "",
             "id_remitente_cl" => "",
             "razon_social_remite" => $razon_social_remitente,
-            "nombre_remitente" => $nombreOrigen,
+            "nombre_remitente" => $vendedor,
             "apellido_remite" =>   "",
             "direccion1_remite" => $direccionOrigen,
             "sector_remite" => "",
-            "telefono1_remite" => $telefonoOrigen,
+            "telefono1_remite" => $telf,
             "telefono2_remite" => "",
             "codigo_postal_remi" => "",
             "id_producto" => 2,
@@ -634,10 +640,8 @@ class GuiasModel extends Query
 
     //gintracom
 
-    public function generarGintracom($nombreOrigen, $ciudadOrigen, $provinciaOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $provinciaDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $numero_factura, $monto_factura)
+    public function generarGintracom($nombreOrigen, $ciudadOrigen, $provinciaOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $provinciaDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $numero_factura, $monto_factura, $vendedor, $telf)
     {
-
-
         $recaudo = $cod == "1" ? true : false;
 
         preg_match_all('/(.*?)X(\d+)/', $contiene, $matches, PREG_SET_ORDER);
@@ -654,8 +658,8 @@ class GuiasModel extends Query
         $url = "https://ec.gintracom.site/web/import-suite/pedido";
         $data = array(
             "remitente" => array(
-                "nombre" => $nombreOrigen,
-                "telefono" => $telefonoOrigen,
+                "nombre" => $vendedor,
+                "telefono" => $telf,
                 "provincia" => $provinciaOrigen,
                 "ciudad" => $ciudadOrigen,
                 "direccion" => $direccionOrigen
@@ -717,7 +721,7 @@ class GuiasModel extends Query
 
     //speed
 
-    public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $plataforma, $observacion, $recaudo, $monto_factura, $matriz, $url_google_maps)
+    public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $plataforma, $observacion, $recaudo, $monto_factura, $matriz, $url_google_maps, $vendedor, $telf)
     {
         $sql = "SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$plataforma'";
         $url = $this->select($sql);
@@ -725,10 +729,10 @@ class GuiasModel extends Query
 
         $url = "https://guias.imporsuitpro.com/Speed/crear";
         $data = array(
-            "nombreO" => $nombreO,
+            "nombreO" => $vendedor,
             "ciudadO" => $ciudadOrigen,
             "direccionO" => $direccionO,
-            "telefonoO" => $telefonoO,
+            "telefonoO" => $telf,
             "referenciaO" => $referenciaO,
             "nombre" => $nombre,
             "ciudad" => $ciudadDestino,

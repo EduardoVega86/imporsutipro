@@ -150,34 +150,45 @@ class SwaggerModel extends Query
     public function obtener_productos($uuid)
     {
         try {
-            // Consultar el JWT o id_plataforma asociado al UUID
-            $sql_jwt = "SELECT jwt FROM users WHERE uuid = ?";
-            $data = [$uuid];
-            $result = $this->dselect($sql_jwt, $data);
-
-            if (empty($result)) {
-                return ["status" => 400, "message" => "UUID no encontrado"];
+            // 1. Verificar si existe usuario con ese UUID en AccesoModel
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
             }
 
-            $jwt = $result[0]['jwt'];
-            $key = $_ENV['JWT_SECRET'];
+            // 2. Tomamos el id_users del primer registro encontrado
+            $id_users = $usuario[0]['id_users'];
 
-            try {
-                // Decodificar el JWT
-                $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
-
-                $id_plataforma = $decoded->id_plataforma;
-
-                //Obtenemos los datos
-                $productos = $this->productosModel->obtener_productos($id_plataforma);
-
-
-                return ["status" => 200, "data" => $productos];
-            } catch (Exception $e) {
-                return ["status" => 400, "message" => "Error al decodificar el JWT: " . $e->getMessage()];
+            // 3. Obtener la plataforma asociada
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+            print_r($plataforma);
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
             }
+
+            // 4. Obtener los productos de esa plataforma
+            $id_plataforma = $plataforma[0]['id_plataforma'];
+            $productos = $this->productosModel->getProductosPorPlataforma($id_plataforma);
+
+            // 5. Devolver respuesta exitosa
+            return [
+                'status'  => 200,
+                'message' => 'Productos obtenidos exitosamente',
+                'data'    => $productos
+            ];
         } catch (Exception $e) {
-            return ["status" => 500, "message" => "Error interno del servidor", "error" => $e->getMessage()];
+            // Manejo de excepciones internas
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al obtener productos',
+                'error'   => $e->getMessage()
+            ];
         }
     }
 }
