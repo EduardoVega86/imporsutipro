@@ -168,9 +168,9 @@
                     <a href="<?php echo SERVERURL ?>shopify/constructor_vista"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Datos Shopify</span></a>
                     <a href="<?php echo SERVERURL ?>funnelish/constructor_vista"><i class="fa-solid fa-f menu-icon"></i> <span class="menu-text">Funnelish</span></a>
                     <a href="<?php echo SERVERURL ?>integraciones"><i class="fa-solid fa-globe menu-icon"></i> <span class="menu-text">Integracio- nes</span></a>
-
-                    <a href="<?php echo SERVERURL ?>Productos/bovedas"><i class='bx bxs-lock menu-icon'></i> <span class="menu-text">Bovedas</span></a>
                 </div>
+
+                <a href="<?php echo SERVERURL ?>Productos/bovedas"><i class='bx bxs-lock menu-icon'></i> <span class="menu-text">Bovedas</span></a>
             <?php } else { ?>
                 <a href="<?php echo SERVERURL ?>Pedidos/scanner_speed"><i class='fa-solid fa-motorcycle menu-icon'></i> <span class="menu-text">Scanner Speed</span></a>
             <?php } ?>
