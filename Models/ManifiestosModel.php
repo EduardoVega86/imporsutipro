@@ -930,7 +930,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
         $sql_producto = "SELECT * FROM inventario_bodegas WHERE id_inventario = '$id_inventario'";
         //  echo $sql_factura;
         $producto = $this->select($sql_producto);
-        $id_inventario = $producto[0]['id_factura'];
+        $id_inventario = $producto[0]['id_inventario'];
         //$estado_factura = $factura[0]['estado_factura'];
 
         
