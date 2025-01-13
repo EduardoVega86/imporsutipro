@@ -65,6 +65,24 @@ const listBovedas = async () => {
   }
 };
 
+// Llenar select de Nombres
+const cargarNombres = async () => {
+  try {
+    const response = await fetch(`${SERVERURL}Productos/obtener_productos`);
+    const categorias = await response.json();
+
+    let opciones = "<option value=''>Seleccione un Nombre</option>";
+    categorias.forEach((cat) => {
+      opciones += `<option value="${cat.id_producto}">${cat.nombre_producto}</option>`;
+    });
+
+    document.getElementById("nombreBoveda").innerHTML = opciones;
+  } catch (error) {
+    console.error("Error al cargar nombres:", error);
+  }
+};
+
+
 // Llenar select de Categorías
 const cargarCategorias = async () => {
   try {
@@ -104,6 +122,17 @@ window.addEventListener("load", async () => {
   // Inicializamos la tabla
   await initDataTable();
 
+  // 1) Cargamos nombnres
+  await cargarNombres();
+  //2) inicializamos Select2 para nombre
+  $("#nombreBoveda").select2({
+    placeholder: "Seleccione un Nmbre",
+    allowClear: true,
+    //Como esta dentro de un modal
+    dropdownParent: $("#nombreBoveda"),
+  })
+
+
   // 1) Cargamos categorías
   await cargarCategorias();
   // 2) Ahora sí, inicializamos Select2 para categoría
@@ -114,9 +143,9 @@ window.addEventListener("load", async () => {
     dropdownParent: $("#modalAgregarBoveda"),
   });
 
-  // 3) Cargamos proveedores
+  // 1) Cargamos proveedores
   await cargarProveedores();
-  // 4) Inicializamos Select2 para proveedor
+  // 2) Inicializamos Select2 para proveedor
   $("#proveedorBoveda").select2({
     placeholder: "Seleccione un Proveedor",
     allowClear: true,

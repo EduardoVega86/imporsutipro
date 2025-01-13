@@ -12,7 +12,9 @@
                     <!-- Nombre -->
                     <div class="mb-3">
                         <label for="nombreBoveda" class="form-label">Nombre</label>
-                        <input type="text" id="nombreBoveda" name="nombreBoveda" class="form-control" required>
+                        <select id="nombreBoveda" name="nombreBoveda" class="form-select" required>
+                            <!-- Opciones dinámicas -->
+                        </select>
                     </div>
 
                     <!-- Categoría -->
