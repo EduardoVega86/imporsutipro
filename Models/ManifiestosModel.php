@@ -999,6 +999,7 @@ $data = [
     ':saldo' => $saldo_stock,
 ];
 
+var_dump($data);
 
 $resultado = $this->insert($detalle_sql_historial, $data);
 
