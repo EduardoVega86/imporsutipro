@@ -100,6 +100,8 @@ class ManifiestosModel extends Query
     {
 
         echo $id_cabecera;
+
+        print_r($arreglo);
         if (count($arreglo) == 0) return;
 
 
