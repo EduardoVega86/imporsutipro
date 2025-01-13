@@ -112,7 +112,7 @@ echo $string;
         
 
 
-        $sql_bodega = "SELECT b.id as id, b.nombre as bodega, b.contacto, b.responsable, b.direccion FROM `facturas_cot` fc, detalle_fact_cot dfc, inventario_bodegas ib, bodega b WHERE numero_guia in $string and fc.id_factura=dfc.id_factura  and ib.id_inventario=dfc.id_inventario and ib.bodega=b.id limit 1;";
+        $sql_bodega = "SELECT b.id as id, b.nombre as bodega, b.contacto, b.responsable, b.direccion FROM inventario_bodegas ib, bodega b WHERE ib.id_inventario in  $string and  ib.bodega=b.id limit 1;";
         echo $sql_bodega;
         //  echo $sql_factura;$id_factura
         $bodega = $this->select($sql_bodega);
