@@ -1001,7 +1001,7 @@ $data = [
 
 
 $result = $this->insert($detalle_sql_historial, $data);
-
+print_r($result);
                     
                    
 
