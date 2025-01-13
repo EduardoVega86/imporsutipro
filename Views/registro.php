@@ -208,7 +208,9 @@
             errorDiv.textContent = "El nombre de la tienda no puede contener espacios ni caracteres especiales como (/, ^, *, $, @, \\)";
             errorDiv.style.display = "block";
             input.value = input.value.slice(0, -1);
-            callback(false);
+
+            // Llamar al callback solo si existe
+            if (typeof callback === "function") callback(false);
             return;
         }
 
@@ -226,12 +228,12 @@
                 if (data.exists) {
                     errorDiv.textContent = "Esta tienda ya existe.";
                     errorDiv.style.display = "block";
-                    callback(false);
+                    if (typeof callback === "function") callback(false);
                 } else {
                     errorDiv.style.display = "none";
-                    callback(true);
+                    if (typeof callback === "function") callback(true);
                 }
-            })
+            });
     }
 
     function enviarFormulario() {

@@ -149,6 +149,7 @@
 
                 <?php if ($_SESSION['cargo'] != 5) { ?>
                     <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
+
                 <?php } ?>
                 <div class="submenu" id="submenu4">
                     <?php if ($_SESSION['cargo'] == 10) { ?>
@@ -168,6 +169,13 @@
                     <a href="<?php echo SERVERURL ?>funnelish/constructor_vista"><i class="fa-solid fa-f menu-icon"></i> <span class="menu-text">Funnelish</span></a>
                     <a href="<?php echo SERVERURL ?>integraciones"><i class="fa-solid fa-globe menu-icon"></i> <span class="menu-text">Integracio- nes</span></a>
                 </div>
+
+                <?php if ($_SESSION['cargo'] == 10) { ?>
+                    <a href="<?php echo SERVERURL ?>Productos/bovedas"><i class='bx bxs-lock menu-icon'></i> <span class="menu-text">Bovedas</span></a>
+                <?php
+                }
+                ?>
+
             <?php } else { ?>
                 <a href="<?php echo SERVERURL ?>Pedidos/scanner_speed"><i class='fa-solid fa-motorcycle menu-icon'></i> <span class="menu-text">Scanner Speed</span></a>
             <?php } ?>

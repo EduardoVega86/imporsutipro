@@ -166,11 +166,6 @@ class SwaggerModel extends Query
                 // Decodificar el JWT
                 $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
 
-                // Validar que el campo id_plataforma exista en el JWT
-                if (!isset($decoded->id_plataforma)) {
-                    return ["status" => 400, "message" => "id_plataforma no encontrado en el JWT"];
-                }
-
                 $id_plataforma = $decoded->id_plataforma;
 
                 //Obtenemos los datos

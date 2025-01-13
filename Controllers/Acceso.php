@@ -77,7 +77,7 @@ class Acceso extends Controller
         $tienda = file_get_contents("php://input");
         $tienda = json_decode($tienda, true);
         $exists = $this->model->validarTiendas($tienda['tienda']);
-        echo json_encode(['exists' => $exists]);
+        echo json_encode($exists);
     }
 
     public function recuperar_contrasena()

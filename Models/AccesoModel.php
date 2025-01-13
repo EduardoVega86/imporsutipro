@@ -14,7 +14,13 @@ use \Firebase\JWT\Key;
 
 class AccesoModel extends Query
 {
-    private $jwt_secret = 'semeljxAFrbOvDCHQ98jRHuwhLRdPw6GY0hhhvJdQ6rbkc5SMsXVCcgUTtzsLQyR'; // Cambia 'your_secret_key' por una clave secreta segura
+    private $jwt_secret;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->jwt_secret = $_ENV['JWT_SECRET'];
+    }
+
 
     /**
      * Genera un JWT con los datos de usuario.
@@ -412,6 +418,35 @@ class AccesoModel extends Query
         }
     }
 
+    private function actualizaJWTyUUID($id_usuario, $jwt, $uuid)
+    {
+        $sql = "UPDATE users
+            SET jwt = ?, uuid = ?
+            WHERE id_users = ?";
+        $params = [$jwt, $uuid, $id_usuario];
+
+
+        $respuesta = $this->update($sql, $params);
+        // print_r($respuesta);
+        return $respuesta;
+    }
+
+    /**
+     * Genera un UUID versión 4
+     */
+    private function generaUUIDv4()
+    {
+        $data = random_bytes(16);
+
+        // Ajuste de versión (4) y bits
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+
+        // Armamos la cadena con formato 8-4-4-4-12
+        $uuid = vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+        return $uuid;
+    }
+
     public function login($usuario, $password)
     {
         ini_set('session.gc_maxlifetime', 3600);
@@ -479,8 +514,14 @@ class AccesoModel extends Query
             return $response;
         }
 
-        // 6. Si llegamos aquí, todo está correcto: generamos el JWT
+        // 6.1. Si llegamos aquí, todo está correcto: generamos el JWT
         $jwt = $this->generaJWT($datos_usuario[0]);
+
+        //6.2 Generamos un UUID v4
+        $uuid = $this->generaUUIDv4();
+
+        //6.3 Actualizamos latabla users con JWT y UUID
+        $this->actualizaJWTyUUID($datos_usuario[0]['id_users'], $jwt, $uuid);
 
         // 7. Creamos la respuesta exitosa
         $response = $this->initialResponse();
@@ -528,6 +569,8 @@ class AccesoModel extends Query
         // 9. Retornamos la respuesta final
         return $response;
     }
+
+
 
 
     public function recovery($correo)
