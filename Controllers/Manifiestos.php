@@ -86,24 +86,21 @@ class Manifiestos extends Controller
         return;
     }
 
-  
     // Extraer bodega y productos
     $bodega = $datos['bodega'];
     $productos = $datos['productos'];
 
     if (count($productos) > 0) {
-       
         $id_cabecera = $this->model->guardarCabeceraDespacho($bodega,  $_SESSION['id_plataforma']);
 
         $resultados = [];
         foreach ($productos as $producto) {
-           // print_r($producto);
             $resultado = $this->model->despacho_producto($producto, $_SESSION['id_plataforma'], $id_cabecera);
             $resultados[] = $resultado;
         }
 
-      //  $html = $this->model->generarManifiestoGuias($productos, $id_cabecera, $transportadora);
-      //  echo json_encode($html);
+        $html = $this->model->generarManifiestoGuias($productos, $id_cabecera, $transportadora);
+        echo json_encode($html);
     } else {
         echo json_encode(['error' => 'No se encontraron productos para procesar']);
     }
