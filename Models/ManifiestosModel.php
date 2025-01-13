@@ -926,7 +926,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
         $data = [$sku, $id_cabecera, $cantidad];
         // Ejecuta la inserción
         $insertar_detalle_rd = $this->insert($sql, $data);
-        print_r($insertar_detalle_rd);
+        //print_r($insertar_detalle_rd);
         $sql_producto = "SELECT * FROM inventario_bodegas WHERE id_inventario = '$id_inventario'";
         //  echo $sql_factura;
         $producto = $this->select($sql_producto);
@@ -950,9 +950,10 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                     $stock = $this->select($sql_id);
                     $stock_inventario = $stock[0]['saldo_stock'];
                     $saldo_stock = $stock_inventario - $cantidad;
-                    $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
-                    $data = [$saldo_stock, $id_inventario];
-                    $actualizar_stock = $this->update($sql_update, $data);
+                    $sql_update = "update inventario_bodegas set saldo_stock=$saldo_stock where id_inventario=$id_inventario";
+                    //$data = [$saldo_stock, $id_inventario];
+
+                    $actualizar_stock = $this->simple_insert($sql_update);
                     
                     $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES 
                 ('$id_usuario', '$id_inventario', '$plataforma', '$sku', '$nota', '$num_guia', $cantidad, 2, '$id_bodega', '$id_producto', '$saldo_stock')";
