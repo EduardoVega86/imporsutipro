@@ -68,7 +68,7 @@ const listBovedas = async () => {
 // Llenar select de Nombres
 const cargarNombres = async () => {
   try {
-    const response = await fetch(`${SERVERURL}Productos/obtener_productos_boveda1`);
+    const response = await fetch(`${SERVERURL}Productos/obtener_productos_boveda`);
     const categorias = await response.json();
 
     let opciones = "<option value=''>Seleccione un Nombre</option>";

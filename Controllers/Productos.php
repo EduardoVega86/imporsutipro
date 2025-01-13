@@ -138,13 +138,6 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-    public function obtener_productos_boveda1()
-    {
-
-        $response = $this->model->obtener_productos_boveda1();
-        echo json_encode($response);
-    }
-
     public function obtener_bovedas()
     {
         $response = $this->model->obtenerBovedas();
