@@ -65,7 +65,7 @@ class GuiasModel extends Query
                 "nombreO" => "$vendedor",
                 "ciudadO" => "$ciudadOrigen",
                 "direccion" => "$direccionOrigen",
-                "telefono" => "$telf",
+
                 "celular" => "$telf",
                 "referenciaO" => "$referenciaOrigen",
                 "celularO" => "$celularOrigen",
