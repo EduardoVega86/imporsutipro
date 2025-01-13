@@ -983,9 +983,7 @@ $result = $this->update($sql_update, $data);
                         $saldo_stock
                     );*/
 
-                    INSERT INTO `historial_productos` 
-(`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) 
-VALUES (:id_users, :id_inventario, :id_plataforma, :sku, :nota_historial, :referencia_historial, :cantidad_historial, :tipo_historial, :id_bodega, :id_producto, :saldo)
+                    $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (:id_users, :id_inventario, :id_plataforma, :sku, :nota_historial, :referencia_historial, :cantidad_historial, :tipo_historial, :id_bodega, :id_producto, :saldo)";
 
 $data = [
     ':id_users' => $id_usuario,
