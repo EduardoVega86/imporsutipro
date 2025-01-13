@@ -234,7 +234,7 @@ class SwaggerModel extends Query
             // Manejo de excepciones internas
             return [
                 'status'  => 500,
-                'message' => 'Error interno al obtener productos',
+                'message' => 'Error interno al obtener bovedas',
                 'error'   => $e->getMessage()
             ];
         }
