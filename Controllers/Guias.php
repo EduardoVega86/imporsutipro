@@ -71,9 +71,12 @@ class Guias extends Controller
             return;
         }
 
-        $vendedor = $this->model->obtenerVendedor($_SESSION["id_plataforma"] ?? $_POST["id_plataforma"]);
+        $vendedor = $this->model->obtenerVendedor($_SESSION["id_plataforma"] ?? $_POST["id_plataforma"])['nombre_tienda'];
+        //uppercase
+        $vendedor = strtoupper($vendedor);
+        $telf_vendedor = $this->model->obtenerVendedor($_SESSION["id_plataforma"] ?? $_POST["id_plataforma"])['whatsapp'];
 
-        $datos = $this->model->generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $vendedor);
+        $datos = $this->model->generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $vendedor, $telf_vendedor);
         $datos = json_decode($datos, true);
         $repitio = false;
 
@@ -86,7 +89,7 @@ class Guias extends Controller
                     $existe = true;
                     break;
                 }
-                $datos = $this->model->generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras);
+                $datos = $this->model->generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $vendedor, $telf_vendedor);
                 $repitio = true;
             }
 
