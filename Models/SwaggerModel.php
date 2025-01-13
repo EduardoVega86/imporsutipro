@@ -222,13 +222,13 @@ class SwaggerModel extends Query
 
             // 4. Obtener las bovedas de esa plataforma
             $id_plataforma = $plataforma[0]['id_plataforma'];
-            $productos = $this->productosModel->getBovedasPorPlataforma($id_plataforma);
+            $bovedas = $this->productosModel->getBovedasPorPlataforma($id_plataforma);
 
             // 5. Devolver respuesta exitosa
             return [
                 'status'  => 200,
-                'message' => 'Productos obtenidos exitosamente',
-                'data'    => $productos
+                'message' => 'Bovedas obtenidas exitosamente',
+                'data'    => $bovedas
             ];
         } catch (Exception $e) {
             // Manejo de excepciones internas
