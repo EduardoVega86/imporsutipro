@@ -14,7 +14,13 @@ use \Firebase\JWT\Key;
 
 class AccesoModel extends Query
 {
-    private $jwt_secret = 'semeljxAFrbOvDCHQ98jRHuwhLRdPw6GY0hhhvJdQ6rbkc5SMsXVCcgUTtzsLQyR'; // Cambia 'your_secret_key' por una clave secreta segura
+    private $jwt_secret;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->jwt_secret = $_ENV['JWT_SECRET'];
+    }
+
 
     /**
      * Genera un JWT con los datos de usuario.
@@ -421,7 +427,7 @@ class AccesoModel extends Query
 
 
         $respuesta = $this->update($sql, $params);
-        print_r($respuesta);
+        // print_r($respuesta);
         return $respuesta;
     }
 
