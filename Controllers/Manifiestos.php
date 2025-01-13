@@ -86,12 +86,13 @@ class Manifiestos extends Controller
         return;
     }
 
-    echo 'asdasd';
+  
     // Extraer bodega y productos
     $bodega = $datos['bodega'];
     $productos = $datos['productos'];
 
     if (count($productos) > 0) {
+        echo 'entra';
         $id_cabecera = $this->model->guardarCabeceraDespacho($bodega,  $_SESSION['id_plataforma']);
 
         $resultados = [];
