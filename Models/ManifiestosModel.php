@@ -98,6 +98,8 @@ class ManifiestosModel extends Query
 
     public function generarManifiestoGuiasProductos($arreglo, $id_cabecera)
     {
+
+        echo $id_cabecera;
         if (count($arreglo) == 0) return;
 
 
