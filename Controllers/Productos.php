@@ -140,6 +140,52 @@ class Productos extends Controller
 
 
 
+    public function obtener_boveda_by_id($id_boveda)
+    {
+        $response = $this->model->getBovedaById($id_boveda);
+        echo json_encode($response);
+    }
+
+
+    public function actualizar_boveda()
+    {
+        if (isset($_POST['id_boveda'], $_POST['nombre'], $_POST['categoria'], $_POST['proveedor'])) {
+            $idBoveda = $_POST['id_boveda'];
+            $nombre = $_POST['nombre'];
+            $idLinea = $_POST['categoria'];
+            $idProveedor = $_POST['proveedor'];
+
+            // Llamamos al modelo
+            $result = $this->model->updateBoveda($idBoveda, $nombre, $idLinea, $idProveedor);
+
+            if ($result) {
+                // Éxito
+                $response = [
+                    "status"  => 200,
+                    "title"   => "Bóveda actualizada",
+                    "message" => "La bóveda se actualizó correctamente."
+                ];
+            } else {
+                // Error al actualizar en BD
+                $response = [
+                    "status"  => 500,
+                    "title"   => "Error",
+                    "message" => "No se pudo actualizar la bóveda."
+                ];
+            }
+        } else {
+            // Faltan datos
+            $response = [
+                "status"  => 400,
+                "title"   => "Datos incompletos",
+                "message" => "Faltan campos obligatorios."
+            ];
+        }
+
+        echo json_encode($response);
+    }
+
+
     public function obtener_bovedas()
     {
         $response = $this->model->obtenerBovedas();
