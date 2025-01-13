@@ -52,28 +52,9 @@ const listBovedas = async () => {
           <td>${boveda.nombre}</td>
           <td>${boveda.categoria}</td>
           <td>${boveda.proveedor}</td>
-          <!-- Campos como enlaces para que sea más amigable -->
-          <td>
-            ${
-              boveda.ejemplo_landing
-                ? `<a href="${boveda.ejemplo_landing}" target="_blank">Ver Landing</a>`
-                : "N/A"
-            }
-          </td>
-          <td>
-            ${
-              boveda.duplicar_funnel
-                ? `<a href="${boveda.duplicar_funnel}" target="_blank">Ver Funnel</a>`
-                : "N/A"
-            }
-          </td>
-          <td>
-            ${
-              boveda.videos
-                ? `<a href="${boveda.videos}" target="_blank">Ver Video</a>`
-                : "N/A"
-            }
-          </td>
+          <td>${boveda.ejemplo_landing}</td>
+          <td>${boveda.duplicar_funnel}</td>
+          <td>${boveda.videos}</td>
           <td>
           </td>
         </tr>
