@@ -750,10 +750,10 @@ class Swagger extends Controller
 
     /**
      * @OA\Get(
-     *     path="/swagger/obtener_bovedas",
+     *     path="/swagger/obtener_proveedores",
      *     tags={"Productos"},
-     *     summary="Obtener bovedas por plataforma",
-     *     description="Permite obtener la lista de bovedas asociadas a una plataforma.",
+     *     summary="Obtener obtener_proveedores por plataforma",
+     *     description="Permite obtener la lista de proveedores asociados a una plataforma.",
      *     @OA\Parameter(
      *         name="uuid",
      *         in="query",
@@ -765,11 +765,11 @@ class Swagger extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Bovedas obtenidas exitosamente"
+     *         description="Proveedores obtenidos exitosamente"
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Error al obtener bovedas"
+     *         description="Error al obtener proveedores"
      *     ),
      *     @OA\Response(
      *         response=401,
@@ -793,7 +793,7 @@ class Swagger extends Controller
                 return;
             }
 
-            // Llamar al modelo para obtener bovedas
+            // Llamar al modelo para obtener proveedores
             $response = $this->model->obtener_proveedores($uuid);
             $this->handleResponse($response);
         } catch (Exception $e) {
