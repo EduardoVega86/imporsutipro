@@ -673,36 +673,36 @@ class Swagger extends Controller
     {
         try {
             $this->logRequest('swagger/obtener_productos', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
             $data = json_decode(file_get_contents("php://input"), true);
 
-            // Si $id está vacío, intenta capturarlo desde $_GET
-            if (empty($uuid)) {
-                $uuid = $_GET['uuid'] ?? null;
-            }
-
-            if (!$data) {
+            // Validar JSON
+            if (json_last_error() !== JSON_ERROR_NONE) {
                 http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
+                echo json_encode([
+                    'status' => 400,
+                    'message' => 'El cuerpo de la solicitud no es un JSON válido',
+                    'error' => json_last_error_msg()
+                ]);
                 return;
             }
 
+            // Validar el UUID
             $uuid = $data['uuid'] ?? null;
-
-
-            // Validación de todos los datos requeridos
             if (!$uuid) {
                 http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos: uuid']);
                 return;
             }
 
-            // Llamada al modelo para registrar el referido
+            // Llamar al modelo
             $response = $this->model->obtener_productos($uuid);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
         }
     }
+
 
 
 
