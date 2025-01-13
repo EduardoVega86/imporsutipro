@@ -6,7 +6,7 @@ class Conexion
 
     public function __construct()
     {
-        date_default_timezone_set('America/Mexico_City');
+        date_default_timezone_set('America/Guayaquil');
         $pdo = "mysql:host=" . HOST . ";dbname=" . DB . ";charset=" . CHARSET;
         try {
             $this->connection = new PDO($pdo, USER, PASSWORD, [
