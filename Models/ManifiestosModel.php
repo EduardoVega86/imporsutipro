@@ -967,10 +967,7 @@ $result = $this->update($sql_update, $data);
                   //  echo $sql_update;
                  //   $sqlResult = $this->select($sql);
               //      $output = "Resultado: " . json_encode($sqlResult); // Convertir a JSON
-                  //  $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES 
-               // ('$id_usuario', '$id_inventario', '$plataforma', '$sku', '$nota', '$num_guia', $cantidad, 2, '$id_bodega', '$id_producto', '$saldo_stock')";
-//echo $detalle_sql_historial;
-
+             
                     echo 'enta2';
                 /*    $historial_data = array(
                         $id_usuario,
@@ -985,7 +982,27 @@ $result = $this->update($sql_update, $data);
                         $id_producto,
                         $saldo_stock
                     );*/
-                    $guardar_detalle = $this->simple_insert($detalle_sql_historial);
+
+                    INSERT INTO `historial_productos` 
+(`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) 
+VALUES (:id_users, :id_inventario, :id_plataforma, :sku, :nota_historial, :referencia_historial, :cantidad_historial, :tipo_historial, :id_bodega, :id_producto, :saldo)
+
+$data = [
+    ':id_users' => $id_usuario,
+    ':id_inventario' => $id_inventario,
+    ':id_plataforma' => $plataforma,
+    ':sku' => $sku,
+    ':nota_historial' => $nota,
+    ':referencia_historial' => $num_guia,
+    ':cantidad_historial' => $cantidad,
+    ':tipo_historial' => 2,
+    ':id_bodega' => $id_bodega,
+    ':id_producto' => $id_producto,
+    ':saldo' => $saldo_stock,
+];
+
+
+$result = $this->insert($detalle_sql_historial, $data);
 
                     
                    
@@ -994,7 +1011,7 @@ $result = $this->update($sql_update, $data);
 
                 //print_r($tmp_cotizaciones);
 
-                if ($editar_categoria == 1) {
+                if ($result == 1) {
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
                     $response['message'] = 'Despacho Exitoso';
