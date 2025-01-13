@@ -693,6 +693,119 @@ class Swagger extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/swagger/obtener_bovedas",
+     *     tags={"Productos"},
+     *     summary="Obtener bovedas por plataforma",
+     *     description="Permite obtener la lista de bovedas asociadas a una plataforma.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Bovedas obtenidas exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error al obtener bovedas"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado"
+     *     )
+     * )
+     */
+    public function obtener_bovedas()
+    {
+        try {
+            // Log de la solicitud
+            $this->logRequest('swagger/obtener_bovedas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
+            // Captura el UUID desde los parámetros GET
+            $uuid = $_GET['uuid'] ?? null;
+
+            // Validar UUID
+            if (!$uuid) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos: uuid']);
+                return;
+            }
+
+            // Llamar al modelo para obtener bovedas
+            $response = $this->model->obtener_bovedas($uuid);
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+    //Pendiente Endpoint Agregar Boveda hasta saber que fin tiene tabla Bovedas
+
+
+    /**
+     * @OA\Get(
+     *     path="/swagger/obtener_lineas_global",
+     *     tags={"Productos"},
+     *     summary="Obtener lineas globales por plataforma",
+     *     description="Permite obtener la lista de lineas globales asociadas a una plataforma.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lineas obtenidas exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error al obtener lineas"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado"
+     *     )
+     * )
+     */
+    public function obtener_lineas_global()
+    {
+        try {
+            // Log de la solicitud
+            $this->logRequest('swagger/obtener_lineas_global', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
+            // Captura el UUID desde los parámetros GET
+            $uuid = $_GET['uuid'] ?? null;
+
+            // Validar UUID
+            if (!$uuid) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos: uuid']);
+                return;
+            }
+
+            // Llamar al modelo para obtener proveedores
+            $response = $this->model->obtener_lineas_global($uuid);
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+
+
+
+
 
 
 

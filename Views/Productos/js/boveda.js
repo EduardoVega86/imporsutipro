@@ -45,23 +45,49 @@ const listBovedas = async () => {
 
     let content = "";
 
-    //Iteramos sober e array de resultados
+    //Iteramos sobre el array de resultados
     bovedas.forEach((boveda) => {
       content += `
         <tr>
           <td>${boveda.nombre}</td>
           <td>${boveda.categoria}</td>
           <td>${boveda.proveedor}</td>
-          <td>${boveda.ejemplo_landing}</td>
-          <td>${boveda.duplicar_funnel}</td>
-          <td>${boveda.videos}</td>
+          <td><a href="${boveda.ejemplo_landing}" target="_blank" class="link-primary">Ver Landing</a></td>
+          <td><a href="${boveda.duplicar_funnel}" target="_blank" class="link-primary">Duplicar Funnel</a></td>
+          <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
         </tr>
       `;
     });
+
     //Inyectamos las filas en el cuerpo de la tabla
     document.getElementById("tableBody_bovedas").innerHTML = content;
   } catch (error) {
     console.error("Error al listar Bovedas", error);
+  }
+};
+
+
+
+
+function editar_bodegas(id) {
+  const url = "" + SERVERURL + "Productos/editar_bovedas?id=" + id;
+  window.location.href = url;
+}
+
+// Llenar select de Nombres
+const cargarNombres = async () => {
+  try {
+    const response = await fetch(`${SERVERURL}Productos/obtener_productos_boveda`);
+    const categorias = await response.json();
+
+    let opciones = "<option value=''>Seleccione un Nombre</option>";
+    categorias.forEach((cat) => {
+      opciones += `<option value="${cat.id_producto}">${cat.nombre_producto}</option>`;
+    });
+
+    document.getElementById("nombreBoveda").innerHTML = opciones;
+  } catch (error) {
+    console.error("Error al cargar nombres:", error);
   }
 };
 
@@ -104,6 +130,16 @@ window.addEventListener("load", async () => {
   // Inicializamos la tabla
   await initDataTable();
 
+  // 1) Cargamos nombnres
+  await cargarNombres();
+  //2) inicializamos Select2 para nombre
+  $("#nombreBoveda").select2({
+    placeholder: "Seleccione un Nombre",
+    allowClear: true,
+    //Como esta dentro de un modal
+    dropdownParent: $("#nombreBoveda"),
+  });
+
   // 1) Cargamos categorías
   await cargarCategorias();
   // 2) Ahora sí, inicializamos Select2 para categoría
@@ -114,9 +150,9 @@ window.addEventListener("load", async () => {
     dropdownParent: $("#modalAgregarBoveda"),
   });
 
-  // 3) Cargamos proveedores
+  // 1) Cargamos proveedores
   await cargarProveedores();
-  // 4) Inicializamos Select2 para proveedor
+  // 2) Inicializamos Select2 para proveedor
   $("#proveedorBoveda").select2({
     placeholder: "Seleccione un Proveedor",
     allowClear: true,

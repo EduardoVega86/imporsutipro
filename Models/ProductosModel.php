@@ -50,6 +50,38 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
+    public function getBovedaById($id_boveda)
+    {
+        $sql = "
+        SELECT 
+            b.id_boveda,
+            b.nombre,
+            b.id_linea,
+            b.id_plataforma,
+            b.ejemplo_landing,
+            b.duplicar_funnel,
+            b.videos
+        FROM bovedas AS b
+        WHERE b.id_boveda = $id_boveda
+    ";
+        return $this->select($sql);
+    }
+
+    public function obtener_productos_boveda($plataforma)
+    {
+        $sql = "SELECT *
+                FROM productos
+                WHERE id_plataforma = $plataforma";
+        return $this->select($sql);
+    }
+
+    //Funcion para ser accedida desde Swagger Model
+    public function getBovedasPorPlataforma($id_plataforma)
+    {
+        // Ajusta la tabla / campos a tu realidad
+        $sql = "SELECT * FROM bovedas WHERE id_plataforma = '$id_plataforma'";
+        return $this->select($sql);
+    }
 
 
 
@@ -65,6 +97,12 @@ class ProductosModel extends Query
     public function obtenerLineasGlobal()
     {
         $sql = "SELECT id_linea, nombre_linea FROM lineas WHERE global=1";
+        return $this->select($sql);
+    }
+
+    public function getLineasPorPlataforma($id_plataforma)
+    {
+        $sql = "SELECT * FROM lineas WHERE id_plataforma = '$id_plataforma'";
         return $this->select($sql);
     }
 

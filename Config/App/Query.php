@@ -63,11 +63,19 @@ class Query extends Conexion
             $query = $this->connection->prepare($this->sql);
             $query->execute($data);
             $result = $query->rowCount();
+    
+            // Depuración adicional
+            error_log("Consulta ejecutada con éxito: " . $sql);
+            error_log("Datos utilizados: " . print_r($data, true));
+    
             return $result;
         } catch (PDOException $e) {
+            error_log("Error en la consulta: " . $e->getMessage());
+            error_log("Código del error: " . $e->getCode());
             return $this->handleError($e->getMessage(), $e->getCode());
         }
     }
+    
 
     public function simple_insert($sql)
     {
