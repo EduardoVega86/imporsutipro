@@ -105,7 +105,7 @@ class ManifiestosModel extends Query
         if (count($arreglo) == 0) return;
 
 
-        $string = "('" . implode("','", $arreglo) . "')";
+        $string = "('" . implode("','", array_values($arreglo)) . "')";
 
        print_r($string);
 
@@ -116,7 +116,7 @@ class ManifiestosModel extends Query
 
 
         $sql_bodega = "SELECT b.id as id, b.nombre as bodega, b.contacto, b.responsable, b.direccion FROM `facturas_cot` fc, detalle_fact_cot dfc, inventario_bodegas ib, bodega b WHERE numero_guia in $string and fc.id_factura=dfc.id_factura  and ib.id_inventario=dfc.id_inventario and ib.bodega=b.id limit 1;";
-        //echo $sql_bodega;
+        echo $sql_bodega;
         //  echo $sql_factura;$id_factura
         $bodega = $this->select($sql_bodega);
         $bodega_nombre = $bodega[0]['bodega'];
