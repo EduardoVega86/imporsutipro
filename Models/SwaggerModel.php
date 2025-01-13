@@ -222,7 +222,7 @@ class SwaggerModel extends Query
 
             // 4. Obtener las bovedas de esa plataforma
             $id_plataforma = $plataforma[0]['id_plataforma'];
-            $productos = $this->productosModel->getProductosPorPlataforma($id_plataforma);
+            $productos = $this->productosModel->getBovedasPorPlataforma($id_plataforma);
 
             // 5. Devolver respuesta exitosa
             return [
