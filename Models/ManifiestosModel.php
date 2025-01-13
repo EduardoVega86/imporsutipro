@@ -941,7 +941,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                 // $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 //print_r($tmp_cotizaciones);
-                //$nota='Se descuenta'
+                $nota='Se descuenta por despacho externo';
                 $id_usuario = $_SESSION['id'];
          
                     //  echo 'enta';
