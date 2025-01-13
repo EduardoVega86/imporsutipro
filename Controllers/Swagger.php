@@ -677,7 +677,7 @@ class Swagger extends Controller
 
             // Si $id está vacío, intenta capturarlo desde $_GET
             if (empty($uuid)) {
-                $id = $_GET['uuid'] ?? null;
+                $uuid = $_GET['uuid'] ?? null;
             }
 
             if (!$data) {
