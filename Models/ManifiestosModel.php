@@ -949,7 +949,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                     $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
                     $stock = $this->select($sql_id);
                     $stock_inventario = $stock[0]['saldo_stock'];
-                    $saldo_stock = $stock_inventario - $tmp['cantidad'];
+                    $saldo_stock = $stock_inventario - $cantidad;
                     $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
                     $data = [$saldo_stock, $id_inventario];
                     $actualizar_stock = $this->update($sql_update, $data);
