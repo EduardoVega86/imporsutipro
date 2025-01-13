@@ -925,7 +925,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
         $data = [$sku, $id_cabecera, $cantidad];
         // Ejecuta la inserción
         $insertar_detalle_rd = $this->insert($sql, $data);
-
+        print_r(insertar_detalle_rd);
         $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia'";
         //  echo $sql_factura;
         $factura = $this->select($sql_factura);
