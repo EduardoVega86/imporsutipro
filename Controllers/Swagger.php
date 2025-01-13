@@ -669,58 +669,40 @@ class Swagger extends Controller
      *     )
      * )
      */
-    public function obtener_productos($param = null)
+    public function obtener_productos()
     {
         try {
-            // 1. Verificar si llegó algo en $param
-            if (!$param) {
+            $this->logRequest('swagger/obtener_productos', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            // Si $id está vacío, intenta capturarlo desde $_GET
+            if (empty($uuid)) {
+                $id = $_GET['uuid'] ?? null;
+            }
+
+            if (!$data) {
                 http_response_code(400);
-                echo json_encode([
-                    'status'  => 400,
-                    'message' => 'Falta parámetro UUID en la ruta'
-                ]);
+                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
                 return;
             }
 
-            // 2. Opcional: si tu ruta es EXACTAMENTE "/swagger/obtener_productos/uuid=XXXXX"
-            //    entonces $param será "uuid=XXXXX".
-            //    Podemos extraer la parte "XXXXX" así:
-            if (str_starts_with($param, 'uuid=')) {
-                // quitar 'uuid='
-                $uuid = str_replace('uuid=', '', $param);
-            } else {
-                // OJO: si deseas permitir rutas del tipo "/swagger/obtener_productos/XXXX" sin "uuid="
-                // directamene $uuid = $param;
-                // En caso de requerir EXACTO, devuelves error si no viene "uuid="
+            $uuid = $data['uiid'] ?? null;
+
+
+            // Validación de todos los datos requeridos
+            if (!$uuid) {
                 http_response_code(400);
-                echo json_encode([
-                    'status'  => 400,
-                    'message' => 'Formato de ruta inválido, se esperaba /swagger/obtener_productos/uuid=EL_UUID'
-                ]);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
             }
 
-            // 3. Ya tenemos $uuid. Llamamos al modelo:
+            // Llamada al modelo para registrar el referido
             $response = $this->model->obtener_productos($uuid);
-
-            // 4. Ajustar HTTP status y retornar
-            if (isset($response['status']) && $response['status'] === 200) {
-                http_response_code(200);
-            } else {
-                http_response_code($response['status'] ?? 400);
-            }
-
-            echo json_encode($response);
+            $this->handleResponse($response);
         } catch (Exception $e) {
-            http_response_code(500);
-            echo json_encode([
-                'status'  => 500,
-                'message' => 'Error interno del servidor',
-                'error'   => $e->getMessage()
-            ]);
+            $this->handleException($e);
         }
     }
-
 
 
 
