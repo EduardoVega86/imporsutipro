@@ -37,6 +37,7 @@ const initDataTable = async () => {
 };
 
 //Función que hace el fetch a controlador y pinta los datos en la tabla
+//Función que hace el fetch a controlador y pinta los datos en la tabla
 const listBovedas = async () => {
   try {
     //Ruta donde hacemos la peticion
@@ -45,25 +46,52 @@ const listBovedas = async () => {
 
     let content = "";
 
-    //Iteramos sober e array de resultados
     bovedas.forEach((boveda) => {
       content += `
         <tr>
           <td>${boveda.nombre}</td>
           <td>${boveda.categoria}</td>
           <td>${boveda.proveedor}</td>
-          <td>${boveda.ejemplo_landing}</td>
-          <td>${boveda.duplicar_funnel}</td>
-          <td>${boveda.videos}</td>
+
+          <!-- Campos como enlaces para que sea más amigable -->
+          <td>
+            ${
+              boveda.ejemplo_landing
+                ? `<a href="${boveda.ejemplo_landing}" target="_blank">Ver Landing</a>`
+                : "N/A"
+            }
+          </td>
+          <td>
+            ${
+              boveda.duplicar_funnel
+                ? `<a href="${boveda.duplicar_funnel}" target="_blank">Ver Funnel</a>`
+                : "N/A"
+            }
+          </td>
+          <td>
+            ${
+              boveda.videos
+                ? `<a href="${boveda.videos}" target="_blank">Ver Video</a>`
+                : "N/A"
+            }
+          </td>
+
+          <!-- Botón para Editar -->
+          <td>
+            <button class="btn btn-warning btn-sm" onclick="editBoveda(${boveda.id_boveda})">
+              Editar
+            </button>
+          </td>
         </tr>
       `;
     });
-    //Inyectamos las filas en el cuerpo de la tabla
+
     document.getElementById("tableBody_bovedas").innerHTML = content;
   } catch (error) {
     console.error("Error al listar Bovedas", error);
   }
 };
+
 
 // Llenar select de Nombres
 const cargarNombres = async () => {
