@@ -150,10 +150,8 @@ class SwaggerModel extends Query
     public function obtener_productos($uuid)
     {
         try {
-            // 1. Verificar si existe usuario con ese UUID
+            // 1. Verificar si existe usuario con ese UUID en AccesoModel
             $usuario = $this->accesoModel->getUserByUUID($uuid);
-
-            // Si no se encontró nada, retornamos un error
             if (empty($usuario)) {
                 return [
                     'status'  => 404,
@@ -161,10 +159,10 @@ class SwaggerModel extends Query
                 ];
             }
 
-            // 2. Obtenemos id_users
+            // 2. Tomamos el id_users del primer registro encontrado
             $id_users = $usuario[0]['id_users'];
 
-            // 3. Obtenemos la plataforma asociada
+            // 3. Obtener la plataforma asociada
             $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
             if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
                 return [
@@ -173,18 +171,18 @@ class SwaggerModel extends Query
                 ];
             }
 
-            // 4. Obtenemos los productos desde ProductosModel
+            // 4. Obtener los productos de esa plataforma
             $id_plataforma = $plataforma[0]['id_plataforma'];
             $productos = $this->productosModel->getProductosPorPlataforma($id_plataforma);
 
-            // 5. Retornamos una respuesta exitosa
+            // 5. Devolver respuesta exitosa
             return [
                 'status'  => 200,
                 'message' => 'Productos obtenidos exitosamente',
                 'data'    => $productos
             ];
         } catch (Exception $e) {
-            // Manejo de la excepción
+            // Manejo de excepciones internas
             return [
                 'status'  => 500,
                 'message' => 'Error interno al obtener productos',
