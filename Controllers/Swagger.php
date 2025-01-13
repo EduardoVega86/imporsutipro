@@ -686,7 +686,7 @@ class Swagger extends Controller
                 return;
             }
 
-            $uuid = $data['uiid'] ?? null;
+            $uuid = $data['uuid'] ?? null;
 
 
             // Validación de todos los datos requeridos
