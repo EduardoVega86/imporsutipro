@@ -669,40 +669,49 @@ class Swagger extends Controller
      *     )
      * )
      */
-    public function obtener_productos()
+    public function obtener_productos($param = null)
     {
         try {
-            // Log de la solicitud (opcional, para debugging)
-            $this->logRequest('api/obtener_prductos', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
-
-            // 1. Capturar el uuid desde la query string: ?uuid=XXXXXXXX
-            $uuid = $_GET['uuid'] ?? null;
-
-            // 2. Validar que venga un UUID
-            if (!$uuid) {
+            // 1. Verificar si llegó algo en $param
+            if (!$param) {
                 http_response_code(400);
                 echo json_encode([
                     'status'  => 400,
-                    'message' => 'El campo UUID es requerido'
+                    'message' => 'Falta parámetro UUID en la ruta'
                 ]);
                 return;
             }
 
-            // 3. Llamar al modelo para obtener los productos
+            // 2. Opcional: si tu ruta es EXACTAMENTE "/swagger/obtener_productos/uuid=XXXXX"
+            //    entonces $param será "uuid=XXXXX".
+            //    Podemos extraer la parte "XXXXX" así:
+            if (str_starts_with($param, 'uuid=')) {
+                // quitar 'uuid='
+                $uuid = str_replace('uuid=', '', $param);
+            } else {
+                // OJO: si deseas permitir rutas del tipo "/swagger/obtener_productos/XXXX" sin "uuid="
+                // directamene $uuid = $param;
+                // En caso de requerir EXACTO, devuelves error si no viene "uuid="
+                http_response_code(400);
+                echo json_encode([
+                    'status'  => 400,
+                    'message' => 'Formato de ruta inválido, se esperaba /swagger/obtener_productos/uuid=EL_UUID'
+                ]);
+                return;
+            }
+
+            // 3. Ya tenemos $uuid. Llamamos al modelo:
             $response = $this->model->obtener_productos($uuid);
 
-            // 4. Ajustar el HTTP status según la respuesta
+            // 4. Ajustar HTTP status y retornar
             if (isset($response['status']) && $response['status'] === 200) {
                 http_response_code(200);
             } else {
-                // Por defecto, 400 si no es 200 o si no está definido
                 http_response_code($response['status'] ?? 400);
             }
 
-            // 5. Retornar la respuesta JSON
             echo json_encode($response);
         } catch (Exception $e) {
-            // Manejo de excepciones generales
             http_response_code(500);
             echo json_encode([
                 'status'  => 500,
@@ -711,6 +720,7 @@ class Swagger extends Controller
             ]);
         }
     }
+
 
 
 
