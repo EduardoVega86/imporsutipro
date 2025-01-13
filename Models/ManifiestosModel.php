@@ -919,9 +919,10 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
         $response = $this->initialResponse();
 
 
-        $sql = "INSERT INTO detalle_relacion_despacho_producto (numero_guia, id_cabecera_despacho) VALUES (?, ?)";
-        echo $num_guia['sku'];
-        $data = [$num_guia, $id_cabecera];
+        $sql = "INSERT INTO detalle_relacion_despacho_producto (sku_producto, id_cabecera_despacho, cantidad) VALUES (?, ?, ?)";
+        $sku= $num_guia['sku'];
+        $cantidad=$num_guia['cantidad'];
+        $data = [$sku, $id_cabecera, $cantidad];
         // Ejecuta la inserción
         $insertar_detalle_rd = $this->insert($sql, $data);
 
