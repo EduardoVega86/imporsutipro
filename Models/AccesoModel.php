@@ -574,8 +574,8 @@ class AccesoModel extends Query
 
     public function getUserByUUID($uuid)
     {
-        $sql = "SELECT * FROM users WHERE uuid = ?";
-        $result = $this->select($sql, [$uuid]);
+        $sql = "SELECT * FROM users WHERE uuid = '$uuid";
+        $result = $this->select($sql);
 
         return $result;
     }
@@ -584,8 +584,8 @@ class AccesoModel extends Query
     {
         $sql = "SELECT id_plataforma 
             FROM usuario_plataforma 
-            WHERE id_usuario = ?";
-        return $this->select($sql, [$id_user]);
+            WHERE id_usuario = '$id_user";
+        return $this->select($sql);
     }
 
 
