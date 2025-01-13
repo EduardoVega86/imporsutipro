@@ -418,7 +418,11 @@ class AccesoModel extends Query
             SET jwt = ?, uuid = ?
             WHERE id_users = ?";
         $params = [$jwt, $uuid, $id_usuario];
-        return $this->update($sql, $params);
+
+
+        $respuesta = $this->update($sql, $params);
+        print_r($respuesta);
+        return $respuesta;
     }
 
     /**
@@ -512,10 +516,6 @@ class AccesoModel extends Query
 
         //6.3 Actualizamos latabla users con JWT y UUID
         $this->actualizaJWTyUUID($datos_usuario[0]['id_users'], $jwt, $uuid);
-
-        print_r($datos_usuario);
-        print_r($uuid);
-        print_r($jwt);
 
         // 7. Creamos la respuesta exitosa
         $response = $this->initialResponse();
