@@ -54,10 +54,10 @@ class ProductosModel extends Query
     {
         $sql = "SELECT *
                 FROM productos
-                WHERE producto_privado = 0
-                   OR id_plataforma = $plataforma";
+                WHERE id_plataforma = $plataforma";
         return $this->select($sql);
     }
+
 
     //Funcion para ser accedida desde Swagger Model
     public function getBovedasPorPlataforma($id_plataforma)
