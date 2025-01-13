@@ -748,59 +748,6 @@ class Swagger extends Controller
 
     //Pendiente Endpoint Agregar Boveda hasta saber que fin tiene tabla Bovedas
 
-    /**
-     * @OA\Get(
-     *     path="/swagger/obtener_proveedores",
-     *     tags={"Productos"},
-     *     summary="Obtener proveedores por plataforma",
-     *     description="Permite obtener la lista de proveedores asociados a una plataforma.",
-     *     @OA\Parameter(
-     *         name="uuid",
-     *         in="query",
-     *         description="UUID del usuario o plataforma",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Proveedores obtenidos exitosamente"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Error al obtener proveedores"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="No autorizado"
-     *     )
-     * )
-     */
-    public function obtener_proveedores()
-    {
-        try {
-            // Log de la solicitud
-            $this->logRequest('swagger/obtener_proveedores', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
-
-            // Captura el UUID desde los parámetros GET
-            $uuid = $_GET['uuid'] ?? null;
-
-            // Validar UUID
-            if (!$uuid) {
-                http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos: uuid']);
-                return;
-            }
-
-            // Llamar al modelo para obtener proveedores
-            $response = $this->model->obtener_proveedores($uuid);
-            $this->handleResponse($response);
-        } catch (Exception $e) {
-            $this->handleException($e);
-        }
-    }
-
 
     /**
      * @OA\Get(
@@ -819,11 +766,11 @@ class Swagger extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Proveedores obtenidos exitosamente"
+     *         description="Lineas obtenidas exitosamente"
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Error al obtener proveedores"
+     *         description="Error al obtener lineas"
      *     ),
      *     @OA\Response(
      *         response=401,

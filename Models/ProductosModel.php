@@ -68,12 +68,6 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    public function getProveedoresPorPlataforma($id_plataforma)
-    {
-        // Ajusta la tabla / campos a tu realidad
-        $sql = "SELECT * FROM proveedores WHERE id_plataforma = '$id_plataforma'";
-        return $this->select($sql);
-    }
 
     public function obtenerLineasGlobal()
     {
