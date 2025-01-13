@@ -99,6 +99,7 @@ class Manifiestos extends Controller
             $resultados[] = $resultado;
         }
 
+        print_r($resultados);
         $html = $this->model->generarManifiestoGuiasProductos($productos, $id_cabecera);
         echo json_encode($html);
     } else {
