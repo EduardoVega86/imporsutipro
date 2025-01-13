@@ -103,15 +103,7 @@ class ManifiestosModel extends Query
 
         $string = "('" . implode("','", $arreglo) . "')";
 
-        // Consulta de facturas con el número de productos
-        $sql = "SELECT fc.*, 
-                   (SELECT SUM(cantidad) 
-                    FROM detalle_fact_cot dfc 
-                    WHERE dfc.id_factura = fc.id_factura) AS numero_productos 
-            FROM facturas_cot fc 
-            WHERE fc.numero_guia IN $string";
-
-        $resumen = $this->select($sql);
+       print_r($string);
 
         // Verificar que se haya obtenido el resumen
         if (empty($resumen)) {
