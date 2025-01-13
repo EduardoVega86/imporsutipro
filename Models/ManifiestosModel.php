@@ -953,6 +953,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                     $sql_update = "update inventario_bodegas set saldo_stock=$saldo_stock where id_inventario=$id_inventario";
                     //$data = [$saldo_stock, $id_inventario];
                     echo 'enta';
+                    echo $sql_update;
                     $actualizar_stock = $this->simple_insert($sql_update);
                     
                     $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES 
