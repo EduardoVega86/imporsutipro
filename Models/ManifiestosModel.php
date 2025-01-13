@@ -958,7 +958,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                         $id_usuario,
                         $id_inventario,
                         $plataforma,
-                        $sql,
+                        $sku,
                         $nota,
                         $num_guia,
                         $cantidad,
