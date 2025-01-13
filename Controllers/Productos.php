@@ -131,12 +131,14 @@ class Productos extends Controller
 
     public function obtener_productos_boveda()
     {
-        // Recibimos la plataforma por GET, POST u otro método:
-        $plataforma = isset($_GET['id_plataforma']) ? $_GET['id_plataforma'] : 0;
+        $plataforma = $_GET['id_plataforma'] ?? 0;
+        var_dump($plataforma);
 
         $response = $this->model->obtener_productos_boveda($plataforma);
         echo json_encode($response);
     }
+
+
 
     public function obtener_bovedas()
     {
