@@ -130,7 +130,7 @@ window.addEventListener("load", async () => {
     allowClear: true,
     //Como esta dentro de un modal
     dropdownParent: $("#nombreBoveda"),
-  })
+  });
 
 
   // 1) Cargamos categorías
