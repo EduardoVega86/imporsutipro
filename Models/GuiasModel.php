@@ -413,7 +413,7 @@ class GuiasModel extends Query
     }
 
     //servientrega
-    public function generarServientrega($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos)
+    public function generarServientrega($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos, $vendedor, $telf)
     {
         $razon_social_remitente = "IMPORCOMEX S.A.";
         $razon_zocial_destinatario = "Entrega a Domicilio";
@@ -437,11 +437,11 @@ class GuiasModel extends Query
             "CORREO_DESTINATARIO" => "desarrollo1@imporfactoryusa.com",
             "ID_REMITENTE_CL" => "",
             "RAZON_SOCIAL_REMITE" => $razon_social_remitente,
-            "NOMBRE_REMITENTE" => "$nombreOrigen",
+            "NOMBRE_REMITENTE" => "$vendedor",
             "APELLIDO_REMITE" =>    "",
             "DIRECCION1_REMITE" => "$direccionOrigen",
             "SECTOR_REMITE" => "",
-            "TELEFONO1_REMITE" => $telefonoOrigen,
+            "TELEFONO1_REMITE" => $telf,
             "TELEFONO2_REMITE" => "",
             "CODIGO_POSTAL_REMI" => "",
             "ID_PRODUCTO" => 2,
@@ -505,7 +505,7 @@ class GuiasModel extends Query
         return $response;
     }
 
-    public function generarServientregaSinRecaudo($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos)
+    public function generarServientregaSinRecaudo($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos, $vendedor, $telf)
     {
         $razon_social_remitente = "IMPORCOMEX S.A.";
         $razon_zocial_destinatario = "Entrega a Domicilio";
@@ -528,11 +528,11 @@ class GuiasModel extends Query
             "codigo_postal_dest_ne" => "",
             "id_remitente_cl" => "",
             "razon_social_remite" => $razon_social_remitente,
-            "nombre_remitente" => $nombreOrigen,
+            "nombre_remitente" => $vendedor,
             "apellido_remite" =>   "",
             "direccion1_remite" => $direccionOrigen,
             "sector_remite" => "",
-            "telefono1_remite" => $telefonoOrigen,
+            "telefono1_remite" => $telf,
             "telefono2_remite" => "",
             "codigo_postal_remi" => "",
             "id_producto" => 2,
