@@ -968,7 +968,7 @@ $result = $this->update($sql_update, $data);
                  //   $sqlResult = $this->select($sql);
               //      $output = "Resultado: " . json_encode($sqlResult); // Convertir a JSON
              
-                    
+                    echo 'enta2';
                 /*    $historial_data = array(
                         $id_usuario,
                         $id_inventario,
@@ -991,7 +991,7 @@ $data = [
     ':id_plataforma' => $plataforma,
     ':sku' => $sku,
     ':nota_historial' => $nota,
-    ':referencia_historial' => 'N/A',
+    ':referencia_historial' => 'n/a',
     ':cantidad_historial' => $cantidad,
     ':tipo_historial' => 2,
     ':id_bodega' => $id_bodega,
@@ -999,12 +999,9 @@ $data = [
     ':saldo' => $saldo_stock,
 ];
 
-var_dump($data);
 
-$resultado = $this->insert($detalle_sql_historial, $data);
-
-echo 'enta2';
-//print_r($result);
+$result = $this->insert($detalle_sql_historial, $data);
+//print_r($result)
                     
                    
 
@@ -1012,10 +1009,18 @@ echo 'enta2';
 
                 //print_r($tmp_cotizaciones);
 
-             
+                if ($result == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Despacho Exitoso';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al generar el despacho';
+                }
           
        
-        return $result;
+        return $response;
     }
 
     public function despacho_guia_devolucion($num_guia, $plataforma, $id_cabecera)
