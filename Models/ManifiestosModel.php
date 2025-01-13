@@ -931,6 +931,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
         //  echo $sql_factura;
         $producto = $this->select($sql_producto);
         $id_producto = $producto[0]['id_producto'];
+        $id_bodega = $producto[0]['bodega'];
         //$estado_factura = $factura[0]['estado_factura'];
 
         
@@ -945,7 +946,13 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                 $id_usuario = $_SESSION['id'];
          
                     //  echo 'enta';
-                  
+                    $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+                    $stock = $this->select($sql_id);
+                    $stock_inventario = $stock[0]['saldo_stock'];
+                    $saldo_stock = $stock_inventario - $tmp['cantidad'];
+                    $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
+                    $data = [$saldo_stock, $id_inventario];
+                    $actualizar_stock = $this->update($sql_update, $data);
                     
                     $historial_data = array(
                         $id_usuario,
