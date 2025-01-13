@@ -930,14 +930,14 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
         $sql_producto = "SELECT * FROM inventario_bodegas WHERE id_inventario = '$id_inventario'";
         //  echo $sql_factura;
         $producto = $this->select($sql_producto);
-        $id_inventario = $producto[0]['id_producto'];
+        $id_producto = $producto[0]['id_producto'];
         //$estado_factura = $factura[0]['estado_factura'];
 
         
                    //  echo $id_factura;
 
                // $tmp_cotizaciones = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = $id_factura");
-                $detalle_sql_despacho = "INSERT INTO `historial_depacho` (`id_pedido`, `guia`, `id_producto`, `sku`, `cantidad`, `id_usuario`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                //$detalle_sql_despacho = "INSERT INTO `historial_depacho` (`id_pedido`, `guia`, `id_producto`, `sku`, `cantidad`, `id_usuario`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 // $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 //print_r($tmp_cotizaciones);
@@ -945,43 +945,19 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                 $id_usuario = $_SESSION['id'];
          
                     //  echo 'enta';
-                    $despacho_data = array(
-                        $id_factura,
-                        'N/A',
-                        $tmp['id_producto'],
-                        $tmp['sku'],
-                        $tmp['cantidad'],
-                        $id_usuario,
-                        $plataforma
-                    );
-                    $guardar_detalle = $this->insert($detalle_sql_despacho, $despacho_data);
-                    $nota = 'Se elimina ' . $tmp['cantidad'] . ' productos(s) del inventario -DESPACHO PRODUCTO-';
-                    $id_inventario = $tmp['id_inventario'];
-                    $sql_bodega = "SELECT bodega FROM inventario_bodegas WHERE id_inventario = $id_inventario";
-                    //echo $sql_bodega;
-                    $bodega = $this->select($sql_bodega);
-                    //print_r($bodega);
-                    $id_bodega = $bodega[0]['bodega'];
-
-                    $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
-                    $stock = $this->select($sql_id);
-                    $stock_inventario = $stock[0]['saldo_stock'];
-                    $saldo_stock = $stock_inventario - $tmp['cantidad'];
-                    $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
-                    $data = [$saldo_stock, $id_inventario];
-                    $actualizar_stock = $this->update($sql_update, $data);
+                  
                     
                     $historial_data = array(
                         $id_usuario,
-                        $tmp['id_inventario'],
+                        $id_inventario,
                         $plataforma,
-                        $tmp['sku'],
+                        $sql,
                         $nota,
                         $num_guia,
-                        $tmp['cantidad'],
+                        $cantidad,
                         2,
                         $id_bodega,
-                        $tmp['id_producto'],
+                        $id_producto,
                         $saldo_stock
                     );
                     $guardar_detalle = $this->insert($detalle_sql_historial, $historial_data);
