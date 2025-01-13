@@ -45,7 +45,13 @@ class GuiasModel extends Query
         return $this->select($sql);
     }
 
-    public function generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras)
+    public function obtenerVendedor($id_plataforma)
+    {
+        $sql = "SELECT nombre_tienda FROM plataformas WHERE id_plataforma = $id_plataforma";
+        return $this->select($sql)[0]['nombre_tienda'];
+    }
+
+    public function generarLaar($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $vendedor)
     {
         if ($cod == 1) {
             $cod = true;
@@ -64,7 +70,7 @@ class GuiasModel extends Query
                 "referenciaO" => "$referenciaOrigen",
                 "celularO" => "$celularOrigen",
                 "postal" => "$postal",
-                "numeroCasa" => "0"
+                "numeroCasa" => "0 - " . $vendedor
             ),
             "destino" => array(
                 "identificacionD" => "0",
