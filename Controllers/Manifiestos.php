@@ -99,7 +99,7 @@ class Manifiestos extends Controller
             $resultados[] = $resultado;
         }
 
-        $html = $this->model->generarManifiestoGuias($productos, $id_cabecera, $transportadora);
+        $html = $this->model->generarManifiestoGuiasProductos($productos, $id_cabecera);
         echo json_encode($html);
     } else {
         echo json_encode(['error' => 'No se encontraron productos para procesar']);
