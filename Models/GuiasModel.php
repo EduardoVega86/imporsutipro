@@ -721,7 +721,7 @@ class GuiasModel extends Query
 
     //speed
 
-    public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $plataforma, $observacion, $recaudo, $monto_factura, $matriz, $url_google_maps)
+    public function generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $plataforma, $observacion, $recaudo, $monto_factura, $matriz, $url_google_maps, $vendedor, $telf)
     {
         $sql = "SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$plataforma'";
         $url = $this->select($sql);
@@ -729,10 +729,10 @@ class GuiasModel extends Query
 
         $url = "https://guias.imporsuitpro.com/Speed/crear";
         $data = array(
-            "nombreO" => $nombreO,
+            "nombreO" => $vendedor,
             "ciudadO" => $ciudadOrigen,
             "direccionO" => $direccionO,
-            "telefonoO" => $telefonoO,
+            "telefonoO" => $telf,
             "referenciaO" => $referenciaO,
             "nombre" => $nombre,
             "ciudad" => $ciudadDestino,

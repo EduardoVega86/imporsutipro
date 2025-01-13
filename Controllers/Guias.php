@@ -410,7 +410,13 @@ class Guias extends Controller
             echo json_encode(array("status" => 501, "message" => "No contamos con stock de el/los productos para generar la guía"));
             return;
         }
-        $response = $this->model->generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], $observacion, $recaudo, $monto_factura, MATRIZ, $url_google_speed_pedido);
+
+        $vendedor = $this->model->obtenerVendedor($_SESSION["id_plataforma"] ?? $_POST["id_plataforma"])['nombre_tienda'];
+        $vendedor = strtoupper($vendedor);
+
+        $telf_vendedor = $this->model->obtenerVendedor($_SESSION["id_plataforma"] ?? $_POST["id_plataforma"])['whatsapp'];
+
+        $response = $this->model->generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], $observacion, $recaudo, $monto_factura, MATRIZ, $url_google_speed_pedido, $vendedor, $telf_vendedor);
         $response = json_decode($response, true);
 
         if (isset($response["guia"])) {
