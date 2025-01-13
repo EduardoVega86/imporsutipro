@@ -640,10 +640,8 @@ class GuiasModel extends Query
 
     //gintracom
 
-    public function generarGintracom($nombreOrigen, $ciudadOrigen, $provinciaOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $provinciaDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $numero_factura, $monto_factura)
+    public function generarGintracom($nombreOrigen, $ciudadOrigen, $provinciaOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $provinciaDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $numero_factura, $monto_factura, $vendedor, $telf)
     {
-
-
         $recaudo = $cod == "1" ? true : false;
 
         preg_match_all('/(.*?)X(\d+)/', $contiene, $matches, PREG_SET_ORDER);
@@ -660,8 +658,8 @@ class GuiasModel extends Query
         $url = "https://ec.gintracom.site/web/import-suite/pedido";
         $data = array(
             "remitente" => array(
-                "nombre" => $nombreOrigen,
-                "telefono" => $telefonoOrigen,
+                "nombre" => $vendedor,
+                "telefono" => $telf,
                 "provincia" => $provinciaOrigen,
                 "ciudad" => $ciudadOrigen,
                 "direccion" => $direccionOrigen
