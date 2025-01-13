@@ -1167,6 +1167,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
         $fecha_actual = date('Y-m-d H:i:s');
 
         $sql = "INSERT INTO cabecera_relacion_despacho_producto (id_usuario, id_plataforma,  id_bodega, fecha_hora) VALUES (?, ?,  ?, ?)";
+        //echo $sql;
         $data = [$id_usuario, $plataforma,  $bodega, $fecha_actual];
         // Ejecuta la inserción
         $insertar_producto = $this->insert($sql, $data);

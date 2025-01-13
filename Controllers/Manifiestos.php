@@ -92,9 +92,9 @@ class Manifiestos extends Controller
     $productos = $datos['productos'];
 
     if (count($productos) > 0) {
-        echo 'entra';
+       
         $id_cabecera = $this->model->guardarCabeceraDespacho($bodega,  $_SESSION['id_plataforma']);
-
+print_r($id_cabecera);
         $resultados = [];
         foreach ($productos as $producto) {
             $resultado = $this->model->despacho_producto($producto, $_SESSION['id_plataforma'], $id_cabecera);
