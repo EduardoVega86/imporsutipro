@@ -59,7 +59,7 @@ class Query extends Conexion
     public function insert($sql, $data)
     {
         try {
-            echo $sql;
+             echo $sql;
             $this->sql = $sql;
             $query = $this->connection->prepare($this->sql);
             $query->execute($data);
