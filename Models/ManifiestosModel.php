@@ -968,7 +968,7 @@ $result = $this->update($sql_update, $data);
                  //   $sqlResult = $this->select($sql);
               //      $output = "Resultado: " . json_encode($sqlResult); // Convertir a JSON
              
-                    echo 'enta2';
+                    
                 /*    $historial_data = array(
                         $id_usuario,
                         $id_inventario,
@@ -1001,6 +1001,8 @@ $data = [
 
 
 $result = $this->insert($detalle_sql_historial, $data);
+
+echo 'enta2';
 //print_r($result);
                     
                    
