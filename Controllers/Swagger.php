@@ -672,23 +672,24 @@ class Swagger extends Controller
     public function obtener_productos()
     {
         try {
+            // Log de la solicitud
             $this->logRequest('swagger/obtener_productos', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
 
-            $data = json_decode(file_get_contents("php://input"), true);
+            // Obtener UUID desde la ruta dinámica o los parámetros GET
+            $uri = $_SERVER['REQUEST_URI'];
+            $uuid = null;
 
-            // Validar JSON
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                http_response_code(400);
-                echo json_encode([
-                    'status' => 400,
-                    'message' => 'El cuerpo de la solicitud no es un JSON válido',
-                    'error' => json_last_error_msg()
-                ]);
-                return;
+            // Caso 1: UUID en la ruta dinámica (/uuid=...)
+            if (preg_match('/\/uuid=([a-f0-9\-]+)/', $uri, $matches)) {
+                $uuid = $matches[1];
             }
 
-            // Validar el UUID
-            $uuid = $data['uuid'] ?? null;
+            // Caso 2: UUID como parámetro GET (?uuid=...)
+            if (!$uuid) {
+                $uuid = $_GET['uuid'] ?? null;
+            }
+
+            // Validar UUID
             if (!$uuid) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos: uuid']);
