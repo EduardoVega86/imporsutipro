@@ -922,37 +922,32 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
         $sql = "INSERT INTO detalle_relacion_despacho_producto (sku_producto, id_cabecera, cantidad) VALUES (?, ?, ?)";
         $sku= $num_guia['sku'];
         $cantidad=$num_guia['cantidad'];
+        $id_inventario=$num_guia['id_inventario'];
         $data = [$sku, $id_cabecera, $cantidad];
         // Ejecuta la inserción
         $insertar_detalle_rd = $this->insert($sql, $data);
         print_r($insertar_detalle_rd);
-        $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia'";
+        $sql_producto = "SELECT * FROM inventario_bodegas WHERE id_inventario = '$id_inventario'";
         //  echo $sql_factura;
-        $factura = $this->select($sql_factura);
-        $id_factura = $factura[0]['id_factura'];
-        $estado_factura = $factura[0]['estado_factura'];
+        $producto = $this->select($sql_producto);
+        $id_inventario = $producto[0]['id_factura'];
+        //$estado_factura = $factura[0]['estado_factura'];
 
-        $sql_plataforma_bodega = "SELECT b.id_plataforma FROM `detalle_fact_cot` dfc, inventario_bodegas  ib, bodega b where ib.bodega=b.id and id_factura=$id_factura and dfc.id_inventario=ib.id_inventario GROUP by bodega";
-        //echo $sql_factura;$id_factura
-        $plataforma_bodega = $this->select($sql_plataforma_bodega);
-        $id_plataforma_bodega = $plataforma_bodega[0]['id_plataforma'];
+        
+                   //  echo $id_factura;
 
-        if ($id_plataforma_bodega == $plataforma) {
-            if ($estado_factura == 1) {
-                //  echo $id_factura;
-
-                $tmp_cotizaciones = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = $id_factura");
+               // $tmp_cotizaciones = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = $id_factura");
                 $detalle_sql_despacho = "INSERT INTO `historial_depacho` (`id_pedido`, `guia`, `id_producto`, `sku`, `cantidad`, `id_usuario`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 // $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 //print_r($tmp_cotizaciones);
                 //$nota='Se descuenta'
                 $id_usuario = $_SESSION['id'];
-                foreach ($tmp_cotizaciones as $tmp) {
+         
                     //  echo 'enta';
                     $despacho_data = array(
                         $id_factura,
-                        $num_guia,
+                        'N/A',
                         $tmp['id_producto'],
                         $tmp['sku'],
                         $tmp['cantidad'],
@@ -960,7 +955,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                         $plataforma
                     );
                     $guardar_detalle = $this->insert($detalle_sql_despacho, $despacho_data);
-                    $nota = 'Se elimina ' . $tmp['cantidad'] . ' productos(s) del inventario -DESPACHO GUIA-';
+                    $nota = 'Se elimina ' . $tmp['cantidad'] . ' productos(s) del inventario -DESPACHO PRODUCTO-';
                     $id_inventario = $tmp['id_inventario'];
                     $sql_bodega = "SELECT bodega FROM inventario_bodegas WHERE id_inventario = $id_inventario";
                     //echo $sql_bodega;
@@ -994,12 +989,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                     
 
 
-                    //print_r($guardar_detalle);
-                }
-
-                $sql = "UPDATE `facturas_cot` SET `estado_factura` = ? WHERE `id_factura` = ?";
-                $data = [2, $id_factura];
-                $editar_categoria = $this->update($sql, $data);
+                    //print_r($guardar_detalle
 
                 //print_r($tmp_cotizaciones);
 
@@ -1012,16 +1002,8 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                     $response['title'] = 'Error';
                     $response['message'] = 'Error al generar el despacho';
                 }
-            } else {
-                $response['status'] = 500;
-                $response['title'] = 'Error';
-                $response['message'] = 'Esta guia ya ha sido despachada';
-            }
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'La guía no pertenece a esta bodega';
-        }
+          
+       
         return $response;
     }
 
