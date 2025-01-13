@@ -86,6 +86,7 @@ class Manifiestos extends Controller
         return;
     }
 
+    echo 'asdasd';
     // Extraer bodega y productos
     $bodega = $datos['bodega'];
     $productos = $datos['productos'];
