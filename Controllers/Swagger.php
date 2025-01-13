@@ -675,19 +675,8 @@ class Swagger extends Controller
             // Log de la solicitud
             $this->logRequest('swagger/obtener_productos', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
 
-            // Obtener UUID desde la ruta dinámica o los parámetros GET
-            $uri = $_SERVER['REQUEST_URI'];
-            $uuid = null;
-
-            // Caso 1: UUID en la ruta dinámica (/uuid=...)
-            if (preg_match('/\/uuid=([a-f0-9\-]+)/', $uri, $matches)) {
-                $uuid = $matches[1];
-            }
-
-            // Caso 2: UUID como parámetro GET (?uuid=...)
-            if (!$uuid) {
-                $uuid = $_GET['uuid'] ?? null;
-            }
+            // Captura el UUID desde los parámetros GET
+            $uuid = $_GET['uuid'] ?? null;
 
             // Validar UUID
             if (!$uuid) {
@@ -696,7 +685,7 @@ class Swagger extends Controller
                 return;
             }
 
-            // Llamar al modelo
+            // Llamar al modelo para obtener productos
             $response = $this->model->obtener_productos($uuid);
             $this->handleResponse($response);
         } catch (Exception $e) {
