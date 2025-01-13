@@ -81,6 +81,12 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
+    public function getLineasPorPlataforma($id_plataforma)
+    {
+        $sql = "SELECT * FROM lineas WHERE id_plataforma = '$id_plataforma'";
+        return $this->select($sql);
+    }
+
 
     public function insertarBoveda($nombre, $idLinea, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)
     {
