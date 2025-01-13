@@ -62,7 +62,7 @@ class GuiasModel extends Query
         $datos = array(
             "origen" => array(
                 "identificacionO" => $identificacion,
-                "nombreO" => "$nombreOrigen",
+                "nombreO" => "$vendedor",
                 "ciudadO" => "$ciudadOrigen",
                 "direccion" => "$direccionOrigen",
                 "telefono" => "$telefonoOrigen",
@@ -70,7 +70,7 @@ class GuiasModel extends Query
                 "referenciaO" => "$referenciaOrigen",
                 "celularO" => "$celularOrigen",
                 "postal" => "$postal",
-                "numeroCasa" => "0 - " . $vendedor
+                "numeroCasa" => "0"
             ),
             "destino" => array(
                 "identificacionD" => "0",
