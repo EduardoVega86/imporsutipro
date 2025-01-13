@@ -162,7 +162,7 @@ class SwaggerModel extends Query
             }
 
             // 2. Obtenemos id_users
-            $id_users = $usuario[0]['id_users'];  // Ajusta al nombre real de tu columna
+            $id_users = $usuario[0]['id_users'];
 
             // 3. Obtenemos la plataforma asociada
             $plataforma = $this->accesoModel->getPlatformByUserId($id_users);

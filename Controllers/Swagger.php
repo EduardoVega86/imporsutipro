@@ -669,34 +669,66 @@ class Swagger extends Controller
      *     )
      * )
      */
-    public function obtener_productos()
+    public function obtener_productos($param = null)
     {
         try {
-            // Capturar el UUID desde los parámetros de la solicitud
-            $uuid = $_GET['uuid'] ?? null;
-
-            if (!$uuid) {
+            // 1. Validar que se reciba el segmento
+            if (!$param) {
                 http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'El campo UUID es requerido']);
+                echo json_encode([
+                    'status' => 400,
+                    'message' => 'Falta el parámetro en la URL (uuid=...)'
+                ]);
                 return;
             }
 
-            // Llamar al modelo para obtener los productos
-            $response = $this->model->obtener_productos($uuid);
-
-            if ($response['status'] === 200) {
-                http_response_code(200);
+            // 2. Verificar que el segmento tenga el formato "uuid=..."
+            if (strpos($param, 'uuid=') !== false) {
+                // Extraemos solo el valor del UUID
+                $uuid = str_replace('uuid=', '', $param);
             } else {
                 http_response_code(400);
+                echo json_encode([
+                    'status' => 400,
+                    'message' => "El formato de parámetro en la URL es inválido. Debe ser /obtener_productos/uuid=XXXXX"
+                ]);
+                return;
             }
 
+            // 3. Validar que de verdad tengamos un UUID tras el str_replace
+            if (!$uuid) {
+                http_response_code(400);
+                echo json_encode([
+                    'status' => 400,
+                    'message' => 'El parámetro uuid está vacío'
+                ]);
+                return;
+            }
+
+            // 4. Llamar a tu modelo (SwaggerModel) que internamente llama a AccesoModel y ProductosModel
+            $response = $this->model->obtener_productos($uuid);
+
+            // 5. Ajustar el código HTTP según la respuesta
+            if (isset($response['status']) && $response['status'] === 200) {
+                http_response_code(200);
+            } else {
+                // Si la respuesta indica error, usamos ese código. Si no existe, default a 400
+                http_response_code($response['status'] ?? 400);
+            }
+
+            // 6. Retornar la respuesta en JSON
             echo json_encode($response);
         } catch (Exception $e) {
             // Manejo de errores
             http_response_code(500);
-            echo json_encode(['status' => 500, 'message' => 'Error interno del servidor', 'error' => $e->getMessage()]);
+            echo json_encode([
+                'status'  => 500,
+                'message' => 'Error interno del servidor',
+                'error'   => $e->getMessage()
+            ]);
         }
     }
+
 
 
 
