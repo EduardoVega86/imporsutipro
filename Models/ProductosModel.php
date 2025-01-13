@@ -50,6 +50,13 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
+    //Funcion para ser accedida desde Swagger Model
+    public function getBovedasPorPlataforma($id_plataforma)
+    {
+        // Ajusta la tabla / campos a tu realidad
+        $sql = "SELECT * FROM bovedas WHERE id_plataforma = '$id_plataforma'";
+        return $this->select($sql);
+    }
 
 
 
