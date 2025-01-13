@@ -101,13 +101,12 @@ class ManifiestosModel extends Query
 
         echo $id_cabecera;
 
-        print_r($arreglo);
-        if (count($arreglo) == 0) return;
+        $ids = array_column($arreglo, 'id_inventario');
 
+// Generar la cadena separada por comas
+$string = '(' . implode(',', $ids) . ')';
 
-        $string = "('" . implode("','", array_values($arreglo)) . "')";
-
-       print_r($string);
+echo $string;
 
         // Verificar que se haya obtenido el resumen
         if (empty($resumen)) {
