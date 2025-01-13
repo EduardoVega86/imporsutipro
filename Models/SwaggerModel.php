@@ -239,4 +239,50 @@ class SwaggerModel extends Query
             ];
         }
     }
+
+    public function obtener_proveedores($uuid)
+    {
+        try {
+            // 1. Verificar si existe usuario con ese UUID en AccesoModel
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+
+            // 2. Tomamos el id_users del primer registro encontrado
+            $id_users = $usuario[0]['id_users'];
+
+            // 3. Obtener la plataforma asociada
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+            //Depurando porque no mostraba  datos en Swagger segun su uuid
+            // print_r($plataforma);
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            // 4. Obtener los proveedores de esa plataforma
+            $id_plataforma = $plataforma[0]['id_plataforma'];
+            $proveedores = $this->productosModel->getProveedoresPorPlataforma($id_plataforma);
+
+            // 5. Devolver respuesta exitosa
+            return [
+                'status'  => 200,
+                'message' => 'Proveedores obtenidos exitosamente',
+                'data'    => $proveedores
+            ];
+        } catch (Exception $e) {
+            // Manejo de excepciones internas
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al obtener proveedores',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
 }
