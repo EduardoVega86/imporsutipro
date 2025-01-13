@@ -968,7 +968,7 @@ $result = $this->update($sql_update, $data);
               //      $output = "Resultado: " . json_encode($sqlResult); // Convertir a JSON
                     $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES 
                 ('$id_usuario', '$id_inventario', '$plataforma', '$sku', '$nota', '$num_guia', $cantidad, 2, '$id_bodega', '$id_producto', '$saldo_stock')";
-echo $detalle_sql_historial;
+//echo $detalle_sql_historial;
 echo 'enta2';
                 /*    $historial_data = array(
                         $id_usuario,
