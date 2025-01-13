@@ -37,7 +37,6 @@ const initDataTable = async () => {
 };
 
 //Función que hace el fetch a controlador y pinta los datos en la tabla
-//Función que hace el fetch a controlador y pinta los datos en la tabla
 const listBovedas = async () => {
   try {
     //Ruta donde hacemos la peticion
@@ -46,13 +45,13 @@ const listBovedas = async () => {
 
     let content = "";
 
+    //Iteramos sober e array de resultados
     bovedas.forEach((boveda) => {
       content += `
         <tr>
           <td>${boveda.nombre}</td>
           <td>${boveda.categoria}</td>
           <td>${boveda.proveedor}</td>
-
           <!-- Campos como enlaces para que sea más amigable -->
           <td>
             ${
@@ -75,23 +74,24 @@ const listBovedas = async () => {
                 : "N/A"
             }
           </td>
-
-          <!-- Botón para Editar -->
           <td>
-            <button class="btn btn-warning btn-sm" onclick="editBoveda(${boveda.id_boveda})">
-              Editar
-            </button>
           </td>
         </tr>
       `;
     });
-
+    //Inyectamos las filas en el cuerpo de la tabla
     document.getElementById("tableBody_bovedas").innerHTML = content;
   } catch (error) {
     console.error("Error al listar Bovedas", error);
   }
 };
 
+
+
+function editar_bodegas(id) {
+  const url = "" + SERVERURL + "Productos/editar_bovedas?id=" + id;
+  window.location.href = url;
+}
 
 // Llenar select de Nombres
 const cargarNombres = async () => {
@@ -109,7 +109,6 @@ const cargarNombres = async () => {
     console.error("Error al cargar nombres:", error);
   }
 };
-
 
 // Llenar select de Categorías
 const cargarCategorias = async () => {
@@ -159,7 +158,6 @@ window.addEventListener("load", async () => {
     //Como esta dentro de un modal
     dropdownParent: $("#nombreBoveda"),
   });
-
 
   // 1) Cargamos categorías
   await cargarCategorias();
