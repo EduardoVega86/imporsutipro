@@ -950,6 +950,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                     $stock = $this->select($sql_id);
                     $stock_inventario = $stock[0]['saldo_stock'];
                     $saldo_stock = $stock_inventario - $cantidad;
+                    
                     $sql_update = "UPDATE inventario_bodegas 
                SET saldo_stock = :saldo_stock 
                WHERE id_inventario = :id_inventario";
@@ -966,10 +967,11 @@ $result = $this->update($sql_update, $data);
                   //  echo $sql_update;
                  //   $sqlResult = $this->select($sql);
               //      $output = "Resultado: " . json_encode($sqlResult); // Convertir a JSON
-                    $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES 
-                ('$id_usuario', '$id_inventario', '$plataforma', '$sku', '$nota', '$num_guia', $cantidad, 2, '$id_bodega', '$id_producto', '$saldo_stock')";
+                  //  $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES 
+               // ('$id_usuario', '$id_inventario', '$plataforma', '$sku', '$nota', '$num_guia', $cantidad, 2, '$id_bodega', '$id_producto', '$saldo_stock')";
 //echo $detalle_sql_historial;
-echo 'enta2';
+
+                    echo 'enta2';
                 /*    $historial_data = array(
                         $id_usuario,
                         $id_inventario,
