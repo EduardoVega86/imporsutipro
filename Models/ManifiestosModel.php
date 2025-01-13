@@ -954,7 +954,10 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                     $data = [$saldo_stock, $id_inventario];
                     $actualizar_stock = $this->update($sql_update, $data);
                     
-                    $historial_data = array(
+                    $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES 
+                ('$id_usuario', '$id_inventario', '$plataforma,', '$sku', '$nota', '$num_guia', $cantidad, 2, '$id_bodega', '$id_producto', '$saldo_stock')";
+
+                /*    $historial_data = array(
                         $id_usuario,
                         $id_inventario,
                         $plataforma,
@@ -966,8 +969,8 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                         $id_bodega,
                         $id_producto,
                         $saldo_stock
-                    );
-                    $guardar_detalle = $this->insert($detalle_sql_historial, $historial_data);
+                    );*/
+                    $guardar_detalle = $this->simple_insert(detalle_sql_historial);
 
                     
 
