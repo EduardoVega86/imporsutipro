@@ -39,7 +39,8 @@ class ProductosModel extends Query
                 bovedas.ejemplo_landing,
                 bovedas.duplicar_funnel,
                 bovedas.videos,
-                bovedas.id_boveda
+                bovedas.id_boveda,
+                bovedas.fecha_create_at
             FROM 
                 bovedas
             INNER JOIN 

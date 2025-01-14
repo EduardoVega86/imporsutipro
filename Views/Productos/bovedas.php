@@ -24,6 +24,7 @@
                         <th>Ejempo Landing</th>
                         <th>Duplicar Funnel</th>
                         <th>Videos</th>
+                        <th>Fecha de Carga</th>
                         <th>Opciones</th>
                     </tr>
                 </thead>
