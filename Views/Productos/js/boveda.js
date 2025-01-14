@@ -236,6 +236,7 @@ window.addEventListener("load", async () => {
   });
 
   //2) inicializamos Select2 para editarNombre
+  await cargarNombres();
   $("#editNombreBoveda").select2({
     placeholder: "Seleccione un Nombre",
     allowClear: true,
@@ -253,6 +254,7 @@ window.addEventListener("load", async () => {
     dropdownParent: $("#modalAgregarBoveda"),
   });
 
+  await cargarCategorias();
   // 2) nicializamos Select2 para categoríaEDIT
   $("#editCategoriaBoveda").select2({
     placeholder: "Seleccione una Categoría",
@@ -272,6 +274,7 @@ window.addEventListener("load", async () => {
     dropdownParent: $("#modalAgregarBoveda"),
   });
 //Provedor EDIT
+  await cargarProveedores();
   $("#editProveedorBoveda").select2({
     placeholder: "Seleccione un Proveedor",
     allowClear: true,
