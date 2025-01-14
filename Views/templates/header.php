@@ -170,7 +170,7 @@
                     <a href="<?php echo SERVERURL ?>integraciones"><i class="fa-solid fa-globe menu-icon"></i> <span class="menu-text">Integracio- nes</span></a>
                 </div>
 
-                <?php if ($_SESSION['cargo'] == 10) { ?>
+                <?php if ($_SESSION['cargo'] == 15) { ?>
                     <a href="<?php echo SERVERURL ?>Productos/bovedas"><i class='bx bxs-lock menu-icon'></i> <span class="menu-text">Bovedas</span></a>
                 <?php
                 }
