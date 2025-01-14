@@ -68,12 +68,6 @@ const listBovedas = async () => {
 
 
 
-
-function editar_bodegas(id) {
-  const url = "" + SERVERURL + "Productos/editar_bovedas?id=" + id;
-  window.location.href = url;
-}
-
 // Llenar select de Nombres
 const cargarNombres = async () => {
   try {
