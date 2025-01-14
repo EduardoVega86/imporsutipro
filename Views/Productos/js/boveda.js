@@ -111,6 +111,7 @@ const cargarProveedores = async () => {
   try {
     const response = await fetch(`${SERVERURL}Productos/obtenerProveedores`);
     const proveedores = await response.json();
+    let proveedoresSelect = $("#proveedor");
 
     let opciones = "<option value=''>Seleccione un Proveedor</option>";
     proveedores.forEach((prov) => {
@@ -276,7 +277,6 @@ window.addEventListener("load", async () => {
     dropdownParent: $("#modalAgregarBoveda"),
   });
 //Provedor EDIT
-  
   $("#editProveedorBoveda").select2({
     placeholder: "Seleccione un Proveedor",
     allowClear: true,
