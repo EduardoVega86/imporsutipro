@@ -276,6 +276,7 @@ window.addEventListener("load", async () => {
     // Si está dentro de un modal:
     dropdownParent: $("#modalAgregarBoveda"),
   });
+  await cargarProveedores();
 //Provedor EDIT
   $("#editProveedorBoveda").select2({
     placeholder: "Seleccione un Proveedor",
@@ -284,7 +285,7 @@ window.addEventListener("load", async () => {
     dropdownParent: $("#modalEditarBoveda"),
   });
 
-  await cargarProveedores();
+
 
 
 
