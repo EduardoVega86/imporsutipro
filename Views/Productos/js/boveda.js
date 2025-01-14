@@ -297,73 +297,98 @@ window.addEventListener("load", async () => {
   });
 
   // Escuchar el submit del formulario "formAgregarBoveda"
-  document
-    .getElementById("formAgregarBoveda")
-    .addEventListener("submit", async (e) => {
-      e.preventDefault(); // Evita recarga de página
+  document.getElementById("formAgregarBoveda").addEventListener("submit", async (e) => {
+    e.preventDefault(); // Evita la recarga de la página
 
-      // Capturar datos del formulario
-      const nombre = document.getElementById("nombreBoveda").value;
-      const categoria = document.getElementById("categoriaBoveda").value;
-      const proveedor = document.getElementById("proveedorBoveda").value;
-      const ejemploLanding = document.getElementById("ejemploLanding").value;
-      const duplicarFunnel = document.getElementById("duplicarFunnel").value;
-      const videosBoveda = document.getElementById("videosBoveda").value;
-      const imagen = document.getElementById("imagen").files[0];
+    // Capturar datos del formulario
+    const nombre = document.getElementById("nombreBoveda").value;
+    const categoria = document.getElementById("categoriaBoveda").value;
+    const proveedor = document.getElementById("proveedorBoveda").value;
+    const ejemploLanding = document.getElementById("ejemploLanding").value;
+    const duplicarFunnel = document.getElementById("duplicarFunnel").value;
+    const videosBoveda = document.getElementById("videosBoveda").value;
+    const imagenInput = document.getElementById("imagen");
+    const imagen = imagenInput.files[0];
 
-      // Crear objeto con los datos
-      let formData = new FormData();
-      formData.append("nombre", nombre);
-      formData.append("categoria", categoria);
-      formData.append("proveedor", proveedor);
-      formData.append('imagen', imagen);
-      formData.append("ejemploLanding", ejemploLanding);
-      formData.append("duplicarFunnel", duplicarFunnel);
-      formData.append("videosBoveda", videosBoveda);
+    // Validar que se haya seleccionado una imagen
+    if (!imagen) {
+        Swal.fire({
+            icon: "warning",
+            title: "Falta la imagen",
+            text: "Por favor, selecciona una imagen para la bóveda.",
+        });
+        return;
+    }
 
-      console.log(formData);
+    // Crear objeto FormData y agregar los campos
+    let formData = new FormData();
+    formData.append("nombre", nombre);
+    formData.append("categoria", categoria);
+    formData.append("proveedor", proveedor);
+    formData.append("imagen", imagen);
+    formData.append("ejemploLanding", ejemploLanding);
+    formData.append("duplicarFunnel", duplicarFunnel);
+    formData.append("videosBoveda", videosBoveda);
 
-      try {
+    console.log("FormData enviado:", ...formData.entries());
+
+    try {
         // Petición POST
         const response = await fetch(`${SERVERURL}Productos/agregar_boveda`, {
-          method: "POST",
-          body: formData,
+            method: "POST",
+            body: formData,
         });
+
+        // Verificar si la respuesta es JSON
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            const errorText = await response.text();
+            console.error("Respuesta del servidor no es JSON:", errorText);
+            Swal.fire({
+                icon: "error",
+                title: "Error del servidor",
+                text: "El servidor devolvió una respuesta inesperada.",
+            });
+            return;
+        }
+
         const result = await response.json();
 
         if (result.status === 200) {
-          Swal.fire({
-            icon: "success",
-            title: result.title,
-            text: result.message,
-            showConfirmButton: false,
-            timer: 2000,
-          });
+            Swal.fire({
+                icon: "success",
+                title: result.title,
+                text: result.message,
+                showConfirmButton: false,
+                timer: 2000,
+            });
 
-          // Cerrar modal
-          const modal = document.getElementById("modalAgregarBoveda");
-          const modalBootstrap = bootstrap.Modal.getInstance(modal);
-          modalBootstrap.hide();
+            // Cerrar modal
+            const modal = document.getElementById("modalAgregarBoveda");
+            if (modal) {
+                const modalBootstrap = bootstrap.Modal.getInstance(modal);
+                if (modalBootstrap) modalBootstrap.hide();
+            }
 
-          // Limpiar formulario
-          document.getElementById("formAgregarBoveda").reset();
+            // Limpiar formulario
+            document.getElementById("formAgregarBoveda").reset();
 
-          // Recargar dataTable
-          initDataTable();
+            // Recargar DataTable
+            initDataTable();
         } else {
-          Swal.fire({
-            icon: "error",
-            title: result.title,
-            text: result.message,
-          });
+            Swal.fire({
+                icon: "error",
+                title: result.title || "Error",
+                text: result.message || "Ocurrió un error al agregar la bóveda.",
+            });
         }
-      } catch (error) {
+    } catch (error) {
         console.error("Error al agregar Boveda:", error);
         Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "No se pudo procesar la solicitud",
+            icon: "error",
+            title: "Error",
+            text: "No se pudo procesar la solicitud.",
         });
-      }
-    });
+    }
+});
 });
