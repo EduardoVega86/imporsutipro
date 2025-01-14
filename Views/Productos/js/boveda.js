@@ -127,14 +127,18 @@ const cargarProveedores = async () => {
 async function abrirModalEditar(id_boveda) {
   const idBoveda = id_boveda; // Obtener ID del botón
   try {
-    const response = await fetch(
-      `${SERVERURL}Productos/obtenerBoveda/${idBoveda}`
-    );
+    const response = await fetch(`${SERVERURL}Productos/obtenerBoveda/${idBoveda}`);
     const boveda = await response.json();
 
-    $("#editNombreBoveda").val(boveda[0].nombre);
-    $("#editCategoriaBoveda").val(boveda[0].categoria);
-    $("#editProveedorBoveda").val(boveda[0].proveedor);
+    // Verifica los datos recibidos
+    console.log(boveda);
+
+    // Asigna los IDs en lugar de los nombres
+    $("#editNombreBoveda").val(boveda[0].id_producto).trigger('change');
+    $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger('change');
+    $("#editProveedorBoveda").val(boveda[0].id_plataforma).trigger('change');
+    
+    // Asigna los demás campos
     $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
     $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
     $("#editVideosBoveda").val(boveda[0].videos);
