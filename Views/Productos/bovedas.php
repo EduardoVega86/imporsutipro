@@ -1,5 +1,6 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Productos/Modales/agregar_bovedas.php'; ?>
+<?php require_once './Views/Productos/Modales/editar_bovedas.php'; ?>
 <?php require_once './Views/Productos/css/bovedas_style.php'; ?>
 
 
