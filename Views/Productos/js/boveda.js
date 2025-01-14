@@ -127,19 +127,26 @@ const cargarProveedores = async () => {
 async function abrirModalEditar(id_boveda) {
   const idBoveda = id_boveda; // Obtener ID del botón
   try {
-    const response = await fetch(
-      `${SERVERURL}Productos/obtenerBoveda/${idBoveda}`
-    );
+    const response = await fetch(`${SERVERURL}Productos/obtenerBoveda/${idBoveda}`);
     const boveda = await response.json();
 
-    $("#editNombreBoveda").val(boveda[0].nombre);
-    $("#editCategoriaBoveda").val(boveda[0].categoria);
-    $("#editProveedorBoveda").val(boveda[0].proveedor);
-    $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
-    $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
-    $("#editVideosBoveda").val(boveda[0].videos);
+    // Asegúrate de que la respuesta contiene los IDs necesarios
+    if (boveda.length > 0) {
+      $("#editNombreBoveda").val(boveda[0].id_producto).trigger('change');
+      $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger('change');
+      $("#editProveedorBoveda").val(boveda[0].id_plataforma).trigger('change');
+      $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
+      $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
+      $("#editVideosBoveda").val(boveda[0].videos);
 
-    $("#modalEditarBoveda").modal("show");
+      $("#modalEditarBoveda").modal("show");
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Datos de la bóveda no encontrados.",
+      });
+    }
   } catch (error) {
     console.error("Error al obtener datos de la bóveda:", error);
     Swal.fire({
@@ -149,6 +156,7 @@ async function abrirModalEditar(id_boveda) {
     });
   }
 }
+
 
 
 // Asegurarse de que el DOM esté cargado antes de ejecutar el código
