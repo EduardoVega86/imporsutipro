@@ -258,6 +258,7 @@ window.addEventListener("load", async () => {
               });
           }
       }
+    });
 
 
     // Manejar el envío del formulario "formEditarBoveda"
