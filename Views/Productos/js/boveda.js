@@ -225,9 +225,11 @@ window.addEventListener("load", async () => {
     });
 
   // Escuchar el submit del formulario "formEditarBoveda"
-  document
-    .getElementById("formEditarBoveda")
-    .addEventListener("submit", async (e) => {
+  const formEditarBoveda = document.getElementById("formEditarBoveda");
+  if(formEditarBoveda){
+  // document
+    // .getElementById("formEditarBoveda")
+    formEditarBoveda.addEventListener("submit", async (e) => {
       e.preventDefault(); // Evita recarga de página
 
       // Capturar datos del formulario
@@ -290,9 +292,7 @@ window.addEventListener("load", async () => {
         });
       }
     });
-
-    
-
-    
-
+  }else{
+    console.error("El formulario 'formEditarBoveda' no existe en el DOM.");
+  }
 });
