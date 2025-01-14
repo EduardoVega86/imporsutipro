@@ -11,7 +11,7 @@
                 <form id="formAgregarBoveda">
                     <!-- Nombre -->
                     <div class="mb-3">
-                        <label for="nombreBoveda" class="form-label">Nombre</label>
+                        <label for="nombreBoveda" class="form-label">Nombre </label>
                         <select id="nombreBoveda" name="nombreBoveda" class="form-select" required>
                             <!-- Opciones dinámicas -->
                         </select>
@@ -19,7 +19,7 @@
 
                     <!-- Categoría -->
                     <div class="mb-3">
-                        <label for="categoriaBoveda" class="form-label">Categoría</label>
+                        <label for="categoriaBoveda" class="form-label">Categoría </label>
                         <select id="categoriaBoveda" name="categoriaBoveda" class="form-select" required>
                             <!-- Opciones dinámicas -->
                         </select>
