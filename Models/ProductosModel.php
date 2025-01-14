@@ -1,4 +1,7 @@
 <?php
+
+use Google\Service\Docs\Response;
+
 class ProductosModel extends Query
 {
     public function __construct()
@@ -58,23 +61,57 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    public function editarBoveda($id_boveda, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos)
+    public function editarBoveda($id_boveda, $id_linea, $imagen, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos)
     {
-        // codigo para editar 
         $response = $this->initialResponse();
-
-        $sql = "UPDATE `bovedas` SET `id_linea` = ?, `id_plataforma` = ?, `ejemplo_landing` = ?, `duplicar_funnel` = ?, `videos` = ? WHERE `id_boveda` = ? ";
-        $data = [$id_boveda, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos];
-        $editar_boveda = $this->update($sql, $data);
-        //print_r($editar_categoria);
-        if ($editar_boveda == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Categoria editada correctamente';
+        $target_dir = "public/img/banner/";
+        $target_file = $target_dir . basename($imagen["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $check = getimagesize($imagen["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = $editar_boveda['message'];
+            $response['message'] = 'El archivo no es una imagen';
+            $uploadOk = 0;
+        }
+        if ($imagen["size"] > 500000) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo es muy grande';
+            $uploadOk = 0;
+        }
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+            $uploadOk = 0;
+        } else {
+            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Imagen subida correctamente';
+                $response['data'] = $target_file;
+
+                $sql = "UPDATE `bovedas` SET `id_linea` = ?, `id_plataforma` = ?, `ejemplo_landing` = ?, `duplicar_funnel` = ?, `videos` = ? WHERE `id_boveda` = ? ";
+                $data = [$id_boveda, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos];
+                $actualizar_boveda = $this->update($sql, $data);
+                if ($actualizar_boveda == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Imagen subida correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al subir la imagen';
+                }
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al subir la imagen';
+            }
         }
         return $response;
     }
@@ -118,21 +155,67 @@ class ProductosModel extends Query
     }
 
 
-    public function insertarBoveda($nombre, $idLinea, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)
+    public function insertarBoveda($nombre, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)
     {
-        $sql = "INSERT INTO bovedas (nombre, id_linea, id_plataforma, ejemplo_landing, duplicar_funnel, videos)
-                VALUES (?, ?, ?, ?, ?, ?)";
+        $response = $this->initialResponse();
+        $target_dir = "public/img/banner/";
+        $target_file = $target_dir . basename($imagen["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $check = getimagesize($imagen["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo no es una imagen';
+            $uploadOk = 0;
+        }
+        if ($imagen["size"] > 500000) {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'El archivo es muy grande';
+            $uploadOk = 0;
+        }
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
+            $uploadOk = 0;
+        } else {
+            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = 'Imagen subida correctamente';
+                $response['data'] = $target_file;
 
-        $datos = [
-            $nombre,
-            $idLinea,
-            $idProveedor,
-            $ejemploLanding,
-            $duplicarFunnel,
-            $videos
-        ];
-
-        return $this->insert($sql, $datos);
+                $sql = "INSERT INTO bovedas (nombre, id_linea, id_plataforma, ejemplo_landing, img,duplicar_funnel, videos)
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $data = [
+                    $nombre,
+                    $idLinea,
+                    $idProveedor,
+                    $ejemploLanding,
+                    $duplicarFunnel,
+                    $videos
+                ];
+                $insertar_boveda = $this->insert($sql, $data);
+                if ($insertar_boveda == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Imagen subida correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al subir la imagen';
+                }
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = 'Error al subir la imagen';
+            }
+        }
+        return $response;
     }
 
     //Funcion para ser accedida desde Swagger Model

@@ -147,12 +147,13 @@ class Productos extends Controller
             $nombre = $_POST['nombre'];
             $idLinea = $_POST['categoria'];
             $idProveedor = $_POST['proveedor'];
+            $imagen = $_FILES['imagen'];
             $ejemplo_landing = $_POST['ejemploLanding'] ?? '';
             $duplicar_funnel = $_POST['duplicarFunnel'] ?? '';
             $videos = $_POST['videosBoveda'] ?? '';
 
             // Insertar
-            $result = $this->model->insertarBoveda($nombre, $idLinea, $idProveedor, $ejemplo_landing, $duplicar_funnel, $videos);
+            $result = $this->model->insertarBoveda($nombre, $idLinea, $idProveedor, $imagen, $ejemplo_landing, $duplicar_funnel, $videos);
 
             if ($result > 0) {
                 $response = [
@@ -189,10 +190,11 @@ class Productos extends Controller
         $id_boveda = $_POST['id_boveda'];
         $id_linea = $_POST['id_linea'];
         $id_plataforma = $_POST['id_plataforma'];
+        $imagen = $_FILES['imagen'];
         $ejemplo_landing = $_POST['ejemplo_landing'];
         $duplicar_funnel = $_POST['duplicar_funnel'];
         $videos = $_POST['videos'];
-        $response = $this->model->editarBoveda($id_boveda, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos, $_SESSION['id_plataforma']);
+        $response = $this->model->editarBoveda($id_boveda, $id_linea, $id_plataforma, $imagen, $ejemplo_landing, $duplicar_funnel, $videos, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
