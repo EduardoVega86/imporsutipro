@@ -192,7 +192,7 @@ class Productos extends Controller
         $ejemplo_landing = $_POST['ejemplo_landing'];
         $duplicar_funnel = $_POST['duplicar_funnel'];
         $videos = $_POST['videos'];
-        $response = $this->model->editarBodega($id_boveda, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos, $_SESSION['id_plataforma']);
+        $response = $this->model->editarBoveda($id_boveda, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 

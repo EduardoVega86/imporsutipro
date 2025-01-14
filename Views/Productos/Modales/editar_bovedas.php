@@ -1,42 +1,39 @@
-<!-- Modal Editar Bóveda -->
 <div class="modal fade" id="modalEditarBoveda" tabindex="-1" aria-labelledby="modalEditarBovedaLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="formEditarBoveda">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalEditarBovedaLabel">Editar Bóveda</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Campo oculto para almacenar el ID de la bóveda -->
-                    <input type="hidden" id="editIdBoveda" name="editIdBoveda">
-
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarBovedaLabel">Editar Bóveda</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarBoveda">
                     <div class="mb-3">
                         <label for="editNombreBoveda" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="editNombreBoveda" name="editNombreBoveda" required>
+                        <input type="text" class="form-control" id="editNombreBoveda" required>
                     </div>
-
                     <div class="mb-3">
                         <label for="editCategoriaBoveda" class="form-label">Categoría</label>
-                        <select class="form-select" id="editCategoriaBoveda" name="editCategoriaBoveda" required>
-                            <!-- Opciones dinámicas o estáticas, según tu necesidad -->
-                        </select>
+                        <input type="text" class="form-control" id="editCategoriaBoveda" required>
                     </div>
-
                     <div class="mb-3">
                         <label for="editProveedorBoveda" class="form-label">Proveedor</label>
-                        <select class="form-select" id="editProveedorBoveda" name="editProveedorBoveda" required>
-                            <!-- Opciones dinámicas o estáticas, según tu necesidad -->
-                        </select>
+                        <input type="text" class="form-control" id="editProveedorBoveda" required>
                     </div>
-
-                    <!-- Aquí podrías agregar más campos, si fuera necesario -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <div class="mb-3">
+                        <label for="editEjemploLanding" class="form-label">Ejemplo Landing</label>
+                        <input type="url" class="form-control" id="editEjemploLanding">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDuplicarFunnel" class="form-label">Duplicar Funnel</label>
+                        <input type="url" class="form-control" id="editDuplicarFunnel">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editVideosBoveda" class="form-label">Videos</label>
+                        <input type="url" class="form-control" id="editVideosBoveda">
+                    </div>
                     <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
