@@ -182,7 +182,7 @@ class ApiModel extends Query
         $hashedPassword = password_hash($contrasena, PASSWORD_DEFAULT);
         $dataAdded = date('Y-m-d H:i:s');
         $sql = "INSERT INTO users (nombre_users, email_users, con_users, usuario_users, date_added, cargo_users) VALUES (?, ?, ?, ?, ?, ?)";
-        $data = [$nombre, $correo, $hashedPassword, $correo, $dataAdded, 1];
+        $data = [$nombre, $correo, $hashedPassword, $correo, $dataAdded, 15];
         return $this->insert($sql, $data);
     }
 
