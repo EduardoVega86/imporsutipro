@@ -84,6 +84,7 @@ const cargarNombres = async () => {
     });
 
     document.getElementById("nombreBoveda").innerHTML = opciones;
+    document.getElementById("editNombreBoveda").innerHTML = opciones;
   } catch (error) {
     console.error("Error al cargar nombres:", error);
   }
@@ -101,6 +102,7 @@ const cargarCategorias = async () => {
     });
 
     document.getElementById("categoriaBoveda").innerHTML = opciones;
+    document.getElementById("editCategoriaBoveda").innerHTML = opciones;
   } catch (error) {
     console.error("Error al cargar categorías:", error);
   }
@@ -118,6 +120,7 @@ const cargarProveedores = async () => {
     });
 
     document.getElementById("proveedorBoveda").innerHTML = opciones;
+    document.getElementById("editProveedorBoveda").innerHTML = opciones;
   } catch (error) {
     console.error("Error al cargar proveedores:", error);
   }
@@ -250,7 +253,6 @@ window.addEventListener("load", async () => {
   });
 
   //2) inicializamos Select2 para editarNombre
-  await cargarNombres();
   $("#editNombreBoveda").select2({
     placeholder: "Seleccione un Nombre",
     allowClear: true,
@@ -268,7 +270,6 @@ window.addEventListener("load", async () => {
     dropdownParent: $("#modalAgregarBoveda"),
   });
 
-  await cargarCategorias();
   // 2) nicializamos Select2 para categoríaEDIT
   $("#editCategoriaBoveda").select2({
     placeholder: "Seleccione una Categoría",
@@ -288,7 +289,6 @@ window.addEventListener("load", async () => {
     dropdownParent: $("#modalAgregarBoveda"),
   });
 //Provedor EDIT
-  await cargarProveedores();
   $("#editProveedorBoveda").select2({
     placeholder: "Seleccione un Proveedor",
     allowClear: true,
