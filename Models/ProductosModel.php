@@ -63,16 +63,16 @@ class ProductosModel extends Query
 
         $sql = "UPDATE `bovedas` SET `id_linea` = ?, `id_plataforma` = ?, `ejemplo_landing` = ?, `duplicar_funnel` = ?, `videos` = ? WHERE `id_boveda` = ? ";
         $data = [$id_boveda, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos];
-        $editar_categoria = $this->update($sql, $data);
+        $editar_boveda = $this->update($sql, $data);
         //print_r($editar_categoria);
-        if ($editar_categoria == 1) {
+        if ($editar_boveda == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Categoria editada correctamente';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = $editar_categoria['message'];
+            $response['message'] = $editar_boveda['message'];
         }
         return $response;
     }
