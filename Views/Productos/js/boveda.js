@@ -57,7 +57,7 @@ const listBovedas = async () => {
           <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
           <td> <span class="">${boveda.fecha_create_at}</span> </td>
           <td>
-            <button class="btn btn-primary btn-sm btn-edit" data-id="${boveda.id_boveda}">Editar</button>
+            <button class="btn btn-primary btn-sm btn-edit" onclick=abrirModalEditar(${boveda.id_boveda})>Editar</button>
           </td>
         </tr>
       `;
@@ -225,14 +225,13 @@ window.addEventListener("load", async () => {
       }
     });
 
-  // Asegurarse de que el DOM esté cargado antes de ejecutar el código
-  document.addEventListener("DOMContentLoaded", () => {
+
     // Delegar evento para el botón "Editar"
-    document.addEventListener("click", async (e) => {
+    async function  abrirModalEditar(id_boveda) {
       if (e.target.classList.contains("btn-edit")) {
         console.log("Botón editar presionado");
 
-        const idBoveda = e.target.dataset.id; // Obtener ID del botón
+        const idBoveda = id_boveda; // Obtener ID del botón
         console.log("ID de bóveda:", idBoveda);
 
         try {
@@ -255,11 +254,7 @@ window.addEventListener("load", async () => {
           document.getElementById("editVideosBoveda").value =
             boveda.videos || "";
 
-          // Muestra el modal de edición
-          const modalEditarBoveda = new bootstrap.Modal(
-            document.getElementById("modalEditarBoveda")
-          );
-          modalEditarBoveda.show();
+          $("#modalEditarBoveda").modal("show");
         } catch (error) {
           console.error("Error al obtener datos de la bóveda:", error);
           Swal.fire({
@@ -269,8 +264,11 @@ window.addEventListener("load", async () => {
           });
         }
       }
-    });
+    };
 
+  // Asegurarse de que el DOM esté cargado antes de ejecutar el código
+  document.addEventListener("DOMContentLoaded", () => {
+    
     // Manejar el envío del formulario "formEditarBoveda"
     const formEditarBoveda = document.getElementById("formEditarBoveda");
     if (formEditarBoveda) {
