@@ -231,7 +231,7 @@ window.addEventListener("load", async () => {
 
       try {
         // Obtener los datos de la bóveda
-        const response = await fetch(`${SERVERURL}Productos/obtener_boveda`, {
+        const response = await fetch(`${SERVERURL}Productos/obtener_bovedas`, {
           method: "POST",
           body: JSON.stringify({ id_boveda: idBoveda }),
           headers: {
