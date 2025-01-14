@@ -230,7 +230,9 @@ window.addEventListener("load", async () => {
     document.addEventListener("click", async (e) => {
       // Verificar si el clic proviene de un botón con la clase "btn-edit"
       if (e.target.classList.contains("btn-edit")) {
+        console.log("Boton editar presionado");
         const idBoveda = e.target.dataset.id; // Obtener el ID de la bóveda
+        console.log("ID de bóveda:", idBoveda);
         try {
           // Hacer la solicitud para obtener los datos de la bóveda
           const response = await fetch(`${SERVERURL}Productos/obtenerBoveda/${idBoveda}`);
