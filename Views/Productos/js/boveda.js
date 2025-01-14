@@ -224,91 +224,75 @@ window.addEventListener("load", async () => {
       }
     });
 
-  //Evento para capturar el boton  Ediar y abrir el modal
-  document.addEventListener("click", async (e) => {
-    if (e.target.classList.contains("btn-edit")) {
-      const idBoveda = e.target.getAttribute("data-id");
+  // Escuchar el submit del formulario "formEditarBoveda"
+  document
+    .getElementById("formEditarBoveda")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault(); // Evita recarga de página
+
+      // Capturar datos del formulario
+      const nombre = document.getElementById("editNombreBoveda").value;
+      const categoria = document.getElementById("editCategoriaBoveda").value;
+      const proveedor = document.getElementById("editCategoriaBoveda").value;
+      const ejemploLanding = document.getElementById("editEjemploLanding").value;
+      const duplicarFunnel = document.getElementById("editDuplicarFunnel").value;
+      const videosBoveda = document.getElementById("editVideosBoveda").value;
+
+      // Crear objeto con los datos
+      let formData = new FormData();
+      formData.append("nombre", nombre);
+      formData.append("categoria", categoria);
+      formData.append("proveedor", proveedor);
+      formData.append("ejemploLanding", ejemploLanding);
+      formData.append("duplicarFunnel", duplicarFunnel);
+      formData.append("videosBoveda", videosBoveda);
 
       try {
-        // Obtener los datos de la bóveda
-        const response = await fetch(`${SERVERURL}Productos/obtener_bovedas`, {
+        // Petición POST
+        const response = await fetch(`${SERVERURL}Productos/editar_boveda`, {
           method: "POST",
-          body: JSON.stringify({ id_boveda: idBoveda }),
-          headers: {
-            "Content-Type": "application/json",
-          },
+          body: formData,
         });
-        const boveda = await response.json();
+        const result = await response.json();
 
-        if (boveda) {
-          // Cargar los datos en el modal
-          document.getElementById("editNombreBoveda").value = boveda.nombre;
-          document.getElementById("editCategoriaBoveda").value = boveda.categoria;
-          document.getElementById("editProveedorBoveda").value = boveda.proveedor;
-          document.getElementById("editEjemploLanding").value = boveda.ejemplo_landing;
-          document.getElementById("editDuplicarFunnel").value = boveda.duplicar_funnel;
-          document.getElementById("editVideosBoveda").value = boveda.videos;
+        if (result.status === 200) {
+          Swal.fire({
+            icon: "success",
+            title: result.title,
+            text: result.message,
+            showConfirmButton: false,
+            timer: 2000,
+          });
 
-          // Mostrar modal
-          const modal = new bootstrap.Modal(
-            document.getElementById("modalEditarBoveda")
-          );
-          modal.show();
+          // Cerrar modal
+          const modal = document.getElementById("modalEditarBovedaLabel");
+          const modalBootstrap = bootstrap.Modal.getInstance(modal);
+          modalBootstrap.hide();
+
+          // Limpiar formulario
+          document.getElementById("formEditarBoveda").reset();
+
+          // Recargar dataTable
+          initDataTable();
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: result.title,
+            text: result.message,
+          });
         }
       } catch (error) {
-        console.error("Error al obtener bóveda:", error);
-      }
-    }
-  });
-
-  document.getElementById("formEditarBoveda").addEventListener("submit", async (e) => {
-    e.preventDefault();
-  
-    const idBoveda = document.querySelector(".btn-edit[data-id]").getAttribute("data-id");
-    const formData = new FormData();
-    formData.append("id_boveda", idBoveda);
-    formData.append("nombre", document.getElementById("editNombreBoveda").value);
-    formData.append("categoria", document.getElementById("editCategoriaBoveda").value);
-    formData.append("proveedor", document.getElementById("editProveedorBoveda").value);
-    formData.append("ejemploLanding", document.getElementById("editEjemploLanding").value);
-    formData.append("duplicarFunnel", document.getElementById("editDuplicarFunnel").value);
-    formData.append("videos", document.getElementById("editVideosBoveda").value);
-  
-    try {
-      const response = await fetch(`${SERVERURL}Productos/editar_boveda`, {
-        method: "POST",
-        body: formData,
-      });
-      const result = await response.json();
-  
-      if (result.status === 200) {
-        Swal.fire({
-          icon: "success",
-          title: result.title,
-          text: result.message,
-          showConfirmButton: false,
-          timer: 2000,
-        });
-  
-        // Cerrar modal y recargar tabla
-        const modal = document.getElementById("modalEditarBoveda");
-        const modalBootstrap = bootstrap.Modal.getInstance(modal);
-        modalBootstrap.hide();
-        initDataTable();
-      } else {
+        console.error("Error al agregar Boveda:", error);
         Swal.fire({
           icon: "error",
-          title: result.title,
-          text: result.message,
+          title: "Error",
+          text: "No se pudo procesar la solicitud",
         });
       }
-    } catch (error) {
-      console.error("Error al editar bóveda:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "No se pudo procesar la solicitud",
-      });
-    }
-  });
+    });
+
+    
+
+    
+
 });
