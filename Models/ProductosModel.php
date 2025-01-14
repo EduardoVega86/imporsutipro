@@ -64,7 +64,7 @@ class ProductosModel extends Query
     public function editarBoveda($id_boveda, $id_linea, $imagen, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos)
     {
         $response = $this->initialResponse();
-        $target_dir = "public/img/banner/";
+        $target_dir = "public/img/boveda/";
         $target_file = $target_dir . basename($imagen["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -158,7 +158,7 @@ class ProductosModel extends Query
     public function insertarBoveda($nombre, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)
     {
         $response = $this->initialResponse();
-        $target_dir = "public/img/banner/";
+        $target_dir = "public/img/boveda/";
         $target_file = $target_dir . basename($imagen["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));

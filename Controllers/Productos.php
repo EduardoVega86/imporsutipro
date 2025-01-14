@@ -153,7 +153,8 @@ class Productos extends Controller
             $videos = $_POST['videosBoveda'] ?? '';
 
             // Insertar
-            $result = $this->model->insertarBoveda($nombre, $idLinea, $idProveedor, $imagen, $ejemploLanding, $duplicarFunnel, $videos);
+            $result = $this->model->insertarBoveda($nombre, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
+
 
             if ($result['status'] === 200) {
                 $response = [

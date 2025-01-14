@@ -339,19 +339,6 @@ window.addEventListener("load", async () => {
             body: formData,
         });
 
-        // Verificar si la respuesta es JSON
-        const contentType = response.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-            const errorText = await response.text();
-            console.error("Respuesta del servidor no es JSON:", errorText);
-            Swal.fire({
-                icon: "error",
-                title: "Error del servidor",
-                text: "El servidor devolvió una respuesta inesperada.",
-            });
-            return;
-        }
-
         const result = await response.json();
 
         if (result.status === 200) {
