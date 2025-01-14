@@ -55,9 +55,6 @@ const listBovedas = async () => {
           <td><a href="${boveda.ejemplo_landing}" target="_blank" class="link-primary">Ver Landing</a></td>
           <td><a href="${boveda.duplicar_funnel}" target="_blank" class="link-primary">Duplicar Funnel</a></td>
           <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
-          <td>
-            <button class="btn btn-primary btn-sm btn-edit" data-id="${boveda.id_boveda}">Editar</button>
-          </td>
         </tr>
       `;
     });
