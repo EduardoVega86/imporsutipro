@@ -125,32 +125,30 @@ const cargarProveedores = async () => {
 
 // Delegar evento para el botón "Editar"
 async function abrirModalEditar(id_boveda) {
-  if (e.target.classList.contains("btn-edit")) {
-    console.log("Botón editar presionado");
-    const idBoveda = id_boveda; // Obtener ID del botón
-    console.log("ID de bóveda:", idBoveda);
-    try {
-      const response = await fetch(
-        `${SERVERURL}Productos/obtenerBoveda/${idBoveda}`
-      );
-      const boveda = await response.json();
+  console.log("Botón editar presionado");
+  const idBoveda = id_boveda; // Obtener ID del botón
+  console.log("ID de bóveda:", idBoveda);
+  try {
+    const response = await fetch(
+      `${SERVERURL}Productos/obtenerBoveda/${idBoveda}`
+    );
+    const boveda = await response.json();
 
-      $("#editNombreBoveda").val(boveda[0].nombre);
-      $("#editCategoriaBoveda").val(boveda[0].categoria);
-      $("#editProveedorBoveda").val(boveda[0].proveedor);
-      $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
-      $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
-      $("#editVideosBoveda").val(boveda[0].videos);
+    $("#editNombreBoveda").val(boveda[0].nombre);
+    $("#editCategoriaBoveda").val(boveda[0].categoria);
+    $("#editProveedorBoveda").val(boveda[0].proveedor);
+    $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
+    $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
+    $("#editVideosBoveda").val(boveda[0].videos);
 
-      $("#modalEditarBoveda").modal("show");
-    } catch (error) {
-      console.error("Error al obtener datos de la bóveda:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "No se pudieron cargar los datos de la bóveda.",
-      });
-    }
+    $("#modalEditarBoveda").modal("show");
+  } catch (error) {
+    console.error("Error al obtener datos de la bóveda:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No se pudieron cargar los datos de la bóveda.",
+    });
   }
 }
 
