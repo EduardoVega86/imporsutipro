@@ -117,6 +117,8 @@ const cargarProveedores = async () => {
       opciones += `<option value="${prov.id_plataforma}">${prov.nombre_tienda}</option>`;
     });
 
+    proveedoresSelect.trigger("change.select2")
+
     document.getElementById("proveedorBoveda").innerHTML = opciones;
   } catch (error) {
     console.error("Error al cargar proveedores:", error);
@@ -127,18 +129,14 @@ const cargarProveedores = async () => {
 async function abrirModalEditar(id_boveda) {
   const idBoveda = id_boveda; // Obtener ID del botón
   try {
-    const response = await fetch(`${SERVERURL}Productos/obtenerBoveda/${idBoveda}`);
+    const response = await fetch(
+      `${SERVERURL}Productos/obtenerBoveda/${idBoveda}`
+    );
     const boveda = await response.json();
 
-    // Verifica los datos recibidos
-    console.log(boveda);
-
-    // Asigna los IDs en lugar de los nombres
-    $("#editNombreBoveda").val(boveda[0].id_producto).trigger('change');
-    $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger('change');
-    $("#editProveedorBoveda").val(boveda[0].id_plataforma).trigger('change');
-    
-    // Asigna los demás campos
+    $("#editNombreBoveda").val(boveda[0].nombre);
+    $("#editCategoriaBoveda").val(boveda[0].categoria);
+    $("#editProveedorBoveda").val(boveda[0].proveedor);
     $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
     $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
     $("#editVideosBoveda").val(boveda[0].videos);
@@ -278,13 +276,15 @@ window.addEventListener("load", async () => {
     dropdownParent: $("#modalAgregarBoveda"),
   });
 //Provedor EDIT
-  await cargarProveedores();
+  
   $("#editProveedorBoveda").select2({
     placeholder: "Seleccione un Proveedor",
     allowClear: true,
     // Si está dentro de un modal:
     dropdownParent: $("#modalEditarBoveda"),
   });
+
+  await cargarProveedores();
 
 
 
