@@ -36,16 +36,16 @@ const initDataTable = async () => {
   dataTableIsInitialized = true;
 };
 
-//Función que hace el fetch a controlador y pinta los datos en la tabla
+// Función que hace el fetch a controlador y pinta los datos en la tabla
 const listBovedas = async () => {
   try {
-    //Ruta donde hacemos la peticion
+    // Ruta donde hacemos la petición
     const response = await fetch(`${SERVERURL}Productos/obtener_bovedas`);
     const bovedas = await response.json();
 
     let content = "";
 
-    //Iteramos sobre el array de resultados
+    // Iteramos sobre el array de resultados
     bovedas.forEach((boveda) => {
       content += `
         <tr>
@@ -55,15 +55,15 @@ const listBovedas = async () => {
           <td><a href="${boveda.ejemplo_landing}" target="_blank" class="link-primary">Ver Landing</a></td>
           <td><a href="${boveda.duplicar_funnel}" target="_blank" class="link-primary">Duplicar Funnel</a></td>
           <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
-          <td> <span class="">${boveda.fecha_create_at}</span> </td>
+          <td><span class="">${boveda.fecha_create_at}</span></td>
           <td>
-            <button class="btn btn-primary btn-sm btn-edit" onclick=abrirModalEditar(${boveda.id_boveda})>Editar</button>
+            <button class="btn btn-primary btn-sm btn-edit" onclick="abrirModalEditar(${boveda.id_boveda})">Editar</button>
           </td>
         </tr>
       `;
     });
 
-    //Inyectamos las filas en el cuerpo de la tabla
+    // Inyectamos las filas en el cuerpo de la tabla
     document.getElementById("tableBody_bovedas").innerHTML = content;
   } catch (error) {
     console.error("Error al listar Bovedas", error);
@@ -73,9 +73,7 @@ const listBovedas = async () => {
 // Llenar select de Nombres
 const cargarNombres = async () => {
   try {
-    const response = await fetch(
-      `${SERVERURL}Productos/obtener_productos_boveda`
-    );
+    const response = await fetch(`${SERVERURL}Productos/obtener_productos_boveda`);
     const nombres = await response.json();
 
     let opciones = "<option value=''>Seleccione un Nombre</option>";
@@ -83,6 +81,7 @@ const cargarNombres = async () => {
       opciones += `<option value="${cat.id_producto}">${cat.nombre_producto}</option>`;
     });
 
+    // Poblamos tanto el select de agregar como el de editar
     document.getElementById("nombreBoveda").innerHTML = opciones;
     document.getElementById("editNombreBoveda").innerHTML = opciones;
   } catch (error) {
@@ -101,6 +100,7 @@ const cargarCategorias = async () => {
       opciones += `<option value="${cat.id_linea}">${cat.nombre_linea}</option>`;
     });
 
+    // Poblamos tanto el select de agregar como el de editar
     document.getElementById("categoriaBoveda").innerHTML = opciones;
     document.getElementById("editCategoriaBoveda").innerHTML = opciones;
   } catch (error) {
@@ -119,6 +119,7 @@ const cargarProveedores = async () => {
       opciones += `<option value="${prov.id_plataforma}">${prov.nombre_tienda}</option>`;
     });
 
+    // Poblamos tanto el select de agregar como el de editar
     document.getElementById("proveedorBoveda").innerHTML = opciones;
     document.getElementById("editProveedorBoveda").innerHTML = opciones;
   } catch (error) {
@@ -126,18 +127,26 @@ const cargarProveedores = async () => {
   }
 };
 
+// Delegar evento para el botón "Editar"
 async function abrirModalEditar(id_boveda) {
   const idBoveda = id_boveda; // Obtener ID del botón
+  const formEditarBoveda = document.getElementById("formEditarBoveda");
+  
   try {
     const response = await fetch(`${SERVERURL}Productos/obtenerBoveda/${idBoveda}`);
     const boveda = await response.json();
 
-    console.log("Datos de la bóveda:", boveda); // Verifica los datos
+    console.log("Datos de la bóveda:", boveda); // Verifica los datos recibidos
 
     // Verifica que se recibieron datos
     if (boveda.length > 0) {
-      // Asignar los IDs en lugar de los nombres
-      $("#editNombreBoveda").val(boveda[0].id_producto).trigger('change');
+      // Asignar el ID al formulario
+      formEditarBoveda.dataset.id = idBoveda;
+
+      // Asignar los valores correctos a los Select2
+      // Dado que no hay 'id_producto', usaremos 'nombre' como valor si es apropiado
+      // Si 'nombreBoveda' realmente necesita un 'id_producto', debes asegurarte de que 'boveda' data lo incluya
+      $("#editNombreBoveda").val(boveda[0].id_boveda).trigger('change'); // Ajusta esto según corresponda
       $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger('change');
       $("#editProveedorBoveda").val(boveda[0].id_plataforma).trigger('change');
       
@@ -165,8 +174,6 @@ async function abrirModalEditar(id_boveda) {
   }
 }
 
-
-
 // Asegurarse de que el DOM esté cargado antes de ejecutar el código
 document.addEventListener("DOMContentLoaded", () => {
   // Manejar el envío del formulario "formEditarBoveda"
@@ -179,10 +186,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const nombre = document.getElementById("editNombreBoveda").value;
       const categoria = document.getElementById("editCategoriaBoveda").value;
       const proveedor = document.getElementById("editProveedorBoveda").value;
-      const ejemploLanding =
-        document.getElementById("editEjemploLanding").value;
-      const duplicarFunnel =
-        document.getElementById("editDuplicarFunnel").value;
+      const ejemploLanding = document.getElementById("editEjemploLanding").value;
+      const duplicarFunnel = document.getElementById("editDuplicarFunnel").value;
       const videosBoveda = document.getElementById("editVideosBoveda").value;
       // Crear objeto con los datos
       let formData = new FormData();
@@ -242,61 +247,53 @@ window.addEventListener("load", async () => {
   // Inicializamos la tabla
   await initDataTable();
 
-  // 1) Cargamos nombnres
+  // 1) Cargamos nombres y los asignamos a ambos selects
   await cargarNombres();
-  //2) inicializamos Select2 para nombre
+  // Inicializamos Select2 para nombre en agregar
   $("#nombreBoveda").select2({
     placeholder: "Seleccione un Nombre",
     allowClear: true,
-    //Como esta dentro de un modal
     dropdownParent: $("#modalAgregarBoveda"),
   });
 
-  //2) inicializamos Select2 para editarNombre
+  // Inicializamos Select2 para nombre en editar
   $("#editNombreBoveda").select2({
     placeholder: "Seleccione un Nombre",
     allowClear: true,
-    //Como esta dentro de un modal
     dropdownParent: $("#modalEditarBoveda"),
   });
 
-  // 1) Cargamos categorías
+  // 2) Cargamos categorías y los asignamos a ambos selects
   await cargarCategorias();
-  // 2) inicializamos Select2 para categoría
+  // Inicializamos Select2 para categoría en agregar
   $("#categoriaBoveda").select2({
     placeholder: "Seleccione una Categoría",
     allowClear: true,
-    // Si está dentro de un modal:
     dropdownParent: $("#modalAgregarBoveda"),
   });
 
-  // 2) nicializamos Select2 para categoríaEDIT
+  // Inicializamos Select2 para categoría en editar
   $("#editCategoriaBoveda").select2({
     placeholder: "Seleccione una Categoría",
     allowClear: true,
-    // Si está dentro de un modal:
     dropdownParent: $("#modalEditarBoveda"),
   });
 
-
-  // 1) Cargamos proveedores
+  // 3) Cargamos proveedores y los asignamos a ambos selects
   await cargarProveedores();
-  // 2) Inicializamos Select2 para proveedor
+  // Inicializamos Select2 para proveedor en agregar
   $("#proveedorBoveda").select2({
     placeholder: "Seleccione un Proveedor",
     allowClear: true,
-    // Si está dentro de un modal:
     dropdownParent: $("#modalAgregarBoveda"),
   });
-//Provedor EDIT
+
+  // Inicializamos Select2 para proveedor en editar
   $("#editProveedorBoveda").select2({
     placeholder: "Seleccione un Proveedor",
     allowClear: true,
-    // Si está dentro de un modal:
     dropdownParent: $("#modalEditarBoveda"),
   });
-
-
 
   // Escuchar el submit del formulario "formAgregarBoveda"
   document
