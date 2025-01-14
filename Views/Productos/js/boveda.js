@@ -111,14 +111,11 @@ const cargarProveedores = async () => {
   try {
     const response = await fetch(`${SERVERURL}Productos/obtenerProveedores`);
     const proveedores = await response.json();
-    let proveedoresSelect = $("#proveedor");
 
     let opciones = "<option value=''>Seleccione un Proveedor</option>";
     proveedores.forEach((prov) => {
       opciones += `<option value="${prov.id_plataforma}">${prov.nombre_tienda}</option>`;
     });
-
-    proveedoresSelect.trigger("change.select2")
 
     document.getElementById("proveedorBoveda").innerHTML = opciones;
   } catch (error) {
@@ -152,6 +149,7 @@ async function abrirModalEditar(id_boveda) {
     });
   }
 }
+
 
 // Asegurarse de que el DOM esté cargado antes de ejecutar el código
 document.addEventListener("DOMContentLoaded", () => {
@@ -276,16 +274,14 @@ window.addEventListener("load", async () => {
     // Si está dentro de un modal:
     dropdownParent: $("#modalAgregarBoveda"),
   });
-  await cargarProveedores();
 //Provedor EDIT
+  await cargarProveedores();
   $("#editProveedorBoveda").select2({
     placeholder: "Seleccione un Proveedor",
     allowClear: true,
     // Si está dentro de un modal:
     dropdownParent: $("#modalEditarBoveda"),
   });
-
-
 
 
 
