@@ -55,6 +55,9 @@ const listBovedas = async () => {
           <td><a href="${boveda.ejemplo_landing}" target="_blank" class="link-primary">Ver Landing</a></td>
           <td><a href="${boveda.duplicar_funnel}" target="_blank" class="link-primary">Duplicar Funnel</a></td>
           <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
+          <td>
+            <button class="btn btn-primary btn-sm btn-edit" data-id="${boveda.id_boveda}">Editar</button>
+          </td>
         </tr>
       `;
     });
@@ -65,6 +68,7 @@ const listBovedas = async () => {
     console.error("Error al listar Bovedas", error);
   }
 };
+
 
 
 // Llenar select de Nombres
@@ -117,7 +121,6 @@ const cargarProveedores = async () => {
     console.error("Error al cargar proveedores:", error);
   }
 };
-
 
 // Cuando cargue la ventana
 window.addEventListener("load", async () => {
@@ -220,5 +223,92 @@ window.addEventListener("load", async () => {
         });
       }
     });
-});
 
+  //Evento para capturar el boton  Ediar y abrir el modal
+  document.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("btn-edit")) {
+      const idBoveda = e.target.getAttribute("data-id");
+
+      try {
+        // Obtener los datos de la bóveda
+        const response = await fetch(`${SERVERURL}Productos/obtener_boveda`, {
+          method: "POST",
+          body: JSON.stringify({ id_boveda: idBoveda }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const boveda = await response.json();
+
+        if (boveda) {
+          // Cargar los datos en el modal
+          document.getElementById("editNombreBoveda").value = boveda.nombre;
+          document.getElementById("editCategoriaBoveda").value = boveda.categoria;
+          document.getElementById("editProveedorBoveda").value = boveda.proveedor;
+          document.getElementById("editEjemploLanding").value = boveda.ejemplo_landing;
+          document.getElementById("editDuplicarFunnel").value = boveda.duplicar_funnel;
+          document.getElementById("editVideosBoveda").value = boveda.videos;
+
+          // Mostrar modal
+          const modal = new bootstrap.Modal(
+            document.getElementById("modalEditarBoveda")
+          );
+          modal.show();
+        }
+      } catch (error) {
+        console.error("Error al obtener bóveda:", error);
+      }
+    }
+  });
+
+  document.getElementById("formEditarBoveda").addEventListener("submit", async (e) => {
+    e.preventDefault();
+  
+    const idBoveda = document.querySelector(".btn-edit[data-id]").getAttribute("data-id");
+    const formData = new FormData();
+    formData.append("id_boveda", idBoveda);
+    formData.append("nombre", document.getElementById("editNombreBoveda").value);
+    formData.append("categoria", document.getElementById("editCategoriaBoveda").value);
+    formData.append("proveedor", document.getElementById("editProveedorBoveda").value);
+    formData.append("ejemploLanding", document.getElementById("editEjemploLanding").value);
+    formData.append("duplicarFunnel", document.getElementById("editDuplicarFunnel").value);
+    formData.append("videos", document.getElementById("editVideosBoveda").value);
+  
+    try {
+      const response = await fetch(`${SERVERURL}Productos/editar_boveda`, {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+  
+      if (result.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: result.title,
+          text: result.message,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+  
+        // Cerrar modal y recargar tabla
+        const modal = document.getElementById("modalEditarBoveda");
+        const modalBootstrap = bootstrap.Modal.getInstance(modal);
+        modalBootstrap.hide();
+        initDataTable();
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: result.title,
+          text: result.message,
+        });
+      }
+    } catch (error) {
+      console.error("Error al editar bóveda:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo procesar la solicitud",
+      });
+    }
+  });
+});
