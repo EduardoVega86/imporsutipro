@@ -123,6 +123,43 @@ const cargarProveedores = async () => {
   }
 };
 
+// Delegar evento para el botón "Editar"
+async function  abrirModalEditar(id_boveda) {
+  if (e.target.classList.contains("btn-edit")) {
+    console.log("Botón editar presionado")
+    const idBoveda = id_boveda; // Obtener ID del botón
+    console.log("ID de bóveda:", idBoveda)
+    try {
+      const response = await fetch(
+        `${SERVERURL}Productos/obtenerBoveda/${idBoveda}`
+      );
+      const boveda = await response.json()
+      // Rellena el formulario con los datos obtenidos
+      document.getElementById("editNombreBoveda").value =
+        boveda.nombre || "";
+      document.getElementById("editCategoriaBoveda").value =
+        boveda.categoria || "";
+      document.getElementById("editProveedorBoveda").value =
+        boveda.proveedor || "";
+      document.getElementById("editEjemploLanding").value =
+        boveda.ejemplo_landing || "";
+      document.getElementById("editDuplicarFunnel").value =
+        boveda.duplicar_funnel || "";
+      document.getElementById("editVideosBoveda").value =
+        boveda.videos || ""
+      $("#modalEditarBoveda").modal("show");
+    } catch (error) {
+      console.error("Error al obtener datos de la bóveda:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudieron cargar los datos de la bóveda.",
+      });
+    }
+  }
+};
+
+
 // Cuando cargue la ventana
 window.addEventListener("load", async () => {
   // Inicializamos la tabla
@@ -224,47 +261,6 @@ window.addEventListener("load", async () => {
         });
       }
     });
-
-
-    // Delegar evento para el botón "Editar"
-    async function  abrirModalEditar(id_boveda) {
-      if (e.target.classList.contains("btn-edit")) {
-        console.log("Botón editar presionado");
-
-        const idBoveda = id_boveda; // Obtener ID del botón
-        console.log("ID de bóveda:", idBoveda);
-
-        try {
-          const response = await fetch(
-            `${SERVERURL}Productos/obtenerBoveda/${idBoveda}`
-          );
-          const boveda = await response.json();
-
-          // Rellena el formulario con los datos obtenidos
-          document.getElementById("editNombreBoveda").value =
-            boveda.nombre || "";
-          document.getElementById("editCategoriaBoveda").value =
-            boveda.categoria || "";
-          document.getElementById("editProveedorBoveda").value =
-            boveda.proveedor || "";
-          document.getElementById("editEjemploLanding").value =
-            boveda.ejemplo_landing || "";
-          document.getElementById("editDuplicarFunnel").value =
-            boveda.duplicar_funnel || "";
-          document.getElementById("editVideosBoveda").value =
-            boveda.videos || "";
-
-          $("#modalEditarBoveda").modal("show");
-        } catch (error) {
-          console.error("Error al obtener datos de la bóveda:", error);
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "No se pudieron cargar los datos de la bóveda.",
-          });
-        }
-      }
-    };
 
   // Asegurarse de que el DOM esté cargado antes de ejecutar el código
   document.addEventListener("DOMContentLoaded", () => {
