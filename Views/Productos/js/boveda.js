@@ -131,7 +131,7 @@ window.addEventListener("load", async () => {
     placeholder: "Seleccione un Nombre",
     allowClear: true,
     //Como esta dentro de un modal
-    dropdownParent: $("#nombreBoveda"),
+    dropdownParent: $("#modalAgregarBoveda"),
   });
 
   // 1) Cargamos categorías
