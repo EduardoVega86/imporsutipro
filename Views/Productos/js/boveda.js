@@ -316,10 +316,11 @@ window.addEventListener("load", async () => {
       formData.append("categoria", categoria);
       formData.append("proveedor", proveedor);
       formData.append('imagen', $('#imagen')[0].files[0]);
-
       formData.append("ejemploLanding", ejemploLanding);
       formData.append("duplicarFunnel", duplicarFunnel);
       formData.append("videosBoveda", videosBoveda);
+
+      console.log(formData);
 
       try {
         // Petición POST
