@@ -125,9 +125,7 @@ const cargarProveedores = async () => {
 
 // Delegar evento para el botón "Editar"
 async function abrirModalEditar(id_boveda) {
-  console.log("Botón editar presionado");
   const idBoveda = id_boveda; // Obtener ID del botón
-  console.log("ID de bóveda:", idBoveda);
   try {
     const response = await fetch(
       `${SERVERURL}Productos/obtenerBoveda/${idBoveda}`
@@ -237,15 +235,32 @@ window.addEventListener("load", async () => {
     dropdownParent: $("#modalAgregarBoveda"),
   });
 
+  //2) inicializamos Select2 para editarNombre
+  $("#editNombreBoveda").select2({
+    placeholder: "Seleccione un Nombre",
+    allowClear: true,
+    //Como esta dentro de un modal
+    dropdownParent: $("#modalEditarBoveda"),
+  });
+
   // 1) Cargamos categorías
   await cargarCategorias();
-  // 2) Ahora sí, inicializamos Select2 para categoría
+  // 2) inicializamos Select2 para categoría
   $("#categoriaBoveda").select2({
     placeholder: "Seleccione una Categoría",
     allowClear: true,
     // Si está dentro de un modal:
     dropdownParent: $("#modalAgregarBoveda"),
   });
+
+  // 2) nicializamos Select2 para categoríaEDIT
+  $("#editCategoriaBoveda").select2({
+    placeholder: "Seleccione una Categoría",
+    allowClear: true,
+    // Si está dentro de un modal:
+    dropdownParent: $("#modalEditarBoveda"),
+  });
+
 
   // 1) Cargamos proveedores
   await cargarProveedores();
@@ -256,6 +271,15 @@ window.addEventListener("load", async () => {
     // Si está dentro de un modal:
     dropdownParent: $("#modalAgregarBoveda"),
   });
+//Provedor EDIT
+  $("#editProveedorBoveda").select2({
+    placeholder: "Seleccione un Proveedor",
+    allowClear: true,
+    // Si está dentro de un modal:
+    dropdownParent: $("#modalEditarBoveda"),
+  });
+
+
 
   // Escuchar el submit del formulario "formAgregarBoveda"
   document
