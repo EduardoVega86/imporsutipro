@@ -81,6 +81,8 @@ class ApiModel extends Query
             $response['status'] = 200;
             $response['message'] = 'Registro exitoso';
 
+            $response2 = $this->registro_imporsuit($correo, $nombre, $tienda, $telefono, $pais, $contrasena);
+            $response["log_imporsuit"] = $response2;
             return $response;
         } catch (Exception $e) {
             $this->rollBack();
@@ -88,6 +90,27 @@ class ApiModel extends Query
             $response['message'] = $e->getMessage();
             return $response;
         }
+    }
+
+    public function registro_imporsuit($correo, $nombre, $tienda, $telefono, $pais, $contrasena)
+    {
+        $data = [
+            'nombre' => $nombre,
+            'correo' => $correo,
+            'telefono' => $telefono,
+            'tienda' => $tienda,
+            'pais' => $pais,
+            'contrasena' => $contrasena
+        ];
+
+        $ch = curl_init("https://cursos.imporsuit.app/webhook");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $response;
     }
 
     public function asignarJWT($email, $jwt, $uuid)

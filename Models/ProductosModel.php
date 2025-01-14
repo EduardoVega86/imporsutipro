@@ -50,35 +50,44 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    public function getBovedaById($id_boveda)
+    public function obtenerBoveda($id, $plataforma)
     {
-        $sql = "
-        SELECT 
-            b.id_boveda,
-            b.nombre,
-            b.id_linea,
-            b.id_plataforma,
-            b.ejemplo_landing,
-            b.duplicar_funnel,
-            b.videos
-        FROM bovedas AS b
-        WHERE b.id_boveda = $id_boveda
-    ";
+        $sql = "SELECT * FROM bovedas WHERE id_boveda= $id AND id_plataforma = $plataforma";
         return $this->select($sql);
     }
 
-    public function obtener_productos_boveda($plataforma)
+    public function editarBoveda($id_boveda, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos)
+    {
+        // codigo para editar 
+        $response = $this->initialResponse();
+
+        $sql = "UPDATE `bovedas` SET `id_linea` = ?, `id_plataforma` = ?, `ejemplo_landing` = ?, `duplicar_funnel` = ?, `videos` = ? WHERE `id_boveda` = ? ";
+        $data = [$id_boveda, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos];
+        $editar_boveda = $this->update($sql, $data);
+        //print_r($editar_categoria);
+        if ($editar_boveda == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $editar_boveda['message'];
+        }
+        return $response;
+    }
+
+    public function obtener_productos_boveda($id_plataforma)
     {
         $sql = "SELECT *
                 FROM productos
-                WHERE id_plataforma = $plataforma";
+                WHERE id_plataforma = '$id_plataforma'";
         return $this->select($sql);
     }
 
     //Funcion para ser accedida desde Swagger Model
     public function getBovedasPorPlataforma($id_plataforma)
     {
-        // Ajusta la tabla / campos a tu realidad
         $sql = "SELECT * FROM bovedas WHERE id_plataforma = '$id_plataforma'";
         return $this->select($sql);
     }

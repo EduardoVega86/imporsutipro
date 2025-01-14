@@ -24,6 +24,7 @@
                         <th>Ejempo Landing</th>
                         <th>Duplicar Funnel</th>
                         <th>Videos</th>
+                        <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody_bovedas">

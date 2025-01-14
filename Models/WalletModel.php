@@ -689,7 +689,7 @@ class WalletModel extends Query
 
         if ($response == 1) {
             $responses["status"] = 200;
-            $responses["message"] = "Solicitud de pago enviada, espere a que sea aprobada dentro de las proximas 72 horas laborales";
+            $responses["message"] = "Solicitud de pago enviada, espere a que sea aprobada dentro de las proximas 72 horas laborales.";
         } elseif ($response == 0) {
             $responses["status"] = 400;
             $responses["message"] = "Tuviemos un problema al enviar la solicitud, por favor toma captura de este mensaje y envialo a soporte";

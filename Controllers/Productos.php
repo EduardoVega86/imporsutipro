@@ -131,60 +131,9 @@ class Productos extends Controller
 
     public function obtener_productos_boveda()
     {
-        $plataforma = $_GET['id_plataforma'] ?? 0;
-        var_dump($plataforma);
-
-        $response = $this->model->obtener_productos_boveda($plataforma);
+        $response = $this->model->obtener_productos_boveda($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-
-
-
-    public function obtener_boveda_by_id($id_boveda)
-    {
-        $response = $this->model->getBovedaById($id_boveda);
-        echo json_encode($response);
-    }
-
-
-    public function actualizar_boveda()
-    {
-        if (isset($_POST['id_boveda'], $_POST['nombre'], $_POST['categoria'], $_POST['proveedor'])) {
-            $idBoveda = $_POST['id_boveda'];
-            $nombre = $_POST['nombre'];
-            $idLinea = $_POST['categoria'];
-            $idProveedor = $_POST['proveedor'];
-
-            // Llamamos al modelo
-            $result = $this->model->updateBoveda($idBoveda, $nombre, $idLinea, $idProveedor);
-
-            if ($result) {
-                // Éxito
-                $response = [
-                    "status"  => 200,
-                    "title"   => "Bóveda actualizada",
-                    "message" => "La bóveda se actualizó correctamente."
-                ];
-            } else {
-                // Error al actualizar en BD
-                $response = [
-                    "status"  => 500,
-                    "title"   => "Error",
-                    "message" => "No se pudo actualizar la bóveda."
-                ];
-            }
-        } else {
-            // Faltan datos
-            $response = [
-                "status"  => 400,
-                "title"   => "Datos incompletos",
-                "message" => "Faltan campos obligatorios."
-            ];
-        }
-
-        echo json_encode($response);
-    }
-
 
     public function obtener_bovedas()
     {
@@ -226,6 +175,24 @@ class Productos extends Controller
             ];
         }
 
+        echo json_encode($response);
+    }
+
+    public function obtenerBoveda($id)
+    {
+        $response = $this->model->obtenerBoveda($id, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function editar_boveda()
+    {
+        $id_boveda = $_POST['id_boveda'];
+        $id_linea = $_POST['id_linea'];
+        $id_plataforma = $_POST['id_plataforma'];
+        $ejemplo_landing = $_POST['ejemplo_landing'];
+        $duplicar_funnel = $_POST['duplicar_funnel'];
+        $videos = $_POST['videos'];
+        $response = $this->model->editarBoveda($id_boveda, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
