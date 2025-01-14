@@ -315,7 +315,8 @@ window.addEventListener("load", async () => {
       formData.append("nombre", nombre);
       formData.append("categoria", categoria);
       formData.append("proveedor", proveedor);
-      formData.append('imagen', $('#imagen').filles);
+      formData.append('imagen', $('#imagen')[0].files[0]);
+
       formData.append("ejemploLanding", ejemploLanding);
       formData.append("duplicarFunnel", duplicarFunnel);
       formData.append("videosBoveda", videosBoveda);

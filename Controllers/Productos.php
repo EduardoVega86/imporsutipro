@@ -148,14 +148,14 @@ class Productos extends Controller
             $idLinea = $_POST['categoria'];
             $idProveedor = $_POST['proveedor'];
             $imagen = $_FILES['imagen'];
-            $ejemplo_landing = $_POST['ejemploLanding'] ?? '';
-            $duplicar_funnel = $_POST['duplicarFunnel'] ?? '';
+            $ejemploLanding = $_POST['ejemploLanding'] ?? '';
+            $duplicarFunnel = $_POST['duplicarFunnel'] ?? '';
             $videos = $_POST['videosBoveda'] ?? '';
 
             // Insertar
-            $result = $this->model->insertarBoveda($nombre, $idLinea, $idProveedor, $imagen, $ejemplo_landing, $duplicar_funnel, $videos);
+            $result = $this->model->insertarBoveda($nombre, $idLinea, $idProveedor, $imagen, $ejemploLanding, $duplicarFunnel, $videos);
 
-            if ($result > 0) {
+            if ($result['status'] === 200) {
                 $response = [
                     "status" => 200,
                     "title" => "Bóveda agregada",
@@ -165,7 +165,7 @@ class Productos extends Controller
                 $response = [
                     "status" => 500,
                     "title" => "Error",
-                    "message" => "Hubo un problema al guardar la bóveda."
+                    "message" => $result['message'] ?? "Hubo un problema al guardar la bóveda."
                 ];
             }
         } else {
@@ -176,8 +176,10 @@ class Productos extends Controller
             ];
         }
 
+        header('Content-Type: application/json');
         echo json_encode($response);
     }
+
 
     public function obtenerBoveda($id)
     {

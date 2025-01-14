@@ -195,6 +195,7 @@ class ProductosModel extends Query
                     $nombre,
                     $idLinea,
                     $idProveedor,
+                    $target_file,
                     $ejemploLanding,
                     $duplicarFunnel,
                     $videos
