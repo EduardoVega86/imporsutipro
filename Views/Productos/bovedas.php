@@ -28,6 +28,7 @@
                         <th>Videos</th>
                         <th>Fecha de Carga</th>
                         <th>Opciones</th>
+                        <th>Fecha de carga</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody_bovedas">
