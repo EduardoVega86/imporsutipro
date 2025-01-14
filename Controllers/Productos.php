@@ -175,8 +175,6 @@ class Productos extends Controller
                 "message" => "Faltan campos obligatorios."
             ];
         }
-
-        header('Content-Type: application/json');
         echo json_encode($response);
     }
 

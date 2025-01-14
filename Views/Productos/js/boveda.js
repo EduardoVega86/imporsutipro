@@ -309,13 +309,14 @@ window.addEventListener("load", async () => {
       const ejemploLanding = document.getElementById("ejemploLanding").value;
       const duplicarFunnel = document.getElementById("duplicarFunnel").value;
       const videosBoveda = document.getElementById("videosBoveda").value;
+      const imagen = document.getElementById("imagen").files[0];
 
       // Crear objeto con los datos
       let formData = new FormData();
       formData.append("nombre", nombre);
       formData.append("categoria", categoria);
       formData.append("proveedor", proveedor);
-      formData.append('imagen', $('#imagen')[0].files[0]);
+      formData.append('imagen', imagen);
       formData.append("ejemploLanding", ejemploLanding);
       formData.append("duplicarFunnel", duplicarFunnel);
       formData.append("videosBoveda", videosBoveda);
