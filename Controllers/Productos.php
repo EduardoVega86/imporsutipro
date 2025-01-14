@@ -184,7 +184,7 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-    public function editarBoveda()
+    public function editar_boveda()
     {
         $id_boveda = $_POST['id_boveda'];
         $id_linea = $_POST['id_linea'];
