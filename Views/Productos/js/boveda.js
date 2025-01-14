@@ -224,102 +224,128 @@ window.addEventListener("load", async () => {
       }
     });
 
+  // Asegurarse de que el DOM esté cargado antes de ejecutar el código
+  document.addEventListener("DOMContentLoaded", () => {
     // Delegar evento para el botón "Editar"
-  document.addEventListener("click", async (e) => {
-    // Verificar si el clic proviene de un botón con la clase "btn-edit"
-    if (e.target.classList.contains("btn-edit")) {
-      const idBoveda = e.target.dataset.id; // Obtener el ID de la bóveda
-      try {
-        // Hacer la solicitud para obtener los datos de la bóveda
-        const response = await fetch(`${SERVERURL}Productos/obtenerBoveda/${idBoveda}`);
-        const boveda = await response.json();
+    document.addEventListener("click", async (e) => {
+      // Verificar si el clic proviene de un botón con la clase "btn-edit"
+      if (e.target.classList.contains("btn-edit")) {
+        const idBoveda = e.target.dataset.id; // Obtener el ID de la bóveda
+        try {
+          // Hacer la solicitud para obtener los datos de la bóveda
+          const response = await fetch(`${SERVERURL}Productos/obtenerBoveda/${idBoveda}`);
+          const boveda = await response.json();
 
-        // Llenar los campos del formulario del modal
-        document.getElementById("editNombreBoveda").value = boveda.nombre;
-        document.getElementById("editCategoriaBoveda").value = boveda.categoria;
-        document.getElementById("editProveedorBoveda").value = boveda.proveedor;
-        document.getElementById("editEjemploLanding").value = boveda.ejemplo_landing;
-        document.getElementById("editDuplicarFunnel").value = boveda.duplicar_funnel;
-        document.getElementById("editVideosBoveda").value = boveda.videos;
+          // Verificar y llenar campos del formulario del modal
+          const inputNombre = document.getElementById("editNombreBoveda");
+          const inputCategoria = document.getElementById("editCategoriaBoveda");
+          const inputProveedor = document.getElementById("editProveedorBoveda");
+          const inputEjemploLanding = document.getElementById("editEjemploLanding");
+          const inputDuplicarFunnel = document.getElementById("editDuplicarFunnel");
+          const inputVideosBoveda = document.getElementById("editVideosBoveda");
 
-        // Mostrar el modal
-        const modalEditarBoveda = new bootstrap.Modal(document.getElementById("modalEditarBoveda"));
-        modalEditarBoveda.show();
-      } catch (error) {
-        console.error("Error al obtener los datos de la bóveda para editar:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "No se pudieron cargar los datos de la bóveda.",
-        });
+          if (inputNombre && inputCategoria && inputProveedor && inputEjemploLanding && inputDuplicarFunnel && inputVideosBoveda) {
+            inputNombre.value = boveda.nombre || "";
+            inputCategoria.value = boveda.categoria || "";
+            inputProveedor.value = boveda.proveedor || "";
+            inputEjemploLanding.value = boveda.ejemplo_landing || "";
+            inputDuplicarFunnel.value = boveda.duplicar_funnel || "";
+            inputVideosBoveda.value = boveda.videos || "";
+          } else {
+            console.error("Uno o más elementos del formulario no existen en el DOM.");
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "No se pudo encontrar el formulario de edición.",
+            });
+            return;
+          }
+
+          // Mostrar el modal
+          const modalEditarBoveda = new bootstrap.Modal(document.getElementById("modalEditarBoveda"));
+          modalEditarBoveda.show();
+        } catch (error) {
+          console.error("Error al obtener los datos de la bóveda para editar:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No se pudieron cargar los datos de la bóveda.",
+          });
+        }
       }
+    });
+
+    // Manejar el envío del formulario "formEditarBoveda"
+    const formEditarBoveda = document.getElementById("formEditarBoveda");
+    if (formEditarBoveda) {
+      formEditarBoveda.addEventListener("submit", async (e) => {
+        e.preventDefault(); // Evita recargar la página
+
+        // Capturar datos del formulario
+        const idBoveda = formEditarBoveda.dataset.id || ""; // Asegúrate de configurar el ID en el formulario
+        const nombre = document.getElementById("editNombreBoveda").value;
+        const categoria = document.getElementById("editCategoriaBoveda").value;
+        const proveedor = document.getElementById("editProveedorBoveda").value;
+        const ejemploLanding = document.getElementById("editEjemploLanding").value;
+        const duplicarFunnel = document.getElementById("editDuplicarFunnel").value;
+        const videosBoveda = document.getElementById("editVideosBoveda").value;
+
+        // Crear objeto con los datos
+        let formData = new FormData();
+        formData.append("id", idBoveda);
+        formData.append("nombre", nombre);
+        formData.append("categoria", categoria);
+        formData.append("proveedor", proveedor);
+        formData.append("ejemploLanding", ejemploLanding);
+        formData.append("duplicarFunnel", duplicarFunnel);
+        formData.append("videosBoveda", videosBoveda);
+
+        try {
+          // Petición POST para editar la bóveda
+          const response = await fetch(`${SERVERURL}Productos/editar_boveda`, {
+            method: "POST",
+            body: formData,
+          });
+          const result = await response.json();
+
+          if (result.status === 200) {
+            Swal.fire({
+              icon: "success",
+              title: result.title,
+              text: result.message,
+              showConfirmButton: false,
+              timer: 2000,
+            });
+
+            // Cerrar modal
+            const modal = document.getElementById("modalEditarBoveda");
+            const modalBootstrap = bootstrap.Modal.getInstance(modal);
+            modalBootstrap.hide();
+
+            // Limpiar formulario
+            formEditarBoveda.reset();
+
+            // Recargar DataTable
+            initDataTable();
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: result.title,
+              text: result.message,
+            });
+          }
+        } catch (error) {
+          console.error("Error al editar la bóveda:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No se pudo procesar la solicitud.",
+          });
+        }
+      });
+    } else {
+      console.error("El formulario 'formEditarBoveda' no existe en el DOM.");
     }
   });
 
-  // Manejar el envío del formulario "formEditarBoveda"
-  document.getElementById("formEditarBoveda").addEventListener("submit", async (e) => {
-    e.preventDefault(); // Evita recargar la página
-
-    // Capturar datos del formulario
-    const idBoveda = document.getElementById("formEditarBoveda").dataset.id; 
-    const nombre = document.getElementById("editNombreBoveda").value;
-    const categoria = document.getElementById("editCategoriaBoveda").value;
-    const proveedor = document.getElementById("editProveedorBoveda").value;
-    const ejemploLanding = document.getElementById("editEjemploLanding").value;
-    const duplicarFunnel = document.getElementById("editDuplicarFunnel").value;
-    const videosBoveda = document.getElementById("editVideosBoveda").value;
-
-    // Crear objeto con los datos
-    let formData = new FormData();
-    formData.append("id", idBoveda);
-    formData.append("nombre", nombre);
-    formData.append("categoria", categoria);
-    formData.append("proveedor", proveedor);
-    formData.append("ejemploLanding", ejemploLanding);
-    formData.append("duplicarFunnel", duplicarFunnel);
-    formData.append("videosBoveda", videosBoveda);
-
-    try {
-      // Petición POST para editar la bóveda
-      const response = await fetch(`${SERVERURL}Productos/editar_boveda`, {
-        method: "POST",
-        body: formData,
-      });
-      const result = await response.json();
-
-      if (result.status === 200) {
-        Swal.fire({
-          icon: "success",
-          title: result.title,
-          text: result.message,
-          showConfirmButton: false,
-          timer: 2000,
-        });
-
-        // Cerrar modal
-        const modal = document.getElementById("modalEditarBoveda");
-        const modalBootstrap = bootstrap.Modal.getInstance(modal);
-        modalBootstrap.hide();
-
-        // Limpiar formulario
-        document.getElementById("formEditarBoveda").reset();
-
-        // Recargar DataTable
-        initDataTable();
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: result.title,
-          text: result.message,
-        });
-      }
-    } catch (error) {
-      console.error("Error al editar la bóveda:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "No se pudo procesar la solicitud.",
-      });
-    }
-  });
 });
