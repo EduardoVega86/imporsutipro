@@ -72,10 +72,10 @@ const listBovedas = async () => {
 const cargarNombres = async () => {
   try {
     const response = await fetch(`${SERVERURL}Productos/obtener_productos_boveda`);
-    const categorias = await response.json();
+    const nombres = await response.json();
 
     let opciones = "<option value=''>Seleccione un Nombre</option>";
-    categorias.forEach((cat) => {
+    nombres.forEach((cat) => {
       opciones += `<option value="${cat.id_producto}">${cat.nombre_producto}</option>`;
     });
 
