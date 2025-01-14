@@ -52,9 +52,9 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    public function obtenerBoveda($id, $plataforma)
+    public function obtenerBoveda($id)
     {
-        $sql = "SELECT * FROM bovedas WHERE id_boveda= $id AND id_plataforma = $plataforma";
+        $sql = "SELECT * FROM bovedas WHERE id_boveda= $id";
         return $this->select($sql);
     }
 

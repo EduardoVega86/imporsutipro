@@ -180,7 +180,7 @@ class Productos extends Controller
 
     public function obtenerBoveda($id)
     {
-        $response = $this->model->obtenerBoveda($id, $_SESSION['id_plataforma']);
+        $response = $this->model->obtenerBoveda($id);
         echo json_encode($response);
     }
 

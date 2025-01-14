@@ -124,29 +124,24 @@ const cargarProveedores = async () => {
 };
 
 // Delegar evento para el botón "Editar"
-async function  abrirModalEditar(id_boveda) {
+async function abrirModalEditar(id_boveda) {
   if (e.target.classList.contains("btn-edit")) {
-    console.log("Botón editar presionado")
+    console.log("Botón editar presionado");
     const idBoveda = id_boveda; // Obtener ID del botón
-    console.log("ID de bóveda:", idBoveda)
+    console.log("ID de bóveda:", idBoveda);
     try {
       const response = await fetch(
         `${SERVERURL}Productos/obtenerBoveda/${idBoveda}`
       );
-      const boveda = await response.json()
-      // Rellena el formulario con los datos obtenidos
-      document.getElementById("editNombreBoveda").value =
-        boveda.nombre || "";
-      document.getElementById("editCategoriaBoveda").value =
-        boveda.categoria || "";
-      document.getElementById("editProveedorBoveda").value =
-        boveda.proveedor || "";
-      document.getElementById("editEjemploLanding").value =
-        boveda.ejemplo_landing || "";
-      document.getElementById("editDuplicarFunnel").value =
-        boveda.duplicar_funnel || "";
-      document.getElementById("editVideosBoveda").value =
-        boveda.videos || ""
+      const boveda = await response.json();
+
+      $("#editNombreBoveda").val(boveda[0].nombre);
+      $("#editCategoriaBoveda").val(boveda[0].categoria);
+      $("#editProveedorBoveda").val(boveda[0].proveedor);
+      $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
+      $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
+      $("#editVideosBoveda").val(boveda[0].videos);
+
       $("#modalEditarBoveda").modal("show");
     } catch (error) {
       console.error("Error al obtener datos de la bóveda:", error);
@@ -157,11 +152,10 @@ async function  abrirModalEditar(id_boveda) {
       });
     }
   }
-};
+}
 
-  // Asegurarse de que el DOM esté cargado antes de ejecutar el código
+// Asegurarse de que el DOM esté cargado antes de ejecutar el código
 document.addEventListener("DOMContentLoaded", () => {
-    
   // Manejar el envío del formulario "formEditarBoveda"
   const formEditarBoveda = document.getElementById("formEditarBoveda");
   if (formEditarBoveda) {
@@ -224,12 +218,11 @@ document.addEventListener("DOMContentLoaded", () => {
           text: "No se pudo procesar la solicitud.",
         });
       }
-      });
-    } else {
-      console.error("El formulario 'formEditarBoveda' no existe en el DOM.");
-    }
-  });
-
+    });
+  } else {
+    console.error("El formulario 'formEditarBoveda' no existe en el DOM.");
+  }
+});
 
 // Cuando cargue la ventana
 window.addEventListener("load", async () => {
