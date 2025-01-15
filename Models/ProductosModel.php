@@ -37,7 +37,7 @@ class ProductosModel extends Query
     {
         $sql = "
             SELECT 
-                bovedas.nombre,
+                productos.nombre_producto AS nombre,
                 lineas.nombre_linea AS categoria,
                 plataformas.nombre_tienda AS proveedor,
                 bovedas.img,
@@ -47,6 +47,8 @@ class ProductosModel extends Query
                 bovedas.fecha_create_at
             FROM 
                 bovedas
+            INNER JOIN 
+                productos ON bovedas.nombre = productos.id_producto    
             INNER JOIN 
                 lineas ON bovedas.id_linea = lineas.id_linea
             INNER JOIN 
