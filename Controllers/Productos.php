@@ -144,8 +144,8 @@ class Productos extends Controller
 
     public function agregar_boveda()
     {
-        if (isset($_POST['id_producto'], $_POST['categoria'], $_POST['proveedor'])) {
-            $idProducto = $_POST['id_producto'];
+        if (isset($_POST['nombre'], $_POST['categoria'], $_POST['proveedor'])) {
+            $nombre = $_POST['nombre'];
             $idLinea = $_POST['categoria'];
             $idProveedor = $_POST['proveedor'];
             $imagen = $_FILES['imagen'];
@@ -154,7 +154,7 @@ class Productos extends Controller
             $videos = $_POST['videosBoveda'] ?? '';
 
             // Insertar
-            $result = $this->model->insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
+            $result = $this->model->insertarBoveda($nombre, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
 
 
             if ($result['status'] === 200) {
