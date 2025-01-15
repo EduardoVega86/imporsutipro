@@ -69,34 +69,67 @@ class ProductosModel extends Query
     {
         $response = $this->initialResponse();
 
-        // Instanciar ImageUploader con el directorio de destino
-        $uploader = new ImageUploader("public/img/boveda/");
-        $uploadResponse = $uploader->uploadImage($imagen);
+        // Validar que id_boveda sea numérico
+        if (!is_numeric($id_boveda)) {
+            $response['status'] = 400;
+            $response['title'] = 'Error de Validación';
+            $response['message'] = 'ID de bóveda inválido.';
+            return $response;
+        }
 
-        if ($uploadResponse['status'] == 200) {
-            $target_file = $uploadResponse['data'];
-            // Actualizar en la base de datos
-            $sql = "UPDATE `bovedas` SET `id_producto` = ?, `id_linea` = ?, `id_plataforma` = ?, `ejemplo_landing` = ?, `duplicar_funnel` = ?, `videos` = ?, `img` = ? WHERE `id_boveda` = ? ";
-            $data = [$id_producto, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos, $target_file, $id_boveda];
-            $actualizar_boveda = $this->update($sql, $data);
-            if ($actualizar_boveda == 1) {
-                $response['status'] = 200;
-                $response['title'] = 'Petición exitosa';
-                $response['message'] = 'Bóveda actualizada correctamente';
+        // Inicializar ImageUploader
+        $uploader = new ImageUploader("public/img/boveda/");
+        $target_file = null;
+
+        // Verificar si se ha subido una nueva imagen
+        if (isset($imagen) && $imagen['error'] !== UPLOAD_ERR_NO_FILE) {
+            $uploadResponse = $uploader->uploadImage($imagen);
+            if ($uploadResponse['status'] == 200) {
+                $target_file = $uploadResponse['data'];
+                error_log("Imagen subida correctamente: " . $target_file);
             } else {
+                // Manejar el error de subida de imagen
                 $response['status'] = 500;
                 $response['title'] = 'Error';
-                $response['message'] = 'Error al actualizar la bóveda';
+                $response['message'] = $uploadResponse['message'] ?? "Error al subir la imagen.";
+                error_log("Error al subir la imagen: " . $uploadResponse['message']);
+                return $response;
             }
+        }
+
+        // Construir la consulta SQL
+        $sql = "UPDATE `bovedas` SET `id_producto` = ?, `id_linea` = ?, `id_plataforma` = ?, `ejemplo_landing` = ?, `duplicar_funnel` = ?, `videos` = ?";
+        $data = [$id_producto, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos];
+
+        if ($target_file) {
+            $sql .= ", `img` = ?";
+            $data[] = $target_file;
+        }
+
+        $sql .= " WHERE `id_boveda` = ?";
+        $data[] = $id_boveda;
+
+        // Log de la consulta
+        error_log("SQL: " . $sql);
+        error_log("Datos: " . print_r($data, true));
+
+        // Ejecutar la actualización
+        $actualizar_boveda = $this->update($sql, $data);
+        error_log("Filas afectadas: " . $actualizar_boveda);
+
+        if ($actualizar_boveda >= 1) { // Cambiado a >= 1 para capturar múltiples filas afectadas si aplica
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Bóveda actualizada correctamente';
         } else {
-            // Error al subir la imagen
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = $uploadResponse['message'] ?? "Error al subir la imagen.";
-            error_log("Error al subir la imagen: " . $uploadResponse['message']);
+            $response['message'] = 'Error al actualizar la bóveda';
         }
+
         return $response;
     }
+
 
 
 

@@ -204,6 +204,14 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("videos", videosBoveda);
       formData.append('imagen', $('#Editarimagen')[0].files[0]);
 
+      // Agregar la imagen solo si se ha seleccionado una
+      const imagenInput = document.getElementById('Editarimagen');
+      if (imagenInput.files.length > 0) {
+          formData.append('imagen', imagenInput.files[0]);
+      }
+
+      
+
       try {
         // Petición POST para editar la bóveda
         const response = await fetch(`${SERVERURL}Productos/editar_boveda`, {
