@@ -185,8 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const nombre = document.getElementById("editNombreBoveda").value;
       const categoria = document.getElementById("editCategoriaBoveda").value;
       const proveedor = document.getElementById("editProveedorBoveda").value;
-      const imagenInput = document.getElementById("imagen");
-      const imagen = imagenInput.files[0];
+
       const ejemploLanding =
         document.getElementById("editEjemploLanding").value;
       const duplicarFunnel =
@@ -197,10 +196,11 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("id_producto", nombre);
       formData.append("categoria", categoria);
       formData.append("proveedor", proveedor);
-      formData.append("imagen", imagen);
+      formData.append("Editarimagen", imagen);
       formData.append("ejemploLanding", ejemploLanding);
       formData.append("duplicarFunnel", duplicarFunnel);
       formData.append("videosBoveda", videosBoveda);
+      formData.append('imagen', $('#imagen')[0].files[0]);
 
       try {
         // Petición POST para editar la bóveda

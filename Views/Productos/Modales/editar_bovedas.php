@@ -22,7 +22,7 @@
                     <!--Imagen -->
                     <div class="mb-3">
                         <label for="imagen" class="form-label">Imagen</label>
-                        <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
+                        <input type="file" class="form-control" id="Editarimagen" name="imagen" accept="image/*">
                         <img id="preview-imagen" src="#" alt="Vista previa de la imagen" style="display: none; margin-top: 10px; max-width: 100%;">
                     </div>
                     <div class="mb-3">
