@@ -52,7 +52,7 @@ const listBovedas = async () => {
           <td>${boveda.nombre}</td>
           <td>${boveda.categoria}</td>
           <td>${boveda.proveedor}</td>
-          <td>${boveda.img}</td>
+          <td><img src="${boveda.img}" alt="${boveda.nombre}" style="max-width: 100px; height: auto;"></td>
           <td><a href="${boveda.ejemplo_landing}" target="_blank" class="link-primary">Ver Landing</a></td>
           <td><a href="${boveda.duplicar_funnel}" target="_blank" class="link-primary">Duplicar Funnel</a></td>
           <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
@@ -74,7 +74,9 @@ const listBovedas = async () => {
 // Llenar select de Nombres
 const cargarNombres = async () => {
   try {
-    const response = await fetch(`${SERVERURL}Productos/obtener_productos_boveda`);
+    const response = await fetch(
+      `${SERVERURL}Productos/obtener_productos_boveda`
+    );
     const nombres = await response.json();
 
     let opciones = "<option value=''>Seleccione un Nombre</option>";
@@ -132,9 +134,11 @@ const cargarProveedores = async () => {
 async function abrirModalEditar(id_boveda) {
   const idBoveda = id_boveda; // Obtener ID del botón
   const formEditarBoveda = document.getElementById("formEditarBoveda");
-  
+
   try {
-    const response = await fetch(`${SERVERURL}Productos/obtenerBoveda/${idBoveda}`);
+    const response = await fetch(
+      `${SERVERURL}Productos/obtenerBoveda/${idBoveda}`
+    );
     const boveda = await response.json();
 
     console.log("Datos de la bóveda:", boveda); // Verifica los datos recibidos
@@ -147,10 +151,10 @@ async function abrirModalEditar(id_boveda) {
       // Asignar los valores correctos a los Select2
       // Dado que no hay 'id_producto', usaremos 'nombre' como valor si es apropiado
       // Si 'nombreBoveda' realmente necesita un 'id_producto', debes asegurarte de que 'boveda' data lo incluya
-      $("#editNombreBoveda").val(boveda[0].id_boveda).trigger('change'); // Ajusta esto según corresponda
-      $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger('change');
-      $("#editProveedorBoveda").val(boveda[0].id_plataforma).trigger('change');
-      
+      $("#editNombreBoveda").val(boveda[0].id_boveda).trigger("change"); // Ajusta esto según corresponda
+      $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger("change");
+      $("#editProveedorBoveda").val(boveda[0].id_plataforma).trigger("change");
+
       // Asignar otros campos de texto
       $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
       $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
@@ -187,8 +191,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const nombre = document.getElementById("editNombreBoveda").value;
       const categoria = document.getElementById("editCategoriaBoveda").value;
       const proveedor = document.getElementById("editProveedorBoveda").value;
-      const ejemploLanding = document.getElementById("editEjemploLanding").value;
-      const duplicarFunnel = document.getElementById("editDuplicarFunnel").value;
+      const ejemploLanding =
+        document.getElementById("editEjemploLanding").value;
+      const duplicarFunnel =
+        document.getElementById("editDuplicarFunnel").value;
       const videosBoveda = document.getElementById("editVideosBoveda").value;
       // Crear objeto con los datos
       let formData = new FormData();
@@ -297,85 +303,87 @@ window.addEventListener("load", async () => {
   });
 
   // Escuchar el submit del formulario "formAgregarBoveda"
-  document.getElementById("formAgregarBoveda").addEventListener("submit", async (e) => {
-    e.preventDefault(); // Evita la recarga de la página
+  document
+    .getElementById("formAgregarBoveda")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault(); // Evita la recarga de la página
 
-    // Capturar datos del formulario
-    const nombre = document.getElementById("nombreBoveda").value;
-    const categoria = document.getElementById("categoriaBoveda").value;
-    const proveedor = document.getElementById("proveedorBoveda").value;
-    const ejemploLanding = document.getElementById("ejemploLanding").value;
-    const duplicarFunnel = document.getElementById("duplicarFunnel").value;
-    const videosBoveda = document.getElementById("videosBoveda").value;
-    const imagenInput = document.getElementById("imagen");
-    const imagen = imagenInput.files[0];
+      // Capturar datos del formulario
+      const nombre = document.getElementById("nombreBoveda").value;
+      const categoria = document.getElementById("categoriaBoveda").value;
+      const proveedor = document.getElementById("proveedorBoveda").value;
+      const ejemploLanding = document.getElementById("ejemploLanding").value;
+      const duplicarFunnel = document.getElementById("duplicarFunnel").value;
+      const videosBoveda = document.getElementById("videosBoveda").value;
+      const imagenInput = document.getElementById("imagen");
+      const imagen = imagenInput.files[0];
 
-    // Validar que se haya seleccionado una imagen
-    if (!imagen) {
+      // Validar que se haya seleccionado una imagen
+      if (!imagen) {
         Swal.fire({
-            icon: "warning",
-            title: "Falta la imagen",
-            text: "Por favor, selecciona una imagen para la bóveda.",
+          icon: "warning",
+          title: "Falta la imagen",
+          text: "Por favor, selecciona una imagen para la bóveda.",
         });
         return;
-    }
+      }
 
-    // Crear objeto FormData y agregar los campos
-    let formData = new FormData();
-    formData.append("nombre", nombre);
-    formData.append("categoria", categoria);
-    formData.append("proveedor", proveedor);
-    formData.append("imagen", imagen);
-    formData.append("ejemploLanding", ejemploLanding);
-    formData.append("duplicarFunnel", duplicarFunnel);
-    formData.append("videosBoveda", videosBoveda);
+      // Crear objeto FormData y agregar los campos
+      let formData = new FormData();
+      formData.append("nombre", nombre);
+      formData.append("categoria", categoria);
+      formData.append("proveedor", proveedor);
+      formData.append("imagen", imagen);
+      formData.append("ejemploLanding", ejemploLanding);
+      formData.append("duplicarFunnel", duplicarFunnel);
+      formData.append("videosBoveda", videosBoveda);
 
-    console.log("FormData enviado:", ...formData.entries());
+      console.log("FormData enviado:", ...formData.entries());
 
-    try {
+      try {
         // Petición POST
         const response = await fetch(`${SERVERURL}Productos/agregar_boveda`, {
-            method: "POST",
-            body: formData,
+          method: "POST",
+          body: formData,
         });
 
         const result = await response.json();
 
         if (result.status === 200) {
-            Swal.fire({
-                icon: "success",
-                title: result.title,
-                text: result.message,
-                showConfirmButton: false,
-                timer: 2000,
-            });
+          Swal.fire({
+            icon: "success",
+            title: result.title,
+            text: result.message,
+            showConfirmButton: false,
+            timer: 2000,
+          });
 
-            // Cerrar modal
-            const modal = document.getElementById("modalAgregarBoveda");
-            if (modal) {
-                const modalBootstrap = bootstrap.Modal.getInstance(modal);
-                if (modalBootstrap) modalBootstrap.hide();
-            }
+          // Cerrar modal
+          const modal = document.getElementById("modalAgregarBoveda");
+          if (modal) {
+            const modalBootstrap = bootstrap.Modal.getInstance(modal);
+            if (modalBootstrap) modalBootstrap.hide();
+          }
 
-            // Limpiar formulario
-            document.getElementById("formAgregarBoveda").reset();
+          // Limpiar formulario
+          document.getElementById("formAgregarBoveda").reset();
 
-            // Recargar DataTable
-            initDataTable();
+          // Recargar DataTable
+          initDataTable();
         } else {
-            Swal.fire({
-                icon: "error",
-                title: result.title || "Error",
-                text: result.message || "Ocurrió un error al agregar la bóveda.",
-            });
+          Swal.fire({
+            icon: "error",
+            title: result.title || "Error",
+            text: result.message || "Ocurrió un error al agregar la bóveda.",
+          });
         }
-    } catch (error) {
+      } catch (error) {
         console.error("Error al agregar Boveda:", error);
         Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "No se pudo procesar la solicitud.",
+          icon: "error",
+          title: "Error",
+          text: "No se pudo procesar la solicitud.",
         });
-    }
-});
+      }
+    });
 });
