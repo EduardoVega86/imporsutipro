@@ -2,7 +2,8 @@
 session_start();
 require 'vendor/autoload.php';
 //use PHPExcel_IOFactory;
-
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class Productos extends Controller
 {
@@ -709,7 +710,6 @@ class Productos extends Controller
 
     public function importarExcel()
     {
-
         // Obtener el ID de inventario desde el formulario
         $id_inventario = $_POST['id_bodega'];
 
@@ -717,68 +717,93 @@ class Productos extends Controller
         if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
             $fileTmpPath = $_FILES['archivo']['tmp_name'];
             $fileName = $_FILES['archivo']['name'];
-            $fileSize = $_FILES['archivo']['size'];
-            $fileType = $_FILES['archivo']['type'];
             $fileNameCmps = explode(".", $fileName);
             $fileExtension = strtolower(end($fileNameCmps));
 
             // Permitir solo archivos Excel
-            $allowedfileExtensions = array('xlsx', 'xls');
+            $allowedfileExtensions = ['xlsx', 'xls'];
             if (in_array($fileExtension, $allowedfileExtensions)) {
-                $inputFileType = PHPExcel_IOFactory::identify($fileTmpPath);
-                $objReader = PHPExcel_IOFactory::createReader($inputFileType);
-                $spreadsheet = $objReader->load($fileTmpPath);
-                $sheet = $spreadsheet->getActiveSheet();
-                $data = $sheet->toArray();
-                $date_added = date("Y-m-d H:i:s");
-                // Aquí puedes procesar los datos del Excel
-                $fila = 0;
-                $agregados = 0;
-                //echo count($data);
-                foreach ($data as $row) {
-                    // echo $fila;
-                    if ($fila > 0) {
+                try {
+                    // Cargar el archivo Excel
+                    $spreadsheet = IOFactory::load($fileTmpPath);
+                    $sheet = $spreadsheet->getActiveSheet();
+                    $data = $sheet->toArray();
 
-                        //print_r ($data[$fila]); 
-                        //  $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref);
-                        $response = $this->model->agregarProducto($data[$fila][0], $data[$fila][1], $data[$fila][2], $data[$fila][3], $data[$fila][4], $data[$fila][5], $data[$fila][6], '1', '1', $date_added, $data[$fila][7], '1', '1', '1', '0', '0', $_SESSION['id_plataforma'], $data[$fila][8], $id_inventario, $data[$fila][9], $data[$fila][10], $data[$fila][11], '', '0');
-                        // echo $response ['status'];
-                        if ($response['status'] == 200) {
-                            $agregados = $agregados + 1;
+                    $date_added = date("Y-m-d H:i:s");
+                    $fila = 0;
+                    $agregados = 0;
+
+                    foreach ($data as $row) {
+                        if ($fila > 0) {
+                            $response = $this->model->agregarProducto(
+                                $row[0],
+                                $row[1],
+                                $row[2],
+                                $row[3],
+                                $row[4],
+                                $row[5],
+                                $row[6],
+                                '1',
+                                '1',
+                                $date_added,
+                                $row[7],
+                                '1',
+                                '1',
+                                '1',
+                                '0',
+                                '0',
+                                $_SESSION['id_plataforma'],
+                                $row[8],
+                                $id_inventario,
+                                $row[9],
+                                $row[10],
+                                $row[11],
+                                '',
+                                '0'
+                            );
+
+                            if ($response['status'] == 200) {
+                                $agregados++;
+                            }
                         }
-                        //print_r($response);
-
-                        // echo $data[$fila][0];
-                        //echo 'fila';
+                        $fila++;
                     }
-                    // $row es un array que contiene todas las celdas de una fila
-                    //  print_r($row); // Ejemplo de impresión de la fila
-                    $fila++;
+
+                    if ($agregados > 0) {
+                        $response = [
+                            'status' => 200,
+                            'title' => 'Petición exitosa',
+                            'message' => $agregados . ' productos importados correctamente'
+                        ];
+                    } else {
+                        $response = [
+                            'status' => 500,
+                            'title' => 'Petición fallida',
+                            'message' => 'No se agregaron productos. Revise el archivo e inténtelo nuevamente.'
+                        ];
+                    }
+                } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
+                    $response = [
+                        'status' => 500,
+                        'title' => 'Error',
+                        'message' => 'Error al procesar el archivo: ' . $e->getMessage()
+                    ];
                 }
-                if ($agregados > 0) {
-                    $response['status'] = 200;
-                    $response['title'] = 'Peticion exitosa';
-                    $response['message'] = $agregados . ' productos importados correctamente';
-                } else {
-                    $response['status'] = 500;
-                    $response['title'] = 'Peticion exitosa';
-                    $response['message'] = 'NO se agregaron productos, revise el archvio e inténtelo nuevamente';
-                }
-                // Puedes almacenar la información procesada en la base de datos o manejarla como desees
-                //$response = $this->model->importacion_masiva($data);
-                // echo json_encode($response);
             } else {
-                $response['status'] = 500;
-                $response['title'] = 'Error';
-                $response['message'] = 'Solo se permiten archivos Excel (xlsx, xls).';
-                // return json_encode(['error' => 'Solo se permiten archivos Excel (xlsx, xls).']);
+                $response = [
+                    'status' => 500,
+                    'title' => 'Error',
+                    'message' => 'Solo se permiten archivos Excel (xlsx, xls).'
+                ];
             }
         } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Error al subir el archivo.';
-            //echo json_encode(['error' => 'Error al subir el archivo.']);
+            $response = [
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Error al subir el archivo.'
+            ];
         }
+
         echo json_encode($response);
     }
 
