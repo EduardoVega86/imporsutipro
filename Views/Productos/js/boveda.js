@@ -182,6 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const nombre = document.getElementById("editNombreBoveda").value;
       const categoria = document.getElementById("editCategoriaBoveda").value;
       const proveedor = document.getElementById("editProveedorBoveda").value;
+      const imagen = imagenInput.files[0];
       const ejemploLanding =
         document.getElementById("editEjemploLanding").value;
       const duplicarFunnel =
