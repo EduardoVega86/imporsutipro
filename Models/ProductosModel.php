@@ -199,7 +199,7 @@ class ProductosModel extends Query
             }
         } else {
             $sql = "INSERT INTO bovedas (id_producto, id_linea, id_plataforma, ejemplo_landing, duplicar_funnel, videos)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    VALUES (?, ?, ?, ?, ?, ?)";
             $data = [
                 $idProducto,
                 $idLinea,
