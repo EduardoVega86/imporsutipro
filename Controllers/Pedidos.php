@@ -1144,4 +1144,44 @@ class Pedidos extends Controller
         $response = $this->model->agregar_numero_chat($telefono, $nombre, $apellido, $id_plataforma);
         echo json_encode($response);
     }
+
+    public function agregar_mensaje()
+    {
+        // Recibir y validar datos del cliente
+        $id_plataforma = $_POST['id_plataforma'] ?? null;
+        $id_cliente = $_POST['id_cliente'] ?? null;
+        $mid_mensaje = $_POST['mid_mensaje'] ?? null;
+        $tipo_mensaje = $_POST['tipo_mensaje'] ?? null;
+        $texto_mensaje = $_POST['texto_mensaje'] ?? null;
+        $ruta_archivo = $_POST['ruta_archivo'] ?? null;
+        $rol_mensaje = $_POST['rol_mensaje'] ?? 1; // Valor predeterminado
+        $celular_recibe = $_POST['celular_recibe'] ?? null;
+        $phone_whatsapp_from = $_POST['phone_whatsapp_from'] ?? null;
+
+        // Validar datos requeridos
+        if (!$id_plataforma || !$id_cliente || !$mid_mensaje || !$tipo_mensaje || !$texto_mensaje || !$celular_recibe || !$phone_whatsapp_from) {
+            echo json_encode([
+                'status' => 400,
+                'title' => 'Datos incompletos',
+                'message' => 'Faltan datos obligatorios para insertar el mensaje.',
+            ]);
+            return;
+        }
+
+        // Llamar al modelo para insertar el mensaje
+        $response = $this->model->insertar_mensaje(
+            $id_plataforma,
+            $id_cliente,
+            $mid_mensaje,
+            $tipo_mensaje,
+            $texto_mensaje,
+            $ruta_archivo,
+            $rol_mensaje,
+            $celular_recibe,
+            $phone_whatsapp_from
+        );
+
+        // Responder con JSON
+        echo json_encode($response);
+    }
 }
