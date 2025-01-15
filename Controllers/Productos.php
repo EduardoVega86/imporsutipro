@@ -148,10 +148,16 @@ class Productos extends Controller
             $idProducto = $_POST['id_producto'];
             $idLinea = $_POST['categoria'];
             $idProveedor = $_POST['proveedor'];
-            $imagen = $_FILES['imagen'];
             $ejemploLanding = $_POST['ejemploLanding'] ?? '';
             $duplicarFunnel = $_POST['duplicarFunnel'] ?? '';
             $videos = $_POST['videosBoveda'] ?? '';
+
+            // Verificar si se ha subido una imagen sin errores
+            if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+                $imagen = $_FILES['imagen'];
+            } else {
+                $imagen = null; // Puedes establecer un valor por defecto o null
+            }
 
             // Insertar
             $result = $this->model->insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
