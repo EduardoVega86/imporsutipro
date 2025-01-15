@@ -130,6 +130,71 @@ class ApiModel extends Query
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 
+    public function login($correo, $contrasena)
+    {
+        $response = $this->initialResponse();
+        try {
+            $usuario = $this->correoExistente($correo);
+            if (!$usuario) {
+                throw new Exception('El correo no se encuentra registrado');
+            }
+
+            if (!password_verify($contrasena, $usuario[0]['con_users'])) {
+                throw new Exception('Contraseña incorrecta');
+            }
+
+            $jwt = $this->existeJWT($correo);
+            if ($jwt) {
+                $jwt = $jwt[0]['jwt'];
+                $uuid = $jwt[0]['uuid'];
+            } else {
+                $jwt = $this->generarJWTUnico($correo, $usuario);
+                $uuid = $this->uuid();
+                $this->asignarJWT($correo, $jwt, $uuid);
+            }
+
+            $response['status'] = 200;
+            $response['message'] = 'Inicio de sesión exitoso';
+            $response['jwt'] = $jwt;
+            $response['uuid'] = $uuid;
+            return $response;
+        } catch (Exception $e) {
+            $response['status'] = 400;
+            $response['message'] = $e->getMessage();
+            return $response;
+        }
+    }
+
+    public function pedido($uuid, $datos)
+    {
+        $response = $this->initialResponse();
+        try {
+            if ($uuid === null) {
+                throw new Exception('Faltan datos requeridos');
+            }
+
+            $usuario = $this->validarUUID($uuid);
+            if (!$usuario) {
+                throw new Exception('UUID no válido');
+            }
+
+            $response['status'] = 200;
+            $response['message'] = 'Pedido realizado';
+            return $response;
+        } catch (Exception $e) {
+            $response['status'] = 400;
+            $response['message'] = $e->getMessage();
+            return $response;
+        }
+    }
+
+    private function validarUUID($uuid)
+    {
+        $sql = "SELECT uuid FROM users WHERE uuid = ?";
+        $data = [$uuid];
+        return $this->dselect($sql, $data);
+    }
+
     private function enviarCorreo($correo, $nombre)
     {
         require_once 'PHPMailer/PHPMailer.php';

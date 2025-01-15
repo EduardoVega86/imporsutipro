@@ -42,6 +42,48 @@ class Api extends Controller
             echo json_encode(['status' => 500, 'message' => 'Error interno del servidor', 'error' => $e->getMessage()]);
         }
     }
+
+    public function login()
+    {
+        $datos = json_decode(file_get_contents("php://input"), true);
+        $correo = $datos['correo'] ?? null;
+        $contrasena = $datos['contrasena'] ?? null;
+
+        if (!$correo || !$contrasena) {
+            http_response_code(400);
+            echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+            return;
+        }
+
+        $response = $this->model->login($correo, $contrasena);
+        if ($response['status'] === 200) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        echo json_encode($response);
+    }
+
+    public function pedido($uuid)
+    {
+        if ($uuid === null) {
+            http_response_code(400);
+            echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+            return;
+        }
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            http_response_code(400);
+            echo json_encode(['status' => 400, 'message' => 'Método no permitido']);
+        }
+        $datos = json_decode(file_get_contents("php://input"), true);
+        $response = $this->model->pedido($uuid, $datos);
+        if ($response['status'] === 200) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        echo json_encode($response);
+    }
     private function logRequest($endpoint, $method, $body)
     {
         $logData = [
