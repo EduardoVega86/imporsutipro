@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const videosBoveda = document.getElementById("editVideosBoveda").value;
       // Crear objeto con los datos
       let formData = new FormData();
-      formData.append("id_boveda", $("#editar_idBoveda").val());
+      formData.append("id_boveda", idBoveda);
       formData.append("id_producto", nombre);
       formData.append("id_linea", categoria);
       formData.append("id_plataforma", proveedor);
