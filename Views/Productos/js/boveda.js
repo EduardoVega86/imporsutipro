@@ -151,7 +151,7 @@ async function abrirModalEditar(id_boveda) {
       // Asignar los valores correctos a los Select2
       // Dado que no hay 'id_producto', usaremos 'nombre' como valor si es apropiado
       // Si 'nombreBoveda' realmente necesita un 'id_producto', debes asegurarte de que 'boveda' data lo incluya
-      $("#editNombreBoveda").val(boveda[0].id_producto).trigger("change"); // Ajusta esto según corresponda
+      $("#editNombreBoveda").val(boveda[0].id_boveda).trigger("change"); // Ajusta esto según corresponda
       $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger("change");
       $("#editProveedorBoveda").val(boveda[0].id_plataforma).trigger("change");
 
