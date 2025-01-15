@@ -7,6 +7,7 @@
             </div>
             <div class="modal-body">
                 <form id="formEditarBoveda">
+                    <input type="hidden" id="editar_idBoveda" name="editar_idBoveda">
                     <div class="mb-3">
                         <label for="editNombreBoveda" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="editNombreBoveda" required>

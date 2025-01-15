@@ -150,6 +150,7 @@ async function abrirModalEditar(id_boveda) {
       $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
       $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
       $("#editVideosBoveda").val(boveda[0].videos);
+      $("#editar_idBoveda").val(boveda[0].videos);
 
       // Dejar vacío el campo de archivo
       document.getElementById("imagen").value = "";
@@ -193,10 +194,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const videosBoveda = document.getElementById("editVideosBoveda").value;
       // Crear objeto con los datos
       let formData = new FormData();
+      formData.append("id_boveda", $("#editar_idBoveda").val());
       formData.append("id_producto", nombre);
       formData.append("categoria", categoria);
       formData.append("proveedor", proveedor);
-      formData.append("Editarimagen", imagen);
       formData.append("ejemploLanding", ejemploLanding);
       formData.append("duplicarFunnel", duplicarFunnel);
       formData.append("videosBoveda", videosBoveda);
