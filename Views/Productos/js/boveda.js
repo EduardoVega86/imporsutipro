@@ -139,6 +139,8 @@ async function abrirModalEditar(id_boveda) {
     const response = await fetch(
       `${SERVERURL}Productos/obtenerBoveda/${idBoveda}`
     );
+    const text = await response.text(); // Obtener la respuesta en texto
+    console.log("Respuesta del servidor:", text);
     const boveda = await response.json();
 
     console.log("Datos de la bóveda:", boveda); // Verifica los datos recibidos

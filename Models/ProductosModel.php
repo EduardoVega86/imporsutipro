@@ -60,7 +60,7 @@ class ProductosModel extends Query
     public function obtenerBoveda($id)
     {
         var_dump($id); // Para verificar el valo
-        $sql = "SELECT * FROM bovedas WHERE id_boveda= ?";
+        $sql = "SELECT * FROM bovedas WHERE id_boveda= $id";
         return $this->select($sql);
     }
 
