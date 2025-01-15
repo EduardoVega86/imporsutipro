@@ -191,9 +191,11 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("id_producto", nombre);
       formData.append("categoria", categoria);
       formData.append("proveedor", proveedor);
+      formData.append("imagen", imagen);
       formData.append("ejemploLanding", ejemploLanding);
       formData.append("duplicarFunnel", duplicarFunnel);
       formData.append("videosBoveda", videosBoveda);
+
       try {
         // Petición POST para editar la bóveda
         const response = await fetch(`${SERVERURL}Productos/editar_boveda`, {
