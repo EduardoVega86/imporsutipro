@@ -189,7 +189,6 @@ class Productos extends Controller
 
     public function editar_boveda()
     {
-        $id = $_POST['id'];
         $id_boveda = $_POST['id_boveda'];
         $id_producto = $_POST['id_producto']; // Nuevo campo
         $id_linea = $_POST['id_linea'];
@@ -198,7 +197,7 @@ class Productos extends Controller
         $ejemplo_landing = $_POST['ejemplo_landing'];
         $duplicar_funnel = $_POST['duplicar_funnel'];
         $videos = $_POST['videos'];
-        $response = $this->model->editarBoveda($id, $id_boveda, $id_linea, $id_plataforma, $id_producto, $imagen, $ejemplo_landing, $duplicar_funnel, $videos);
+        $response = $this->model->editarBoveda($id_boveda, $id_linea, $id_plataforma, $id_producto, $imagen, $ejemplo_landing, $duplicar_funnel, $videos);
         echo json_encode($response);
     }
 
