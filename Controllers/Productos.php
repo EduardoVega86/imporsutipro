@@ -144,7 +144,7 @@ class Productos extends Controller
 
     public function agregar_boveda()
     {
-        if (isset($_POST['id_producto'], $_POST['categoria'], $_POST['proveedor'])) {
+        if (isset($_POST['nombre'], $_POST['categoria'], $_POST['proveedor'])) {
             $idProducto = $_POST['id_producto'];
             $idLinea = $_POST['categoria'];
             $idProveedor = $_POST['proveedor'];
