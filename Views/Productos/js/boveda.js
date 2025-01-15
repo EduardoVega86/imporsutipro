@@ -197,16 +197,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const imagen = imagenIn.files[0];
       
-      // Validar que se haya seleccionado una imagen
-      if (!imagen) {
-        Swal.fire({
-          icon: "warning",
-          title: "Falta la imagen",
-          text: "Por favor, selecciona una imagen para la bóveda.",
-        });
-        return;
-      }
-
       let formData = new FormData();
       formData.append("id_boveda", idBoveda);
       formData.append("id_producto", nombre);
@@ -216,6 +206,11 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("duplicar_funnel", duplicarFunnel);
       formData.append("videos", videosBoveda);
       formData.append("imagen", imagen)
+
+      // Añadir la imagen solo si se ha seleccionado
+      if (imagen) {
+        formData.append("imagen", imagen);
+      }
 
 
       try {
