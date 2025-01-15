@@ -193,7 +193,7 @@ class Productos extends Controller
         $id_producto = $_POST['id_producto']; // Nuevo campo
         $id_linea = $_POST['id_linea'];
         $id_plataforma = $_POST['id_plataforma'];
-        $imagen = $_FILES['imagen'];
+        $imagen = $_FILES['imagen'] ?? "";
         $ejemplo_landing = $_POST['ejemplo_landing'];
         $duplicar_funnel = $_POST['duplicar_funnel'];
         $videos = $_POST['videos'];
