@@ -190,15 +190,17 @@ class Productos extends Controller
     public function editar_boveda()
     {
         $id_boveda = $_POST['id_boveda'];
+        $id_producto = $_POST['id_producto']; // Nuevo campo
         $id_linea = $_POST['id_linea'];
         $id_plataforma = $_POST['id_plataforma'];
         $imagen = $_FILES['imagen'];
         $ejemplo_landing = $_POST['ejemplo_landing'];
         $duplicar_funnel = $_POST['duplicar_funnel'];
         $videos = $_POST['videos'];
-        $response = $this->model->editarBoveda($id_boveda, $id_linea, $id_plataforma, $imagen, $ejemplo_landing, $duplicar_funnel, $videos, $_SESSION['id_plataforma']);
+        $response = $this->model->editarBoveda($id_boveda, $id_linea, $id_plataforma, $id_producto, $imagen, $ejemplo_landing, $duplicar_funnel, $videos);
         echo json_encode($response);
     }
+
 
     public function obtenerProveedores()
     {

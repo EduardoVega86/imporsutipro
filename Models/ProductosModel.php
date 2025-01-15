@@ -63,7 +63,7 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
-    public function editarBoveda($id_boveda, $id_linea, $imagen, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos)
+    public function editarBoveda($id_boveda, $id_linea, $id_plataforma, $id_producto, $imagen, $ejemplo_landing, $duplicar_funnel, $videos)
     {
         $response = $this->initialResponse();
 
@@ -73,18 +73,18 @@ class ProductosModel extends Query
 
         if ($uploadResponse['status'] == 200) {
             $target_file = $uploadResponse['data'];
-            // Insertar en la base de datos
-            $sql = "UPDATE `bovedas` SET `id_bovedaa` = ?, `id_linea` = ?, `id_plataforma` = ?, `ejemplo_landing` = ?, `duplicar_funnel` = ?, `videos` = ? WHERE `id_boveda` = ? ";
-            $data = [$id_boveda, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos];
+            // Actualizar en la base de datos
+            $sql = "UPDATE `bovedas` SET `id_producto` = ?, `id_linea` = ?, `id_plataforma` = ?, `ejemplo_landing` = ?, `duplicar_funnel` = ?, `videos` = ?, `img` = ? WHERE `id_boveda` = ? ";
+            $data = [$id_producto, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos, $target_file, $id_boveda];
             $actualizar_boveda = $this->update($sql, $data);
             if ($actualizar_boveda == 1) {
                 $response['status'] = 200;
                 $response['title'] = 'Petición exitosa';
-                $response['message'] = 'Bóveda agregada correctamente';
+                $response['message'] = 'Bóveda actualizada correctamente';
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error';
-                $response['message'] = 'Error al subir la bóveda';
+                $response['message'] = 'Error al actualizar la bóveda';
             }
         } else {
             // Error al subir la imagen
@@ -95,6 +95,8 @@ class ProductosModel extends Query
         }
         return $response;
     }
+
+
 
     public function obtener_productos_boveda($id_plataforma)
     {
