@@ -161,21 +161,51 @@ class ProductosModel extends Query
     {
         $response = $this->initialResponse();
 
-        // Instanciar ImageUploader con el directorio de destino
-        $uploader = new ImageUploader("public/img/boveda/");
-        $uploadResponse = $uploader->uploadImage($imagen);
+        if ($imagen !== null) {
 
-        if ($uploadResponse['status'] == 200) {
-            $target_file = $uploadResponse['data'];
-            // Insertar en la base de datos
-            $sql = "INSERT INTO bovedas (id_producto, id_linea, id_plataforma, ejemplo_landing, img, duplicar_funnel, videos)
+            // Instanciar ImageUploader con el directorio de destino
+            $uploader = new ImageUploader("public/img/boveda/");
+            $uploadResponse = $uploader->uploadImage($imagen);
+
+            if ($uploadResponse['status'] == 200) {
+                $target_file = $uploadResponse['data'];
+                // Insertar en la base de datos
+                $sql = "INSERT INTO bovedas (id_producto, id_linea, id_plataforma, ejemplo_landing, img, duplicar_funnel, videos)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $data = [
+                    $idProducto,
+                    $idLinea,
+                    $idProveedor,
+                    $ejemploLanding,
+                    $target_file,
+                    $duplicarFunnel,
+                    $videos
+                ];
+                $insertar_boveda = $this->insert($sql, $data);
+                if ($insertar_boveda == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Petición exitosa';
+                    $response['message'] = 'Bóveda agregada correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al subir la bóveda';
+                }
+            } else {
+                // Error al subir la imagen
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = $uploadResponse['message'] ?? "Error al subir la imagen.";
+                error_log("Error al subir la imagen: " . $uploadResponse['message']);
+            }
+        } else {
+            $sql = "INSERT INTO bovedas (id_producto, id_linea, id_plataforma, ejemplo_landing, duplicar_funnel, videos)
                     VALUES (?, ?, ?, ?, ?, ?, ?)";
             $data = [
                 $idProducto,
                 $idLinea,
                 $idProveedor,
                 $ejemploLanding,
-                $target_file,
                 $duplicarFunnel,
                 $videos
             ];
@@ -189,14 +219,7 @@ class ProductosModel extends Query
                 $response['title'] = 'Error';
                 $response['message'] = 'Error al subir la bóveda';
             }
-        } else {
-            // Error al subir la imagen
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = $uploadResponse['message'] ?? "Error al subir la imagen.";
-            error_log("Error al subir la imagen: " . $uploadResponse['message']);
         }
-
         return $response;
     }
 
