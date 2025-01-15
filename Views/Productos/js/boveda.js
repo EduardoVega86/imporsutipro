@@ -147,6 +147,7 @@ async function abrirModalEditar(id_boveda) {
       $("#editNombreBoveda").val(boveda[0].id_producto).trigger("change");
       $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger("change");
       $("#editProveedorBoveda").val(boveda[0].id_plataforma).trigger("change");
+      $("#imagen").val(boveda[0].id_plataforma).trigger("change");
       $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
       $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
       $("#editVideosBoveda").val(boveda[0].videos);
