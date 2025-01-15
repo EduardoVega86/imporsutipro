@@ -132,43 +132,31 @@ const cargarProveedores = async () => {
 
 // Delegar evento para el botón "Editar"
 async function abrirModalEditar(id_boveda) {
-  const idBoveda = id_boveda; // Obtener ID del botón
-  const formEditarBoveda = document.getElementById("formEditarBoveda");
-
   try {
-    const response = await fetch(
-      `${SERVERURL}Productos/obtenerBoveda/${idBoveda}`
-    );
-    const text = await response.text(); // Obtener la respuesta en texto
-    console.log("Respuesta del servidor:", text);
-    const boveda = await response.json();
+    const response = await fetch(`${SERVERURL}Productos/obtenerBoveda/${id_boveda}`);
 
-    console.log("Datos de la bóveda:", boveda); // Verifica los datos recibidos
+    if (!response.ok) {
+      throw new Error(`Error del servidor: ${response.status}`);
+    }
 
-    // Verifica que se recibieron datos
-    if (boveda.length > 0) {
-      // Asignar el ID al formulario
-      formEditarBoveda.dataset.id = idBoveda;
+    const boveda = await response.json(); // Leer directamente como JSON
+    console.log("Datos de la bóveda:", boveda);
 
-      // Asignar los valores correctos a los Select2
-      // Dado que no hay 'id_producto', usaremos 'nombre' como valor si es apropiado
-      // Si 'nombreBoveda' realmente necesita un 'id_producto', debes asegurarte de que 'boveda' data lo incluya
-      $("#editNombreBoveda").val(boveda[0].id_producto).trigger("change"); // Ajusta esto según corresponda
+    if (Array.isArray(boveda) && boveda.length > 0) {
+      // Configurar valores en el modal
+      $("#editNombreBoveda").val(boveda[0].id_producto).trigger("change");
       $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger("change");
       $("#editProveedorBoveda").val(boveda[0].id_plataforma).trigger("change");
-
-      // Asignar otros campos de texto
       $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
       $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
       $("#editVideosBoveda").val(boveda[0].videos);
 
-      // Mostrar el modal
       $("#modalEditarBoveda").modal("show");
     } else {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Datos de la bóveda no encontrados.",
+        text: "No se encontraron datos para la bóveda.",
       });
     }
   } catch (error) {
