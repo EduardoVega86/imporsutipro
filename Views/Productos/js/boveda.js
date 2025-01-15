@@ -207,12 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("videos", videosBoveda);
       formData.append("imagen", imagen)
 
-      // Añadir la imagen solo si se ha seleccionado
-      if (imagen) {
-        formData.append("imagen", imagen);
-      }
-
-
       try {
         // Petición POST para editar la bóveda
         const response = await fetch(`${SERVERURL}Productos/editar_boveda`, {
@@ -325,17 +319,7 @@ window.addEventListener("load", async () => {
       const videosBoveda = document.getElementById("videosBoveda").value;
       const imagenInput = document.getElementById("imagen");
       const imagen = imagenInput.files[0];
-
-      // Validar que se haya seleccionado una imagen
-      if (!imagen) {
-        Swal.fire({
-          icon: "warning",
-          title: "Falta la imagen",
-          text: "Por favor, selecciona una imagen para la bóveda.",
-        });
-        return;
-      }
-
+      
       // Crear objeto FormData y agregar los campos
       let formData = new FormData();
       formData.append("id_producto", nombre);
