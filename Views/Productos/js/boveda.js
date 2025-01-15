@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formEditarBoveda.addEventListener("submit", async (e) => {
       e.preventDefault(); // Evita recargar la página
       // Capturar datos del formulario
-      const idBoveda = formEditarBoveda.dataset.id || ""; // Asegúrate de configurar el ID en el formulario
+      const idBoveda = document.getElementById("editar_idBoveda").value; // Asegúrate de configurar el ID en el formulario
       const nombre = document.getElementById("editNombreBoveda").value;
       const categoria = document.getElementById("editCategoriaBoveda").value;
       const proveedor = document.getElementById("editProveedorBoveda").value;
