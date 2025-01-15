@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("ejemploLanding", ejemploLanding);
       formData.append("duplicarFunnel", duplicarFunnel);
       formData.append("videosBoveda", videosBoveda);
-      formData.append('imagen', $('#imagen')[0].files[0]);
+      formData.append('imagen', $('#Editarimagen')[0].files[0]);
 
       try {
         // Petición POST para editar la bóveda
