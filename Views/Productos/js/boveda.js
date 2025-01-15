@@ -330,7 +330,7 @@ window.addEventListener("load", async () => {
 
       // Crear objeto FormData y agregar los campos
       let formData = new FormData();
-      formData.append("nombre", nombre);
+      formData.append("id_producto", nombre);
       formData.append("categoria", categoria);
       formData.append("proveedor", proveedor);
       formData.append("imagen", imagen);
