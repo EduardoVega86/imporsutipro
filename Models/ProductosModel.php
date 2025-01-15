@@ -157,7 +157,7 @@ class ProductosModel extends Query
     }
 
 
-    public function insertarBoveda($nombre, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)
+    public function insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)
     {
         $response = $this->initialResponse();
 
@@ -168,10 +168,10 @@ class ProductosModel extends Query
         if ($uploadResponse['status'] == 200) {
             $target_file = $uploadResponse['data'];
             // Insertar en la base de datos
-            $sql = "INSERT INTO bovedas (nombre, id_linea, id_plataforma, ejemplo_landing, img, duplicar_funnel, videos)
+            $sql = "INSERT INTO bovedas (id_producto, id_linea, id_plataforma, ejemplo_landing, img, duplicar_funnel, videos)
                     VALUES (?, ?, ?, ?, ?, ?, ?)";
             $data = [
-                $nombre,
+                $idProducto,
                 $idLinea,
                 $idProveedor,
                 $ejemploLanding,
