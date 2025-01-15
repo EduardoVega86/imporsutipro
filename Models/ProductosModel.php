@@ -162,7 +162,6 @@ class ProductosModel extends Query
         $response = $this->initialResponse();
 
         if ($imagen !== null) {
-
             // Instanciar ImageUploader con el directorio de destino
             $uploader = new ImageUploader("public/img/boveda/");
             $uploadResponse = $uploader->uploadImage($imagen);

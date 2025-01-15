@@ -319,7 +319,7 @@ window.addEventListener("load", async () => {
       const videosBoveda = document.getElementById("videosBoveda").value;
       const imagenInput = document.getElementById("imagen");
       const imagen = imagenInput.files[0];
-      
+
       // Crear objeto FormData y agregar los campos
       let formData = new FormData();
       formData.append("id_producto", nombre);
