@@ -196,11 +196,11 @@ document.addEventListener("DOMContentLoaded", () => {
       let formData = new FormData();
       formData.append("id_boveda", $("#editar_idBoveda").val());
       formData.append("id_producto", nombre);
-      formData.append("categoria", categoria);
-      formData.append("proveedor", proveedor);
-      formData.append("ejemploLanding", ejemploLanding);
-      formData.append("duplicarFunnel", duplicarFunnel);
-      formData.append("videosBoveda", videosBoveda);
+      formData.append("id_linea", categoria);
+      formData.append("id_plataforma", proveedor);
+      formData.append("ejemplo_landing", ejemploLanding);
+      formData.append("duplicar_funnel", duplicarFunnel);
+      formData.append("videos", videosBoveda);
       formData.append('imagen', $('#Editarimagen')[0].files[0]);
 
       try {
