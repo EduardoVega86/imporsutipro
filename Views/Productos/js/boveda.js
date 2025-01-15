@@ -150,10 +150,11 @@ async function abrirModalEditar(id_boveda) {
       $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
       $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
       $("#editVideosBoveda").val(boveda[0].videos);
-      $("#editar_idBoveda").val(boveda[0].videos);
+      $("#editar_idBoveda").val(boveda[0].id_boveda);
+
 
       // Dejar vacío el campo de archivo
-      document.getElementById("imagen").value = "";
+      document.getElementById("Editarimagen").value = "";
 
       // Mostrar el modal
       $("#modalEditarBoveda").modal("show");
@@ -182,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formEditarBoveda.addEventListener("submit", async (e) => {
       e.preventDefault(); // Evita recargar la página
       // Capturar datos del formulario
-      const idBoveda = document.getElementById("editar_idBoveda").value; // Asegúrate de configurar el ID en el formulario
+      const idBoveda = document.getElementById("editar_idBoveda").value;
       const nombre = document.getElementById("editNombreBoveda").value;
       const categoria = document.getElementById("editCategoriaBoveda").value;
       const proveedor = document.getElementById("editProveedorBoveda").value;

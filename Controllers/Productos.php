@@ -189,7 +189,7 @@ class Productos extends Controller
 
     public function editar_boveda()
     {
-        $id_boveda = $_POST['id_boveda'];
+        $id_boveda = $_POST['editar_idBoveda'];
         $id_producto = $_POST['id_producto']; // Nuevo campo
         $id_linea = $_POST['id_linea'];
         $id_plataforma = $_POST['id_plataforma'];
