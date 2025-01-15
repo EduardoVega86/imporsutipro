@@ -202,7 +202,6 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("ejemplo_landing", ejemploLanding);
       formData.append("duplicar_funnel", duplicarFunnel);
       formData.append("videos", videosBoveda);
-      formData.append('imagen', $('#Editarimagen')[0].files[0]);
 
       // Agregar la imagen solo si se ha seleccionado una
       const imagenInput = document.getElementById('Editarimagen');
