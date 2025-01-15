@@ -1,5 +1,6 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Productos/Modales/agregar_bovedas.php'; ?>
+<?php require_once './Views/Productos/Modales/editar_bovedas.php'; ?>
 <?php require_once './Views/Productos/css/bovedas_style.php'; ?>
 
 
@@ -21,6 +22,7 @@
                         <th>Nombre</th>
                         <th>Categoría</th>
                         <th>Proveedor</th>
+                        <th>Imagen</th>
                         <th>Ejempo Landing</th>
                         <th>Duplicar Funnel</th>
                         <th>Videos</th>
