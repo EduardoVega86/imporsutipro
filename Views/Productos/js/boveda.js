@@ -139,7 +139,7 @@ async function abrirModalEditar(id_boveda) {
       throw new Error(`Error del servidor: ${response.status}`);
     }
 
-    const boveda = await response.json(); // Leer directamente como JSON
+    const boveda = await response.json();
     console.log("Datos de la bóveda:", boveda);
 
     if (Array.isArray(boveda) && boveda.length > 0) {
@@ -147,11 +147,14 @@ async function abrirModalEditar(id_boveda) {
       $("#editNombreBoveda").val(boveda[0].id_producto).trigger("change");
       $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger("change");
       $("#editProveedorBoveda").val(boveda[0].id_plataforma).trigger("change");
-      $("#imagen").val(boveda[0].id_plataforma).trigger("change");
       $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
       $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
       $("#editVideosBoveda").val(boveda[0].videos);
 
+      // Dejar vacío el campo de archivo
+      document.getElementById("imagen").value = "";
+
+      // Mostrar el modal
       $("#modalEditarBoveda").modal("show");
     } else {
       Swal.fire({
