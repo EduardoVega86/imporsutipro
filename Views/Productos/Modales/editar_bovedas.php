@@ -7,6 +7,7 @@
             </div>
             <div class="modal-body">
                 <form id="formEditarBoveda">
+                    <input type="hidden" id="editar_idBoveda" name="editar_idBoveda">
                     <!-- Nombre -->
                     <div class="mb-3">
                         <label for="editNombreBoveda" class="form-label">Nombre </label>
@@ -30,7 +31,6 @@
                             <!-- Opciones dinámicas -->
                         </select>
                     </div>
-
                     <!--Imagen -->
                     <div class="mb-3">
                         <label for="imagen" class="form-label">Imagen</label>
