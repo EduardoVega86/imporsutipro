@@ -193,7 +193,20 @@ document.addEventListener("DOMContentLoaded", () => {
       const duplicarFunnel =
         document.getElementById("editDuplicarFunnel").value;
       const videosBoveda = document.getElementById("editVideosBoveda").value;
-      // Crear objeto con los datos
+      const imagenIn = document.getElementById("Editarimagen")
+
+      const imagen = imagenIn.files[0];
+      
+      // Validar que se haya seleccionado una imagen
+      if (!imagen) {
+        Swal.fire({
+          icon: "warning",
+          title: "Falta la imagen",
+          text: "Por favor, selecciona una imagen para la bóveda.",
+        });
+        return;
+      }
+
       let formData = new FormData();
       formData.append("id_boveda", idBoveda);
       formData.append("id_producto", nombre);
@@ -202,14 +215,8 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("ejemplo_landing", ejemploLanding);
       formData.append("duplicar_funnel", duplicarFunnel);
       formData.append("videos", videosBoveda);
+      formData.append("imagen", imagen)
 
-      // Agregar la imagen solo si se ha seleccionado una
-      const imagenInput = document.getElementById('Editarimagen');
-      if (imagenInput.files.length > 0) {
-          formData.append('imagen', imagenInput.files[0]);
-      }
-
-      
 
       try {
         // Petición POST para editar la bóveda
