@@ -69,15 +69,15 @@ class ProductosModel extends Query
     {
         $response = $this->initialResponse();
 
-        if ($imagen != '') {
+        if ($imagen !== null) {
             // Instanciar ImageUploader con el directorio de destino
             $uploader = new ImageUploader("public/img/boveda/");
             $uploadResponse = $uploader->uploadImage($imagen);
-
             if ($uploadResponse['status'] == 200) {
                 $target_file = $uploadResponse['data'];
                 // Actualizar en la base de datos
-                $sql = "UPDATE `bovedas` SET `id_producto` = ?, `id_linea` = ?, `id_plataforma` = ?, `ejemplo_landing` = ?, `duplicar_funnel` = ?, `videos` = ?, `img` = ? WHERE `id_boveda` = ? ";
+                $sql = "UPDATE `bovedas` SET `id_producto` = ?, `id_linea` = ?, `id_plataforma` = ?, `ejemplo_landing` = ?, `duplicar_funnel` = ?, `videos` = ? WHERE `id_boveda` = ? ";
+                $data = [$id_producto, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos, $id_boveda];
                 $data = [$id_producto, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos, $target_file, $id_boveda];
                 $actualizar_boveda = $this->update($sql, $data);
                 if ($actualizar_boveda == 1) {
@@ -98,8 +98,12 @@ class ProductosModel extends Query
             }
         } else {
             // Actualizar en la base de datos
-            $sql = "UPDATE `bovedas` SET `id_producto` = ?, `id_linea` = ?, `id_plataforma` = ?, `ejemplo_landing` = ?, `duplicar_funnel` = ?, `videos` = ? WHERE `id_boveda` = ? ";
-            $data = [$id_producto, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos, $id_boveda];
+            // Instanciar ImageUploader con el directorio de destino
+            $uploader = new ImageUploader("public/img/boveda/");
+            $uploadResponse = $uploader->uploadImage($imagen);
+            $sql = "UPDATE `bovedas` SET `id_producto` = ?, `id_linea` = ?, `id_plataforma` = ?, `ejemplo_landing` = ?, `duplicar_funnel` = ?, `videos` = ?, `img` = ? WHERE `id_boveda` = ? ";
+            $target_file = $uploadResponse['data'];
+            $data = [$id_producto, $id_linea, $id_plataforma, $ejemplo_landing, $duplicar_funnel, $videos, $target_file, $id_boveda];
             $actualizar_boveda = $this->update($sql, $data);
             if ($actualizar_boveda == 1) {
                 $response['status'] = 200;
@@ -111,8 +115,6 @@ class ProductosModel extends Query
                 $response['message'] = 'Error al actualizar la bóveda';
             }
         }
-
-
         return $response;
     }
 
