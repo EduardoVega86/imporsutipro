@@ -43,6 +43,7 @@ class ProductosModel extends Query
                 bovedas.img,
                 bovedas.ejemplo_landing,
                 bovedas.duplicar_funnel,
+                bovedas.id_boveda,
                 bovedas.videos,
                 bovedas.fecha_create_at
             FROM 
