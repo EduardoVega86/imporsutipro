@@ -52,7 +52,7 @@ const listBovedas = async () => {
           <td>${boveda.nombre}</td>
           <td>${boveda.categoria}</td>
           <td>${boveda.proveedor}</td>
-          <td><img src="${SERVERURL + boveda.img}" alt="${boveda.nombre}" style="max-width: 100px; height: auto;"></td>
+          <td><img src="https://desarrollo.imporsuitpro.com/${boveda.img}" alt="${boveda.nombre}" style="max-width: 100px; height: auto;"></td>
           <td><a href="${boveda.ejemplo_landing}" target="_blank" class="link-primary">Ver Landing</a></td>
           <td><a href="${boveda.duplicar_funnel}" target="_blank" class="link-primary">Duplicar Funnel</a></td>
           <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
