@@ -76,6 +76,7 @@ const cargarNombres = async (idProveedor) => {
   try {
     // Validación para evitar cargar nombres si no hay proveedor seleccionado
     if (!idProveedor) {
+      console.log("No se cargo ningun proveedor")
       document.getElementById("nombreBoveda").innerHTML =
         "<option value=''>Seleccione un Nombre</option>";
       document.getElementById("editNombreBoveda").innerHTML =
@@ -87,6 +88,7 @@ const cargarNombres = async (idProveedor) => {
       `${SERVERURL}Productos/obtener_productos_por_proveedor/${idProveedor}`
     );
     const nombres = await response.json();
+    
 
     let opciones = "<option value=''>Seleccione un Nombre</option>";
     nombres.forEach((cat) => {
