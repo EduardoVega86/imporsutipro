@@ -824,11 +824,11 @@ class Swagger extends Controller
      *             @OA\Schema(
      *                 @OA\Property(
      *                     property="idProducto",
-     *                     type=int
+     *                     type="integer"
      *                 ),
      *                 @OA\Property(
      *                     property="idLinea",
-     *                     type=int
+     *                     type="integer"
      *                 ),
      *                 @OA\Property(
      *                     property="imagen",
@@ -836,7 +836,7 @@ class Swagger extends Controller
      *                 ),
      *                 @OA\Property(
      *                     property="idProveedor",
-     *                     type=int
+     *                     type="integer"
      *                 ),
      *                 @OA\Property(
      *                     property="ejemploLanding",
