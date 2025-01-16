@@ -40,6 +40,12 @@
                         <img id="preview-imagen" src="#" alt="Vista previa de la imagen" style="display: none; margin-top: 10px; max-width: 100%;">
                     </div>
 
+                    <!-- Referencia -->
+                    <div class="mb-3">
+                        <label for="referencia" class="form-label">Referencia</label>
+                        <input type="text" id="referencia" name="referencia" class="form-control">
+                    </div>
+
                     <!-- Ejemplo Landing -->
                     <div class="mb-3">
                         <label for="ejemploLanding" class="form-label">Ejemplo Landing</label>

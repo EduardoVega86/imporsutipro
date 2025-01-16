@@ -38,6 +38,7 @@ class ProductosModel extends Query
         $sql = "
             SELECT 
                 productos.nombre_producto AS nombre,
+                bovedas.referencia,
                 lineas.nombre_linea AS categoria,
                 plataformas.nombre_tienda AS proveedor,
                 bovedas.img,
@@ -157,7 +158,7 @@ class ProductosModel extends Query
     }
 
 
-    public function insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)
+    public function insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos, $referencia)
     {
         $response = $this->initialResponse();
 
@@ -169,8 +170,8 @@ class ProductosModel extends Query
             if ($uploadResponse['status'] == 200) {
                 $target_file = $uploadResponse['data'];
                 // Insertar en la base de datos
-                $sql = "INSERT INTO bovedas (id_producto, id_linea, id_plataforma, ejemplo_landing, img, duplicar_funnel, videos)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO bovedas (id_producto, id_linea, id_plataforma, ejemplo_landing, img, duplicar_funnel, videos, referencia)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 $data = [
                     $idProducto,
                     $idLinea,
@@ -178,7 +179,8 @@ class ProductosModel extends Query
                     $ejemploLanding,
                     $target_file,
                     $duplicarFunnel,
-                    $videos
+                    $videos,
+                    $referencia
                 ];
                 $insertar_boveda = $this->insert($sql, $data);
                 if ($insertar_boveda == 1) {
@@ -198,15 +200,16 @@ class ProductosModel extends Query
                 error_log("Error al subir la imagen: " . $uploadResponse['message']);
             }
         } else {
-            $sql = "INSERT INTO bovedas (id_producto, id_linea, id_plataforma, ejemplo_landing, duplicar_funnel, videos)
-                    VALUES (?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO bovedas (id_producto, id_linea, id_plataforma, ejemplo_landing, duplicar_funnel, videos, referencia)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)";
             $data = [
                 $idProducto,
                 $idLinea,
                 $idProveedor,
                 $ejemploLanding,
                 $duplicarFunnel,
-                $videos
+                $videos,
+                $referencia
             ];
             $insertar_boveda = $this->insert($sql, $data);
             if ($insertar_boveda == 1) {
