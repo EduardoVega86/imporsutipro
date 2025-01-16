@@ -803,6 +803,90 @@ class Swagger extends Controller
     }
 
 
+    /**
+     * @OA\Post(
+     *     path="/swagger/agregar_boveda",
+     *     tags={"Produtos"},
+     *     summary="Agregar boveda",
+     *     description="Permite agregar bovedas para la visualización de los usuarios estudiantes.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="idProducto",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="idLinea",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="imagen",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="idProveedor",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="ejemploLanding",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="duplicarFunnel",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="videos",
+     *                     type="string"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Boveda creada con exito"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error en la creación de la boveda"
+     *     )
+     * )
+     */
+
+    public function agregar_boveda()
+    {
+        try {
+            $this->logRequest('swagger/agregar_boveda', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if (!$data) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
+                return;
+            }
+
+            $idProducto = $data['idProducto'] ?? null;
+            $idLinea = $data['idLinea'] ?? null;
+            $imagen = $data['imagen'] ?? null;
+            $idProveedor = $data['idProveedor'] ?? null;
+            $contrasena = $data['contrasena'] ?? null;
+            $tienda = $data['tienda'] ?? null;
+            if (!$idProducto || !$idLinea || !$imagen || !$idProveedor || !$contrasena || !$tienda) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
+            $response = $this->model->registro($idProducto, $idLinea, $imagen, $idProveedor, $contrasena, $tienda);
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+
 
 
 
