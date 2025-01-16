@@ -71,11 +71,12 @@ const listBovedas = async () => {
   }
 };
 
-// Llenar select de Nombres
-const cargarNombres = async () => {
+// Llenar select de Nombres (actualizado para filtrar por proveedor)
+const cargarNombres = async (idProveedor) => {
   try {
+    // *** Enviamos el ID del proveedor al backend ***
     const response = await fetch(
-      `${SERVERURL}Productos/obtener_productos_todos`
+      `${SERVERURL}Productos/obtener_productos_por_proveedor/${idProveedor}`
     );
     const nombres = await response.json();
 
@@ -87,6 +88,10 @@ const cargarNombres = async () => {
     // Poblamos tanto el select de agregar como el de editar
     document.getElementById("nombreBoveda").innerHTML = opciones;
     document.getElementById("editNombreBoveda").innerHTML = opciones;
+
+    // *** Reactivamos Select2 ***
+    $("#nombreBoveda").select2().trigger("change");
+    $("#editNombreBoveda").select2().trigger("change");
   } catch (error) {
     console.error("Error al cargar nombres:", error);
   }
@@ -125,6 +130,25 @@ const cargarProveedores = async () => {
     // Poblamos tanto el select de agregar como el de editar
     document.getElementById("proveedorBoveda").innerHTML = opciones;
     document.getElementById("editProveedorBoveda").innerHTML = opciones;
+
+    // *** Agregar eventos de cambio para filtrar nombres ***
+    document.getElementById("proveedorBoveda").addEventListener("change", (e) => {
+      const idProveedor = e.target.value;
+      if (idProveedor) {
+        cargarNombres(idProveedor);
+      } else {
+        document.getElementById("nombreBoveda").innerHTML = "<option value=''>Seleccione un Nombre</option>";
+      }
+    });
+
+    document.getElementById("editProveedorBoveda").addEventListener("change", (e) => {
+      const idProveedor = e.target.value;
+      if (idProveedor) {
+        cargarNombres(idProveedor);
+      } else {
+        document.getElementById("editNombreBoveda").innerHTML = "<option value=''>Seleccione un Nombre</option>";
+      }
+    });
   } catch (error) {
     console.error("Error al cargar proveedores:", error);
   }
