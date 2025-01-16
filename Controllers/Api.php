@@ -7,6 +7,11 @@ class Api extends Controller
         parent::__construct();
     }
 
+    public function index()
+    {
+        $this->views->render($this, 'index');
+    }
+
     public function registro()
     {
         try {
@@ -77,6 +82,59 @@ class Api extends Controller
         }
         $datos = json_decode(file_get_contents("php://input"), true);
         $response = $this->model->pedido($uuid, $datos);
+        if ($response['status'] === 200) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        echo json_encode($response);
+    }
+    public function obtenerDestinatarioWebhook($id_producto)
+    {
+        $datos = $this->model->obtenerDestinatarioWebhook($id_producto);
+        print_r($datos);
+    }
+    public function getPedidos($uuid)
+    {
+        if ($uuid === null) {
+            http_response_code(400);
+            echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+            return;
+        }
+        $response = $this->model->getPedidos($uuid);
+        if ($response['status'] === 200) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        echo json_encode($response);
+    }
+
+    public function getCiudades($uuid)
+    {
+        if ($uuid === null) {
+            http_response_code(400);
+            echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+            return;
+        }
+        $response = $this->model->getCiudades($uuid);
+        if ($response['status'] === 200) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        echo json_encode($response);
+    }
+
+    public function generarGuia($uuid)
+    {
+        if ($uuid === null) {
+            http_response_code(400);
+            echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+            return;
+        }
+        $data = json_decode(file_get_contents("php://input"), true);
+        $response = $this->model->generarGuia($uuid, $data);
         if ($response['status'] === 200) {
             http_response_code(200);
         } else {
