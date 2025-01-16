@@ -23,6 +23,12 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
+    public function obtener_productos_todos()
+    {
+        $sql = "SELECT * FROM `productos`";
+        return $this->select($sql);
+    }
+
 
     // public function obtenerBovedas()
     // {

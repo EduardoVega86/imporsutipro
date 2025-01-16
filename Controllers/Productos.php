@@ -130,6 +130,12 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_productos_todos()
+    {
+        $response = $this->model->obtener_productos_boveda();
+        echo json_encode($response);
+    }
+
     public function obtener_productos_boveda()
     {
         $response = $this->model->obtener_productos_boveda($_SESSION['id_plataforma']);
@@ -141,7 +147,7 @@ class Productos extends Controller
         $response = $this->model->obtenerBovedas();
         echo json_encode($response);
     }
-
+    //agregarswagger
     public function agregar_boveda()
     {
         // Verificar que el usuario tiene permisos (cargo 20)
