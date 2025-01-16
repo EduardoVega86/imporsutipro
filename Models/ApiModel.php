@@ -1,15 +1,18 @@
 <?php
+require "Controllers/Pedidos.php";
 
 use Firebase\JWT\JWT;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class ApiModel extends Query
 {
-
+    private $pedidos;
     public function __construct()
     {
         parent::__construct();
+        $this->pedidos = new Pedidos();
     }
+
 
     public function registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
     {
@@ -92,6 +95,19 @@ class ApiModel extends Query
         }
     }
 
+    public function agregarProducto($data)
+    {
+        $response = $this->initialResponse();
+        try {
+            $response = "";
+            return $response;
+        } catch (Exception $e) {
+            $response['status'] = 400;
+            $response['message'] = $e->getMessage();
+            return $response;
+        }
+    }
+
     public function registro_imporsuit($correo, $nombre, $tienda, $telefono, $pais, $contrasena)
     {
         $data = [
@@ -143,19 +159,23 @@ class ApiModel extends Query
                 throw new Exception('Contraseña incorrecta');
             }
 
-            $jwt = $this->existeJWT($correo);
-            if ($jwt) {
-                $jwt = $jwt[0]['jwt'];
-                $uuid = $jwt[0]['uuid'];
+            $jwtSQL = $this->existeJWT($correo)[0];
+            if ($jwtSQL['jwt'] != null && $jwtSQL['uuid'] != null) {
+                $jwt = $jwtSQL['jwt'];
+                $uuid = $jwtSQL['uuid'];
             } else {
                 $jwt = $this->generarJWTUnico($correo, $usuario);
                 $uuid = $this->uuid();
+                $validar = $this->validarUUIDUnico($uuid);
+                while ($validar) {
+                    $uuid = $this->uuid();
+                    $validar = $this->validarUUIDUnico($uuid);
+                }
                 $this->asignarJWT($correo, $jwt, $uuid);
             }
-
+            $response['title'] = "Exito";
             $response['status'] = 200;
             $response['message'] = 'Inicio de sesión exitoso';
-            $response['jwt'] = $jwt;
             $response['uuid'] = $uuid;
             return $response;
         } catch (Exception $e) {
@@ -177,9 +197,38 @@ class ApiModel extends Query
             if (!$usuario) {
                 throw new Exception('UUID no válido');
             }
+            $id_usuario = $usuario[0]['id_users'];
+
+            $id_plataforma = $this->getIdPlataforma($usuario[0]['email_users']);
+            $response = $this->pedidos->nuevo_pedido_webhook($id_usuario, $datos['monto_factura'], $datos['cliente'], $datos['telefono'], $datos['calle_principal'], $datos['calle_secundaria'], $datos['ciudad'], $datos['provincia'], $datos['referencia'], $datos['observacion'], $datos['id_inventario'], $id_plataforma, $datos['productos'], 1);
+
+
+            return $response;
+        } catch (Exception $e) {
+            $response['status'] = 400;
+            $response['message'] = $e->getMessage();
+            return $response;
+        }
+    }
+
+    public function getPedidos($uuid)
+    {
+        $response = $this->initialResponse();
+        try {
+            if ($uuid === null) {
+                throw new Exception('Faltan datos requeridos');
+            }
+            $usuario = $this->validarUUID($uuid);
+            if (!$usuario) {
+                throw new Exception('UUID no válido');
+            }
+            $id_plataforma = $this->getIdPlataforma($usuario[0]['email_users']);
+            $response['title'] = "Exito";
 
             $response['status'] = 200;
-            $response['message'] = 'Pedido realizado';
+            $response['message'] = 'Pedidos obtenidos';
+            $response['data'] = $this->pedidos->cargarPedidos($id_plataforma);
+
             return $response;
         } catch (Exception $e) {
             $response['status'] = 400;
@@ -190,7 +239,7 @@ class ApiModel extends Query
 
     private function validarUUID($uuid)
     {
-        $sql = "SELECT uuid FROM users WHERE uuid = ?";
+        $sql = "SELECT id_users, uuid, email_users FROM users WHERE uuid = ?";
         $data = [$uuid];
         return $this->dselect($sql, $data);
     }
@@ -228,9 +277,84 @@ class ApiModel extends Query
         }
     }
 
+    private function validarUUIDUnico($uuid)
+    {
+        $sql = "SELECT uuid FROM users WHERE uuid = ?";
+        $data = [$uuid];
+        $response = $this->dselect($sql, $data);
+        if (count($response) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getCiudades($uuid)
+    {
+        $response = $this->initialResponse();
+        try {
+            if ($uuid === null) {
+                throw new Exception('Faltan datos requeridos');
+            }
+            $usuario = $this->validarUUID($uuid);
+            if (!$usuario) {
+                throw new Exception('UUID no válido');
+            }
+
+            $sql = "SELECT ciudad, provincia, id_cotizacion as 'codigo_ciudad', codigo_provincia_laar as 'codigo_provincia' FROM ciudad_cotizacion ORDER BY provincia asc;";
+            $resultado = $this->select($sql);
+            $response['title'] = "Exito";
+
+
+            $response['status'] = 200;
+            $response['message'] = 'Ciudades obtenidas';
+            $response['data'] = $resultado;
+
+            return $response;
+        } catch (Exception $e) {
+            $response['status'] = 400;
+            $response['message'] = $e->getMessage();
+            return $response;
+        }
+    }
+
+
+    public function obtenerDestinatarioWebhook($id)
+    {
+        $sql = "SELECT bodega FROM inventario_bodegas WHERE id_inventario = $id";
+
+        $id_platafomra = $this->select($sql);
+        $id_platafomra = $id_platafomra[0]['bodega'];
+
+        $sql2 = "SELECT * FROM bodega where id = $id_platafomra";
+        $id_platafomra = $this->select($sql2)[0];
+
+        return $id_platafomra;
+    }
+
+    /*  public function generarGuia($uuid, $data){
+        $response = $this->initialResponse();
+        try {
+            if ($uuid === null) {
+                throw new Exception('Faltan datos requeridos');
+            }
+            $usuario = $this->validarUUID($uuid);
+            if (!$usuario) {
+                throw new Exception('UUID no válido');
+            }
+            $id_plataforma = $this->getIdPlataforma($usuario[0]['email_users']);
+            $response = $this->pedidos->generarGuia($id_plataforma, $data);
+            return $response;
+        } catch (Exception $e) {
+            $response['status'] = 400;
+            $response['message'] = $e->getMessage();
+            return $response;
+        }
+    } */
+
     private function correoExistente($correo)
     {
-        $sql = "SELECT email_users FROM users WHERE email_users = ?";
+        $sql = "SELECT email_users, con_users FROM users WHERE email_users = ?";
         $data = [$correo];
         return $this->dselect($sql, $data);
     }

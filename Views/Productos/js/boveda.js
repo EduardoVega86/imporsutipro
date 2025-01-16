@@ -75,7 +75,7 @@ const listBovedas = async () => {
 const cargarNombres = async () => {
   try {
     const response = await fetch(
-      `${SERVERURL}Productos/obtener_productos_boveda`
+      `${SERVERURL}Productos/obtener_productos_todos`
     );
     const nombres = await response.json();
 

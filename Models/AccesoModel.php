@@ -570,7 +570,7 @@ class AccesoModel extends Query
         return $response;
     }
 
-    //Funciones para poder ser accedidas desde SwaggerModel
+    //Funciones para poder acceder al uuid y plataforma_id desde SwaggerModel
 
     public function getUserByUUID($uuid)
     {

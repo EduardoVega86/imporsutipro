@@ -440,10 +440,78 @@ class Pedidos extends Controller
 
         $productos = $_POST['productos'];
     }
-
-    public function cargarPedidos()
+    public function obtenerDestinatarioWebhook($id_producto)
     {
-        $data = $this->model->pedidos($_SESSION["id_plataforma"]);
+        $datos = $this->model->obtenerDestinatarioWebhook($id_producto);
+        return  $datos;
+    }
+    public function nuevo_pedido_webhook($id_usuario, $monto_factura, $nombre_cliente, $telefono_cliente, $c_principal, $c_secundaria, $ciudad_cot, $provincia, $referencia, $observacion, $id_producto_venta, $id_plataforma, $productos, $webhook = null)
+    {
+
+        $fecha_factura = date("Y-m-d H:i:s");
+        $estado_factura = 1;
+        $guia_enviada = 0;
+        $transporte = 0;
+        $identificacion = $_POST['identificacion'] ?? "";
+        $celular = $_POST['celular'] ?? $telefono_cliente;
+        ///
+
+        $dropshipping = 1;
+        $dueño_id = $this->obtenerDestinatarioShopify($id_producto_venta);
+
+        if ($dueño_id == $id_plataforma) {
+            $dropshipping = 0;
+        } else {
+            $dropshipping = 1;
+        }
+
+        $importado = "1";
+        $plataforma_importa = "Webhook" ?? 0;
+        $cod = 1;
+        $estado_guia_sistema = 1;
+        $impreso = 0;
+        $facturada = 0;
+        $factura_numero = 0;
+        $numero_guia = 0;
+        $anulada = 0;
+
+        ///origen
+        $datos_origen = $this->obtenerDestinatarioWebhook($id_producto_venta);
+
+        $identificacionO = "0";
+        $celularO = $datos_origen['contacto'] ?? $telefono_cliente;
+        $nombreO = $datos_origen['nombre'];
+        $ciudadO = $datos_origen['localidad'] ?? 0;
+        $provinciaO = $datos_origen['provincia'] ?? 0;
+        $direccionO = $datos_origen['direccion'] ?? "vacio";
+        $referenciaO = $datos_origen['referencia'];
+        $numeroCasaO = $datos_origen['num_casa'] ?? 0;
+
+        $valor_segura =  0;
+        $no_piezas =  1;
+        $tipo_servicio = "201202002002013";
+        $peso = "2";
+        $contiene = "";
+        foreach ($productos as $producto) {
+            $contiene .= $producto['nombre'] . " x" . $producto['cantidad'] . " ";
+        }
+
+        $costo_flete = 0;
+        $costo_producto =  $this->model->costo_producto($id_producto_venta);
+        $comentario = "Pedido Generado via Webhook";
+        $id_transporte = 0;
+
+        $id_bodega = $this->model->obtenerIdBodega($id_producto_venta); //CODIGO DE LA BODEGA  
+
+        $response = $this->model->nuevo_pedido_shopify($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $dueño_id, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia, $productos, $id_bodega);
+        if ($webhook) {
+            return $response;
+        }
+        echo json_encode($response);
+    }
+    public function cargarPedidos($id_plataforma = null)
+    {
+        $data = $this->model->pedidos($_SESSION["id_plataforma"] ?? $id_plataforma);
         echo json_encode($data);
     }
 

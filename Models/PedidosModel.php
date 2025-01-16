@@ -12,7 +12,31 @@ class PedidosModel extends Query
         $sql = "SELECT * FROM facturas_cot where numero_guia = '' or numero_guia is null and anulada = 0 and id_plataforma = '$plataforma'  ORDER BY numero_factura DESC";
         return $this->select($sql);
     }
+    public function costo_producto($id_inventario)
+    {
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+        $result = $this->select($sql);
+        return $result[0]['pcp'];
+    }
+    public function obtenerIdBodega($id_inventario)
+    {
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+        $result = $this->select($sql);
+        return $result[0]['bodega'];
+    }
 
+    public function obtenerDestinatarioWebhook($id)
+    {
+        $sql = "SELECT bodega FROM inventario_bodegas WHERE id_inventario = $id";
+
+        $id_platafomra = $this->select($sql);
+        $id_platafomra = $id_platafomra[0]['bodega'];
+
+        $sql2 = "SELECT * FROM bodega where id = $id_platafomra";
+        $id_platafomra = $this->select($sql2)[0];
+
+        return $id_platafomra;
+    }
     public function cargarGuias($plataforma, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
     {
         $sql = "SELECT 
