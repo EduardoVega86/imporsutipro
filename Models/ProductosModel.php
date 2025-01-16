@@ -25,7 +25,7 @@ class ProductosModel extends Query
 
     public function obtener_productos_todos()
     {
-        $sql = "SELECT * FROM `productos`";
+        $sql = "SELECT id_producto, nombre_producto FROM `productos`";
         return $this->select($sql);
     }
 
