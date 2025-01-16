@@ -74,6 +74,15 @@ const listBovedas = async () => {
 // Llenar select de Nombres
 const cargarNombres = async (idProveedor) => {
   try {
+    // Validación para evitar cargar nombres si no hay proveedor seleccionado
+    if (!idProveedor) {
+      document.getElementById("nombreBoveda").innerHTML =
+        "<option value=''>Seleccione un Nombre</option>";
+      document.getElementById("editNombreBoveda").innerHTML =
+        "<option value=''>Seleccione un Nombre</option>";
+      return;
+    }
+
     const response = await fetch(
       `${SERVERURL}Productos/obtener_productos_por_proveedor/${idProveedor}`
     );
@@ -256,133 +265,120 @@ window.addEventListener("load", async () => {
   // Inicializamos la tabla
   await initDataTable();
 
-  // 1) Cargamos nombres y los asignamos a ambos selects
-  await cargarNombres();
-  // Inicializamos Select2 para nombre en agregar
-  $("#nombreBoveda").select2({
-    placeholder: "Seleccione un Nombre",
-    allowClear: true,
-    dropdownParent: $("#modalAgregarBoveda"),
-  });
-
-  // Inicializamos Select2 para nombre en editar
-  $("#editNombreBoveda").select2({
-    placeholder: "Seleccione un Nombre",
-    allowClear: true,
-    dropdownParent: $("#modalEditarBoveda"),
-  });
-
-  // 2) Cargamos categorías y los asignamos a ambos selects
+  // 1) Cargamos categorías y los asignamos a ambos selects
   await cargarCategorias();
-  // Inicializamos Select2 para categoría en agregar
   $("#categoriaBoveda").select2({
     placeholder: "Seleccione una Categoría",
     allowClear: true,
     dropdownParent: $("#modalAgregarBoveda"),
   });
 
-  // Inicializamos Select2 para categoría en editar
   $("#editCategoriaBoveda").select2({
     placeholder: "Seleccione una Categoría",
     allowClear: true,
     dropdownParent: $("#modalEditarBoveda"),
   });
 
-  // 3) Cargamos proveedores y los asignamos a ambos selects
+  // 2) Cargamos proveedores y los asignamos a ambos selects
   await cargarProveedores();
-  // Inicializamos Select2 para proveedor en agregar
   $("#proveedorBoveda").select2({
     placeholder: "Seleccione un Proveedor",
     allowClear: true,
     dropdownParent: $("#modalAgregarBoveda"),
   });
 
-  // Inicializamos Select2 para proveedor en editar
   $("#editProveedorBoveda").select2({
     placeholder: "Seleccione un Proveedor",
     allowClear: true,
     dropdownParent: $("#modalEditarBoveda"),
   });
 
+  // 3) Agregamos eventos para cargar nombres al cambiar el proveedor
+  document.getElementById("proveedorBoveda").addEventListener("change", async (e) => {
+    const idProveedor = e.target.value; // Obtener el ID del proveedor seleccionado
+    await cargarNombres(idProveedor); // Cargar nombres asociados al proveedor
+  });
+
+  document.getElementById("editProveedorBoveda").addEventListener("change", async (e) => {
+    const idProveedor = e.target.value; // Obtener el ID del proveedor seleccionado
+    await cargarNombres(idProveedor); // Cargar nombres asociados al proveedor
+  });
+
   // Escuchar el submit del formulario "formAgregarBoveda"
-  document
-    .getElementById("formAgregarBoveda")
-    .addEventListener("submit", async (e) => {
-      e.preventDefault(); // Evita la recarga de la página
+  document.getElementById("formAgregarBoveda").addEventListener("submit", async (e) => {
+    e.preventDefault(); // Evita la recarga de la página
 
-      // Capturar datos del formulario
-      const nombre = document.getElementById("nombreBoveda").value;
-      const categoria = document.getElementById("categoriaBoveda").value;
-      const proveedor = document.getElementById("proveedorBoveda").value;
-      const ejemploLanding = document.getElementById("ejemploLanding").value;
-      const duplicarFunnel = document.getElementById("duplicarFunnel").value;
-      const videosBoveda = document.getElementById("videosBoveda").value;
-      const imagenInput = document.getElementById("imagen");
-      const imagen = imagenInput.files[0];
+    // Capturar datos del formulario
+    const nombre = document.getElementById("nombreBoveda").value;
+    const categoria = document.getElementById("categoriaBoveda").value;
+    const proveedor = document.getElementById("proveedorBoveda").value;
+    const ejemploLanding = document.getElementById("ejemploLanding").value;
+    const duplicarFunnel = document.getElementById("duplicarFunnel").value;
+    const videosBoveda = document.getElementById("videosBoveda").value;
+    const imagenInput = document.getElementById("imagen");
+    const imagen = imagenInput.files[0];
 
-      // Crear objeto FormData y agregar los campos
-      let formData = new FormData();
-      formData.append("id_producto", nombre);
-      formData.append("categoria", categoria);
-      formData.append("proveedor", proveedor);
-      formData.append("imagen", imagen);
-      formData.append("ejemploLanding", ejemploLanding);
-      formData.append("duplicarFunnel", duplicarFunnel);
-      formData.append("videosBoveda", videosBoveda);
+    // Crear objeto FormData y agregar los campos
+    let formData = new FormData();
+    formData.append("id_producto", nombre);
+    formData.append("categoria", categoria);
+    formData.append("proveedor", proveedor);
+    formData.append("imagen", imagen);
+    formData.append("ejemploLanding", ejemploLanding);
+    formData.append("duplicarFunnel", duplicarFunnel);
+    formData.append("videosBoveda", videosBoveda);
 
-      console.log("FormData enviado:", ...formData.entries());
+    console.log("FormData enviado:", ...formData.entries());
 
-      try {
-        // Petición POST
-        const response = await fetch(`${SERVERURL}Productos/agregar_boveda`, {
-          method: "POST",
-          body: formData,
+    try {
+      // Petición POST
+      const response = await fetch(`${SERVERURL}Productos/agregar_boveda`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: result.title,
+          text: result.message,
+          showConfirmButton: false,
+          timer: 2000,
         });
 
-        const result = await response.json();
-
-        if (result.status === 200) {
-          Swal.fire({
-            icon: "success",
-            title: result.title,
-            text: result.message,
-            showConfirmButton: false,
-            timer: 2000,
-          });
-
-          // Cerrar modal
-          const modal = document.getElementById("modalAgregarBoveda");
-          if (modal) {
-            const modalBootstrap = bootstrap.Modal.getInstance(modal);
-            if (modalBootstrap) modalBootstrap.hide();
-          }
-
-          // Limpiar formulario
-          document.getElementById("formAgregarBoveda").reset();
-
-
-          // Limpiar los campos Select2
-          $("#nombreBoveda").val(null).trigger("change");
-          $("#categoriaBoveda").val(null).trigger("change");
-          $("#proveedorBoveda").val(null).trigger("change");
-
-
-          // Recargar DataTable
-          initDataTable();
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: result.title || "Error",
-            text: result.message || "Ocurrió un error al agregar la bóveda.",
-          });
+        // Cerrar modal
+        const modal = document.getElementById("modalAgregarBoveda");
+        if (modal) {
+          const modalBootstrap = bootstrap.Modal.getInstance(modal);
+          if (modalBootstrap) modalBootstrap.hide();
         }
-      } catch (error) {
-        console.error("Error al agregar Boveda:", error);
+
+        // Limpiar formulario
+        document.getElementById("formAgregarBoveda").reset();
+
+        // Limpiar los campos Select2
+        $("#nombreBoveda").val(null).trigger("change");
+        $("#categoriaBoveda").val(null).trigger("change");
+        $("#proveedorBoveda").val(null).trigger("change");
+
+        // Recargar DataTable
+        initDataTable();
+      } else {
         Swal.fire({
           icon: "error",
-          title: "Error",
-          text: "No se pudo procesar la solicitud.",
+          title: result.title || "Error",
+          text: result.message || "Ocurrió un error al agregar la bóveda.",
         });
       }
-    });
+    } catch (error) {
+      console.error("Error al agregar Boveda:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo procesar la solicitud.",
+      });
+    }
+  });
 });

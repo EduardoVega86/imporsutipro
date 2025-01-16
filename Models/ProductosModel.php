@@ -26,7 +26,7 @@ class ProductosModel extends Query
     public function obtener_productos_por_proveedor($idProveedor)
     {
         $sql = "SELECT id_producto, nombre_producto FROM productos WHERE id_plataforma = ?";
-        return $this->select($sql, [$idProveedor]);
+        return $this->dselect($sql, [$idProveedor]);
     }
 
 
