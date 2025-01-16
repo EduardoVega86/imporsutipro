@@ -52,7 +52,7 @@ const listBovedas = async () => {
           <td>${boveda.nombre}</td>
           <td>${boveda.categoria}</td>
           <td>${boveda.proveedor}</td>
-          <td><img src="${boveda.img}" alt="${boveda.nombre}" style="max-width: 100px; height: auto;"></td>
+          <td><img src="${SERVERURL + boveda.img}" alt="${boveda.nombre}" style="max-width: 100px; height: auto;"></td>
           <td><a href="${boveda.ejemplo_landing}" target="_blank" class="link-primary">Ver Landing</a></td>
           <td><a href="${boveda.duplicar_funnel}" target="_blank" class="link-primary">Duplicar Funnel</a></td>
           <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
@@ -132,33 +132,29 @@ const cargarProveedores = async () => {
 
 // Delegar evento para el botón "Editar"
 async function abrirModalEditar(id_boveda) {
-  const idBoveda = id_boveda; // Obtener ID del botón
-  const formEditarBoveda = document.getElementById("formEditarBoveda");
-
   try {
-    const response = await fetch(
-      `${SERVERURL}Productos/obtenerBoveda/${idBoveda}`
-    );
+    const response = await fetch(`${SERVERURL}Productos/obtenerBoveda/${id_boveda}`);
+
+    if (!response.ok) {
+      throw new Error(`Error del servidor: ${response.status}`);
+    }
+
     const boveda = await response.json();
+    console.log("Datos de la bóveda:", boveda);
 
-    console.log("Datos de la bóveda:", boveda); // Verifica los datos recibidos
-
-    // Verifica que se recibieron datos
-    if (boveda.length > 0) {
-      // Asignar el ID al formulario
-      formEditarBoveda.dataset.id = idBoveda;
-
-      // Asignar los valores correctos a los Select2
-      // Dado que no hay 'id_producto', usaremos 'nombre' como valor si es apropiado
-      // Si 'nombreBoveda' realmente necesita un 'id_producto', debes asegurarte de que 'boveda' data lo incluya
-      $("#editNombreBoveda").val(boveda[0].id_boveda).trigger("change"); // Ajusta esto según corresponda
+    if (Array.isArray(boveda) && boveda.length > 0) {
+      // Configurar valores en el modal
+      $("#editNombreBoveda").val(boveda[0].id_producto).trigger("change");
       $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger("change");
       $("#editProveedorBoveda").val(boveda[0].id_plataforma).trigger("change");
-
-      // Asignar otros campos de texto
       $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
       $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
       $("#editVideosBoveda").val(boveda[0].videos);
+      $("#editar_idBoveda").val(boveda[0].id_boveda);
+
+
+      // Dejar vacío el campo de archivo
+      document.getElementById("Editarimagen").value = "";
 
       // Mostrar el modal
       $("#modalEditarBoveda").modal("show");
@@ -166,7 +162,7 @@ async function abrirModalEditar(id_boveda) {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Datos de la bóveda no encontrados.",
+        text: "No se encontraron datos para la bóveda.",
       });
     }
   } catch (error) {
@@ -187,24 +183,30 @@ document.addEventListener("DOMContentLoaded", () => {
     formEditarBoveda.addEventListener("submit", async (e) => {
       e.preventDefault(); // Evita recargar la página
       // Capturar datos del formulario
-      const idBoveda = formEditarBoveda.dataset.id || ""; // Asegúrate de configurar el ID en el formulario
+      const idBoveda = document.getElementById("editar_idBoveda").value;
       const nombre = document.getElementById("editNombreBoveda").value;
       const categoria = document.getElementById("editCategoriaBoveda").value;
       const proveedor = document.getElementById("editProveedorBoveda").value;
+
       const ejemploLanding =
         document.getElementById("editEjemploLanding").value;
       const duplicarFunnel =
         document.getElementById("editDuplicarFunnel").value;
       const videosBoveda = document.getElementById("editVideosBoveda").value;
-      // Crear objeto con los datos
+      const imagenIn = document.getElementById("Editarimagen")
+
+      const imagen = imagenIn.files[0];
+      
       let formData = new FormData();
-      formData.append("id", idBoveda);
-      formData.append("nombre", nombre);
-      formData.append("categoria", categoria);
-      formData.append("proveedor", proveedor);
-      formData.append("ejemploLanding", ejemploLanding);
-      formData.append("duplicarFunnel", duplicarFunnel);
-      formData.append("videosBoveda", videosBoveda);
+      formData.append("id_boveda", idBoveda);
+      formData.append("id_producto", nombre);
+      formData.append("id_linea", categoria);
+      formData.append("id_plataforma", proveedor);
+      formData.append("ejemplo_landing", ejemploLanding);
+      formData.append("duplicar_funnel", duplicarFunnel);
+      formData.append("videos", videosBoveda);
+      formData.append("imagen", imagen)
+
       try {
         // Petición POST para editar la bóveda
         const response = await fetch(`${SERVERURL}Productos/editar_boveda`, {
@@ -318,19 +320,9 @@ window.addEventListener("load", async () => {
       const imagenInput = document.getElementById("imagen");
       const imagen = imagenInput.files[0];
 
-      // Validar que se haya seleccionado una imagen
-      if (!imagen) {
-        Swal.fire({
-          icon: "warning",
-          title: "Falta la imagen",
-          text: "Por favor, selecciona una imagen para la bóveda.",
-        });
-        return;
-      }
-
       // Crear objeto FormData y agregar los campos
       let formData = new FormData();
-      formData.append("nombre", nombre);
+      formData.append("id_producto", nombre);
       formData.append("categoria", categoria);
       formData.append("proveedor", proveedor);
       formData.append("imagen", imagen);

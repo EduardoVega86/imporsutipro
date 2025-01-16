@@ -2929,4 +2929,53 @@ class PedidosModel extends Query
 
         return $response;
     }
+
+    public function insertar_mensaje(
+        $id_plataforma,
+        $id_cliente,
+        $mid_mensaje,
+        $tipo_mensaje,
+        $texto_mensaje,
+        $ruta_archivo,
+        $rol_mensaje,
+        $celular_recibe,
+        $phone_whatsapp_from
+    ) {
+        // Inicializar la respuesta
+        $response = $this->initialResponse();
+
+        // Consulta de inserción
+        $sql = "INSERT INTO mensajes_clientes 
+                (id_plataforma, id_cliente, mid_mensaje, tipo_mensaje, texto_mensaje, ruta_archivo, rol_mensaje, celular_recibe, uid_whatsapp, created_at, updated_at) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
+
+        // Datos a insertar
+        $data = [
+            $id_plataforma,
+            $id_cliente,
+            $mid_mensaje,
+            $tipo_mensaje,
+            $texto_mensaje,
+            $ruta_archivo,
+            $rol_mensaje,
+            $celular_recibe,
+            $phone_whatsapp_from,
+        ];
+
+        // Ejecutar la inserción
+        $resultado_insercion = $this->insert($sql, $data);
+
+        // Verificar si la inserción fue exitosa
+        if ($resultado_insercion == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Mensaje insertado correctamente.';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error en inserción';
+            $response['message'] = $resultado_insercion['message'];
+        }
+
+        return $response;
+    }
 }

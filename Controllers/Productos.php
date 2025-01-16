@@ -144,17 +144,23 @@ class Productos extends Controller
 
     public function agregar_boveda()
     {
-        if (isset($_POST['nombre'], $_POST['categoria'], $_POST['proveedor'])) {
-            $nombre = $_POST['nombre'];
+        if (isset($_POST['id_producto'], $_POST['categoria'], $_POST['proveedor'])) {
+            $idProducto = $_POST['id_producto'];
             $idLinea = $_POST['categoria'];
             $idProveedor = $_POST['proveedor'];
-            $imagen = $_FILES['imagen'];
             $ejemploLanding = $_POST['ejemploLanding'] ?? '';
             $duplicarFunnel = $_POST['duplicarFunnel'] ?? '';
             $videos = $_POST['videosBoveda'] ?? '';
 
+            // Verificar si se ha subido una imagen sin errores
+            if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+                $imagen = $_FILES['imagen'];
+            } else {
+                $imagen = null; // Puedes establecer un valor por defecto o null
+            }
+
             // Insertar
-            $result = $this->model->insertarBoveda($nombre, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
+            $result = $this->model->insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
 
 
             if ($result['status'] === 200) {
@@ -189,16 +195,38 @@ class Productos extends Controller
 
     public function editar_boveda()
     {
+        // Obtener los datos del formulario
         $id_boveda = $_POST['id_boveda'];
+        $id_producto = $_POST['id_producto'];
         $id_linea = $_POST['id_linea'];
         $id_plataforma = $_POST['id_plataforma'];
-        $imagen = $_FILES['imagen'];
         $ejemplo_landing = $_POST['ejemplo_landing'];
         $duplicar_funnel = $_POST['duplicar_funnel'];
         $videos = $_POST['videos'];
-        $response = $this->model->editarBoveda($id_boveda, $id_linea, $id_plataforma, $imagen, $ejemplo_landing, $duplicar_funnel, $videos, $_SESSION['id_plataforma']);
+
+        // Verificar si se ha subido una imagen sin errores
+        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+            $imagen = $_FILES['imagen'];
+        } else {
+            $imagen = null; // Puedes establecer un valor por defecto o null
+        }
+
+        // Llamar al modelo con los datos procesados
+        $response = $this->model->editarBoveda(
+            $id_boveda,
+            $id_linea,
+            $id_plataforma,
+            $id_producto,
+            $imagen,
+            $ejemplo_landing,
+            $duplicar_funnel,
+            $videos
+        );
+        // Devolver la respuesta en formato JSON
         echo json_encode($response);
     }
+
+
 
     public function obtenerProveedores()
     {
