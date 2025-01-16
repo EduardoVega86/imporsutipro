@@ -802,13 +802,21 @@ class Swagger extends Controller
         }
     }
 
-
     /**
      * @OA\Post(
      *     path="/swagger/agregar_boveda",
      *     tags={"Produtos"},
      *     summary="Agregar boveda",
      *     description="Permite agregar bovedas para la visualización de los usuarios estudiantes.",
+     *     @OA\Parameter(
+     *        name="uuid",
+     *        in="query",
+     *        description="UUID del usuario o plataforma",
+     *        required=true,
+     *        @OA\Schema(
+     *            type="string"
+     *        )
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
@@ -841,7 +849,7 @@ class Swagger extends Controller
      *                 @OA\Property(
      *                     property="videos",
      *                     type="string"
-     *                 )
+     *                 ),
      *             )
      *         )
      *     ),
