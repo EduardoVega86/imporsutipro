@@ -144,6 +144,16 @@ class Productos extends Controller
 
     public function agregar_boveda()
     {
+        // Verificar que el usuario tiene permisos (cargo 20)
+        if ($_SESSION['cargo'] != 20) {
+            $response = [
+                "status" => 403,
+                "title" => "Acceso denegado",
+                "message" => "No tienes permisos para realizar esta acción."
+            ];
+            echo json_encode($response);
+            return;
+        }
         if (isset($_POST['id_producto'], $_POST['categoria'], $_POST['proveedor'])) {
             $idProducto = $_POST['id_producto'];
             $idLinea = $_POST['categoria'];
@@ -195,6 +205,16 @@ class Productos extends Controller
 
     public function editar_boveda()
     {
+        // Verificar que el usuario tiene permisos (cargo 20)
+        if ($_SESSION['cargo'] != 20) {
+            $response = [
+                "status" => 403,
+                "title" => "Acceso denegado",
+                "message" => "No tienes permisos para realizar esta acción."
+            ];
+            echo json_encode($response);
+            return;
+        }
         // Obtener los datos del formulario
         $id_boveda = $_POST['id_boveda'];
         $id_producto = $_POST['id_producto'];
