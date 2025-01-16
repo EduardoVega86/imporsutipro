@@ -281,20 +281,20 @@ window.addEventListener("load", async () => {
   await initDataTable();
 
   // 1) Cargamos nombres y los asignamos a ambos selects
-  await cargarNombres();
-  // Inicializamos Select2 para nombre en agregar
-  $("#nombreBoveda").select2({
-    placeholder: "Seleccione un Nombre",
-    allowClear: true,
-    dropdownParent: $("#modalAgregarBoveda"),
-  });
+  // await cargarNombres();
+   // Inicializamos Select2 para nombre en agregar
+  // $("#nombreBoveda").select2({
+  //   placeholder: "Seleccione un Nombre",
+  //   allowClear: true,
+  //   dropdownParent: $("#modalAgregarBoveda"),
+  // });
 
-  // Inicializamos Select2 para nombre en editar
-  $("#editNombreBoveda").select2({
-    placeholder: "Seleccione un Nombre",
-    allowClear: true,
-    dropdownParent: $("#modalEditarBoveda"),
-  });
+   // Inicializamos Select2 para nombre en editar
+  // $("#editNombreBoveda").select2({
+  //   placeholder: "Seleccione un Nombre",
+  //   allowClear: true,
+  //   dropdownParent: $("#modalEditarBoveda"),
+  // });
 
   // 2) Cargamos categorías y los asignamos a ambos selects
   await cargarCategorias();
