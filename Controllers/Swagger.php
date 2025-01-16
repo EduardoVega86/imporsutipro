@@ -876,23 +876,30 @@ class Swagger extends Controller
                 return;
             }
 
+            $uuid = $_GET['uuid'] ?? null; // Capturar UUID desde query parameters
             $idProducto = $data['idProducto'] ?? null;
             $idLinea = $data['idLinea'] ?? null;
             $imagen = $data['imagen'] ?? null;
             $idProveedor = $data['idProveedor'] ?? null;
-            $contrasena = $data['contrasena'] ?? null;
-            $tienda = $data['tienda'] ?? null;
-            if (!$idProducto || !$idLinea || !$imagen || !$idProveedor || !$contrasena || !$tienda) {
+            $ejemploLanding = $data['ejemploLanding'] ?? null;
+            $duplicarFunnel = $data['duplicarFunnel'] ?? null;
+            $videos = $data['videos'] ?? null;
+
+            // Validación de campos requeridos
+            if (!$uuid || !$idProducto || !$idLinea || !$imagen || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
             }
-            $response = $this->model->registro($idProducto, $idLinea, $imagen, $idProveedor, $contrasena, $tienda);
+
+            // Llamar al modelo
+            $response = $this->model->agregarBoveda($uuid, $idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
         }
     }
+
 
 
 

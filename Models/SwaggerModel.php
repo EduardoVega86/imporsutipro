@@ -286,4 +286,39 @@ class SwaggerModel extends Query
             ];
         }
     }
+
+    public function agregarBoveda($uuid, $idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)
+    {
+        try {
+            // Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+
+            // Obtener el ID de plataforma asociado
+            $id_users = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            $idPlataforma = $plataforma[0]['id_plataforma'];
+
+            // Llamar a insertarBoveda con los datos y el ID de plataforma
+            return $this->productosModel->insertarBoveda($idProducto, $idLinea, $imagen, $idPlataforma, $ejemploLanding, $duplicarFunnel, $videos);
+        } catch (Exception $e) {
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al agregar bóveda',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
 }
