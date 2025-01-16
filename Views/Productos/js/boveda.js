@@ -306,7 +306,16 @@ window.addEventListener("load", async () => {
     $("#nombreBoveda").select2({
       placeholder: "Seleccione un Nombre",
       allowClear: true,
-      dropdownParent: $("#modalAgregarBoveda"), // Importante para evitar conflictos
+      dropdownParent: $("#modalAgregarBoveda"),
+    });
+  });
+
+   // Inicializar Select2 dentro del modal al abrirlo
+   $('#modalEditarBoveda').on('shown.bs.modal', function () {
+    $("#editNombreBoveda").select2({
+      placeholder: "Seleccione un Nombre",
+      allowClear: true,
+      dropdownParent: $("#modalAgregarBoveda"),
     });
   });
 
