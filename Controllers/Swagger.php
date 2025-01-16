@@ -886,7 +886,7 @@ class Swagger extends Controller
             $videos = $data['videos'] ?? null;
 
             // Validación de campos requeridos
-            if (!$uuid || !$idProducto || !$idLinea || !$imagen || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
+            if (!$uuid || !$idProducto || !$idLinea || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
