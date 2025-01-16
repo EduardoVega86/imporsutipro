@@ -80,6 +80,12 @@ const listListaUsuarioMatriz = async () => {
                         <option value="5" ${
                           usuario.cargo_users == 5 ? "selected" : ""
                         }>Colaborador</option>
+                        <option value="15" ${
+                          usuario.cargo_users == 15 ? "selected" : ""
+                        }>Estudiante premium</option>
+                        <option value="20" ${
+                          usuario.cargo_users == 20 ? "selected" : ""
+                        }>Administrador boveda</option>
                     </select>`;
 
       content += `

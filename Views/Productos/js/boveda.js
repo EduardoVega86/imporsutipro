@@ -360,6 +360,13 @@ window.addEventListener("load", async () => {
           // Limpiar formulario
           document.getElementById("formAgregarBoveda").reset();
 
+
+          // Limpiar los campos Select2
+          $("#nombreBoveda").val(null).trigger("change");
+          $("#categoriaBoveda").val(null).trigger("change");
+          $("#proveedorBoveda").val(null).trigger("change");
+
+
           // Recargar DataTable
           initDataTable();
         } else {

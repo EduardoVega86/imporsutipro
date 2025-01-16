@@ -170,7 +170,7 @@
                     <a href="<?php echo SERVERURL ?>integraciones"><i class="fa-solid fa-globe menu-icon"></i> <span class="menu-text">Integracio- nes</span></a>
                 </div>
 
-                <?php if ($_SESSION['cargo'] == 15 || $_SESSION['cargo'] == 10) { ?>
+                <?php if ($_SESSION['cargo'] == 15 || $_SESSION['cargo'] == 10 || $_SESSION['cargo'] == 20) { ?>
                     <a href="<?php echo SERVERURL ?>Productos/bovedas"><i class='bx bxs-lock menu-icon'></i> <span class="menu-text">Bovedas</span></a>
                 <?php
                 }
@@ -180,7 +180,7 @@
                 <a href="<?php echo SERVERURL ?>Pedidos/scanner_speed"><i class='fa-solid fa-motorcycle menu-icon'></i> <span class="menu-text">Scanner Speed</span></a>
             <?php } ?>
 
-            <?php if ($_SESSION['id_plataforma'] == 2293 || $_SESSION['id_plataforma'] == 3031 || $_SESSION['id_plataforma'] == 1206) { ?>
+            <?php if ($_SESSION['id_plataforma'] == 2293 || $_SESSION['id_plataforma'] == 3031 || $_SESSION['id_plataforma'] == 1206 || $_SESSION['id_plataforma'] == 2307) { ?>
                 <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
             <?php } ?>
             <div class="submenu" id="submenu5">
