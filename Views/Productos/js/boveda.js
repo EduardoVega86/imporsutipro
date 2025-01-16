@@ -296,7 +296,18 @@ window.addEventListener("load", async () => {
   // 3) Agregamos eventos para cargar nombres al cambiar el proveedor
   document.getElementById("proveedorBoveda").addEventListener("change", async (e) => {
     const idProveedor = e.target.value; // Obtener el ID del proveedor seleccionado
+    console.log("Proveedor seleccionado:", idProveedor); // Log para verificar valor
+    $("#nombreBoveda").val(null).trigger("change"); // Limpiar select de nombres
     await cargarNombres(idProveedor); // Cargar nombres asociados al proveedor
+  });
+
+  // Inicializar Select2 dentro del modal al abrirlo
+  $('#modalAgregarBoveda').on('shown.bs.modal', function () {
+    $("#nombreBoveda").select2({
+      placeholder: "Seleccione un Nombre",
+      allowClear: true,
+      dropdownParent: $("#modalAgregarBoveda"), // Importante para evitar conflictos
+    });
   });
 
   document.getElementById("editProveedorBoveda").addEventListener("change", async (e) => {
