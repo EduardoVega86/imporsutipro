@@ -130,12 +130,11 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-    public function obtener_productos_por_proveedor($idProveedor)
+    public function obtener_productos_todos()
     {
-        $response = $this->model->obtener_productos_por_proveedor($idProveedor);
+        $response = $this->model->obtenerProductosTodos();
         echo json_encode($response);
     }
-
 
     public function obtener_productos_boveda()
     {
