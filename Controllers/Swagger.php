@@ -832,7 +832,8 @@ class Swagger extends Controller
      *                 ),
      *                 @OA\Property(
      *                     property="imagen",
-     *                     type="string"
+     *                     type="string",
+     *                     nullable=true
      *                 ),
      *                 @OA\Property(
      *                     property="idProveedor",
