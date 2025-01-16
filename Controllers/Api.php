@@ -142,6 +142,20 @@ class Api extends Controller
         }
         echo json_encode($response);
     }
+
+    public function agregarProducto()
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+        print_r($data);
+        /*  $response = $this->model->agregarProducto($data);
+        if ($response['status'] === 200) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        echo json_encode($response); */
+    }
+
     private function logRequest($endpoint, $method, $body)
     {
         $logData = [

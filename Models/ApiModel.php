@@ -95,6 +95,19 @@ class ApiModel extends Query
         }
     }
 
+    public function agregarProducto($data)
+    {
+        $response = $this->initialResponse();
+        try {
+            $response = "";
+            return $response;
+        } catch (Exception $e) {
+            $response['status'] = 400;
+            $response['message'] = $e->getMessage();
+            return $response;
+        }
+    }
+
     public function registro_imporsuit($correo, $nombre, $tienda, $telefono, $pais, $contrasena)
     {
         $data = [
