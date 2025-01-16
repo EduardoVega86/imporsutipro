@@ -151,7 +151,6 @@ class Productos extends Controller
             $ejemploLanding = $_POST['ejemploLanding'] ?? '';
             $duplicarFunnel = $_POST['duplicarFunnel'] ?? '';
             $videos = $_POST['videosBoveda'] ?? '';
-            $referencia = $_POST['referencia'] ?? '';
 
             // Verificar si se ha subido una imagen sin errores
             if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
@@ -161,7 +160,7 @@ class Productos extends Controller
             }
 
             // Insertar
-            $result = $this->model->insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos, $referencia);
+            $result = $this->model->insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
 
 
             if ($result['status'] === 200) {
