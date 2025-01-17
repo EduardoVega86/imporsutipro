@@ -918,7 +918,7 @@ class Swagger extends Controller
      *                     type="integer"
      *                 ),
      *                 @OA\Property(
-     *                     property="id_id_boveda",
+     *                     property="id_boveda",
      *                     type="integer"
      *                 ),
      *                 @OA\Property(
