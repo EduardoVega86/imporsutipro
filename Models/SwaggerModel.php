@@ -414,7 +414,7 @@ class SwaggerModel extends Query
         }
     }
 
-    public function obtener_productos_privados($uuid, $id_plataforma)
+    public function obtenerProductosPrivados($uuid, $id_plataforma)
     {
         try {
             // Verificar si existe usuario con ese UUID
@@ -449,6 +449,46 @@ class SwaggerModel extends Query
             return [
                 'status'  => 500,
                 'message' => 'Error interno al obtener los productos privados',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
+
+    public function obtenerProductosTienda($uuid, $id_plataforma)
+    {
+        try {
+            // Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+
+            // Obtener el ID de plataforma asociado
+            $id_users = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            // Validamos que ambos parámetros sean válidos
+            if (empty($uuid) || empty($id_plataforma)) {
+                return [
+                    'status'  => 400,
+                    'message' => 'UUID e ID de plataforma son requeridos'
+                ];
+            }
+
+            return $this->productosModel->obtener_productos_tienda($id_plataforma);
+        } catch (Exception $e) {
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al obtener los productos tienda',
                 'error'   => $e->getMessage()
             ];
         }
