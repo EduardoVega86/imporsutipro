@@ -823,11 +823,6 @@ class Swagger extends Controller
      *                     type="integer"
      *                 ),
      *                 @OA\Property(
-     *                     property="imagen",
-     *                     type="string",
-     *                     nullable=true
-     *                 ),
-     *                 @OA\Property(
      *                     property="idProveedor",
      *                     type="integer"
      *                 ),
@@ -926,11 +921,6 @@ class Swagger extends Controller
      *                     type="integer"
      *                 ),
      *                 @OA\Property(
-     *                     property="imagen",
-     *                     type="string",
-     *                     nullable=true
-     *                 ),
-     *                 @OA\Property(
      *                     property="id_plataforma",
      *                     type="integer"
      *                 ),
@@ -951,11 +941,11 @@ class Swagger extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Boveda creada con exito"
+     *         description="Boveda actualizada con exito"
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Error en la creación de la boveda"
+     *         description="Error en la actualización de la boveda"
      *     )
      * )
      */
