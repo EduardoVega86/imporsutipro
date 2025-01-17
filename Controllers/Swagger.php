@@ -1003,6 +1003,73 @@ class Swagger extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/swagger/obtener_productos_privados",
+     *     tags={"Productos"},
+     *     summary="Obtener productos privados",
+     *     description="Permite obtener los productos privados por plataforma.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="id_plataforma",
+     *         in="query",
+     *         description="ID de la plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Productos obtenidos exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     * )
+     */
+    public function obtener_productos_privados()
+    {
+        try {
+            // Obtener los parámetros desde la URL
+            $uuid = $_GET['uuid'] ?? null;
+            $id_plataforma = $_GET['id_plataforma'] ?? $_SESSION['id_plataforma'];
+
+            // Validar que ambos parámetros estén presentes
+            if (!$uuid || !$id_plataforma) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'UUID e ID de plataforma son requeridos']);
+                return;
+            }
+
+            // Llamar al modelo para obtener los productos privados
+            $response = $this->model->obtener_productos_privados($uuid, $id_plataforma);
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    /**
      * @OA\Post(
      *     path="/swagger/agregar_boveda",
      *     tags={"Produtos"},
