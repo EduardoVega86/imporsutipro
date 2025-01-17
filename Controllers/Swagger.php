@@ -691,8 +691,8 @@ class Swagger extends Controller
      * @OA\Get(
      *     path="/swagger/obtener_productos_todos",
      *     tags={"Productos"},
-     *     summary="Obtener todos losproductos por plataforma",
-     *     description="Endpoint para obtener el id_producto y nombre_producto de la tabla productows",
+     *     summary="Obtener todos los productos por id y nombre de productos",
+     *     description="Endpoint para obtener el id_producto y nombre_producto de la tabla productos",
      *     @OA\Response(
      *         response=200,
      *         description="Productos obtenidos exitosamente"

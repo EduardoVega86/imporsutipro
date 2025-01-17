@@ -26,7 +26,12 @@ class ProductosModel extends Query
     public function obtenerProductosTodos()
     {
         $sql = "SELECT id_producto, nombre_producto FROM `productos`";
-        return $this->select($sql);
+        $response = $this->select($sql);
+        return [
+            'status'  => 200,
+            'message' => 'Productos obtenidos exitosamente',
+            'data'    => $response
+        ];
     }
 
 
