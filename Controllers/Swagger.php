@@ -541,18 +541,10 @@ class Swagger extends Controller
             $contrasena = $data['contraseña'] ?? null;
             $token = $data['token'] ?? null;
 
-            if (!$contrasena) {
+            if (!$contrasena || !$token) {
                 $this->handleResponse([
                     'status' => 400,
-                    'message' => 'El campo contraseña es requerido'
-                ]);
-                return;
-            }
-
-            if (!$token) {
-                $this->handleResponse([
-                    'status' => 400,
-                    'message' => 'El campo token es requerido'
+                    'message' => 'Faltan datos requeridos'
                 ]);
                 return;
             }
@@ -895,6 +887,110 @@ class Swagger extends Controller
 
             // Llamar al modelo
             $response = $this->model->agregarBoveda($uuid, $idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/swagger/editar_boveda",
+     *     tags={"Produtos"},
+     *     summary="Agregar boveda",
+     *     description="Permite editar las bovedas para la visualización de los usuarios estudiantes.(img mandar null)",
+     *     @OA\Parameter(
+     *        name="uuid",
+     *        in="query",
+     *        description="UUID del usuario o plataforma",
+     *        required=true,
+     *        @OA\Schema(
+     *            type="string"
+     *        )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="id_produto",
+     *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="id_id_boveda",
+     *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="id_linea",
+     *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="imagen",
+     *                     type="string",
+     *                     nullable=true
+     *                 ),
+     *                 @OA\Property(
+     *                     property="id_plataforma",
+     *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="ejemploLanding",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="duplicarFunnel",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="videos",
+     *                     type="string"
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Boveda creada con exito"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error en la creación de la boveda"
+     *     )
+     * )
+     */
+
+    public function editar_boveda()
+    {
+        try {
+            $this->logRequest('swagger/editar_boveda', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if (!$data) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
+                return;
+            }
+
+            $uuid = $_GET['uuid'] ?? null; // Capturar UUID desde query parameters
+            $id_produto = $data['id_produto'] ?? null;
+            $id_boveda = $data['id_boveda'] ?? null;
+            $id_linea = $data['id_linea'] ?? null;
+            $imagen = $data['imagen'] ?? null;
+            $id_plataforma = $data['id_plataforma'] ?? null;
+            $ejemploLanding = $data['ejemploLanding'] ?? null;
+            $duplicarFunnel = $data['duplicarFunnel'] ?? null;
+            $videos = $data['videos'] ?? null;
+
+            // Validación de campos requeridos
+            if (!$uuid || !$id_produto || !$id_boveda || !$id_linea || !$id_plataforma || !$ejemploLanding || !$duplicarFunnel || !$videos) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
+
+            // Llamar al modelo
+            $response = $this->model->Boveda($uuid, $id_boveda, $id_linea, $id_plataforma, $id_produto, $imagen, $ejemploLanding, $duplicarFunnel, $videos);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
