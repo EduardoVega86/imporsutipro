@@ -172,7 +172,8 @@ class Api extends Controller
 
     public function eliminarProducto()
     {
-        $data = json_decode(file_get_contents("php://input"), true);
+        $id_detalle =  $_POST['id_detalle'];
+        $data['id_detalle'] = $id_detalle;
         $response = $this->model->eliminarProducto($data);
         if ($response['status'] === 200) {
             http_response_code(200);

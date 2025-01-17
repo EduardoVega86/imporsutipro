@@ -799,7 +799,7 @@ class Swagger extends Controller
      *     path="/swagger/agregar_boveda",
      *     tags={"Produtos"},
      *     summary="Agregar boveda",
-     *     description="Permite agregar bovedas para la visualización de los usuarios estudiantes.(img mandar null)",
+     *     description="Permite agregar bovedas para la visualización de los usuarios estudiantes.",
      *     @OA\Parameter(
      *        name="uuid",
      *        in="query",
@@ -893,7 +893,7 @@ class Swagger extends Controller
      *     path="/swagger/editar_boveda",
      *     tags={"Produtos"},
      *     summary="Agregar boveda",
-     *     description="Permite editar las bovedas para la visualización de los usuarios estudiantes.(img mandar null)",
+     *     description="Permite editar las bovedas para la visualización de los usuarios estudiantes.",
      *     @OA\Parameter(
      *        name="uuid",
      *        in="query",
