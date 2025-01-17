@@ -35,41 +35,50 @@ const initDataTable = async () => {
   Datatable = $("#datatable_bovedas").DataTable(dataTableOptions);
   dataTableIsInitialized = true;
 };
-
+// Validamos el estado antes de acceder a los datos se tuvo que encapsular en data por documentacion swagger debe mostrar codigo 200
 // Función que hace el fetch a controlador y pinta los datos en la tabla
 const listBovedas = async () => {
   try {
     // Ruta donde hacemos la petición
     const response = await fetch(`${SERVERURL}Productos/obtener_bovedas`);
-    const bovedas = await response.json();
+    const result = await response.json();
 
-    let content = "";
+    // Validamos el estado antes de acceder a los datos
+    if (result.status === 200) {
+      const bovedas = result.data;
 
-    // Iteramos sobre el array de resultados
-    bovedas.forEach((boveda) => {
-      content += `
-        <tr>
-          <td>${boveda.nombre}</td>
-          <td>${boveda.categoria}</td>
-          <td>${boveda.proveedor}</td>
-          <td><img src="${SERVERURL + boveda.img}" alt="${boveda.nombre}" style="max-width: 100px; height: auto;"></td>
-          <td><a href="${boveda.ejemplo_landing}" target="_blank" class="link-primary">Ver Landing</a></td>
-          <td><a href="${boveda.duplicar_funnel}" target="_blank" class="link-primary">Duplicar Funnel</a></td>
-          <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
-          <td><span class="">${boveda.fecha_create_at}</span></td>
-          <td>
-            <button class="btn btn-primary btn-sm btn-edit" onclick="abrirModalEditar(${boveda.id_boveda})">Editar</button>
-          </td>
-        </tr>
-      `;
-    });
+      let content = "";
 
-    // Inyectamos las filas en el cuerpo de la tabla
-    document.getElementById("tableBody_bovedas").innerHTML = content;
+      // Iteramos sobre el array de resultados
+      bovedas.forEach((boveda) => {
+        content += `
+          <tr>
+            <td>${boveda.nombre}</td>
+            <td>${boveda.categoria}</td>
+            <td>${boveda.proveedor}</td>
+            <td><img src="${SERVERURL + boveda.img}" alt="${boveda.nombre}" style="max-width: 100px; height: auto;"></td>
+            <td><a href="${boveda.ejemplo_landing}" target="_blank" class="link-primary">Ver Landing</a></td>
+            <td><a href="${boveda.duplicar_funnel}" target="_blank" class="link-primary">Duplicar Funnel</a></td>
+            <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
+            <td><span class="">${boveda.fecha_create_at}</span></td>
+            <td>
+              <button class="btn btn-primary btn-sm btn-edit" onclick="abrirModalEditar(${boveda.id_boveda})">Editar</button>
+            </td>
+          </tr>
+        `;
+      });
+
+      // Inyectamos las filas en el cuerpo de la tabla
+      document.getElementById("tableBody_bovedas").innerHTML = content;
+    } else {
+      console.error("Error en la respuesta del servidor:", result.message);
+    }
   } catch (error) {
     console.error("Error al listar Bovedas", error);
   }
 };
+
+
 
 // Llenar select de Nombres
 const cargarNombres = async () => {
