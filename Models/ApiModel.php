@@ -13,7 +13,6 @@ class ApiModel extends Query
         $this->pedidos = new Pedidos();
     }
 
-
     public function registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
     {
         $response = $this->initialResponse();
@@ -99,13 +98,61 @@ class ApiModel extends Query
     {
         $response = $this->initialResponse();
         try {
-            $response = "";
+            $data_factura = $this->getDataFactura($data['id_factura']);
+            if ($data_factura == null) {
+                throw new Exception('Factura no encontrada');
+            }
+            $numero_factura = $data_factura['numero_factura'];
+            $id_plataforma = $data_factura['id_plataforma'];
+            $responses = $this->agregarProductoBase($data['id_inventario'], $data['id_producto'], $data['sku'], $data['precio'], $data['cantidad'], $data['id_factura'], $numero_factura, $id_plataforma);
+            if ($responses != 1) {
+                print_r($responses);
+                throw new Exception('Error al agregar el producto: ');
+            }
+            $response['title'] = "Exito";
+            $response['status'] = 200;
+            $response['message'] = 'Producto agregado correctamente';
+
             return $response;
         } catch (Exception $e) {
             $response['status'] = 400;
             $response['message'] = $e->getMessage();
             return $response;
         }
+    }
+
+    public function eliminarProducto($data)
+    {
+        $response = $this->initialResponse();
+        try {
+            $sql = "DELETE FROM detalle_fact_cot WHERE id_detalle = ?";
+            $data = [$data['id_detalle']];
+            $response = $this->delete($sql, $data);
+            if ($response != 1) {
+                throw new Exception('Error al eliminar el producto');
+            }
+            $response['title'] = "Exito";
+            $response['status'] = 200;
+            $response['message'] = 'Producto eliminado correctamente';
+            return $response;
+        } catch (Exception $e) {
+            $response['status'] = 400;
+            $response['message'] = $e->getMessage();
+            return $response;
+        }
+    }
+
+    private function getDataFactura($id_pedido)
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE id_factura  = $id_pedido";
+        return $this->select($sql)[0] ?? null;
+    }
+
+    private function agregarProductoBase($id_inventario, $id_producto, $sku, $precio, $cantidad, $id_factura, $numero_factura, $id_plataforma)
+    {
+        $sql = "INSERT INTO `detalle_fact_cot` (`id_inventario`, `id_producto`, `sku`, `precio_venta`, `cantidad`, `id_factura`, `numero_factura`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$id_inventario, $id_producto, $sku, $precio, $cantidad, $id_factura, $numero_factura, $id_plataforma];
+        return $this->insert($sql, $data);
     }
 
     public function registro_imporsuit($correo, $nombre, $tienda, $telefono, $pais, $contrasena)
@@ -318,7 +365,6 @@ class ApiModel extends Query
         }
     }
 
-
     public function obtenerDestinatarioWebhook($id)
     {
         $sql = "SELECT bodega FROM inventario_bodegas WHERE id_inventario = $id";
@@ -331,26 +377,6 @@ class ApiModel extends Query
 
         return $id_platafomra;
     }
-
-    /*  public function generarGuia($uuid, $data){
-        $response = $this->initialResponse();
-        try {
-            if ($uuid === null) {
-                throw new Exception('Faltan datos requeridos');
-            }
-            $usuario = $this->validarUUID($uuid);
-            if (!$usuario) {
-                throw new Exception('UUID no válido');
-            }
-            $id_plataforma = $this->getIdPlataforma($usuario[0]['email_users']);
-            $response = $this->pedidos->generarGuia($id_plataforma, $data);
-            return $response;
-        } catch (Exception $e) {
-            $response['status'] = 400;
-            $response['message'] = $e->getMessage();
-            return $response;
-        }
-    } */
 
     private function correoExistente($correo)
     {

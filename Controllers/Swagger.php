@@ -990,7 +990,7 @@ class Swagger extends Controller
             }
 
             // Llamar al modelo
-            $response = $this->model->Boveda($uuid, $id_boveda, $id_linea, $id_plataforma, $id_produto, $imagen, $ejemploLanding, $duplicarFunnel, $videos);
+            $response = $this->model->editarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $id_produto, $imagen, $ejemploLanding, $duplicarFunnel, $videos);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
