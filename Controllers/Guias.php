@@ -418,7 +418,6 @@ class Guias extends Controller
 
         $response = $this->model->generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], $observacion, $recaudo, $monto_factura, MATRIZ, $url_google_speed_pedido, $vendedor, $telf_vendedor);
         $response = json_decode($response, true);
-        print_r($response);
 
         if (isset($response["guia"])) {
             $response["status"] = 200;
