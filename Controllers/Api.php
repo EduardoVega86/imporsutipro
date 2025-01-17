@@ -145,7 +145,22 @@ class Api extends Controller
 
     public function agregarProducto()
     {
-        $data = json_decode(file_get_contents("php://input"), true);
+        $id_factura =  $_POST['id_factura'];
+        $id_producto = $_POST['id_producto'];
+        $id_inventario = $_POST['id_inventario'];
+        $sku = $_POST['sku'];
+        $cantidad = $_POST['cantidad'];
+        $precio = $_POST['precio'];
+
+        $data = [
+            'id_factura' => $id_factura,
+            'id_producto' => $id_producto,
+            'id_inventario' => $id_inventario,
+            'sku' => $sku,
+            'cantidad' => $cantidad,
+            'precio' => $precio
+        ];
+
         $response = $this->model->agregarProducto($data);
         if ($response['status'] === 200) {
             http_response_code(200);

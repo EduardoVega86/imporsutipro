@@ -128,7 +128,7 @@ class ApiModel extends Query
             $sql = "DELETE FROM detalle_fact_cot WHERE id_detalle = ?";
             $data = [$data['id_detalle']];
             $responses = $this->delete($sql, $data);
-            if ($responses != 1) {
+            if ($response != 1) {
                 throw new Exception('Error al eliminar el producto');
             }
             $response['title'] = "Exito";
