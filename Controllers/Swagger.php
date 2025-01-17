@@ -1180,7 +1180,7 @@ class Swagger extends Controller
      *     path="/swagger/obtener_productos_inventario",
      *     tags={"Productos"},
      *     summary="Obtener productos de inventario",
-     *     description="Permite obtener los productos de la plataforma especificada mediante una consulta que combina las tablas productos, inventario_bodegas y variedades, filtrando los resultados por la plataforma especificada."",
+     *     description="Permite obtener los productos de la plataforma especificada mediante una consulta que combina las tablas productos, inventario_bodegas y variedades, filtrando los resultados por la plataforma especificada.",
      *     @OA\Parameter(
      *         name="uuid",
      *         in="query",
