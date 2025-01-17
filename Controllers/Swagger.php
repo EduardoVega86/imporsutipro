@@ -17,11 +17,9 @@ use OpenApi\Annotations as OA;
 
 class Swagger extends Controller
 {
-    private $productosModel;
     public function __construct()
     {
         parent::__construct();
-        $this->productosModel = new ProductosModel();
     }
 
     public function index()
@@ -710,7 +708,7 @@ class Swagger extends Controller
             $this->logRequest('swagger/obtener_productos_todos', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
 
             // Llamar al modelo para obtener productos
-            $response = $this->productosModel->obtenerProductosTodos();
+            $response = $this->model->obtenerProductosTodos();
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
