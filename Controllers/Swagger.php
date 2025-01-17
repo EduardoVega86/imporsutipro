@@ -716,8 +716,10 @@ class Swagger extends Controller
             // Log de la solicitud
             $this->logRequest('swagger/obtener_productos_todos', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
 
+            $uuid = $_GET['uuid'] ?? null; // Capturar UUID desde query parameters
+
             // Llamar al modelo para obtener productos
-            $response = $this->model->obtenerProductosTodos();
+            $response = $this->model->obtenerProductosTodos($uuid);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
