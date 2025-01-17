@@ -898,7 +898,7 @@ class Swagger extends Controller
             }
 
             // Llamar al modelo para obtener bovedas
-            $response = $this->model->obtenerBovedasId($uuid);
+            $response = $this->model->obtenerBovedasId($uuid, $id);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
