@@ -728,7 +728,7 @@ class Swagger extends Controller
 
     /**
      * @OA\Get(
-     *     path="/swagger/obtener_bovedas",
+     *     path="/swagger/obtener_bovedas_plataforma",
      *     tags={"Productos"},
      *     summary="Obtener bovedas por plataforma",
      *     description="Permite obtener la lista de bovedas asociadas a una plataforma.",
@@ -755,11 +755,11 @@ class Swagger extends Controller
      *     )
      * )
      */
-    public function obtener_bovedas()
+    public function obtener_bovedas_plataforma()
     {
         try {
             // Log de la solicitud
-            $this->logRequest('swagger/obtener_bovedas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $this->logRequest('swagger/obtener_bovedas_plataforma', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
 
             // Captura el UUID desde los parámetros GET
             $uuid = $_GET['uuid'] ?? null;
