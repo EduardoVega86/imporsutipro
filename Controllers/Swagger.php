@@ -1,5 +1,6 @@
 <?php
 require 'vendor/autoload.php';
+require_once 'Models/ProductosModel.php';
 
 use OpenApi\Annotations as OA;
 
@@ -16,9 +17,11 @@ use OpenApi\Annotations as OA;
 
 class Swagger extends Controller
 {
+    private $productosModel;
     public function __construct()
     {
         parent::__construct();
+        $this->productosModel = new ProductosModel();
     }
 
     public function index()
@@ -707,7 +710,7 @@ class Swagger extends Controller
             $this->logRequest('swagger/obtener_productos_todos', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
 
             // Llamar al modelo para obtener productos
-            $response = $this->model->obtener_productos_todos();
+            $response = $this->productosModel->obtenerProductosTodos();
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
