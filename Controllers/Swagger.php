@@ -684,6 +684,35 @@ class Swagger extends Controller
             $this->handleException($e);
         }
     }
+    /**
+     * @OA\Get(
+     *     path="/swagger/obtener_productos_todos",
+     *     tags={"Productos"},
+     *     summary="Obtener todos losproductos por plataforma",
+     *     description="Endpoint para obtener el id_producto y nombre_producto de la tabla productows",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Productos obtenidos exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error al obtener productos"
+     *     ),
+     * )
+     */
+    public function obtener_productos_todos()
+    {
+        try {
+            // Log de la solicitud
+            $this->logRequest('swagger/obtener_productos_todos', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
+            // Llamar al modelo para obtener productos
+            $response = $this->model->obtener_productos_todos();
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
 
     /**
      * @OA\Get(
