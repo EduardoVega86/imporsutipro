@@ -1,5 +1,6 @@
 <?php
 require "Controllers/Pedidos.php";
+require "Models/GuiasModel.php";
 
 use Firebase\JWT\JWT;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -7,10 +8,12 @@ use PHPMailer\PHPMailer\PHPMailer;
 class ApiModel extends Query
 {
     private $pedidos;
+    private $guiasM;
     public function __construct()
     {
         parent::__construct();
         $this->pedidos = new Pedidos();
+        $this->guiasM = new GuiasModel();
     }
 
     public function registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
@@ -473,5 +476,44 @@ class ApiModel extends Query
         $sql = "INSERT INTO `bodega`(`nombre`,`id_empresa`,`responsable`,`contacto`,`id_plataforma`)VALUES
         ('$tienda',$id_plataforma,'$nombre','$telefono',$id_plataforma);";
         return $this->simple_insert($sql);
+    }
+
+    public function anularGuias($uuid = null, $guia, $transportadora, $numero_factura = null)
+    {
+        $response = $this->initialResponse();
+        try {
+            $ch = curl_init();
+            if ($transportadora == "LAAR") {
+                $this->guiasM->anularGuia($guia);
+            } else if ($transportadora == "GINTRACOM") {
+                // https://guias.imporsuitpro.com/Gintracom/anular/$%7Bnumero_guia%7D
+                $url = "https://guias.imporsuitpro.com/Gintracom/anular/$guia";
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($ch);
+                curl_close($ch);
+            } else if ($transportadora == "SERVIENTREGA") {
+                //https://guias.imporsuitpro.com/Servientrega/Anular/${numero_guia}
+                $url = "https://guias.imporsuitpro.com/Servientrega/Anular/$guia";
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($ch);
+                curl_close($ch);
+            } else if ($transportadora == "SPEED") {
+                /// https://guias.imporsuitpro.com/Speed/anular/$%7Bnumero_guia%7D
+                $url = "https://guias.imporsuitpro.com/Speed/anular/$guia";
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($ch);
+                curl_close($ch);
+            } else if ($transportadora == "MANUAL") {
+                $this->guiasM->anularFactura($$numero_factura);
+            }
+            return $response;
+        } catch (Exception $e) {
+            $response['status'] = 400;
+            $response['message'] = $e->getMessage();
+            return $response;
+        }
     }
 }

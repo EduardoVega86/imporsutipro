@@ -402,7 +402,7 @@ class Guias extends Controller
 
         $monto_factura = $_POST['total_venta'];
 
-        $url_google_speed_pedido = $_POST['url_google_speed_pedido'];
+        $url_google_speed_pedido = $_POST['url_google_speed_pedido'] ?? "";
 
 
 
@@ -418,6 +418,7 @@ class Guias extends Controller
 
         $response = $this->model->generarSpeed($nombreO, $ciudadOrigen, $direccionO, $telefonoO, $referenciaO, $nombre, $ciudadDestino, $direccion, $telefono, $celular, $referencia, $contiene, $fecha, $numero_factura, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], $observacion, $recaudo, $monto_factura, MATRIZ, $url_google_speed_pedido, $vendedor, $telf_vendedor);
         $response = json_decode($response, true);
+        print_r($response);
 
         if (isset($response["guia"])) {
             $response["status"] = 200;
@@ -475,5 +476,11 @@ class Guias extends Controller
     public function pesosLaar()
     {
         $response = $this->model->pesosLaar();
+    }
+
+    public function anularFactura($numero_factura)
+    {
+        $response = $this->model->anularFactura($numero_factura);
+        echo json_encode($response);
     }
 }

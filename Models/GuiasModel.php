@@ -406,6 +406,18 @@ class GuiasModel extends Query
         return $response;
     }
 
+    public function anularFactura($numero_factura)
+    {
+        $sql = "UPDATE facturas_cot SET estado_guia_sistema = 8, anulada = 1 WHERE numero_factura = ?";
+        $responses = $this->update($sql, array($numero_factura));
+        if ($responses == 1) {
+            $response = array("status" => 200, "message" => "Factura anulada correctamente");
+        } else {
+            $response = array("status" => 500, "message" => "Error al anular la factura");
+        }
+        return $response;
+    }
+
     public function obtenerTiendas()
     {
         $sql = "SELECT * FROM tiendas";
