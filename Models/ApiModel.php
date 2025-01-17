@@ -478,19 +478,20 @@ class ApiModel extends Query
         return $this->simple_insert($sql);
     }
 
-    public function anularGuias($uuid = null, $guia, $transportadora, $numero_factura = null)
+    public function anularGuias($uuid, $guia, $transportadora, $numero_factura = null)
     {
         $response = $this->initialResponse();
         try {
             $ch = curl_init();
             if ($transportadora == "LAAR") {
-                $this->guiasM->anularGuia($guia);
+                $response =   $this->guiasM->anularGuia($guia);
             } else if ($transportadora == "GINTRACOM") {
                 // https://guias.imporsuitpro.com/Gintracom/anular/$%7Bnumero_guia%7D
                 $url = "https://guias.imporsuitpro.com/Gintracom/anular/$guia";
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 $response = curl_exec($ch);
+                $response = json_decode($response, true);
                 curl_close($ch);
             } else if ($transportadora == "SERVIENTREGA") {
                 //https://guias.imporsuitpro.com/Servientrega/Anular/${numero_guia}
@@ -498,6 +499,7 @@ class ApiModel extends Query
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 $response = curl_exec($ch);
+                $response = json_decode($response, true);
                 curl_close($ch);
             } else if ($transportadora == "SPEED") {
                 /// https://guias.imporsuitpro.com/Speed/anular/$%7Bnumero_guia%7D
@@ -505,9 +507,10 @@ class ApiModel extends Query
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 $response = curl_exec($ch);
+                $response = json_decode($response, true);
                 curl_close($ch);
             } else if ($transportadora == "MANUAL") {
-                $this->guiasM->anularFactura($$numero_factura);
+                $response = $this->guiasM->anularFactura($numero_factura);
             }
             return $response;
         } catch (Exception $e) {

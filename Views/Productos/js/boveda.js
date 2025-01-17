@@ -144,8 +144,6 @@ const cargarProveedores = async () => {
       // Poblamos tanto el select de agregar como el de editar
       document.getElementById("proveedorBoveda").innerHTML = opciones;
       document.getElementById("editProveedorBoveda").innerHTML = opciones;
-
-
     } else{
       console.error("Error en la respuesta del servidor:", result.message)
     }

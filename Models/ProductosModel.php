@@ -168,7 +168,6 @@ class ProductosModel extends Query
             'status' => 200,
             'message' => 'Proveedores obtenidos exitosamente',
             'data' => $response
-
         ];
     }
 

@@ -173,7 +173,7 @@ class Api extends Controller
     public function anularGuias($uuid = null)
     {
         $guia = $_POST['guia'];
-        $numero_factura = $_POST['numero_factura'];
+        $numero_factura = $_POST['numero_factura'] ?? null;
         $transportadora = "";
         if (str_contains($guia, "IMP") || str_contains($guia, "MKP")) {
             $transportadora = "LAAR";
@@ -197,6 +197,7 @@ class Api extends Controller
         } else {
             http_response_code(400);
         }
+        echo json_encode($response);
     }
 
     public function eliminarProducto()
