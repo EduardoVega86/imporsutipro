@@ -322,7 +322,7 @@ class SwaggerModel extends Query
         }
     }
 
-    public function edtarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $imagen, $id_produto, $ejemploLanding, $duplicarFunnel, $videos)
+    public function editarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $imagen, $id_produto, $ejemploLanding, $duplicarFunnel, $videos)
     {
         try {
             // Verificar si existe usuario con ese UUID
