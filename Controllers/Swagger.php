@@ -1,5 +1,6 @@
 <?php
 require 'vendor/autoload.php';
+require_once 'Models/ProductosModel.php';
 
 use OpenApi\Annotations as OA;
 
@@ -684,10 +685,57 @@ class Swagger extends Controller
             $this->handleException($e);
         }
     }
+    /**
+     * @OA\Get(
+     *     path="/swagger/obtener_productos_todos",
+     *     tags={"Productos"},
+     *     summary="Obtener todos los productos por id y nombre de productos",
+     *     description="Endpoint para obtener el id_producto y nombre_producto de la tabla productos",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Productos obtenidos exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error al obtener productos"
+     *     ),
+     * )
+     */
+    public function obtener_productos_todos()
+    {
+        try {
+            // Log de la solicitud
+            $this->logRequest('swagger/obtener_productos_todos', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
+            $uuid = $_GET['uuid'] ?? null; // Capturar UUID desde query parameters
+
+            // Validar UUID
+            if (!$uuid) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos: uuid']);
+                return;
+            }
+
+            // Llamar al modelo para obtener productos
+            $response = $this->model->obtenerProductosTodos($uuid);
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
 
     /**
      * @OA\Get(
-     *     path="/swagger/obtener_bovedas",
+     *     path="/swagger/obtener_bovedas_plataforma",
      *     tags={"Productos"},
      *     summary="Obtener bovedas por plataforma",
      *     description="Permite obtener la lista de bovedas asociadas a una plataforma.",
@@ -714,11 +762,11 @@ class Swagger extends Controller
      *     )
      * )
      */
-    public function obtener_bovedas()
+    public function obtener_bovedas_plataforma()
     {
         try {
             // Log de la solicitud
-            $this->logRequest('swagger/obtener_bovedas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $this->logRequest('swagger/obtener_bovedas_plataforma', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
 
             // Captura el UUID desde los parámetros GET
             $uuid = $_GET['uuid'] ?? null;
@@ -738,7 +786,123 @@ class Swagger extends Controller
         }
     }
 
-    //Pendiente Endpoint Agregar Boveda hasta saber que fin tiene tabla Bovedas
+    /**
+     * @OA\Get(
+     *     path="/swagger/obtener_bovedas_todas",
+     *     tags={"Productos"},
+     *     summary="Obtener todas las bovedas",
+     *     description="Permite obtener toda la lista de bovedas para los usuarios estudiantes.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Bovedas obtenidas exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error al obtener bovedas"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado"
+     *     )
+     * )
+     */
+    public function obtener_bovedas_todas()
+    {
+        try {
+            // Log de la solicitud
+            $this->logRequest('swagger/obtener_bovedas_todas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
+            // Captura el UUID desde los parámetros GET
+            $uuid = $_GET['uuid'] ?? null;
+
+            // Validar UUID
+            if (!$uuid) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos: uuid']);
+                return;
+            }
+
+            // Llamar al modelo para obtener bovedas
+            $response = $this->model->obtenerBovedasTodas($uuid);
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/swagger/obtener_boveda_id",
+     *     tags={"Productos"},
+     *     summary="Obtener todas las bovedas",
+     *     description="Permite obtener el id de la boveda, el cual se usa para editar las bovedas.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="id_boveda",
+     *         in="query",
+     *         description="id de la boveda",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Bovedas obtenida exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error al obtener boveda"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado"
+     *     )
+     * )
+     */
+    public function obtener_boveda_id($id)
+    {
+        try {
+            // Log de la solicitud
+            $this->logRequest('swagger/obtener_boveda_id', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
+            // Si $id está vacío, intenta capturarlo desde $_GET
+            if (empty($id)) {
+                $id = $_GET['id_boveda'] ?? null;
+            }
+            // Captura el UUID desde los parámetros GET
+            $uuid = $_GET['uuid'] ?? null;
+
+            if (!$uuid || !$id) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
+
+            // Llamar al modelo para obtener bovedas
+            $response = $this->model->obtenerBovedasId($uuid, $id);
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
 
 
     /**

@@ -35,41 +35,50 @@ const initDataTable = async () => {
   Datatable = $("#datatable_bovedas").DataTable(dataTableOptions);
   dataTableIsInitialized = true;
 };
-
+// Validamos el estado antes de acceder a los datos se tuvo que encapsular en data por documentacion swagger debe mostrar codigo 200
 // Función que hace el fetch a controlador y pinta los datos en la tabla
 const listBovedas = async () => {
   try {
     // Ruta donde hacemos la petición
     const response = await fetch(`${SERVERURL}Productos/obtener_bovedas`);
-    const bovedas = await response.json();
+    const result = await response.json();
 
-    let content = "";
+    // Validamos el estado antes de acceder a los datos
+    if (result.status === 200) {
+      const bovedas = result.data;
 
-    // Iteramos sobre el array de resultados
-    bovedas.forEach((boveda) => {
-      content += `
-        <tr>
-          <td>${boveda.nombre}</td>
-          <td>${boveda.categoria}</td>
-          <td>${boveda.proveedor}</td>
-          <td><img src="${SERVERURL + boveda.img}" alt="${boveda.nombre}" style="max-width: 100px; height: auto;"></td>
-          <td><a href="${boveda.ejemplo_landing}" target="_blank" class="link-primary">Ver Landing</a></td>
-          <td><a href="${boveda.duplicar_funnel}" target="_blank" class="link-primary">Duplicar Funnel</a></td>
-          <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
-          <td><span class="">${boveda.fecha_create_at}</span></td>
-          <td>
-            <button class="btn btn-primary btn-sm btn-edit" onclick="abrirModalEditar(${boveda.id_boveda})">Editar</button>
-          </td>
-        </tr>
-      `;
-    });
+      let content = "";
 
-    // Inyectamos las filas en el cuerpo de la tabla
-    document.getElementById("tableBody_bovedas").innerHTML = content;
+      // Iteramos sobre el array de resultados
+      bovedas.forEach((boveda) => {
+        content += `
+          <tr>
+            <td>${boveda.nombre}</td>
+            <td>${boveda.categoria}</td>
+            <td>${boveda.proveedor}</td>
+            <td><img src="${SERVERURL + boveda.img}" alt="${boveda.nombre}" style="max-width: 100px; height: auto;"></td>
+            <td><a href="${boveda.ejemplo_landing}" target="_blank" class="link-primary">Ver Landing</a></td>
+            <td><a href="${boveda.duplicar_funnel}" target="_blank" class="link-primary">Duplicar Funnel</a></td>
+            <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
+            <td><span class="">${boveda.fecha_create_at}</span></td>
+            <td>
+              <button class="btn btn-primary btn-sm btn-edit" onclick="abrirModalEditar(${boveda.id_boveda})">Editar</button>
+            </td>
+          </tr>
+        `;
+      });
+
+      // Inyectamos las filas en el cuerpo de la tabla
+      document.getElementById("tableBody_bovedas").innerHTML = content;
+    } else {
+      console.error("Error en la respuesta del servidor:", result.message);
+    }
   } catch (error) {
     console.error("Error al listar Bovedas", error);
   }
 };
+
+
 
 // Llenar select de Nombres
 const cargarNombres = async () => {
@@ -77,20 +86,28 @@ const cargarNombres = async () => {
     const response = await fetch(
       `${SERVERURL}Productos/obtener_productos_todos`
     );
-    const nombres = await response.json();
+    const result = await response.json();
 
-    let opciones = "<option value=''>Seleccione un Nombre</option>";
-    nombres.forEach((cat) => {
-      opciones += `<option value="${cat.id_producto}">${cat.nombre_producto}</option>`;
-    });
+    // Validamos el estado antes de acceder a los datos se tuvo que encapsular en data por documentacion swagger debe mostrar codigo 200
+    if (result.status === 200) {
+      const nombres = result.data;
 
-    // Poblamos tanto el select de agregar como el de editar
-    document.getElementById("nombreBoveda").innerHTML = opciones;
-    document.getElementById("editNombreBoveda").innerHTML = opciones;
+      let opciones = "<option value=''>Seleccione un Nombre</option>";
+      nombres.forEach((cat) => {
+        opciones += `<option value="${cat.id_producto}">${cat.nombre_producto}</option>`;
+      });
+
+      // Poblamos tanto el select de agregar como el de editar
+      document.getElementById("nombreBoveda").innerHTML = opciones;
+      document.getElementById("editNombreBoveda").innerHTML = opciones;
+    } else {
+      console.error("Error en la respuesta del servidor:", result.message);
+    }
   } catch (error) {
     console.error("Error al cargar nombres:", error);
   }
 };
+
 
 // Llenar select de Categorías
 const cargarCategorias = async () => {
@@ -139,10 +156,12 @@ async function abrirModalEditar(id_boveda) {
       throw new Error(`Error del servidor: ${response.status}`);
     }
 
-    const boveda = await response.json();
-    console.log("Datos de la bóveda:", boveda);
+    const result = await response.json();
 
-    if (Array.isArray(boveda) && boveda.length > 0) {
+    // Verificar si los datos están en el formato esperado
+    if (result.status === 200 && Array.isArray(result.data) && result.data.length > 0) {
+      const boveda = result.data;
+
       // Configurar valores en el modal
       $("#editNombreBoveda").val(boveda[0].id_producto).trigger("change");
       $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger("change");
@@ -151,7 +170,6 @@ async function abrirModalEditar(id_boveda) {
       $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
       $("#editVideosBoveda").val(boveda[0].videos);
       $("#editar_idBoveda").val(boveda[0].id_boveda);
-
 
       // Dejar vacío el campo de archivo
       document.getElementById("Editarimagen").value = "";
@@ -162,7 +180,7 @@ async function abrirModalEditar(id_boveda) {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "No se encontraron datos para la bóveda.",
+        text: result.message || "No se encontraron datos para la bóveda.",
       });
     }
   } catch (error) {

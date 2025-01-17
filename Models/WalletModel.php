@@ -2001,13 +2001,6 @@ class WalletModel extends Query
                 ELSE 'Desconocido'
             END AS trayecto";
 
-
-
-
-        /*  if ($visto == 0) {
-            $conditions[] = "visto = 0";
-        } */
-
         // Filtro por fecha
         if ($fecha) {
             $conditions[] = "DATE(fecha) = ?";
@@ -2021,18 +2014,40 @@ class WalletModel extends Query
                 cc.provincia,
                 fc.plataforma_importa,
                 fc.telefono,
+                
                 GROUP_CONCAT(p.nombre_producto SEPARATOR '|') AS nombres_productos,
                 dfc.cantidad,
                 dfc.precio_venta,
+                CASE
+                    WHEN fc.estado_guia_sistema > 1 THEN 1
+                    ELSE 0
+                END AS recolectado,
+                CASE 
+                    WHEN fc.fecha_recoleccion IS NOT NULL THEN fc.fecha_recoleccion
+                    ELSE fc.fecha_guia + INTERVAL 1 DAY
+                END AS fecha_recoleccion,
+                CASE 
+                    WHEN fc.estado_guia_sistema in(7) AND fc.fecha_entrega IS NOT NULL THEN fc.fecha_entrega
+                    ELSE fc.fecha_guia + INTERVAL 8 DAY
+                END AS fecha_entrega,
                 fc.transporte,
+                fc.numero_factura,
                 fc.fecha_factura,
                 fc.fecha_guia,
+                fc.contiene,
+                fc.c_principal,
+                fc.c_secundario,
+                ib.pcp,
+                b.full_filme,
+                fc.call,
                 $logica 
                 FROM cabecera_cuenta_pagar ccp
                 INNER JOIN facturas_cot fc ON ccp.numero_factura = fc.numero_factura
                 LEFT JOIN ciudad_cotizacion cc ON fc.ciudad_cot = cc.id_cotizacion
                 LEFT JOIN detalle_fact_cot dfc ON fc.numero_factura = dfc.numero_factura
                 LEFT JOIN productos p ON dfc.id_producto = p.id_producto
+                LEFT JOIN inventario_bodegas ib ON p.id_producto = ib.id_producto
+                LEFT JOIN bodega b ON ib.bodega = b.id
                 $whereClause 
                 GROUP BY ccp.id_cabecera, cc.ciudad, cc.provincia, fc.plataforma_importa, fc.telefono
                 ORDER BY ccp.id_cabecera DESC

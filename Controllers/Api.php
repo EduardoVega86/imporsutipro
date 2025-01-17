@@ -170,6 +170,35 @@ class Api extends Controller
         echo json_encode($response);
     }
 
+    public function anularGuias($uuid = null)
+    {
+        $guia = $_POST['guia'];
+        $numero_factura = $_POST['numero_factura'];
+        $transportadora = "";
+        if (str_contains($guia, "IMP") || str_contains($guia, "MKP")) {
+            $transportadora = "LAAR";
+        } else if (strpos($guia, "I00") === 0) {
+            $transportadora = "GINTRACOM";
+        } else if (is_numeric($guia)) {
+            $transportadora = "SERVIENTREGA";
+        } else if (str_contains($guia, "SPD") || str_contains($guia, "MKL")) {
+            $transportadora = "SPEED";
+        } else if (str_contains($guia, "MANUAL")) {
+            $transportadora = "MANUAL";
+        }
+        if ($uuid != NULL) {
+
+            $response = $this->model->anularGuias($uuid, $guia, $transportadora, $numero_factura);
+        } else {
+            $response = $this->model->anularGuias(null, $guia, $transportadora, $numero_factura);
+        }
+        if ($response['status'] === 200) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+    }
+
     public function eliminarProducto()
     {
         $id_detalle =  $_POST['id_detalle'];

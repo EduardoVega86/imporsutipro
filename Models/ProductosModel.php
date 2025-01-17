@@ -26,7 +26,12 @@ class ProductosModel extends Query
     public function obtenerProductosTodos()
     {
         $sql = "SELECT id_producto, nombre_producto FROM `productos`";
-        return $this->select($sql);
+        $response = $this->select($sql);
+        return [
+            'status'  => 200,
+            'message' => 'Productos obtenidos exitosamente',
+            'data'    => $response
+        ];
     }
 
 
@@ -62,14 +67,24 @@ class ProductosModel extends Query
             INNER JOIN 
                 plataformas ON bovedas.id_plataforma = plataformas.id_plataforma";
 
-        return $this->select($sql);
+        $response = $this->select($sql);
+        return [
+            'status'  => 200,
+            'message' => 'Productos obtenidos exitosamente',
+            'data'    => $response
+        ];
     }
 
     public function obtenerBoveda($id)
     {
         /* var_dump($id); */
         $sql = "SELECT * FROM bovedas WHERE id_boveda= $id";
-        return $this->select($sql);
+        $response = $this->select($sql);
+        return [
+            'status' => 200,
+            'message' => 'Boveda obtenida exitosamente',
+            'data' => $response
+        ];
     }
 
     public function editarBoveda($id_boveda, $id_linea, $id_plataforma, $id_producto, $imagen, $ejemplo_landing, $duplicar_funnel, $videos)

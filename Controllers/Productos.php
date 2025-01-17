@@ -176,22 +176,7 @@ class Productos extends Controller
             }
 
             // Insertar
-            $result = $this->model->insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
-
-
-            if ($result['status'] === 200) {
-                $response = [
-                    "status" => 200,
-                    "title" => "Bóveda agregada",
-                    "message" => "La bóveda se agregó correctamente."
-                ];
-            } else {
-                $response = [
-                    "status" => 500,
-                    "title" => "Error",
-                    "message" => $result['message'] ?? "Hubo un problema al guardar la bóveda."
-                ];
-            }
+            $response = $this->model->insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
         } else {
             $response = [
                 "status" => 400,
