@@ -77,20 +77,28 @@ const cargarNombres = async () => {
     const response = await fetch(
       `${SERVERURL}Productos/obtener_productos_todos`
     );
-    const nombres = await response.json();
+    const result = await response.json();
 
-    let opciones = "<option value=''>Seleccione un Nombre</option>";
-    nombres.forEach((cat) => {
-      opciones += `<option value="${cat.id_producto}">${cat.nombre_producto}</option>`;
-    });
+    // Validamos el estado antes de acceder a los datos se tuvo que encapsular en data por documentacion swagger debe mostrar codigo 200
+    if (result.status === 200) {
+      const nombres = result.data;
 
-    // Poblamos tanto el select de agregar como el de editar
-    document.getElementById("nombreBoveda").innerHTML = opciones;
-    document.getElementById("editNombreBoveda").innerHTML = opciones;
+      let opciones = "<option value=''>Seleccione un Nombre</option>";
+      nombres.forEach((cat) => {
+        opciones += `<option value="${cat.id_producto}">${cat.nombre_producto}</option>`;
+      });
+
+      // Poblamos tanto el select de agregar como el de editar
+      document.getElementById("nombreBoveda").innerHTML = opciones;
+      document.getElementById("editNombreBoveda").innerHTML = opciones;
+    } else {
+      console.error("Error en la respuesta del servidor:", result.message);
+    }
   } catch (error) {
     console.error("Error al cargar nombres:", error);
   }
 };
+
 
 // Llenar select de Categorías
 const cargarCategorias = async () => {
