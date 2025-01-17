@@ -478,7 +478,7 @@ class ApiModel extends Query
         return $this->simple_insert($sql);
     }
 
-    public function anularGuias($uuid = null, $guia, $transportadora, $numero_factura = null)
+    public function anularGuias($uuid, $guia, $transportadora, $numero_factura = null)
     {
         $response = $this->initialResponse();
         try {
