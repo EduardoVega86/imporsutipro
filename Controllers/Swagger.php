@@ -854,6 +854,15 @@ class Swagger extends Controller
      *             type="string"
      *         )
      *     ),
+     *     @OA\Parameter(
+     *         name="id_boveda",
+     *         in="query",
+     *         description="id de la boveda",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Bovedas obtenidas exitosamente"
