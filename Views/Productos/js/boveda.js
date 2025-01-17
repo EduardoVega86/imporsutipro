@@ -158,39 +158,39 @@ async function abrirModalEditar(id_boveda) {
 
     const result = await response.json();
 
-    if(result.status ===200){
-      const boveda = result.data
-      (Array.isArray(boveda) && boveda.length > 0) 
-        // Configurar valores en el modal
-        $("#editNombreBoveda").val(boveda[0].id_producto).trigger("change");
-        $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger("change");
-        $("#editProveedorBoveda").val(boveda[0].id_plataforma).trigger("change");
-        $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
-        $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
-        $("#editVideosBoveda").val(boveda[0].videos);
-        $("#editar_idBoveda").val(boveda[0].id_boveda);
-  
-  
-        // Dejar vacío el campo de archivo
-        document.getElementById("Editarimagen").value = "";
-  
-        // Mostrar el modal
-        $("#modalEditarBoveda").modal("show");
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "No se encontraron datos para la bóveda.",
-          });
-        }
+    // Verificar si los datos están en el formato esperado
+    if (result.status === 200 && Array.isArray(result.data) && result.data.length > 0) {
+      const boveda = result.data;
+
+      // Configurar valores en el modal
+      $("#editNombreBoveda").val(boveda[0].id_producto).trigger("change");
+      $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger("change");
+      $("#editProveedorBoveda").val(boveda[0].id_plataforma).trigger("change");
+      $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
+      $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
+      $("#editVideosBoveda").val(boveda[0].videos);
+      $("#editar_idBoveda").val(boveda[0].id_boveda);
+
+      // Dejar vacío el campo de archivo
+      document.getElementById("Editarimagen").value = "";
+
+      // Mostrar el modal
+      $("#modalEditarBoveda").modal("show");
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: result.message || "No se encontraron datos para la bóveda.",
+      });
+    }
   } catch (error) {
-        console.error("Error al obtener datos de la bóveda:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "No se pudieron cargar los datos de la bóveda.",
-        });
-   }
+    console.error("Error al obtener datos de la bóveda:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No se pudieron cargar los datos de la bóveda.",
+    });
+  }
 }
 
 // Asegurarse de que el DOM esté cargado antes de ejecutar el código
