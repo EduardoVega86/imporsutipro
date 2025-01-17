@@ -23,4 +23,10 @@ class UbicacionesModel extends Query
         $sql = "SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = $id";
         return $this->select($sql);
     }
+
+    public function obtenerCiudadProvincia($id)
+    {
+        $sql = "SELECT ciudad, provincia FROM ciudad_cotizacion where id_cotizacion = $id";
+        return $this->select($sql);
+    }
 }
