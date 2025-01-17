@@ -890,8 +890,7 @@ class Swagger extends Controller
             // Captura el UUID desde los parámetros GET
             $uuid = $_GET['uuid'] ?? null;
 
-            // Validar UUID
-            if (!$uuid || $id) {
+            if (!$uuid || !$id) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
