@@ -843,7 +843,7 @@ class Swagger extends Controller
      * @OA\Get(
      *     path="/swagger/obtener_boveda_id",
      *     tags={"Productos"},
-     *     summary="Obtener todas las bovedas",
+     *     summary="Obtener boveda por id",
      *     description="Permite obtener el id de la boveda, el cual se usa para editar las bovedas.",
      *     @OA\Parameter(
      *         name="uuid",
@@ -1065,8 +1065,8 @@ class Swagger extends Controller
      * @OA\Get(
      *     path="/swagger/obtener_productos_tienda",
      *     tags={"Productos"},
-     *     summary="Obtener productos privados",
-     *     description="Permite obtener los productos privados por plataforma.",
+     *     summary="Obtener productos de tienda",
+     *     description="Permite obtener los productos de tienda donde coincida el id_producto de la tabla productos_tienda con el id_producto de la tabla productos y donde coincida el id_inventario de la tabla productos_tienda con el id_invetario de la tabla inventario_bodegas por plataforma.",
      *     @OA\Parameter(
      *         name="uuid",
      *         in="query",
@@ -1087,7 +1087,7 @@ class Swagger extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Productos obtenidos exitosamente"
+     *         description="Productos tienda obtenidos exitosamente"
      *     ),
      *     @OA\Response(
      *         response=400,
@@ -1111,7 +1111,7 @@ class Swagger extends Controller
             }
 
             // Llamar al modelo para obtener los productos privados
-            $response = $this->model->obtener_productos_privados($uuid, $id_plataforma);
+            $response = $this->model->obtenerProductosTienda($uuid, $id_plataforma);
             echo json_encode($response);
         } catch (Exception $e) {
             http_response_code(500);
