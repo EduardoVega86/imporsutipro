@@ -79,7 +79,12 @@ class ProductosModel extends Query
     {
         /* var_dump($id); */
         $sql = "SELECT * FROM bovedas WHERE id_boveda= $id";
-        return $this->select($sql);
+        $response = $this->select($sql);
+        return [
+            'status' => 200,
+            'message' => 'Boveda obtenida exitosamente',
+            'data' => $response
+        ];
     }
 
     public function editarBoveda($id_boveda, $id_linea, $id_plataforma, $id_producto, $imagen, $ejemplo_landing, $duplicar_funnel, $videos)
