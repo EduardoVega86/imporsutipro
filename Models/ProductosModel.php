@@ -67,13 +67,7 @@ class ProductosModel extends Query
             INNER JOIN 
                 plataformas ON bovedas.id_plataforma = plataformas.id_plataforma";
 
-        $response = $this->select($sql);
-
-        return [
-            'status'  => 200,
-            'message' => 'Productos obtenidos exitosamente',
-            'data'    => $response
-        ];
+        return $this->select($sql);
     }
 
     public function obtenerBoveda($id)
