@@ -74,19 +74,12 @@ class ProductosModel extends Query
             'data'    => $response
         ];
     }
+
     public function obtenerBoveda($id)
     {
-        // Validar que el ID no esté vacío y sea un número
-        if (empty($id) || !is_numeric($id)) {
-            return [
-                'status'  => 400,
-                'message' => 'El ID proporcionado no es válido'
-            ];
-        }
-
-        // Usar consultas preparadas para evitar inyección SQL
-        $sql = "SELECT * FROM bovedas WHERE id_boveda = ?";
-        return $this->select($sql, [$id]);
+        /* var_dump($id); */
+        $sql = "SELECT * FROM bovedas WHERE id_boveda= $id";
+        return $this->select($sql);
     }
 
     public function editarBoveda($id_boveda, $id_linea, $id_plataforma, $id_producto, $imagen, $ejemplo_landing, $duplicar_funnel, $videos)
