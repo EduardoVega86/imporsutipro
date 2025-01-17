@@ -865,11 +865,11 @@ class Swagger extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Bovedas obtenidas exitosamente"
+     *         description="Bovedas obtenida exitosamente"
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Error al obtener bovedas"
+     *         description="Error al obtener boveda"
      *     ),
      *     @OA\Response(
      *         response=401,
@@ -885,7 +885,7 @@ class Swagger extends Controller
 
             // Si $id está vacío, intenta capturarlo desde $_GET
             if (empty($id)) {
-                $id = $_GET['id_plataforma'] ?? null;
+                $id = $_GET['id_boveda'] ?? null;
             }
             // Captura el UUID desde los parámetros GET
             $uuid = $_GET['uuid'] ?? null;
