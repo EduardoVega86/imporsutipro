@@ -865,15 +865,11 @@ class Swagger extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Bovedas obtenida exitosamente"
+     *         description="Boveda obtenida exitosamente"
      *     ),
      *     @OA\Response(
      *         response=400,
      *         description="Error al obtener boveda"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="No autorizado"
      *     )
      * )
      */
@@ -898,6 +894,54 @@ class Swagger extends Controller
 
             // Llamar al modelo para obtener bovedas
             $response = $this->model->obtenerBovedasId($uuid, $id);
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/swagger/obtener_proveedores_uno",
+     *     tags={"Productos"},
+     *     summary="Obtener proveedores de plataformas",
+     *     description="Permite obtener el nombre de la tienda y el id plataforma de los proveedores (tabla plataformas) donde su estado como proveedor es 1.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Proveedores obtenidos exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error al obtener proveedores"
+     *     )
+     * )
+     */
+    public function obtener_proveedores_uno()
+    {
+        try {
+            // Log de la solicitud
+            $this->logRequest('swagger/obtener_proveedores_uno', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
+            // Captura el UUID desde los parámetros GET
+            $uuid = $_GET['uuid'] ?? null;
+
+            if (!$uuid) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
+
+            // Llamar al modelo para obtener bovedas
+            $response = $this->model->obtenerProveedoresUno($uuid);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);

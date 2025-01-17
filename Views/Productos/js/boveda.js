@@ -132,16 +132,23 @@ const cargarCategorias = async () => {
 const cargarProveedores = async () => {
   try {
     const response = await fetch(`${SERVERURL}Productos/obtenerProveedores`);
-    const proveedores = await response.json();
+    const result = await response.json();
+    if(result.status ===200){
+      const proveedores = result.data;
 
-    let opciones = "<option value=''>Seleccione un Proveedor</option>";
-    proveedores.forEach((prov) => {
-      opciones += `<option value="${prov.id_plataforma}">${prov.nombre_tienda}</option>`;
-    });
+      let opciones = "<option value=''>Seleccione un Proveedor</option>";
+      proveedores.forEach((prov) => {
+        opciones += `<option value="${prov.id_plataforma}">${prov.nombre_tienda}</option>`;
+      });
+  
+      // Poblamos tanto el select de agregar como el de editar
+      document.getElementById("proveedorBoveda").innerHTML = opciones;
+      document.getElementById("editProveedorBoveda").innerHTML = opciones;
 
-    // Poblamos tanto el select de agregar como el de editar
-    document.getElementById("proveedorBoveda").innerHTML = opciones;
-    document.getElementById("editProveedorBoveda").innerHTML = opciones;
+
+    } else{
+      console.error("Error en la respuesta del servidor:", result.message)
+    }
   } catch (error) {
     console.error("Error al cargar proveedores:", error);
   }

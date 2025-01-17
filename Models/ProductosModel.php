@@ -162,7 +162,14 @@ class ProductosModel extends Query
         $sql = "SELECT nombre_tienda, id_plataforma
                 FROM plataformas
                 WHERE proveedor = 1";
-        return $this->select($sql);
+        $response = $this->select($sql);
+
+        return [
+            'status' => 200,
+            'message' => 'Proveedores obtenidos exitosamente',
+            'data' => $response
+
+        ];
     }
 
 

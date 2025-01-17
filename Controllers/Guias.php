@@ -384,6 +384,7 @@ class Guias extends Controller
 
         $nombre = $_POST['nombre'];
         $ciudad = $_POST['ciudad'];
+        $provincia = $_POST['provincia'];
         $ciudadDestino = $this->model->obtenerNombre($ciudad, "ciudad")[0]['ciudad'];
         $direccion = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
         $telefono = $_POST['telefono'];
@@ -422,8 +423,8 @@ class Guias extends Controller
         if (isset($response["guia"])) {
             $response["status"] = 200;
             $this->model->aumentarMatriz();
-            $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombre, $ciudad, $direccion, $telefono, $celular, $referencia, $recaudo, $monto_factura, $observacion, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $ciudad, 0, "SPEED", 2, $url_google_speed_pedido);
             $flete_envio = $ciudad == 599 ? 5.5 : 6.5;
+            $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombre, $ciudad, $direccion, $telefono, $celular, $referencia, $recaudo, $monto_factura, $observacion, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $flete_envio, "SPEED", 2, $url_google_speed_pedido);
             $this->model->asignarWallet($numero_factura, $response["guia"], $fecha, $nombre, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], 1, $monto_factura, $recaudo, $flete_envio);
         } else {
             echo "error" . $response;
