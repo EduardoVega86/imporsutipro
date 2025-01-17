@@ -691,6 +691,15 @@ class Swagger extends Controller
      *     tags={"Productos"},
      *     summary="Obtener todos los productos por id y nombre de productos",
      *     description="Endpoint para obtener el id_producto y nombre_producto de la tabla productos",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Productos obtenidos exitosamente"
