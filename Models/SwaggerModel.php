@@ -344,7 +344,7 @@ class SwaggerModel extends Query
                 ];
             }
 
-            $idPlataforma = $plataforma[0]['id_plataforma'];
+            $id_plataforma = $plataforma[0]['id_plataforma'];
 
             // Llamar a editarBoveda con los datos y el ID de plataforma
             return $this->productosModel->editarBoveda($id_boveda, $id_linea, $id_plataforma, $id_produto, $imagen, $ejemploLanding, $duplicarFunnel, $videos);
