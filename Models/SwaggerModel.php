@@ -309,13 +309,42 @@ class SwaggerModel extends Query
                 ];
             }
 
-            $idPlataforma = $plataforma[0]['id_plataforma'];
-
             return $this->productosModel->obtenerProductosTodos();
         } catch (Exception $e) {
             return [
                 'status'  => 500,
                 'message' => 'Error interno al obtener los productos',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
+    public function obtenerBovedasTodas($uuid)
+    {
+        try {
+            // Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+
+            // Obtener el ID de plataforma asociado
+            $id_users = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            return $this->productosModel->obtenerBovedas();
+        } catch (Exception $e) {
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al obtener todas las bovedas',
                 'error'   => $e->getMessage()
             ];
         }
