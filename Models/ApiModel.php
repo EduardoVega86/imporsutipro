@@ -507,7 +507,7 @@ class ApiModel extends Query
                 $response = curl_exec($ch);
                 curl_close($ch);
             } else if ($transportadora == "MANUAL") {
-                $this->guiasM->anularFactura($numero_factura);
+                $response = $this->guiasM->anularFactura($numero_factura);
             }
             return $response;
         } catch (Exception $e) {
