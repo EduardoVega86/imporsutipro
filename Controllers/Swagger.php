@@ -1407,44 +1407,6 @@ class Swagger extends Controller
         }
     }
 
-    /**
-     * @OA\Delete(
-     *     path="/swagger/eliminar_producto_tienda",
-     *     tags={"Productos"},
-     *     summary="Eliminar un producto de la tienda",
-     *     description="Elimina un producto de la tabla productos_tienda asociado a una plataforma específica.",
-     *     @OA\Parameter(
-     *         name="uuid",
-     *         in="query",
-     *         description="UUID del usuario o plataforma",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="id_producto_tienda",
-     *         in="query",
-     *         description="ID del producto en productos_tienda",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Producto eliminado correctamente"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Faltan datos requeridos"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Error interno al eliminar el producto"
-     *     )
-     * )
-     */
 
 
 
