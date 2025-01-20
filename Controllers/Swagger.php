@@ -1292,6 +1292,73 @@ class Swagger extends Controller
 
     /**
      * @OA\Get(
+     *     path="/swagger/obtener_bodega",
+     *     tags={"Productos"},
+     *     summary="Obtener bodegas por plataforma",
+     *     description="Permite obtener la bodega segun su id e id_plataforma proporcionado.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="id_plataforma",
+     *         in="query",
+     *         description="ID de la plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="id_bodega",
+     *         in="query",
+     *         description="ID de la plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Bodega obtenidas exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     * )
+     */
+    public function obtener_bodega()
+    {
+        try {
+            $this->logRequest('swagger/obtener_bodega', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            // Obtener los parámetros desde la URL
+            $uuid = $_GET['uuid'] ?? null;
+            $id_bodega = $_GET['id_bodega'] ?? null;
+            $id_plataforma = $_GET['id_plataforma'] ?? $_SESSION['id_plataforma'];
+
+            // Validar que ambos parámetros estén presentes
+            if (!$uuid || !$id_plataforma || !$id_bodega) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos']);
+                return;
+            }
+
+            // Llamar al modelo para obtener las bodegas
+            $response = $this->model->obtenerBodega($uuid, $id_plataforma, $id_bodega);
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
+        }
+    }
+    /**
+     * @OA\Get(
      *     path="/swagger/obtener_bodegas",
      *     tags={"Productos"},
      *     summary="Obtener bodegas por plataforma",
