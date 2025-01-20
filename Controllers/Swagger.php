@@ -1435,8 +1435,8 @@ class Swagger extends Controller
      *                 @OA\Property(property="nombre_contacto", type="string", description="Nombre del contacto de la bodega"),
      *                 @OA\Property(property="numero_casa", type="string", description="Número de casa o edificio"),
      *                 @OA\Property(property="referencia", type="string", description="Referencia de la dirección"),
-     *                 @OA\Property(property="longitud", type="string", description="Longitud geográfica"),
-     *                 @OA\Property(property="latitud", type="string", description="Latitud geográfica")
+     *                 @OA\Property(property="longitud", type="integer", description="Longitud geográfica"),
+     *                 @OA\Property(property="latitud", type="integer", description="Latitud geográfica")
      *             )
      *         )
      *     ),
