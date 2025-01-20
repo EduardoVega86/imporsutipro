@@ -99,21 +99,21 @@ class ManifiestosModel extends Query
     public function generarManifiestoGuiasProductos($arreglo, $id_cabecera)
     {
 
-        echo $id_cabecera;
+        //echo $id_cabecera;
 
         $ids = array_column($arreglo, 'id_inventario');
 
 // Generar la cadena separada por comas
 $string = '(' . implode(',', $ids) . ')';
 
-echo $string;
+//echo $string;
 
         // Verificar que se haya obtenido el resumen
         
 
 
         $sql_bodega = "SELECT b.id as id, b.nombre as bodega, b.contacto, b.responsable, b.direccion FROM inventario_bodegas ib, bodega b WHERE ib.id_inventario in  $string and  ib.bodega=b.id limit 1;";
-        echo $sql_bodega;
+       // echo $sql_bodega;
         //  echo $sql_factura;$id_factura
         $bodega = $this->select($sql_bodega);
         $bodega_nombre = $bodega[0]['bodega'];
