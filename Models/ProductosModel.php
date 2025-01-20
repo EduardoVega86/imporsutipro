@@ -743,7 +743,7 @@ class ProductosModel extends Query
         return $response;
     }
 
-    public function obtenerProducto($id, $plataforma)
+    public function obtenerProducto($id)
     {
         $sql = "SELECT * FROM `productos` p, inventario_bodegas ib where p.id_producto=$id and p.id_producto=ib.id_producto limit 1;";
         // echo $sql;

@@ -271,12 +271,18 @@ const listGuias = async () => {
                         <div>telf: ${guia.telefono}</div>
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
-                    <td><span class="link-like" id="plataformaLink">${
-                      guia.tienda
-                    }</span></td>
-                    <td><span class="link-like" id="plataformaLink">${
-                      guia.nombre_proveedor
-                    }</span></td>
+                    <td>
+                      <div>
+                        <strong>Tienda:</strong> <span class="link-like" id="plataformaLink">${
+                          guia.tienda
+                        }</span>
+                      </div>
+                      <div>
+                        <strong>Proveedor:</strong> <span class="link-like" id="plataformaLink">${
+                          guia.nombre_proveedor
+                        }</span>
+                      </div>
+                    </td>
                     <td>${transporte_content}</td>
                     <td>
                      <div style="text-align: center;">
@@ -301,6 +307,15 @@ const listGuias = async () => {
                      </div>
                      </div>
                     </td>
+                    <td>${guia.monto_factura}</td>
+                    <td>${guia.costo_producto}</td>
+                    <td>${guia.costo_flete}</td>
+                    <td></td>
+                    <td>${
+                      guia.monto_factura -
+                      guia.costo_producto -
+                      guia.costo_flete
+                    }</td>
                     <td>${despachado}</td>
                     <td>${impresiones}</td>
                     <td>
