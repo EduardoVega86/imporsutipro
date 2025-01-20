@@ -515,14 +515,6 @@ class SwaggerModel extends Query
                 ];
             }
 
-            // Validamos que ambos parámetros sean válidos
-            if (empty($uuid) || empty($id_plataforma)) {
-                return [
-                    'status'  => 400,
-                    'message' => 'UUID e ID de plataforma son requeridos'
-                ];
-            }
-
             return $this->productosModel->obtener_productos_tienda_automatizador($id_plataforma);
         } catch (Exception $e) {
             return [
@@ -554,14 +546,6 @@ class SwaggerModel extends Query
                 ];
             }
 
-            // Validamos que ambos parámetros sean válidos
-            if (empty($uuid) || empty($id_plataforma)) {
-                return [
-                    'status'  => 400,
-                    'message' => 'UUID e ID de plataforma son requeridos'
-                ];
-            }
-
             return $this->productosModel->obtener_productos_inventario($id_plataforma);
         } catch (Exception $e) {
             return [
@@ -572,7 +556,7 @@ class SwaggerModel extends Query
         }
     }
 
-    public function obtenerProducto($uuid, $id_produto)
+    public function obtenerProducto($uuid, $id_producto)
     {
         try {
             // Verificar si existe usuario con ese UUID
@@ -595,7 +579,39 @@ class SwaggerModel extends Query
                 ];
             }
 
-            return $this->productosModel->obtenerProducto($id_produto);
+            return $this->productosModel->obtenerProducto($id_producto);
+        } catch (Exception $e) {
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al obtener producto de inventario',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
+    public function obtenerBodegas($uuid, $id_plataforma)
+    {
+        try {
+            // Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+
+            // Obtener el ID de plataforma asociado
+            $id_users = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            return $this->productosModel->obtener_bodegas($id_plataforma);
         } catch (Exception $e) {
             return [
                 'status'  => 500,
