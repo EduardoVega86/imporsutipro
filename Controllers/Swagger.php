@@ -1406,6 +1406,7 @@ class Swagger extends Controller
             echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
         }
     }
+
     /**
      * @OA\Delete(
      *     path="/swagger/eliminar_producto_tienda",
@@ -1444,30 +1445,7 @@ class Swagger extends Controller
      *     )
      * )
      */
-    public function eliminar_producto_tienda()
-    {
-        try {
-            $this->logRequest('swagger/eliminar_producto_tienda', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
 
-            // Obtener los parámetros desde la URL
-            $uuid = $_GET['uuid'] ?? null;
-            $id_producto_tienda = $_GET['id_producto_tienda'] ?? null;
-
-            // Validar que ambos parámetros estén presentes
-            if (!$uuid || !$id_producto_tienda) {
-                http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'UUID e ID del producto son requeridos']);
-                return;
-            }
-
-            // Llamar al modelo para eliminar el producto
-            $response = $this->model->eliminar_producto_tienda($uuid, $id_producto_tienda);
-            echo json_encode($response);
-        } catch (Exception $e) {
-            http_response_code(500);
-            echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
-        }
-    }
 
 
 
@@ -1483,7 +1461,7 @@ class Swagger extends Controller
     /**
      * @OA\Post(
      *     path="/swagger/agregar_boveda",
-     *     tags={"Produtos"},
+     *     tags={"Productos"},
      *     summary="Agregar boveda",
      *     description="Permite agregar bovedas para la visualización de los usuarios estudiantes.",
      *     @OA\Parameter(
@@ -1577,7 +1555,7 @@ class Swagger extends Controller
     /**
      * @OA\Post(
      *     path="/swagger/editar_boveda",
-     *     tags={"Produtos"},
+     *     tags={"Productos"},
      *     summary="Agregar boveda",
      *     description="Permite editar las bovedas para la visualización de los usuarios estudiantes.",
      *     @OA\Parameter(
