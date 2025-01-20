@@ -1348,6 +1348,65 @@ class Swagger extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/swagger/obtener_producto_tienda",
+     *     tags={"Productos"},
+     *     summary="Obtener bodegas por plataforma",
+     *     description="Permite obtener las bodegas segun su plataforma correspondiente.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="id_producto",
+     *         in="query",
+     *         description="ID del producto",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Bodegas obtenidas exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     * )
+     */
+    public function obtener_producto_tienda()
+    {
+        try {
+            $this->logRequest('swagger/obtener_producto_tienda', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            // Obtener los parámetros desde la URL
+            $uuid = $_GET['uuid'] ?? null;
+            $id_producto = $_GET['id_producto'] ?? null;
+
+
+            // Validar que ambos parámetros estén presentes
+            if (!$uuid || !$id_producto) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'UUID e ID del producto son requeridos']);
+                return;
+            }
+
+            // Llamar al modelo para obtener los productos privados
+            $response = $this->model->obtenerProductoTienda($uuid, $id_producto);
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
+        }
+    }
+
 
 
 
