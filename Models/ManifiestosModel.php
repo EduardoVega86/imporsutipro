@@ -518,7 +518,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
         $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
         $usuario = $this->select($sql_usuario);
         $nombre_usuario = $usuario[0]['nombre_users'];
-    
+    $print_r($data)
 
         $html = '
     <style>
