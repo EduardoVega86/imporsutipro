@@ -316,6 +316,7 @@ const listGuias = async () => {
                       guia.costo_producto -
                       guia.costo_flete
                     }</td>
+                    <td>${guia.cod == 1 ? "SI" : "NO"}</td>
                     <td>${despachado}</td>
                     <td>${impresiones}</td>
                     <td>
