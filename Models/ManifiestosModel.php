@@ -126,7 +126,7 @@ $string = '(' . implode(',', $ids) . ')';
 
         // $html ='<h3 style="text-align: center;>tecto</h3>';
         $html = $this->generarTablaManifiestoProductos($arreglo, $bodega_nombre, $direccion, $telefono, $responsable);
-        echo $html;
+       // echo $html;
         // Generar el PDF con Dompdf
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
