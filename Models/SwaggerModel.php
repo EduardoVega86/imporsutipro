@@ -620,6 +620,38 @@ class SwaggerModel extends Query
             ];
         }
     }
+    public function obtenerBodega($uuid, $id_plataforma, $id_bodega)
+    {
+        try {
+            // Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+
+            // Obtener el ID de plataforma asociado
+            $id_users = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            return $this->productosModel->obtenerBodega($id_plataforma, $id_bodega);
+        } catch (Exception $e) {
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al obtener producto de inventario',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
 
     public function obtenerProductoTienda($uuid, $id_producto)
     {
@@ -655,64 +687,7 @@ class SwaggerModel extends Query
     }
 
 
-    public function agregar_bodega($uuid, $nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $numerocasa, $referencia, $longitud, $latitud)
-    {
-        try {
-            // Verificar si existe el usuario con el UUID
-            $usuario = $this->accesoModel->getUserByUUID($uuid);
-            if (empty($usuario)) {
-                return [
-                    'status'  => 404,
-                    'message' => "No existe un usuario con el UUID proporcionado: $uuid"
-                ];
-            }
-
-            // Obtener el ID de plataforma asociado
-            $id_users = $usuario[0]['id_users'];
-            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
-
-            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
-                return [
-                    'status'  => 404,
-                    'message' => 'No se encontró la plataforma asociada al usuario'
-                ];
-            }
-
-            // Validar que los datos obligatorios están presentes
-            if (empty($nombre) || empty($direccion) || empty($telefono) || empty($ciudad) || empty($provincia) || empty($contacto)) {
-                return [
-                    'status'  => 400,
-                    'message' => 'Faltan datos obligatorios para agregar la bodega'
-                ];
-            }
-
-            // Insertar la bodega en la base de datos
-            $sql = "INSERT INTO `bodega` (`nombre`,`id_empresa`,`longitud`,`latitud`,`direccion`,`num_casa`,`referencia`,`responsable`,`contacto`,`localidad`,`provincia`,`id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $data = [$nombre, $plataforma[0]['id_plataforma'], $longitud, $latitud, $direccion, $numerocasa, $referencia, $contacto, $telefono, $ciudad, $provincia, $plataforma[0]['id_plataforma']];
-            $insert = $this->insert($sql, $data);
-
-            if ($insert) {
-                return [
-                    'status'  => 200,
-                    'message' => 'Bodega agregada correctamente'
-                ];
-            } else {
-                return [
-                    'status'  => 500,
-                    'message' => 'Error al agregar la bodega'
-                ];
-            }
-        } catch (Exception $e) {
-            return [
-                'status'  => 500,
-                'message' => 'Error interno al agregar la bodega',
-                'error'   => $e->getMessage()
-            ];
-        }
-    }
-
-
-    public function agregarBoveda($uuid, $idProducto, $idLinea, $imagen, $idPlataforma, $ejemploLanding, $duplicarFunnel, $videos)
+    public function agregarBodega($uuid, $nombre, $direccion_completa, $telefono, $ciudad_entrega, $provincia, $nombre_contacto, $numero_casa, $referencia, $longitud, $latitud)
     {
         try {
             // Verificar si existe usuario con ese UUID
@@ -734,18 +709,37 @@ class SwaggerModel extends Query
                 ];
             }
 
+            // Obtener ID de plataforma
             $idPlataforma = $plataforma[0]['id_plataforma'];
 
-            // Llamar a insertarBoveda con los datos y el ID de plataforma
-            return $this->productosModel->insertarBoveda($idProducto, $idLinea, $imagen, $idPlataforma, $ejemploLanding, $duplicarFunnel, $videos);
+            // Usar el mismo teléfono como teléfono de contacto
+            $telefono_contacto = $telefono;
+
+            // Llamar al modelo de productos para insertar la bodega
+            return $this->productosModel->agregarBodega(
+                $nombre,
+                $direccion_completa,
+                $telefono,
+                $ciudad_entrega,
+                $provincia,
+                $nombre_contacto,
+                $telefono_contacto,
+                $numero_casa,
+                $referencia,
+                $idPlataforma,
+                $longitud,
+                $latitud
+            );
         } catch (Exception $e) {
             return [
                 'status'  => 500,
-                'message' => 'Error interno al agregar bóveda',
+                'message' => 'Error interno al agregar bodega',
                 'error'   => $e->getMessage()
             ];
         }
     }
+
+
 
     public function editarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $imagen, $id_produto, $ejemploLanding, $duplicarFunnel, $videos)
     {

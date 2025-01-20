@@ -1292,6 +1292,73 @@ class Swagger extends Controller
 
     /**
      * @OA\Get(
+     *     path="/swagger/obtener_bodega",
+     *     tags={"Productos"},
+     *     summary="Obtener bodegas por plataforma",
+     *     description="Permite obtener la bodega segun su id e id_plataforma proporcionado.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="id_plataforma",
+     *         in="query",
+     *         description="ID de la plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="id_bodega",
+     *         in="query",
+     *         description="ID de la plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Bodega obtenidas exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     * )
+     */
+    public function obtener_bodega()
+    {
+        try {
+            $this->logRequest('swagger/obtener_bodega', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            // Obtener los parámetros desde la URL
+            $uuid = $_GET['uuid'] ?? null;
+            $id_bodega = $_GET['id_bodega'] ?? null;
+            $id_plataforma = $_GET['id_plataforma'] ?? $_SESSION['id_plataforma'];
+
+            // Validar que ambos parámetros estén presentes
+            if (!$uuid || !$id_plataforma || !$id_bodega) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos']);
+                return;
+            }
+
+            // Llamar al modelo para obtener las bodegas
+            $response = $this->model->obtenerBodega($uuid, $id_plataforma, $id_bodega);
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
+        }
+    }
+    /**
+     * @OA\Get(
      *     path="/swagger/obtener_bodegas",
      *     tags={"Productos"},
      *     summary="Obtener bodegas por plataforma",
@@ -1435,8 +1502,8 @@ class Swagger extends Controller
      *                 @OA\Property(property="nombre_contacto", type="string", description="Nombre del contacto de la bodega"),
      *                 @OA\Property(property="numero_casa", type="string", description="Número de casa o edificio"),
      *                 @OA\Property(property="referencia", type="string", description="Referencia de la dirección"),
-     *                 @OA\Property(property="longitud", type="string", description="Longitud geográfica"),
-     *                 @OA\Property(property="latitud", type="string", description="Latitud geográfica")
+     *                 @OA\Property(property="longitud", type="integer", description="Longitud geográfica"),
+     *                 @OA\Property(property="latitud", type="integer", description="Latitud geográfica")
      *             )
      *         )
      *     ),
@@ -1458,38 +1525,44 @@ class Swagger extends Controller
     {
         try {
             $this->logRequest('swagger/agregar_bodega', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
 
-            // Obtener el UUID y los datos del cuerpo de la solicitud
+            if (!$data) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
+                return;
+            }
+
+            // Capturar UUID desde query parameters
             $uuid = $_GET['uuid'] ?? null;
-            $data = json_decode(file_get_contents('php://input'), true);
 
-            if (!$uuid || empty($data['nombre']) || empty($data['direccion_completa']) || empty($data['telefono']) || empty($data['ciudad_entrega']) || empty($data['provincia']) || empty($data['nombre_contacto'])) {
+            // Asignar datos del cuerpo
+            $nombre = $data['nombre'] ?? null;
+            $direccion_completa = $data['direccion_completa'] ?? null;
+            $telefono = $data['telefono'] ?? null;
+            $ciudad_entrega = $data['ciudad_entrega'] ?? null;
+            $provincia = $data['provincia'] ?? null;
+            $nombre_contacto = $data['nombre_contacto'] ?? null;
+            $numero_casa = $data['numero_casa'] ?? null;
+            $referencia = $data['referencia'] ?? null;
+            $longitud = $data['longitud'] ?? null;
+            $latitud = $data['latitud'] ?? null;
+
+            // Validación de campos requeridos
+            if (!$uuid || !$nombre || !$direccion_completa || !$telefono || !$ciudad_entrega || !$provincia || !$nombre_contacto) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
             }
 
-            // Llamar al modelo para agregar la bodega
-            $response = $this->model->agregar_bodega(
-                $uuid,
-                $data['nombre'],
-                $data['direccion_completa'],
-                $data['telefono'],
-                $data['ciudad_entrega'],
-                $data['provincia'],
-                $data['nombre_contacto'],
-                $data['numero_casa'] ?? '',
-                $data['referencia'] ?? '',
-                $data['longitud'] ?? '',
-                $data['latitud'] ?? ''
-            );
-
-            echo json_encode($response);
+            // Llamar al modelo
+            $response = $this->model->agregarBodega($uuid, $nombre, $direccion_completa, $telefono, $ciudad_entrega, $provincia, $nombre_contacto, $numero_casa, $referencia, $longitud, $latitud);
+            $this->handleResponse($response);
         } catch (Exception $e) {
-            http_response_code(500);
-            echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
+            $this->handleException($e);
         }
     }
+
 
 
 

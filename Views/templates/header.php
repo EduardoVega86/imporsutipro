@@ -180,7 +180,7 @@
                 <a href="<?php echo SERVERURL ?>Pedidos/scanner_speed"><i class='fa-solid fa-motorcycle menu-icon'></i> <span class="menu-text">Scanner Speed</span></a>
             <?php } ?>
 
-            <?php if ($_SESSION['id_plataforma'] == 2293 || $_SESSION['id_plataforma'] == 1166 || $_SESSION['id_plataforma'] == 1206 || $_SESSION['id_plataforma'] == 2307) { ?>
+            <?php if ($_SESSION['id_plataforma'] == 2293 || $_SESSION['id_plataforma'] == 1166  ||  $_SESSION["id_plataforma"] == 1251  || $_SESSION['id_plataforma'] == 1206 || $_SESSION['id_plataforma'] == 2307) { ?>
                 <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
             <?php } ?>
             <div class="submenu" id="submenu5">
@@ -191,7 +191,7 @@
             </div>
         </div>
         <div class="footer-text">
-            2024 © <?php echo MARCA; ?>
+            2025 © <?php echo MARCA; ?>
         </div>
     </div>
     <div class="submenu-popup" id="submenu-popup">
