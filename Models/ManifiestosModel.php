@@ -595,11 +595,9 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
     <table>
         <tr>
             <th style="width:5%">#</th>
-            <th style="width:25%">Guia</th>
-            <th style="width:20%">Cliente</th>
-            <th style="width:20%">Contiene</th>
-            <th style="width:10%">Productos</th>
-            <th style="width:20%">Monto a cobrar</th>
+            <th style="width:25%">Producto</th>
+            <th style="width:20%">sku</th>
+            <th style="width:20%">Cantidad</th>
         </tr>';
         $numero = 1;
         foreach ($data as $row) {
@@ -607,15 +605,9 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
             $html .= '<tr>';
             $html .= '<td data-label="ID Producto">' . $numero . '</td>';
             $html .= '<td data-label="Documento"><div class="barcode">' . $codigoBarras . '</div><br>' . htmlspecialchars($row['sku']) . '</td>';
-            $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombre']) . '</td>';
-            $html .= '<td data-label="Contiene">' . htmlspecialchars($row['contiene']) . '</td>';
-            $html .= '<td data-label="No Productos">' . htmlspecialchars($row['numero_productos']) . '</td>';
-            if ($row['cod'] == 1) {
-                $monto_cobrar = htmlspecialchars($row['monto_factura']);
-            } else {
-                $monto_cobrar = 0;
-            }
-            $html .= '<td data-label="Monto a Cobrar">$ ' . number_format($monto_cobrar, 2) . '</td>';
+            $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombre_producto']) . '</td>';
+            $html .= '<td data-label="Contiene">' . htmlspecialchars($row['cantidad']) . '</td>';
+;
             $html .= '</tr>';
             $numero++;
         }
