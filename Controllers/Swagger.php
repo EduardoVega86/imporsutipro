@@ -1281,7 +1281,7 @@ class Swagger extends Controller
                 return;
             }
 
-            // Llamar al modelo para obtener los productos privados
+            // Llamar al modelo para obtener los productos 
             $response = $this->model->obtenerProducto($uuid, $id_producto);
             echo json_encode($response);
         } catch (Exception $e) {
@@ -1339,7 +1339,7 @@ class Swagger extends Controller
                 return;
             }
 
-            // Llamar al modelo para obtener los productos privados
+            // Llamar al modelo para obtener las bodegas
             $response = $this->model->obtenerBodegas($uuid, $id_plataforma);
             echo json_encode($response);
         } catch (Exception $e) {
@@ -1353,7 +1353,7 @@ class Swagger extends Controller
      *     path="/swagger/obtener_producto_tienda",
      *     tags={"Productos"},
      *     summary="Obtener bodegas por plataforma",
-     *     description="Permite obtener las bodegas segun su plataforma correspondiente.",
+     *     description="Obtiene los detalles de un producto específico en productos_tienda y su relación con las tablas productos e inventario_bodegas, donde coincidan id_producto y id_inventario, filtrado por id_producto_tienda.",
      *     @OA\Parameter(
      *         name="uuid",
      *         in="query",
@@ -1398,7 +1398,7 @@ class Swagger extends Controller
                 return;
             }
 
-            // Llamar al modelo para obtener los productos privados
+            // Llamar al modelo para obtener los productos 
             $response = $this->model->obtenerProductoTienda($uuid, $id_producto);
             echo json_encode($response);
         } catch (Exception $e) {
