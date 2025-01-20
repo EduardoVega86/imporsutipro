@@ -280,7 +280,7 @@ const listAuditoria = async (estado, id_transporte) => {
           item.costo_flete != 5.99) ||
         (devuelto == 1 &&
           parseFloat(item.monto_recibir).toFixed(2) !=
-            parseFloat(item.envio_wallet).toFixed(2) * -1)
+            parseFloat(item.envio_wallet).toFixed(2) * -1 - costo_wallet)
       ) {
         if (item.monto_recibir != item.monto_total_historial) {
           motivo = motivo + " DIFERENCIA MONTOS";
