@@ -99,21 +99,21 @@ class ManifiestosModel extends Query
     public function generarManifiestoGuiasProductos($arreglo, $id_cabecera)
     {
 
-        echo $id_cabecera;
+        //echo $id_cabecera;
 
         $ids = array_column($arreglo, 'id_inventario');
 
 // Generar la cadena separada por comas
 $string = '(' . implode(',', $ids) . ')';
 
-echo $string;
+//echo $string;
 
         // Verificar que se haya obtenido el resumen
         
 
 
         $sql_bodega = "SELECT b.id as id, b.nombre as bodega, b.contacto, b.responsable, b.direccion FROM inventario_bodegas ib, bodega b WHERE ib.id_inventario in  $string and  ib.bodega=b.id limit 1;";
-        echo $sql_bodega;
+       // echo $sql_bodega;
         //  echo $sql_factura;$id_factura
         $bodega = $this->select($sql_bodega);
         $bodega_nombre = $bodega[0]['bodega'];
@@ -125,8 +125,8 @@ echo $string;
 
 
         // $html ='<h3 style="text-align: center;>tecto</h3>';
-        $html = $this->generarTablaManifiestoProductos($resumen, $bodega_nombre, $direccion, $telefono, $responsable, $transportadora);
-        echo $html;
+        $html = $this->generarTablaManifiestoProductos($arreglo, $bodega_nombre, $direccion, $telefono, $responsable);
+       // echo $html;
         // Generar el PDF con Dompdf
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
@@ -518,7 +518,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
         $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
         $usuario = $this->select($sql_usuario);
         $nombre_usuario = $usuario[0]['nombre_users'];
-    
+    //print_r($data);
 
         $html = '
     <style>
@@ -585,7 +585,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
     <p style="text-align: center; font-size: 12px;">' . strtoupper($responsable) . ' / ' . strtoupper($telefono) . '</p>
     <table>
         <tr>
-         <th>' . $transportadora_nombre . '</th>
+         <th>TRANSPORTADORA</th>
             <th>Responsable</th>
             <th>' . $nombre_usuario . '</th>
             <th>Fecha</th>
@@ -595,28 +595,19 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
     <table>
         <tr>
             <th style="width:5%">#</th>
-            <th style="width:25%">Guia</th>
-            <th style="width:20%">Cliente</th>
-            <th style="width:20%">Contiene</th>
-            <th style="width:10%">Productos</th>
-            <th style="width:20%">Monto a cobrar</th>
+            <th style="width:25%">Producto</th>
+            <th style="width:20%">sku</th>
+            <th style="width:20%">Cantidad</th>
         </tr>';
-
         $numero = 1;
         foreach ($data as $row) {
-            $codigoBarras = $generator->getBarcode($row['numero_guia'], $generator::TYPE_CODE_128);
+            $codigoBarras = $generator->getBarcode($row['sku'], $generator::TYPE_CODE_128);
             $html .= '<tr>';
             $html .= '<td data-label="ID Producto">' . $numero . '</td>';
-            $html .= '<td data-label="Documento"><div class="barcode">' . $codigoBarras . '</div><br>' . htmlspecialchars($row['numero_guia']) . '</td>';
-            $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombre']) . '</td>';
-            $html .= '<td data-label="Contiene">' . htmlspecialchars($row['contiene']) . '</td>';
-            $html .= '<td data-label="No Productos">' . htmlspecialchars($row['numero_productos']) . '</td>';
-            if ($row['cod'] == 1) {
-                $monto_cobrar = htmlspecialchars($row['monto_factura']);
-            } else {
-                $monto_cobrar = 0;
-            }
-            $html .= '<td data-label="Monto a Cobrar">$ ' . number_format($monto_cobrar, 2) . '</td>';
+            $html .= '<td data-label="Documento"><div class="barcode">' . $codigoBarras . '</div><br>' . htmlspecialchars($row['sku']) . '</td>';
+            $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombreProducto']) . '</td>';
+            $html .= '<td data-label="Contiene">' . htmlspecialchars($row['cantidad']) . '</td>';
+;
             $html .= '</tr>';
             $numero++;
         }
