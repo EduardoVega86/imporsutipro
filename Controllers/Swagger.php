@@ -1232,6 +1232,64 @@ class Swagger extends Controller
             echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
         }
     }
+    /**
+     * @OA\Get(
+     *     path="/swagger/obtener_producto",
+     *     tags={"Productos"},
+     *     summary="Obtener producto de inventario",
+     *     description="Permite obtener los productos de la plataforma especificada mediante una consulta que combina las tablas productos, inventario_bodegas donde en id_produto de las dos tablas coincida , filtrando los resultados por la plataforma especificada.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="id_producto",
+     *         in="query",
+     *         description="ID de la plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Producto del inventario obtenido exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     * )
+     */
+    public function obtener_producto()
+    {
+        try {
+            $this->logRequest('swagger/obtener_producto', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            // Obtener los parámetros desde la URL
+            $uuid = $_GET['uuid'] ?? null;
+            $id_producto = $_GET['id_producto'] ?? null;
+            $id_plataforma = $_GET['id_plataforma'] ?? $_SESSION['id_plataforma'];
+
+            // Validar que ambos parámetros estén presentes
+            if (!$uuid || !$id_plataforma || $id_producto) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'UUID e ID de plataforma son requeridos']);
+                return;
+            }
+
+            // Llamar al modelo para obtener los productos privados
+            $response = $this->model->obtenerProducto($uuid, $id_plataforma, $id_producto);
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
+        }
+    }
 
 
 
