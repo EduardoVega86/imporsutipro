@@ -585,7 +585,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
     <p style="text-align: center; font-size: 12px;">' . strtoupper($responsable) . ' / ' . strtoupper($telefono) . '</p>
     <table>
         <tr>
-         <th>' . $transportadora_nombre . '</th>
+         <th>TRANSPORTADORA</th>
             <th>Responsable</th>
             <th>' . $nombre_usuario . '</th>
             <th>Fecha</th>
