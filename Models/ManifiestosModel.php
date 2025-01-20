@@ -162,7 +162,7 @@ $string = '(' . implode(',', $ids) . ')';
             "status" => "200"
         ];
 
-        $update = "UPDATE cabecera_relacion_despacho SET url_documento = '$new_url' WHERE id_relacion_despacho = $id_cabecera";
+        $update = "UPDATE cabecera_relacion_despacho_producto SET url_documento = '$new_url' WHERE id_relacion_despacho = $id_cabecera";
         $this->select($update);
 
         return $reponse;
