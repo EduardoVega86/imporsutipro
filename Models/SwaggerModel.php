@@ -595,14 +595,6 @@ class SwaggerModel extends Query
                 ];
             }
 
-            // Validamos que ambos parámetros sean válidos
-            if (empty($uuid) || empty($id_produto)) {
-                return [
-                    'status'  => 400,
-                    'message' => 'UUID, ID producto e ID de plataforma son requeridos'
-                ];
-            }
-
             return $this->productosModel->obtenerProducto($id_produto);
         } catch (Exception $e) {
             return [

@@ -1275,9 +1275,9 @@ class Swagger extends Controller
             $id_producto = $_GET['id_producto'] ?? null;
 
             // Validar que ambos parámetros estén presentes
-            if (!$uuid || $id_producto) {
+            if (!$uuid || !$id_producto) {
                 http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'UUID e ID de plataforma son requeridos']);
+                echo json_encode(['status' => 400, 'message' => 'UUID e ID producto son requeridos']);
                 return;
             }
 
