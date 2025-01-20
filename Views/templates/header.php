@@ -191,7 +191,7 @@
             </div>
         </div>
         <div class="footer-text">
-            2024 © <?php echo MARCA; ?>
+            2025 © <?php echo MARCA; ?>
         </div>
     </div>
     <div class="submenu-popup" id="submenu-popup">
