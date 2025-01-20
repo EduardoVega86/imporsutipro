@@ -114,6 +114,7 @@
                         <th class="centered">Costo flete</th>
                         <th class="centered">Fulfillment</th>
                         <th class="centered">Monto a recibir</th>
+                        <th class="centered">Recaudo</th>
                         <th class="centered">Despachado</th>
                         <th class="centered">Impreso</th>
                         <th class="centered">Acciones</th>
