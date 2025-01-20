@@ -655,6 +655,63 @@ class SwaggerModel extends Query
     }
 
 
+    public function agregar_bodega($uuid, $nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $numerocasa, $referencia, $longitud, $latitud)
+    {
+        try {
+            // Verificar si existe el usuario con el UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID proporcionado: $uuid"
+                ];
+            }
+
+            // Obtener el ID de plataforma asociado
+            $id_users = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            // Validar que los datos obligatorios están presentes
+            if (empty($nombre) || empty($direccion) || empty($telefono) || empty($ciudad) || empty($provincia) || empty($contacto)) {
+                return [
+                    'status'  => 400,
+                    'message' => 'Faltan datos obligatorios para agregar la bodega'
+                ];
+            }
+
+            // Insertar la bodega en la base de datos
+            $sql = "INSERT INTO `bodega` (`nombre`,`id_empresa`,`longitud`,`latitud`,`direccion`,`num_casa`,`referencia`,`responsable`,`contacto`,`localidad`,`provincia`,`id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $data = [$nombre, $plataforma[0]['id_plataforma'], $longitud, $latitud, $direccion, $numerocasa, $referencia, $contacto, $telefono, $ciudad, $provincia, $plataforma[0]['id_plataforma']];
+            $insert = $this->insert($sql, $data);
+
+            if ($insert) {
+                return [
+                    'status'  => 200,
+                    'message' => 'Bodega agregada correctamente'
+                ];
+            } else {
+                return [
+                    'status'  => 500,
+                    'message' => 'Error al agregar la bodega'
+                ];
+            }
+        } catch (Exception $e) {
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al agregar la bodega',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
+
+
     public function agregarBoveda($uuid, $idProducto, $idLinea, $imagen, $idPlataforma, $ejemploLanding, $duplicarFunnel, $videos)
     {
         try {
