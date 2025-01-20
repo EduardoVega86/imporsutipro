@@ -163,6 +163,7 @@ $string = '(' . implode(',', $ids) . ')';
         ];
 
         $update = "UPDATE cabecera_relacion_despacho_producto SET url_documento = '$new_url' WHERE id_relacion_despacho = $id_cabecera";
+        echo $update;
         $this->select($update);
 
         return $reponse;
