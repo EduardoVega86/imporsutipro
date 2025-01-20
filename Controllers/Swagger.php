@@ -1458,38 +1458,44 @@ class Swagger extends Controller
     {
         try {
             $this->logRequest('swagger/agregar_bodega', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
 
-            // Obtener el UUID y los datos del cuerpo de la solicitud
+            if (!$data) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
+                return;
+            }
+
+            // Capturar UUID desde query parameters
             $uuid = $_GET['uuid'] ?? null;
-            $data = json_decode(file_get_contents('php://input'), true);
 
-            if (!$uuid || empty($data['nombre']) || empty($data['direccion_completa']) || empty($data['telefono']) || empty($data['ciudad_entrega']) || empty($data['provincia']) || empty($data['nombre_contacto'])) {
+            // Asignar datos del cuerpo
+            $nombre = $data['nombre'] ?? null;
+            $direccion_completa = $data['direccion_completa'] ?? null;
+            $telefono = $data['telefono'] ?? null;
+            $ciudad_entrega = $data['ciudad_entrega'] ?? null;
+            $provincia = $data['provincia'] ?? null;
+            $nombre_contacto = $data['nombre_contacto'] ?? null;
+            $numero_casa = $data['numero_casa'] ?? null;
+            $referencia = $data['referencia'] ?? null;
+            $longitud = $data['longitud'] ?? null;
+            $latitud = $data['latitud'] ?? null;
+
+            // Validación de campos requeridos
+            if (!$uuid || !$nombre || !$direccion_completa || !$telefono || !$ciudad_entrega || !$provincia || !$nombre_contacto) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
             }
 
-            // Llamar al modelo para agregar la bodega
-            $response = $this->model->agregar_bodega(
-                $uuid,
-                $data['nombre'],
-                $data['direccion_completa'],
-                $data['telefono'],
-                $data['ciudad_entrega'],
-                $data['provincia'],
-                $data['nombre_contacto'],
-                $data['numero_casa'] ?? '',
-                $data['referencia'] ?? '',
-                $data['longitud'] ?? '',
-                $data['latitud'] ?? ''
-            );
-
-            echo json_encode($response);
+            // Llamar al modelo
+            $response = $this->model->agregarBodega($uuid, $nombre, $direccion_completa, $telefono, $ciudad_entrega, $provincia, $nombre_contacto, $numero_casa, $referencia, $longitud, $latitud);
+            $this->handleResponse($response);
         } catch (Exception $e) {
-            http_response_code(500);
-            echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
+            $this->handleException($e);
         }
     }
+
 
 
 
