@@ -1406,6 +1406,69 @@ class Swagger extends Controller
             echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
         }
     }
+    /**
+     * @OA\Delete(
+     *     path="/swagger/eliminar_producto_tienda",
+     *     tags={"Productos"},
+     *     summary="Eliminar un producto de la tienda",
+     *     description="Elimina un producto de la tabla productos_tienda asociado a una plataforma específica.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="id_producto_tienda",
+     *         in="query",
+     *         description="ID del producto en productos_tienda",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Producto eliminado correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno al eliminar el producto"
+     *     )
+     * )
+     */
+    public function eliminar_producto_tienda()
+    {
+        try {
+            $this->logRequest('swagger/eliminar_producto_tienda', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
+            // Obtener los parámetros desde la URL
+            $uuid = $_GET['uuid'] ?? null;
+            $id_producto_tienda = $_GET['id_producto_tienda'] ?? null;
+
+            // Validar que ambos parámetros estén presentes
+            if (!$uuid || !$id_producto_tienda) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'UUID e ID del producto son requeridos']);
+                return;
+            }
+
+            // Llamar al modelo para eliminar el producto
+            $response = $this->model->eliminar_producto_tienda($uuid, $id_producto_tienda);
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
+        }
+    }
+
 
 
 
