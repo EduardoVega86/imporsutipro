@@ -1237,7 +1237,7 @@ class Swagger extends Controller
      *     path="/swagger/obtener_producto",
      *     tags={"Productos"},
      *     summary="Obtener producto de inventario",
-     *     description="Permite obtener los productos de la plataforma especificada mediante una consulta que combina las tablas productos, inventario_bodegas donde en id_produto de las dos tablas coincida , filtrando los resultados por la plataforma especificada.",
+     *     description="Obtiene un producto específico y su relación con inventario_bodegas, donde coincida el id_producto en ambas tablas, limitado a un resultado.",
      *     @OA\Parameter(
      *         name="uuid",
      *         in="query",
@@ -1250,7 +1250,7 @@ class Swagger extends Controller
      *     @OA\Parameter(
      *         name="id_producto",
      *         in="query",
-     *         description="ID de la plataforma",
+     *         description="ID del producto",
      *         required=true,
      *         @OA\Schema(
      *             type="string"
@@ -1273,17 +1273,16 @@ class Swagger extends Controller
             // Obtener los parámetros desde la URL
             $uuid = $_GET['uuid'] ?? null;
             $id_producto = $_GET['id_producto'] ?? null;
-            $id_plataforma = $_GET['id_plataforma'] ?? $_SESSION['id_plataforma'];
 
             // Validar que ambos parámetros estén presentes
-            if (!$uuid || !$id_plataforma || $id_producto) {
+            if (!$uuid || $id_producto) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'UUID e ID de plataforma son requeridos']);
                 return;
             }
 
             // Llamar al modelo para obtener los productos privados
-            $response = $this->model->obtenerProducto($uuid, $id_plataforma, $id_producto);
+            $response = $this->model->obtenerProducto($uuid, $id_producto);
             echo json_encode($response);
         } catch (Exception $e) {
             http_response_code(500);

@@ -572,7 +572,7 @@ class SwaggerModel extends Query
         }
     }
 
-    public function obtenerProducto($uuid, $id_plataforma, $id_produto)
+    public function obtenerProducto($uuid, $id_produto)
     {
         try {
             // Verificar si existe usuario con ese UUID
@@ -587,6 +587,7 @@ class SwaggerModel extends Query
             // Obtener el ID de plataforma asociado
             $id_users = $usuario[0]['id_users'];
             $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+
             if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
                 return [
                     'status'  => 404,
@@ -595,14 +596,14 @@ class SwaggerModel extends Query
             }
 
             // Validamos que ambos parámetros sean válidos
-            if (empty($uuid) || empty($id_plataforma) || empty($id_produto)) {
+            if (empty($uuid) || empty($id_produto)) {
                 return [
                     'status'  => 400,
                     'message' => 'UUID, ID producto e ID de plataforma son requeridos'
                 ];
             }
 
-            return $this->productosModel->obtenerProducto($id_plataforma, $id_produto);
+            return $this->productosModel->obtenerProducto($id_produto);
         } catch (Exception $e) {
             return [
                 'status'  => 500,
