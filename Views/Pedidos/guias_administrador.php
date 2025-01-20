@@ -106,12 +106,16 @@
                         <th class="centered">Detalle</th>
                         <th class="centered">Cliente</th>
                         <th class="centered">Destino</th>
-                        <th class="centered">Tienda</th>
-                        <th class="centered">Proveedor</th>
+                        <th class="centered">Entidades</th>
                         <th class="centered">Transportadora</th>
                         <th class="centered">Estado</th>
                         <th class="centered">Despachado</th>
                         <th class="centered">Impreso</th>
+                        <th class="centered">Venta total</th>
+                        <th class="centered">Costo producto</th>
+                        <th class="centered">Costo flete</th>
+                        <th class="centered">Fulfillment</th>
+                        <th class="centered">Monto a recibir</th>
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
