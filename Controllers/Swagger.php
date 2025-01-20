@@ -1294,8 +1294,8 @@ class Swagger extends Controller
      * @OA\Get(
      *     path="/swagger/obtener_bodegas",
      *     tags={"Productos"},
-     *     summary="Obtener producto de inventario",
-     *     description="Obtiene un producto específico y su relación con inventario_bodegas, donde coincida el id_producto en ambas tablas, limitado a un resultado.",
+     *     summary="Obtener bodegas por plataforma",
+     *     description="Permite obtener las bodegas segun su plataforma correspondiente.",
      *     @OA\Parameter(
      *         name="uuid",
      *         in="query",
@@ -1305,9 +1305,18 @@ class Swagger extends Controller
      *             type="string"
      *         )
      *     ),
+     *     @OA\Parameter(
+     *         name="id_plataforma",
+     *         in="query",
+     *         description="ID de la plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Producto del inventario obtenido exitosamente"
+     *         description="Bodegas obtenidas exitosamente"
      *     ),
      *     @OA\Response(
      *         response=400,
