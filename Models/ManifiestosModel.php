@@ -604,7 +604,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
 
         $numero = 1;
         foreach ($data as $row) {
-            $codigoBarras = $generator->getBarcode($row['numero_guia'], $generator::TYPE_CODE_128);
+            $codigoBarras = $generator->getBarcode($row['sku'], $generator::TYPE_CODE_128);
             $html .= '<tr>';
             $html .= '<td data-label="ID Producto">' . $numero . '</td>';
             $html .= '<td data-label="Documento"><div class="barcode">' . $codigoBarras . '</div><br>' . htmlspecialchars($row['numero_guia']) . '</td>';
