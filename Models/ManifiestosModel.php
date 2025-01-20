@@ -518,7 +518,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
         $sql_usuario = "SELECT nombre_users FROM users WHERE id_users = $id_usuario";
         $usuario = $this->select($sql_usuario);
         $nombre_usuario = $usuario[0]['nombre_users'];
-    print_r($data);
+    //print_r($data);
 
         $html = '
     <style>
@@ -605,7 +605,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
             $html .= '<tr>';
             $html .= '<td data-label="ID Producto">' . $numero . '</td>';
             $html .= '<td data-label="Documento"><div class="barcode">' . $codigoBarras . '</div><br>' . htmlspecialchars($row['sku']) . '</td>';
-            $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombre_producto']) . '</td>';
+            $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombreProducto']) . '</td>';
             $html .= '<td data-label="Contiene">' . htmlspecialchars($row['cantidad']) . '</td>';
 ;
             $html .= '</tr>';
