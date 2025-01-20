@@ -273,13 +273,14 @@ const listAuditoria = async (estado, id_transporte) => {
         (item.drogshipin == 0 && item.id_plataforma != item.id_propietario) ||
         (item.drogshipin == 1 &&
           item.costo_wallet <= 0 &&
-          item.id_plataforma != 2324) ||
+          item.id_plataforma != 2324 &&
+          item.id_plataforma != 3031) ||
         (item.numero_guia.includes("MKP") &&
           item.id_transporte == 1 &&
           item.costo_flete != 5.99) ||
         (devuelto == 1 &&
           parseFloat(item.monto_recibir).toFixed(2) !=
-            parseFloat(item.envio_wallet).toFixed(2) * -1)
+            parseFloat(item.envio_wallet).toFixed(2) * -1 - costo_wallet)
       ) {
         if (item.monto_recibir != item.monto_total_historial) {
           motivo = motivo + " DIFERENCIA MONTOS";
