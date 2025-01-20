@@ -1352,7 +1352,7 @@ class Swagger extends Controller
      * @OA\Get(
      *     path="/swagger/obtener_producto_tienda",
      *     tags={"Productos"},
-     *     summary="Obtener bodegas por plataforma",
+     *     summary="Obtener producto por plataforma",
      *     description="Obtiene los detalles de un producto específico en productos_tienda y su relación con las tablas productos e inventario_bodegas, donde coincidan id_producto y id_inventario, filtrado por id_producto_tienda.",
      *     @OA\Parameter(
      *         name="uuid",
