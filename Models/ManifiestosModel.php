@@ -601,7 +601,6 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
             <th style="width:10%">Productos</th>
             <th style="width:20%">Monto a cobrar</th>
         </tr>';
-
         $numero = 1;
         foreach ($data as $row) {
             $codigoBarras = $generator->getBarcode($row['sku'], $generator::TYPE_CODE_128);
