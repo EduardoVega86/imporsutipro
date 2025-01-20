@@ -606,7 +606,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
             $codigoBarras = $generator->getBarcode($row['sku'], $generator::TYPE_CODE_128);
             $html .= '<tr>';
             $html .= '<td data-label="ID Producto">' . $numero . '</td>';
-            $html .= '<td data-label="Documento"><div class="barcode">' . $codigoBarras . '</div><br>' . htmlspecialchars($row['numero_guia']) . '</td>';
+            $html .= '<td data-label="Documento"><div class="barcode">' . $codigoBarras . '</div><br>' . htmlspecialchars($row['sku']) . '</td>';
             $html .= '<td data-label="Cliente">' . htmlspecialchars($row['nombre']) . '</td>';
             $html .= '<td data-label="Contiene">' . htmlspecialchars($row['contiene']) . '</td>';
             $html .= '<td data-label="No Productos">' . htmlspecialchars($row['numero_productos']) . '</td>';
