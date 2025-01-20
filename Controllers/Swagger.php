@@ -1407,7 +1407,89 @@ class Swagger extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/swagger/agregar_bodega",
+     *     tags={"Productos"},
+     *     summary="Agregar una nueva bodega",
+     *     description="Permite agregar una nueva bodega asociada a una plataforma específica.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="nombre", type="string", description="Nombre de la bodega"),
+     *                 @OA\Property(property="direccion_completa", type="string", description="Dirección completa de la bodega"),
+     *                 @OA\Property(property="telefono", type="string", description="Teléfono de contacto de la bodega"),
+     *                 @OA\Property(property="ciudad_entrega", type="string", description="Ciudad de entrega"),
+     *                 @OA\Property(property="provincia", type="string", description="Provincia de la bodega"),
+     *                 @OA\Property(property="nombre_contacto", type="string", description="Nombre del contacto de la bodega"),
+     *                 @OA\Property(property="numero_casa", type="string", description="Número de casa o edificio"),
+     *                 @OA\Property(property="referencia", type="string", description="Referencia de la dirección"),
+     *                 @OA\Property(property="longitud", type="string", description="Longitud geográfica"),
+     *                 @OA\Property(property="latitud", type="string", description="Latitud geográfica")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Bodega agregada con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno al agregar la bodega"
+     *     )
+     * )
+     */
+    public function agregar_bodega()
+    {
+        try {
+            $this->logRequest('swagger/agregar_bodega', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
 
+            // Obtener el UUID y los datos del cuerpo de la solicitud
+            $uuid = $_GET['uuid'] ?? null;
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            if (!$uuid || empty($data['nombre']) || empty($data['direccion_completa']) || empty($data['telefono']) || empty($data['ciudad_entrega']) || empty($data['provincia']) || empty($data['nombre_contacto'])) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
+
+            // Llamar al modelo para agregar la bodega
+            $response = $this->model->agregar_bodega(
+                $uuid,
+                $data['nombre'],
+                $data['direccion_completa'],
+                $data['telefono'],
+                $data['ciudad_entrega'],
+                $data['provincia'],
+                $data['nombre_contacto'],
+                $data['numero_casa'] ?? '',
+                $data['referencia'] ?? '',
+                $data['longitud'] ?? '',
+                $data['latitud'] ?? ''
+            );
+
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
+        }
+    }
 
 
 
