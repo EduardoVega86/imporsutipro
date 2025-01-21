@@ -1702,9 +1702,9 @@ class Swagger extends Controller
             $id_plataforma = $data['id_plataforma'] ?? null;
 
             // Validar que ambos parámetros estén presentes
-            if (!$uuid || !$id_plataforma) {
+            if (!$uuid) {
                 http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'UUID e ID de plataforma son requeridos']);
+                echo json_encode(['status' => 400, 'message' => 'UUID es un campo requeridos']);
                 return;
             }
 
