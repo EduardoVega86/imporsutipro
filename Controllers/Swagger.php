@@ -1903,7 +1903,7 @@ class Swagger extends Controller
             $uuid = $_GET['uuid'] ?? null; // Capturar UUID desde query parameters
             $idProducto = $data['idProducto'] ?? null;
             $idLinea = $data['idLinea'] ?? null;
-            $imagen = $data['imagen'] ?? '';
+            $imagen = $data['imagen'] ?? null;
             $idProveedor = $data['idProveedor'] ?? null;
             $ejemploLanding = $data['ejemploLanding'] ?? null;
             $duplicarFunnel = $data['duplicarFunnel'] ?? null;
