@@ -1655,6 +1655,66 @@ class Swagger extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/swagger/cargar_bodegas",
+     *     tags={"Productos"},
+     *     summary="Listar las bodegas asociadas a la plataforma de un usuario",
+     *     description="devuelve las bodegas vinculadas a una plataforma. Dependiendo de la configuración de la plataforma, puede incluir también bodegas globales asociadas a la matriz correspondiente.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listado de bodegas obtenido exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No existe un usuario con el UUID proporcionado"
+     *     )
+     * )
+     */
+    public function cargar_bodegas()
+    {
+        try {
+            // Registrar la solicitud en logs (si utilizas ese método).
+            $this->logRequest('swagger/cargar_bodegas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
+            // Obtener parámetros
+            $uuid = $_GET['uuid'] ?? null;
+
+            // Validar parámetros requeridos
+            if (!$uuid) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos: uuid']);
+                return;
+            }
+
+            // Llamar a tu modelo (Swagger Model) que internamente validará usuario y llamará a productosModel
+            $response = $this->model->cargarBodegas($uuid);
+
+            // Responder
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'status'  => 500,
+                'message' => 'Error interno',
+                'error'   => $e->getMessage()
+            ]);
+        }
+    }
+
 
 
 
