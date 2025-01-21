@@ -1564,7 +1564,54 @@ class Swagger extends Controller
         }
     }
 
-
+    /**
+     * @OA\POST(
+     *     path="/swagger/editar_bodega",
+     *     tags={"Productos"},
+     *     summary="Editar una bodega existente",
+     *     description="Permite editar una bodega existente segun el id proporcionado.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="id_bodega", type="integer", description="ID de la bodega"),
+     *                 @OA\Property(property="nombre", type="string", description="Nombre de la bodega"),
+     *                 @OA\Property(property="direccion_completa", type="string", description="Dirección completa de la bodega"),
+     *                 @OA\Property(property="telefono", type="string", description="Teléfono de contacto de la bodega"),
+     *                 @OA\Property(property="ciudad_entrega", type="string", description="Ciudad de entrega"),
+     *                 @OA\Property(property="provincia", type="string", description="Provincia de la bodega"),
+     *                 @OA\Property(property="nombre_contacto", type="string", description="Nombre del contacto de la bodega"),
+     *                 @OA\Property(property="numero_casa", type="string", description="Número de casa o edificio"),
+     *                 @OA\Property(property="referencia", type="string", description="Referencia de la dirección"),
+     *                 @OA\Property(property="longitud", type="integer", description="Longitud geográfica"),
+     *                 @OA\Property(property="latitud", type="integer", description="Latitud geográfica")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Bodega editada con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno al editar la bodega"
+     *     )
+     * )
+     */
     public function editar_bodega()
     {
         try {
