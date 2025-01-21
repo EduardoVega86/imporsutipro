@@ -571,12 +571,14 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 2;
             } else if ($estado_guia == 100 && $estado_guia == 102 && $estado_guia == 103) {
                 $estado_guia_automatizador = 4;
-            } else if ($estado_guia == 317) {
+            } else if ($estado_guia == 307) {
                 $estado_guia_automatizador = 5;
             } else if ($estado_guia >= 200 && $estado_guia <= 202) {
                 $estado_guia_automatizador = 6;
-            } else if ($estado_guia >= 300 && $estado_guia <= 316) {
+            } else if (($estado_guia >= 300 && $estado_guia <= 306) || ($estado_guia >= 308 && $estado_guia <= 316)) {
                 $estado_guia_automatizador = 7;
+            } else if ($estado_guia == 317) {
+                $estado_guia_automatizador = 8;
             }
         } else if ($id_transporte == 3) {
             $tracking = "https://ec.gintracom.site/web/site/tracking";
