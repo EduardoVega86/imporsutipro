@@ -38,7 +38,7 @@
     .btn-flotante-vista-previa {
         position: fixed;
         right: 20px;
-        bottom: 140px;
+        bottom: 90px;
         background-color: #4CAF50;
         color: white;
         padding: 15px 20px;
