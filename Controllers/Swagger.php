@@ -1017,18 +1017,9 @@ class Swagger extends Controller
      *             type="string"
      *         )
      *     ),
-     *     @OA\Parameter(
-     *         name="id_plataforma",
-     *         in="query",
-     *         description="ID de la plataforma",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Productos obtenidos exitosamente"
+     *         description="Productos privados obtenidos exitosamente"
      *     ),
      *     @OA\Response(
      *         response=400,
