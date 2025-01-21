@@ -1660,7 +1660,7 @@ class Swagger extends Controller
      *     path="/swagger/cargar_bodegas",
      *     tags={"Productos"},
      *     summary="Listar las bodegas asociadas a la plataforma de un usuario",
-     *     description="devuelve las bodegas vinculadas a una plataforma. Dependiendo de la configuración de la plataforma, puede incluir también bodegas globales asociadas a la matriz correspondiente.",
+     *     description="Devuelve las bodegas vinculadas a una plataforma. Dependiendo de la configuración de la plataforma, puede incluir también bodegas globales asociadas a la matriz correspondiente.",
      *     @OA\Parameter(
      *         name="uuid",
      *         in="query",
