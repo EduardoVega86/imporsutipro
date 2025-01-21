@@ -79,8 +79,8 @@
 
     .boton-flotante {
         position: fixed;
-        bottom: 50px;
-        left: 14%;
+        bottom: 90px;
+        left: 155px;
         padding: 15px 25px;
         background-color: #E64747;
         color: white;
