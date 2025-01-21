@@ -1675,7 +1675,7 @@ class Swagger extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 @OA\Property(property="ID plataforma", type="id_plataforma", description="ID de la plataforma"),
+     *                 @OA\Property(property="ID plataforma", type="integer", description="ID de la plataforma"),
      *             )
      *         )
      *     ),
@@ -1699,7 +1699,7 @@ class Swagger extends Controller
             $this->logRequest('swagger/listar_bodegas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
             // Obtener los parámetros desde la URL
             $uuid = $_GET['uuid'] ?? null;
-            $id_plataforma = ['id_plataforma'] ?? $_SESSION['id_plataforma'];
+            $id_plataforma = $data['id_plataforma'] ?? null;
 
             // Validar que ambos parámetros estén presentes
             if (!$uuid || !$id_plataforma) {
