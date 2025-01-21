@@ -643,7 +643,7 @@ class SwaggerModel extends Query
                 ];
             }
 
-            return $this->productosModel->obtenerBodega($id_plataforma, $id_bodega);
+            return $this->productosModel->obtenerBodega($id_bodega, $id_plataforma);
         } catch (Exception $e) {
             return [
                 'status'  => 500,

@@ -1317,7 +1317,7 @@ class Swagger extends Controller
      *     @OA\Parameter(
      *         name="id_bodega",
      *         in="query",
-     *         description="ID de la plataforma",
+     *         description="ID de la bodega",
      *         required=true,
      *         @OA\Schema(
      *             type="string"
@@ -1325,7 +1325,7 @@ class Swagger extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Bodega obtenidas exitosamente"
+     *         description="Bodega obtenida exitosamente"
      *     ),
      *     @OA\Response(
      *         response=400,
@@ -1350,7 +1350,7 @@ class Swagger extends Controller
             }
 
             // Llamar al modelo para obtener las bodegas
-            $response = $this->model->obtenerBodega($uuid, $id_plataforma, $id_bodega);
+            $response = $this->model->obtenerBodega($uuid, $id_bodega, $id_plataforma);
             echo json_encode($response);
         } catch (Exception $e) {
             http_response_code(500);
