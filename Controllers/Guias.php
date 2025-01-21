@@ -303,6 +303,7 @@ class Guias extends Controller
             $response["status"] = 200;
             $this->model->aumentarMatriz();
             $response2 = $this->model->actualizarGuia($numero_factura, $response["id"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "SERVIENTREGA", 100);
+            print_r($response2);
             $this->model->asignarWallet($numero_factura, $response["id"], $fecha, $nombreDestino, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
             $this->model->descargarGuia($response["id"]);
         }
