@@ -620,7 +620,7 @@ class SwaggerModel extends Query
             ];
         }
     }
-    public function obtenerBodega($uuid, $id_plataforma, $id_bodega)
+    public function obtenerBodega($uuid, $id_bodega, $id_plataforma)
     {
         try {
             // Verificar si existe usuario con ese UUID
@@ -643,7 +643,7 @@ class SwaggerModel extends Query
                 ];
             }
 
-            return $this->productosModel->obtenerBodega($id_plataforma, $id_bodega);
+            return $this->productosModel->obtenerBodega($id_bodega, $id_plataforma);
         } catch (Exception $e) {
             return [
                 'status'  => 500,
@@ -717,6 +717,59 @@ class SwaggerModel extends Query
 
             // Llamar al modelo de productos para insertar la bodega
             return $this->productosModel->agregarBodega(
+                $nombre,
+                $direccion_completa,
+                $telefono,
+                $ciudad_entrega,
+                $provincia,
+                $nombre_contacto,
+                $telefono_contacto,
+                $numero_casa,
+                $referencia,
+                $idPlataforma,
+                $longitud,
+                $latitud
+            );
+        } catch (Exception $e) {
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al agregar bodega',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
+
+    public function editarBodega($uuid, $id_bodega, $nombre, $direccion_completa, $telefono, $ciudad_entrega, $provincia, $nombre_contacto, $numero_casa, $referencia, $longitud, $latitud)
+    {
+        try {
+            // Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+
+            // Obtener el ID de plataforma asociado
+            $id_users = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            // Obtener ID de plataforma
+            $idPlataforma = $plataforma[0]['id_plataforma'];
+
+            // Usar el mismo teléfono como teléfono de contacto
+            $telefono_contacto = $telefono;
+
+            // Llamar al modelo de productos para insertar la bodega
+            return $this->productosModel->editarBodega(
+                $id_bodega,
                 $nombre,
                 $direccion_completa,
                 $telefono,

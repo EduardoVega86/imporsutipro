@@ -46,13 +46,13 @@ class Funnelish extends Controller
             print_r($valido);
             if ($valido) {
                 $this->model->gestionarRequest($id_plataforma, $data);
-            } else return;
-        }
-        /* else {
-            $data = file_get_contents("php://input");
-            $this->data($data);
+            } else {
+                echo "Producto no registrado";
+            }
+        } else {
+
             echo "Plataforma no registrada";
-        } */
+        }
     }
 
     public function productos()
