@@ -1648,7 +1648,7 @@ class Swagger extends Controller
             }
 
             // Llamar al modelo
-            $response = $this->model->agregarBodega($uuid, $id_bodega, $nombre, $direccion_completa, $telefono, $ciudad_entrega, $provincia, $nombre_contacto, $numero_casa, $referencia, $longitud, $latitud);
+            $response = $this->model->editarBodega($uuid, $id_bodega, $nombre, $direccion_completa, $telefono, $ciudad_entrega, $provincia, $nombre_contacto, $numero_casa, $referencia, $longitud, $latitud);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
