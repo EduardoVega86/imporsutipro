@@ -79,7 +79,7 @@
 
     .boton-flotante {
         position: fixed;
-        bottom: 20px;
+        bottom: 155px;
         right: 20px;
         padding: 15px 25px;
         background-color: #E64747;
