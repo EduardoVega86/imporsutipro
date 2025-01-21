@@ -895,7 +895,6 @@ class SwaggerModel extends Query
             $idPlataforma = $plataforma[0]['id_plataforma'];
 
             // 4. Llamar al método de productos para insertar la categoría
-            //    Nota: Ajusta el orden de parámetros según tu productosModel->agregarCategoria(...).
             return $this->productosModel->agregarCategoria(
                 $nombre_linea,
                 $descripcion_linea,
