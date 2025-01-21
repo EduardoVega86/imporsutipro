@@ -1086,7 +1086,7 @@ class Swagger extends Controller
             // Validar que ambos parámetros estén presentes
             if (!$uuid) {
                 http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'UUID e ID de plataforma son requeridos']);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos']);
                 return;
             }
 
@@ -1113,15 +1113,6 @@ class Swagger extends Controller
      *             type="string"
      *         )
      *     ),
-     *     @OA\Parameter(
-     *         name="id_plataforma",
-     *         in="query",
-     *         description="ID de la plataforma",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Productos tienda automatizador obtenidos exitosamente"
@@ -1138,17 +1129,16 @@ class Swagger extends Controller
             $this->logRequest('swagger/obtener_productos_tienda_automatizador', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
             // Obtener los parámetros desde la URL
             $uuid = $_GET['uuid'] ?? null;
-            $id_plataforma = $_GET['id_plataforma'] ?? $_SESSION['id_plataforma'];
 
             // Validar que ambos parámetros estén presentes
-            if (!$uuid || !$id_plataforma) {
+            if (!$uuid) {
                 http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'UUID e ID de plataforma son requeridos']);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos']);
                 return;
             }
 
             // Llamar al modelo para obtener los productos privados
-            $response = $this->model->obtenerProductosTiendaAutomatizador($uuid, $id_plataforma);
+            $response = $this->model->obtenerProductosTiendaAutomatizador($uuid);
             echo json_encode($response);
         } catch (Exception $e) {
             http_response_code(500);
@@ -1170,15 +1160,6 @@ class Swagger extends Controller
      *             type="string"
      *         )
      *     ),
-     *     @OA\Parameter(
-     *         name="id_plataforma",
-     *         in="query",
-     *         description="ID de la plataforma",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Productos del inventario obtenidos exitosamente"
@@ -1195,17 +1176,16 @@ class Swagger extends Controller
             $this->logRequest('swagger/obtener_productos_inventario', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
             // Obtener los parámetros desde la URL
             $uuid = $_GET['uuid'] ?? null;
-            $id_plataforma = $_GET['id_plataforma'] ?? $_SESSION['id_plataforma'];
 
             // Validar que ambos parámetros estén presentes
-            if (!$uuid || !$id_plataforma) {
+            if (!$uuid) {
                 http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'UUID e ID de plataforma son requeridos']);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos']);
                 return;
             }
 
             // Llamar al modelo para obtener los productos privados
-            $response = $this->model->obtenerProductosInventario($uuid, $id_plataforma);
+            $response = $this->model->obtenerProductosInventario($uuid);
             echo json_encode($response);
         } catch (Exception $e) {
             http_response_code(500);

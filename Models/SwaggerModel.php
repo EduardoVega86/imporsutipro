@@ -481,7 +481,7 @@ class SwaggerModel extends Query
             ];
         }
     }
-    public function obtenerProductosTiendaAutomatizador($uuid, $id_plataforma)
+    public function obtenerProductosTiendaAutomatizador($uuid)
     {
         try {
             // Verificar si existe usuario con ese UUID
@@ -502,6 +502,7 @@ class SwaggerModel extends Query
                     'message' => 'No se encontró la plataforma asociada al usuario'
                 ];
             }
+            $id_plataforma = $plataforma[0]['id_plataforma'];
 
             return $this->productosModel->obtener_productos_tienda_automatizador($id_plataforma);
         } catch (Exception $e) {
@@ -512,7 +513,7 @@ class SwaggerModel extends Query
             ];
         }
     }
-    public function obtenerProductosInventario($uuid, $id_plataforma)
+    public function obtenerProductosInventario($uuid)
     {
         try {
             // Verificar si existe usuario con ese UUID
@@ -533,6 +534,7 @@ class SwaggerModel extends Query
                     'message' => 'No se encontró la plataforma asociada al usuario'
                 ];
             }
+            $id_plataforma = $plataforma[0]['id_plataforma'];
 
             return $this->productosModel->obtener_productos_inventario($id_plataforma);
         } catch (Exception $e) {
