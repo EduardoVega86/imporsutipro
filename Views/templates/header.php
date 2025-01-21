@@ -202,6 +202,10 @@
             <div class="container-fluid">
                 <a class="navbar-brand img_logo" href="<?php echo SERVERURL ?>dashboard"><img src="<?php echo IMAGEN_LOGO; ?>" alt="IMORSUIT" width="100px" height="44px"></a>
                 <div class="navbar-right">
+                    <?php if ($_SESSION['cargo'] == 15 || $_SESSION['cargo'] == 10 || $_SESSION['cargo'] == 20) { ?>
+
+                        <a class="nav-link" href="https://importadores.club/" target="_blank"><box-icon type='solid' name='videos' color="<?php echo COLOR_LETRAS; ?>"></box-icon> Cursos</a>
+                    <?php } ?>
                     <?php if ($_SESSION['cargo'] != 35) { ?>
                         <?php if (MARCA == "IMPORSUIT") { ?>
                             <a class="nav-link" href="https://danielbonilla522-9.funnels.mastertools.com/#primeros-pasos" target="_blank"><box-icon type='solid' name='videos' color="<?php echo COLOR_LETRAS; ?>"></box-icon> Tutoriales</a>
