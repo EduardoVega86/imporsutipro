@@ -45,7 +45,7 @@ class FunnelishModel extends Query
     {
         $data = json_decode($data, true);
         if (isset($data["products"]) && is_array($data["products"])) {
-            $sql = "SELECT id_producto FROM productos_funnel WHERE id_funnel = ? AND id_plataforma = ? AND id_registro = ?";
+            $sql = "SELECT id_producto FROM productos_funnel WHERE id_funnel = ? AND id_plataforma = ?";
             foreach ($data["products"] as $product) {
 
                 $response = $this->simple_select($sql, [$product["id"], $id_plataforma, $id_registro]);
