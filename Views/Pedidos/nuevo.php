@@ -176,9 +176,9 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                             <option value="1" selected>Con Recaudo</option>
                             <option value="2">Sin Recaudo</option>
                         </select>
-                        <div class="alert alert-warning" role="alert" style="display: none;" id="alerta_sin_recaudo">
-                            <strong>Atención:</strong> No puede generar esta guia sin recaudo, porque su wallet contiene un valor menor a 20 dolares.
-                        </div>
+                    </div>
+                    <div class="alert alert-warning" role="alert" style="display: none;" id="alerta_sin_recaudo">
+                        <strong>Atención:</strong> No puede generar esta guia sin recaudo, porque su wallet contiene un valor menor a 20 dolares.
                     </div>
                     <!--  <div class="mb-3">
                         <label class="form-check-label" for="extras">extra</label>
