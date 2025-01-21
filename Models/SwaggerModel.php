@@ -792,10 +792,10 @@ class SwaggerModel extends Query
         }
     }
 
-    public function listarBodegas($uuid, $id_plataforma)
+    public function listarBodegas($uuid)
     {
         try {
-            // Verificar si existe usuario con ese UUID
+            // 1) Verificar si existe usuario con ese UUID
             $usuario = $this->accesoModel->getUserByUUID($uuid);
             if (empty($usuario)) {
                 return [
@@ -804,7 +804,7 @@ class SwaggerModel extends Query
                 ];
             }
 
-            // Obtener el ID de plataforma asociado
+            // 2) Obtener la plataforma asociada al usuario
             $id_users = $usuario[0]['id_users'];
             $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
 
@@ -815,15 +815,20 @@ class SwaggerModel extends Query
                 ];
             }
 
+            // Tomamos el id_plataforma
+            $id_plataforma = $plataforma[0]['id_plataforma'];
+
+            // 3) Llamamos al modelo de productos para listar las bodegas
             return $this->productosModel->listarBodegas($id_plataforma);
         } catch (Exception $e) {
             return [
                 'status'  => 500,
-                'message' => 'Error interno al listar la bodega',
+                'message' => 'Error interno al listar bodegas',
                 'error'   => $e->getMessage()
             ];
         }
     }
+
 
 
     public function editarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $imagen, $id_produto, $ejemploLanding, $duplicarFunnel, $videos)
