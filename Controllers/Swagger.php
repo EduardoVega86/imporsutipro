@@ -1066,15 +1066,6 @@ class Swagger extends Controller
      *             type="string"
      *         )
      *     ),
-     *     @OA\Parameter(
-     *         name="id_plataforma",
-     *         in="query",
-     *         description="ID de la plataforma",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Productos tienda obtenidos exitosamente"
@@ -1091,17 +1082,16 @@ class Swagger extends Controller
             $this->logRequest('swagger/obtener_productos_tienda', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
             // Obtener los parámetros desde la URL
             $uuid = $_GET['uuid'] ?? null;
-            $id_plataforma = $_GET['id_plataforma'] ?? $_SESSION['id_plataforma'];
 
             // Validar que ambos parámetros estén presentes
-            if (!$uuid || !$id_plataforma) {
+            if (!$uuid) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'UUID e ID de plataforma son requeridos']);
                 return;
             }
 
             // Llamar al modelo para obtener los productos privados
-            $response = $this->model->obtenerProductosTienda($uuid, $id_plataforma);
+            $response = $this->model->obtenerProductosTienda($uuid);
             echo json_encode($response);
         } catch (Exception $e) {
             http_response_code(500);
