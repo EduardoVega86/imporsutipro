@@ -611,7 +611,7 @@ class SwaggerModel extends Query
             ];
         }
     }
-    public function obtenerBodega($uuid, $id_bodega, $id_plataforma)
+    public function obtenerBodega($uuid, $id_bodega)
     {
         try {
             // Verificar si existe usuario con ese UUID
@@ -634,6 +634,7 @@ class SwaggerModel extends Query
                 ];
             }
 
+            $id_plataforma = $plataforma[0]['id_plataforma'];
             return $this->productosModel->obtenerBodega($id_bodega, $id_plataforma);
         } catch (Exception $e) {
             return [

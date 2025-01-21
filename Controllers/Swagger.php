@@ -1274,15 +1274,6 @@ class Swagger extends Controller
      *             type="string"
      *         )
      *     ),
-     *     @OA\Parameter(
-     *         name="id_plataforma",
-     *         in="query",
-     *         description="ID de la plataforma",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Bodega obtenida exitosamente"
@@ -1300,17 +1291,16 @@ class Swagger extends Controller
             // Obtener los parámetros desde la URL
             $uuid = $_GET['uuid'] ?? null;
             $id_bodega = $_GET['id_bodega'] ?? null;
-            $id_plataforma = $_GET['id_plataforma'] ?? $_SESSION['id_plataforma'];
 
             // Validar que ambos parámetros estén presentes
-            if (!$uuid || !$id_plataforma || !$id_bodega) {
+            if (!$uuid || !$id_bodega) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos']);
                 return;
             }
 
             // Llamar al modelo para obtener las bodegas
-            $response = $this->model->obtenerBodega($uuid, $id_bodega, $id_plataforma);
+            $response = $this->model->obtenerBodega($uuid, $id_bodega);
             echo json_encode($response);
         } catch (Exception $e) {
             http_response_code(500);
