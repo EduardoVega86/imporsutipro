@@ -1811,6 +1811,118 @@ class Swagger extends Controller
             $this->handleException($e);
         }
     }
+    /**
+     * @OA\Post(
+     *     path="/swagger/editar_categoria",
+     *     tags={"Productos"},
+     *     summary="Editar una categoría existente",
+     *     description="Permite editar una categoría existente asociada a la plataforma.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="id_categoria", type="integer", description="ID de la categoría"),
+     *                 @OA\Property(property="nombre_linea", type="string", description="Nombre de la categoría"),
+     *                 @OA\Property(property="descripcion_linea", type="string", description="Descripción de la categoría"),
+     *                 @OA\Property(property="online", type="integer", description="Estado: 1=online, 0=offline"),
+     *                 @OA\Property(property="imagen", type="string", description="URL o nombre de la imagen"),
+     *                 @OA\Property(property="tipo", type="string", description="Tipo de la categoría"),
+     *                 @OA\Property(property="padre", type="integer", description="ID de la categoría padre (0 si no existe)"),
+     *                 @OA\Property(property="orden", type="integer", description="Orden de visualización")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Categoría editada con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno al editar la categoría"
+     *     )
+     * )
+     */
+    public function editar_categoria()
+    {
+        try {
+            $this->logRequest('swagger/agregar_bodega', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            // Validamos que vengan datos en el cuerpo
+            if (!$data) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
+                return;
+            }
+            // Capturar UUID desde query parameters
+            $uuid = $_GET['uuid'] ?? null;
+
+            // Extraer campos del JSON
+            $id_categoria       = $data['id_categoria']       ?? null;
+            $nombre_linea       = $data['nombre_linea']       ?? null;
+            $descripcion_linea  = $data['descripcion_linea']  ?? null;
+            $online             = $data['online']             ?? null;
+            $imagen             = $data['imagen']             ?? '';
+            $tipo               = $data['tipo']               ?? '';
+            $padre              = $data['padre']              ?? 0;
+            $orden              = $data['orden']              ?? 0;
+
+            // Campos fijos o por defecto
+            $estado_linea = 1;
+            $date_added   = date("Y-m-d H:i:s");
+
+            // Validar campos requeridos mínimos (adaptar a tu necesidad)
+            if (!$uuid || !$id_categoria || !$nombre_linea || !$descripcion_linea || !$online || !$imagen || !$tipo || !$padre || !$orden) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
+
+            $response = $this->model->editarCategoria(
+                $uuid,
+                $id_categoria,
+                $nombre_linea,
+                $descripcion_linea,
+                $estado_linea,
+                $date_added,
+                $online,
+                $imagen,
+                $tipo,
+                $padre,
+                $orden
+            );
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1859,6 +1971,10 @@ class Swagger extends Controller
      *                     type="integer"
      *                 ),
      *                 @OA\Property(
+     *                     property="imagen",
+     *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
      *                     property="idProveedor",
      *                     type="integer"
      *                 ),
@@ -1903,14 +2019,14 @@ class Swagger extends Controller
             $uuid = $_GET['uuid'] ?? null; // Capturar UUID desde query parameters
             $idProducto = $data['idProducto'] ?? null;
             $idLinea = $data['idLinea'] ?? null;
-            $imagen = $data['imagen'] ?? '';
+            $imagen = $data['imagen'] ?? null;
             $idProveedor = $data['idProveedor'] ?? null;
             $ejemploLanding = $data['ejemploLanding'] ?? null;
             $duplicarFunnel = $data['duplicarFunnel'] ?? null;
             $videos = $data['videos'] ?? null;
 
             // Validación de campos requeridos
-            if (!$uuid || !$idProducto || !$idLinea || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
+            if (!$uuid || !$imagen || !$idProducto || !$idLinea || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
