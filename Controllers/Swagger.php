@@ -1294,7 +1294,7 @@ class Swagger extends Controller
      * @OA\Get(
      *     path="/swagger/obtener_bodega",
      *     tags={"Productos"},
-     *     summary="Obtener bodegas por plataforma",
+     *     summary="Obtener bodega por id",
      *     description="Permite obtener la bodega segun su id e id_plataforma proporcionado.",
      *     @OA\Parameter(
      *         name="uuid",
@@ -1306,18 +1306,18 @@ class Swagger extends Controller
      *         )
      *     ),
      *     @OA\Parameter(
-     *         name="id_plataforma",
+     *         name="id_bodega",
      *         in="query",
-     *         description="ID de la plataforma",
+     *         description="ID de la bodega",
      *         required=true,
      *         @OA\Schema(
      *             type="string"
      *         )
      *     ),
      *     @OA\Parameter(
-     *         name="id_bodega",
+     *         name="id_plataforma",
      *         in="query",
-     *         description="ID de la bodega",
+     *         description="ID de la plataforma",
      *         required=true,
      *         @OA\Schema(
      *             type="string"
@@ -1357,6 +1357,7 @@ class Swagger extends Controller
             echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
         }
     }
+
     /**
      * @OA\Get(
      *     path="/swagger/obtener_bodegas",

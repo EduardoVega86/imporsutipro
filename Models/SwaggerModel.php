@@ -620,7 +620,7 @@ class SwaggerModel extends Query
             ];
         }
     }
-    public function obtenerBodega($uuid, $id_plataforma, $id_bodega)
+    public function obtenerBodega($uuid, $id_bodega, $id_plataforma)
     {
         try {
             // Verificar si existe usuario con ese UUID
