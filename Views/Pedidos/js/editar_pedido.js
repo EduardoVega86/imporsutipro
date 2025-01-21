@@ -895,7 +895,7 @@ function generar_guia() {
           timer: 2000,
         }).then(() => {
           vaciarTmpPedidos();
-          /* window.location.href = "" + SERVERURL + "Pedidos/guias"; */
+          window.location.href = "" + SERVERURL + "Pedidos/guias";
         });
       } else if (response.status == 501) {
         Swal.fire({
