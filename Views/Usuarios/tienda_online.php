@@ -37,7 +37,7 @@
     /* Estilos para el botón flotante */
     .btn-flotante-vista-previa {
         position: fixed;
-        left: 155px;
+        right: 20px;
         bottom: 20px;
         background-color: #4CAF50;
         color: white;
