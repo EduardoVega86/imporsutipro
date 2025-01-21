@@ -37,7 +37,6 @@ $("#imageInputPrincipal").on("change", function (event) {
   });
 });
 
-
 $("#imageFondoParallax").on("change", function (event) {
   event.preventDefault();
 
@@ -77,7 +76,6 @@ $("#imageFondoParallax").on("change", function (event) {
   });
 });
 
-
 $("#imageFondoParallax2").on("change", function (event) {
   event.preventDefault();
 
@@ -116,7 +114,6 @@ $("#imageFondoParallax2").on("change", function (event) {
     },
   });
 });
-
 
 $("#imagefondopaginainput").on("change", function (event) {
   event.preventDefault();
@@ -275,11 +272,11 @@ $(document).ready(function () {
     $(this).addClass("selected");
 
     let plantilla = "";
-    if ((selectedTemplate == "template1")) {
+    if (selectedTemplate == "template1") {
       plantilla = 1;
-    } else if ((selectedTemplate == "template2")) {
+    } else if (selectedTemplate == "template2") {
       plantilla = 2;
-    } else if ((selectedTemplate == "template3")) {
+    } else if (selectedTemplate == "template3") {
       plantilla = 3;
     }
     // Prepara los datos para la API
@@ -421,9 +418,7 @@ function cargar_ofertas_plantilla2() {
   });
 }
 
-
 function cargar_informacion_plantilla3() {
-    
   $.ajax({
     url: SERVERURL + "Usuarios/obtener_infoPlantilla3",
     type: "GET",
@@ -436,32 +431,23 @@ function cargar_informacion_plantilla3() {
       $("#boton_parallax_enlace").val(response[0].boton_parallax_enlace);
       $("#myRange").val(response[0].parallax_opacidad);
       $("#rangeValue").text(response[0].parallax_opacidad);
-      
-      
-       $("#color_filtro").val(response[0].color_filtro);
-       $("#color_texto").val(response[0].color_texto);
-       $("#color_boton").val(response[0].color_boton);
-       
-       $("#titulo_parallax2").val(response[0].titulo_parallax2);
-        $("#subtitulo_parallax2").val(response[0].subtitulo_parallax2);
-        $("#texto_parallax2").val(response[0].texto_parallax2);
-        
-        $("#color_fondo_parallax2").val(response[0].color_fondo_parallax2);
-        $("#color_texto_parallax2").val(response[0].color_texto_parallax2);
-      
-   
 
-      $("#color_hover_cabecera_plantilla2").val(
-        response[0].color_filtro
-      );
-      
-      $("#color_texto").val(
-        response[0].color_texto
-      );
-      
-      $("#color_boton").val(
-        response[0].color_boton
-      );
+      $("#color_filtro").val(response[0].color_filtro);
+      $("#color_texto").val(response[0].color_texto);
+      $("#color_boton").val(response[0].color_boton);
+
+      $("#titulo_parallax2").val(response[0].titulo_parallax2);
+      $("#subtitulo_parallax2").val(response[0].subtitulo_parallax2);
+      $("#texto_parallax2").val(response[0].texto_parallax2);
+
+      $("#color_fondo_parallax2").val(response[0].color_fondo_parallax2);
+      $("#color_texto_parallax2").val(response[0].color_texto_parallax2);
+
+      $("#color_hover_cabecera_plantilla2").val(response[0].color_filtro);
+
+      $("#color_texto").val(response[0].color_texto);
+
+      $("#color_boton").val(response[0].color_boton);
       //alert()
       if (response[0].parallax_fondo === null) {
         $("#imagen_parallax1").attr(
@@ -469,42 +455,39 @@ function cargar_informacion_plantilla3() {
           SERVERURL + "public/img/broken-image.png"
         );
       } else {
-         // alert(response[0].parallax_fondo)
+        // alert(response[0].parallax_fondo)
         $("#imagen_parallax1").attr(
           "src",
           SERVERURL + response[0].parallax_fondo
         );
       }
-      
+
       if (response[0].fondo_pagina === null) {
         $("#imagefondopagina").attr(
           "src",
           SERVERURL + "public/img/broken-image.png"
         );
       } else {
-         // alert(response[0].parallax_fondo)
+        // alert(response[0].parallax_fondo)
         $("#imagefondopagina").attr(
           "src",
           SERVERURL + response[0].fondo_pagina
         );
       }
-      
-      
 
-if (response[0].imagen_parallax2 === null) {
+      if (response[0].imagen_parallax2 === null) {
         $("#imagen_parallax2").attr(
           "src",
           SERVERURL + "public/img/broken-image.png"
         );
       } else {
-         // alert(response[0].parallax_fondo)
+        // alert(response[0].parallax_fondo)
         $("#imagen_parallax2").attr(
           "src",
           SERVERURL + response[0].imagen_parallax2
         );
       }
-      
-      
+
       $("#titulo_oferta2").val(response[0].titulo_oferta2);
       $("#oferta2").val(response[0].oferta2);
       $("#descripcion_oferta2").val(response[0].descripcion_oferta2);
@@ -584,11 +567,11 @@ function cargarInfoTienda_inicial() {
       $("#color_botones").val(response[0].color_botones);
       $("#texto_boton1").val(response[0].texto_boton);
       $("#ruc").val(response[0].cedula_facturacion);
-$("#vista_previa").html(
-          '<a href="' +
-            response[0].url_imporsuit +
-            '" class="btn-flotante" target="_blank"><i class="fas fa-eye"></i> Vista Previa</a>'
-        );
+      $("#vista_previa").html(
+        '<a href="' +
+          response[0].url_imporsuit +
+          '" class="btn-flotante-vista-previa" target="_blank"><i class="fas fa-eye"></i> Vista Previa</a>'
+      );
       if (response[0].tienda_creada == 1) {
         $("#nombre_tienda").prop("readonly", true);
         $("#tienda-creada").html(
@@ -597,8 +580,6 @@ $("#vista_previa").html(
             '" target="_blank">Ver mi tienda</a>'
         );
 
-
-    
         $("#crear_tienda").css("display", "none");
         $("#seccion_nosePermiteTMP").hide();
       }
@@ -614,7 +595,7 @@ $("#vista_previa").html(
       $("#facebook").val(response[0].facebook);
 
       $("#dominio").val(response[0].dominio);
-      
+
       $("#dominio").val(response[0].dominio);
 
       var subdominio = quitarHTTPS(response[0].url_imporsuit);
@@ -626,9 +607,9 @@ $("#vista_previa").html(
         $("#colores_plantilla2").hide();
         $("#seccion_oferta_plantilla2").hide();
         $("#seccion_promocion_plantilla2").hide();
-        
-         $("#colores_plantilla3").hide();
-        
+
+        $("#colores_plantilla3").hide();
+
         $("#fondo_servicios").hide();
 
         // Actualiza los valores de los inputs hidden
@@ -639,32 +620,33 @@ $("#vista_previa").html(
 
         // Agrega la clase 'selected' a la plantilla correcta
         $(".plantilla[data-template='template1']").addClass("selected");
-        
+
         $("#seccion_paralax_plantilla3").hide();
-        
-        valor_banner="<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
-      // alert(valor_banner)
-            $("#muestra_banner").html(valor_banner);
-        
+
+        valor_banner =
+          "<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
+        // alert(valor_banner)
+        $("#muestra_banner").html(valor_banner);
+
         $("#profesionales").hide();
-        
       } else if (response[0].plantilla == 2) {
         cargar_ofertas_plantilla2();
         $("#colores_plantilla2").show();
         $("#seccion_oferta_plantilla2").show();
         $("#seccion_promocion_plantilla2").show();
         $("#colores_plantilla1").hide();
-$("#seccion_paralax_plantilla3").hide();
+        $("#seccion_paralax_plantilla3").hide();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template2");
-        
+
         $("#colores_plantilla3").hide();
-        
+
         $("#fondo_servicios").hide();
-        
-         $("#profesionales").hide();
-        
-         valor_banner="<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
+
+        $("#profesionales").hide();
+
+        valor_banner =
+          "<strong>Atención:</strong> las dimensines de la imagen deben ser 2550x860 y en formato .png, .jpg, .jpeg";
         $("#muestra_banner").html(valor_banner);
 
         // Remueve la clase 'selected' de todas las plantillas
@@ -673,31 +655,30 @@ $("#seccion_paralax_plantilla3").hide();
         // Agrega la clase 'selected' a la plantilla correcta
         $(".plantilla[data-template='template2']").addClass("selected");
       } else if (response[0].plantilla == 3) {
-          cargar_informacion_plantilla3();
+        cargar_informacion_plantilla3();
         // Actualiza los valores de los inputs hidden
         $("#plantilla_selected").val("template3");
-        
+
         $("#profesionales").show();
-        
-$("#seccion_promocion_plantilla2").hide();
 
-$("#seccion_oferta_plantilla2").hide();
+        $("#seccion_promocion_plantilla2").hide();
 
-$("#colores_plantilla3").show();
+        $("#seccion_oferta_plantilla2").hide();
+
+        $("#colores_plantilla3").show();
 
         // Remueve la clase 'selected' de todas las plantillas
         $(".plantilla").removeClass("selected");
 
-$("#seccion_paralax_plantilla3").show();
-$("#fondo_servicios").show();
+        $("#seccion_paralax_plantilla3").show();
+        $("#fondo_servicios").show();
 
- valor_banner="<strong>Atención:</strong> se recomienda utilizar las dimensiones de la muestra y en formato .png , .webp, descargar muetra <a target='blank' href='https://new.imporsuitpro.com/public/img/banner/muestra_banner.webp' download='mi_imagen.png' class='btn-descargar'><i class='fas fa-download'></i></a>";
+        valor_banner =
+          "<strong>Atención:</strong> se recomienda utilizar las dimensiones de la muestra y en formato .png , .webp, descargar muetra <a target='blank' href='https://new.imporsuitpro.com/public/img/banner/muestra_banner.webp' download='mi_imagen.png' class='btn-descargar'><i class='fas fa-download'></i></a>";
         $("#muestra_banner").html(valor_banner);
 
         // Agrega la clase 'selected' a la plantilla correcta
         $(".plantilla[data-template='template3']").addClass("selected");
-        
-        
       }
 
       // Mover la lógica de verificación aquí
@@ -795,7 +776,6 @@ function cambiarcolor_oferta_plantilla2(campo, valor) {
     },
   });
 }
-
 
 function cambiarcolor_parallax_plantilla3(campo, valor) {
   const formData = new FormData();
@@ -1458,8 +1438,6 @@ const listProfesionales = async () => {
 window.addEventListener("load", async () => {
   await initDataTableProfesionales();
 });
-
-
 
 function eliminarTestimonio(id) {
   let formData = new FormData();
