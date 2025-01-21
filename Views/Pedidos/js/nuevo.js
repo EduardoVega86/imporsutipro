@@ -483,6 +483,18 @@ function calcularTarifas() {
     monto_total !== "" &&
     monto_total !== "0"
   ) {
+    var button2 = document.getElementById("generarGuiaBtn");
+
+    if (recaudo == 1) {
+      if ($("#precio_wallet").val() < 20) {
+        button2.disabled = true;
+      } else {
+        button2.disabled = false;
+      }
+    } else {
+      button2.disabled = false;
+    }
+
     let formData = new FormData();
     formData.append("ciudad", ciudad);
     formData.append("provincia", provincia);
