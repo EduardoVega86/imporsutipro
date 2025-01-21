@@ -1715,6 +1715,106 @@ class Swagger extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/swagger/agregar_categoria",
+     *     tags={"Productos"},
+     *     summary="Agregar una nueva categoría",
+     *     description="Permite agregar una nueva categoría asociada a la plataforma.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="nombre_linea", type="string", description="Nombre de la categoría"),
+     *                 @OA\Property(property="descripcion_linea", type="string", description="Descripción de la categoría"),
+     *                 @OA\Property(property="online", type="integer", description="Estado: 1=online, 0=offline"),
+     *                 @OA\Property(property="imagen", type="string", description="URL o nombre de la imagen"),
+     *                 @OA\Property(property="tipo", type="string", description="Tipo de la categoría"),
+     *                 @OA\Property(property="padre", type="integer", description="ID de la categoría padre (0 si no existe)"),
+     *                 @OA\Property(property="orden", type="integer", description="Orden de visualización")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Categoría agregada con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno al agregar la categoría"
+     *     )
+     * )
+     */
+    public function agregar_categoria()
+    {
+        try {
+            $this->logRequest('swagger/agregar_bodega', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            // Validamos que vengan datos en el cuerpo
+            if (!$data) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
+                return;
+            }
+            // Capturar UUID desde query parameters
+            $uuid = $_GET['uuid'] ?? null;
+
+            // Extraer campos del JSON
+            $nombre_linea       = $data['nombre_linea']       ?? null;
+            $descripcion_linea  = $data['descripcion_linea']  ?? null;
+            $online             = $data['online']             ?? null;
+            $imagen             = $data['imagen']             ?? '';
+            $tipo               = $data['tipo']               ?? '';
+            $padre              = $data['padre']              ?? 0;
+            $orden              = $data['orden']              ?? 0;
+
+            // Campos fijos o por defecto
+            $estado_linea = 1;
+            $date_added   = date("Y-m-d H:i:s");
+
+            // Validar campos requeridos mínimos (adaptar a tu necesidad)
+            if (!$uuid || !$nombre_linea || !$descripcion_linea || !$online || !$imagen || !$tipo || !$padre || !$orden) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
+
+            $response = $this->model->agregarCategoria(
+                $uuid,
+                $nombre_linea,
+                $descripcion_linea,
+                $estado_linea,
+                $date_added,
+                $online,
+                $imagen,
+                $tipo,
+                $padre,
+                $orden
+            );
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+
+
+
 
 
 

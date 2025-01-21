@@ -858,6 +858,66 @@ class SwaggerModel extends Query
         }
     }
 
+    public function agregarCategoria(
+        $uuid,
+        $nombre_linea,
+        $descripcion_linea,
+        $estado_linea,
+        $date_added,
+        $online,
+        $imagen,
+        $tipo,
+        $padre,
+        $orden
+    ) {
+        try {
+            // 1. Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+
+            // 2. Obtener el ID de usuario y luego el ID de plataforma asociado
+            $id_users   = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            // 3. Obtener ID de plataforma
+            $idPlataforma = $plataforma[0]['id_plataforma'];
+
+            // 4. Llamar al método de productos para insertar la categoría
+            //    Nota: Ajusta el orden de parámetros según tu productosModel->agregarCategoria(...).
+            return $this->productosModel->agregarCategoria(
+                $nombre_linea,
+                $descripcion_linea,
+                $estado_linea,
+                $date_added,
+                $online,
+                $imagen,
+                $tipo,
+                $padre,
+                $idPlataforma,
+                $orden
+            );
+        } catch (Exception $e) {
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al agregar la categoría',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
+
+
 
 
     public function editarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $imagen, $id_produto, $ejemploLanding, $duplicarFunnel, $videos)
