@@ -1859,10 +1859,6 @@ class Swagger extends Controller
      *                     type="integer"
      *                 ),
      *                 @OA\Property(
-     *                     property="imagen",
-     *                     type="string"
-     *                 ),
-     *                 @OA\Property(
      *                     property="idProveedor",
      *                     type="integer"
      *                 ),
@@ -1914,7 +1910,7 @@ class Swagger extends Controller
             $videos = $data['videos'] ?? null;
 
             // Validación de campos requeridos
-            if (!$uuid || !$imagen || !$idProducto || !$idLinea || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
+            if (!$uuid || !$idProducto || !$idLinea || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
