@@ -184,8 +184,8 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                         </select>
                     </div>
                     <div class="alert alert-warning" role="alert" style="display: none;" id="alerta_sin_recaudo">
-                        <strong>Atención:</strong> No puede generar esta guia sin recaudo, porque su wallet contiene un valor menor a 20 dolares.
-                        En caso de querer recargar su wallet, porfavor comunicarse con soprte.
+                        <strong>Atención:</strong> No puede generar esta guía sin recaudo porque su wallet contiene un saldo menor a 20 dólares.
+                        Si desea recargar su wallet, por favor comuníquese con soporte.
                     </div>
                     <!-- <div class="mb-3">
                         <label class="form-check-label" for="extras">extra</label>
