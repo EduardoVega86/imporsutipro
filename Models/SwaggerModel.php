@@ -821,7 +821,134 @@ class SwaggerModel extends Query
         }
     }
 
+    public function cargarBodegas($uuid)
+    {
+        try {
+            // 1) Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
 
+            // 2) Obtener la plataforma asociada al usuario
+            $id_users = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            // Tomamos el id_plataforma
+            $id_plataforma = $plataforma[0]['id_plataforma'];
+
+            // 3) Llamamos al modelo de productos para listar las bodegas
+            return $this->productosModel->cargarBodegas($id_plataforma);
+        } catch (Exception $e) {
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al listar bodegas',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
+
+    public function agregarCategoria(
+        $uuid,
+        $nombre_linea,
+        $descripcion_linea,
+        $estado_linea,
+        $date_added,
+        $online,
+        $imagen,
+        $tipo,
+        $padre,
+        $orden
+    ) {
+        try {
+            // 1. Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+
+            // 2. Obtener el ID de usuario y luego el ID de plataforma asociado
+            $id_users   = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            // 3. Obtener ID de plataforma
+            $idPlataforma = $plataforma[0]['id_plataforma'];
+
+            // 4. Llamar al método de productos para insertar la categoría
+            return $this->productosModel->agregarCategoria(
+                $nombre_linea,
+                $descripcion_linea,
+                $estado_linea,
+                $date_added,
+                $online,
+                $imagen,
+                $tipo,
+                $padre,
+                $idPlataforma,
+                $orden
+            );
+        } catch (Exception $e) {
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al agregar la categoría',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
+
+
+
+    public function agregarBoveda($uuid, $idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)
+    {
+        try {
+            // Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+            // Obtener el ID de plataforma asociado
+            $id_users = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+            $idPlataforma = $plataforma[0]['id_plataforma'];
+            // Llamar a insertarBoveda con los datos y el ID de plataforma
+            return $this->productosModel->insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $idPlataforma, $ejemploLanding, $duplicarFunnel, $videos);
+        } catch (Exception $e) {
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al agregar bóveda',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
 
     public function editarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $imagen, $id_produto, $ejemploLanding, $duplicarFunnel, $videos)
     {
