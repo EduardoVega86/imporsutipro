@@ -1565,7 +1565,7 @@ class Swagger extends Controller
     }
 
     /**
-     * @OA\UPDATE(
+     * @OA\PUT(
      *     path="/swagger/editar_bodega",
      *     tags={"Productos"},
      *     summary="Editar una bodega existente",
