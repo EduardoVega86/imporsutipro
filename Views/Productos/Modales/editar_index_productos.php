@@ -92,6 +92,10 @@
                                                 <option value="0">No</option>
                                             </select>
                                         </div>
+                                        <div class="alert alert-warning" role="alert">
+                                            <strong>Atención:</strong> La opcion no agrega valor al producto sino que lo hace producto logistico complementario,
+                                            es decir que no puede ser puesto a vender solo sino como un producto agregado.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
