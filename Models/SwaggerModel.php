@@ -414,7 +414,7 @@ class SwaggerModel extends Query
         }
     }
 
-    public function obtenerProductosPrivados($uuid, $id_plataforma)
+    public function obtenerProductosPrivados($uuid)
     {
         try {
             // Verificar si existe usuario con ese UUID
@@ -435,14 +435,8 @@ class SwaggerModel extends Query
                     'message' => 'No se encontró la plataforma asociada al usuario'
                 ];
             }
-
-            // Validamos que ambos parámetros sean válidos
-            if (empty($uuid) || empty($id_plataforma)) {
-                return [
-                    'status'  => 400,
-                    'message' => 'UUID e ID de plataforma son requeridos'
-                ];
-            }
+            // Tomamos el id_plataforma
+            $id_plataforma = $plataforma[0]['id_plataforma'];
 
             return $this->productosModel->obtener_productos_privados($id_plataforma);
         } catch (Exception $e) {
