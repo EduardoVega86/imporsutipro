@@ -1655,6 +1655,68 @@ class Swagger extends Controller
         }
     }
 
+    /**
+     * @OA\POST(
+     *     path="/swagger/listar_bodegas",
+     *     tags={"Productos"},
+     *     summary="Listar bodegas por plataforma",
+     *     description="Permite liistar las bodegas existentes según su plataforma.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="ID plataforma", type="integer", description="ID de la plataforma"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Bodegas listadas con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno al listas las bodegas"
+     *     )
+     * )
+     */
+    public function listar_bodegas()
+    {
+        try {
+            $this->logRequest('swagger/listar_bodegas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            // Obtener los parámetros desde la URL
+            $uuid = $_GET['uuid'] ?? null;
+            $id_plataforma = $data['id_plataforma'] ?? null;
+
+            // Validar que ambos parámetros estén presentes
+            if (!$uuid) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'UUID es un campo requeridos']);
+                return;
+            }
+
+            // Llamar al modelo para obtener las bodegas
+            $response = $this->model->listarBodegas($uuid, $id_plataforma);
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['status' => 500, 'message' => 'Error interno', 'error' => $e->getMessage()]);
+        }
+    }
+
 
 
 

@@ -619,14 +619,17 @@ function calcularTarifas() {
   ) {
     var button2 = document.getElementById("generarGuiaBtn");
 
-    if (recaudo == 1) {
+    if (recaudo == 2) {
       if ($("#precio_wallet").val() < 20) {
         button2.disabled = true;
+        $("#alerta_sin_recaudo").show();
       } else {
         button2.disabled = false;
+        $("#alerta_sin_recaudo").hide();
       }
     } else {
       button2.disabled = false;
+      $("#alerta_sin_recaudo").hide();
     }
 
     let formData = new FormData();
