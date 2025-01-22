@@ -975,6 +975,43 @@ class SwaggerModel extends Query
         }
     }
 
+    public function listarCategoria($id_categoria, $uuid)
+    {
+        try {
+            // 1) Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+
+            // 2) Obtener la plataforma asociada al usuario
+            $id_users = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            // Tomamos el id_plataforma
+            $id_plataforma = $plataforma[0]['id_plataforma'];
+
+            // 3) Llamamos al modelo de productos para listar las bodegas
+            return $this->productosModel->listarCategoria($$id_categoria, $id_plataforma);
+        } catch (Exception $e) {
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al listar bodegas',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
+
 
 
     public function agregarBoveda($uuid, $idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)

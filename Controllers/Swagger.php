@@ -1911,6 +1911,75 @@ class Swagger extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/swagger/listar_categoria",
+     *     tags={"Productos"},
+     *     summary="Listar las lineas/categorias asociadas a la plataforma de un usuario",
+     *     description="Devuelve la lista de lineas/categoria asociadas a la plataforma del usuario, validado por su UUID.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="id_categoria",
+     *         in="query",
+     *         description="ID de a categoría",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listado de lineas/categoria obtenido exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No existe un usuario con el UUID proporcionado"
+     *     )
+     * )
+     */
+    public function listar_categoria()
+    {
+        try {
+            // Registrar la solicitud en logs (si utilizas ese método).
+            $this->logRequest('swagger/listar_categoria', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
+            // Obtener parámetros
+            $uuid = $_GET['uuid'] ?? null;
+            $id_categoria = $_GET['id_categoria'] ?? null;
+
+            // Validar parámetros requeridos
+            if (!$uuid) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos: uuid']);
+                return;
+            }
+
+            // Llamar a tu modelo (Swagger Model) que internamente validará usuario y llamará a productosModel
+            $response = $this->model->listarCategoria($id_categoria, $uuid);
+
+            // Responder
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'status'  => 500,
+                'message' => 'Error interno',
+                'error'   => $e->getMessage()
+            ]);
+        }
+    }
 
 
 
