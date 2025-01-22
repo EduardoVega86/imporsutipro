@@ -2214,7 +2214,7 @@ class Swagger extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
-     *             mediaType="application/json",
+     *             mediaType="multipart/form-data",
      *             @OA\Schema(
      *                 @OA\Property(
      *                     property="id_produto",
@@ -2227,6 +2227,12 @@ class Swagger extends Controller
      *                 @OA\Property(
      *                     property="id_linea",
      *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="imagen",
+     *                     type="string",
+     *                     format = "binary",
+     *                     description = "Arhivo de imagen subir"
      *                 ),
      *                 @OA\Property(
      *                     property="id_plataforma",
@@ -2261,24 +2267,18 @@ class Swagger extends Controller
     public function editar_boveda()
     {
         try {
-            $this->logRequest('swagger/editar_boveda', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
-            $data = json_decode(file_get_contents("php://input"), true);
-
-            if (!$data) {
-                http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
-                return;
-            }
+            $this->logRequest('swagger/editar__boveda', $_SERVER['REQUEST_METHOD'], $_FILES['imagen'] ?? null);
 
             $uuid = $_GET['uuid'] ?? null; // Capturar UUID desde query parameters
-            $id_produto = $data['id_produto'] ?? null;
-            $id_boveda = $data['id_boveda'] ?? null;
-            $id_linea = $data['id_linea'] ?? null;
-            $imagen = $data['imagen'] ?? null;
-            $id_plataforma = $data['id_plataforma'] ?? null;
-            $ejemploLanding = $data['ejemploLanding'] ?? null;
-            $duplicarFunnel = $data['duplicarFunnel'] ?? null;
-            $videos = $data['videos'] ?? null;
+
+            $id_produto = $_POST['id_produto'] ?? null;
+            $id_boveda = $_POST['id_boveda'] ?? null;
+            $id_linea = $_POST['id_linea'] ?? null;
+            $imagen = $_FILES['imagen'] ?? null;
+            $id_plataforma = $_POST['id_plataforma'] ?? null;
+            $ejemploLanding = $_POST['ejemploLanding'] ?? null;
+            $duplicarFunnel = $_POST['duplicarFunnel'] ?? null;
+            $videos = $_POST['videos'] ?? null;
 
             // Validación de campos requeridos
             if (!$uuid || !$id_produto || !$id_boveda || !$id_linea || !$id_plataforma || !$ejemploLanding || !$duplicarFunnel || !$videos) {
