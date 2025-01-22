@@ -2174,6 +2174,11 @@ class Swagger extends Controller
      *                     description="Archivo de imagen a subir."
      *                 ),
      *                 @OA\Property(
+     *                     property="num_imagen",
+     *                     type="integer",
+     *                     description="Numero de imagen a subir."
+     *                 ),
+     *                 @OA\Property(
      *                     property="id_producto",
      *                     type="integer",
      *                     description="ID del producto en el que se subirá la imagen."
