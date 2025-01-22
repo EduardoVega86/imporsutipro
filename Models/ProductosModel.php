@@ -1270,7 +1270,7 @@ class ProductosModel extends Query
                 } else {
                     $response['status'] = 500;
                     $response['title'] = 'Error';
-                    $response['message'] = 'Error al subir la imagen - UPDATE';
+                    $response['message'] = $editar_imagen;
                 }
             } else {
                 $response['status'] = 500;
