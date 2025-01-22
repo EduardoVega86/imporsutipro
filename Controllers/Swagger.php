@@ -2130,7 +2130,9 @@ class Swagger extends Controller
      *                 ),
      *                 @OA\Property(
      *                     property="imagen",
-     *                     type="integer"
+     *                     type="string",
+     *                     format= "binary",
+     *                     description = "Archivo de imagen a subir." 
      *                 ),
      *                 @OA\Property(
      *                     property="idProveedor",
