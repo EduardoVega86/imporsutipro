@@ -1926,15 +1926,6 @@ class Swagger extends Controller
      *             type="string"
      *         )
      *     ),
-     *     @OA\Parameter(
-     *         name="id_categoria",
-     *         in="query",
-     *         description="ID de la categoría",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
@@ -1944,6 +1935,9 @@ class Swagger extends Controller
      *                     property="id_categoria",
      *                     type="integer"
      *                 ),
+     *             )
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Listado de lineas/categoria obtenido exitosamente"
@@ -1990,83 +1984,6 @@ class Swagger extends Controller
         }
     }
 
-    /**
-     * @OA\Post(
-     *     path="/swagger/guardar_imagen_categorias",
-     *     tags={"Productos"},
-     *     summary="Guardar imagen categoria",
-     *     description="Permite subir una imagen para una categoría específica, validando UUID de plataforma o el usuario.",
-     *     @OA\Parameter(
-     *        name="uuid",
-     *        in="query",
-     *        description="UUID del usuario o plataforma",
-     *        required=true,
-     *        @OA\Schema(
-     *            type="string"
-     *        )
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 @OA\Property(
-     *                     description="ID de la línea/categoría",
-     *                     property="id_linea",
-     *                     type="integer"
-     *                 ),
-     *                 @OA\Property(
-     *                     description="Archivo de la imagen a subir",
-     *                     property="imagen",
-     *                     type="string",
-     *                     format = "binary"
-     *                 ),
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Imagen guardada con exito"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Error en la creación de la imagen"
-     *     )
-     * )
-     */
-
-    public function guardar_imagen_categorias()
-    {
-        try {
-            // Registrar la solicitud en logs si lo deseas
-            $this->logRequest('swagger/guardar_imagen_categorias', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
-
-            // Obtener parámetros de la solicitud (POST, multipart/form-data)
-            $imagen   = $_FILES['imagen']   ?? null;
-            $id_linea = $_POST['id_linea']  ?? null;
-            $uuid     = $_POST['uuid']      ?? null;  // si lo usas para validar
-
-            // Validar campos requeridos
-            if (!$imagen || !$id_linea) {
-                http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos (imagen, id_linea)']);
-                return;
-            }
-
-            // Llamar a tu modelo (Swagger Model) para hacer la lógica de validación y subir la imagen
-            $response = $this->model->guardarImagenCategorias($imagen, $id_linea, $uuid);
-
-            // Retornar la respuesta
-            echo json_encode($response);
-        } catch (Exception $e) {
-            http_response_code(500);
-            echo json_encode([
-                'status'  => 500,
-                'message' => 'Error interno',
-                'error'   => $e->getMessage()
-            ]);
-        }
-    }
 
 
 
