@@ -1986,6 +1986,94 @@ class Swagger extends Controller
     }
 
 
+    /**
+     * @OA\Post(
+     *     path="/swagger/guardar_imagen_categorias",
+     *     tags={"Productos"},
+     *     summary="Subir imagen para la categoría",
+     *     description="Permite subir y asociar una imagen a una categoría existente.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma (opcional si tu flujo requiere la validación de usuario).",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/json",
+     *             @OA\Schema(
+
+     *                 @OA\Property(
+     *                     property="imagen",
+     *                     type="string",
+     *                     format="binary",
+     *                     description="Archivo de imagen a subir."
+     *                 ),
+     *                 @OA\Property(
+     *                     property="id_linea",
+     *                     type="integer",
+     *                     description="ID de la categoría (linea) a la que se subirá la imagen."
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Imagen guardada con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno al agregar la imagen"
+     *     )
+     * )
+     */
+    public function guardar_imagen_categorias()
+    {
+        try {
+            $this->logRequest('swagger/guardar_imagen_categorias', $_SERVER['REQUEST_METHOD'], $_FILES['imagen'] ?? null);
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            // Validamos que vengan datos en el cuerpo
+            if (!$data) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
+                return;
+            }
+
+            $uuid = $_GET['uuid'] ?? null;
+
+            $imagen = $data['imagen'] ?? null;
+            $id_linea = $data['imagen'] ?? null;
+
+            // Validar campos requeridos mínimos (adaptar a tu necesidad)
+            if (!$uuid || $imagen || $id_linea) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
+
+            $response = $this->model->guardarImagenCategorias(
+                $uuid,
+                $imagen,
+                $id_linea
+            );
+
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+
+
 
 
 
