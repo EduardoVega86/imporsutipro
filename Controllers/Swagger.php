@@ -2118,7 +2118,7 @@ class Swagger extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
-     *             mediaType="application/json",
+     *             mediaType="multipart/form-data",
      *             @OA\Schema(
      *                 @OA\Property(
      *                     property="idProducto",
@@ -2165,23 +2165,19 @@ class Swagger extends Controller
     public function agregar_boveda()
     {
         try {
-            $this->logRequest('swagger/agregar_boveda', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
-            $data = json_decode(file_get_contents("php://input"), true);
+            $this->logRequest('swagger/agregar_boveda', $_SERVER['REQUEST_METHOD'], $_FILES['imagen'] ?? null);
 
-            if (!$data) {
-                http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
-                return;
-            }
+
 
             $uuid = $_GET['uuid'] ?? null; // Capturar UUID desde query parameters
-            $idProducto = $data['idProducto'] ?? null;
-            $idLinea = $data['idLinea'] ?? null;
-            $imagen = $data['imagen'] ?? null;
-            $idProveedor = $data['idProveedor'] ?? null;
-            $ejemploLanding = $data['ejemploLanding'] ?? null;
-            $duplicarFunnel = $data['duplicarFunnel'] ?? null;
-            $videos = $data['videos'] ?? null;
+
+            $idProducto = $_POST['idProducto'] ?? null;
+            $idLinea = $_POST['idLinea'] ?? null;
+            $imagen = $_FILES['imagen'] ?? null;
+            $idProveedor = $_POST['idProveedor'] ?? null;
+            $ejemploLanding = $_POST['ejemploLanding'] ?? null;
+            $duplicarFunnel = $_POST['duplicarFunnel'] ?? null;
+            $videos = $_POST['videos'] ?? null;
 
             // Validación de campos requeridos
             if (!$uuid || !$imagen || !$idProducto || !$idLinea || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
