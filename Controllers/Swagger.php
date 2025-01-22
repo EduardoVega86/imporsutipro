@@ -2319,7 +2319,7 @@ class Swagger extends Controller
      * @OA\Post(
      *     path="/swagger/guardar_imagen_adicional_productos_tienda",
      *     tags={"Productos"},
-     *     summary="Subir imagen para productos tienda",
+     *     summary="Subir imagen adicional para productos tienda",
      *     description="Permite subir y asociar imagenes adicionales a un producto de la tabla imagens_adicionales_productoTienda.",
      *     @OA\Parameter(
      *         name="uuid",
@@ -2400,6 +2400,79 @@ class Swagger extends Controller
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/swagger/listar_imagenAdicional_productos",
+     *     tags={"Productos"},
+     *     summary="Listar imagenes adicionales de productos",
+     *     description="Devuelve la lista de imagenes adicionales asociadas a la plataforma del usuario, validado por su UUID.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *          @OA\RequestBody(
+     *          required=true,
+     *              @OA\MediaType(
+     *              mediaType="application/json",
+     *                  @OA\Schema(
+     *                      @OA\Property(
+     *                      property="id_producto",
+     *                      type="string"
+     *                  ),
+     *              )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listado de imagenes adicionales obtenidas exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No existe un usuario con el UUID proporcionado"
+     *     )
+     * )
+     */
+    public function listar_imagenAdicional_productos()
+    {
+        try {
+            // Registrar la solicitud en logs (si utilizas ese método).
+            $this->logRequest('swagger/listar_bodegas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
+            // Obtener parámetros
+            $uuid = $_GET['uuid'] ?? null;
+            $id_producto = $_POST['id_producto'] ?? null;
+
+            // Validar parámetros requeridos
+            if (!$uuid || !$id_producto) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos: uuid']);
+                return;
+            }
+
+            // Llamar a tu modelo (Swagger Model) que internamente validará usuario y llamará a productosModel
+            $response = $this->model->listarImagenAdicionalProductos($uuid, $id_producto);
+
+            // Responder
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'status'  => 500,
+                'message' => 'Error interno',
+                'error'   => $e->getMessage()
+            ]);
         }
     }
 
