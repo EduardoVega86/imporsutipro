@@ -2405,10 +2405,10 @@ class Swagger extends Controller
 
     /**
      * @OA\Post(
-     *     path="/swagger/listar_imagenAdicional_productos",
+     *     path="/swagger/listar_imagen_adicional_productos",
      *     tags={"Productos"},
      *     summary="Listar imagenes adicionales de productos",
-     *     description="Devuelve la lista de imagenes adicionales asociadas a la plataforma del usuario, validado por su UUID.",
+     *     description="Devuelve la lista de imagenes adicionales asociadas a la plataforma del usuario e id del producto, validado por su UUID.",
      *     @OA\Parameter(
      *         name="uuid",
      *         in="query",
@@ -2444,11 +2444,84 @@ class Swagger extends Controller
      *     )
      * )
      */
-    public function listar_imagenAdicional_productos()
+    public function listar_imagen_adicional_productos()
     {
         try {
             // Registrar la solicitud en logs (si utilizas ese método).
-            $this->logRequest('swagger/listar_bodegas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $this->logRequest('swagger/listar_imagen_adicional_productos', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            // Obtener parámetros
+            $uuid = $_GET['uuid'] ?? null;
+            $id_producto = $data['id_producto'] ?? null;
+
+            // Validar parámetros requeridos
+            if (!$uuid || !$id_producto) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos']);
+                return;
+            }
+
+            // Llamar a tu modelo (Swagger Model) que internamente validará usuario y llamará a productosModel
+            $response = $this->model->listarImagenAdicionalProductos($uuid, $id_producto);
+
+            // Responder
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'status'  => 500,
+                'message' => 'Error interno',
+                'error'   => $e->getMessage()
+            ]);
+        }
+    }
+    /**
+     * @OA\Post(
+     *     path="/swagger/listar_imagen_adicional_productos_tienda",
+     *     tags={"Productos"},
+     *     summary="Listar imagenes adicionales de productos tienda",
+     *     description="Devuelve la lista de imagenes adicionales asociadas a la plataforma del usuario e id del producto, validado por su UUID.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *          @OA\RequestBody(
+     *          required=true,
+     *              @OA\MediaType(
+     *              mediaType="application/json",
+     *                  @OA\Schema(
+     *                      @OA\Property(
+     *                      property="id_producto",
+     *                      type="integer"
+     *                  ),
+     *              )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listado de imagenes adicionales obtenidas exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No existe un usuario con el UUID proporcionado"
+     *     )
+     * )
+     */
+    public function listar_imagen_adicional_productos_tienda()
+    {
+        try {
+            // Registrar la solicitud en logs (si utilizas ese método).
+            $this->logRequest('swagger/listar_imagen_adicional_productos_tienda', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
             $data = json_decode(file_get_contents("php://input"), true);
 
             // Obtener parámetros
