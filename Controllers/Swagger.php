@@ -1935,15 +1935,6 @@ class Swagger extends Controller
      *             type="string"
      *         )
      *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 @OA\Property(property="id_categoria", type="integer", description="ID de la categoría"),
-     *             )
-     *         )
-     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Listado de lineas/categoria obtenido exitosamente"
