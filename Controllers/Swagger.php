@@ -1957,13 +1957,14 @@ class Swagger extends Controller
         try {
             // Registrar la solicitud en logs (si utilizas ese método).
             $this->logRequest('swagger/listar_categoria', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
 
             // Obtener parámetros
             $uuid = $_GET['uuid'] ?? null;
-            $id_categoria = $_POST['id_categoria'] ?? null;
+            $id_categoria = $data['id_categoria'] ?? null;
 
             // Validar parámetros requeridos
-            if (!$uuid) {
+            if (!$uuid || !$id_categoria) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos: uuid']);
                 return;
