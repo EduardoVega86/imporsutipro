@@ -2136,7 +2136,7 @@ class Swagger extends Controller
             }
 
             // Llamas al método del modelo
-            $response = $this->model->guardarImagenCategorias(
+            $response = $this->model->guardarImagenProductos(
                 $uuid,
                 $imagen,
                 $id_producto

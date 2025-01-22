@@ -1081,16 +1081,16 @@ class SwaggerModel extends Query
             $idPlataforma = $plataforma[0]['id_plataforma'];
 
             // 4. Llamar al método de productos para subir y guardar la imagen
-            return $this->productosModel->guardar_imagen_categorias(
+            return $this->productosModel->guardar_imagen_productos(
                 $imagen,
-                $id_linea,
+                $id_producto,
                 $idPlataforma
             );
         } catch (Exception $e) {
             // Manejo de excepciones internas
             return [
                 'status'  => 500,
-                'message' => 'Error interno al subir la imagen',
+                'message' => 'Error interno al subir la imagen en el producto',
                 'error'   => $e->getMessage()
             ];
         }
