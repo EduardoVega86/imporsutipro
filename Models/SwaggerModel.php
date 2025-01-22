@@ -1138,6 +1138,7 @@ class SwaggerModel extends Query
             ];
         }
     }
+
     public function guardarImagenProductosTienda($uuid, $imagen, $id_producto)
     {
         try {
@@ -1175,6 +1176,49 @@ class SwaggerModel extends Query
             return [
                 'status'  => 500,
                 'message' => 'Error interno al subir la imagen en el producto',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
+
+    public function guardarImagenAdicionalProductosTienda($uuid, $imagen, $num_imagen, $id_producto)
+    {
+        try {
+            // 1. Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+
+            // 2. Obtener el ID de usuario y luego el ID de plataforma asociado
+            $id_users   = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            // 3. Obtener ID de plataforma
+            $idPlataforma = $plataforma[0]['id_plataforma'];
+
+            // 4. Llamar al método de productos para subir y guardar la imagen
+            return $this->productosModel->guardar_imagenAdicional_productosTienda(
+                $num_imagen,
+                $imagen,
+                $id_producto,
+                $idPlataforma
+            );
+        } catch (Exception $e) {
+            // Manejo de excepciones internas
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al subir la imagen adicional en tabla imagens_adicionales_productoTienda',
                 'error'   => $e->getMessage()
             ];
         }

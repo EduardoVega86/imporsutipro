@@ -2240,7 +2240,7 @@ class Swagger extends Controller
      *     path="/swagger/guardar_imagen_productos_tienda",
      *     tags={"Productos"},
      *     summary="Subir imagen para productos tienda",
-     *     description="Permite subir y asociar imagenes adicionales a un producto de la tabla productos_tienda.",
+     *     description="Permite subir y asociar imagenes a un producto de la tabla productos_tienda.",
      *     @OA\Parameter(
      *         name="uuid",
      *         in="query",
@@ -2307,6 +2307,93 @@ class Swagger extends Controller
             $response = $this->model->guardarImagenProductosTienda(
                 $uuid,
                 $imagen,
+                $id_producto
+            );
+
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+    /**
+     * @OA\Post(
+     *     path="/swagger/guardar_imagen_adicional_productos_tienda",
+     *     tags={"Productos"},
+     *     summary="Subir imagen para productos tienda",
+     *     description="Permite subir y asociar imagenes adicionales a un producto de la tabla imagens_adicionales_productoTienda.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma.",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="imagen",
+     *                     type="string",
+     *                     format="binary",
+     *                     description="Archivo de imagen a subir."
+     *                 ),
+     *                 @OA\Property(
+     *                     property="num_imagen",
+     *                     type="integer",
+     *                     description="Número de imagen a subir."
+     *                 ),
+     *                 @OA\Property(
+     *                     property="id_producto",
+     *                     type="integer",
+     *                     description="ID del producto en el que se subirá la imagen."
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Imagen guardada con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno al agregar la imagen"
+     *     )
+     * )
+     */
+    public function guardar_imagen_adicional_productos_tienda()
+    {
+        try {
+            // Si aún quieres loguear, revisa $_FILES
+            $this->logRequest('swagger/guardar_imagen_adicional_productos_tienda', $_SERVER['REQUEST_METHOD'], $_FILES['imagen'] ?? null);
+
+            // Capturar uuid desde query (si lo utilizas)
+            $uuid = $_GET['uuid'] ?? null;
+
+            // En multipart/form-data, la imagen llega por $_FILES, y los campos texto por $_POST
+            $imagen  = $_FILES['imagen'] ?? null;
+            $id_producto = $_POST['id_producto'] ?? null;
+            $num_imagen = $_POST['num_imagen'] ?? null;
+
+            // Valida si llegaron
+            if (!$uuid || !$imagen || !$num_imagen) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
+
+            // Llamas al método del modelo
+            $response = $this->model->guardarImagenAdicionalProductosTienda(
+                $uuid,
+                $imagen,
+                $num_imagen,
                 $id_producto
             );
 
