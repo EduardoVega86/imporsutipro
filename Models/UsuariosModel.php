@@ -1416,10 +1416,9 @@ ON
                 }
 
                 $sql_update .= " WHERE `id_plataforma` = ?";
-                $data_update[] = $plataforma;
+                $data_update = [$plataforma];
 
                 $actualizar_promocion = $this->dselect($sql_update, $data_update);
-                echo $sql_update;
                 print_r($actualizar_promocion);
                 if ($actualizar_promocion == 1) {
                     $response['status'] = 200;
