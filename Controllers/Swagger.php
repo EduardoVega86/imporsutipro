@@ -1993,9 +1993,9 @@ class Swagger extends Controller
     /**
      * @OA\Post(
      *     path="/swagger/guardar_imagen_categorias",
-     *     tags={"Categorías"},
-     *     summary="Subir imagen de categoría",
-     *     description="Permite subir una imagen para una categoría específica, validando la plataforma o el usuario.",
+     *     tags={"Productos"},
+     *     summary="Guardar imagen categoria",
+     *     description="Permite subir una imagen para una categoría específica, validando UUID de plataforma o el usuario.",
      *     @OA\Parameter(
      *        name="uuid",
      *        in="query",
@@ -2011,37 +2011,30 @@ class Swagger extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 @OA\Property(
-     *                     description="Archivo de la imagen a subir",
-     *                     property="imagen",
-     *                     type="string",
-     *                     format="binary"
-     *                 ),
-     *                 @OA\Property(
      *                     description="ID de la línea/categoría",
      *                     property="id_linea",
      *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
+     *                     description="Archivo de la imagen a subir",
+     *                     property="imagen",
+     *                     type="string",
+     *                     format = "binary"
      *                 ),
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Imagen subida correctamente"
+     *         description="Imagen guardada con exito"
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Faltan datos requeridos"
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Usuario o plataforma no encontrados"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Error interno"
+     *         description="Error en la creación de la imagen"
      *     )
      * )
      */
+
     public function guardar_imagen_categorias()
     {
         try {
