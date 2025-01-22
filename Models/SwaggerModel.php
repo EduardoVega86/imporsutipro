@@ -1001,8 +1001,7 @@ class SwaggerModel extends Query
             // Tomamos el id_plataforma
             $id_plataforma = $plataforma[0]['id_plataforma'];
 
-            // 3) Llamamos al modelo de productos para listar las bodegas
-            return $this->productosModel->listarCategoria($$id_categoria, $id_plataforma);
+            return $this->productosModel->listarCategoria($id_categoria, $id_plataforma);
         } catch (Exception $e) {
             return [
                 'status'  => 500,

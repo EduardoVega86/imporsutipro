@@ -1929,7 +1929,7 @@ class Swagger extends Controller
      *     @OA\Parameter(
      *         name="id_categoria",
      *         in="query",
-     *         description="ID de a categoría",
+     *         description="ID de la categoría",
      *         required=true,
      *         @OA\Schema(
      *             type="string"
