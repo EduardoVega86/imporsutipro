@@ -2004,7 +2004,7 @@ class Swagger extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
-     *             mediaType="multipart/json",
+     *             mediaType="multipart/form-data",
      *             @OA\Schema(
      *                 @OA\Property(
      *                     property="imagen",
@@ -2037,28 +2037,24 @@ class Swagger extends Controller
     public function guardar_imagen_categorias()
     {
         try {
+            // Si aún quieres loguear, revisa $_FILES
             $this->logRequest('swagger/guardar_imagen_categorias', $_SERVER['REQUEST_METHOD'], $_FILES['imagen'] ?? null);
-            $data = json_decode(file_get_contents("php://input"), true);
 
-            // Validamos que vengan datos en el cuerpo
-            if (!$data) {
-                http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
-                return;
-            }
-
+            // Capturar uuid desde query (si lo utilizas)
             $uuid = $_GET['uuid'] ?? null;
 
-            $imagen = $data['imagen'] ?? null;
-            $id_linea = $data['imagen'] ?? null;
+            // En multipart/form-data, la imagen llega por $_FILES, y los campos texto por $_POST
+            $imagen  = $_FILES['imagen'] ?? null;
+            $id_linea = $_POST['id_linea'] ?? null;
 
-            // Validar campos requeridos mínimos (adaptar a tu necesidad)
+            // Valida si llegaron
             if (!$uuid || !$imagen || !$id_linea) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
             }
 
+            // Llamas al método del modelo
             $response = $this->model->guardarImagenCategorias(
                 $uuid,
                 $imagen,
