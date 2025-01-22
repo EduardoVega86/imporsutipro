@@ -1122,7 +1122,7 @@ class SwaggerModel extends Query
             $idPlataforma = $plataforma[0]['id_plataforma'];
 
             // 4. Llamar al método de productos para subir y guardar la imagen
-            return $this->productosModel->guardar_imagen_productos(
+            return $this->productosModel->guardar_imagenAdicional_productos(
                 $num_imagen,
                 $imagen,
                 $id_producto,
