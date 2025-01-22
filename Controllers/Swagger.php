@@ -1926,6 +1926,15 @@ class Swagger extends Controller
      *             type="string"
      *         )
      *     ),
+     *     @OA\Parameter(
+     *         name="id_categoria",
+     *         in="query",
+     *         description="ID de la categoría",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
@@ -1957,12 +1966,12 @@ class Swagger extends Controller
 
             // Obtener parámetros
             $uuid = $_GET['uuid'] ?? null;
-            $id_categoria = $_POST['id_categoria'] ?? null;
+            $id_categoria = $_GET['id_categoria'] ?? null;
 
             // Validar parámetros requeridos
-            if (!$uuid || !$id_categoria) {
+            if (!$uuid) {
                 http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos']);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos: uuid']);
                 return;
             }
 
