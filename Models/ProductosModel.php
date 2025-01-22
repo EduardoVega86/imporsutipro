@@ -1253,7 +1253,6 @@ class ProductosModel extends Query
         if ($uploadOk == 0) {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al subir la imagen';
         } else {
             if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
                 $response['status'] = 200;
