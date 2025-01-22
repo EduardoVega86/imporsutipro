@@ -2006,7 +2006,6 @@ class Swagger extends Controller
      *         @OA\MediaType(
      *             mediaType="multipart/json",
      *             @OA\Schema(
-
      *                 @OA\Property(
      *                     property="imagen",
      *                     type="string",

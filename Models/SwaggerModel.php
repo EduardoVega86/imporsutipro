@@ -1040,9 +1040,9 @@ class SwaggerModel extends Query
 
             // 4. Llamar al método de productos para subir y guardar la imagen
             return $this->productosModel->guardar_imagen_categorias(
-                $imagen,       // El archivo en $_FILES['imagen']
-                $id_linea,     // ID de la línea o categoría
-                $idPlataforma  // Plataforma obtenida arriba
+                $imagen,
+                $id_linea,
+                $idPlataforma
             );
         } catch (Exception $e) {
             // Manejo de excepciones internas
