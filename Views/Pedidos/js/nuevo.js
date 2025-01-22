@@ -355,8 +355,7 @@ $(document).ready(function () {
         ID_PLATAFORMA != 1238 &&
         ID_PLATAFORMA != 1226 &&
         ID_PLATAFORMA != 1246 &&
-        ID_PLATAFORMA != 2629 &&
-        ID_PLATAFORMA != 2293
+        ID_PLATAFORMA != 2629
       ) {
         button2.disabled = true;
         Swal.fire({
