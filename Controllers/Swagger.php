@@ -1935,6 +1935,15 @@ class Swagger extends Controller
      *             type="string"
      *         )
      *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="id_categoria",
+     *                     type="integer"
+     *                 ),
      *     @OA\Response(
      *         response=200,
      *         description="Listado de lineas/categoria obtenido exitosamente"
@@ -1957,7 +1966,7 @@ class Swagger extends Controller
 
             // Obtener parámetros
             $uuid = $_GET['uuid'] ?? null;
-            $id_categoria = $_GET['id_categoria'] ?? null;
+            $id_categoria = $_POST['id_categoria'] ?? null;
 
             // Validar parámetros requeridos
             if (!$uuid) {
@@ -1980,6 +1989,92 @@ class Swagger extends Controller
             ]);
         }
     }
+
+    /**
+     * @OA\Post(
+     *     path="/swagger/guardar_imagen_categorias",
+     *     tags={"Categorías"},
+     *     summary="Subir imagen de categoría",
+     *     description="Permite subir una imagen para una categoría específica, validando la plataforma o el usuario.",
+     *     @OA\Parameter(
+     *        name="uuid",
+     *        in="query",
+     *        description="UUID del usuario o plataforma",
+     *        required=true,
+     *        @OA\Schema(
+     *            type="string"
+     *        )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     description="Archivo de la imagen a subir",
+     *                     property="imagen",
+     *                     type="string",
+     *                     format="binary"
+     *                 ),
+     *                 @OA\Property(
+     *                     description="ID de la línea/categoría",
+     *                     property="id_linea",
+     *                     type="integer"
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Imagen subida correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Usuario o plataforma no encontrados"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno"
+     *     )
+     * )
+     */
+    public function guardar_imagen_categorias()
+    {
+        try {
+            // Registrar la solicitud en logs si lo deseas
+            $this->logRequest('swagger/guardar_imagen_categorias', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+
+            // Obtener parámetros de la solicitud (POST, multipart/form-data)
+            $imagen   = $_FILES['imagen']   ?? null;
+            $id_linea = $_POST['id_linea']  ?? null;
+            $uuid     = $_POST['uuid']      ?? null;  // si lo usas para validar
+
+            // Validar campos requeridos
+            if (!$imagen || !$id_linea) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos (imagen, id_linea)']);
+                return;
+            }
+
+            // Llamar a tu modelo (Swagger Model) para hacer la lógica de validación y subir la imagen
+            $response = $this->model->guardarImagenCategorias($imagen, $id_linea, $uuid);
+
+            // Retornar la respuesta
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'status'  => 500,
+                'message' => 'Error interno',
+                'error'   => $e->getMessage()
+            ]);
+        }
+    }
+
 
 
 
