@@ -2425,7 +2425,7 @@ class Swagger extends Controller
      *                  @OA\Schema(
      *                      @OA\Property(
      *                      property="id_producto",
-     *                      type="string"
+     *                      type="integer"
      *                  ),
      *              )
      *        )
@@ -2449,15 +2449,16 @@ class Swagger extends Controller
         try {
             // Registrar la solicitud en logs (si utilizas ese método).
             $this->logRequest('swagger/listar_bodegas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
 
             // Obtener parámetros
             $uuid = $_GET['uuid'] ?? null;
-            $id_producto = $_POST['id_producto'] ?? null;
+            $id_producto = $data['id_producto'] ?? null;
 
             // Validar parámetros requeridos
             if (!$uuid || !$id_producto) {
                 http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos: uuid']);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos']);
                 return;
             }
 
