@@ -96,6 +96,86 @@ class ApiModel extends Query
             return $response;
         }
     }
+    public function registro2($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
+    {
+        $response = $this->initialResponse();
+        $this->beginTransaction();
+        try {
+
+            if ($this->correoExistente($correo)) {
+                throw new Exception('El correo ya se encuentra registrado');
+            }
+
+            if ($this->tiendaExistente($tienda)) {
+                throw new Exception('La tienda ya se encuentra registrada');
+            }
+
+            // Registrar usuario
+            $registroUsuario = $this->registrarUsuario($nombre, $correo, $contrasena);
+
+            if ($registroUsuario != 1) {
+                throw new Exception('Error al registrar el usuario en la plataforma');
+            }
+
+            // Registrar tienda
+            $registroTienda = $this->registrarTienda($correo, $tienda, $nombre, $telefono, $pais);
+
+            if ($registroTienda != 1) {
+                print_r($registroTienda);
+                throw new Exception('Error al registrar la tienda: ' . $registroTienda);
+            }
+
+            // Obtener id del usuario
+            $id_users = $this->getIdUsuario($correo);
+
+            // Obtener id de la plataforma
+            $id_plataforma = $this->getIdPlataforma($correo);
+
+            // Registrar perfil
+            $registroPerfil = $this->registrarPerfil($tienda, $telefono, $id_plataforma);
+
+            if ($registroPerfil != 1) {
+                throw new Exception('Error al registrar el perfil: ' . $registroPerfil);
+            }
+
+            // Registrar usuario_plataforma
+            $registroUsuarioPlataforma = $this->registrarUsuarioPlataforma($id_users, $id_plataforma);
+
+            if ($registroUsuarioPlataforma != 1) {
+                throw new Exception('Error al registrar el usuario en la plataforma: ' . $registroUsuarioPlataforma);
+            }
+
+            // Registrar caracteristicas
+            $registroCaracteristicas = $this->registrarCaracteristicas($id_plataforma);
+
+            if ($registroCaracteristicas < 1) {
+                throw new Exception('Error al registrar las caracteristicas: ' . $registroCaracteristicas);
+            }
+
+            // Registrar bodega
+            $registroBodega = $this->registrarBodega($tienda, $id_plataforma, $nombre, $telefono);
+
+            if ($registroBodega != 1) {
+                throw new Exception('Error al registrar la bodega: ' . $registroBodega);
+            }
+
+            $this->commit();
+            //$this->enviarCorreo($correo, $nombre);
+
+            $response["title"] = "Registro exitoso";
+            $response['status'] = 200;
+            $response['message'] = 'Registro exitoso';
+
+            // $response2 = $this->registro_imporsuit($correo, $nombre, $tienda, $telefono, $pais, $contrasena);
+            $response["log_imporsuit"] = $response;
+            return $response;
+        } catch (Exception $e) {
+            $this->rollBack();
+            $response['status'] = 400;
+            $response['message'] = $e->getMessage();
+            return $response;
+        }
+    }
 
     public function agregarProducto($data)
     {
