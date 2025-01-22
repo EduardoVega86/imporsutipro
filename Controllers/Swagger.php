@@ -1911,6 +1911,245 @@ class Swagger extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/swagger/listar_categoria",
+     *     tags={"Productos"},
+     *     summary="Listar las lineas/categorias asociadas a la plataforma de un usuario",
+     *     description="Devuelve la lista de lineas/categoria asociadas a la plataforma del usuario, validado por su UUID.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="id_categoria",
+     *                     type="integer"
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listado de lineas/categoria obtenido exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No existe un usuario con el UUID proporcionado"
+     *     )
+     * )
+     */
+    public function listar_categoria()
+    {
+        try {
+            // Registrar la solicitud en logs (si utilizas ese método).
+            $this->logRequest('swagger/listar_categoria', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            // Obtener parámetros
+            $uuid = $_GET['uuid'] ?? null;
+            $id_categoria = $data['id_categoria'] ?? null;
+
+            // Validar parámetros requeridos
+            if (!$uuid || !$id_categoria) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos: uuid']);
+                return;
+            }
+
+            // Llamar a tu modelo (Swagger Model) que internamente validará usuario y llamará a productosModel
+            $response = $this->model->listarCategoria($id_categoria, $uuid);
+
+            // Responder
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'status'  => 500,
+                'message' => 'Error interno',
+                'error'   => $e->getMessage()
+            ]);
+        }
+    }
+
+
+    /**
+     * @OA\Post(
+     *     path="/swagger/guardar_imagen_categorias",
+     *     tags={"Productos"},
+     *     summary="Subir imagen para la categoría",
+     *     description="Permite subir y asociar una imagen a una categoría existente.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma.",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="imagen",
+     *                     type="string",
+     *                     format="binary",
+     *                     description="Archivo de imagen a subir."
+     *                 ),
+     *                 @OA\Property(
+     *                     property="id_linea",
+     *                     type="integer",
+     *                     description="ID de la categoría (linea) a la que se subirá la imagen."
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Imagen guardada con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno al agregar la imagen"
+     *     )
+     * )
+     */
+    public function guardar_imagen_categorias()
+    {
+        try {
+            // Si aún quieres loguear, revisa $_FILES
+            $this->logRequest('swagger/guardar_imagen_categorias', $_SERVER['REQUEST_METHOD'], $_FILES['imagen'] ?? null);
+
+            // Capturar uuid desde query (si lo utilizas)
+            $uuid = $_GET['uuid'] ?? null;
+
+            // En multipart/form-data, la imagen llega por $_FILES, y los campos texto por $_POST
+            $imagen  = $_FILES['imagen'] ?? null;
+            $id_linea = $_POST['id_linea'] ?? null;
+
+            // Valida si llegaron
+            if (!$uuid || !$imagen || !$id_linea) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
+
+            // Llamas al método del modelo
+            $response = $this->model->guardarImagenCategorias(
+                $uuid,
+                $imagen,
+                $id_linea
+            );
+
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/swagger/guardar_imagen_productos",
+     *     tags={"Productos"},
+     *     summary="Subir imagen para el producto",
+     *     description="Permite subir y asociar una imagen a una producto existente.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma.",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="imagen",
+     *                     type="string",
+     *                     format="binary",
+     *                     description="Archivo de imagen a subir."
+     *                 ),
+     *                 @OA\Property(
+     *                     property="id_producto",
+     *                     type="integer",
+     *                     description="ID del producto en el que se subirá la imagen."
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Imagen guardada con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno al agregar la imagen"
+     *     )
+     * )
+     */
+    public function guardar_imagen_productos()
+    {
+        try {
+            // Si aún quieres loguear, revisa $_FILES
+            $this->logRequest('swagger/guardar_imagen_productos', $_SERVER['REQUEST_METHOD'], $_FILES['imagen'] ?? null);
+
+            // Capturar uuid desde query (si lo utilizas)
+            $uuid = $_GET['uuid'] ?? null;
+
+            // En multipart/form-data, la imagen llega por $_FILES, y los campos texto por $_POST
+            $imagen  = $_FILES['imagen'] ?? null;
+            $id_producto = $_POST['id_producto'] ?? null;
+
+            // Valida si llegaron
+            if (!$uuid || !$imagen || !$id_producto) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
+
+            // Llamas al método del modelo
+            $response = $this->model->guardarImagenProductos(
+                $uuid,
+                $imagen,
+                $id_producto
+            );
+
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+
+
 
 
 
@@ -1960,7 +2199,7 @@ class Swagger extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
-     *             mediaType="application/json",
+     *             mediaType="multipart/form-data",
      *             @OA\Schema(
      *                 @OA\Property(
      *                     property="idProducto",
@@ -1972,7 +2211,9 @@ class Swagger extends Controller
      *                 ),
      *                 @OA\Property(
      *                     property="imagen",
-     *                     type="integer"
+     *                     type="string",
+     *                     format= "binary",
+     *                     description = "Archivo de imagen a subir." 
      *                 ),
      *                 @OA\Property(
      *                     property="idProveedor",
@@ -2007,23 +2248,19 @@ class Swagger extends Controller
     public function agregar_boveda()
     {
         try {
-            $this->logRequest('swagger/agregar_boveda', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
-            $data = json_decode(file_get_contents("php://input"), true);
+            $this->logRequest('swagger/agregar_boveda', $_SERVER['REQUEST_METHOD'], $_FILES['imagen'] ?? null);
 
-            if (!$data) {
-                http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
-                return;
-            }
+
 
             $uuid = $_GET['uuid'] ?? null; // Capturar UUID desde query parameters
-            $idProducto = $data['idProducto'] ?? null;
-            $idLinea = $data['idLinea'] ?? null;
-            $imagen = $data['imagen'] ?? null;
-            $idProveedor = $data['idProveedor'] ?? null;
-            $ejemploLanding = $data['ejemploLanding'] ?? null;
-            $duplicarFunnel = $data['duplicarFunnel'] ?? null;
-            $videos = $data['videos'] ?? null;
+
+            $idProducto = $_POST['idProducto'] ?? null;
+            $idLinea = $_POST['idLinea'] ?? null;
+            $imagen = $_FILES['imagen'] ?? null;
+            $idProveedor = $_POST['idProveedor'] ?? null;
+            $ejemploLanding = $_POST['ejemploLanding'] ?? null;
+            $duplicarFunnel = $_POST['duplicarFunnel'] ?? null;
+            $videos = $_POST['videos'] ?? null;
 
             // Validación de campos requeridos
             if (!$uuid || !$imagen || !$idProducto || !$idLinea || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
@@ -2058,7 +2295,7 @@ class Swagger extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
-     *             mediaType="application/json",
+     *             mediaType="multipart/form-data",
      *             @OA\Schema(
      *                 @OA\Property(
      *                     property="id_produto",
@@ -2071,6 +2308,12 @@ class Swagger extends Controller
      *                 @OA\Property(
      *                     property="id_linea",
      *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="imagen",
+     *                     type="string",
+     *                     format = "binary",
+     *                     description = "Arhivo de imagen subir"
      *                 ),
      *                 @OA\Property(
      *                     property="id_plataforma",
@@ -2105,24 +2348,18 @@ class Swagger extends Controller
     public function editar_boveda()
     {
         try {
-            $this->logRequest('swagger/editar_boveda', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
-            $data = json_decode(file_get_contents("php://input"), true);
-
-            if (!$data) {
-                http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
-                return;
-            }
+            $this->logRequest('swagger/editar__boveda', $_SERVER['REQUEST_METHOD'], $_FILES['imagen'] ?? null);
 
             $uuid = $_GET['uuid'] ?? null; // Capturar UUID desde query parameters
-            $id_produto = $data['id_produto'] ?? null;
-            $id_boveda = $data['id_boveda'] ?? null;
-            $id_linea = $data['id_linea'] ?? null;
-            $imagen = $data['imagen'] ?? null;
-            $id_plataforma = $data['id_plataforma'] ?? null;
-            $ejemploLanding = $data['ejemploLanding'] ?? null;
-            $duplicarFunnel = $data['duplicarFunnel'] ?? null;
-            $videos = $data['videos'] ?? null;
+
+            $id_produto = $_POST['id_produto'] ?? null;
+            $id_boveda = $_POST['id_boveda'] ?? null;
+            $id_linea = $_POST['id_linea'] ?? null;
+            $imagen = $_FILES['imagen'] ?? null;
+            $id_plataforma = $_POST['id_plataforma'] ?? null;
+            $ejemploLanding = $_POST['ejemploLanding'] ?? null;
+            $duplicarFunnel = $_POST['duplicarFunnel'] ?? null;
+            $videos = $_POST['videos'] ?? null;
 
             // Validación de campos requeridos
             if (!$uuid || !$id_produto || !$id_boveda || !$id_linea || !$id_plataforma || !$ejemploLanding || !$duplicarFunnel || !$videos) {

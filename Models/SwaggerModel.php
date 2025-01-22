@@ -975,6 +975,127 @@ class SwaggerModel extends Query
         }
     }
 
+    public function listarCategoria($id_categoria, $uuid)
+    {
+        try {
+            // 1) Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+
+            // 2) Obtener la plataforma asociada al usuario
+            $id_users = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            // Tomamos el id_plataforma
+            $id_plataforma = $plataforma[0]['id_plataforma'];
+
+            return $this->productosModel->listarCategoria($id_categoria, $id_plataforma);
+        } catch (Exception $e) {
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al listar bodegas',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
+
+
+    public function guardarImagenCategorias($uuid, $imagen, $id_linea)
+    {
+        try {
+            // 1. Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+
+            // 2. Obtener el ID de usuario y luego el ID de plataforma asociado
+            $id_users   = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            // 3. Obtener ID de plataforma
+            $idPlataforma = $plataforma[0]['id_plataforma'];
+
+            // 4. Llamar al método de productos para subir y guardar la imagen
+            return $this->productosModel->guardar_imagen_categorias(
+                $imagen,
+                $id_linea,
+                $idPlataforma
+            );
+        } catch (Exception $e) {
+            // Manejo de excepciones internas
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al subir la imagen',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
+
+    public function guardarImagenProductos($uuid, $imagen, $id_producto)
+    {
+        try {
+            // 1. Verificar si existe usuario con ese UUID
+            $usuario = $this->accesoModel->getUserByUUID($uuid);
+            if (empty($usuario)) {
+                return [
+                    'status'  => 404,
+                    'message' => "No existe un usuario con el UUID: $uuid"
+                ];
+            }
+
+            // 2. Obtener el ID de usuario y luego el ID de plataforma asociado
+            $id_users   = $usuario[0]['id_users'];
+            $plataforma = $this->accesoModel->getPlatformByUserId($id_users);
+
+            if (empty($plataforma) || !isset($plataforma[0]['id_plataforma'])) {
+                return [
+                    'status'  => 404,
+                    'message' => 'No se encontró la plataforma asociada al usuario'
+                ];
+            }
+
+            // 3. Obtener ID de plataforma
+            $idPlataforma = $plataforma[0]['id_plataforma'];
+
+            // 4. Llamar al método de productos para subir y guardar la imagen
+            return $this->productosModel->guardar_imagen_productos(
+                $imagen,
+                $id_producto,
+                $idPlataforma
+            );
+        } catch (Exception $e) {
+            // Manejo de excepciones internas
+            return [
+                'status'  => 500,
+                'message' => 'Error interno al subir la imagen en el producto',
+                'error'   => $e->getMessage()
+            ];
+        }
+    }
+
 
 
     public function agregarBoveda($uuid, $idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)
@@ -1009,7 +1130,7 @@ class SwaggerModel extends Query
         }
     }
 
-    public function editarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $imagen, $id_produto, $ejemploLanding, $duplicarFunnel, $videos)
+    public function editarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $id_produto, $imagen, $ejemploLanding, $duplicarFunnel, $videos)
     {
         try {
             // Verificar si existe usuario con ese UUID
