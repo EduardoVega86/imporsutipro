@@ -2053,7 +2053,7 @@ class Swagger extends Controller
             $id_linea = $data['imagen'] ?? null;
 
             // Validar campos requeridos mínimos (adaptar a tu necesidad)
-            if (!$uuid || $imagen || $id_linea) {
+            if (!$uuid || !$imagen || !$id_linea) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
