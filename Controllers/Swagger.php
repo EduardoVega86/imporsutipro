@@ -1912,7 +1912,7 @@ class Swagger extends Controller
     }
 
     /**
-     * @OA\Get(
+     * @OA\Post(
      *     path="/swagger/listar_categoria",
      *     tags={"Productos"},
      *     summary="Listar las lineas/categorias asociadas a la plataforma de un usuario",
