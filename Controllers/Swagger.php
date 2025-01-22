@@ -1957,7 +1957,7 @@ class Swagger extends Controller
 
             // Obtener parámetros
             $uuid = $_GET['uuid'] ?? null;
-            $id_categoria = ['id_categoria'] ?? null;
+            $id_categoria = $_POST['id_categoria'] ?? null;
 
             // Validar parámetros requeridos
             if (!$uuid || !$id_categoria) {
