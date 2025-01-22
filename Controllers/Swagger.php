@@ -2404,7 +2404,7 @@ class Swagger extends Controller
     }
 
     /**
-     * @OA\Get(
+     * @OA\Post(
      *     path="/swagger/listar_imagenAdicional_productos",
      *     tags={"Productos"},
      *     summary="Listar imagenes adicionales de productos",
