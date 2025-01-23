@@ -38,6 +38,10 @@
                         <img id="preview-imagen" src="#" alt="Vista previa de la imagen" style="display: none; margin-top: 10px; max-width: 100%;">
                     </div>
                     <div class="mb-3">
+                        <label for="editPlantillasVentas" class="form-label">Plantillas de Ventas</label>
+                        <input type="url" class="form-control" id="editPlantillasVentas">
+                    </div>
+                    <div class="mb-3">
                         <label for="editEjemploLanding" class="form-label">Ejemplo Landing</label>
                         <input type="url" class="form-control" id="editEjemploLanding">
                     </div>

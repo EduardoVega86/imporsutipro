@@ -212,6 +212,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const categoria = document.getElementById("editCategoriaBoveda").value;
       const proveedor = document.getElementById("editProveedorBoveda").value;
 
+      const plantillaVentas =
+        document.getElementById("plantillaVentas").value;
       const ejemploLanding =
         document.getElementById("editEjemploLanding").value;
       const duplicarFunnel =
@@ -226,6 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("id_producto", nombre);
       formData.append("id_linea", categoria);
       formData.append("id_plataforma", proveedor);
+      formData.append("plantilla_ventas", plantillaVentas);
       formData.append("ejemplo_landing", ejemploLanding);
       formData.append("duplicar_funnel", duplicarFunnel);
       formData.append("videos", videosBoveda);
