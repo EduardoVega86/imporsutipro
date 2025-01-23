@@ -211,6 +211,7 @@ class Productos extends Controller
         $id_producto = $_POST['id_producto'];
         $id_linea = $_POST['id_linea'];
         $id_plataforma = $_POST['id_plataforma'];
+        $plantilla_ventas = $_POST['plantilla_ventas'];
         $ejemplo_landing = $_POST['ejemplo_landing'];
         $duplicar_funnel = $_POST['duplicar_funnel'];
         $videos = $_POST['videos'];
@@ -229,6 +230,7 @@ class Productos extends Controller
             $id_plataforma,
             $id_producto,
             $imagen,
+            $plantilla_ventas,
             $ejemplo_landing,
             $duplicar_funnel,
             $videos
