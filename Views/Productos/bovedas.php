@@ -23,6 +23,7 @@
                         <th>Categoría</th>
                         <th>Proveedor</th>
                         <th>Imagen</th>
+                        <th>Plantilla de ventas</th>
                         <th>Ejempo Landing</th>
                         <th>Duplicar Funnel</th>
                         <th>Videos</th>
