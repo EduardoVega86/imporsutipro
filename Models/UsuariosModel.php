@@ -1418,8 +1418,8 @@ ON
                 $sql_update .= " WHERE `id_plataforma` = ?";
                 $data_update[] = $plataforma;
 
-                $actualizar_promocion = $this->dselect($sql_update, $data_update);
-                print_r($actualizar_promocion);
+                $actualizar_promocion = $this->update($sql_update, $data_update);
+
                 if ($actualizar_promocion == 1) {
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';

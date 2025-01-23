@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace App\Libraries\ORM\Base;
 
 use App\Libraries\ORM\Contracts\EntityInterface;
+use PDO;
 
 abstract class EntityRepositoryBaseSql extends EntityRepositoryBase
 {
     protected string $tableName;
-    private \PDO $pdo;
-
-
+    protected PDO $pdo;
 
     public function __construct(\PDO $pdo)
 
@@ -44,8 +43,8 @@ abstract class EntityRepositoryBaseSql extends EntityRepositoryBase
         $sql = sprintf(
             'INSERT INTO %s (%s) VALUES (%s)',
             $this->getTableName(),
-            $columns,
-            $placeholders
+            implode(', ', $columns),
+            implode(', ', $placeholders)
         );
 
         $this->pdo->prepare($sql)->execute(array_values($changes));
@@ -70,12 +69,41 @@ abstract class EntityRepositoryBaseSql extends EntityRepositoryBase
             $updates[] = sprintf('%s = :%s', $column, $column);
         }
 
+        $sql = 'UPDATE ' . $this->getTableName() . ' SET ' . implode(', ', $updates) . ' WHERE ' . $this->getPrimaryKeyName() . ' = :primary_key';
+        $statement = $this->pdo->prepare($sql);
+        $statement->bindValue(':primary_key', $entity->{$this->getPrimaryKeyName()});
+
+        foreach ($changes as $column => $value) {
+            $statement->bindValue(':' . $column, $value);
+        }
+
+        $statement->execute();
+
+        $entity->flushChanges();
+    }
+
+    public function delete(EntityInterface $entity): void
+    {
         $sql = sprintf(
-            'UPDATE %s SET %s WHERE %s = :%s',
+            'DELETE FROM %s WHERE %s = ?',
             $this->getTableName(),
-            implode(', ', $updates),
-            $this->getPrimaryKeyName(),
             $this->getPrimaryKeyName()
         );
+
+        $this->pdo->prepare($sql)->execute([$entity->{$this->getPrimaryKeyName()}]);
+    }
+
+    public function getById(int $id): ?EntityInterface
+    {
+        $sql = sprintf(
+            'SELECT * FROM %s WHERE %s = ?',
+            $this->getTableName(),
+            $this->getPrimaryKeyName()
+        );
+
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute([$id]);
+
+        return $statement->rowCount() ? $this->buildEntity($statement->fetch(\PDO::FETCH_ASSOC)) : null;
     }
 }

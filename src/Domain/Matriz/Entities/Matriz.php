@@ -5,8 +5,9 @@ namespace App\Domain\Matriz\Entities;
 use App\Domain\Matriz\ValueObjects\Empresa;
 use App\Domain\Matriz\ValueObjects\Colores;
 use App\Domain\Matriz\ValueObjects\Imagenes;
+use App\Libraries\ORM\Base\Entity;
 
-class Matriz
+class Matriz extends Entity
 {
     private int $idmatriz;
     private Empresa $empresa;
@@ -14,7 +15,7 @@ class Matriz
     private Imagenes $imagenes;
 
     public function __construct(
-        int $idmatriz,
+        int $idmatriz = null,
         Empresa $empresa,
         Colores $colores,
         Imagenes $imagenes
@@ -30,6 +31,7 @@ class Matriz
     {
         return $this->idmatriz;
     }
+
 
     public function getEmpresa(): Empresa
     {

@@ -93,7 +93,7 @@ const listHistorialPedidos = async () => {
                         }>-- Selecciona estado --</option>
                         <option value="1" ${
                           historialPedido.estado_pedido == 1 ? "selected" : ""
-                        }>Pediente</option>
+                        }>Pendiente</option>
                         <option value="2" ${
                           historialPedido.estado_pedido == 2 ? "selected" : ""
                         }>Gestionado</option>
