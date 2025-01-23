@@ -172,6 +172,7 @@ async function abrirModalEditar(id_boveda) {
       $("#editNombreBoveda").val(boveda[0].id_producto).trigger("change");
       $("#editCategoriaBoveda").val(boveda[0].id_linea).trigger("change");
       $("#editProveedorBoveda").val(boveda[0].id_plataforma).trigger("change");
+      $("#editPlantillasVentas").val(boveda[0].plantillas_ventas);
       $("#editEjemploLanding").val(boveda[0].ejemplo_landing);
       $("#editDuplicarFunnel").val(boveda[0].duplicar_funnel);
       $("#editVideosBoveda").val(boveda[0].videos);
@@ -213,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const proveedor = document.getElementById("editProveedorBoveda").value;
 
       const plantillaVentas =
-        document.getElementById("plantillaVentas").value;
+        document.getElementById("editPlantillasVentas").value;
       const ejemploLanding =
         document.getElementById("editEjemploLanding").value;
       const duplicarFunnel =
@@ -341,6 +342,7 @@ window.addEventListener("load", async () => {
       const nombre = document.getElementById("nombreBoveda").value;
       const categoria = document.getElementById("categoriaBoveda").value;
       const proveedor = document.getElementById("proveedorBoveda").value;
+      const plantillaVentas = document.getElementById("plantillaVentas").value;
       const ejemploLanding = document.getElementById("ejemploLanding").value;
       const duplicarFunnel = document.getElementById("duplicarFunnel").value;
       const videosBoveda = document.getElementById("videosBoveda").value;
@@ -353,6 +355,7 @@ window.addEventListener("load", async () => {
       formData.append("categoria", categoria);
       formData.append("proveedor", proveedor);
       formData.append("imagen", imagen);
+      formData.append("plantillaVentas", plantillaVentas);
       formData.append("ejemploLanding", ejemploLanding);
       formData.append("duplicarFunnel", duplicarFunnel);
       formData.append("videosBoveda", videosBoveda);
