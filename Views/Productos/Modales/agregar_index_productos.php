@@ -1,56 +1,70 @@
-<style>
-    .form-group {
-        margin-bottom: 15px;
-    }
+<!DOCTYPE html>
+<html lang="es">
 
-    /* .modal-header {
-        background-color: #343a40;
-        color: white;
-    } */
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Producto - Wizard Mejorado</title>
 
-    .hidden-tab {
-        display: none !important;
-    }
+    <style>
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-    .hidden-field {
-        display: none;
-    }
-</style>
+        /* Para ocultar temporalmente un paso */
+        .wizard-step {
+            display: none;
+        }
 
-<div class="modal fade" id="agregar_productoModal" tabindex="-1" aria-labelledby="agregar_productoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="agregar_productoModalLabel"><i class="fas fa-edit"></i> Nuevo Producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="datos-basicos-tab" data-bs-toggle="tab" data-bs-target="#datos-basicos" type="button" role="tab" aria-controls="datos-basicos" aria-selected="true"><strong>Datos Básicos</strong></button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="precios-stock-tab" data-bs-toggle="tab" data-bs-target="#precios-stock" type="button" role="tab" aria-controls="precios-stock" aria-selected="false"><strong>Precios y Stock</strong></button>
-                    </li>
-                </ul>
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="datos-basicos" role="tabpanel" aria-labelledby="datos-basicos-tab">
-                        <form id="agregar_producto_form">
+        .wizard-step.active {
+            display: block;
+        }
+
+        .hidden-field {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Modal con estilo Wizard de 2 pasos -->
+    <div class="modal fade" id="agregar_productoModal" tabindex="-1" aria-labelledby="agregar_productoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Encabezado del modal -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="agregar_productoModalLabel">
+                        <i class="fas fa-edit"></i> Nuevo Producto
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Cuerpo del modal, con pasos -->
+                <div class="modal-body">
+                    <!-- Formulario único que contiene ambos pasos -->
+                    <form id="agregar_producto_form">
+
+                        <!-- Paso 1: Datos Básicos -->
+                        <div class="wizard-step active" id="datos-basicos">
+                            <h5 class="mb-3"><strong>Datos Básicos</strong></h5>
                             <div class="d-flex flex-column">
                                 <div class="d-flex flex-row gap-3">
                                     <div class="form-group w-100">
                                         <label for="codigo">Código:</label>
-                                        <input type="text" class="form-control" id="codigo" require>
+                                        <input type="text" class="form-control" id="codigo" required>
                                     </div>
                                     <div class="form-group w-100">
                                         <label for="nombre">Nombre:</label>
                                         <input type="text" class="form-control" id="nombre" required>
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <label for="descripcion">Descripción:</label>
                                     <textarea class="form-control" id="descripcion"></textarea>
                                 </div>
+
                                 <div class="d-flex flex-row gap-3">
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
@@ -60,8 +74,6 @@
                                             </select>
                                         </div>
                                     </div>
-
-
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="formato-pagina">Formato Página Productos:</label>
@@ -75,13 +87,13 @@
                                     </div>
                                     <div style="display: none;" id="funnelish" class="flex-column w-100">
                                         <div class="form-group">
-                                            <label for="nombre">Enlace de Funnelish:</label>
+                                            <label for="enlace_funnelish">Enlace de Funnelish:</label>
                                             <input type="text" class="form-control" id="enlace_funnelish">
                                         </div>
                                     </div>
-
                                 </div>
-                                <div class="d-flex flex-row gap-3">
+
+                                <div class="d-flex flex-row gap-3 mt-3">
                                     <div class="form-group">
                                         <label>Formato:</label>
                                         <div class="d-flex">
@@ -90,234 +102,286 @@
                                     </div>
                                 </div>
                             </div>
-                    </div>
-                    <div class="tab-pane fade" id="precios-stock" role="tabpanel" aria-labelledby="precios-stock-tab">
-                        <div class="d-flex flex-column">
-                            <div class="d-flex flex-row gap-3">
-                                <div class="form-group w-100">
-                                    <label for="precio-venta">Precio de Venta (Sugerido):</label>
-                                    <input type="text" class="form-control" id="precio-venta" required>
-                                </div>
-                                <div class="form-group w-100">
-                                    <label for="precio-proveedor">Precio Proveedor:</label>
-                                    <input type="text" class="form-control" id="precio-proveedor" required>
-                                </div>
-                            </div>
+                        </div>
 
-                            <div class="d-flex flex-row gap-3">
-                                <div class="form-group w-100">
-                                    <label for="maneja-inventario">Maneja Inventario:</label>
-                                    <select class="form-select" id="maneja-inventario" required>
-                                        <option selected value="">-- Selecciona --</option>
-                                        <option value="1">Sí</option>
-                                        <option value="0">No</option>
-                                        <option value="3">Es Servicio</option>
-                                    </select>
+                        <!-- Paso 2: Precios y Stock -->
+                        <div class="wizard-step" id="precios-stock">
+                            <h5 class="mb-3"><strong>Precios y Stock</strong></h5>
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-row gap-3">
+                                    <div class="form-group w-100">
+                                        <label for="precio-venta">Precio de Venta (Sugerido):</label>
+                                        <input type="text" class="form-control" id="precio-venta" required>
+                                    </div>
+                                    <div class="form-group w-100">
+                                        <label for="precio-proveedor">Precio Proveedor:</label>
+                                        <input type="text" class="form-control" id="precio-proveedor" required>
+                                    </div>
                                 </div>
-                                <div class="form-group w-100">
-                                    <label for="producto-variable">Producto Variable:</label>
-                                    <select class="form-select" id="producto-variable" required>
-                                        <option selected value="">-- Selecciona --</option>
-                                        <option value="1">Sí</option>
-                                        <option value="0">No</option>
-                                    </select>
+
+                                <div class="d-flex flex-row gap-3">
+                                    <div class="form-group w-100">
+                                        <label for="maneja-inventario">Maneja Inventario:</label>
+                                        <select class="form-select" id="maneja-inventario" required>
+                                            <option selected value="">-- Selecciona --</option>
+                                            <option value="1">Sí</option>
+                                            <option value="0">No</option>
+                                            <option value="3">Es Servicio</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group w-100">
+                                        <label for="producto-variable">Producto Variable:</label>
+                                        <select class="form-select" id="producto-variable" required>
+                                            <option selected value="">-- Selecciona --</option>
+                                            <option value="1">Sí</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <!-- <div class="form-group w-100">
-                                    <label for="producto-privado">Producto privado:</label>
-                                    <select class="form-select" id="producto-privado">
-                                        <option selected>-- Selecciona --</option>
-                                        <option value="1">Sí</option>
-                                        <option value="0">No</option>
-                                    </select>
-                                </div> -->
-                            </div>
-                            <div class="d-flex flex-row gap-3">
-                                <div class="form-group w-100">
-                                    <label for="stock-inicial">Stock Inicial:</label>
-                                    <input type="text" class="form-control" id="stock-inicial" required>
-                                </div>
-                                <div class="form-group w-100" id="bodega-field">
-                                    <label for="bodega">Bodega:</label>
-                                    <select class="form-select" id="bodega">
-                                        <option value="0" selected>-- Selecciona Bodega --</option>
-                                    </select>
+
+                                <div class="d-flex flex-row gap-3">
+                                    <div class="form-group w-100">
+                                        <label for="stock-inicial">Stock Inicial:</label>
+                                        <input type="text" class="form-control" id="stock-inicial" required>
+                                    </div>
+                                    <div class="form-group w-100" id="bodega-field">
+                                        <label for="bodega">Bodega:</label>
+                                        <select class="form-select" id="bodega">
+                                            <option value="0" selected>-- Selecciona Bodega --</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                    </form>
                 </div>
+
+                <!-- Footer del modal, con botones que cambian según el paso -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeBtn">Cerrar</button>
+                    <!-- Botones para controlar el wizard -->
+                    <button type="button" class="btn btn-primary" id="previousStepBtn" style="display:none;">Anterior</button>
+                    <button type="button" class="btn btn-primary" id="nextStepBtn">Siguiente</button>
+                    <!-- Botón Guardar que envía el formulario (solo visible en el paso 2) -->
+                    <button type="submit" form="agregar_producto_form" class="btn btn-success" id="guardar_producto" style="display:none;">Guardar</button>
+                </div>
+
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary" id="guardar_producto">Guardar</button>
-            </div>
-            </form>
         </div>
     </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const productoVariableSelect = document.getElementById('producto-variable');
-        const manejaInventarioSelect = document.getElementById('maneja-inventario');
-        const bodegaField = document.getElementById('bodega-field');
-        const precioReferencialCheckbox = document.getElementById('precio-referencial');
-        const precioReferencialInput = document.getElementById('precio-referencial-valor');
+    <script>
+        // =============== CONTROL DEL WIZARD ===============
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentStep = 1; // Empieza en 1 (Datos Básicos)
 
+            const step1 = document.getElementById('datos-basicos');
+            const step2 = document.getElementById('precios-stock');
+            const previousBtn = document.getElementById('previousStepBtn');
+            const nextBtn = document.getElementById('nextStepBtn');
+            const saveBtn = document.getElementById('guardar_producto');
 
-        /* function toggleBodegaField() {
-            if (manejaInventarioSelect.value === '1' && productoVariableSelect.value === '0') { // 1 para "Sí" y 2 para "No"
-                bodegaField.classList.remove('hidden-field');
-            } else {
-                bodegaField.classList.add('hidden-field');
+            // Mostrar el paso actual y ocultar los demás
+            function showStep(step) {
+                switch (step) {
+                    case 1:
+                        step1.classList.add('active');
+                        step2.classList.remove('active');
+
+                        // Botones visibles
+                        previousBtn.style.display = 'none'; // No se puede ir "atrás" desde el primer paso
+                        nextBtn.style.display = 'inline-block';
+                        saveBtn.style.display = 'none'; // No se muestra Guardar en el primer paso
+                        break;
+                    case 2:
+                        step1.classList.remove('active');
+                        step2.classList.add('active');
+
+                        // Botones visibles
+                        previousBtn.style.display = 'inline-block';
+                        nextBtn.style.display = 'none';
+                        saveBtn.style.display = 'inline-block';
+                        break;
+                }
             }
-        } */
 
-        function togglePrecioReferencialInput() {
-            precioReferencialInput.disabled = !precioReferencialCheckbox.checked;
-        }
+            // Botón "Siguiente"
+            nextBtn.addEventListener('click', function() {
+                // Aquí puedes añadir validaciones simples de los campos del paso 1 antes de avanzar
+                // Ejemplo: Validar que "codigo" y "nombre" no vengan vacíos
+                if (!document.getElementById('codigo').value.trim()) {
+                    toastr.error("Falta el código del producto", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center"
+                    });
+                    return;
+                }
+                if (!document.getElementById('nombre').value.trim()) {
+                    toastr.error("Falta el nombre del producto", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center"
+                    });
+                    return;
+                }
+                if (!document.getElementById('categoria').value.trim()) {
+                    toastr.error("Falta seleccionar una categoría", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center"
+                    });
+                    return;
+                }
 
-        /* productoVariableSelect.addEventListener('change', function() {
-            toggleBodegaField();
-        }); */
+                // Si todo ok, avanza
+                currentStep = 2;
+                showStep(currentStep);
+            });
 
-        /* manejaInventarioSelect.addEventListener('change', toggleBodegaField); */
-        precioReferencialCheckbox.addEventListener('change', togglePrecioReferencialInput);
+            // Botón "Anterior"
+            previousBtn.addEventListener('click', function() {
+                currentStep = 1;
+                showStep(currentStep);
+            });
 
-        /* toggleBodegaField(); */
-        togglePrecioReferencialInput(); // Llama a la función al cargar la página para ajustar la visibilidad inicial
-    });
-
-    //enviar datos a base de datos
-    $(document).ready(function() {
-        // Función para reiniciar el formulario
-        function resetForm() {
-            $('#agregar_producto_form')[0].reset();
-            $('#precio-referencial-valor').prop('disabled', true);
-        }
-
-        // Evento para reiniciar el formulario cuando se cierre el modal
-        $('#agregar_productoModal').on('hidden.bs.modal', function() {
-            var button = document.getElementById('guardar_producto');
-            button.disabled = false; // Desactivar el botón
+            // Iniciar mostrando el paso 1
+            showStep(currentStep);
         });
 
-        $('#agregar_producto_form').submit(function(event) {
-            event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
-            var maneja_inventario = $('#maneja-inventario').val();
-            var producto_variable = $('#producto-variable').val();
-            var categoria = $('#categoria').val();
-            var bodega = $('#bodega').val();
+        // =============== TU LÓGICA ORIGINAL (AJAX, VALIDACIONES, ETC.) ===============
+        // 1. Ocultar/Mostrar campo "bodega" si es necesario
+        // 2. Controlar "funnelish"
+        // 3. Manejar envío AJAX
+        document.addEventListener('DOMContentLoaded', function() {
+            const productoVariableSelect = document.getElementById('producto-variable');
+            const manejaInventarioSelect = document.getElementById('maneja-inventario');
+            const bodegaField = document.getElementById('bodega-field');
 
-            if (maneja_inventario == "") {
-                toastr.error(
-                    "Falta llenar Manjero de Inventario",
-                    "NOTIFICACIÓN", {
-                        positionClass: "toast-bottom-center"
-                    }
-                );
-                return
+            // Ejemplo: si se necesita lógica adicional para bodega
+            // function toggleBodegaField() {
+            //     if (manejaInventarioSelect.value === '1' && productoVariableSelect.value === '0') {
+            //         bodegaField.classList.remove('hidden-field');
+            //     } else {
+            //         bodegaField.classList.add('hidden-field');
+            //     }
+            // }
+            // productoVariableSelect.addEventListener('change', toggleBodegaField);
+            // manejaInventarioSelect.addEventListener('change', toggleBodegaField);
+            // toggleBodegaField();
+
+        });
+
+        // Función para mostrar/ocultar el enlace funnelish
+        function formato() {
+            let formatoSeleccionado = document.getElementById("formato-pagina").value;
+            if (formatoSeleccionado == '3') {
+                document.getElementById("funnelish").style.display = 'block';
+            } else {
+                document.getElementById("funnelish").style.display = 'none';
+            }
+        }
+
+        // =============== LÓGICA PARA ENVIAR EL FORMULARIO VIA AJAX ===============
+        $(document).ready(function() {
+
+            // Función para reiniciar el formulario
+            function resetForm() {
+                $('#agregar_producto_form')[0].reset();
             }
 
-            if (producto_variable == "") {
-                toastr.error(
-                    "Falta llenar Producto Variable",
-                    "NOTIFICACIÓN", {
+            // Reiniciar el formulario al cerrar el modal
+            $('#agregar_productoModal').on('hidden.bs.modal', function() {
+                var button = document.getElementById('guardar_producto');
+                button.disabled = false; // Reactivar el botón
+                resetForm();
+            });
+
+            // Submit del formulario
+            $('#agregar_producto_form').submit(function(event) {
+                event.preventDefault(); // Evita el envío normal
+
+                // Validaciones del paso 2
+                var maneja_inventario = $('#maneja-inventario').val();
+                var producto_variable = $('#producto-variable').val();
+                var bodega = $('#bodega').val();
+
+                if (maneja_inventario == "") {
+                    toastr.error("Falta llenar Maneja Inventario", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center"
-                    }
-                );
-                return
-            }
-
-            if (categoria == "") {
-                toastr.error(
-                    "Falta llenar la categoria",
-                    "NOTIFICACIÓN", {
-                        positionClass: "toast-bottom-center"
-                    }
-                );
-                return
-            }
-
-            if (bodega == "0") {
-                toastr.error(
-                    "Falta llenar la bodega",
-                    "NOTIFICACIÓN", {
-                        positionClass: "toast-bottom-center"
-                    }
-                );
-                return
-            }
-
-
-            var button = document.getElementById('guardar_producto');
-            button.disabled = true; // Desactivar el botón
-
-            // Crea un objeto FormData
-            var formData = new FormData();
-            formData.append('codigo_producto', $('#codigo').val());
-            formData.append('nombre_producto', $('#nombre').val());
-            formData.append('descripcion_producto', $('#descripcion').val());
-            formData.append('id_linea_producto', $('#categoria').val());
-            formData.append('envio_prioritario', 0);
-            formData.append('inv_producto', $('#maneja-inventario').val());
-            formData.append('producto_variable', $('#producto-variable').val());
-            formData.append('aplica_iva', 1); // Suponiendo que siempre aplica IVA
-            formData.append('estado_producto', 1); // Suponiendo que el estado es activo
-            formData.append('date_added', new Date().toISOString().split('T')[0]);
-            formData.append('formato', $('#formato-pagina').val());
-            formData.append('drogshipin', 0); // Suponiendo que no es dropshipping
-            formData.append('destacado', 0); // Suponiendo que no es destacado
-            formData.append('stock_inicial', $('#stock-inicial').val());
-            formData.append('bodega', $('#bodega').val());
-            formData.append('pcp', $('#precio-proveedor').val());
-            formData.append('pvp', $('#precio-venta').val());
-            formData.append('pref', $('#precio-referencial-valor').val());
-            formData.append('enlace_funnelish', $('#enlace_funnelish').val());
-
-            // Realiza la solicitud AJAX
-            $.ajax({
-                url: '' + SERVERURL + 'productos/agregar_producto',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    response = JSON.parse(response);
-                    // Mostrar alerta de éxito
-                    if (response.status == 500) {
-                        toastr.error(
-                            "EL PRODUCTO NO SE AGREGRO CORRECTAMENTE",
-                            "NOTIFICACIÓN", {
-                                positionClass: "toast-bottom-center"
-                            }
-                        );
-                    } else if (response.status == 200) {
-                        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
-                            positionClass: "toast-bottom-center",
-                        });
-
-                        $('#agregar_productoModal').modal('hide');
-                        resetForm();
-                        initDataTableProductos();
-                    }
-                },
-                error: function(error) {
-                    alert('Hubo un error al agregar el producto');
-                    console.log(error);
+                    });
+                    return;
                 }
+
+                if (producto_variable == "") {
+                    toastr.error("Falta llenar Producto Variable", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center"
+                    });
+                    return;
+                }
+
+                if (bodega == "0") {
+                    toastr.error("Falta seleccionar bodega", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center"
+                    });
+                    return;
+                }
+
+                var button = document.getElementById('guardar_producto');
+                button.disabled = true; // Desactivar el botón mientras se envía
+
+                // Crea un objeto FormData con todos los campos necesarios
+                var formData = new FormData();
+                formData.append('codigo_producto', $('#codigo').val());
+                formData.append('nombre_producto', $('#nombre').val());
+                formData.append('descripcion_producto', $('#descripcion').val());
+                formData.append('id_linea_producto', $('#categoria').val());
+                formData.append('envio_prioritario', 0);
+                formData.append('inv_producto', $('#maneja-inventario').val());
+                formData.append('producto_variable', $('#producto-variable').val());
+                formData.append('aplica_iva', 1); // Si aplica IVA
+                formData.append('estado_producto', 1); // Activo
+                formData.append('date_added', new Date().toISOString().split('T')[0]);
+                formData.append('formato', $('#formato-pagina').val());
+                formData.append('drogshipin', 0); // Ejemplo
+                formData.append('destacado', 0);
+                formData.append('stock_inicial', $('#stock-inicial').val());
+                formData.append('bodega', $('#bodega').val());
+                formData.append('pcp', $('#precio-proveedor').val());
+                formData.append('pvp', $('#precio-venta').val());
+                formData.append('pref', ''); // Si tienes precio referencial
+                formData.append('enlace_funnelish', $('#enlace_funnelish').val());
+
+                // Llamada AJAX (ajusta la URL según tu estructura)
+                $.ajax({
+                    url: '' + SERVERURL + 'productos/agregar_producto', // Ajusta con tu ruta real
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        response = JSON.parse(response);
+
+                        if (response.status == 500) {
+                            toastr.error("EL PRODUCTO NO SE AGREGÓ CORRECTAMENTE", "NOTIFICACIÓN", {
+                                positionClass: "toast-bottom-center"
+                            });
+                            button.disabled = false;
+                        } else if (response.status == 200) {
+                            toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                                positionClass: "toast-bottom-center"
+                            });
+                            $('#agregar_productoModal').modal('hide');
+                            // Llama a tu función para refrescar la tabla
+                            initDataTableProductos();
+                        }
+                    },
+                    error: function(error) {
+                        alert('Hubo un error al agregar el producto');
+                        console.log(error);
+                        button.disabled = false; // Reactivar el botón en caso de error
+                    }
+                });
             });
         });
-    });
+    </script>
 
-    function formato() {
-        let formatoSeleccionado = $("#formato-pagina").val();
-        //alert(formatoSeleccionado);
-        if (formatoSeleccionado == '3') {
-            $("#funnelish").show();
-        } else {
-            $("#funnelish").hide();
-        }
-    }
-</script>
+</body>
+
+</html>
