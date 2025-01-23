@@ -53,6 +53,7 @@ class ProductosModel extends Query
                 lineas.nombre_linea AS categoria,
                 plataformas.nombre_tienda AS proveedor,
                 bovedas.img,
+                bovedas.plantillas_ventas,
                 bovedas.ejemplo_landing,
                 bovedas.duplicar_funnel,
                 bovedas.id_boveda,

@@ -620,7 +620,7 @@ function calcularTarifas() {
     var button2 = document.getElementById("generarGuiaBtn");
 
     if (recaudo == 2) {
-      if ($("#precio_wallet").val() < 20) {
+      if ($("#precio_wallet").text() < 20) {
         button2.disabled = true;
         $("#alerta_sin_recaudo").show();
       } else {
