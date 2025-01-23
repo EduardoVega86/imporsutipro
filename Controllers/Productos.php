@@ -147,7 +147,7 @@ class Productos extends Controller
         $response = $this->model->obtenerBovedas();
         echo json_encode($response);
     }
-    //agregarswagger
+
     public function agregar_boveda()
     {
         // Verificar que el usuario tiene permisos (cargo 20)
@@ -164,6 +164,7 @@ class Productos extends Controller
             $idProducto = $_POST['id_producto'];
             $idLinea = $_POST['categoria'];
             $idProveedor = $_POST['proveedor'];
+            $plantillaVentas = $_POST['plantillaVentas'] ?? '';
             $ejemploLanding = $_POST['ejemploLanding'] ?? '';
             $duplicarFunnel = $_POST['duplicarFunnel'] ?? '';
             $videos = $_POST['videosBoveda'] ?? '';
@@ -176,7 +177,7 @@ class Productos extends Controller
             }
 
             // Insertar
-            $response = $this->model->insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
+            $response = $this->model->insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $plantillaVentas, $ejemploLanding, $duplicarFunnel, $videos);
         } else {
             $response = [
                 "status" => 400,
