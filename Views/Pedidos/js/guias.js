@@ -157,7 +157,7 @@ const listGuias = async () => {
         transporte_content =
           '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
         ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
-        ruta_traking = `https://ec.gintracom.site/web/site/tracking`;
+        ruta_traking = `https://ec.gintracom.site/web/site/tracking?guia=${guia.numero_guia}`;
         funcion_anular = `anular_guiaGintracom('${guia.numero_guia}')`;
         estado = validar_estadoGintracom(guia.estado_guia_sistema);
       } else {
