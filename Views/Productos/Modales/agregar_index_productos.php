@@ -241,6 +241,12 @@
 
             // Iniciar mostrando el paso 1
             showStep(currentStep);
+
+            //RESETEAR AL PASO 1 AL CERRAR EL MODAL ***
+            $('#agregar_productoModal').on('hidden.bs.modal', function() {
+                currentStep = 1;
+                showStep(currentStep);
+            });
         });
 
 
