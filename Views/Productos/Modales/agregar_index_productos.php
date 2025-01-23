@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Agregar Producto - Wizard Mejorado</title>
+    <title>Agregar Producto</title>
 
     <style>
         .form-group {
@@ -208,7 +208,6 @@
 
             // Botón "Siguiente"
             nextBtn.addEventListener('click', function() {
-                // Aquí puedes añadir validaciones simples de los campos del paso 1 antes de avanzar
                 // Ejemplo: Validar que "codigo" y "nombre" no vengan vacíos
                 if (!document.getElementById('codigo').value.trim()) {
                     toastr.error("Falta el código del producto", "NOTIFICACIÓN", {
@@ -245,7 +244,6 @@
         });
 
 
-        // =============== TU LÓGICA ORIGINAL (AJAX, VALIDACIONES, ETC.) ===============
         // 1. Ocultar/Mostrar campo "bodega" si es necesario
         // 2. Controlar "funnelish"
         // 3. Manejar envío AJAX
@@ -253,19 +251,6 @@
             const productoVariableSelect = document.getElementById('producto-variable');
             const manejaInventarioSelect = document.getElementById('maneja-inventario');
             const bodegaField = document.getElementById('bodega-field');
-
-            // Ejemplo: si se necesita lógica adicional para bodega
-            // function toggleBodegaField() {
-            //     if (manejaInventarioSelect.value === '1' && productoVariableSelect.value === '0') {
-            //         bodegaField.classList.remove('hidden-field');
-            //     } else {
-            //         bodegaField.classList.add('hidden-field');
-            //     }
-            // }
-            // productoVariableSelect.addEventListener('change', toggleBodegaField);
-            // manejaInventarioSelect.addEventListener('change', toggleBodegaField);
-            // toggleBodegaField();
-
         });
 
         // Función para mostrar/ocultar el enlace funnelish
