@@ -2536,7 +2536,229 @@ class Swagger extends Controller
             }
 
             // Llamar a tu modelo (Swagger Model) que internamente validará usuario y llamará a productosModel
-            $response = $this->model->listarImagenAdicionalProductos($uuid, $id_producto);
+            $response = $this->model->listarImagenAdicionalProductosTienda($uuid, $id_producto);
+
+            // Responder
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'status'  => 500,
+                'message' => 'Error interno',
+                'error'   => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/swagger/obtener_productos_bodegas",
+     *     tags={"Productos"},
+     *     summary="Listar el inventario de bodega",
+     *     description="Devuelve la lista del inventario de bodega asocada a la plataforma del usuario, validado por su UUID.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *          @OA\RequestBody(
+     *          required=true,
+     *              @OA\MediaType(
+     *              mediaType="application/json",
+     *                  @OA\Schema(
+     *                      @OA\Property(
+     *                      property="id_bodega",
+     *                      type="integer"
+     *                  ),
+     *              )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listado de inventario de bodega obtenido exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No existe un usuario con el UUID proporcionado"
+     *     )
+     * )
+     */
+    public function obtener_productos_bodegas()
+    {
+        try {
+            // Registrar la solicitud en logs (si utilizas ese método).
+            $this->logRequest('swagger/obtener_productos_bodegas', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            // Obtener parámetros
+            $uuid = $_GET['uuid'] ?? null;
+            $id_bodega = $data['id_bodega'] ?? null;
+
+            // Validar parámetros requeridos
+            if (!$uuid || !$id_bodega) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos']);
+                return;
+            }
+
+            // Llamar a tu modelo (Swagger Model) que internamente validará usuario y llamará a productosModel
+            $response = $this->model->obtenerProductosBodegas($uuid, $id_bodega);
+
+            // Responder
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'status'  => 500,
+                'message' => 'Error interno',
+                'error'   => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/swagger/cargar_categorias",
+     *     tags={"Productos"},
+     *     summary="Listar categorias",
+     *     description="Devuelve la lista de categorías/lineas de una plataforma específica o marcadas como globales.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *          @OA\RequestBody(
+     *          required=true,
+     *              @OA\MediaType(
+     *              mediaType="application/json",
+     *                  @OA\Schema(
+     *                      @OA\Property(
+     *                      property="id_plataforma",
+     *                      type="integer"
+     *                  ),
+     *              )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listado de categorias obtenidas exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No existe un usuario con el UUID proporcionado"
+     *     )
+     * )
+     */
+    public function cargar_categorias()
+    {
+        try {
+            // Registrar la solicitud en logs (si utilizas ese método).
+            $this->logRequest('swagger/cargar_categorias', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            // Obtener parámetros
+            $uuid = $_GET['uuid'] ?? null;
+            $id_plataforma = $data['id_plataforma'] ?? null;
+
+            // Validar parámetros requeridos
+            if (!$uuid || !$id_plataforma) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos']);
+                return;
+            }
+
+            // Llamar a tu modelo (Swagger Model) que internamente validará usuario y llamará a productosModel
+            $response = $this->model->cargarCategorias($uuid, $id_plataforma);
+
+            // Responder
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'status'  => 500,
+                'message' => 'Error interno',
+                'error'   => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/swagger/cargar_templates",
+     *     tags={"Productos"},
+     *     summary="Listar templates",
+     *     description="Devuelve la lista de templates del chat center segun su plataforma.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *          @OA\RequestBody(
+     *          required=true,
+     *              @OA\MediaType(
+     *              mediaType="application/json",
+     *                  @OA\Schema(
+     *                      @OA\Property(
+     *                      property="id_plataforma",
+     *                      type="integer"
+     *                  ),
+     *              )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listado de templates obtenidos exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No existe un usuario con el UUID proporcionado"
+     *     )
+     * )
+     */
+    public function cargar_templates()
+    {
+        try {
+            // Registrar la solicitud en logs (si utilizas ese método).
+            $this->logRequest('swagger/cargar_templates', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            // Obtener parámetros
+            $uuid = $_GET['uuid'] ?? null;
+            $id_plataforma = $data['id_plataforma'] ?? null;
+
+            // Validar parámetros requeridos
+            if (!$uuid || !$id_plataforma) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos']);
+                return;
+            }
+
+            // Llamar a tu modelo (Swagger Model) que internamente validará usuario y llamará a productosModel
+            $response = $this->model->cargarTemplates($uuid, $id_plataforma);
 
             // Responder
             echo json_encode($response);
@@ -2618,6 +2840,10 @@ class Swagger extends Controller
      *                     description = "Archivo de imagen a subir." 
      *                 ),
      *                 @OA\Property(
+     *                     property="plantillaVentas",
+     *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
      *                     property="idProveedor",
      *                     type="integer"
      *                 ),
@@ -2659,20 +2885,21 @@ class Swagger extends Controller
             $idProducto = $_POST['idProducto'] ?? null;
             $idLinea = $_POST['idLinea'] ?? null;
             $imagen = $_FILES['imagen'] ?? null;
+            $plantillaVentas = $_POST['plantillaVentas'] ?? null;
             $idProveedor = $_POST['idProveedor'] ?? null;
             $ejemploLanding = $_POST['ejemploLanding'] ?? null;
             $duplicarFunnel = $_POST['duplicarFunnel'] ?? null;
             $videos = $_POST['videos'] ?? null;
 
             // Validación de campos requeridos
-            if (!$uuid || !$imagen || !$idProducto || !$idLinea || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
+            if (!$uuid || !$imagen || !$plantillaVentas || !$idProducto || !$idLinea || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
             }
 
             // Llamar al modelo
-            $response = $this->model->agregarBoveda($uuid, $idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
+            $response = $this->model->agregarBoveda($uuid, $idProducto, $idLinea, $imagen, $plantillaVentas, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
@@ -2718,6 +2945,10 @@ class Swagger extends Controller
      *                     description = "Arhivo de imagen subir"
      *                 ),
      *                 @OA\Property(
+     *                     property="plantillaVentas",
+     *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
      *                     property="id_plataforma",
      *                     type="integer"
      *                 ),
@@ -2758,20 +2989,21 @@ class Swagger extends Controller
             $id_boveda = $_POST['id_boveda'] ?? null;
             $id_linea = $_POST['id_linea'] ?? null;
             $imagen = $_FILES['imagen'] ?? null;
+            $plantillaVentas = $_POST['plantillaVentas'] ?? null;
             $id_plataforma = $_POST['id_plataforma'] ?? null;
             $ejemploLanding = $_POST['ejemploLanding'] ?? null;
             $duplicarFunnel = $_POST['duplicarFunnel'] ?? null;
             $videos = $_POST['videos'] ?? null;
 
             // Validación de campos requeridos
-            if (!$uuid || !$id_produto || !$id_boveda || !$id_linea || !$id_plataforma || !$ejemploLanding || !$duplicarFunnel || !$videos) {
+            if (!$uuid || !$id_produto || !$id_boveda || !$id_linea || !$id_plataforma || !$plantillaVentas || !$ejemploLanding || !$duplicarFunnel || !$videos) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
             }
 
             // Llamar al modelo
-            $response = $this->model->editarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $id_produto, $imagen, $ejemploLanding, $duplicarFunnel, $videos);
+            $response = $this->model->editarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $id_produto, $imagen, $plantillaVentas, $ejemploLanding, $duplicarFunnel, $videos);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);

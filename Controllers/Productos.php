@@ -505,7 +505,7 @@ class Productos extends Controller
         $response = $this->model->listar_imagenAdicional_productos($_POST['id_producto'], $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    //Continuar aqui
+
     public function listar_imagenAdicional_productosTienda()
     {
         $response = $this->model->listar_imagenAdicional_productosTienda($_POST['id_producto'], $_SESSION['id_plataforma']);
