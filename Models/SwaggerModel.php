@@ -1409,7 +1409,7 @@ class SwaggerModel extends Query
 
 
 
-    public function agregarBoveda($uuid, $idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)
+    public function agregarBoveda($uuid, $idProducto, $idLinea, $imagen, $plantillaVentas, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos)
     {
         try {
             // Verificar si existe usuario con ese UUID
@@ -1431,7 +1431,7 @@ class SwaggerModel extends Query
             }
             $idPlataforma = $plataforma[0]['id_plataforma'];
             // Llamar a insertarBoveda con los datos y el ID de plataforma
-            return $this->productosModel->insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $idPlataforma, $ejemploLanding, $duplicarFunnel, $videos);
+            return $this->productosModel->insertarBoveda($idProducto, $idLinea, $imagen, $idProveedor, $plantillaVentas, $ejemploLanding, $duplicarFunnel, $videos);
         } catch (Exception $e) {
             return [
                 'status'  => 500,
@@ -1441,7 +1441,7 @@ class SwaggerModel extends Query
         }
     }
 
-    public function editarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $id_produto, $imagen, $ejemploLanding, $duplicarFunnel, $videos)
+    public function editarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $id_produto, $imagen, $plantillaVentas, $ejemploLanding, $duplicarFunnel, $videos)
     {
         try {
             // Verificar si existe usuario con ese UUID
@@ -1466,7 +1466,7 @@ class SwaggerModel extends Query
             $id_plataforma = $plataforma[0]['id_plataforma'];
 
             // Llamar a editarBoveda con los datos y el ID de plataforma
-            return $this->productosModel->editarBoveda($id_boveda, $id_linea, $id_plataforma, $id_produto, $imagen, $ejemploLanding, $duplicarFunnel, $videos);
+            return $this->productosModel->editarBoveda($id_boveda, $id_linea, $id_plataforma, $id_produto, $imagen, $plantillaVentas, $ejemploLanding, $duplicarFunnel, $videos);
         } catch (Exception $e) {
             return [
                 'status'  => 500,

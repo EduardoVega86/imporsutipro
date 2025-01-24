@@ -2840,6 +2840,10 @@ class Swagger extends Controller
      *                     description = "Archivo de imagen a subir." 
      *                 ),
      *                 @OA\Property(
+     *                     property="plantillaVentas",
+     *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
      *                     property="idProveedor",
      *                     type="integer"
      *                 ),
@@ -2881,20 +2885,21 @@ class Swagger extends Controller
             $idProducto = $_POST['idProducto'] ?? null;
             $idLinea = $_POST['idLinea'] ?? null;
             $imagen = $_FILES['imagen'] ?? null;
+            $plantillaVentas = $_POST['plantillaVentas'] ?? null;
             $idProveedor = $_POST['idProveedor'] ?? null;
             $ejemploLanding = $_POST['ejemploLanding'] ?? null;
             $duplicarFunnel = $_POST['duplicarFunnel'] ?? null;
             $videos = $_POST['videos'] ?? null;
 
             // Validación de campos requeridos
-            if (!$uuid || !$imagen || !$idProducto || !$idLinea || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
+            if (!$uuid || !$imagen || $plantillaVentas || !$idProducto || !$idLinea || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
             }
 
             // Llamar al modelo
-            $response = $this->model->agregarBoveda($uuid, $idProducto, $idLinea, $imagen, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
+            $response = $this->model->agregarBoveda($uuid, $idProducto, $idLinea, $imagen, $plantillaVentas, $idProveedor, $ejemploLanding, $duplicarFunnel, $videos);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
@@ -2940,6 +2945,10 @@ class Swagger extends Controller
      *                     description = "Arhivo de imagen subir"
      *                 ),
      *                 @OA\Property(
+     *                     property="plantillaVentas",
+     *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
      *                     property="id_plataforma",
      *                     type="integer"
      *                 ),
@@ -2980,20 +2989,21 @@ class Swagger extends Controller
             $id_boveda = $_POST['id_boveda'] ?? null;
             $id_linea = $_POST['id_linea'] ?? null;
             $imagen = $_FILES['imagen'] ?? null;
+            $plantillaVentas = $_POST['plantillaVentas'] ?? null;
             $id_plataforma = $_POST['id_plataforma'] ?? null;
             $ejemploLanding = $_POST['ejemploLanding'] ?? null;
             $duplicarFunnel = $_POST['duplicarFunnel'] ?? null;
             $videos = $_POST['videos'] ?? null;
 
             // Validación de campos requeridos
-            if (!$uuid || !$id_produto || !$id_boveda || !$id_linea || !$id_plataforma || !$ejemploLanding || !$duplicarFunnel || !$videos) {
+            if (!$uuid || !$id_produto || !$id_boveda || !$id_linea || !$id_plataforma || $plantillaVentas || !$ejemploLanding || !$duplicarFunnel || !$videos) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
             }
 
             // Llamar al modelo
-            $response = $this->model->editarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $id_produto, $imagen, $ejemploLanding, $duplicarFunnel, $videos);
+            $response = $this->model->editarBoveda($uuid, $id_boveda, $id_linea, $id_plataforma, $id_produto, $imagen, $plantillaVentas, $ejemploLanding, $duplicarFunnel, $videos);
             $this->handleResponse($response);
         } catch (Exception $e) {
             $this->handleException($e);
