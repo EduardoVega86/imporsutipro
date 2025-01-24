@@ -2727,7 +2727,7 @@ class Swagger extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Listado de templates obtenidos exitosamente"
+     *         description="Listado de templates obtenido exitosamente"
      *     ),
      *     @OA\Response(
      *         response=400,
@@ -2759,6 +2759,80 @@ class Swagger extends Controller
 
             // Llamar a tu modelo (Swagger Model) que internamente validará usuario y llamará a productosModel
             $response = $this->model->cargarTemplates($uuid, $id_plataforma);
+
+            // Responder
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'status'  => 500,
+                'message' => 'Error interno',
+                'error'   => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/swagger/cargar_etiquetas",
+     *     tags={"Productos"},
+     *     summary="Listar etiquetas",
+     *     description="Devuelve la lista de etiquetas del chat center segun su plataforma.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *          @OA\RequestBody(
+     *          required=true,
+     *              @OA\MediaType(
+     *              mediaType="application/json",
+     *                  @OA\Schema(
+     *                      @OA\Property(
+     *                      property="id_plataforma",
+     *                      type="integer"
+     *                  ),
+     *              )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listado de etiquetas obtenido exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No existe un usuario con el UUID proporcionado"
+     *     )
+     * )
+     */
+    public function cargar_etiquetas()
+    {
+        try {
+            // Registrar la solicitud en logs (si utilizas ese método).
+            $this->logRequest('swagger/cargar_templates', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            // Obtener parámetros
+            $uuid = $_GET['uuid'] ?? null;
+            $id_plataforma = $data['id_plataforma'] ?? null;
+
+            // Validar parámetros requeridos
+            if (!$uuid || !$id_plataforma) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos']);
+                return;
+            }
+
+            // Llamar a tu modelo (Swagger Model) que internamente validará usuario y llamará a productosModel
+            $response = $this->model->cargarEtiquetas($uuid, $id_plataforma);
 
             // Responder
             echo json_encode($response);
