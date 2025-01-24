@@ -2536,7 +2536,7 @@ class Swagger extends Controller
             }
 
             // Llamar a tu modelo (Swagger Model) que internamente validará usuario y llamará a productosModel
-            $response = $this->model->listarImagenAdicionalProductos($uuid, $id_producto);
+            $response = $this->model->listarImagenAdicionalProductosTienda($uuid, $id_producto);
 
             // Responder
             echo json_encode($response);

@@ -1290,7 +1290,7 @@ class SwaggerModel extends Query
         } catch (Exception $e) {
             return [
                 'status'  => 500,
-                'message' => 'Error interno al listar imagenes adicional de productos',
+                'message' => 'Error interno al listar imagenes adicional de productos tienda',
                 'error'   => $e->getMessage()
             ];
         }
