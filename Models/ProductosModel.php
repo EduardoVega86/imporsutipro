@@ -666,6 +666,8 @@ class ProductosModel extends Query
         $sql = "UPDATE productos SET codigo_producto = ?, nombre_producto = ?, descripcion_producto = ?, id_linea_producto = ?, inv_producto = ?, producto_variable = ?, costo_producto = ?, aplica_iva = ?, estado_producto = ?, date_added = ?, id_imp_producto = ?, pagina_web = ?, formato = ?, drogshipin = ?, destacado = ? WHERE id_producto = ? AND id_plataforma = ?";
         $data = [$codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $id, $plataforma];
         $editar_producto = $this->update($sql, $data);
+        // Declarar la variable para evitar "Undefined variable"
+        $editar_producto_ = 0;  // o null, como prefieras
 
         if ($inv_producto == 1) {
             // echo 'as'.$producto_variable;
