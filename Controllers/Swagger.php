@@ -2892,7 +2892,7 @@ class Swagger extends Controller
             $videos = $_POST['videos'] ?? null;
 
             // Validación de campos requeridos
-            if (!$uuid || !$imagen || $plantillaVentas || !$idProducto || !$idLinea || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
+            if (!$uuid || !$imagen || !$plantillaVentas || !$idProducto || !$idLinea || !$idProveedor || !$ejemploLanding || !$duplicarFunnel || !$videos) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
@@ -2996,7 +2996,7 @@ class Swagger extends Controller
             $videos = $_POST['videos'] ?? null;
 
             // Validación de campos requeridos
-            if (!$uuid || !$id_produto || !$id_boveda || !$id_linea || !$id_plataforma || $plantillaVentas || !$ejemploLanding || !$duplicarFunnel || !$videos) {
+            if (!$uuid || !$id_produto || !$id_boveda || !$id_linea || !$id_plataforma || !$plantillaVentas || !$ejemploLanding || !$duplicarFunnel || !$videos) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
                 return;
