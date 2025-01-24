@@ -2628,7 +2628,7 @@ class Swagger extends Controller
      * @OA\Post(
      *     path="/swagger/cargar_categorias",
      *     tags={"Productos"},
-     *     summary="Listar categorias,
+     *     summary="Listar categorias",
      *     description="Devuelve la lista de categorías/lineas de una plataforma específica o marcadas como globales.",
      *     @OA\Parameter(
      *         name="uuid",
