@@ -362,11 +362,27 @@ class ProductosModel extends Query
 
         if ($plataforma == 1206 /* || $plataforma == 2293 */) {
             $sql = "SELECT st.id_inventario, st.id_plataforma, p.nombre_producto as 'nombre_producto_tienda' FROM `shopify_tienda` st INNER JOIN `inventario_bodegas` ib ON ib.id_inventario = st.id_inventario INNER JOIN `productos` p ON p.id_producto = ib.id_producto where st.id_plataforma = $plataforma;";
+            $response = $this->select($sql);
         } else {
+            $sql_shopify = "select 
+                st.id_inventario, 
+                CONCAT(p.nombre_producto, '- SHOPIFY') as nombre
+            from shopify_tienda st
+            inner join inventario_bodegas ib ON ib.id_inventario = st.id_inventario
+            inner join productos p on ib.id_producto = p.id_producto
+            WHERE st.id_plataforma = $plataforma";
 
-            $sql = "SELECT * FROM `productos_tienda` pt, productos p, inventario_bodegas ib WHERE  pt.id_producto=p.id_producto and pt.id_inventario=ib.id_inventario and pt.id_plataforma=$plataforma";
+            $sql_tiendas = "select pt.id_inventario, CONCAT(p.nombre_producto, '- TIENDA') as nombre from productos_tienda pt inner join inventario_bodegas ib ON ib.id_inventario =pt.id_inventario inner join productos p on ib.id_producto = p.id_producto WHERE pt.id_plataforma = $plataforma;";
+
+            $sql_funnel = "select pf.id_producto, CONCAT(p.nombre_producto, '- FUNNELISH') as nombre from productos_funnel pf inner join inventario_bodegas ib ON ib.id_inventario =pf.id_producto inner join productos p on ib.id_producto = p.id_producto WHERE pf.id_plataforma = $plataforma;";
+
+            $data_shopify = $this->select($sql_shopify);
+            $data_tiendas = $this->select($sql_tiendas);
+            $data_funnel = $this->select($sql_funnel);
+
+            $response = array_merge($data_shopify, $data_tiendas, $data_funnel);
         }
-        return $this->select($sql);
+        return $response;
     }
 
     public function importar_productos_tienda($id_producto, $plataforma)

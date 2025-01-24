@@ -2031,12 +2031,12 @@ class WalletModel extends Query
                     ELSE fc.fecha_guia + INTERVAL 8 DAY
                 END AS fecha_entrega,
                 fc.transporte,
+                fc.c_secundaria,
                 fc.numero_factura,
                 fc.fecha_factura,
                 fc.fecha_guia,
                 fc.contiene,
                 fc.c_principal,
-                fc.c_secundario,
                 ib.pcp,
                 b.full_filme,
                 fc.call,
