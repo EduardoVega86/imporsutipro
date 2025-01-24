@@ -1122,7 +1122,7 @@ class ProductosModel extends Query
 
     public function obtener_productos_bodegas($id_bodega, $plataforma)
     {
-        $sql = "SELECT * FROM inventario_bodegas WHERE id_bodega = $id_bodega and id_plataforma = $plataforma";
+        $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_bodega and id_plataforma = $plataforma";
         return $this->select($sql);
     }
 
