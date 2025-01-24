@@ -2984,7 +2984,7 @@ class Swagger extends Controller
      * @OA\Post(
      *     path="/swagger/editar_boveda",
      *     tags={"Productos"},
-     *     summary="Agregar boveda",
+     *     summary="Editar boveda",
      *     description="Permite editar las bovedas para la visualización de los usuarios estudiantes.",
      *     @OA\Parameter(
      *        name="uuid",
