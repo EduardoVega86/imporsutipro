@@ -2554,7 +2554,7 @@ class Swagger extends Controller
      * @OA\Post(
      *     path="/swagger/obtener_productos_bodegas",
      *     tags={"Productos"},
-     *     summary="Listar imagenes adicionales de productos tienda",
+     *     summary="Listar el inventario de bodega",
      *     description="Devuelve la lista del inventario de bodega asocada a la plataforma del usuario, validado por su UUID.",
      *     @OA\Parameter(
      *         name="uuid",
@@ -2611,6 +2611,80 @@ class Swagger extends Controller
 
             // Llamar a tu modelo (Swagger Model) que internamente validará usuario y llamará a productosModel
             $response = $this->model->obtenerProductosBodegas($uuid, $id_bodega);
+
+            // Responder
+            echo json_encode($response);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'status'  => 500,
+                'message' => 'Error interno',
+                'error'   => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/swagger/cargar_categorias",
+     *     tags={"Productos"},
+     *     summary="Listar categorias,
+     *     description="Devuelve la lista de categorías/lineas de una plataforma específica o marcadas como globales.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *          @OA\RequestBody(
+     *          required=true,
+     *              @OA\MediaType(
+     *              mediaType="application/json",
+     *                  @OA\Schema(
+     *                      @OA\Property(
+     *                      property="id_plataforma",
+     *                      type="integer"
+     *                  ),
+     *              )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listado de categorias obtenidas exitosamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No existe un usuario con el UUID proporcionado"
+     *     )
+     * )
+     */
+    public function cargar_categorias()
+    {
+        try {
+            // Registrar la solicitud en logs (si utilizas ese método).
+            $this->logRequest('swagger/cargar_categorias', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            // Obtener parámetros
+            $uuid = $_GET['uuid'] ?? null;
+            $id_plataforma = $data['id_plataforma'] ?? null;
+
+            // Validar parámetros requeridos
+            if (!$uuid || !$id_plataforma) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan campos requeridos']);
+                return;
+            }
+
+            // Llamar a tu modelo (Swagger Model) que internamente validará usuario y llamará a productosModel
+            $response = $this->model->cargarCategorias($uuid, $id_plataforma);
 
             // Responder
             echo json_encode($response);
