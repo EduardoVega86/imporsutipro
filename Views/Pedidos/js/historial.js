@@ -135,8 +135,8 @@ const listHistorialPedidos = async () => {
           ${historialPedido.c_principal},
           ${historialPedido.c_secundaria},
           ${historialPedido.contiene},
-          ${historialPedido.monto_factura},
-          )"><i class="fa-brands fa-whatsapp"></i></button>`;
+          ${historialPedido.monto_factura}
+        )"><i class="fa-brands fa-whatsapp"></i></button>`;
       }
 
       content += `
