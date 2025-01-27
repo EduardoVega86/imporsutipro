@@ -176,7 +176,6 @@ ORDER BY
             ib.sku,
             ib.saldo_stock,
             ib.pvp,
-            ib.image_path, 
             pl.url_imporsuit,
             CASE WHEN pf.id_producto IS NULL THEN 0 ELSE 1 END AS Es_Favorito
           FROM productos p

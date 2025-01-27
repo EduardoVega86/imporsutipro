@@ -39,7 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     try {
-      // **** IMPORTANTE: "marketplace/obtener_productos_completos" ****
       const response = await fetch(
         SERVERURL + "marketplace/obtener_productos_completos",
         {
@@ -100,16 +99,14 @@ document.addEventListener("DOMContentLoaded", function () {
       if (displayedProducts.has(product.id_producto)) return;
       displayedProducts.add(product.id_producto);
 
-      // Llamamos directamente a createProductCard(product)
       createProductCard(product);
     });
   }
 
   // --------------------------------------------------------------------------
-  // 3) createProductCard(product): construye la tarjeta con la info completita
+  // 3) createProductCard(product): construye la tarjeta con la info completa
   // --------------------------------------------------------------------------
   function createProductCard(product) {
-    // Extraemos los campos que necesitas
     const {
       id_producto,
       nombre_producto,
@@ -122,8 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
       url_imporsuit,
       nombre_tienda,
       Es_Favorito,
-      image_path,
-      // etc. (si tienes más campos que quieras usar)
+      imagenes_adicionales = [],
     } = product;
 
     const esFavorito = Es_Favorito === 1 || Es_Favorito === "1";
@@ -150,90 +146,41 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>`;
     }
 
-    // Asumimos que si tu DB dice "agregadoTienda" o "agregadoFunnel",
-    // habrías de meterlo también a tu SELECT,
-    // pero si no, quítalo.
-    // Ejemplo:
-    let agregadoTienda = product.agregadoTienda; // si tu SELECT lo retornara
-    let agregadoFunnel = product.agregadoFunnel; // si tu SELECT lo retornara
+    // Selecciona la primera imagen adicional como principal
+    let finalImagePath =
+      imagenes_adicionales.length > 0
+        ? obtenerURLImagen(imagenes_adicionales[0].url, SERVERURL)
+        : SERVERURL + "public/img/broken-image.png";
 
-    // URL de imagen principal
-    let finalImagePath = obtenerURLImagen(image_path, SERVERURL);
+    const card = document.createElement("div");
+    card.className = "card card-custom position-relative";
 
-    // Verificar la imagen
-    verificarImagen(finalImagePath).then((validador_imagen) => {
-      if (validador_imagen === 0) {
-        finalImagePath = SERVERURL + "public/img/broken-image.png";
-      }
-
-      const card = document.createElement("div");
-      card.className = "card card-custom position-relative";
-
-      card.innerHTML = `
-        <div class="image-container position-relative">
-          ${botonId_inventario}
-          <img src="${finalImagePath}" class="card-img-top" alt="Product Image">
-          <div class="add-to-store-button ${
-            agregadoTienda ? "added" : ""
-          }" data-product-id="${id_producto}">
-            <span class="plus-icon">+</span>
-            <span class="add-to-store-text">
-              ${agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"}
-            </span>
-          </div>
-          <div class="add-to-funnel-button ${
-            agregadoFunnel ? "added" : ""
-          }" data-funnel-id="${id_inventario}">
-            <span class="plus-icon">+</span>
-            <span class="add-to-funnel-text">
-              ${agregadoFunnel ? "Quitar de funnel" : "Añadir a funnel"}
-            </span>
-          </div>
+    card.innerHTML = `
+      <div class="image-container position-relative">
+        ${botonId_inventario}
+        <img src="${finalImagePath}" class="card-img-top" alt="Product Image">
+        <div class="add-to-store-button" data-product-id="${id_producto}">
+          <span class="plus-icon">+</span>
+          <span class="add-to-store-text">Añadir a tienda</span>
         </div>
+      </div>
+      <div class="card-body">
+        <h6 class="card-title">${nombre_producto}</h6>
+        <p class="card-text">Stock: ${saldo_stock}</p>
+        <p class="card-text">Precio: $${pvp}</p>
+        <p class="card-text">Proveedor: ${nombre_tienda}</p>
+        ${boton_enviarCliente}
+      </div>
+    `;
 
-        <button class="btn btn-heart ${esFavorito ? "clicked" : ""}"
-                onclick="handleHeartClick(${id_producto}, ${esFavorito})">
-          <i class="fas fa-heart"></i>
-        </button>
-
-        <div class="card-body text-center d-flex flex-column justify-content-between">
-          <div>
-            <h6 class="card-title"><strong>${nombre_producto}</strong></h6>
-            <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
-            <p class="card-text">Precio Proveedor: <strong>$${
-              pcp || 0
-            }</strong></p>
-            <p class="card-text">Precio Sugerido: <strong>$${
-              pvp || 0
-            }</strong></p>
-            <p class="card-text">
-              Proveedor: 
-              <a href="#" onclick="abrirModal_infoTienda('${
-                url_imporsuit || ""
-              }')" style="font-size: 15px;">
-                ${nombre_tienda || "Nombre tienda"}
-              </a>
-            </p>
-          </div>
-          <div>
-            <button class="btn btn-description" onclick="agregarModal_marketplace(${id_producto})">
-              Descripción
-            </button>
-            ${boton_enviarCliente}
-          </div>
-        </div>
-      `;
-
-      cardContainer.appendChild(card);
-    });
+    cardContainer.appendChild(card);
   }
 
   // --------------------------------------------------------------------------
-  // 4) Al cargar la página, primer fetch
+  // 4) Inicializar
   // --------------------------------------------------------------------------
   fetchProducts();
 
-  // Botón “Cargar más”
   loadMoreButton.addEventListener("click", () => {
     if (!isLoading) {
       isLoading = true;
@@ -242,6 +189,18 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchProducts(false);
     }
   });
+
+  // Helper para obtener URL de imágenes
+  function obtenerURLImagen(imagePath, serverURL) {
+    if (imagePath) {
+      if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+        return imagePath;
+      } else {
+        return `${serverURL}${imagePath}`;
+      }
+    }
+    return `${serverURL}public/img/broken-image.png`;
+  }
 
   // --------------------------------------------------------------------------
   // 5) Resto de funciones (filtros, etc.)
@@ -561,29 +520,3 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
-
-{
-  /* // --------------------------------------------------------------------------
-// Helper para procesar la URL de la imagen
-// -------------------------------------------------------------------------- */
-}
-function obtenerURLImagen(imagePath, serverURL) {
-  if (imagePath) {
-    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-      return imagePath;
-    } else {
-      if (
-        imagePath.includes("../") ||
-        imagePath.includes("..\\") ||
-        imagePath === "" ||
-        imagePath === "."
-      ) {
-        return serverURL + "public/img/broken-image.png";
-      }
-      return serverURL + imagePath;
-    }
-  } else {
-    console.error("imagePath es null o undefined");
-    return serverURL + "public/img/broken-image.png";
-  }
-}
