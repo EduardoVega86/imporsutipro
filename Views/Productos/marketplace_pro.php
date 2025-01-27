@@ -16,14 +16,17 @@
                     </div>
                     <div class="slider-container">
                         <div class="slider" id="proveedores-slider">
-                            <h5>Proveedores</h5>
+                            <button class="slider-arrow left-arrow">&lt;</button>
                             <div class="slider-content"></div>
+                            <button class="slider-arrow right-arrow">&gt;</button>
                         </div>
                         <div class="slider" id="categorias-slider">
-                            <h5>Categorías</h5>
+                            <button class="slider-arrow left-arrow">&lt;</button>
                             <div class="slider-content"></div>
+                            <button class="slider-arrow right-arrow">&gt;</button>
                         </div>
                     </div>
+
                     <!-- <div class="col-md-2 mb-3 mb-md-0">
                         <select id="proveedor_filtroMarketplace" class="form-select me-2">
                             <option selected value="">Seleccione un proveedor</option>

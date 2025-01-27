@@ -702,8 +702,8 @@ function cargarSliders() {
         const button = document.createElement("button");
         button.textContent = proveedor.nombre_tienda.toUpperCase();
         button.onclick = () => {
-          formData_filtro.set("plataforma", proveedor.id_plataforma);
-          clearAndFetchProducts();
+          formData_filtro.set("plataforma", proveedor.id_plataforma); // O "linea" para categorías
+          fetchProducts(true); // Llama directamente para asegurar la actualización
         };
         proveedoresSlider.appendChild(button);
       });
@@ -789,6 +789,27 @@ document.addEventListener("DOMContentLoaded", cargarSliders);
 
 // Ejecutar la función cuando la página se haya cargado
 window.addEventListener("load", vaciarTmpPedidos);
+
+function setupSliderNavigation(sliderId) {
+  const slider = document.getElementById(sliderId);
+  const content = slider.querySelector(".slider-content");
+  const leftArrow = slider.querySelector(".left-arrow");
+  const rightArrow = slider.querySelector(".right-arrow");
+
+  leftArrow.addEventListener("click", () => {
+      content.scrollBy({ left: -200, behavior: "smooth" });
+  });
+
+  rightArrow.addEventListener("click", () => {
+      content.scrollBy({ left: 200, behavior: "smooth" });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  setupSliderNavigation("proveedores-slider");
+  setupSliderNavigation("categorias-slider");
+});
+
 
 /* abrir modal */
 function abrirModal_infoTienda(tienda) {

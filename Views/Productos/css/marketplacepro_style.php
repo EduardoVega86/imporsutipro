@@ -588,30 +588,48 @@
     /* Diseńo Sliders*/
     .slider-container {
         display: flex;
-        justify-content: space-between;
-        gap: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
         margin-bottom: 20px;
     }
 
     .slider {
+        position: relative;
         flex: 1;
+        overflow: hidden;
         background: #f9f9f9;
-        padding: 15px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow-x: auto;
-        white-space: nowrap;
-        scroll-behavior: smooth;
-    }
-
-    .slider h5 {
-        margin-bottom: 10px;
-        font-weight: bold;
+        padding: 10px;
     }
 
     .slider-content {
         display: flex;
         gap: 10px;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding: 10px 0;
+    }
+
+    .slider-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+    }
+
+    .slider-arrow.left-arrow {
+        left: 10px;
+    }
+
+    .slider-arrow.right-arrow {
+        right: 10px;
     }
 
     .slider-content button {
@@ -626,5 +644,12 @@
 
     .slider-content button:hover {
         background: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+        .slider-content button {
+            font-size: 12px;
+            padding: 8px 16px;
+        }
     }
 </style>
