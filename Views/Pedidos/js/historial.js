@@ -125,7 +125,7 @@ const listHistorialPedidos = async () => {
         plataforma = procesarPlataforma(historialPedido.plataforma);
       }
 
-      let boton_envia_automatizador;
+      let boton_envia_automatizador = "";
       /* if (ID_PLATAFORMA == 3436) {
         boton_envia_automatizador = `<button class="btn btn-sm btn-danger" onclick="enviar_mensaje_automatizador(
           '${historialPedido.numero_factura}',
