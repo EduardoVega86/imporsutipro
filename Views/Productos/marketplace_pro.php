@@ -11,7 +11,6 @@
         <div class="caja p-4 shadow-sm bg-white">
             <div class="caja_filtros">
                 <div class="slider-container">
-                    <h3>Proveedores</h3>
                     <div class="slider" id="proveedores-slider">
                         <button class="slider-arrow left-arrow">&lt;</button>
                         <div class="slider-content"></div>
@@ -19,7 +18,6 @@
                     </div>
                 </div>
                 <div class="slider-container">
-                    <h3>Categorías</h3>
                     <div class="slider" id="categorias-slider">
                         <button class="slider-arrow left-arrow">&lt;</button>
                         <div class="slider-content"></div>
