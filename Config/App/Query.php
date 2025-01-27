@@ -20,7 +20,7 @@ class Query extends Conexion
             return $this->handleError($e->getMessage(), $e->getCode());
         }
     }
-    
+
     public function select_all($sql)
     {
         $stmt = $this->pdo->prepare($sql);

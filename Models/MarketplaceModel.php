@@ -219,16 +219,29 @@ ORDER BY
         ";
     
         // 4) Obtenemos el array básico de productos
-        $result = $this->select_all($sql);
-    
-        // 5) Por cada producto devuelto, traemos sus imágenes adicionales (si quieres)
-        //    Esto reemplaza tu endpoint "Productos/listar_imagenAdicional_productos"
+        $result = $this->select($sql);
+
+        // Asegúrate de que $result sea un array
+        if (!is_array($result)) {
+            error_log("Error: El resultado de la consulta no es un array. Valor devuelto: " . print_r($result, true));
+            return [];
+        }
+
+        if (empty($result)) {
+            error_log("La consulta no devolvió resultados.");
+            return [];
+        }
+
+        // 5) Por cada producto devuelto, traemos sus imágenes adicionales
         foreach ($result as &$row) {
+            if (!is_array($row)) {
+                error_log("Error: Un elemento del resultado no es un array: " . print_r($row, true));
+                continue;
+            }
+
             $idProducto = $row['id_producto'];
-            // Llamamos a la función para obtener imágenes
             $row['imagenes_adicionales'] = $this->obtenerImagenesAdicionales($idProducto);
         }
-    
         // 6) Retornamos el array completo
         return $result;
     }
