@@ -422,6 +422,21 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function enviar_mensaje_automatizador()
+    {
+        $nueva_factura = $_POST['nueva_factura'] ?? "";
+        $ciudad_cot = $_POST['ciudad_cot'] ?? "";
+        $celular = $_POST['celular'] ?? "";
+        $nombre_cliente = $_POST['nombre'] ?? "";
+        $c_principal = $_POST['c_principal'] ?? "";
+        $c_secundaria = $_POST['c_secundaria'] ?? "";
+        $contiene = $_POST['contiene'] ?? "";
+        $monto_factura = $_POST['monto_factura'] ?? "";
+
+        $data = $this->model->enviar_mensaje_automatizador($_SESSION['id_plataforma'], $nueva_factura, $ciudad_cot, $celular, $nombre_cliente, $c_principal, $c_secundaria, $contiene, $monto_factura);
+        echo json_encode($data);
+    }
+
     public function nuevo_pedido_tienda()
     {
         $fecha_factura = date("Y-m-d H:i:s");
