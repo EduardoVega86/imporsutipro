@@ -27,6 +27,7 @@
 
         <!-- Lista con diseño -->
         <div class="mt-5">
+            <label for="" style="font-size: 1.5rem;">Recuerda tener listos los siguientes datos para la antes de entrar en la reunion:</label>
             <ul class="list-group text-center" style="font-size: 1.2rem; font-weight: bold; list-style: none; padding: 0;">
                 <li class="list-group-item" style="border: none; padding: 10px 0;">
                     <span style="color: #5A2D82; font-size: 1.5rem;">&#9733;</span> Número Nuevo
