@@ -125,6 +125,18 @@ const listHistorialPedidos = async () => {
         plataforma = procesarPlataforma(historialPedido.plataforma);
       }
 
+      let boton_envia_automatizador;
+      boton_envia_automatizador = `<button class="btn btn-sm btn-danger" onclick="enviar_mensaje_automatizador(
+      ${historialPedido.nueva_factura},
+      ${historialPedido.ciudad_cot},
+      ${historialPedido.celular},
+      ${historialPedido.nombre},
+      ${historialPedido.c_principal},
+      ${historialPedido.c_secundaria},
+      ${historialPedido.contiene},
+      ${historialPedido.monto_factura},
+      )"><i class="fa-brands fa-whatsapp"></i></button>`;
+
       content += `
                 <tr>
                     <td>${historialPedido.numero_factura}</td>
@@ -146,6 +158,7 @@ const listHistorialPedidos = async () => {
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
                         <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
+                        ${boton_envia_automatizador}
                     </td>
                 </tr>`;
     });
@@ -260,6 +273,50 @@ function boton_anularPedido(id_factura) {
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
       alert("Hubo un problema al elimnar pedido");
+    },
+  });
+}
+
+function enviar_mensaje_automatizador(
+  nueva_factura,
+  ciudad_cot,
+  celular,
+  nombre,
+  c_principal,
+  c_secundaria,
+  contiene,
+  monto_factura
+) {
+  let formData = new FormData();
+  formData.append("nueva_factura", nueva_factura);
+  formData.append("ciudad_cot", ciudad_cot);
+  formData.append("celular", celular);
+  formData.append("nombre", nombre);
+  formData.append("c_principal", c_principal);
+  formData.append("c_secundaria", c_secundaria);
+  formData.append("contiene", contiene);
+  formData.append("monto_factura", monto_factura);
+
+  $.ajax({
+    url: SERVERURL + "pedidos/enviar_mensaje_automatizador",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
     },
   });
 }
