@@ -19,26 +19,26 @@ class Marketplace extends Controller
 
     public function obtener_productos()
     {
-        $nombre= $_POST['nombre'];
-        $linea= $_POST['linea'];
-        $plataforma= $_POST['plataforma'];
-        $min= $_POST['min'];
-        $max= $_POST['max'];
-        $favorito= $_POST['favorito'];
-        
+        $nombre = $_POST['nombre'];
+        $linea = $_POST['linea'];
+        $plataforma = $_POST['plataforma'];
+        $min = $_POST['min'];
+        $max = $_POST['max'];
+        $favorito = $_POST['favorito'];
+
         $response = $this->model->obtener_productos($_SESSION['id_plataforma'], $nombre, $linea, $plataforma, $min, $max, $favorito);
         echo json_encode($response);
     }
-    
+
     public function obtener_productos_privados()
     {
-        $nombre= $_POST['nombre'];
-        $linea= $_POST['linea'];
-        $plataforma= $_POST['plataforma'];
-        $min= $_POST['min'];
-        $max= $_POST['max'];
-        $favorito= $_POST['favorito'];
-        
+        $nombre = $_POST['nombre'];
+        $linea = $_POST['linea'];
+        $plataforma = $_POST['plataforma'];
+        $min = $_POST['min'];
+        $max = $_POST['max'];
+        $favorito = $_POST['favorito'];
+
         $response = $this->model->obtener_productos_privados($_SESSION['id_plataforma'], $nombre, $linea, $plataforma, $min, $max, $favorito);
         echo json_encode($response);
     }
@@ -72,34 +72,32 @@ class Marketplace extends Controller
         $response = $this->model->vaciarTmp();
         echo json_encode($response);
     }
-    
-     public function obtener_precios_productos($id, $sku)
+
+    public function obtener_precios_productos($id, $sku)
     {
         $response = $this->model->obtenerPreciosProductos($id, $sku, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-    
-     public function obtenerMaximo()
+
+    public function obtenerMaximo()
     {
         $response = $this->model->obtenerMaximo();
         echo $response;
     }
-    
-    public function obtenerProveedores ()
+
+    public function obtenerProveedores()
     {
         $response = $this->model->obtenerProveedores();
-       echo json_encode($response);
+        echo json_encode($response);
     }
-    
-    
-     public function agregarFavoritos()
+
+
+    public function agregarFavoritos()
     {
         $id_producto = $_POST['id_producto'];
-        
-         $favorito = $_POST['favorito'];
-        $response = $this->model->agregarFavoritos($id_producto,$_SESSION['id_plataforma'], $favorito);
-       echo json_encode($response);
+
+        $favorito = $_POST['favorito'];
+        $response = $this->model->agregarFavoritos($id_producto, $_SESSION['id_plataforma'], $favorito);
+        echo json_encode($response);
     }
-    
-    
 }

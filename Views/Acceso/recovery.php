@@ -49,8 +49,9 @@
             data: formData,
             processData: false, // No procesar los datos
             contentType: false, // No establecer ningún tipo de contenido
+            dataType: "json",
             success: function(response) {
-                if (response === 'true') {
+                if (response.exists) {
                     $('#cambiar_contrasena').removeClass('hidden');
                     $('#token_valido').addClass('hidden');
                 } else {
