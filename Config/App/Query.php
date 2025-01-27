@@ -20,6 +20,15 @@ class Query extends Conexion
             return $this->handleError($e->getMessage(), $e->getCode());
         }
     }
+    
+    public function select_all($sql)
+    {
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result; // array de arrays
+    }
+    
 
     //$data = [$id_plataforma];
     // select  * from plataformas where id_plataforma = ?;

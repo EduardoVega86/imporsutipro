@@ -219,7 +219,7 @@ ORDER BY
         ";
     
         // 4) Obtenemos el array básico de productos
-        $result = $this->select($sql);
+        $result = $this->select_all($sql);
     
         // 5) Por cada producto devuelto, traemos sus imágenes adicionales (si quieres)
         //    Esto reemplaza tu endpoint "Productos/listar_imagenAdicional_productos"
