@@ -154,7 +154,14 @@ ORDER BY
     
         // 2) Obtener la matriz, si aplica
         $id_matriz = $this->obtenerMatriz();
-        $id_matriz = $id_matriz[0]['idmatriz'];
+
+        // Verificar si $id_matrizData es un array y tiene al menos [0]['idmatriz']
+        if (!empty($id_matrizData) && is_array($id_matrizData) && isset($id_matrizData[0]['idmatriz'])) {
+            $id_matriz = $id_matrizData[0]['idmatriz'];
+        } else {
+            // Si está vacío o no es array, por ejemplo devolvemos 0
+            $id_matriz = 0;
+        }
     
         // 3) Query principal que unifica la data (similar a tu "obtener_productos")
         //    Incluimos LEFT JOIN a productos_favoritos para saber si es favorito
