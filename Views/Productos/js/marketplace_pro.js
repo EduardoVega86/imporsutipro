@@ -686,57 +686,106 @@ const vaciarTmpPedidos = async () => {
   }
 };
 
-//cargar select categoria
-$(document).ready(function () {
-  // Realiza la solicitud AJAX para obtener la lista de categorias
-  $.ajax({
-    url: SERVERURL + "productos/cargar_categorias",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-      // Asegúrate de que la respuesta es un array
-      if (Array.isArray(response)) {
-        response.forEach(function (categoria) {
-          // Agrega una nueva opción al select por cada categoria
-          $("#categoria_filtroMarketplace").append(
-            new Option(categoria.nombre_linea, categoria.id_linea)
-          );
-        });
-      } else {
-        console.log("La respuesta de la API no es un array:", response);
-      }
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de categorias:", error);
-    },
-  });
+function cargarSliders() {
+  const proveedoresSlider = document.querySelector(
+    "#proveedores-slider .slider-content"
+  );
+  const categoriasSlider = document.querySelector(
+    "#categorias-slider .slider-content"
+  );
+
+  // Fetch proveedores
+  fetch(SERVERURL + "marketplace/obtenerProveedores")
+    .then((response) => response.json())
+    .then((proveedores) => {
+      proveedores.forEach((proveedor) => {
+        const button = document.createElement("button");
+        button.textContent = proveedor.nombre_tienda.toUpperCase();
+        button.onclick = () => {
+          formData_filtro.set("plataforma", proveedor.id_plataforma);
+          clearAndFetchProducts();
+        };
+        proveedoresSlider.appendChild(button);
+      });
+    })
+    .catch((error) =>
+      console.error("Error al cargar proveedores en slider:", error)
+    );
+
+  // Fetch categorias
+  fetch(SERVERURL + "productos/cargar_categorias")
+    .then((response) => response.json())
+    .then((categorias) => {
+      categorias.forEach((categoria) => {
+        const button = document.createElement("button");
+        button.textContent = categoria.nombre_linea;
+        button.onclick = () => {
+          formData_filtro.set("linea", categoria.id_linea);
+          clearAndFetchProducts();
+        };
+        categoriasSlider.appendChild(button);
+      });
+    })
+    .catch((error) =>
+      console.error("Error al cargar categorías en slider:", error)
+    );
+}
+
+// Llamar al cargar sliders al cargar la página
+document.addEventListener("DOMContentLoaded", cargarSliders);
+
+// //cargar select categoria
+// $(document).ready(function () {
+//   // Realiza la solicitud AJAX para obtener la lista de categorias
+//   $.ajax({
+//     url: SERVERURL + "productos/cargar_categorias",
+//     type: "GET",
+//     dataType: "json",
+//     success: function (response) {
+       // Asegúrate de que la respuesta es un array
+//       if (Array.isArray(response)) {
+//         response.forEach(function (categoria) {
+           // Agrega una nueva opción al select por cada categoria
+//           $("#categoria_filtroMarketplace").append(
+//             new Option(categoria.nombre_linea, categoria.id_linea)
+//           );
+//         });
+//       } else {
+//         console.log("La respuesta de la API no es un array:", response);
+//       }
+//     },
+//     error: function (error) {
+//       console.error("Error al obtener la lista de categorias:", error);
+//     },
+//   });
 
   // Realiza la solicitud AJAX para obtener la lista de proveedores
-  $.ajax({
-    url: SERVERURL + "marketplace/obtenerProveedores",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-      // Asegúrate de que la respuesta es un array
-      if (Array.isArray(response)) {
-        response.forEach(function (proveedor) {
-          // Agrega una nueva opción al select por cada proveedor
-          $("#proveedor_filtroMarketplace").append(
-            new Option(
-              proveedor.nombre_tienda.toUpperCase(),
-              proveedor.id_plataforma
-            )
-          );
-        });
-      } else {
-        console.log("La respuesta de la API no es un array:", response);
-      }
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de proveedores:", error);
-    },
-  });
-});
+
+
+//   $.ajax({
+//     url: SERVERURL + "marketplace/obtenerProveedores",
+//     type: "GET",
+//     dataType: "json",
+//     success: function (response) {
+// Asegúrate de que la respuesta es un array
+//       if (Array.isArray(response)) {
+//         response.forEach(function (proveedor) {           // Agrega una nueva opción al select por cada proveedor
+//           $("#proveedor_filtroMarketplace").append(
+//             new Option(
+//               proveedor.nombre_tienda.toUpperCase(),
+//               proveedor.id_plataforma
+//             )
+//           );
+//         });
+//       } else {
+//         console.log("La respuesta de la API no es un array:", response);
+//       }
+//     },
+//     error: function (error) {
+//       console.error("Error al obtener la lista de proveedores:", error);
+//     },
+//   });
+// });
 
 // Ejecutar la función cuando la página se haya cargado
 window.addEventListener("load", vaciarTmpPedidos);

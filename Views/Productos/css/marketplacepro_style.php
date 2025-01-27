@@ -584,4 +584,47 @@
         transform: translateY(-2px);
         /* Efecto de elevación */
     }
+
+    /* Diseńo Sliders*/
+    .slider-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .slider {
+        flex: 1;
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow-x: auto;
+        white-space: nowrap;
+        scroll-behavior: smooth;
+    }
+
+    .slider h5 {
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .slider-content {
+        display: flex;
+        gap: 10px;
+    }
+
+    .slider-content button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        background: #007bff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .slider-content button:hover {
+        background: #0056b3;
+    }
 </style>

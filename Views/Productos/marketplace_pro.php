@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Productos/css/marketplace_style.php'; ?>
+<?php require_once './Views/Productos/css/marketplacepro_style.php'; ?>
 
 <?php require_once './Views/Productos/Modales/descripcion_marketplace.php'; ?>
 <?php require_once './Views/Productos/Modales/Seleccion_productoAtributo.php'; ?>
@@ -14,7 +14,19 @@
                     <div class="col-md-4 mb-3 mb-md-0">
                         <input type="text" class="form-control" placeholder="Nombre" id="buscar_nombre">
                     </div>
-                    <div class="col-md-2 mb-3 mb-md-0">
+                    <div class="slider-container">
+                        <div class="slider" id="proveedores-slider">
+                            <h5>Proveedores</h5>
+                            <div class="slider-content"></div>
+                        </div>
+                        <div class="slider" id="categorias-slider">
+                            <h5>Categorías</h5>
+                            <div class="slider-content"></div>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="col-md-2 mb-3 mb-md-0">
                         <select id="proveedor_filtroMarketplace" class="form-select me-2">
                             <option selected value="">Seleccione un proveedor</option>
                         </select>
@@ -23,7 +35,7 @@
                         <select id="categoria_filtroMarketplace" class="form-select me-2">
                             <option selected value="">Seleccione una categoría</option>
                         </select>
-                    </div>
+                    </div> -->
                     <div class="boton_favoritos">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="favoritosSwitch">
