@@ -118,6 +118,172 @@ ORDER BY
         //echo $sql;
         return $this->select($sql);
     }
+
+    public function obtener_productos_completos(
+        $plataforma,      // $_SESSION['id_plataforma']
+        $nombre,
+        $linea,
+        $plataforma_filtro,
+        $min,
+        $max,
+        $favorito
+    ) {
+        // 1) Construir $where en base a tus filtros
+        $where = '';
+        $favorito_filtro = '';
+    
+        if (!empty($nombre)) {
+            $where .= " AND p.nombre_producto LIKE '%$nombre%' ";
+        }
+        if (!empty($linea)) {
+            $where .= " AND p.id_linea_producto = $linea ";
+        }
+        if (!empty($plataforma_filtro)) {
+            $where .= " AND ib.id_plataforma = $plataforma_filtro ";
+        }
+        if (!empty($min)) {
+            $where .= " AND ib.pvp >= $min ";
+        }
+        if (!empty($max)) {
+            $where .= " AND ib.pvp <= $max ";
+        }
+        if ($favorito == 1) {
+            // Si $favorito=1, filtramos sólo los que están en 'productos_favoritos'
+            $favorito_filtro = " AND pf.id_producto IS NOT NULL ";
+        }
+    
+        // 2) Obtener la matriz, si aplica
+        $id_matriz = $this->obtenerMatriz();
+        $id_matriz = $id_matriz[0]['idmatriz'];
+    
+        // 3) Query principal que unifica la data (similar a tu "obtener_productos")
+        //    Incluimos LEFT JOIN a productos_favoritos para saber si es favorito
+        //    y JOIN a plataformas p2 para poder traer, si quieres, su 'url_imporsuit' (depende de tus necesidades)
+        $sql = "
+          SELECT DISTINCT
+            p.id_producto,
+            p.nombre_producto,
+            p.descripcion_producto,
+            p.producto_variable,
+            ib.id_inventario,
+            ib.sku,
+            ib.saldo_stock,
+            ib.pvp,
+            ib.image_path, 
+            pl.url_imporsuit,
+            CASE WHEN pf.id_producto IS NULL THEN 0 ELSE 1 END AS Es_Favorito
+          FROM productos p
+          JOIN (
+              SELECT 
+                  ibx.id_producto, 
+                  MIN(ibx.sku) AS min_sku, 
+                  ibx.id_plataforma, 
+                  ibx.bodega, 
+                  MIN(ibx.id_inventario) AS min_id_inventario
+              FROM inventario_bodegas ibx
+              WHERE ibx.bodega != 0 
+                AND ibx.bodega != 50000
+                AND ibx.saldo_stock > 0
+              GROUP BY 
+                  ibx.id_producto, 
+                  ibx.id_plataforma, 
+                  ibx.bodega
+          ) AS ib_filtered
+             ON p.id_producto = ib_filtered.id_producto
+          JOIN inventario_bodegas ib
+             ON ib.id_producto   = ib_filtered.id_producto
+            AND ib.sku           = ib_filtered.min_sku
+            AND ib.id_inventario = ib_filtered.min_id_inventario
+            AND ib.saldo_stock   > 0
+          JOIN plataformas pl
+             ON ib.id_plataforma = pl.id_plataforma
+          LEFT JOIN productos_favoritos pf
+             ON pf.id_producto = p.id_producto
+             AND pf.id_plataforma = $plataforma
+          WHERE 
+            p.drogshipin = 1 
+            AND p.producto_privado = 0
+            $where 
+            $favorito_filtro
+            AND ib.id_plataforma NOT IN (
+              SELECT id_plataforma FROM plataforma_matriz WHERE id_matriz = $id_matriz
+            )
+          ORDER BY RAND()
+        ";
+    
+        // 4) Obtenemos el array básico de productos
+        $result = $this->select($sql);
+    
+        // 5) Por cada producto devuelto, traemos sus imágenes adicionales (si quieres)
+        //    Esto reemplaza tu endpoint "Productos/listar_imagenAdicional_productos"
+        foreach ($result as &$row) {
+            $idProducto = $row['id_producto'];
+            // Llamamos a la función para obtener imágenes
+            $row['imagenes_adicionales'] = $this->obtenerImagenesAdicionales($idProducto);
+        }
+    
+        // 6) Retornamos el array completo
+        return $result;
+    }
+    
+    /**
+     * Función interna para traer las imágenes adicionales
+     * (Reemplaza 'listar_imagenAdicional_productos').
+     */
+    private function obtenerImagenesAdicionales($idProducto)
+    {
+        // Ajusta si tu tabla es 'imagenes_adicionales_producto'
+        // o si es 'imagenes_adicionales_productoTienda', etc.
+        // y usa los campos que realmente necesites (url, num_imagen, etc.)
+        $sql = "SELECT url, num_imagen 
+                FROM imagenes_adicionales_producto 
+                WHERE id_producto = $idProducto";
+        return $this->select($sql);
+    }
+    
+    
+    public function getInitialData($plataforma)
+    {
+        // 1) Obtener precio máximo
+        $sqlMax = "SELECT MAX(ib.pvp) AS precio_maximo
+                   FROM inventario_bodegas ib 
+                   JOIN productos p ON p.id_producto = ib.id_producto
+                   WHERE p.drogshipin=1";
+        $rowMax = $this->select($sqlMax);
+        $precioMaximo = $rowMax[0]['precio_maximo'];
+    
+        // 2) Obtener categorías
+        //    Reutiliza tu lógica: "SELECT * FROM lineas WHERE id_plataforma = $plataforma or global=1"
+        $sqlCat = "SELECT * FROM lineas 
+                   WHERE id_plataforma = $plataforma 
+                      OR global = 1";
+        $categorias = $this->select($sqlCat);
+    
+        // 3) Obtener proveedores
+        //    Reutiliza la lógica de "obtenerProveedores()"
+        $id_matriz = $this->obtenerMatriz();
+        $id_matriz = $id_matriz[0]['idmatriz'];
+    
+        $sqlProv = "
+            SELECT * FROM plataformas
+            WHERE proveedor = 1
+              AND id_plataforma NOT IN (
+                SELECT id_plataforma
+                FROM plataforma_matriz
+                WHERE id_matriz = $id_matriz
+              )
+        ";
+        $proveedores = $this->select($sqlProv);
+    
+        // 4) Armar respuesta
+        $response = [
+            'precioMaximo' => $precioMaximo,
+            'categorias'   => $categorias,
+            'proveedores'  => $proveedores,
+        ];
+    
+        return $response;
+    }
     
     
     public function obtener_productos_privados($plataforma, $nombre, $linea, $plataforma_filtro, $min, $max, $favorito)
