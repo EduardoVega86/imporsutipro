@@ -396,6 +396,22 @@ document.addEventListener("DOMContentLoaded", function () {
       clearAndFetchProducts(); // Reset and fetch products based on new filter
     }, 300)
   );
+  $("#buscar_categoria").on(
+    "input",
+    debounce(function () {
+      var q = $("#buscar_categoria").val();
+      formData_filtro.set("linea", q);
+      clearAndFetchProducts(); // Reset and fetch products based on new filter
+    }, 300)
+  );
+  $("#buscar_proveedor").on(
+    "input",
+    debounce(function () {
+      var q = $("#buscar_proveedor").val();
+      formData_filtro.set("plataforma", q);
+      clearAndFetchProducts(); // Reset and fetch products based on new filter
+    }, 300)
+  );
 
   $("#categoria_filtroMarketplace").change(function () {
     var categoria = $("#categoria_filtroMarketplace").val();

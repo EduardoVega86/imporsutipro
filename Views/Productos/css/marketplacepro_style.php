@@ -345,7 +345,9 @@
     .caja_filtros {
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 10px;
+        margin-left: -180px;
+        margin-right: -80px;
     }
 
     .primer_seccionFiltro {
@@ -629,11 +631,11 @@
     }
 
     .slider-arrow.left-arrow {
-        left: 10px;
+        left: 3px;
     }
 
     .slider-arrow.right-arrow {
-        right: 10px;
+        right: -1px;
     }
 
     .slider-content button {
