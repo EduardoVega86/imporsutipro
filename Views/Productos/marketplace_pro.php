@@ -24,8 +24,6 @@
                             <div class="slider-content"></div>
                         </div>
                     </div>
-
-
                     <!-- <div class="col-md-2 mb-3 mb-md-0">
                         <select id="proveedor_filtroMarketplace" class="form-select me-2">
                             <option selected value="">Seleccione un proveedor</option>
