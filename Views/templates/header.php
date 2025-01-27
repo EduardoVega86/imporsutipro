@@ -66,7 +66,10 @@
                 <?php } ?>
                 <a href="<?php echo SERVERURL ?>dashboard"><i class='fa-solid fa-chart-line menu-icon'></i> <span class="menu-text">Dashboard</span></a>
 
-                <a href="#" class="dropdown-btn" data-target="#submenu01"><i class='bx bx-search menu-icon'></i> <span class="menu-text">Marketplace</span></a>
+                <a href="<?php echo SERVERURL ?>Productos/marketplace" class="dropdown-btn">
+                    <i class='bx bx-search menu-icon'></i>
+                    <span class="menu-text">Marketplace</span>
+                </a>
 
                 <div class="submenu" id="submenu01">
                     <a href="<?php echo SERVERURL ?>Productos/marketplace"><i class='bx bx-shopping-bag menu-icon'></i> <span class="menu-text">Productos</span></a>
