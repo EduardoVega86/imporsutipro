@@ -345,7 +345,9 @@
     .caja_filtros {
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 10px;
+        margin-left: -180px;
+        margin-right: -80px;
     }
 
     .primer_seccionFiltro {
@@ -618,7 +620,7 @@
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        background: #007bff;
+        background: rgb(17, 17, 17);
         color: white;
         border: none;
         border-radius: 50%;
@@ -629,18 +631,18 @@
     }
 
     .slider-arrow.left-arrow {
-        left: 10px;
+        left: 3px;
     }
 
     .slider-arrow.right-arrow {
-        right: 10px;
+        right: -1px;
     }
 
     .slider-content button {
         padding: 10px 20px;
         border: none;
-        border-radius: 20px;
-        background: #007bff;
+        border-radius: 5px;
+        background: rgb(168, 191, 217);
         color: white;
         cursor: pointer;
         transition: background-color 0.3s ease;

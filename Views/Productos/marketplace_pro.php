@@ -7,7 +7,7 @@
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 
 <div class="custom-container-fluid mt-4" style="text-align: -webkit-center;">
-    <div style="padding-bottom: 20px; padding-top: 20px;">
+    <div style="padding-bottom: 20px; padding-top: 20px; width: 81%;">
         <div class="caja p-4 shadow-sm bg-white">
             <div class="caja_filtros">
                 <div class="slider-container">
@@ -16,6 +16,8 @@
                         <div class="slider-content"></div>
                         <button class="slider-arrow right-arrow">&gt;</button>
                     </div>
+                </div>
+                <div class="slider-container">
                     <div class="slider" id="categorias-slider">
                         <button class="slider-arrow left-arrow">&lt;</button>
                         <div class="slider-content"></div>
@@ -24,7 +26,7 @@
                 </div>
                 <div class="primer_seccionFiltro">
                     <div class="col-md-4 mb-3 mb-md-0">
-                        <input type="text" class="form-control" placeholder="Nombre" id="buscar_nombre">
+                        <input type="text" class="form-control" placeholder="Nombre:" id="buscar_nombre">
                     </div>
 
                     <!-- <div class="col-md-2 mb-3 mb-md-0">
