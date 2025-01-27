@@ -128,7 +128,7 @@ const listHistorialPedidos = async () => {
       let boton_envia_automatizador;
       if (ID_PLATAFORMA == 3436) {
         boton_envia_automatizador = `<button class="btn btn-sm btn-danger" onclick="enviar_mensaje_automatizador(
-          ${historialPedido.numero_factura},
+          '${historialPedido.numero_factura}',
           ${historialPedido.ciudad_cot},
           '${historialPedido.celular}',
           '${historialPedido.nombre}',
