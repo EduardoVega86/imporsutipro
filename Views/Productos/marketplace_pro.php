@@ -11,20 +11,16 @@
         <div class="caja p-4 shadow-sm bg-white">
             <div class="caja_filtros">
                 <div class="slider-container">
-                    <div class="col-md-4 mb-3 mb-md-0">
-                        <input type="text" class="form-control" placeholder="Proveedor:" id="buscar_proveedor">
-                    </div>
                     <div class="slider" id="proveedores-slider">
+                        <h1>Proveedores</h1>
                         <button class="slider-arrow left-arrow">&lt;</button>
                         <div class="slider-content"></div>
                         <button class="slider-arrow right-arrow">&gt;</button>
                     </div>
                 </div>
                 <div class="slider-container">
-                    <div class="col-md-4 mb-3 mb-md-0">
-                        <input type="text" class="form-control" placeholder="Categoría:" id="buscar_categoria">
-                    </div>
                     <div class="slider" id="categorias-slider">
+                        <h1>Categorías</h1>
                         <button class="slider-arrow left-arrow">&lt;</button>
                         <div class="slider-content"></div>
                         <button class="slider-arrow right-arrow">&gt;</button>
