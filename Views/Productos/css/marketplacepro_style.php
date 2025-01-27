@@ -618,7 +618,7 @@
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        background: #007bff;
+        background: rgb(17, 17, 17);
         color: white;
         border: none;
         border-radius: 50%;
@@ -639,8 +639,8 @@
     .slider-content button {
         padding: 10px 20px;
         border: none;
-        border-radius: 20px;
-        background: #007bff;
+        border-radius: 5px;
+        background: rgb(168, 191, 217);
         color: white;
         cursor: pointer;
         transition: background-color 0.3s ease;

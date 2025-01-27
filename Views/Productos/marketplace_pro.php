@@ -16,6 +16,8 @@
                         <div class="slider-content"></div>
                         <button class="slider-arrow right-arrow">&gt;</button>
                     </div>
+                </div>
+                <div class="slider-container">
                     <div class="slider" id="categorias-slider">
                         <button class="slider-arrow left-arrow">&lt;</button>
                         <div class="slider-content"></div>
