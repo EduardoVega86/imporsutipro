@@ -51,9 +51,7 @@
             contentType: false, // No establecer ningún tipo de contenido
             dataType: "json",
             success: function(response) {
-                console.log(response.exists);
-                console.log(response);
-                if (response.exists === 'true') {
+                if (response.exists) {
                     $('#cambiar_contrasena').removeClass('hidden');
                     $('#token_valido').addClass('hidden');
                 } else {
