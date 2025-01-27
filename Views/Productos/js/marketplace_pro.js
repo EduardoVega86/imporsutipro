@@ -702,8 +702,8 @@ function cargarSliders() {
         const button = document.createElement("button");
         button.textContent = proveedor.nombre_tienda.toUpperCase();
         button.onclick = () => {
-          formData_filtro.set("plataforma", proveedor.id_plataforma); // O "linea" para categorías
-          fetchProducts(true); // Llama directamente para asegurar la actualización
+          formData_filtro.set("plataforma", proveedor.id_plataforma);
+          clearAndFetchProducts(); // Filtra los productos al seleccionar
         };
         proveedoresSlider.appendChild(button);
       });
@@ -721,7 +721,7 @@ function cargarSliders() {
         button.textContent = categoria.nombre_linea;
         button.onclick = () => {
           formData_filtro.set("linea", categoria.id_linea);
-          clearAndFetchProducts();
+          clearAndFetchProducts(); // Filtra los productos al seleccionar
         };
         categoriasSlider.appendChild(button);
       });
@@ -730,6 +730,7 @@ function cargarSliders() {
       console.error("Error al cargar categorías en slider:", error)
     );
 }
+
 
 // Llamar al cargar sliders al cargar la página
 document.addEventListener("DOMContentLoaded", cargarSliders);

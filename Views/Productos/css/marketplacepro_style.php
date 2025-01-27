@@ -585,18 +585,21 @@
         /* Efecto de elevación */
     }
 
-    /* Diseńo Sliders*/
+    /* Contenedor de sliders */
     .slider-container {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
         margin-bottom: 20px;
+        justify-content: center;
     }
 
     .slider {
         position: relative;
         flex: 1;
         overflow: hidden;
+        max-width: 100%;
+        /* Evita que se extienda más allá de la pantalla */
         background: #f9f9f9;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -622,6 +625,7 @@
         width: 30px;
         height: 30px;
         cursor: pointer;
+        z-index: 1;
     }
 
     .slider-arrow.left-arrow {
@@ -640,6 +644,8 @@
         color: white;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        white-space: nowrap;
+        /* Evita que los textos largos se corten */
     }
 
     .slider-content button:hover {
@@ -647,6 +653,10 @@
     }
 
     @media (max-width: 768px) {
+        .slider-container {
+            flex-direction: column;
+        }
+
         .slider-content button {
             font-size: 12px;
             padding: 8px 16px;
