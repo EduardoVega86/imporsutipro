@@ -7,7 +7,7 @@
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 
 <div class="custom-container-fluid mt-4" style="text-align: -webkit-center;">
-    <div style="padding-bottom: 20px; padding-top: 20px;">
+    <div style="padding-bottom: 20px; padding-top: 20px; width: 80%;">
         <div class="caja p-4 shadow-sm bg-white">
             <div class="caja_filtros">
                 <div class="slider-container">
