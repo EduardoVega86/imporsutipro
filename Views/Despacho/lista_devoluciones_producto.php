@@ -6,7 +6,7 @@
         <h2 class="text-center mb-4">Lista Devoluciones Productos</h2>
         <div>
             
-            <button id="generarDespachoBtn" class="btn btn-success">Generar Salida de Mercaderia</button>
+            <button id="generarDespachoBtn" class="btn btn-success">Generar Devolución Producto</button>
         </div>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
