@@ -671,11 +671,24 @@ function procesarMensaje_template($conn, $id_plataforma, $business_phone_id, $no
 }
 
 // Evitar ejecuciones simultáneas
+// Verificar si el archivo de bloqueo existe
 if (file_exists($lockFile)) {
-    logError("El proceso ya está en ejecución.");
-    exit;
+    // Leer el PID del archivo
+    $pid = file_get_contents($lockFile);
+
+    // Validar si el proceso con este PID está activo
+    if (posix_kill((int)$pid, 0)) {
+        // El proceso sigue activo, no permitimos otra ejecución
+        logError("El proceso ya está en ejecución con PID: $pid.");
+        exit;
+    } else {
+        // El proceso ya no está activo, eliminamos el archivo de bloqueo
+        logError("El archivo de bloqueo existe, pero el proceso con PID $pid no está en ejecución. Eliminando archivo.");
+        unlink($lockFile);
+    }
 }
 
+// Crear el archivo de bloqueo con el PID actual
 file_put_contents($lockFile, getmypid());
 
 try {
