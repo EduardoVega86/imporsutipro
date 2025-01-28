@@ -3,7 +3,7 @@ let dataTableListaDespachosIsInitialized = false;
 
 const dataTableListaDespachosOptions = {
   columnDefs: [
-    { className: "centered", targets: [0, 1, 2, 3, 4, 5] },
+    { className: "centered", targets: [0, 1, 2, 3] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   order: [[5, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
@@ -17,7 +17,7 @@ const dataTableListaDespachosOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [0, 1, 2, 3, 4, 5],
+        columns: [0, 1, 2, 3],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
@@ -29,7 +29,7 @@ const dataTableListaDespachosOptions = {
       title: "Panel de Control: Productos",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [0, 1, 2, 3, 4, 5],
+        columns: [0, 1, 2, 3],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
@@ -78,7 +78,7 @@ const initDataTableListaDespachos = async () => {
 
 const listListaDespachos = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "despacho/listarDespachos");
+    const response = await fetch("" + SERVERURL + "despacho/listarDespachosProductos");
     const listaDespachos = await response.json();
 
     let content = ``;
@@ -87,10 +87,8 @@ const listListaDespachos = async () => {
       content += `
                   <tr>
                       <td>${despacho.id_relacion_despacho}</td>
-                      <td>${despacho.id_usuario}</td>
-                      <td>${despacho.id_plataforma}</td>
-                      <td>${despacho.id_transportadora}</td>
-                      <td>${despacho.id_bodega}</td>
+                      <td>${despacho.usuario_users}</td>
+                      <td>${despacho.nombre	}</td>
                       <td>${despacho.fecha_hora}</td>
                       <td><a href="${despacho.url_documento}" download><i class='bx bxs-file-pdf' style="color:red;"></i></a></td>
                   </tr>`;

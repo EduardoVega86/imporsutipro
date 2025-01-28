@@ -3,18 +3,10 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Lista Despacho Productos</h2>
+        <h2 class="text-center mb-4">Lista Devoluciones Productos</h2>
         <div>
-            <div class="selects">
             
-                <div class="form-group" id="bodega-field">
-                    <label for="bodega">Bodega:</label>
-                    <select class="form-select" id="select_bodega">
-                        <option value="0" selected> Selecciona Bodega</option>
-                    </select>
-                </div>
-            </div>
-            <button id="generarDespachoBtn" class="btn btn-success">Generar Salida de Mercaderia</button>
+            <button id="generarDespachoBtn" class="btn btn-success">Generar Devolución Producto</button>
         </div>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
@@ -36,5 +28,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Despacho/js/lista_despachos_producto.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Despacho/js/lista_devoluciones_producto.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>

@@ -23,6 +23,11 @@ class Despacho extends Controller
     {
         $this->views->render($this, "despacho_producto");
     }
+
+    public function devolucion_producto()
+    {
+        $this->views->render($this, "devolucion_producto");
+    }
     
      public function lista_despachos()
     {
@@ -37,6 +42,11 @@ class Despacho extends Controller
      public function lista_devoluciones()
     {
         $this->views->render($this, "lista_devoluciones");
+    }
+
+    public function lista_devoluciones_producto()
+    {
+        $this->views->render($this, "lista_devoluciones_producto");
     }
 
     public function devoluciones()
@@ -72,11 +82,22 @@ class Despacho extends Controller
         echo json_encode($data);
     }
     
+    public function listarDespachosProductos()
+    {
+        $data = $this->model->listarDespachosProductos($_SESSION['id_plataforma']);
+        echo json_encode($data);
+    }
     
 
     public function listarDevoluciones()
     {
         $data = $this->model->listarDevoluciones($_SESSION['id_plataforma']);
+        echo json_encode($data);
+    }
+
+    public function listarDevolucionesProducto()
+    {
+        $data = $this->model->listarDevolucionesProducto($_SESSION['id_plataforma']);
         echo json_encode($data);
     }
 

@@ -311,5 +311,12 @@
         transform: scale(1.1);
         box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
     }
+
     /* Fin whatsapp flotante */
+
+    /* Mantiene el submenú visible */
+    .submenu.show {
+        display: block !important;
+        /* Asegúrate de forzar la visibilidad */
+    }
 </style>
