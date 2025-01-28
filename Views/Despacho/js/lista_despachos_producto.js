@@ -3,7 +3,7 @@ let dataTableListaDespachosIsInitialized = false;
 
 const dataTableListaDespachosOptions = {
   columnDefs: [
-    { className: "centered", targets: [0, 1, 2, 3, 4, 5] },
+    { className: "centered", targets: [0, 1, 2, 3] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   order: [[5, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
@@ -17,7 +17,7 @@ const dataTableListaDespachosOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [0, 1, 2, 3, 4, 5],
+        columns: [0, 1, 2, 3],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
@@ -29,7 +29,7 @@ const dataTableListaDespachosOptions = {
       title: "Panel de Control: Productos",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [0, 1, 2, 3, 4, 5],
+        columns: [0, 1, 2, 3],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
