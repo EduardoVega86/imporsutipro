@@ -10,53 +10,67 @@
     <div style="padding-bottom: 20px; padding-top: 20px;">
         <div class="caja p-4 shadow-sm bg-white">
             <div class="caja_filtros">
+
+                <!-- Fila 1: Categorías y Proveedores -->
                 <div class="primer_seccionFiltro">
                     <div class="slider-categorias-container">
                         <h5>Categorías</h5>
                         <div id="sliderCategorias" class="slider-categorias">
-                            <!-- Aquí se cargarán dinámicamente las categorías como "chips" -->
+                            <!-- Chips de categorías -->
                         </div>
                     </div>
                     <div class="slider-proveedores-container">
                         <h5>Proveedores</h5>
                         <div id="sliderProveedores" class="slider-proveedores">
-                            <!-- Aquí se cargarán dinámicamente los proveedores como "chips" -->
+                            <!-- Chips de proveedores -->
                         </div>
                     </div>
-                    <div class="col-md-4 mb-3 mb-md-0">
-                        <input type="text" class="form-control" placeholder="Nombre" id="buscar_nombre">
+                </div>
+
+                <!-- Fila 2: Nombre + Favoritos -->
+                <div class="primer_seccionFiltro">
+                    <div class="col-md-4 mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Nombre"
+                            id="buscar_nombre" />
                     </div>
-                    <!-- <div class="col-md-2 mb-3 mb-md-0">
-                        <select id="proveedor_filtroMarketplace" class="form-select me-2">
-                            <option selected value="">Seleccione un proveedor</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2 mb-3 mb-md-0">
-                        <select id="categoria_filtroMarketplace" class="form-select me-2">
-                            <option selected value="">Seleccione una categoría</option>
-                        </select>
-                    </div> -->
                     <div class="boton_favoritos">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="favoritosSwitch">
+                            <input class="form-check-input" type="checkbox" id="favoritosSwitch" />
                             <label class="form-check-label" for="favoritosSwitch">Favoritos</label>
                         </div>
                     </div>
                 </div>
+
+                <!-- Fila 3: Rango de precio + botón -->
                 <div class="primer_seccionFiltro">
-                    <div class="col-md-2 mb-3 mb-md-0">
+                    <div class="col-md-2 mb-3">
                         <label for="priceRange" class="form-label">Rango de precio:</label>
                         <div id="price-range-slider"></div>
                         <div class="d-flex justify-content-between">
-                            <input type="text" id="price-min" class="form-control me-2" readonly>
-                            <input type="text" id="price-max" class="form-control" readonly>
+                            <input
+                                type="text"
+                                id="price-min"
+                                class="form-control me-2"
+                                readonly />
+                            <input
+                                type="text"
+                                id="price-max"
+                                class="form-control"
+                                readonly />
                         </div>
                     </div>
                     <div class="col-md-1" style="align-content: center;">
-                        <button class="btn btn-outline-secondary w-100"><i class="fa fa-sliders-h"></i> Aplicar filtros</button>
+                        <button class="btn btn-outline-secondary w-100">
+                            <i class="fa fa-sliders-h"></i> Aplicar filtros
+                        </button>
                     </div>
                 </div>
+
             </div>
+
         </div>
     </div>
 
