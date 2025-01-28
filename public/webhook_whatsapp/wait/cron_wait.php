@@ -221,13 +221,15 @@ function enviar_template($conn, $json_output, $json_bloques, $posicion_json_outp
 
                             // Verificar si existe template de WhatsApp y tomar el código del template
                             if (isset($bloque_info['id_whatsapp_message_template'])) {
-                                logError("entro en la condicion id_whatsapp_message_template");
 
                                 $id_plataforma = null;
                                 $accessToken = null;
                                 $waba_id = null;
                                 $id_whatsapp_message_template = $bloque_info['id_whatsapp_message_template'];
                                 $mensaje_template = $bloque_info['mensaje'];
+
+                                // Resto del código
+                                logError("Mensaje asociado al template ID: " . $id_whatsapp_message_template . ", mensaje: " . $bloque_info['mensaje']);
 
                                 // Preparar la consulta
                                 $check_cofiguraciones_stmt = $conn->prepare("SELECT id_plataforma, token, id_whatsapp FROM configuraciones WHERE id = ?");
