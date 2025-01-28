@@ -103,7 +103,7 @@ const listListaDevoluciones = async () => {
 document
   .getElementById("generarDespachoBtn")
   .addEventListener("click", function () {
-    const url = SERVERURL + `despacho/devoluciones`;
+    const url = SERVERURL + `despacho/devolucion_producto`;
     window.location.href = url;
   });
 
