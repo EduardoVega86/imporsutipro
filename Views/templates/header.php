@@ -105,7 +105,7 @@
                     <a href="<?php echo SERVERURL ?>Productos/inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventario</span></a>
                     <a href="<?php echo SERVERURL ?>despacho/lista_despachos"><i class='bx bxs-box menu-icon'></i> <span class="menu-text">Relacion Despacho</span></a>
                     <a href="<?php echo SERVERURL ?>despacho/lista_despachos_producto"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Salida productos</span></a>
-                    <a href="<?php echo SERVERURL ?>despacho/lista_devolucion_producto"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Devolución productos</span></a>
+                    <a href="<?php echo SERVERURL ?>despacho/lista_devoluciones_producto"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Devolución productos</span></a>
                     <a href="<?php echo SERVERURL ?>despacho/lista_devoluciones"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Devoluciones</span></a>
 
                 </div>
