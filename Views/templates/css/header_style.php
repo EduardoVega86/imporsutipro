@@ -314,16 +314,17 @@
 
     /* Fin whatsapp flotante */
 
-    /* Destaca la opción activa */
-    .dropdown-btn.active {
-        color: #ffc378;
-        /* Cambia al color que desees */
-        font-weight: bold;
+    /* Marketplace */
+    .submenu {
+        display: none;
+        /* Oculta los submenús por defecto */
+        opacity: 0;
+        transition: opacity 0.3s ease, height 0.3s ease;
     }
 
-    /* Mantiene el submenú visible */
     .submenu.show {
-        display: block !important;
-        /* Asegúrate de forzar la visibilidad */
+        display: block;
+        /* Muestra el submenú */
+        opacity: 1;
     }
 </style>
