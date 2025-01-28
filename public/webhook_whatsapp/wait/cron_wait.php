@@ -527,31 +527,57 @@ function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_
     // Paso 1: Configurar el envío del mensaje de WhatsApp usando el nombre del template
     $url = "https://graph.facebook.com/v20.0/$business_phone_id/messages";
 
-    // Configuramos los datos básicos del mensaje
+    // Decodificar el JSON de ruta_archivo_ultimo_tempalte
+    $datos_template = json_decode($ruta_archivo_ultimo_tempalte, true);
+
+    if (!$datos_template) {
+        logError("Error: No se pudo decodificar JSON en ruta_archivo_ultimo_tempalte. Datos recibidos: " . $ruta_archivo_ultimo_tempalte);
+        return;
+    }
+
+    // Mostrar los datos extraídos para depuración
+    logError("Datos extraídos para el template: " . json_encode($datos_template));
+
+    // Detectar dinámicamente los marcadores en el mensaje template
+    preg_match_all('/\{\{(.*?)\}\}/', $mensaje_template, $matches);
+    $marcadores = $matches[1]; // Array con las claves dentro de {{ }}
+
+    logError("Marcadores encontrados en el template: " . json_encode($marcadores));
+
+    // Construir el array de parámetros dinámicamente
+    $parameters = [];
+    foreach ($marcadores as $marcador) {
+        // Buscar si existe una coincidencia en $datos_template
+        if (isset($datos_template[$marcador])) {
+            $parameters[] = ["type" => "text", "text" => $datos_template[$marcador]];
+        } else {
+            // Si no se encuentra el valor, agregar un texto vacío
+            $parameters[] = ["type" => "text", "text" => ""];
+            logError("No se encontró valor para el marcador: $marcador");
+        }
+    }
+
+    // Configurar los datos básicos del mensaje
     $data = [
         "messaging_product" => "whatsapp",
         "to" => $phone_whatsapp_from,
         "type" => "template",
         "template" => [
-            "name" => $template_name,  // Usar el nombre del template
-            "language" => ["code" => $template_language],  // Usar el idioma del template
+            "name" => $template_name,
+            "language" => ["code" => $template_language],
+            "components" => [
+                [
+                    "type" => "body",
+                    "parameters" => $parameters
+                ]
+            ]
         ]
     ];
 
-    // Solo añadimos el cuerpo (components) si el template acepta parámetros
-    // Esto verifica si el template tiene marcadores {{}} en su cuerpo para recibir parámetros
-    if ($mensaje !== null && strpos($template_name, '{{') !== false) {
-        $data['template']['components'] = [
-            [
-                "type" => "body",
-                "parameters" => [
-                    ["type" => "text", "text" => $mensaje]
-                ]
-            ]
-        ];
-    }
+    // Registrar los datos que se enviarán para depuración
+    logError("Datos enviados a la API de WhatsApp: " . json_encode($data));
 
-    // Inicializamos cURL para hacer la solicitud HTTP POST
+    // Inicializar cURL para hacer la solicitud HTTP POST
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
@@ -569,28 +595,25 @@ function enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_
     if ($http_code === 200) {
         logError("Mensaje template enviado correctamente a " . $phone_whatsapp_from . " usando el template " . $template_name);
 
-        /* Obtener nombres y teléfono config */
+        /* Guardar el mensaje enviado como un registro en la base de datos */
+        $tipo_mensaje = "text";
+        $texto_mensaje = $mensaje_template;
+        $ruta_archivo = $ruta_archivo_ultimo_tempalte;
+
         $telefono_configuracion = 0;
         $nombre_configuracion = "";
 
         $check_configuracion_cliente_stmt = $conn->prepare("SELECT telefono, nombre_configuracion FROM configuraciones WHERE id = ?");
-        $check_configuracion_cliente_stmt->bind_param('s', $id_configuracion);  // Buscamos por el celular_cliente
+        $check_configuracion_cliente_stmt->bind_param('s', $id_configuracion); // Buscamos por el celular_cliente
         $check_configuracion_cliente_stmt->execute();
         $check_configuracion_cliente_stmt->store_result();
         $check_configuracion_cliente_stmt->bind_result($telefono_configuracion, $nombre_configuracion);
         $check_configuracion_cliente_stmt->fetch();
         $check_configuracion_cliente_stmt->close();
 
-        logError("Mensaje template: " . $mensaje);
-
-        // Guardar el mensaje enviado como un registro en la base de datos
-        $tipo_mensaje = "text";
-        $texto_mensaje = $mensaje_template;
-        $ruta_archivo = $ruta_archivo_ultimo_tempalte;
         $nombre_cliente = $nombre_configuracion;
         $apellido_cliente = "";
 
-        // Llamar a la función interna para procesar y guardar el mensaje
         procesarMensaje_template($conn, $id_plataforma, $business_phone_id, $nombre_cliente, $apellido_cliente, $telefono_configuracion, $phone_whatsapp_from, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $template_language);
     } else {
         logError("Error al enviar el mensaje template. HTTP Code: " . $http_code . " Respuesta: " . $response);
