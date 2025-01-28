@@ -19,6 +19,9 @@
                             <!-- Chips de categorías -->
                         </div>
                     </div>
+
+                </div>
+                <div class="primer_seccionFiltro">
                     <div class="slider-proveedores-container">
                         <h5>Proveedores</h5>
                         <div id="sliderProveedores" class="slider-proveedores">
@@ -26,7 +29,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Fila 2: Nombre + Favoritos -->
                 <div class="primer_seccionFiltro">
                     <div class="col-md-4 mb-3">
