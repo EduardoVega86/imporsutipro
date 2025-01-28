@@ -314,17 +314,9 @@
 
     /* Fin whatsapp flotante */
 
-    /* Marketplace */
-    .submenu {
-        display: none;
-        /* Oculta los submenús por defecto */
-        opacity: 0;
-        transition: opacity 0.3s ease, height 0.3s ease;
-    }
-
+    /* Mantiene el submenú visible */
     .submenu.show {
-        display: block;
-        /* Muestra el submenú */
-        opacity: 1;
+        display: block !important;
+        /* Asegúrate de forzar la visibilidad */
     }
 </style>
