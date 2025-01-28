@@ -86,11 +86,7 @@ const listListaDespachos = async () => {
     listaDespachos.forEach((despacho, index) => {
       content += `
                   <tr>
-                      <td>${despacho.id_relacion_despacho}</td>
-                      <td>${despacho.usuario_users}</td>
-                      <td>${despacho.nombre	}</td>
-                      <td>${despacho.fecha_hora}</td>
-                      <td><a href="${despacho.url_documento}" download><i class='bx bxs-file-pdf' style="color:red;"></i></a></td>
+                    
                   </tr>`;
     });
     document.getElementById("tableBody_lista_despachos").innerHTML = content;
