@@ -17,8 +17,8 @@ class DespachoModel extends Query
 
     public function listarDespachosProductos($plataforma)
     {
-        $sql = "SELECT * FROM `cabecera_relacion_despacho` where id_bodega in (select id from bodega where id_plataforma=$plataforma); ";
-      // echo $sql; 
+        $sql = "SELECT * FROM `cabecera_relacion_despacho_producto` where id_bodega in (select id from bodega where id_plataforma=$plataforma); ";
+       echo $sql; 
         return $this->select($sql);
     }
     
