@@ -277,6 +277,8 @@ function enviar_template($conn, $json_output, $json_bloques, $posicion_json_outp
                                         $check_rutaArchivo_stmt->fetch();  // Obtener los valores vinculados
                                         /* fin consultar ruta_archivo de mensaje_cliente anterior */
 
+                                        logError("esto esta dentro del ruta archivo template: " . $ruta_archivo_ultimo_tempalte);
+
                                         enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $template_language, $mensaje, $conn, $id_plataforma, $id_configuracion, $mensaje_template, $ruta_archivo_ultimo_tempalte);
                                     } else {
                                         logError("No se pudo obtener el nombre o idioma del template con el ID " . $id_whatsapp_message_template);
