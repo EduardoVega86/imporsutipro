@@ -319,10 +319,21 @@ class Guias extends Controller
         $nombreOrigen = $_POST['nombreO'];
         $ciudadOrigen = $_POST['ciudadO'];
         $provinciaOrigen = $_POST['provinciaO'];
+        if ($procedencia == 1) {
+
+
+
+            echo $ciudadOrigen;
+            echo " | ";
+            echo $provinciaOrigen;
+        }
         $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
         $provinciaOrigen = $this->model->obtenerNombre($provinciaOrigen, "codigo_provincia_gintracom")[0]['codigo_provincia_gintracom'];
 
         if ($procedencia == 1) {
+
+
+
             echo $ciudadOrigen;
             echo " | ";
             echo $provinciaOrigen;
