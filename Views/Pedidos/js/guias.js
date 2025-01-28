@@ -730,7 +730,6 @@ function anular_guiaLaar(numero_guia) {
           positionClass: "toast-bottom-center",
         });
 
-        $("#imagen_categoriaModal").modal("hide");
         initDataTable();
       }
     },
@@ -804,12 +803,11 @@ function anular_guiaGintracom(numero_guia) {
     url: "https://guias.imporsuitpro.com/Gintracom/anular/" + numero_guia,
     dataType: "json",
     success: function (response) {
-      if (response == "1") {
+      if (response.status == 200) {
         toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
-        $("#imagen_categoriaModal").modal("hide");
         initDataTable();
       } else {
         toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
