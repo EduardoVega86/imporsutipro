@@ -25,10 +25,8 @@
                 <thead>
                     <tr>
                         <th class="centered">ID despacho</th>
-                        <th class="centered">ID usuario</th>
-                        <th class="centered">ID plataforma</th>
-                        <th class="centered">ID transportadora</th>
-                        <th class="centered">ID bodega</th>
+                        <th class="centered">Usuario</th>
+                        <th class="centered">Bodega</th>
                         <th class="centered">Fecha y hora</th>
                         <th class="centered">PDF</th>
                     </tr>
