@@ -692,6 +692,7 @@ $.ajax({
   type: "GET",
   dataType: "json",
   success: function (response) {
+      console.log("Respuesta de cargar_categorias:" , response)
       if (Array.isArray(response)) {
           const sliderCategorias = document.getElementById("sliderCategorias");
           sliderCategorias.innerHTML = ""; // Limpia antes de insertar
@@ -766,6 +767,7 @@ $.ajax({
     type: "GET",
     dataType: "json",
     success: function (response) {
+        console.log("Respuesta de obtener proveedores", response)
         if (Array.isArray(response)) {
             const sliderProveedores = document.getElementById("sliderProveedores");
             sliderProveedores.innerHTML = ""; // Limpia antes de insertar
