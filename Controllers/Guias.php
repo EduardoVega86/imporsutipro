@@ -313,11 +313,20 @@ class Guias extends Controller
     {
         $this->isAuth();
 
+        $procedencia = $_POST['procedencia'] ?? 2;
+
+
         $nombreOrigen = $_POST['nombreO'];
         $ciudadOrigen = $_POST['ciudadO'];
         $provinciaOrigen = $_POST['provinciaO'];
         $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
         $provinciaOrigen = $this->model->obtenerNombre($provinciaOrigen, "codigo_provincia_gintracom")[0]['codigo_provincia_gintracom'];
+
+        if ($procedencia == 1) {
+            echo $ciudadOrigen;
+            echo " | ";
+            echo $provinciaOrigen;
+        }
 
         $direccionOrigen = $_POST['direccionO'];
         $telefonoOrigen = $_POST['celularO'];

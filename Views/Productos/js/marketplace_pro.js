@@ -687,29 +687,78 @@ const vaciarTmpPedidos = async () => {
 };
 
 //cargar select categoria
-$(document).ready(function () {
-  // Realiza la solicitud AJAX para obtener la lista de categorias
-  $.ajax({
-    url: SERVERURL + "productos/cargar_categorias",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-      // Asegúrate de que la respuesta es un array
+$.ajax({
+  url: SERVERURL + "productos/cargar_categorias",
+  type: "GET",
+  dataType: "json",
+  success: function (response) {
       if (Array.isArray(response)) {
-        response.forEach(function (categoria) {
-          // Agrega una nueva opción al select por cada categoria
-          $("#categoria_filtroMarketplace").append(
-            new Option(categoria.nombre_linea, categoria.id_linea)
-          );
-        });
+          const sliderCategorias = document.getElementById("sliderCategorias");
+          sliderCategorias.innerHTML = ""; // Limpia antes de insertar
+
+          response.forEach(function (categoria) {
+              // Crear el "chip" (un div o button)
+              const chip = document.createElement("div");
+              chip.classList.add("slider-chip");
+              chip.textContent = categoria.nombre_linea; // Mostrar el nombre
+              
+              // Guardamos el ID para usarlo en la llamada de filtro
+              chip.dataset.catId = categoria.id_linea;
+
+              // Evento clic para filtrar
+              chip.addEventListener("click", function(e) {
+                  const clickedChip = e.currentTarget;
+                  const catId = clickedChip.dataset.catId;
+
+                  // 1) Marcar visualmente como seleccionado
+                  //    remover 'selected' de todos los chips
+                  document.querySelectorAll("#sliderCategorias .slider-chip")
+                          .forEach(el => el.classList.remove("selected"));
+                  //    agregar 'selected' al chip clicado
+                  clickedChip.classList.add("selected");
+
+                  // 2) Setear el formData_filtro con la categoría
+                  formData_filtro.set("linea", catId);
+
+                  // 3) Llamar a la función que vacía y carga productos
+                  clearAndFetchProducts();
+              });
+
+              // Insertar el chip en el contenedor
+              sliderCategorias.appendChild(chip);
+          });
       } else {
-        console.log("La respuesta de la API no es un array:", response);
+          console.log("La respuesta de la API no es un array:", response);
       }
-    },
-    error: function (error) {
+  },
+  error: function (error) {
       console.error("Error al obtener la lista de categorias:", error);
-    },
-  });
+  },
+});
+
+// $(document).ready(function () {
+   // Realiza la solicitud AJAX para obtener la lista de categorias
+//   $.ajax({
+//     url: SERVERURL + "productos/cargar_categorias",
+//     type: "GET",
+//     dataType: "json",
+//     success: function (response) {
+       // Asegúrate de que la respuesta es un array
+//       if (Array.isArray(response)) {
+//         response.forEach(function (categoria) {
+           // Agrega una nueva opción al select por cada categoria
+//           $("#categoria_filtroMarketplace").append(
+//             new Option(categoria.nombre_linea, categoria.id_linea)
+//           );
+//         });
+//       } else {
+//         console.log("La respuesta de la API no es un array:", response);
+//       }
+//     },
+//     error: function (error) {
+//       console.error("Error al obtener la lista de categorias:", error);
+//     },
+//   });
 
   // Realiza la solicitud AJAX para obtener la lista de proveedores
   $.ajax({
@@ -717,26 +766,72 @@ $(document).ready(function () {
     type: "GET",
     dataType: "json",
     success: function (response) {
-      // Asegúrate de que la respuesta es un array
-      if (Array.isArray(response)) {
-        response.forEach(function (proveedor) {
-          // Agrega una nueva opción al select por cada proveedor
-          $("#proveedor_filtroMarketplace").append(
-            new Option(
-              proveedor.nombre_tienda.toUpperCase(),
-              proveedor.id_plataforma
-            )
-          );
-        });
-      } else {
-        console.log("La respuesta de la API no es un array:", response);
-      }
+        if (Array.isArray(response)) {
+            const sliderProveedores = document.getElementById("sliderProveedores");
+            sliderProveedores.innerHTML = ""; // Limpia antes de insertar
+
+            response.forEach(function (proveedor) {
+                const chipProv = document.createElement("div");
+                chipProv.classList.add("slider-chip");
+                chipProv.textContent = proveedor.nombre_tienda.toUpperCase(); 
+                
+                // Guardamos el id_plataforma para usarlo en la llamada de filtro
+                chipProv.dataset.provId = proveedor.id_plataforma;
+
+                chipProv.addEventListener("click", function(e) {
+                    const clickedProvChip = e.currentTarget;
+                    const provId = clickedProvChip.dataset.provId;
+
+                    // Quitar selected de los demás
+                    document.querySelectorAll("#sliderProveedores .slider-chip")
+                            .forEach(el => el.classList.remove("selected"));
+                    // Agregar selected al clicado
+                    clickedProvChip.classList.add("selected");
+
+                    // Setear formData_filtro
+                    formData_filtro.set("plataforma", provId);
+
+                    // Cargar productos con el nuevo filtro
+                    clearAndFetchProducts();
+                });
+
+                sliderProveedores.appendChild(chipProv);
+            });
+        } else {
+            console.log("La respuesta de la API no es un array:", response);
+        }
     },
     error: function (error) {
-      console.error("Error al obtener la lista de proveedores:", error);
+        console.error("Error al obtener la lista de proveedores:", error);
     },
-  });
 });
+
+
+  // $.ajax({
+  //   url: SERVERURL + "marketplace/obtenerProveedores",
+  //   type: "GET",
+  //   dataType: "json",
+  //   success: function (response) {
+       // Asegúrate de que la respuesta es un array
+  //     if (Array.isArray(response)) {
+  //       response.forEach(function (proveedor) {
+          // Agrega una nueva opción al select por cada proveedor
+//           $("#proveedor_filtroMarketplace").append(
+//             new Option(
+//               proveedor.nombre_tienda.toUpperCase(),
+//               proveedor.id_plataforma
+//             )
+//           );
+//         });
+//       } else {
+//         console.log("La respuesta de la API no es un array:", response);
+//       }
+//     },
+//     error: function (error) {
+//       console.error("Error al obtener la lista de proveedores:", error);
+//     },
+//   });
+// });
 
 // Ejecutar la función cuando la página se haya cargado
 window.addEventListener("load", vaciarTmpPedidos);

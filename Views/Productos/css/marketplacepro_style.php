@@ -345,9 +345,7 @@
     .caja_filtros {
         display: flex;
         flex-direction: column;
-        gap: 10px;
-        margin-left: -180px;
-        margin-right: -80px;
+        gap: 20px;
     }
 
     .primer_seccionFiltro {
@@ -587,81 +585,70 @@
         /* Efecto de elevación */
     }
 
-    /* Contenedor de sliders */
-    .slider-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
+    /* Contenedores principales de los sliders */
+    .slider-categorias-container,
+    .slider-proveedores-container {
         margin-bottom: 20px;
-        justify-content: center;
     }
 
-    .slider {
-        position: relative;
-        flex: 1;
-        overflow: hidden;
-        max-width: 100%;
-        /* Evita que se extienda más allá de la pantalla */
-        background: #f9f9f9;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 10px;
+    /* Encabezado */
+    .slider-categorias-container h5,
+    .slider-proveedores-container h5 {
+        margin-bottom: 10px;
     }
 
-    .slider-content {
+    /* Contenedor que hace scroll horizontal */
+    .slider-categorias,
+    .slider-proveedores {
         display: flex;
         gap: 10px;
         overflow-x: auto;
+        padding: 10px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
         scroll-behavior: smooth;
-        padding: 10px 0;
-    }
-
-    .slider-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: rgb(17, 17, 17);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        cursor: pointer;
-        z-index: 1;
-    }
-
-    .slider-arrow.left-arrow {
-        left: 3px;
-    }
-
-    .slider-arrow.right-arrow {
-        right: -1px;
-    }
-
-    .slider-content button {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        background: rgb(168, 191, 217);
-        color: white;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
         white-space: nowrap;
-        /* Evita que los textos largos se corten */
+        /* Para que no brinque de línea */
     }
 
-    .slider-content button:hover {
-        background: #0056b3;
+    /* Estilo para cada 'chip' o botón */
+    .slider-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #e0e0e0;
+        color: #333;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        user-select: none;
+        /* Evita que se seleccione el texto al dar clic */
     }
 
-    @media (max-width: 768px) {
-        .slider-container {
-            flex-direction: column;
-        }
+    .slider-chip:hover {
+        background-color: #ccc;
+        transform: scale(1.05);
+    }
 
-        .slider-content button {
-            font-size: 12px;
-            padding: 8px 16px;
-        }
+    /* Para marcar un chip seleccionado */
+    .slider-chip.selected {
+        background-color: #007bff;
+        color: white;
+        transform: scale(1.05);
+    }
+
+    /* Quita la barra de scroll en algunos navegadores (opcional) */
+    .slider-categorias::-webkit-scrollbar,
+    .slider-proveedores::-webkit-scrollbar {
+        height: 6px;
+        /* Altura de la barra de scroll */
+    }
+
+    .slider-categorias::-webkit-scrollbar-thumb,
+    .slider-proveedores::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 3px;
     }
 </style>
