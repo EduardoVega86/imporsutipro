@@ -36,124 +36,121 @@ function connectDatabase()
 function validarTiempo($conn)
 {
     try {
-        // Aquí puedes agregar tu lógica específica
+        logError("Inicio de validarTiempo.");
+
+        // Consulta principal: obtener todos los mensajes en la tabla mensajes_espera
         $sql = "SELECT * FROM mensajes_espera";
-        $result = $conn->query($sql);
+        $result_mensajes_espera = $conn->query($sql);
 
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $estado = $row["estado"];
-                $posicion_json_output_wait = $row["posicion_json_output_wait"];
-                $id_automatizador = (int)$row["id_automatizador"];
-                $id_cliente_chat_center = $row["id_cliente_chat_center"];
-                $id_mensajes_clientes = $row["id_mensajes_clientes"];
-                $fecha_envio = (string)$row["fecha_envio"];
-                $id_mensaje_espera = (int)$row["id"];
+        if (!$result_mensajes_espera) {
+            logError("Error en la consulta SQL de mensajes_espera: " . $conn->error);
+            return;
+        }
 
-                // Consulta para obtener los JSONs de la base de datos
-                $query = "SELECT * FROM `automatizadores` WHERE id = ?;";
+        // Verificar si hay registros en mensajes_espera
+        if ($result_mensajes_espera->num_rows > 0) {
+            logError("Número de registros encontrados en mensajes_espera: " . $result_mensajes_espera->num_rows);
+
+            // Recorrer cada registro de mensajes_espera
+            while ($row_mensaje = $result_mensajes_espera->fetch_assoc()) {
+                logError("Procesando mensaje con ID: " . $row_mensaje["id"]);
+
+                // Extraer datos del mensaje
+                $estado = $row_mensaje["estado"];
+                $posicion_json_output_wait = $row_mensaje["posicion_json_output_wait"];
+                $id_automatizador = (int)$row_mensaje["id_automatizador"];
+                $id_cliente_chat_center = $row_mensaje["id_cliente_chat_center"];
+                $id_mensajes_clientes = $row_mensaje["id_mensajes_clientes"];
+                $fecha_envio = (string)$row_mensaje["fecha_envio"];
+                $id_mensaje_espera = (int)$row_mensaje["id"];
+
+                // Consulta secundaria: obtener automatizador relacionado
+                $query = "SELECT * FROM `automatizadores` WHERE id = ?";
                 $stmt = $conn->prepare($query);
                 $stmt->bind_param('i', $id_automatizador);
                 $stmt->execute();
-                $result = $stmt->get_result();
 
-                // Variables de resultados
-                $resultados = [];
+                // Obtener resultados de la consulta secundaria en una nueva variable
+                $result_automatizadores = $stmt->get_result();
 
-                // Procesar cada fila de resultados
-                while ($row = $result->fetch_assoc()) {
-                    $json_output = json_decode($row['json_output'], true);
-                    $json_bloques = json_decode($row['json_bloques'], true);
+                if ($result_automatizadores->num_rows > 0) {
+                    logError("Se encontró el automatizador para ID: " . $id_automatizador);
 
-                    $id_configuracion = $row['id_configuracion'];
+                    // Procesar cada automatizador relacionado
+                    while ($row_automatizador = $result_automatizadores->fetch_assoc()) {
+                        $json_output = json_decode($row_automatizador['json_output'], true);
+                        $json_bloques = json_decode($row_automatizador['json_bloques'], true);
+                        $id_configuracion = $row_automatizador['id_configuracion'];
 
-                    /* Variables de control */
-                    $id_template_whatsapp = null;
+                        // Variables de control
+                        $tiempo_wait = null;
 
-                    $tiempo_wait = null;
-
-                    // Buscar este ID en json_bloques
-                    foreach ($json_bloques as $bloque_info) {
-                        if ($bloque_info['id_block'] == (string)$posicion_json_output_wait) {
-                            // Verificar si 'wait[]' está definido
-                            if (isset($bloque_info['wait[]'])) {
-                                // Asegurarse de que $tiempo_wait siempre sea un array (incluso con un solo valor)
-                                $tiempo_wait = is_array($bloque_info['wait[]'])
-                                    ? $bloque_info['wait[]']
-                                    : [$bloque_info['wait[]']];
-                                break; // Salir del bucle
+                        // Buscar el bloque correspondiente en json_bloques
+                        foreach ($json_bloques as $bloque_info) {
+                            if ($bloque_info['id_block'] == (string)$posicion_json_output_wait) {
+                                if (isset($bloque_info['wait[]'])) {
+                                    $tiempo_wait = is_array($bloque_info['wait[]'])
+                                        ? $bloque_info['wait[]']
+                                        : [$bloque_info['wait[]']];
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    /* condicion de decision */
-                    if ($estado == 1) {
-                        $condicion = "1";
-                        enviar_template($conn, $json_output, $json_bloques, $posicion_json_output_wait, $condicion, $id_automatizador, $id_configuracion, $id_cliente_chat_center, $id_mensajes_clientes);
+                        // Verificar el estado del mensaje
+                        if ($estado == 1) {
+                            $condicion = "1";
+                            enviar_template($conn, $json_output, $json_bloques, $posicion_json_output_wait, $condicion, $id_automatizador, $id_configuracion, $id_cliente_chat_center, $id_mensajes_clientes);
+                            eliminar_mensaje_espera($conn, $id_mensaje_espera);
+                        } else {
+                            // Validar tiempo de espera
+                            $horas_a_verificar = [0 => 1, 1 => 2, 2 => 3, 3 => 5, 4 => 12, 5 => 24];
 
-                        eliminar_mensaje_espera($conn, $id_mensaje_espera);
-                    } else {
-                        // Obtener la cantidad de horas a verificar según la clave
-                        $horas_a_verificar = [0 => 1, 1 => 2, 2 => 3, 3 => 5, 4 => 12, 5 => 24];
+                            if (!empty($tiempo_wait) && isset($tiempo_wait[0])) {
+                                $clave = (int)$tiempo_wait[0];
 
-                        // Verificar que $tiempo_wait tenga un valor válido
-                        if (!empty($tiempo_wait) && isset($tiempo_wait[0])) {
-                            $clave = (int)$tiempo_wait[0]; // Convertir clave a entero por seguridad
+                                if (isset($horas_a_verificar[$clave])) {
+                                    $horas_objetivo = $horas_a_verificar[$clave];
 
-                            // Validar si la clave existe en el array de horas a verificar
-                            if (isset($horas_a_verificar[$clave])) {
-                                $horas_objetivo = $horas_a_verificar[$clave];
-
-                                // Configurar la zona horaria de Ecuador
-                                date_default_timezone_set('America/Guayaquil');
-
-                                // Obtener la fecha y hora actual
-                                $fecha_actual = new DateTime();
-
-                                try {
-                                    // Crear el objeto DateTime para la fecha de envío
+                                    // Configurar zona horaria y calcular diferencia de tiempo
+                                    date_default_timezone_set('America/Guayaquil');
+                                    $fecha_actual = new DateTime();
                                     $fecha_envio_obj = new DateTime($fecha_envio, new DateTimeZone('America/Guayaquil'));
-
-                                    // Calcular la diferencia en horas
                                     $diferencia = $fecha_envio_obj->diff($fecha_actual);
                                     $diferencia_horas = ($diferencia->days * 24) + $diferencia->h + ($diferencia->i / 60);
 
-                                    // Registrar los datos en el log para depuración
-                                    /* logError("fecha_envio: " . $fecha_envio);
-                                    logError("fecha_envio_obj: " . $fecha_envio_obj->format('Y-m-d H:i:s'));
-                                    logError("fecha_actual: " . $fecha_actual->format('Y-m-d H:i:s'));
-                                    logError("diferencia_horas: " . $diferencia_horas);
-                                    logError("horas_objetivo: " . $horas_objetivo); */
+                                    logError("Evaluando mensaje con ID: $id_mensaje_espera | Horas objetivo: $horas_objetivo | Horas transcurridas: $diferencia_horas");
 
-                                    // Verificar si el tiempo objetivo ha sido cumplido
+                                    // Verificar si se cumple el tiempo objetivo
                                     if ($diferencia_horas >= $horas_objetivo) {
                                         $condicion = "0";
                                         enviar_template($conn, $json_output, $json_bloques, $posicion_json_output_wait, $condicion, $id_automatizador, $id_configuracion, $id_cliente_chat_center, $id_mensajes_clientes);
-
                                         eliminar_mensaje_espera($conn, $id_mensaje_espera);
                                     } else {
-                                        logError("Aún no se ha cumplido el tiempo de espera: $horas_objetivo horas. Han pasado $diferencia_horas horas.");
+                                        logError("No se ha cumplido el tiempo de espera para el mensaje con ID: $id_mensaje_espera.");
                                     }
-                                } catch (Exception $e) {
-                                    // Manejar errores al procesar la fecha
-                                    logError("Error al procesar las fechas: " . $e->getMessage());
+                                } else {
+                                    logError("La clave $clave no es válida en horas_a_verificar.");
                                 }
                             } else {
-                                logError("La clave $clave no es válida en horas_a_verificar.");
+                                logError("El array tiempo_wait está vacío o no es válido para el mensaje con ID: $id_mensaje_espera.");
                             }
-                        } else {
-                            logError("El array tiempo_wait está vacío o no contiene un valor válido.");
                         }
                     }
+                } else {
+                    logError("No se encontraron automatizadores para el ID: $id_automatizador.");
                 }
+
+                $stmt->close();
             }
         } else {
-            logError("No hay registros pendientes.");
+            logError("No hay registros pendientes en mensajes_espera.");
         }
     } catch (Exception $e) {
         logError("Error en validarTiempo: " . $e->getMessage());
     }
 }
+
 
 function eliminar_mensaje_espera($conn, $id_mensaje_espera)
 {
