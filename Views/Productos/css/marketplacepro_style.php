@@ -705,4 +705,34 @@
         object-fit: cover;
         /* Ajuste correcto de imagen */
     }
+
+    /* Contenedor de categorías con truncado de texto */
+    .categoria-container {
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        cursor: pointer;
+        transition: max-height 0.3s ease-in-out;
+        display: inline-block;
+        vertical-align: middle;
+        max-height: 20px;
+        /* Control de altura en estado colapsado */
+    }
+
+    /* Estado expandido */
+    .categoria-container.expandido {
+        white-space: normal;
+        overflow: visible;
+        max-height: none;
+    }
+
+    /* Icono de expandir */
+    .categoria-expand-btn {
+        display: inline-block;
+        margin-left: 5px;
+        font-size: 12px;
+        color: #007bff;
+        cursor: pointer;
+    }
 </style>

@@ -534,16 +534,25 @@ document.addEventListener("DOMContentLoaded", function () {
           // Ruta de la imagen en el servidor
           const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
   
-          chipProv.innerHTML = `
-          <div class="chip-content">
-            <img src="${iconUrl}" class="icon-chip"> 
-            <div class="chip-text">
-              <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
-              <span class="chip-count">${proveedor.cantidad_productos} productos</span>
-              <span class="chip-categories">${proveedor.categorias} </span> 
+          // Creación del contenedor de categorías con botón de expandir
+          let categoriasHTML = `
+            <div class="chip-categories categoria-container" onclick="toggleCategorias(this)">
+              ${proveedor.categorias}
             </div>
-          </div>
-        `;       
+            <span class="categoria-expand-btn" onclick="toggleCategorias(this)">Ver más</span>
+          `;
+  
+          chipProv.innerHTML = `
+            <div class="chip-content">
+              <img src="${iconUrl}" class="icon-chip"> 
+              <div class="chip-text">
+                <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
+                <span class="chip-count">${proveedor.cantidad_productos} productos</span>
+                ${categoriasHTML}
+              </div>
+            </div>
+          `;
+  
           // Toggle logic
           chipProv.addEventListener("click", function (e) {
             const clickedProvChip = e.currentTarget;
@@ -570,11 +579,23 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error al obtener la lista de proveedores:", error);
     },
   }));
+  
 
 /************************************************
  * FUNCIONES FUERA DE DOMContentLoaded
  * (para poder llamarlas con onclick, etc.)
  ************************************************/
+
+function toggleCategorias(element) {
+  const container = element.closest(".categoria-container");
+  if (container.classList.contains("expandido")) {
+      container.classList.remove("expandido");
+      element.innerText = "Ver más";
+  } else {
+      container.classList.add("expandido");
+      element.innerText = "Ver menos";
+  }
+}
 
 function copyToClipboard(id) {
   navigator.clipboard.writeText(id).then(

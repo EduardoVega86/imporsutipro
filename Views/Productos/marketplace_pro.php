@@ -14,7 +14,7 @@
             <div class="row mb-3">
                 <div class="col-12">
                     <div class="slider-proveedores-container">
-                        <h3>Proveedores</h3>
+                        <h6>Proveedores</h6>
                         <div id="sliderProveedores" class="slider-proveedores"></div>
                     </div>
                 </div>
