@@ -13,9 +13,10 @@
             </p>
         </div>
 
-        <!-- Sección del video -->
-        <div class="row justify-content-center">
-            <div class="col-md-6 text-center">
+        <!-- Contenedor dividido en dos columnas -->
+        <div class="row align-items-center">
+            <!-- Columna izquierda: Video -->
+            <div class="col-md-6">
                 <div style="border: 5px solid #5A2D82; border-radius: 15px; overflow: hidden; box-shadow: 0px 4px 8px rgba(0,0,0,0.1);">
                     <iframe width="100%" height="315"
                         src="https://youtu.be/l8hHWPsDHVw"
@@ -25,20 +26,24 @@
                         allowfullscreen>
                     </iframe>
                 </div>
-                <p class="mt-3" style="color: #333; font-size: 1rem;">
+                <p class="mt-3 text-center" style="color: #333; font-size: 1rem;">
                     Mira el video para entender cómo funciona el automatizador.
                 </p>
             </div>
-        </div>
 
-        <div style="text-align: center;">
-            <h2>Agendar Cita</h2>
-            <iframe
-                src="https://api.leadconnectorhq.com/widget/booking/IDNQKni1wvk9WuJseH9R"
-                width="100%"
-                height="600"
-                style="border: none;">
-            </iframe>
+            <!-- Separador vertical -->
+            <div class="col-md-1 d-none d-md-block" style="border-left: 2px solid #ddd; height: 400px;"></div>
+
+            <!-- Columna derecha: Calendario -->
+            <div class="col-md-5 text-center">
+                <h2 style="color: #5A2D82; font-size: 2rem; font-weight: bold;">Agendar Cita</h2>
+                <iframe
+                    src="https://api.leadconnectorhq.com/widget/booking/IDNQKni1wvk9WuJseH9R"
+                    width="100%"
+                    height="400"
+                    style="border: none; box-shadow: 0px 4px 8px rgba(0,0,0,0.1); border-radius: 10px;">
+                </iframe>
+            </div>
         </div>
 
         <!-- Tarjetas informativas -->
