@@ -526,29 +526,36 @@ document.addEventListener("DOMContentLoaded", function () {
         const sliderProveedores = document.getElementById("sliderProveedores");
         sliderProveedores.innerHTML = ""; // Limpia antes de insertar
   
-        response.forEach(function (proveedor) {
+        response.forEach(proveedor => {
+          console.log(`Proveedor: ${proveedor.nombre_tienda}`, "Categorias recibidas:", proveedor.categorias);
+        
           const chipProv = document.createElement("div");
           chipProv.classList.add("slider-chip");
           chipProv.dataset.provId = proveedor.id_plataforma;
-  
+        
           // Ruta de la imagen en el servidor
           const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
-  
-          // Asegurar que proveedor.categories sea un array antes de manipularlo
-          const categoriasMostradas = Array.isArray(proveedor.categorias) 
-            ? proveedor.categories.slice(0, 3).join(", ")
+        
+          // Convertir string de categorías a un array limpio
+          const categoriasArray = proveedor.categorias
+            ? proveedor.categorias.split(",").map(cat => cat.trim()) // Separar por comas y quitar espacios
+            : [];
+        
+          // Mostrar solo las primeras 3 categorías
+          const categoriasMostradas = categoriasArray.length > 0
+            ? categoriasArray.slice(0, 3).join(", ") // Tomar solo 3 y unir con comas
             : "Sin categorías";
-
+        
           chipProv.innerHTML = `
-          <div class="chip-content">
-            <img src="${iconUrl}" class="icon-chip"> 
-            <div class="chip-text">
-              <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
-              <span class="chip-count">${proveedor.cantidad_productos} productos</span>
-              <span class="chip-categories">${categoriasMostradas}</span>
+            <div class="chip-content">
+              <img src="${iconUrl}" class="icon-chip"> 
+              <div class="chip-text">
+                <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
+                <span class="chip-count">${proveedor.cantidad_productos} productos</span>
+                <span class="chip-categories">${categoriasMostradas}</span>
+              </div>
             </div>
-          </div>
-        `;       
+          `;
           // Toggle logic
           chipProv.addEventListener("click", function (e) {
             const clickedProvChip = e.currentTarget;
