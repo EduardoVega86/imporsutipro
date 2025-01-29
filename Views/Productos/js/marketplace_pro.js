@@ -489,99 +489,78 @@ document.addEventListener("DOMContentLoaded", function () {
    * Cargar chips de categorías y proveedores (chips)
    * (Toggling: si clicas el chip ya seleccionado, lo quita)
    *****************************************************/
-  // Cargar categorías
-  $.ajax({
-    url: SERVERURL + "productos/cargar_categorias",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-      if (Array.isArray(response)) {
-        const sliderCategorias = document.getElementById("sliderCategorias");
-        sliderCategorias.innerHTML = ""; // Limpia antes de insertar
-
-        response.forEach(function (categoria) {
-          const chip = document.createElement("div");
-          chip.classList.add("slider-chip");
-          chip.textContent = categoria.nombre_linea;
-          chip.dataset.catId = categoria.id_linea;
-          
-           //Ruta de la imagen en el servidor
-          const iconUrl = SERVERURL + "public/img/icons/categorias.png";
-
-          chip.innerHTML = `
-            <img src="${iconUrl}" class="icon-chip"> 
-            ${categoria.nombre_linea}
-          `;
-
-          // Toggle logic
-          chip.addEventListener("click", function (e) {
-            const clickedChip = e.currentTarget;
-
-            // ¿Ya estaba seleccionado?
-            if (clickedChip.classList.contains("selected")) {
-              // Lo des-seleccionamos
-              clickedChip.classList.remove("selected");
-              formData_filtro.set("linea", ""); // Limpia el filtro de categoría
-            } else {
-              // Deseleccionar otros chips
-              document
-                .querySelectorAll("#sliderCategorias .slider-chip")
-                .forEach((el) => el.classList.remove("selected"));
-              // Seleccionar el clicado
-              clickedChip.classList.add("selected");
-              // Asignar filtro
-              formData_filtro.set("linea", clickedChip.dataset.catId);
-            }
-            clearAndFetchProducts();
+ //cargar select categoria
+  $(document).ready(function () {
+    // Realiza la solicitud AJAX para obtener la lista de categorias
+    $.ajax({
+      url: SERVERURL + "productos/cargar_categorias",
+      type: "GET",
+      dataType: "json",
+      success: function (response) {
+        // Asegúrate de que la respuesta es un array
+        if (Array.isArray(response)) {
+          response.forEach(function (categoria) {
+            // Agrega una nueva opción al select por cada categoria
+            $("#categoria_filtroMarketplace").append(
+              new Option(categoria.nombre_linea, categoria.id_linea)
+            );
           });
-
-          sliderCategorias.appendChild(chip);
-        });
-      } else {
-        console.log("La respuesta de la API no es un array:", response);
-      }
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de categorias:", error);
-    },
-  });
-
+        } else {
+          console.log("La respuesta de la API no es un array:", response);
+        }
+      },
+      error: function (error) {
+        console.error("Error al obtener la lista de categorias:", error);
+      },
+    });
+  },
+  
   // Cargar proveedores
   $.ajax({
-    url: SERVERURL + "marketplace/obtenerProveedores",
+    url: SERVERURL + "marketplace/obtenerProveedoresConProductosCategorias",
     type: "GET",
     dataType: "json",
     success: function (response) {
-      console.log("Respuesta de obtener proveedores:", response);
+      console.log("Respuesta de obtener proveedores con productos:", response);
       if (Array.isArray(response)) {
         const sliderProveedores = document.getElementById("sliderProveedores");
         sliderProveedores.innerHTML = ""; // Limpia antes de insertar
-
-        response.forEach(function (proveedor) {
+  
+        response.forEach(proveedor => {
           const chipProv = document.createElement("div");
           chipProv.classList.add("slider-chip");
-          chipProv.textContent = proveedor.nombre_tienda.toUpperCase();
           chipProv.dataset.provId = proveedor.id_plataforma;
-
+        
           // Ruta de la imagen en el servidor
           const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
-
+        
+          // Convertir string de categorías a un array limpio
+          const categoriasArray = proveedor.categorias
+            ? proveedor.categorias.split(",").map(cat => cat.trim()) // Separar por comas y quitar espacios
+            : [];
+        
+          // Mostrar solo las primeras 3 categorías
+          const categoriasMostradas = categoriasArray.length > 0
+            ? categoriasArray.slice(0, 3).join(", ") // Tomar solo 3 y unir con comas
+            : "Sin categorías";
+        
           chipProv.innerHTML = `
-            <img src="${iconUrl}" class="icon-chip"> 
-            ${proveedor.nombre_tienda.toUpperCase()}
+            <div class="chip-content">
+              <img src="${iconUrl}" class="icon-chip"> 
+              <div class="chip-text">
+                <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
+                <span class="chip-count">${proveedor.cantidad_productos} productos</span>
+                <span class="chip-categories">${categoriasMostradas}</span>
+              </div>
+            </div>
           `;
-
-
           // Toggle logic
           chipProv.addEventListener("click", function (e) {
             const clickedProvChip = e.currentTarget;
-            // ¿Ya estaba seleccionado?
             if (clickedProvChip.classList.contains("selected")) {
-              // Lo des-seleccionamos
               clickedProvChip.classList.remove("selected");
               formData_filtro.set("plataforma", "");
             } else {
-              // Deseleccionar otros
               document
                 .querySelectorAll("#sliderProveedores .slider-chip")
                 .forEach((el) => el.classList.remove("selected"));
@@ -590,7 +569,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             clearAndFetchProducts();
           });
-
+  
           sliderProveedores.appendChild(chipProv);
         });
       } else {
@@ -600,14 +579,12 @@ document.addEventListener("DOMContentLoaded", function () {
     error: function (error) {
       console.error("Error al obtener la lista de proveedores:", error);
     },
-  });
-}); // Fin DOMContentLoaded
+  }));
 
 /************************************************
  * FUNCIONES FUERA DE DOMContentLoaded
  * (para poder llamarlas con onclick, etc.)
  ************************************************/
-
 function copyToClipboard(id) {
   navigator.clipboard.writeText(id).then(
     function () {
@@ -872,4 +849,4 @@ function obtenerURLImagen(imagePath, serverURL) {
     console.error("imagePath es null o undefined");
     return serverURL + "public/img/broken-image.png";
   }
-}
+}})

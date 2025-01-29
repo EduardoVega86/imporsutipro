@@ -7,6 +7,29 @@ class MarketplaceModel extends Query
     }
 
     ///productos
+    public function obtenerProveedoresConProductosCategorias()
+    {
+        $id_matriz = $this->obtenerMatriz();
+        $id_matriz = $id_matriz[0]['idmatriz'];
+
+        $sql = "SELECT p.*, 
+                       COUNT(pr.id_producto) AS cantidad_productos,
+                       GROUP_CONCAT(DISTINCT l.nombre_linea ORDER BY l.nombre_linea SEPARATOR ', ') AS categorias
+                FROM plataformas p
+                LEFT JOIN productos pr ON p.id_plataforma = pr.id_plataforma
+                LEFT JOIN lineas l ON pr.id_linea_producto = l.id_linea
+                WHERE p.proveedor = 1 
+                      AND p.id_plataforma NOT IN (
+                          SELECT id_plataforma 
+                          FROM plataforma_matriz 
+                          WHERE id_matriz = $id_matriz
+                      )
+                GROUP BY p.id_plataforma
+                ORDER BY cantidad_productos DESC"; // Ordena por cantidad de productos
+
+        return $this->select($sql);
+    }
+
 
     public function obtener_productos($plataforma, $nombre, $linea, $plataforma_filtro, $min, $max, $favorito)
     {
