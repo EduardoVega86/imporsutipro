@@ -527,8 +527,6 @@ document.addEventListener("DOMContentLoaded", function () {
         sliderProveedores.innerHTML = ""; // Limpia antes de insertar
   
         response.forEach(proveedor => {
-          console.log(`Proveedor: ${proveedor.nombre_tienda}`, "Categorias recibidas:", proveedor.categorias);
-        
           const chipProv = document.createElement("div");
           chipProv.classList.add("slider-chip");
           chipProv.dataset.provId = proveedor.id_plataforma;
