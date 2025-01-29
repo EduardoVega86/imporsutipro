@@ -31,14 +31,14 @@
             </div>
         </div>
 
-        <!-- Botón destacado -->
-        <div class="text-center mt-5">
-            <a href="https://api.leadconnectorhq.com/widget/booking/IDNQKni1wvk9WuJseH9R"
-                class="btn btn-lg"
-                target="_blank"
-                style="background-color: #5A2D82; color: #FFF; font-size: 1.5rem; font-weight: bold; padding: 15px 30px; border-radius: 50px; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">
-                📅 Agendar Citas
-            </a>
+        <div style="text-align: center;">
+            <h2>Agendar Cita</h2>
+            <iframe
+                src="https://api.leadconnectorhq.com/widget/booking/IDNQKni1wvk9WuJseH9R"
+                width="100%"
+                height="600"
+                style="border: none;">
+            </iframe>
         </div>
 
         <!-- Tarjetas informativas -->
