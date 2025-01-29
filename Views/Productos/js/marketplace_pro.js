@@ -182,17 +182,17 @@ document.addEventListener("DOMContentLoaded", function () {
     card.className = "card card-custom position-relative";
     // Usar la función para obtener la URL de la imagen
     const imagePath = obtenerURLImagen(productDetails.image_path, SERVERURL);
-    let validador_imagen = 1;
-    validador_imagen = verificarImagen(imagePath);
 
-    if (validador_imagen == 0) {
-      // si la imagen no existe
+    // Lógica para verificar si la imagen existe
+    verificarImagen(imagePath).then((validador_imagen) => {
+      let finalImage = imagePath;
+      if (validador_imagen === 0) {
+        finalImage = SERVERURL + "public/img/broken-image.png";
+      }
       card.innerHTML = `
         <div class="image-container position-relative">
           ${botonId_inventario}
-          <img src="${
-            SERVERURL + "public/img/broken-image.png"
-          }" class="card-img-top" alt="Imagen rota">
+          <img src="${finalImage}" class="card-img-top" alt="Product Image">
           <div class="add-to-store-button ${
             product.agregadoTienda ? "added" : ""
           }" data-product-id="${product.id_producto}">
@@ -220,9 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <h6 class="card-title"><strong>${
               product.nombre_producto
             }</strong></h6>
-            <p class="card-text">Stock: <strong style="color:green">${
-              productDetails.saldo_stock
-            }</strong></p>
+            <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
             <p class="card-text">Precio Proveedor: <strong>${
               productDetails.pcp
             }</strong></p>
@@ -239,59 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       `;
-    } else {
-      // si la imagen sí existe
-      card.innerHTML = `
-        <div class="image-container position-relative">
-          ${botonId_inventario}
-          <img src="${imagePath}" class="card-img-top" alt="Product Image">
-          <div class="add-to-store-button ${
-            product.agregadoTienda ? "added" : ""
-          }" data-product-id="${product.id_producto}">
-            <span class="plus-icon">+</span>
-            <span class="add-to-store-text">${
-              product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
-            }</span>
-          </div>
-          <div class="add-to-funnel-button" ${
-            product.agregadoFunnel ? "added" : ""
-          } data-funnel-id="${product.id_inventario}">
-            <span class="plus-icon">+</span>
-            <span class="add-to-funnel-text">${
-              product.agregadoFunnel ? "Quitar de funnel" : "Añadir a funnel"
-            }</span>
-          </div>
-        </div>
-        <button class="btn btn-heart ${
-          esFavorito ? "clicked" : ""
-        }" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
-          <i class="fas fa-heart"></i>
-        </button>
-        <div class="card-body text-center d-flex flex-column justify-content-between">
-          <div>
-            <h6 class="card-title"><strong>${
-              product.nombre_producto
-            }</strong></h6>
-            <p class="card-text">Stock: <strong style="color:green">${
-              productDetails.saldo_stock
-            }</strong></p>
-            <p class="card-text">Precio Proveedor: <strong>${
-              productDetails.pcp
-            }</strong></p>
-            <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-            <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${
-        productDetails.nombre_tienda
-      }</a></p>
-          </div>
-          <div>
-            <button class="btn btn-description" onclick="agregarModal_marketplace(${
-              product.id_producto
-            })">Descripción</button>
-            ${boton_enviarCliente}
-          </div>
-        </div>
-      `;
-    }
+    });
 
     cardContainer.appendChild(card);
   }
@@ -412,64 +358,84 @@ document.addEventListener("DOMContentLoaded", function () {
   var priceMin = document.getElementById("price-min");
   var priceMax = document.getElementById("price-max");
 
-  fetch(`${SERVERURL}marketplace/obtenerMaximo`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      let data_precioMaximo = parseFloat(data);
-
-      noUiSlider.create(slider, {
-        start: [0, data_precioMaximo],
-        connect: true,
-        range: {
-          min: 0,
-          max: data_precioMaximo,
-        },
-        step: 1,
-        format: wNumb({
-          decimals: 0,
-          thousand: ",",
-          prefix: "$",
-        }),
-      });
-
-      slider.noUiSlider.on("update", function (values, handle) {
-        if (handle === 0) {
-          priceMin.value = values[0];
-        } else {
-          priceMax.value = values[1];
+  // 1) Primero vaciamos pedidos
+  vaciarTmpPedidos().then(() => {
+    // 2) Obtenemos el precio máximo para el slider
+    fetch(`${SERVERURL}marketplace/obtenerMaximo`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
-      });
+        return response.json();
+      })
+      .then((data) => {
+        let data_precioMaximo = parseFloat(data);
+        if (isNaN(data_precioMaximo)) {
+          // En caso de que la API devuelva algo inesperado
+          data_precioMaximo = 999999;
+        }
 
-      slider.noUiSlider.on("change", function (values) {
-        var min = values[0].replace("$", "").replace(",", "");
-        var max = values[1].replace("$", "").replace(",", "");
-        formData_filtro.set("min", min);
-        formData_filtro.set("max", max);
-        clearAndFetchProducts(); // Reset and fetch products based on new filter
+        noUiSlider.create(slider, {
+          start: [0, data_precioMaximo],
+          connect: true,
+          range: {
+            min: 0,
+            max: data_precioMaximo,
+          },
+          step: 1,
+          format: wNumb({
+            decimals: 0,
+            thousand: ",",
+            prefix: "$",
+          }),
+        });
+
+        // Ajustamos formData_filtro para mostrar todo inicialmente
+        formData_filtro.set("min", 0); // <-- CAMBIO: usar 0
+        formData_filtro.set("max", data_precioMaximo); // <-- CAMBIO: usar precioMáximo
+
+        // Cada vez que el usuario mueva los sliders
+        slider.noUiSlider.on("update", function (values, handle) {
+          if (handle === 0) {
+            priceMin.value = values[0];
+          } else {
+            priceMax.value = values[1];
+          }
+        });
+
+        slider.noUiSlider.on("change", function (values) {
+          var min = values[0].replace("$", "").replace(",", "");
+          var max = values[1].replace("$", "").replace(",", "");
+          formData_filtro.set("min", min);
+          formData_filtro.set("max", max);
+          clearAndFetchProducts();
+        });
+
+        // 3) Una vez configurado el slider y formData_filtro, llamamos fetchProducts para mostrar todo
+        fetchProducts(true); //Se muestra todo al iniciar
+      })
+      .catch((error) => {
+        console.error("Error fetching max price:", error);
+        // Si ocurre un error, ponemos un rango por defecto y fetch
+        noUiSlider.create(slider, {
+          start: [0, 1000],
+          connect: true,
+          range: {
+            min: 0,
+            max: 1000,
+          },
+          step: 5,
+          format: wNumb({
+            decimals: 0,
+            thousand: ",",
+            prefix: "$",
+          }),
+        });
+        formData_filtro.set("min", 0);
+        formData_filtro.set("max", 1000);
+        fetchProducts(true);
       });
-    })
-    .catch((error) => {
-      console.error("Error fetching max price:", error);
-      noUiSlider.create(slider, {
-        start: [0, 1000],
-        connect: true,
-        range: {
-          min: 0,
-          max: 1000,
-        },
-        step: 5,
-        format: wNumb({
-          decimals: 0,
-          thousand: ",",
-          prefix: "$",
-        }),
-      });
-    });
+  });
 
   /************************************************
    * Filtro por nombre, categoría, proveedor, etc.
@@ -519,13 +485,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  /************************************************
-   * Cargar chips de categorías y proveedores
-   * AHORA todo dentro de DOMContentLoaded
-   ************************************************/
-  // Al cargar la página, vaciar temporalmente los pedidos
-  vaciarTmpPedidos();
-
+  /*****************************************************
+   * Cargar chips de categorías y proveedores (chips)
+   * (Toggling: si clicas el chip ya seleccionado, lo quita)
+   *****************************************************/
   // Cargar categorías
   $.ajax({
     url: SERVERURL + "productos/cargar_categorias",
@@ -542,17 +505,25 @@ document.addEventListener("DOMContentLoaded", function () {
           chip.textContent = categoria.nombre_linea;
           chip.dataset.catId = categoria.id_linea;
 
+          // Toggle logic
           chip.addEventListener("click", function (e) {
             const clickedChip = e.currentTarget;
-            const catId = clickedChip.dataset.catId;
 
-            document
-              .querySelectorAll("#sliderCategorias .slider-chip")
-              .forEach((el) => el.classList.remove("selected"));
-            clickedChip.classList.add("selected");
-
-            // Usa la misma variable formData_filtro
-            formData_filtro.set("linea", catId);
+            // ¿Ya estaba seleccionado?
+            if (clickedChip.classList.contains("selected")) {
+              // Lo des-seleccionamos
+              clickedChip.classList.remove("selected");
+              formData_filtro.set("linea", ""); // Limpia el filtro de categoría
+            } else {
+              // Deseleccionar otros chips
+              document
+                .querySelectorAll("#sliderCategorias .slider-chip")
+                .forEach((el) => el.classList.remove("selected"));
+              // Seleccionar el clicado
+              clickedChip.classList.add("selected");
+              // Asignar filtro
+              formData_filtro.set("linea", clickedChip.dataset.catId);
+            }
             clearAndFetchProducts();
           });
 
@@ -584,17 +555,22 @@ document.addEventListener("DOMContentLoaded", function () {
           chipProv.textContent = proveedor.nombre_tienda.toUpperCase();
           chipProv.dataset.provId = proveedor.id_plataforma;
 
+          // Toggle logic
           chipProv.addEventListener("click", function (e) {
             const clickedProvChip = e.currentTarget;
-            const provId = clickedProvChip.dataset.provId;
-
-            document
-              .querySelectorAll("#sliderProveedores .slider-chip")
-              .forEach((el) => el.classList.remove("selected"));
-            clickedProvChip.classList.add("selected");
-
-            // Usa formData_filtro
-            formData_filtro.set("plataforma", provId);
+            // ¿Ya estaba seleccionado?
+            if (clickedProvChip.classList.contains("selected")) {
+              // Lo des-seleccionamos
+              clickedProvChip.classList.remove("selected");
+              formData_filtro.set("plataforma", "");
+            } else {
+              // Deseleccionar otros
+              document
+                .querySelectorAll("#sliderProveedores .slider-chip")
+                .forEach((el) => el.classList.remove("selected"));
+              clickedProvChip.classList.add("selected");
+              formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
+            }
             clearAndFetchProducts();
           });
 
@@ -634,8 +610,8 @@ function copyToClipboard(id) {
     url: SERVERURL + "Productos/importar_productos_shopify",
     type: "POST",
     data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
+    processData: false,
+    contentType: false,
     success: function (response) {
       if (response.status == 500) {
         toastr.error("NO SE AGREGO CORRECTAMENTE a shopify", "NOTIFICACIÓN", {
@@ -666,8 +642,8 @@ function handleHeartClick(productId, esFavorito) {
     url: SERVERURL + "marketplace/agregarFavoritos",
     type: "POST",
     data: formData_favoritos,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
+    processData: false,
+    contentType: false,
     success: function (response) {
       console.log("Producto actualizado:", response);
     },
@@ -689,10 +665,8 @@ function agregarModal_marketplace(id) {
     dataType: "json",
     success: function (response) {
       if (response) {
-        // Obtener el primer objeto de la respuesta
         const data = response[0];
 
-        // Llenar los elementos <span> del modal con los datos recibidos
         $("#codigo_producto").text(data.codigo_producto);
         $("#nombre_producto").text(data.nombre_producto);
         $("#precio_proveedor").text(data.pcp);
@@ -702,7 +676,6 @@ function agregarModal_marketplace(id) {
         $("#telefono_proveedor").text(formatPhoneNumber(data.whatsapp));
         $("#descripcion").text(data.descripcion_producto);
 
-        // Obtener la URL de la imagen principal
         var imagen_descripcion = obtenerURLImagen(data.image_path, SERVERURL);
 
         // Agregar la imagen principal al carrusel y su miniatura
@@ -768,12 +741,10 @@ function agregarModal_marketplace(id) {
 }
 
 function procesarPlataforma(url) {
-  // Eliminar el "https://"
   let sinProtocolo = url.replace("https://", "");
   let primerPunto = sinProtocolo.indexOf(".");
   let baseNombre = sinProtocolo.substring(0, primerPunto);
-  let resultado = baseNombre.toUpperCase();
-  return resultado;
+  return baseNombre.toUpperCase();
 }
 
 //abrir modal de seleccion de producto con atributo especifico
@@ -828,10 +799,8 @@ function formatPhoneNumber(number) {
   // Eliminar caracteres no numéricos excepto el signo +
   number = number.replace(/[^\d+]/g, "");
   if (/^\+593/.test(number)) {
-    // El número ya está correctamente con +593
     return number;
   } else if (/^593/.test(number)) {
-    // El número tiene 593 al inicio pero le falta el +
     return "+" + number;
   } else {
     if (number.startsWith("0")) {
@@ -872,7 +841,6 @@ function obtenerURLImagen(imagePath, serverURL) {
     if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
       return imagePath;
     } else {
-      // Verificar si el imagePath incluye rutas relativas inválidas
       if (
         imagePath.includes("../") ||
         imagePath.includes("..\\") ||
