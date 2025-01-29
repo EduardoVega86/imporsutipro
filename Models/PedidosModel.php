@@ -2511,6 +2511,27 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function validar_configuracion($id_plataforma)
+    {
+        // Asegurarse de que $id_plataforma sea seguro
+        $id_plataforma = intval($id_plataforma);
+
+        // Consulta para validar si hay configuraciones
+        $sql = "SELECT * FROM `configuraciones` WHERE id_plataforma = $id_plataforma";
+        $resultado = $this->select($sql);
+
+        // Inicializar la respuesta
+        $response = ['status' => false];
+
+        // Validar si el resultado contiene datos
+        if (!empty($resultado)) {
+            $response['status'] = true;
+        }
+
+        return $response;
+    }
+
+
     public function agregar_configuracion($nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $webhook_url, $id_plataforma)
     {
         // Inicializar la respuesta

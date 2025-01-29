@@ -588,6 +588,7 @@
     /* Contenedores principales de los sliders */
     .slider-categorias-container,
     .slider-proveedores-container {
+        width: 100%;
         margin-bottom: 20px;
     }
 
@@ -597,18 +598,18 @@
         margin-bottom: 10px;
     }
 
-    /* Contenedor que hace scroll horizontal */
     .slider-categorias,
     .slider-proveedores {
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        padding: 10px;
+        max-width: 900px;
+        /* Evitar desbordes */
+        box-sizing: border-box;
         border-radius: 8px;
         background-color: #f9f9f9;
         scroll-behavior: smooth;
         white-space: nowrap;
-        /* Para que no brinque de línea */
     }
 
     /* Estilo para cada 'chip' o botón */

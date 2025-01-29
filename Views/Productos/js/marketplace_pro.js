@@ -1,16 +1,19 @@
+let formData_filtro;
+
 document.addEventListener("DOMContentLoaded", function () {
-  const initialProductsPerPage = 24;
-  const additionalProductsPerPage = 24;
-  let currentPage = 1;
-  let products = [];
-  let displayedProducts = new Set();
-  let formData_filtro = new FormData();
+  formData_filtro = new FormData();
   formData_filtro.append("nombre", "");
   formData_filtro.append("linea", "");
   formData_filtro.append("plataforma", "");
   formData_filtro.append("min", "");
   formData_filtro.append("max", "");
   formData_filtro.append("favorito", "0");
+
+  const initialProductsPerPage = 24;
+  const additionalProductsPerPage = 24;
+  let currentPage = 1;
+  let products = [];
+  let displayedProducts = new Set();
 
   const cardContainer = document.getElementById("card-container");
   const loadingIndicator = document.getElementById("loading-indicator");
@@ -19,6 +22,25 @@ document.addEventListener("DOMContentLoaded", function () {
   let currentFetchController = null;
   let currentDisplayController = null;
 
+  /************************************************
+   * Función para vaciar pedidos temporales al cargar
+   ************************************************/
+  const vaciarTmpPedidos = async () => {
+    try {
+      const response = await fetch("" + SERVERURL + "marketplace/vaciarTmp");
+      if (!response.ok) {
+        throw new Error("Error al vaciar los pedidos temporales");
+      }
+      const data = await response.json();
+      console.log("Respuesta de vaciarTmp:", data);
+    } catch (error) {
+      console.error("Error al hacer la solicitud:", error);
+    }
+  };
+
+  /************************************************
+   * Filtrar, limpiar y recargar productos
+   ************************************************/
   async function clearAndFetchProducts() {
     // Cancel any ongoing fetch
     if (currentFetchController) {
@@ -94,6 +116,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  /************************************************
+   * Mostrar productos en la página
+   ************************************************/
   const displayProducts = (products, page, perPage) => {
     if (currentDisplayController) {
       currentDisplayController.abort();
@@ -157,62 +182,63 @@ document.addEventListener("DOMContentLoaded", function () {
     card.className = "card card-custom position-relative";
     // Usar la función para obtener la URL de la imagen
     const imagePath = obtenerURLImagen(productDetails.image_path, SERVERURL);
-    let validador_imagen = 1;
-    validador_imagen = verificarImagen(imagePath);
 
-    if (validador_imagen == 0) {
-      imagePath = SERVERURL + "public/img/broken-image.png";
-    }
-
-    card.innerHTML = `
-      <div class="image-container position-relative">
-        ${botonId_inventario}
-        <img src="${imagePath}" class="card-img-top" alt="Product Image">
-        <div class="add-to-store-button ${
-          product.agregadoTienda ? "added" : ""
-        }" data-product-id="${product.id_producto}">
-          <span class="plus-icon">+</span>
-          <span class="add-to-store-text">${
-            product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
-          }</span>
-        </div>
-        <div class="add-to-funnel-button" ${
-          product.agregadoFunnel ? "added" : ""
-        } data-funnel-id="${product.id_inventario}">
-          <span class="plus-icon">+</span>
-          <span class="add-to-funnel-text">${
-            product.agregadoFunnel ? "Quitar de funnel" : "Añadir a funnel"
-          }</span>
+    // Lógica para verificar si la imagen existe
+    verificarImagen(imagePath).then((validador_imagen) => {
+      let finalImage = imagePath;
+      if (validador_imagen === 0) {
+        finalImage = SERVERURL + "public/img/broken-image.png";
+      }
+      card.innerHTML = `
+        <div class="image-container position-relative">
+          ${botonId_inventario}
+          <img src="${finalImage}" class="card-img-top" alt="Product Image">
+          <div class="add-to-store-button ${
+            product.agregadoTienda ? "added" : ""
+          }" data-product-id="${product.id_producto}">
+            <span class="plus-icon">+</span>
+            <span class="add-to-store-text">${
+              product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
+            }</span>
           </div>
+          <div class="add-to-funnel-button" ${
+            product.agregadoFunnel ? "added" : ""
+          } data-funnel-id="${product.id_inventario}">
+            <span class="plus-icon">+</span>
+            <span class="add-to-funnel-text">${
+              product.agregadoFunnel ? "Quitar de funnel" : "Añadir a funnel"
+            }</span>
+          </div>
+        </div>
+        <button class="btn btn-heart ${
+          esFavorito ? "clicked" : ""
+        }" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
+          <i class="fas fa-heart"></i>
+        </button>
+        <div class="card-body text-center d-flex flex-column justify-content-between">
+          <div>
+            <h6 class="card-title"><strong>${
+              product.nombre_producto
+            }</strong></h6>
+            <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
+            <p class="card-text">Precio Proveedor: <strong>${
+              productDetails.pcp
+            }</strong></p>
+            <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
+            <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${
+        productDetails.nombre_tienda
+      }</a></p>
+          </div>
+          <div>
+            <button class="btn btn-description" onclick="agregarModal_marketplace(${
+              product.id_producto
+            })">Descripción</button>
+            ${boton_enviarCliente}
+          </div>
+        </div>
+      `;
+    });
 
-      </div>
-      <button class="btn btn-heart ${
-        esFavorito ? "clicked" : ""
-      }" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
-        <i class="fas fa-heart"></i>
-      </button>
-      <div class="card-body text-center d-flex flex-column justify-content-between">
-        <div>
-          <h6 class="card-title"><strong>${
-            product.nombre_producto
-          }</strong></h6>
-          <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
-          <p class="card-text">Precio Proveedor: <strong>${
-            productDetails.pcp
-          }</strong></p>
-          <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-          <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${
-      productDetails.nombre_tienda
-    }</a></p>
-        </div>
-        <div>
-          <button class="btn btn-description" onclick="agregarModal_marketplace(${
-            product.id_producto
-          })">Descripción</button>
-          ${boton_enviarCliente}
-        </div>
-      </div>
-    `;
     cardContainer.appendChild(card);
   }
 
@@ -225,8 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   }
 
-  fetchProducts();
-
+  // Evento de click “global” para los botones “añadir a tienda” y “añadir a funnel”
   cardContainer.addEventListener("click", function (event) {
     const target = event.target;
     if (
@@ -249,6 +274,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  /************************************************
+   * Revisar si la imagen existe
+   ************************************************/
   async function verificarImagen(url) {
     try {
       const response = await fetch(url);
@@ -262,6 +290,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  /************************************************
+   * Añadir/quitar producto a tienda
+   ************************************************/
   function toggleAddToStore(productId, isAdded) {
     let formData = new FormData();
     formData.append("id_producto", productId);
@@ -289,6 +320,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  /************************************************
+   * Añadir/quitar producto a funnel
+   ************************************************/
   function toggleAddToFunnel(funnelId, funnelIdInput, isAdded) {
     let formData = new FormData();
     formData.append("id_inventario", funnelId);
@@ -317,104 +351,131 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  /* Filtros */
-
+  /************************************************
+   * Filtro de precio con noUiSlider
+   ************************************************/
   var slider = document.getElementById("price-range-slider");
   var priceMin = document.getElementById("price-min");
   var priceMax = document.getElementById("price-max");
 
-  fetch(`${SERVERURL}marketplace/obtenerMaximo`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      let data_precioMaximo = parseFloat(data);
-
-      noUiSlider.create(slider, {
-        start: [0, data_precioMaximo],
-        connect: true,
-        range: {
-          min: 0,
-          max: data_precioMaximo,
-        },
-        step: 1,
-        format: wNumb({
-          decimals: 0,
-          thousand: ",",
-          prefix: "$",
-        }),
-      });
-
-      slider.noUiSlider.on("update", function (values, handle) {
-        if (handle === 0) {
-          priceMin.value = values[0];
-        } else {
-          priceMax.value = values[1];
+  // 1) Primero vaciamos pedidos
+  vaciarTmpPedidos().then(() => {
+    // 2) Obtenemos el precio máximo para el slider
+    fetch(`${SERVERURL}marketplace/obtenerMaximo`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
-      });
+        return response.json();
+      })
+      .then((data) => {
+        let data_precioMaximo = parseFloat(data);
+        if (isNaN(data_precioMaximo)) {
+          // En caso de que la API devuelva algo inesperado
+          data_precioMaximo = 999999;
+        }
 
-      slider.noUiSlider.on("change", function (values) {
-        var min = values[0].replace("$", "").replace(",", "");
-        var max = values[1].replace("$", "").replace(",", "");
-        formData_filtro.set("min", min);
-        formData_filtro.set("max", max);
-        clearAndFetchProducts(); // Reset and fetch products based on new filter
-      });
-    })
-    .catch((error) => {
-      console.error("Error fetching max price:", error);
-      noUiSlider.create(slider, {
-        start: [0, 1000],
-        connect: true,
-        range: {
-          min: 0,
-          max: 1000,
-        },
-        step: 5,
-        format: wNumb({
-          decimals: 0,
-          thousand: ",",
-          prefix: "$",
-        }),
-      });
-    });
+        noUiSlider.create(slider, {
+          start: [0, data_precioMaximo],
+          connect: true,
+          range: {
+            min: 0,
+            max: data_precioMaximo,
+          },
+          step: 1,
+          format: wNumb({
+            decimals: 0,
+            thousand: ",",
+            prefix: "$",
+          }),
+        });
 
-  /* Fin Filtros */
+        // Ajustamos formData_filtro para mostrar todo inicialmente
+        formData_filtro.set("min", 0); // <-- CAMBIO: usar 0
+        formData_filtro.set("max", data_precioMaximo); // <-- CAMBIO: usar precioMáximo
 
+        // Cada vez que el usuario mueva los sliders
+        slider.noUiSlider.on("update", function (values, handle) {
+          if (handle === 0) {
+            priceMin.value = values[0];
+          } else {
+            priceMax.value = values[1];
+          }
+        });
+
+        slider.noUiSlider.on("change", function (values) {
+          var min = values[0].replace("$", "").replace(",", "");
+          var max = values[1].replace("$", "").replace(",", "");
+          formData_filtro.set("min", min);
+          formData_filtro.set("max", max);
+          clearAndFetchProducts();
+        });
+
+        // 3) Una vez configurado el slider y formData_filtro, llamamos fetchProducts para mostrar todo
+        fetchProducts(true); //Se muestra todo al iniciar
+      })
+      .catch((error) => {
+        console.error("Error fetching max price:", error);
+        // Si ocurre un error, ponemos un rango por defecto y fetch
+        noUiSlider.create(slider, {
+          start: [0, 1000],
+          connect: true,
+          range: {
+            min: 0,
+            max: 1000,
+          },
+          step: 5,
+          format: wNumb({
+            decimals: 0,
+            thousand: ",",
+            prefix: "$",
+          }),
+        });
+        formData_filtro.set("min", 0);
+        formData_filtro.set("max", 1000);
+        fetchProducts(true);
+      });
+  });
+
+  /************************************************
+   * Filtro por nombre, categoría, proveedor, etc.
+   ************************************************/
   const handleSelectChange = debounce(function () {
     clearAndFetchProducts();
   }, 300);
 
+  // Filtro por texto (nombre)
   $("#buscar_nombre").on(
     "input",
     debounce(function () {
       var q = $("#buscar_nombre").val();
       formData_filtro.set("nombre", q);
-      clearAndFetchProducts(); // Reset and fetch products based on new filter
+      clearAndFetchProducts();
     }, 300)
   );
 
+  // Filtro por categoría (si usas select)
   $("#categoria_filtroMarketplace").change(function () {
     var categoria = $("#categoria_filtroMarketplace").val();
     formData_filtro.set("linea", categoria);
     handleSelectChange();
   });
 
+  // Filtro por proveedor (si usas select)
   $("#proveedor_filtroMarketplace").change(function () {
     var proveedor = $("#proveedor_filtroMarketplace").val();
     formData_filtro.set("plataforma", proveedor);
     handleSelectChange();
   });
 
+  // Switch de favoritos
   $("#favoritosSwitch").change(function () {
     var estado = $(this).is(":checked") ? 1 : 0;
     formData_filtro.set("favorito", estado);
-    clearAndFetchProducts(); // Reset and fetch products based on new filter
+    clearAndFetchProducts();
   });
 
+  // Botón “Cargar más”
   loadMoreButton.addEventListener("click", () => {
     if (!isLoading) {
       isLoading = true;
@@ -423,7 +484,112 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchProducts(false);
     }
   });
-});
+
+  /*****************************************************
+   * Cargar chips de categorías y proveedores (chips)
+   * (Toggling: si clicas el chip ya seleccionado, lo quita)
+   *****************************************************/
+  // Cargar categorías
+  $.ajax({
+    url: SERVERURL + "productos/cargar_categorias",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      if (Array.isArray(response)) {
+        const sliderCategorias = document.getElementById("sliderCategorias");
+        sliderCategorias.innerHTML = ""; // Limpia antes de insertar
+
+        response.forEach(function (categoria) {
+          const chip = document.createElement("div");
+          chip.classList.add("slider-chip");
+          chip.textContent = categoria.nombre_linea;
+          chip.dataset.catId = categoria.id_linea;
+
+          // Toggle logic
+          chip.addEventListener("click", function (e) {
+            const clickedChip = e.currentTarget;
+
+            // ¿Ya estaba seleccionado?
+            if (clickedChip.classList.contains("selected")) {
+              // Lo des-seleccionamos
+              clickedChip.classList.remove("selected");
+              formData_filtro.set("linea", ""); // Limpia el filtro de categoría
+            } else {
+              // Deseleccionar otros chips
+              document
+                .querySelectorAll("#sliderCategorias .slider-chip")
+                .forEach((el) => el.classList.remove("selected"));
+              // Seleccionar el clicado
+              clickedChip.classList.add("selected");
+              // Asignar filtro
+              formData_filtro.set("linea", clickedChip.dataset.catId);
+            }
+            clearAndFetchProducts();
+          });
+
+          sliderCategorias.appendChild(chip);
+        });
+      } else {
+        console.log("La respuesta de la API no es un array:", response);
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de categorias:", error);
+    },
+  });
+
+  // Cargar proveedores
+  $.ajax({
+    url: SERVERURL + "marketplace/obtenerProveedores",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      console.log("Respuesta de obtener proveedores:", response);
+      if (Array.isArray(response)) {
+        const sliderProveedores = document.getElementById("sliderProveedores");
+        sliderProveedores.innerHTML = ""; // Limpia antes de insertar
+
+        response.forEach(function (proveedor) {
+          const chipProv = document.createElement("div");
+          chipProv.classList.add("slider-chip");
+          chipProv.textContent = proveedor.nombre_tienda.toUpperCase();
+          chipProv.dataset.provId = proveedor.id_plataforma;
+
+          // Toggle logic
+          chipProv.addEventListener("click", function (e) {
+            const clickedProvChip = e.currentTarget;
+            // ¿Ya estaba seleccionado?
+            if (clickedProvChip.classList.contains("selected")) {
+              // Lo des-seleccionamos
+              clickedProvChip.classList.remove("selected");
+              formData_filtro.set("plataforma", "");
+            } else {
+              // Deseleccionar otros
+              document
+                .querySelectorAll("#sliderProveedores .slider-chip")
+                .forEach((el) => el.classList.remove("selected"));
+              clickedProvChip.classList.add("selected");
+              formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
+            }
+            clearAndFetchProducts();
+          });
+
+          sliderProveedores.appendChild(chipProv);
+        });
+      } else {
+        console.log("La respuesta de la API no es un array:", response);
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de proveedores:", error);
+    },
+  });
+}); // Fin DOMContentLoaded
+
+/************************************************
+ * FUNCIONES FUERA DE DOMContentLoaded
+ * (para poder llamarlas con onclick, etc.)
+ ************************************************/
 
 function copyToClipboard(id) {
   navigator.clipboard.writeText(id).then(
@@ -444,8 +610,8 @@ function copyToClipboard(id) {
     url: SERVERURL + "Productos/importar_productos_shopify",
     type: "POST",
     data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
+    processData: false,
+    contentType: false,
     success: function (response) {
       if (response.status == 500) {
         toastr.error("NO SE AGREGO CORRECTAMENTE a shopify", "NOTIFICACIÓN", {
@@ -461,8 +627,6 @@ function copyToClipboard(id) {
       alert(errorThrown);
     },
   });
-
-  /* fin mandar a shopify */
 }
 
 // Función para manejar el clic en el botón de corazón
@@ -478,8 +642,8 @@ function handleHeartClick(productId, esFavorito) {
     url: SERVERURL + "marketplace/agregarFavoritos",
     type: "POST",
     data: formData_favoritos,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
+    processData: false,
+    contentType: false,
     success: function (response) {
       console.log("Producto actualizado:", response);
     },
@@ -492,8 +656,8 @@ function handleHeartClick(productId, esFavorito) {
 //agregar informacion al modal descripcion marketplace
 function agregarModal_marketplace(id) {
   // Limpiar el carrusel y las miniaturas antes de agregar nuevas imágenes
-  $(".carousel-inner").html(""); // Limpia todas las imágenes del carrusel
-  $(".carousel-thumbnails").html(""); // Limpia todas las miniaturas del carrusel
+  $(".carousel-inner").html("");
+  $(".carousel-thumbnails").html("");
 
   $.ajax({
     type: "POST",
@@ -501,10 +665,8 @@ function agregarModal_marketplace(id) {
     dataType: "json",
     success: function (response) {
       if (response) {
-        // Obtener el primer objeto de la respuesta
         const data = response[0];
 
-        // Llenar los elementos <span> del modal con los datos recibidos
         $("#codigo_producto").text(data.codigo_producto);
         $("#nombre_producto").text(data.nombre_producto);
         $("#precio_proveedor").text(data.pcp);
@@ -514,7 +676,6 @@ function agregarModal_marketplace(id) {
         $("#telefono_proveedor").text(formatPhoneNumber(data.whatsapp));
         $("#descripcion").text(data.descripcion_producto);
 
-        // Obtener la URL de la imagen principal desde la primera llamada AJAX
         var imagen_descripcion = obtenerURLImagen(data.image_path, SERVERURL);
 
         // Agregar la imagen principal al carrusel y su miniatura
@@ -536,23 +697,20 @@ function agregarModal_marketplace(id) {
           url: SERVERURL + "Productos/listar_imagenAdicional_productos",
           type: "POST",
           data: formData,
-          processData: false, // No procesar los datos
-          contentType: false, // No establecer ningún tipo de contenido
+          processData: false,
+          contentType: false,
           dataType: "json",
           success: function (response) {
             if (response && response.length > 0) {
-              // Recorrer las imágenes adicionales y añadirlas al carrusel y a las miniaturas
               response.forEach(function (imgData, index) {
                 var imgURL = obtenerURLImagen(imgData.url, SERVERURL);
 
-                // Agregar las imágenes adicionales al carrusel
                 $(".carousel-inner").append(`
                   <div class="carousel-item">
                     <img src="${imgURL}" class="d-block w-100 fixed-size-img" alt="Product Image ${index + 2}">
                   </div>
                 `);
 
-                // Agregar las miniaturas adicionales
                 $(".carousel-thumbnails").append(`
                   <img src="${imgURL}" class="img-thumbnail mx-1" alt="Thumbnail ${index + 2}" data-bs-target="#productCarousel" data-bs-slide-to="${index + 1}">
                 `);
@@ -583,19 +741,10 @@ function agregarModal_marketplace(id) {
 }
 
 function procesarPlataforma(url) {
-  // Eliminar el "https://"
   let sinProtocolo = url.replace("https://", "");
-
-  // Encontrar la posición del primer punto
   let primerPunto = sinProtocolo.indexOf(".");
-
-  // Obtener la subcadena desde el inicio hasta el primer punto
   let baseNombre = sinProtocolo.substring(0, primerPunto);
-
-  // Convertir a mayúsculas
-  let resultado = baseNombre.toUpperCase();
-
-  return resultado;
+  return baseNombre.toUpperCase();
 }
 
 //abrir modal de seleccion de producto con atributo especifico
@@ -613,7 +762,6 @@ function abrir_modal_idInventario(id) {
 
 //enviar cliente
 function enviar_cliente(id, sku, pvp, id_inventario) {
-  // Crear un objeto FormData y agregar los datos
   const formData = new FormData();
   formData.append("cantidad", 1);
   formData.append("precio", pvp);
@@ -629,8 +777,6 @@ function enviar_cliente(id, sku, pvp, id_inventario) {
     contentType: false,
     success: function (response2) {
       response2 = JSON.parse(response2);
-      console.log(response2);
-      console.log(response2[0]);
       if (response2.status == 500) {
         Swal.fire({
           icon: "error",
@@ -652,191 +798,18 @@ function enviar_cliente(id, sku, pvp, id_inventario) {
 function formatPhoneNumber(number) {
   // Eliminar caracteres no numéricos excepto el signo +
   number = number.replace(/[^\d+]/g, "");
-
-  // Verificar si el número ya tiene el código de país +593
   if (/^\+593/.test(number)) {
-    // El número ya está correctamente formateado con +593
     return number;
   } else if (/^593/.test(number)) {
-    // El número tiene 593 al inicio pero le falta el +
     return "+" + number;
   } else {
-    // Si el número comienza con 0, quitarlo
     if (number.startsWith("0")) {
       number = number.substring(1);
     }
-    // Agregar el código de país +593 al inicio del número
-    number = "+593" + number;
+    return "+593" + number;
   }
-
-  return number;
 }
 
-// Función para vaciar temporalmente los pedidos
-const vaciarTmpPedidos = async () => {
-  try {
-    const response = await fetch("" + SERVERURL + "marketplace/vaciarTmp");
-    if (!response.ok) {
-      throw new Error("Error al vaciar los pedidos temporales");
-    }
-    const data = await response.json();
-    console.log("Respuesta de vaciarTmp:", data);
-  } catch (error) {
-    console.error("Error al hacer la solicitud:", error);
-  }
-};
-
-//cargar select categoria
-$.ajax({
-  url: SERVERURL + "productos/cargar_categorias",
-  type: "GET",
-  dataType: "json",
-  success: function (response) {
-      if (Array.isArray(response)) {
-          const sliderCategorias = document.getElementById("sliderCategorias");
-          sliderCategorias.innerHTML = ""; // Limpia antes de insertar
-
-          response.forEach(function (categoria) {
-              // Crear el "chip" (un div o button)
-              const chip = document.createElement("div");
-              chip.classList.add("slider-chip");
-              chip.textContent = categoria.nombre_linea; // Mostrar el nombre
-              
-              // Guardamos el ID para usarlo en la llamada de filtro
-              chip.dataset.catId = categoria.id_linea;
-
-              // Evento clic para filtrar
-              chip.addEventListener("click", function(e) {
-                  const clickedChip = e.currentTarget;
-                  const catId = clickedChip.dataset.catId;
-
-                  // 1) Marcar visualmente como seleccionado
-                  //    remover 'selected' de todos los chips
-                  document.querySelectorAll("#sliderCategorias .slider-chip")
-                          .forEach(el => el.classList.remove("selected"));
-                  //    agregar 'selected' al chip clicado
-                  clickedChip.classList.add("selected");
-
-                  // 2) Setear el formData_filtro con la categoría
-                  formData_filtro.set("linea", catId);
-
-                  // 3) Llamar a la función que vacía y carga productos
-                  clearAndFetchProducts();
-              });
-
-              // Insertar el chip en el contenedor
-              sliderCategorias.appendChild(chip);
-          });
-      } else {
-          console.log("La respuesta de la API no es un array:", response);
-      }
-  },
-  error: function (error) {
-      console.error("Error al obtener la lista de categorias:", error);
-  },
-});
-
-// $(document).ready(function () {
-   // Realiza la solicitud AJAX para obtener la lista de categorias
-//   $.ajax({
-//     url: SERVERURL + "productos/cargar_categorias",
-//     type: "GET",
-//     dataType: "json",
-//     success: function (response) {
-       // Asegúrate de que la respuesta es un array
-//       if (Array.isArray(response)) {
-//         response.forEach(function (categoria) {
-           // Agrega una nueva opción al select por cada categoria
-//           $("#categoria_filtroMarketplace").append(
-//             new Option(categoria.nombre_linea, categoria.id_linea)
-//           );
-//         });
-//       } else {
-//         console.log("La respuesta de la API no es un array:", response);
-//       }
-//     },
-//     error: function (error) {
-//       console.error("Error al obtener la lista de categorias:", error);
-//     },
-//   });
-
-  // Realiza la solicitud AJAX para obtener la lista de proveedores
-  $.ajax({
-    url: SERVERURL + "marketplace/obtenerProveedores",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-        if (Array.isArray(response)) {
-            const sliderProveedores = document.getElementById("sliderProveedores");
-            sliderProveedores.innerHTML = ""; // Limpia antes de insertar
-
-            response.forEach(function (proveedor) {
-                const chipProv = document.createElement("div");
-                chipProv.classList.add("slider-chip");
-                chipProv.textContent = proveedor.nombre_tienda.toUpperCase(); 
-                
-                // Guardamos el id_plataforma para usarlo en la llamada de filtro
-                chipProv.dataset.provId = proveedor.id_plataforma;
-
-                chipProv.addEventListener("click", function(e) {
-                    const clickedProvChip = e.currentTarget;
-                    const provId = clickedProvChip.dataset.provId;
-
-                    // Quitar selected de los demás
-                    document.querySelectorAll("#sliderProveedores .slider-chip")
-                            .forEach(el => el.classList.remove("selected"));
-                    // Agregar selected al clicado
-                    clickedProvChip.classList.add("selected");
-
-                    // Setear formData_filtro
-                    formData_filtro.set("plataforma", provId);
-
-                    // Cargar productos con el nuevo filtro
-                    clearAndFetchProducts();
-                });
-
-                sliderProveedores.appendChild(chipProv);
-            });
-        } else {
-            console.log("La respuesta de la API no es un array:", response);
-        }
-    },
-    error: function (error) {
-        console.error("Error al obtener la lista de proveedores:", error);
-    },
-});
-
-
-  // $.ajax({
-  //   url: SERVERURL + "marketplace/obtenerProveedores",
-  //   type: "GET",
-  //   dataType: "json",
-  //   success: function (response) {
-       // Asegúrate de que la respuesta es un array
-  //     if (Array.isArray(response)) {
-  //       response.forEach(function (proveedor) {
-          // Agrega una nueva opción al select por cada proveedor
-//           $("#proveedor_filtroMarketplace").append(
-//             new Option(
-//               proveedor.nombre_tienda.toUpperCase(),
-//               proveedor.id_plataforma
-//             )
-//           );
-//         });
-//       } else {
-//         console.log("La respuesta de la API no es un array:", response);
-//       }
-//     },
-//     error: function (error) {
-//       console.error("Error al obtener la lista de proveedores:", error);
-//     },
-//   });
-// });
-
-// Ejecutar la función cuando la página se haya cargado
-window.addEventListener("load", vaciarTmpPedidos);
-
-/* abrir modal */
 function abrirModal_infoTienda(tienda) {
   let formData = new FormData();
   formData.append("tienda", tienda);
@@ -845,8 +818,8 @@ function abrirModal_infoTienda(tienda) {
     url: SERVERURL + "pedidos/datosPlataformas",
     type: "POST",
     data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
+    processData: false,
+    contentType: false,
     success: function (response) {
       response = JSON.parse(response);
       $("#nombreTienda").val(response[0].nombre_tienda);
@@ -863,28 +836,23 @@ function abrirModal_infoTienda(tienda) {
 }
 
 function obtenerURLImagen(imagePath, serverURL) {
-  // Verificar si el imagePath no es null o undefined
   if (imagePath) {
     // Verificar si el imagePath ya es una URL completa
     if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-      // Si ya es una URL completa, retornar solo el imagePath
       return imagePath;
     } else {
-      // Verificar si el imagePath incluye rutas relativas inválidas
       if (
         imagePath.includes("../") ||
         imagePath.includes("..\\") ||
         imagePath === "" ||
         imagePath === "."
       ) {
-        return serverURL + "public/img/broken-image.png"; // Ruta de imagen por defecto
+        return serverURL + "public/img/broken-image.png";
       }
-      // Si no es una URL completa, agregar el serverURL al inicio
       return `${serverURL}${imagePath}`;
     }
   } else {
-    // Manejar el caso cuando imagePath es null o undefined
     console.error("imagePath es null o undefined");
-    return serverURL + "public/img/broken-image.png"; // Ruta de imagen por defecto
+    return serverURL + "public/img/broken-image.png";
   }
 }

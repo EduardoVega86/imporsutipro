@@ -3,46 +3,74 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4" style="color: #5A2D82; font-size: 2.5rem; font-weight: bold;">Automatizador</h2>
-
-        <!-- Video de YouTube -->
-        <div class="text-center">
-            <iframe width="560" height="315"
-                src="https://www.youtube.com/embed/TU_LINK_DE_VIDEO"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                style="border: 3px solid #5A2D82; border-radius: 10px;">
-            </iframe>
+        <!-- Encabezado principal -->
+        <div class="text-center mb-5">
+            <h2 style="color: #5A2D82; font-size: 3rem; font-weight: bold; text-shadow: 2px 2px 5px rgba(0,0,0,0.2);">
+                🚀 Automatizador
+            </h2>
+            <p style="font-size: 1.2rem; color: #555; max-width: 800px; margin: 0 auto;">
+                Simplifica tus tareas y lleva tu negocio al siguiente nivel. Sigue las instrucciones para empezar.
+            </p>
         </div>
 
-        <!-- Botón para agendar citas -->
-        <div class="text-center mt-4">
-            <a href="https://youtu.be/Hl3tuoSVuuw?si=JnHydcfeypp6r4d-"
-                class="btn btn-primary btn-lg"
-                target="_blank"
-                style="background-color: #5A2D82; border-color: #5A2D82; font-size: 1.5rem; font-weight: bold; padding: 10px 20px; border-radius: 10px;">
-                Agendar Citas
-            </a>
+        <!-- Contenedor dividido en dos columnas -->
+        <div class="row align-items-center justify-content-between">
+            <!-- Columna izquierda: Video -->
+            <div class="col-md-6" style="padding-top: 3%;">
+                <div style="border: 5px solid #5A2D82; border-radius: 15px; overflow: hidden; box-shadow: 0px 4px 8px rgba(0,0,0,0.1);">
+                    <iframe width="100%" height="400"
+                        src="https://www.youtube.com/embed/l8hHWPsDHVw?si=t-9KBRjFb4YFC0aR"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- Separador vertical -->
+            <div class="col-md-auto d-none d-md-block">
+                <div style="border-left: 2px solid #ddd; height: 450px; margin: auto;"></div>
+            </div>
+
+            <!-- Columna derecha: Calendario -->
+            <div class="col-md-5">
+                <div class="text-center">
+                    <h2 style="color: #5A2D82; font-size: 2rem; font-weight: bold;">Agendar Cita</h2>
+                    <iframe
+                        src="https://api.leadconnectorhq.com/widget/booking/IDNQKni1wvk9WuJseH9R"
+                        width="100%"
+                        height="400"
+                        style="border: none; box-shadow: 0px 4px 8px rgba(0,0,0,0.1); border-radius: 10px;">
+                    </iframe>
+                </div>
+            </div>
         </div>
 
-        <!-- Lista con diseño -->
-        <div class="mt-5">
-            <ul class="list-group text-center" style="font-size: 1.2rem; font-weight: bold; list-style: none; padding: 0;">
-                <label for="" style="font-size: 1.5rem; color: #333; font-weight: bold; margin-bottom: 10px; display: inline-block;">
-                    Recuerda tener listos los siguientes datos antes de entrar en la reunión:
-                </label>
-                <li class="list-group-item" style="border: none; padding: 10px 0; background-color: #F9F9F9;">
-                    <span style="color: #5A2D82; font-size: 1.5rem;">&#9733;</span> Número Nuevo
-                </li>
-                <li class="list-group-item" style="border: none; padding: 10px 0; background-color: #F9F9F9;">
-                    <span style="color: #5A2D82; font-size: 1.5rem;">&#9733;</span> Bussines Manager
-                </li>
-                <li class="list-group-item" style="border: none; padding: 10px 0; background-color: #F9F9F9;">
-                    <span style="color: #5A2D82; font-size: 1.5rem;">&#9733;</span> Método de Pago
-                </li>
-            </ul>
+
+        <!-- Tarjetas informativas -->
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-4 mb-4">
+                <div style="background-color: #F8F9FA; border: 1px solid #E0E0E0; border-radius: 10px; padding: 20px; text-align: center; box-shadow: 0px 4px 8px rgba(0,0,0,0.1);">
+                    <span style="font-size: 3rem; color: #5A2D82;">&#9733;</span>
+                    <h4 style="color: #333; margin-top: 10px;">Número Nuevo</h4>
+                    <p style="color: #666; font-size: 1rem;">Ten a la mano el número que utilizarás para el proceso.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div style="background-color: #F8F9FA; border: 1px solid #E0E0E0; border-radius: 10px; padding: 20px; text-align: center; box-shadow: 0px 4px 8px rgba(0,0,0,0.1);">
+                    <span style="font-size: 3rem; color: #5A2D82;">&#9733;</span>
+                    <h4 style="color: #333; margin-top: 10px;">Business Manager</h4>
+                    <p style="color: #666; font-size: 1rem;">Acceso a tu administrador de negocios configurado.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div style="background-color: #F8F9FA; border: 1px solid #E0E0E0; border-radius: 10px; padding: 20px; text-align: center; box-shadow: 0px 4px 8px rgba(0,0,0,0.1);">
+                    <span style="font-size: 3rem; color: #5A2D82;">&#9733;</span>
+                    <h4 style="color: #333; margin-top: 10px;">Método de Pago</h4>
+                    <p style="color: #666; font-size: 1rem;">Verifica que tu método de pago esté configurado correctamente.</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
