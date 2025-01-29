@@ -505,13 +505,13 @@ document.addEventListener("DOMContentLoaded", function () {
           chip.textContent = categoria.nombre_linea;
           chip.dataset.catId = categoria.id_linea;
           
-           // Ruta de la imagen en el servidor
-          // const iconUrl = SERVERURL + "public/img/icons/categorias.png";
+           //Ruta de la imagen en el servidor
+          const iconUrl = SERVERURL + "public/img/icons/categorias.png";
 
-          // chipProv.innerHTML = `
-          //   <img src="${iconUrl}" class="icon-chip"> 
-          //   ${categoria.nombre_linea}
-          // `;
+          chip.innerHTML = `
+            <img src="${iconUrl}" class="icon-chip"> 
+            ${categoria.nombre_linea}
+          `;
 
           // Toggle logic
           chip.addEventListener("click", function (e) {
