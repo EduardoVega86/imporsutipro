@@ -548,8 +548,8 @@ class AccesoModel extends Query
         $_SESSION['ultimo_punto'] = $datos_usuario[0]['ultimo_punto'];
         $_SESSION['token'] = $jwt;
 
-        $validar_config_chat = $this->validar_configuracion($id_plataforma);
-        $_SESSION['validar_config_chat'] = $validar_config_chat[0]['status'];
+        // Validar la configuración y asignar a la sesión
+        $_SESSION['validar_config_chat'] = $this->validar_configuracion($id_plataforma);
 
         // Compartir cookie con subdominio
         setcookie("user", $datos_usuario[0]["email_users"], time() + 3600, "/", "." . DOMINIO);
@@ -582,16 +582,10 @@ class AccesoModel extends Query
         $sql = "SELECT * FROM `configuraciones` WHERE id_plataforma = $id_plataforma";
         $resultado = $this->select($sql);
 
-        // Inicializar la respuesta
-        $response = ['status' => false];
-
-        // Validar si el resultado contiene datos
-        if (!empty($resultado)) {
-            $response['status'] = true;
-        }
-
-        return $response;
+        // Retornar el estado directamente
+        return !empty($resultado); // Retorna true si hay datos, false si no
     }
+
 
     //Funciones para poder acceder al uuid y plataforma_id desde SwaggerModel
 
