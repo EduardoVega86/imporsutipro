@@ -489,63 +489,32 @@ document.addEventListener("DOMContentLoaded", function () {
    * Cargar chips de categorías y proveedores (chips)
    * (Toggling: si clicas el chip ya seleccionado, lo quita)
    *****************************************************/
-  // Cargar categorías
-  $.ajax({
-    url: SERVERURL + "productos/cargar_categorias",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-      if (Array.isArray(response)) {
-        const sliderCategorias = document.getElementById("sliderCategorias");
-        sliderCategorias.innerHTML = ""; // Limpia antes de insertar
-
-        response.forEach(function (categoria) {
-          const chip = document.createElement("div");
-          chip.classList.add("slider-chip");
-          chip.textContent = categoria.nombre_linea;
-          chip.dataset.catId = categoria.id_linea;
-          
-           //Ruta de la imagen en el servidor
-          const iconUrl = SERVERURL + "public/img/icons/categorias.png";
-
-          chip.innerHTML = `
-            <img src="${iconUrl}" class="icon-chip"> 
-            ${categoria.nombre_linea}
-          `;
-
-          // Toggle logic
-          chip.addEventListener("click", function (e) {
-            const clickedChip = e.currentTarget;
-
-            // ¿Ya estaba seleccionado?
-            if (clickedChip.classList.contains("selected")) {
-              // Lo des-seleccionamos
-              clickedChip.classList.remove("selected");
-              formData_filtro.set("linea", ""); // Limpia el filtro de categoría
-            } else {
-              // Deseleccionar otros chips
-              document
-                .querySelectorAll("#sliderCategorias .slider-chip")
-                .forEach((el) => el.classList.remove("selected"));
-              // Seleccionar el clicado
-              clickedChip.classList.add("selected");
-              // Asignar filtro
-              formData_filtro.set("linea", clickedChip.dataset.catId);
-            }
-            clearAndFetchProducts();
+ //cargar select categoria
+  $(document).ready(function () {
+    // Realiza la solicitud AJAX para obtener la lista de categorias
+    $.ajax({
+      url: SERVERURL + "productos/cargar_categorias",
+      type: "GET",
+      dataType: "json",
+      success: function (response) {
+        // Asegúrate de que la respuesta es un array
+        if (Array.isArray(response)) {
+          response.forEach(function (categoria) {
+            // Agrega una nueva opción al select por cada categoria
+            $("#categoria_filtroMarketplace").append(
+              new Option(categoria.nombre_linea, categoria.id_linea)
+            );
           });
-
-          sliderCategorias.appendChild(chip);
-        });
-      } else {
-        console.log("La respuesta de la API no es un array:", response);
-      }
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de categorias:", error);
-    },
-  });
-
+        } else {
+          console.log("La respuesta de la API no es un array:", response);
+        }
+      },
+      error: function (error) {
+        console.error("Error al obtener la lista de categorias:", error);
+      },
+    });
+  },
+  
   // Cargar proveedores
   $.ajax({
     url: SERVERURL + "marketplace/obtenerProveedores",
@@ -600,7 +569,7 @@ document.addEventListener("DOMContentLoaded", function () {
     error: function (error) {
       console.error("Error al obtener la lista de proveedores:", error);
     },
-  });
+  }));
 }); // Fin DOMContentLoaded
 
 /************************************************

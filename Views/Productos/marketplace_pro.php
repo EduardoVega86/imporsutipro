@@ -9,15 +9,6 @@
 <div class="custom-container-fluid mt-4">
     <div style="padding-bottom: 20px; padding-top: 20px;">
         <div class="caja p-4 shadow-sm bg-white">
-            <!-- Fila 1: Categorías -->
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div class="slider-categorias-container">
-                        <h5>Categorías</h5>
-                        <div id="sliderCategorias" class="slider-categorias"></div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Fila 2: Proveedores -->
             <div class="row mb-3">
@@ -43,6 +34,11 @@
                         <input class="form-check-input" type="checkbox" id="favoritosSwitch" />
                         <label class="form-check-label" for="favoritosSwitch">Favoritos</label>
                     </div>
+                </div>
+                <div class="col-md-2 mb-3 mb-md-0">
+                    <select id="categoria_filtroMarketplace" class="form-select me-2">
+                        <option selected value="">Seleccione una categoría</option>
+                    </select>
                 </div>
             </div>
 
