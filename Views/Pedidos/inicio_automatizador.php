@@ -18,7 +18,7 @@
             <div class="col-md-6 text-center">
                 <div style="border: 5px solid #5A2D82; border-radius: 15px; overflow: hidden; box-shadow: 0px 4px 8px rgba(0,0,0,0.1);">
                     <iframe width="100%" height="315"
-                        src="https://www.youtube.com/embed/TU_LINK_DE_VIDEO"
+                        src="https://youtu.be/l8hHWPsDHVw"
                         title="YouTube video player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -33,7 +33,7 @@
 
         <!-- Botón destacado -->
         <div class="text-center mt-5">
-            <a href="https://youtu.be/Hl3tuoSVuuw?si=JnHydcfeypp6r4d-"
+            <a href="https://api.leadconnectorhq.com/widget/booking/IDNQKni1wvk9WuJseH9R"
                 class="btn btn-lg"
                 target="_blank"
                 style="background-color: #5A2D82; color: #FFF; font-size: 1.5rem; font-weight: bold; padding: 15px 30px; border-radius: 50px; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">
