@@ -641,7 +641,7 @@
 
     /* Para marcar un chip seleccionado */
     .slider-chip.selected {
-        background-color: rgb(175, 207, 241);
+        background-color: rgb(91, 158, 230);
         color: white;
         transform: scale(1.05);
     }
