@@ -579,13 +579,13 @@ document.addEventListener("DOMContentLoaded", function () {
           sliderProveedores.appendChild(chipProv);
         });
               // Si deseas un botón "Ver todos"
-          // const verTodos = document.createElement("div");
-          // verTodos.classList.add("slider-chip");
-          // verTodos.textContent = "Ver todos";
-          // verTodos.addEventListener("click", function(){
-          //   window.location.href = SERVERURL + "ruta/proveedores_completos";
-          // });
-          // sliderProveedores.appendChild(verTodos);
+        // const verTodos = document.createElement("div");
+        // verTodos.classList.add("slider-chip");
+        // verTodos.textContent = "Ver todos";
+        // verTodos.addEventListener("click", function(){
+        //   window.location.href = SERVERURL + "ruta/proveedores_completos";
+        // });
+        // sliderProveedores.appendChild(verTodos);
       } else {
         console.log("La respuesta de la API no es un array:", response);
       }
