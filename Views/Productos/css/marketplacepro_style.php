@@ -588,6 +588,7 @@
     /* Contenedores principales de los sliders */
     .slider-categorias-container,
     .slider-proveedores-container {
+        width: 100%;  
         margin-bottom: 20px;
     }
 
