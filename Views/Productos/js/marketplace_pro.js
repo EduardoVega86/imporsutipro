@@ -546,12 +546,10 @@ document.addEventListener("DOMContentLoaded", function () {
     success: function (response) {
       console.log("Respuesta de obtener proveedores:", response);
       if (Array.isArray(response)) {
-        //Limitamosa mostrar 15
-        const limitedProveedores = response.slice(0,15);
         const sliderProveedores = document.getElementById("sliderProveedores");
         sliderProveedores.innerHTML = ""; // Limpia antes de insertar
 
-        limitedProveedores.forEach(function (proveedor) {
+        response.forEach(function (proveedor) {
           const chipProv = document.createElement("div");
           chipProv.classList.add("slider-chip");
           chipProv.textContent = proveedor.nombre_tienda.toUpperCase();
@@ -578,14 +576,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
           sliderProveedores.appendChild(chipProv);
         });
-              // Si deseas un botón "Ver todos"
-        // const verTodos = document.createElement("div");
-        // verTodos.classList.add("slider-chip");
-        // verTodos.textContent = "Ver todos";
-        // verTodos.addEventListener("click", function(){
-        //   window.location.href = SERVERURL + "ruta/proveedores_completos";
-        // });
-        // sliderProveedores.appendChild(verTodos);
       } else {
         console.log("La respuesta de la API no es un array:", response);
       }
