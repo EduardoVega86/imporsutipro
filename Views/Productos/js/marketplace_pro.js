@@ -508,7 +508,7 @@ document.addEventListener("DOMContentLoaded", function () {
            //Ruta de la imagen en el servidor
           const iconUrl = SERVERURL + "public/img/icons/categorias.png";
 
-          chipProv.innerHTML = `
+          chip.innerHTML = `
             <img src="${iconUrl}" class="icon-chip"> 
             ${categoria.nombre_linea}
           `;
