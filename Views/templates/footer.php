@@ -195,7 +195,6 @@
                         });
                     });
                 }
-
                 /* fin seccion automatizador */
             });
 
