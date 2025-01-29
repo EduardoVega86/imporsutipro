@@ -521,82 +521,92 @@ document.addEventListener("DOMContentLoaded", function () {
     type: "GET",
     dataType: "json",
     success: function (response) {
-      console.log("Respuesta de obtener proveedores con productos:", response);
-      if (Array.isArray(response)) {
-        const sliderProveedores = document.getElementById("sliderProveedores");
-        sliderProveedores.innerHTML = ""; // Limpia antes de insertar
-  
-        response.forEach(function (proveedor) {
-          const chipProv = document.createElement("div");
-          chipProv.classList.add("slider-chip");
-          chipProv.dataset.provId = proveedor.id_plataforma;
-  
-          // Ruta de la imagen en el servidor
-          const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
-  
-          // Creación del contenedor de categorías con botón de expandir
-          let categoriasHTML = `
-            <div class="chip-categories categoria-container" onclick="toggleCategorias(this)">
-              ${proveedor.categorias}
-            </div>
-            <span class="categoria-expand-btn" onclick="toggleCategorias(this)">Ver más</span>
-          `;
-  
-          chipProv.innerHTML = `
-            <div class="chip-content">
-              <img src="${iconUrl}" class="icon-chip"> 
-              <div class="chip-text">
-                <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
-                <span class="chip-count">${proveedor.cantidad_productos} productos</span>
-                ${categoriasHTML}
-              </div>
-            </div>
-          `;
-  
-          // Toggle logic
-          chipProv.addEventListener("click", function (e) {
-            const clickedProvChip = e.currentTarget;
-            if (clickedProvChip.classList.contains("selected")) {
-              clickedProvChip.classList.remove("selected");
-              formData_filtro.set("plataforma", "");
-            } else {
-              document
-                .querySelectorAll("#sliderProveedores .slider-chip")
-                .forEach((el) => el.classList.remove("selected"));
-              clickedProvChip.classList.add("selected");
-              formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
-            }
-            clearAndFetchProducts();
-          });
-  
-          sliderProveedores.appendChild(chipProv);
-        });
-      } else {
-        console.log("La respuesta de la API no es un array:", response);
-      }
+        console.log("Respuesta de obtener proveedores con productos:", response);
+        if (Array.isArray(response)) {
+            const sliderProveedores = document.getElementById("sliderProveedores");
+            sliderProveedores.innerHTML = ""; // Limpia antes de insertar
+
+            response.forEach(function (proveedor) {
+                const chipProv = document.createElement("div");
+                chipProv.classList.add("slider-chip");
+                chipProv.dataset.provId = proveedor.id_plataforma;
+
+                // Ruta de la imagen en el servidor
+                const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
+
+                // Dividir las categorías en un array
+                const categoriasArray = proveedor.categorias.split(', ');
+                const categoriasMostrar = categoriasArray.slice(0, 4); // Mostrar solo las primeras 4 categorías
+                const categoriasRestantes = categoriasArray.slice(4); // Resto de las categorías
+
+                // Creación del contenedor de categorías con botón de expandir
+                let categoriasHTML = `
+                    <div class="chip-categories categoria-container">
+                        ${categoriasMostrar.join(', ')}
+                        ${categoriasRestantes.length > 0 ? `<span class="categoria-expand-btn" onclick="toggleCategorias(this)">Ver más</span>` : ''}
+                    </div>
+                `;
+
+                chipProv.innerHTML = `
+                    <div class="chip-content">
+                        <img src="${iconUrl}" class="icon-chip"> 
+                        <div class="chip-text">
+                            <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
+                            <span class="chip-count">${proveedor.cantidad_productos} productos</span>
+                            ${categoriasHTML}
+                        </div>
+                    </div>
+                `;
+
+                // Toggle logic
+                chipProv.addEventListener("click", function (e) {
+                    const clickedProvChip = e.currentTarget;
+                    if (clickedProvChip.classList.contains("selected")) {
+                        clickedProvChip.classList.remove("selected");
+                        formData_filtro.set("plataforma", "");
+                    } else {
+                        document
+                            .querySelectorAll("#sliderProveedores .slider-chip")
+                            .forEach((el) => el.classList.remove("selected"));
+                        clickedProvChip.classList.add("selected");
+                        formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
+                    }
+                    clearAndFetchProducts();
+                });
+
+                sliderProveedores.appendChild(chipProv);
+            });
+        } else {
+            console.log("La respuesta de la API no es un array:", response);
+        }
     },
     error: function (error) {
-      console.error("Error al obtener la lista de proveedores:", error);
+        console.error("Error al obtener la lista de proveedores:", error);
     },
-  }));
+}));
+
+function toggleCategorias(element) {
+    const container = element.closest(".categoria-container");
+    const categoriasArray = container.innerText.split(', ');
+    const categoriasMostrar = categoriasArray.slice(0, 4);
+    const categoriasRestantes = categoriasArray.slice(4);
+
+    if (container.classList.contains("expandido")) {
+        container.classList.remove("expandido");
+        container.innerText = categoriasMostrar.join(', ');
+        element.innerText = "Ver más";
+    } else {
+        container.classList.add("expandido");
+        container.innerText = categoriasArray.join(', ');
+        element.innerText = "Ver menos";
+    }
+}
   
 
 /************************************************
  * FUNCIONES FUERA DE DOMContentLoaded
  * (para poder llamarlas con onclick, etc.)
  ************************************************/
-
-function toggleCategorias(element) {
-  const container = element.closest(".categoria-container");
-  if (container.classList.contains("expandido")) {
-      container.classList.remove("expandido");
-      element.innerText = "Ver más";
-  } else {
-      container.classList.add("expandido");
-      element.innerText = "Ver menos";
-  }
-}
-
 function copyToClipboard(id) {
   navigator.clipboard.writeText(id).then(
     function () {
