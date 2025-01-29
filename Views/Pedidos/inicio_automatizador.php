@@ -18,7 +18,7 @@
             <!-- Columna izquierda: Video -->
             <div class="col-md-6">
                 <div style="border: 5px solid #5A2D82; border-radius: 15px; overflow: hidden; box-shadow: 0px 4px 8px rgba(0,0,0,0.1);">
-                    <iframe width="100%" height="315"
+                    <iframe width="100%" height="400"
                         src="https://youtu.be/l8hHWPsDHVw"
                         title="YouTube video player"
                         frameborder="0"
@@ -26,13 +26,10 @@
                         allowfullscreen>
                     </iframe>
                 </div>
-                <p class="mt-3 text-center" style="color: #333; font-size: 1rem;">
-                    Mira el video para entender cómo funciona el automatizador.
-                </p>
             </div>
 
             <!-- Separador vertical -->
-            <div class="col-md-1 d-none d-md-block" style="border-left: 2px solid #ddd; height: 400px;"></div>
+            <div class="col-md-1 d-none d-md-block" style="border-left: 2px solid #ddd; height: 400px; width: 10px;"></div>
 
             <!-- Columna derecha: Calendario -->
             <div class="col-md-5 text-center">
