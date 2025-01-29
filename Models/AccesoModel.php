@@ -548,6 +548,9 @@ class AccesoModel extends Query
         $_SESSION['ultimo_punto'] = $datos_usuario[0]['ultimo_punto'];
         $_SESSION['token'] = $jwt;
 
+        $validar_config_chat = $this->validar_configuracion($id_plataforma);
+        $_SESSION['validar_config_chat'] = $validar_config_chat[0]['status'];
+
         // Compartir cookie con subdominio
         setcookie("user", $datos_usuario[0]["email_users"], time() + 3600, "/", "." . DOMINIO);
         setcookie("id_plataforma", $id_plataforma, time() + 3600, "/", "." . DOMINIO);
@@ -567,6 +570,26 @@ class AccesoModel extends Query
         ]);
 
         // 9. Retornamos la respuesta final
+        return $response;
+    }
+
+    public function validar_configuracion($id_plataforma)
+    {
+        // Asegurarse de que $id_plataforma sea seguro
+        $id_plataforma = intval($id_plataforma);
+
+        // Consulta para validar si hay configuraciones
+        $sql = "SELECT * FROM `configuraciones` WHERE id_plataforma = $id_plataforma";
+        $resultado = $this->select($sql);
+
+        // Inicializar la respuesta
+        $response = ['status' => false];
+
+        // Validar si el resultado contiene datos
+        if (!empty($resultado)) {
+            $response['status'] = true;
+        }
+
         return $response;
     }
 

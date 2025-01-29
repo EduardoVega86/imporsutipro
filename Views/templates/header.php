@@ -67,9 +67,17 @@
                 <a href="<?php echo SERVERURL ?>dashboard"><i class='fa-solid fa-chart-line menu-icon'></i> <span class="menu-text">Dashboard</span></a>
 
 
-                <a href="#" class="dropdown-btn" data-target="#submenu01"><i class='bx bx-search menu-icon'></i> <span class="menu-text">Marketplace</span></a>
+                <?php
+                // Detecta la página activa usando la URL
+                $current_page = basename($_SERVER['REQUEST_URI'], ".php");
+                ?>
 
-                <div class="submenu" id="submenu01">
+                <a href="<?php echo SERVERURL ?>Productos/marketplace" class="dropdown-btn <?php echo ($current_page == 'marketplace') ? 'active' : ''; ?>" data-target="#submenu01" aria-label="Ir al Marketplace">
+                    <i class="bx bx-search menu-icon"></i>
+                    <span class="menu-text">Marketplace</span>
+                </a>
+
+                <div class="submenu <?php echo ($current_page == 'marketplace') ? 'show' : ''; ?>" id="submenu01">
                     <a href="<?php echo SERVERURL ?>Productos/marketplace"><i class='bx bx-shopping-bag menu-icon'></i> <span class="menu-text">Productos</span></a>
                 </div>
 
@@ -187,7 +195,23 @@
                 <a href="<?php echo SERVERURL ?>Pedidos/scanner_speed"><i class='fa-solid fa-motorcycle menu-icon'></i> <span class="menu-text">Scanner Speed</span></a>
             <?php } ?>
 
-            <div id="automatizador-container"></div>
+            <?php if ($_SESSION['validar_config_chat'] == true) { ?>
+                <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
+
+                <div class="submenu" id="submenu5">
+                    <a href="<?php echo SERVERURL ?>Pedidos/plantillas_chat_center"><i class="fa-solid fa-message menu-icon"></i> <span class="menu-text">Plantillas</span></a>
+                    <a href="<?php echo SERVERURL ?>/Pedidos/configuracion_chats_imporsuit"><i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuracion</span></a>
+                    <!-- <a href="<?php echo SERVERURL ?>Pedidos/chat_imporsuit"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Chat-Center</span></a> -->
+                    <a href="https://chatcenter.imporfactory.app/"><i class="fa-brands fa-rocketchat menu-icon"></i> <span class="menu-text">Chat-Center V2.0</span></a>
+                </div>
+            <?php } else { ?>
+                <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
+
+                <div class="submenu" id="submenu5">
+                    <a href="<?php echo SERVERURL; ?>Pedidos/inicio_automatizador"><i class="fa-solid fa-graduation-cap menu-icon"></i> <span class="menu-text">Agendar</span></a>
+                    <a href="<?php echo SERVERURL ?>/Pedidos/configuracion_chats_imporsuit"><i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuracion</span></a>
+                </div>
+            <?php } ?>
         </div>
         <div class="footer-text">
             2025 © <?php echo MARCA; ?>
