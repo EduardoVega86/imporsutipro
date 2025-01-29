@@ -639,6 +639,22 @@
         margin-top: 3px;
     }
 
+    .chip-content {
+        display: flex;
+        align-items: center;
+        /* Alinea verticalmente */
+        gap: 10px;
+        /* Espacio entre imagen y texto */
+    }
+
+    .chip-text {
+        display: flex;
+        flex-direction: column;
+        /* Hace que el nombre y cantidad estén en columnas */
+        align-items: flex-start;
+        /* Alinea a la izquierda */
+    }
+
     .slider-chip:hover {
         background-color: #ccc;
         transform: scale(1.05);

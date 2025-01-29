@@ -537,11 +537,13 @@ document.addEventListener("DOMContentLoaded", function () {
           chipProv.innerHTML = `
           <div class="chip-content">
             <img src="${iconUrl}" class="icon-chip"> 
-            <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
-            <br/>
-            <span class="chip-count">${proveedor.cantidad_productos} productos</span>
+            <div class="chip-text">
+              <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
+              <span class="chip-count">${proveedor.cantidad_productos} productos</span>
+            </div>
           </div>
         `;
+        
           // Toggle logic
           chipProv.addEventListener("click", function (e) {
             const clickedProvChip = e.currentTarget;
