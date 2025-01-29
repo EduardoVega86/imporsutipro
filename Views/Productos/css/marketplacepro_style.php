@@ -603,7 +603,7 @@
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        max-width: 900px;
+        max-width: 1620px;
         /* Evitar desbordes */
         box-sizing: border-box;
         border-radius: 8px;
