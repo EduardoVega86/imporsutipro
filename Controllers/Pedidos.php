@@ -1086,12 +1086,6 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
-    public function validar_configuracion()
-    {
-        $response = $this->model->validar_configuracion($_SESSION['id_plataforma']);
-        echo json_encode($response);
-    }
-
     public function agregar_configuracion()
     {
         $nombre_configuracion = $_POST['nombre_configuracion'];
