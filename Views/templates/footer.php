@@ -138,9 +138,17 @@
                 `;
                         } else {
                             automatizadorContainer.innerHTML = `
-                    <a href="<?php echo SERVERURL; ?>dashboard">
-                        <i class='fa-solid fa-chart-line menu-icon'></i> <span class="menu-text">Dashboard</span>
+                    <a href="#" class="dropdown-btn" data-target="#submenu5">
+                        <i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span>
                     </a>
+                    <div class="submenu" id="submenu5">
+                        <a href="<?php echo SERVERURL; ?>Pedidos/inicio_automatizador">
+                            <i class="fa-solid fa-graduation-cap menu-icon"></i> <span class="menu-text">Agendar</span>
+                        </a>
+                        <a href="<?php echo SERVERURL; ?>/Pedidos/configuracion_chats_imporsuit">
+                            <i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuración</span>
+                        </a>
+                    </div>
                 `;
                         }
                     })
@@ -149,9 +157,17 @@
 
                         const automatizadorContainer = document.getElementById("automatizador-container");
                         automatizadorContainer.innerHTML = `
-                <a href="<?php echo SERVERURL; ?>dashboard">
-                    <i class='fa-solid fa-chart-line menu-icon'></i> <span class="menu-text">Dashboard</span>
-                </a>
+                <a href="#" class="dropdown-btn" data-target="#submenu5">
+                        <i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span>
+                    </a>
+                    <div class="submenu" id="submenu5">
+                        <a href="<?php echo SERVERURL; ?>Pedidos/inicio_automatizador">
+                            <i class="fa-solid fa-graduation-cap menu-icon"></i> <span class="menu-text">Agendar</span>
+                        </a>
+                        <a href="<?php echo SERVERURL; ?>/Pedidos/configuracion_chats_imporsuit">
+                            <i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuración</span>
+                        </a>
+                    </div>
             `;
                     });
                 /* fin seccion automatizador */
