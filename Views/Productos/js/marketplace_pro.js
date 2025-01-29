@@ -538,6 +538,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="chip-content">
             <img src="${iconUrl}" class="icon-chip"> 
             <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
+            <br/>
             <span class="chip-count">${proveedor.cantidad_productos} productos</span>
           </div>
         `;
