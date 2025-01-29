@@ -72,15 +72,11 @@
                 $current_page = basename($_SERVER['REQUEST_URI'], ".php");
                 ?>
 
-                <a href="<?php echo SERVERURL ?>Productos/marketplace" class="dropdown-btn <?php echo ($current_page == 'marketplace') ? 'active' : ''; ?>" data-target="#submenu01" aria-label="Ir al Marketplace">
-                    <i class="bx bx-search menu-icon"></i>
-                    <span class="menu-text">Marketplace</span>
-                </a>
+                <a href="#" class="dropdown-btn" data-target="#submenu1"><i class='bx bx-search menu-icon'></i> <span class="menu-text">Marketplace</span></a>
 
-                <div class="submenu <?php echo ($current_page == 'marketplace') ? 'show' : ''; ?>" id="submenu01">
+                <div class="submenu1" id="submenu1">
                     <a href="<?php echo SERVERURL ?>Productos/marketplace"><i class='bx bx-shopping-bag menu-icon'></i> <span class="menu-text">Productos</span></a>
                 </div>
-
 
                 <a href="#" class="dropdown-btn" data-target="#submenu1"><i class='bx bx-cart menu-icon'></i> <span class="menu-text">Mis Productos</span></a>
 
