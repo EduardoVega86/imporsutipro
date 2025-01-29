@@ -588,7 +588,7 @@
     /* Contenedores principales de los sliders */
     .slider-categorias-container,
     .slider-proveedores-container {
-        width: 100%;  
+        width: 100%;
         margin-bottom: 20px;
     }
 
@@ -603,16 +603,13 @@
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        /* NUEVO: Para que no rebase el ancho */
         max-width: 100%;
+        /* Evitar desbordes */
         box-sizing: border-box;
-        
-        padding: 10px;
         border-radius: 8px;
         background-color: #f9f9f9;
         scroll-behavior: smooth;
         white-space: nowrap;
-        /* Para que no brinque de línea */
     }
 
     /* Estilo para cada 'chip' o botón */
