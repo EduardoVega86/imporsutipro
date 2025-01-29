@@ -12,27 +12,17 @@
             <div class="caja_filtros">
 
                 <!-- Fila 1: Categorías y Proveedores -->
-                <div class="primer_seccionFiltro">
+                <!-- <div class="primer_seccionFiltro">
                     <div class="col-12 col-md-11">
-                        <div class="slider-categorias-container">
-                            <h5>Categorías</h5>
-                            <div id="sliderCategorias" class="slider-categorias">
-                                <!-- Chips de categorías -->
-                            </div>
-                        </div>
+
                     </div>
 
                 </div>
                 <div class="primer_seccionFiltro">
                     <div class="col-12 col-md-11">
-                        <div class="slider-proveedores-container">
-                            <h5>Proveedores</h5>
-                            <div id="sliderProveedores" class="slider-proveedores">
-                                <!-- Chips de proveedores -->
-                            </div>
-                        </div>
+
                     </div>
-                </div>
+                </div> -->
                 <!-- Fila 2: Nombre + Favoritos -->
                 <div class="primer_seccionFiltro">
                     <div class="col-md-4 mb-3">
@@ -41,6 +31,18 @@
                             class="form-control"
                             placeholder="Nombre"
                             id="buscar_nombre" />
+                    </div>
+                    <div class="slider-proveedores-container">
+                        <h5>Proveedores</h5>
+                        <div id="sliderProveedores" class="slider-proveedores">
+                            <!-- Chips de proveedores -->
+                        </div>
+                    </div>
+                    <div class="slider-categorias-container">
+                        <h5>Categorías</h5>
+                        <div id="sliderCategorias" class="slider-categorias">
+                            <!-- Chips de categorías -->
+                        </div>
                     </div>
                     <div class="boton_favoritos">
                         <div class="form-check form-switch">
