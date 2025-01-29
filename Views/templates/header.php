@@ -78,7 +78,7 @@
                 </a>
 
                 <div class="submenu <?php echo ($current_page == 'marketplace') ? 'show' : ''; ?>" id="submenu01">
-                    <a href="<?php echo SERVERURL ?>Productos/marketplace"><i class='bx bx-shopping-bag menu-icon'></i> <span class="menu-text">Productos</span></a>
+                    <a href="<?php echo SERVERURL ?>Productos/marketplace_pro"><i class='bx bx-shopping-bag menu-icon'></i> <span class="menu-text">Productos</span></a>
                 </div>
 
 
