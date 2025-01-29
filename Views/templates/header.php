@@ -195,7 +195,7 @@
                 <a href="<?php echo SERVERURL ?>Pedidos/scanner_speed"><i class='fa-solid fa-motorcycle menu-icon'></i> <span class="menu-text">Scanner Speed</span></a>
             <?php } ?>
 
-            <?php if ($_SESSION['validar_config_chat'] == true) { ?>
+            <?php if ($_SESSION['validar_config_chat']) { ?>
                 <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
 
                 <div class="submenu" id="submenu5">
