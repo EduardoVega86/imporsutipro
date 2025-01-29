@@ -14,7 +14,7 @@
         </div>
 
         <!-- Contenedor dividido en dos columnas -->
-        <div class="row align-items-center">
+        <div class="row align-items-center justify-content-between">
             <!-- Columna izquierda: Video -->
             <div class="col-md-6" style="padding-top: 3%;">
                 <div style="border: 5px solid #5A2D82; border-radius: 15px; overflow: hidden; box-shadow: 0px 4px 8px rgba(0,0,0,0.1);">
@@ -29,19 +29,24 @@
             </div>
 
             <!-- Separador vertical -->
-            <div class="col-md-1 d-none d-md-block" style="border-left: 2px solid #ddd; height: 450px; width: 10px;"></div>
+            <div class="col-md-auto d-none d-md-block">
+                <div style="border-left: 2px solid #ddd; height: 450px; margin: auto;"></div>
+            </div>
 
             <!-- Columna derecha: Calendario -->
-            <div class="col-md-5 text-center">
-                <h2 style="color: #5A2D82; font-size: 2rem; font-weight: bold;">Agendar Cita</h2>
-                <iframe
-                    src="https://api.leadconnectorhq.com/widget/booking/IDNQKni1wvk9WuJseH9R"
-                    width="100%"
-                    height="400"
-                    style="border: none; box-shadow: 0px 4px 8px rgba(0,0,0,0.1); border-radius: 10px;">
-                </iframe>
+            <div class="col-md-5">
+                <div class="text-center">
+                    <h2 style="color: #5A2D82; font-size: 2rem; font-weight: bold;">Agendar Cita</h2>
+                    <iframe
+                        src="https://api.leadconnectorhq.com/widget/booking/IDNQKni1wvk9WuJseH9R"
+                        width="100%"
+                        height="400"
+                        style="border: none; box-shadow: 0px 4px 8px rgba(0,0,0,0.1); border-radius: 10px;">
+                    </iframe>
+                </div>
             </div>
         </div>
+
 
         <!-- Tarjetas informativas -->
         <div class="row mt-5 justify-content-center">
