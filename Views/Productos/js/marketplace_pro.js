@@ -1,16 +1,18 @@
+let formData_filtro;
 document.addEventListener("DOMContentLoaded", function () {
-  const initialProductsPerPage = 24;
-  const additionalProductsPerPage = 24;
-  let currentPage = 1;
-  let products = [];
-  let displayedProducts = new Set();
-  let formData_filtro = new FormData();
+  formData_filtro = new FormData(); // <--- CAMBIO
   formData_filtro.append("nombre", "");
   formData_filtro.append("linea", "");
   formData_filtro.append("plataforma", "");
   formData_filtro.append("min", "");
   formData_filtro.append("max", "");
   formData_filtro.append("favorito", "0");
+
+  const initialProductsPerPage = 24;
+  const additionalProductsPerPage = 24;
+  let currentPage = 1;
+  let products = [];
+  let displayedProducts = new Set();
 
   const cardContainer = document.getElementById("card-container");
   const loadingIndicator = document.getElementById("loading-indicator");
@@ -183,8 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <span class="add-to-funnel-text">${
             product.agregadoFunnel ? "Quitar de funnel" : "Añadir a funnel"
           }</span>
-          </div>
-
+        </div>
       </div>
       <button class="btn btn-heart ${
         esFavorito ? "clicked" : ""
@@ -317,8 +318,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  /* Filtros */
-
+  /********************
+   * Filtros de precio
+   ********************/
   var slider = document.getElementById("price-range-slider");
   var priceMin = document.getElementById("price-min");
   var priceMax = document.getElementById("price-max");
@@ -382,12 +384,11 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-  /* Fin Filtros */
-
   const handleSelectChange = debounce(function () {
     clearAndFetchProducts();
   }, 300);
 
+  // Filtro por nombre
   $("#buscar_nombre").on(
     "input",
     debounce(function () {
@@ -397,6 +398,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 300)
   );
 
+  // Filtros con selects (categoría, proveedor) - (Si se usaran selects)
   $("#categoria_filtroMarketplace").change(function () {
     var categoria = $("#categoria_filtroMarketplace").val();
     formData_filtro.set("linea", categoria);
@@ -409,12 +411,14 @@ document.addEventListener("DOMContentLoaded", function () {
     handleSelectChange();
   });
 
+  // Switch de Favoritos
   $("#favoritosSwitch").change(function () {
     var estado = $(this).is(":checked") ? 1 : 0;
     formData_filtro.set("favorito", estado);
     clearAndFetchProducts(); // Reset and fetch products based on new filter
   });
 
+  // Botón para cargar más productos
   loadMoreButton.addEventListener("click", () => {
     if (!isLoading) {
       isLoading = true;
@@ -424,6 +428,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+/************************************************************
+ * copyToClipboard, handleHeartClick, agregarModal_marketplace,
+ * abrir_modalSeleccionAtributo, abrir_modal_idInventario, etc.
+ * (Fuera del DOMContentLoaded, para que no haya problemas
+ *  con scope; siguen funcionando igual.)
+ ************************************************************/
 
 function copyToClipboard(id) {
   navigator.clipboard.writeText(id).then(
@@ -686,89 +697,97 @@ const vaciarTmpPedidos = async () => {
   }
 };
 
+/**********************************************************************
+ * Bloque jQuery document.ready para cargar categorías y proveedores
+ * (Aquí ya existe formData_filtro, porque lo declaramos y definimos
+ *  en DOMContentLoaded en un ámbito superior)
+ **********************************************************************/
 $(document).ready(function () {
   // Cargar categorías
   $.ajax({
-      url: SERVERURL + "productos/cargar_categorias",
-      type: "GET",
-      dataType: "json",
-      success: function (response) {
-        //Aseguramos que la respuesta es un array
-          if (Array.isArray(response)) {
-              const sliderCategorias = document.getElementById("sliderCategorias");
-              sliderCategorias.innerHTML = ""; // Limpia antes de insertar
+    url: SERVERURL + "productos/cargar_categorias",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      if (Array.isArray(response)) {
+        const sliderCategorias = document.getElementById("sliderCategorias");
+        sliderCategorias.innerHTML = ""; // Limpia antes de insertar
 
-              response.forEach(function (categoria) {
-                  const chip = document.createElement("div");
-                  chip.classList.add("slider-chip");
-                  chip.textContent = categoria.nombre_linea;
-                  chip.dataset.catId = categoria.id_linea;
+        response.forEach(function (categoria) {
+          const chip = document.createElement("div");
+          chip.classList.add("slider-chip");
+          chip.textContent = categoria.nombre_linea;
+          chip.dataset.catId = categoria.id_linea;
 
-                  chip.addEventListener("click", function (e) {
-                      const clickedChip = e.currentTarget;
-                      const catId = clickedChip.dataset.catId;
+          chip.addEventListener("click", function (e) {
+            const clickedChip = e.currentTarget;
+            const catId = clickedChip.dataset.catId;
 
-                      document.querySelectorAll("#sliderCategorias .slider-chip")
-                          .forEach(el => el.classList.remove("selected"));
-                      clickedChip.classList.add("selected");
+            document
+              .querySelectorAll("#sliderCategorias .slider-chip")
+              .forEach((el) => el.classList.remove("selected"));
+            clickedChip.classList.add("selected");
 
-                      formData_filtro.set("linea", catId);
-                      clearAndFetchProducts();
-                  });
+            // Usamos la variable formData_filtro que definimos globalmente
+            formData_filtro.set("linea", catId); // <--- CAMBIO: ahora sí existe
+            clearAndFetchProducts();
+          });
 
-                  sliderCategorias.appendChild(chip);
-              });
-          } else {
-              console.log("La respuesta de la API no es un array:", response);
-          }
-      },
-      error: function (error) {
-          console.error("Error al obtener la lista de categorias:", error);
+          sliderCategorias.appendChild(chip);
+        });
+      } else {
+        console.log("La respuesta de la API no es un array:", response);
       }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de categorias:", error);
+    },
   });
 
   // Cargar proveedores
   $.ajax({
-      url: SERVERURL + "marketplace/obtenerProveedores",
-      type: "GET",
-      dataType: "json",
-      success: function (response) {
-          console.log("Respuesta de obtener proveedores:", response);
-          if (Array.isArray(response)) {
-              const sliderProveedores = document.getElementById("sliderProveedores");
-              sliderProveedores.innerHTML = ""; // Limpia antes de insertar
+    url: SERVERURL + "marketplace/obtenerProveedores",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      console.log("Respuesta de obtener proveedores:", response);
+      if (Array.isArray(response)) {
+        const sliderProveedores = document.getElementById("sliderProveedores");
+        sliderProveedores.innerHTML = ""; // Limpia antes de insertar
 
-              response.forEach(function (proveedor) {
-                  const chipProv = document.createElement("div");
-                  chipProv.classList.add("slider-chip");
-                  chipProv.textContent = proveedor.nombre_tienda.toUpperCase();
-                  chipProv.dataset.provId = proveedor.id_plataforma;
+        response.forEach(function (proveedor) {
+          const chipProv = document.createElement("div");
+          chipProv.classList.add("slider-chip");
+          chipProv.textContent = proveedor.nombre_tienda.toUpperCase();
+          chipProv.dataset.provId = proveedor.id_plataforma;
 
-                  chipProv.addEventListener("click", function (e) {
-                      const clickedProvChip = e.currentTarget;
-                      const provId = clickedProvChip.dataset.provId;
+          chipProv.addEventListener("click", function (e) {
+            const clickedProvChip = e.currentTarget;
+            const provId = clickedProvChip.dataset.provId;
 
-                      document.querySelectorAll("#sliderProveedores .slider-chip")
-                          .forEach(el => el.classList.remove("selected"));
-                      clickedProvChip.classList.add("selected");
+            document
+              .querySelectorAll("#sliderProveedores .slider-chip")
+              .forEach((el) => el.classList.remove("selected"));
+            clickedProvChip.classList.add("selected");
 
-                      formData_filtro.set("plataforma", provId);
-                      clearAndFetchProducts();
-                  });
+            // Usamos la misma variable formData_filtro
+            formData_filtro.set("plataforma", provId); // <--- CAMBIO
+            clearAndFetchProducts();
+          });
 
-                  sliderProveedores.appendChild(chipProv);
-              });
-          } else {
-              console.log("La respuesta de la API no es un array:", response);
-          }
-      },
-      error: function (error) {
-          console.error("Error al obtener la lista de proveedores:", error);
+          sliderProveedores.appendChild(chipProv);
+        });
+      } else {
+        console.log("La respuesta de la API no es un array:", response);
       }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de proveedores:", error);
+    },
   });
 });
 
-// Ejecutar la función cuando la página se haya cargado
+// Ejecutar la función para vaciar pedidos temporales al cargar la página
 window.addEventListener("load", vaciarTmpPedidos);
 
 /* abrir modal */
