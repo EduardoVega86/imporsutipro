@@ -112,7 +112,7 @@
                 });
 
                 /* seccion automatizador */
-                const apiUrl = SERVERURL + "api/validar_configuracion";
+                const apiUrl = SERVERURL + "Pedidos/validar_configuracion";
 
                 fetch(apiUrl)
                     .then(response => response.json())
