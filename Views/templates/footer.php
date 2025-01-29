@@ -112,52 +112,47 @@
                 });
 
                 /* seccion automatizador */
-                // URL de la API (ajusta según tu configuración)
-                const apiUrl = SERVERURL + "Pedidos/validar_configuracion";
+                const apiUrl = SERVERURL + "api/validar_configuracion";
 
-                // Realizar la consulta a la API
                 fetch(apiUrl)
                     .then(response => response.json())
                     .then(data => {
                         const automatizadorContainer = document.getElementById("automatizador-container");
 
                         if (data.status) {
-                            // Si la API devuelve true, mostrar las opciones del Automatizador
                             automatizadorContainer.innerHTML = `
-                <a href="#" class="dropdown-btn" data-target="#submenu5">
-                    <i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span>
-                </a>
-                <div class="submenu" id="submenu5">
-                    <a href="<?php echo SERVERURL; ?>Pedidos/plantillas_chat_center">
-                        <i class="fa-solid fa-message menu-icon"></i> <span class="menu-text">Plantillas</span>
+                    <a href="#" class="dropdown-btn" data-target="#submenu5">
+                        <i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span>
                     </a>
-                    <a href="<?php echo SERVERURL; ?>/Pedidos/configuracion_chats_imporsuit">
-                        <i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuracion</span>
-                    </a>
-                    <a href="https://chatcenter.imporfactory.app/">
-                        <i class="fa-brands fa-rocketchat menu-icon"></i> <span class="menu-text">Chat-Center V2.0</span>
-                    </a>
-                </div>
-            `;
+                    <div class="submenu" id="submenu5">
+                        <a href="<?php echo SERVERURL; ?>Pedidos/plantillas_chat_center">
+                            <i class="fa-solid fa-message menu-icon"></i> <span class="menu-text">Plantillas</span>
+                        </a>
+                        <a href="<?php echo SERVERURL; ?>/Pedidos/configuracion_chats_imporsuit">
+                            <i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuración</span>
+                        </a>
+                        <a href="https://chatcenter.imporfactory.app/">
+                            <i class="fa-brands fa-rocketchat menu-icon"></i> <span class="menu-text">Chat-Center V2.0</span>
+                        </a>
+                    </div>
+                `;
                         } else {
-                            // Si la API devuelve false, redirigir al Dashboard
                             automatizadorContainer.innerHTML = `
-                <a href="<?php echo SERVERURL; ?>dashboard">
-                    <i class='fa-solid fa-chart-line menu-icon'></i> <span class="menu-text">Dashboard</span>
-                </a>
-            `;
+                    <a href="<?php echo SERVERURL; ?>dashboard">
+                        <i class='fa-solid fa-chart-line menu-icon'></i> <span class="menu-text">Dashboard</span>
+                    </a>
+                `;
                         }
                     })
                     .catch(error => {
                         console.error("Error al consultar la API:", error);
 
-                        // En caso de error, mostrar solo el Dashboard
                         const automatizadorContainer = document.getElementById("automatizador-container");
                         automatizadorContainer.innerHTML = `
-            <a href="<?php echo SERVERURL; ?>dashboard">
-                <i class='fa-solid fa-chart-line menu-icon'></i> <span class="menu-text">Dashboard</span>
-            </a>
-        `;
+                <a href="<?php echo SERVERURL; ?>dashboard">
+                    <i class='fa-solid fa-chart-line menu-icon'></i> <span class="menu-text">Dashboard</span>
+                </a>
+            `;
                     });
                 /* fin seccion automatizador */
             });
