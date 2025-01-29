@@ -609,24 +609,20 @@
         white-space: nowrap;
     }
 
-    /* Asegurar que el contenido se organiza en columna */
+    /* Estilo para cada 'chip' o botón */
     .slider-chip {
-        display: flex;
-        flex-direction: column;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
         background-color: #e0e0e0;
         color: #333;
-        padding: 10px 15px;
+        padding: 8px 15px;
         border-radius: 20px;
         cursor: pointer;
         white-space: nowrap;
         transition: background-color 0.3s ease, transform 0.3s ease;
         user-select: none;
-        text-align: center;
-        width: 120px;
-        /* Ajusta según el diseño */
-        min-height: 80px;
+        /* Evita que se seleccione el texto al dar clic */
     }
 
     /* Mantener el título en la parte superior */
@@ -641,15 +637,6 @@
         font-size: 12px;
         color: #666;
         margin-top: 3px;
-    }
-
-    /* Asegurar que la imagen está arriba */
-    .icon-chip {
-        width: 40px;
-        height: 40px;
-        margin-bottom: 5px;
-        border-radius: 50%;
-        object-fit: cover;
     }
 
     .slider-chip:hover {
