@@ -1,4 +1,20 @@
 let formData_filtro;
+function toggleCategorias(element) {
+  const container = element.closest(".categoria-container");
+  const categoriasArray = container.innerText.split(', ');
+  const categoriasMostrar = categoriasArray.slice(0, 4);
+  const categoriasRestantes = categoriasArray.slice(4);
+
+  if (container.classList.contains("expandido")) {
+      container.classList.remove("expandido");
+      container.innerText = categoriasMostrar.join(', ');
+      element.innerText = "Ver más";
+  } else {
+      container.classList.add("expandido");
+      container.innerText = categoriasArray.join(', ');
+      element.innerText = "Ver menos";
+  }
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   formData_filtro = new FormData();
@@ -536,8 +552,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Dividir las categorías en un array
                 const categoriasArray = proveedor.categorias.split(', ');
-                const categoriasMostrar = categoriasArray.slice(0, 4); // Mostrar solo las primeras 4 categorías
-                const categoriasRestantes = categoriasArray.slice(4); // Resto de las categorías
+                const categoriasMostrar = categoriasArray.slice(0, 3); // Mostrar solo las primeras 4 categorías
+                const categoriasRestantes = categoriasArray.slice(10); // Resto de las categorías
 
                 // Creación del contenedor de categorías con botón de expandir
                 let categoriasHTML = `
@@ -584,24 +600,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error al obtener la lista de proveedores:", error);
     },
 }));
-
-function toggleCategorias(element) {
-    const container = element.closest(".categoria-container");
-    const categoriasArray = container.innerText.split(', ');
-    const categoriasMostrar = categoriasArray.slice(0, 4);
-    const categoriasRestantes = categoriasArray.slice(4);
-
-    if (container.classList.contains("expandido")) {
-        container.classList.remove("expandido");
-        container.innerText = categoriasMostrar.join(', ');
-        element.innerText = "Ver más";
-    } else {
-        container.classList.add("expandido");
-        container.innerText = categoriasArray.join(', ');
-        element.innerText = "Ver menos";
-    }
-}
-  
 
 /************************************************
  * FUNCIONES FUERA DE DOMContentLoaded
