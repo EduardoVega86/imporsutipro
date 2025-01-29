@@ -1473,7 +1473,9 @@ ON
 
         $sql = "UPDATE perfil SET plantilla = ? WHERE id_plataforma = ?";
         $data = [$plantilla, $plataforma];
-        $editar_perfil = $this->update($sql, $data);
+        $editar_perfil = $this->dselect($sql, $data);
+
+        echo $editar_perfil;
         if ($editar_perfil == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
