@@ -669,7 +669,7 @@
         height: 40px;
         margin-right: 10px;
         vertical-align: middle;
-        border-radius: 30%;
+        border-radius: 40%;
         /* Hace la imagen redonda */
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
         /* Efecto de sombra */
