@@ -586,19 +586,16 @@
     }
 
     /* Contenedores principales de los sliders */
-    .slider-categorias-container,
     .slider-proveedores-container {
         width: 100%;
         margin-bottom: 20px;
     }
 
     /* Encabezado */
-    .slider-categorias-container h5,
     .slider-proveedores-container h5 {
         margin-bottom: 10px;
     }
 
-    .slider-categorias,
     .slider-proveedores {
         display: flex;
         gap: 10px;
@@ -644,19 +641,16 @@
 
     /* Para marcar un chip seleccionado */
     .slider-chip.selected {
-        background-color: #007bff;
+        background-color: rgb(175, 207, 241);
         color: white;
         transform: scale(1.05);
     }
 
-    /* Quita la barra de scroll en algunos navegadores (opcional) */
-    .slider-categorias::-webkit-scrollbar,
     .slider-proveedores::-webkit-scrollbar {
         height: 6px;
         /* Altura de la barra de scroll */
     }
 
-    .slider-categorias::-webkit-scrollbar-thumb,
     .slider-proveedores::-webkit-scrollbar-thumb {
         background-color: #ccc;
         border-radius: 3px;
