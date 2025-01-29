@@ -609,20 +609,47 @@
         white-space: nowrap;
     }
 
-    /* Estilo para cada 'chip' o botón */
+    /* Asegurar que el contenido se organiza en columna */
     .slider-chip {
-        display: inline-flex;
+        display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         background-color: #e0e0e0;
         color: #333;
-        padding: 8px 15px;
+        padding: 10px 15px;
         border-radius: 20px;
         cursor: pointer;
         white-space: nowrap;
         transition: background-color 0.3s ease, transform 0.3s ease;
         user-select: none;
-        /* Evita que se seleccione el texto al dar clic */
+        text-align: center;
+        width: 120px;
+        /* Ajusta según el diseño */
+        min-height: 80px;
+    }
+
+    /* Mantener el título en la parte superior */
+    .chip-title {
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    /* Poner la cantidad de productos en la parte inferior */
+    .chip-count {
+        font-size: 12px;
+        color: #666;
+        margin-top: 3px;
+    }
+
+    /* Asegurar que la imagen está arriba */
+    .icon-chip {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 5px;
+        border-radius: 50%;
+        object-fit: cover;
     }
 
     .slider-chip:hover {

@@ -535,11 +535,12 @@ document.addEventListener("DOMContentLoaded", function () {
           const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
   
           chipProv.innerHTML = `
+          <div class="chip-content">
             <img src="${iconUrl}" class="icon-chip"> 
-            ${proveedor.nombre_tienda.toUpperCase()} 
-            <span class="product-count">(${proveedor.cantidad_productos} productos)</span>
-          `;
-  
+            <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
+            <span class="chip-count">${proveedor.cantidad_productos} productos</span>
+          </div>
+        `;
           // Toggle logic
           chipProv.addEventListener("click", function (e) {
             const clickedProvChip = e.currentTarget;
