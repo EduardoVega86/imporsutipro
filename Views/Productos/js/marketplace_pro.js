@@ -535,7 +535,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
   
           // Asegurar que proveedor.categories sea un array antes de manipularlo
-          const categoriasMostradas = Array.isArray(proveedor.categories) 
+          const categoriasMostradas = Array.isArray(proveedor.categorias) 
             ? proveedor.categories.slice(0, 3).join(", ")
             : "Sin categorías";
 
