@@ -120,11 +120,12 @@
                         const automatizadorContainer = document.getElementById("automatizador-container");
 
                         if (data.status) {
+                            // Cargar el menú del Automatizador
                             automatizadorContainer.innerHTML = `
                 <a href="#" class="dropdown-btn" data-target="#submenu5">
                     <i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span>
                 </a>
-                <div class="submenu" id="submenu5">
+                <div class="submenu submenu-popup" id="submenu5">
                     <a href="<?php echo SERVERURL; ?>Pedidos/plantillas_chat_center">
                         <i class="fa-solid fa-message menu-icon"></i> <span class="menu-text">Plantillas</span>
                     </a>
@@ -137,11 +138,12 @@
                 </div>
             `;
                         } else {
+                            // Cargar el menú del Dashboard
                             automatizadorContainer.innerHTML = `
                 <a href="#" class="dropdown-btn" data-target="#submenu5">
                     <i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span>
                 </a>
-                <div class="submenu" id="submenu5">
+                <div class="submenu submenu-popup" id="submenu5">
                     <a href="<?php echo SERVERURL; ?>Pedidos/inicio_automatizador">
                         <i class="fa-solid fa-graduation-cap menu-icon"></i> <span class="menu-text">Agendar</span>
                     </a>
@@ -163,7 +165,7 @@
             <a href="#" class="dropdown-btn" data-target="#submenu5">
                 <i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span>
             </a>
-            <div class="submenu" id="submenu5">
+            <div class="submenu submenu-popup" id="submenu5">
                 <a href="<?php echo SERVERURL; ?>Pedidos/inicio_automatizador">
                     <i class="fa-solid fa-graduation-cap menu-icon"></i> <span class="menu-text">Agendar</span>
                 </a>
@@ -177,7 +179,7 @@
                         asignarEventosDropdown();
                     });
 
-                // Función para asignar los eventos a los botones de los submenús
+                // Función para asignar eventos a los botones de los submenús
                 function asignarEventosDropdown() {
                     const dropdownButtons = document.querySelectorAll('.dropdown-btn');
 
@@ -195,7 +197,6 @@
                         });
                     });
                 }
-
                 /* fin seccion automatizador */
             });
 
