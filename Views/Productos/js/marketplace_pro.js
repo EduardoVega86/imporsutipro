@@ -536,7 +536,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
           // Asegurar que proveedor.categories sea un array antes de manipularlo
           const categoriasMostradas = Array.isArray(proveedor.categories) 
-            ? proveedor.categories.slice(0, 3)
+            ? proveedor.categories.slice(0, 3).join(", ")
             : "Sin categorías";
 
           chipProv.innerHTML = `
