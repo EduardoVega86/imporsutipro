@@ -67,20 +67,10 @@
                 <a href="<?php echo SERVERURL ?>dashboard"><i class='fa-solid fa-chart-line menu-icon'></i> <span class="menu-text">Dashboard</span></a>
 
 
-                <?php
-                // Detecta la página activa usando la URL
-                $current_page = basename($_SERVER['REQUEST_URI'], ".php");
-                ?>
-
-                <a href="<?php echo SERVERURL ?>Productos/marketplace" class="dropdown-btn <?php echo ($current_page == 'marketplace') ? 'active' : ''; ?>" data-target="#submenu01" aria-label="Ir al Marketplace">
-                    <i class="bx bx-search menu-icon"></i>
-                    <span class="menu-text">Marketplace</span>
-                </a>
-
-                <div class="submenu <?php echo ($current_page == 'marketplace') ? 'show' : ''; ?>" id="submenu01">
+                <a href="#" class="dropdown-btn" data-target="#submenu01"><i class='bx bx-search menu-icon'></i> <span class="menu-text">Marketplace</span></a>
+                <div class="submenu" id="submenu01">
                     <a href="<?php echo SERVERURL ?>Productos/marketplace_pro"><i class='bx bx-shopping-bag menu-icon'></i> <span class="menu-text">Productos</span></a>
                 </div>
-
 
                 <a href="#" class="dropdown-btn" data-target="#submenu1"><i class='bx bx-cart menu-icon'></i> <span class="menu-text">Mis Productos</span></a>
 
