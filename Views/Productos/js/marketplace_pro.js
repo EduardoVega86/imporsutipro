@@ -517,7 +517,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
   // Cargar proveedores
   $.ajax({
-    url: SERVERURL + "marketplace/obtenerProveedoresConProductos",
+    url: SERVERURL + "marketplace/obtenerProveedoresConProductosCategorias",
     type: "GET",
     dataType: "json",
     success: function (response) {
@@ -540,10 +540,10 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="chip-text">
               <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
               <span class="chip-count">${proveedor.cantidad_productos} productos</span>
+              <span class="chip-categories">${proveedor.categorias} </span> 
             </div>
           </div>
-        `;
-        
+        `;       
           // Toggle logic
           chipProv.addEventListener("click", function (e) {
             const clickedProvChip = e.currentTarget;

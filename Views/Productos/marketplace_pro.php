@@ -10,17 +10,17 @@
     <div style="padding-bottom: 20px; padding-top: 20px;">
         <div class="caja p-4 shadow-sm bg-white">
 
-            <!-- Fila 2: Proveedores -->
+            <!-- Fila : Proveedores -->
             <div class="row mb-3">
                 <div class="col-12">
                     <div class="slider-proveedores-container">
-                        <h5>Proveedores</h5>
+                        <h3>Proveedores</h3>
                         <div id="sliderProveedores" class="slider-proveedores"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Fila 3: Nombre + Favoritos -->
+            <!-- Fila : Nombre + Favoritos -->
             <div class="row mb-3">
                 <div class="col-12 col-md-4">
                     <input
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <!-- Fila 4: Rango de precio + botón filtros -->
+            <!-- Fila : Rango de precio + botón filtros -->
             <div class="row">
                 <div class="col-12 col-md-3 mb-3">
                     <label for="priceRange" class="form-label">Rango de precio:</label>

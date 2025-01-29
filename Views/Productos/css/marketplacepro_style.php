@@ -635,6 +635,11 @@
     /* Poner la cantidad de productos en la parte inferior */
     .chip-count {
         font-size: 12px;
+        margin-top: 3px;
+    }
+
+    .chip-categories {
+        font-size: 12px;
         color: #666;
         margin-top: 3px;
     }
