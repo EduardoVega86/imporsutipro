@@ -19,7 +19,7 @@
             <div class="col-md-6" style="padding-top: 3%;">
                 <div style="border: 5px solid #5A2D82; border-radius: 15px; overflow: hidden; box-shadow: 0px 4px 8px rgba(0,0,0,0.1);">
                     <iframe width="100%" height="400"
-                        src="https://youtu.be/l8hHWPsDHVw"
+                        src="https://www.youtube.com/embed/l8hHWPsDHVw?si=t-9KBRjFb4YFC0aR"
                         title="YouTube video player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
