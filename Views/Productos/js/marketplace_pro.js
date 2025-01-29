@@ -517,40 +517,36 @@ document.addEventListener("DOMContentLoaded", function () {
   
   // Cargar proveedores
   $.ajax({
-    url: SERVERURL + "marketplace/obtenerProveedores",
+    url: SERVERURL + "marketplace/obtenerProveedoresConProductos",
     type: "GET",
     dataType: "json",
     success: function (response) {
-      console.log("Respuesta de obtener proveedores:", response);
+      console.log("Respuesta de obtener proveedores con productos:", response);
       if (Array.isArray(response)) {
         const sliderProveedores = document.getElementById("sliderProveedores");
         sliderProveedores.innerHTML = ""; // Limpia antes de insertar
-
+  
         response.forEach(function (proveedor) {
           const chipProv = document.createElement("div");
           chipProv.classList.add("slider-chip");
-          chipProv.textContent = proveedor.nombre_tienda.toUpperCase();
           chipProv.dataset.provId = proveedor.id_plataforma;
-
+  
           // Ruta de la imagen en el servidor
           const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
-
+  
           chipProv.innerHTML = `
             <img src="${iconUrl}" class="icon-chip"> 
-            ${proveedor.nombre_tienda.toUpperCase()}
+            ${proveedor.nombre_tienda.toUpperCase()} 
+            <span class="product-count">(${proveedor.cantidad_productos} productos)</span>
           `;
-
-
+  
           // Toggle logic
           chipProv.addEventListener("click", function (e) {
             const clickedProvChip = e.currentTarget;
-            // ¿Ya estaba seleccionado?
             if (clickedProvChip.classList.contains("selected")) {
-              // Lo des-seleccionamos
               clickedProvChip.classList.remove("selected");
               formData_filtro.set("plataforma", "");
             } else {
-              // Deseleccionar otros
               document
                 .querySelectorAll("#sliderProveedores .slider-chip")
                 .forEach((el) => el.classList.remove("selected"));
@@ -559,7 +555,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             clearAndFetchProducts();
           });
-
+  
           sliderProveedores.appendChild(chipProv);
         });
       } else {
@@ -570,7 +566,6 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error al obtener la lista de proveedores:", error);
     },
   }));
-}); // Fin DOMContentLoaded
 
 /************************************************
  * FUNCIONES FUERA DE DOMContentLoaded
@@ -841,4 +836,4 @@ function obtenerURLImagen(imagePath, serverURL) {
     console.error("imagePath es null o undefined");
     return serverURL + "public/img/broken-image.png";
   }
-}
+}})

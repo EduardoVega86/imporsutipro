@@ -17,6 +17,13 @@ class Marketplace extends Controller
         $this->views->render($this, "index");
     }
 
+    public function obtenerProveedoresConProductos()
+    {
+        $response = $this->model->obtenerProveedoresConProductos();
+
+        echo json_encode($response);
+    }
+
     public function obtener_productos()
     {
         $nombre = $_POST['nombre'];
