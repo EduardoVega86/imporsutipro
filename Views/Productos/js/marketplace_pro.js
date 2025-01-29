@@ -515,42 +515,57 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   },
   
-  function renderProveedores(proveedores) {
-    const container = document.getElementById("sliderProveedores");
-    container.innerHTML = ""; // Limpiar antes de agregar nuevos proveedores
-
-    proveedores.forEach((proveedor) => {
-        const chipProv = document.createElement("div");
-        chipProv.classList.add("proveedor-card");
-
-        // Verificar si el proveedor tiene una imagen, si no, poner una imagen por defecto
-        const imageUrl = proveedor.image_path ? proveedor.image_path : SERVERURL + "public/img/default-provider.png";
-
-        // Construcción del contenido HTML (sin icono de destacado)
-        chipProv.innerHTML = `
-            <div class="proveedor-content">
-                <img src="${imageUrl}" class="proveedor-img" alt="${proveedor.nombre_tienda}">
-                <div class="proveedor-info">
-                    <span class="proveedor-nombre">${proveedor.nombre_tienda}</span>
-                    <span class="proveedor-productos">${proveedor.total_productos} Productos</span>
-                </div>
-            </div>
-        `;
-
-        // Evento de selección
-        chipProv.dataset.provId = proveedor.id_plataforma;
-        chipProv.addEventListener("click", function () {
-            document
-                .querySelectorAll(".proveedor-card")
+  // Cargar proveedores
+  $.ajax({
+    url: SERVERURL + "marketplace/obtenerProveedoresConProductos",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      console.log("Respuesta de obtener proveedores con productos:", response);
+      if (Array.isArray(response)) {
+        const sliderProveedores = document.getElementById("sliderProveedores");
+        sliderProveedores.innerHTML = ""; // Limpia antes de insertar
+  
+        response.forEach(function (proveedor) {
+          const chipProv = document.createElement("div");
+          chipProv.classList.add("slider-chip");
+          chipProv.dataset.provId = proveedor.id_plataforma;
+  
+          // Ruta de la imagen en el servidor
+          const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
+  
+          chipProv.innerHTML = `
+            <img src="${iconUrl}" class="icon-chip"> 
+            ${proveedor.nombre_tienda.toUpperCase()} 
+            <span class="product-count">(${proveedor.cantidad_productos} productos)</span>
+          `;
+  
+          // Toggle logic
+          chipProv.addEventListener("click", function (e) {
+            const clickedProvChip = e.currentTarget;
+            if (clickedProvChip.classList.contains("selected")) {
+              clickedProvChip.classList.remove("selected");
+              formData_filtro.set("plataforma", "");
+            } else {
+              document
+                .querySelectorAll("#sliderProveedores .slider-chip")
                 .forEach((el) => el.classList.remove("selected"));
-            chipProv.classList.add("selected");
-            formData_filtro.set("plataforma", chipProv.dataset.provId);
+              clickedProvChip.classList.add("selected");
+              formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
+            }
             clearAndFetchProducts();
+          });
+  
+          sliderProveedores.appendChild(chipProv);
         });
-
-        container.appendChild(chipProv);
-    });
-},
+      } else {
+        console.log("La respuesta de la API no es un array:", response);
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de proveedores:", error);
+    },
+  }));
 
 /************************************************
  * FUNCIONES FUERA DE DOMContentLoaded
@@ -593,7 +608,7 @@ function copyToClipboard(id) {
       alert(errorThrown);
     },
   });
-},
+}
 
 // Función para manejar el clic en el botón de corazón
 function handleHeartClick(productId, esFavorito) {
@@ -617,7 +632,7 @@ function handleHeartClick(productId, esFavorito) {
       console.error("Error al actualizar el producto:", error);
     },
   });
-},
+}
 
 //agregar informacion al modal descripcion marketplace
 function agregarModal_marketplace(id) {
@@ -704,27 +719,27 @@ function agregarModal_marketplace(id) {
       alert("Hubo un problema al obtener la información del producto");
     },
   });
-},
+}
 
 function procesarPlataforma(url) {
   let sinProtocolo = url.replace("https://", "");
   let primerPunto = sinProtocolo.indexOf(".");
   let baseNombre = sinProtocolo.substring(0, primerPunto);
   return baseNombre.toUpperCase();
-},
+}
 
 //abrir modal de seleccion de producto con atributo especifico
 function abrir_modalSeleccionAtributo(id) {
   $("#id_productoSeleccionado").val(id);
   initDataTableSeleccionProductoAtributo();
   $("#seleccionProdcutoAtributoModal").modal("show");
-},
+}
 
 function abrir_modal_idInventario(id) {
   $("#id_productoIventario").val(id);
   initDataTableTablaIdInventario();
   $("#tabla_idInventarioModal").modal("show");
-},
+}
 
 //enviar cliente
 function enviar_cliente(id, sku, pvp, id_inventario) {
@@ -759,7 +774,7 @@ function enviar_cliente(id, sku, pvp, id_inventario) {
       alert("Hubo un problema al agregar el producto temporalmente");
     },
   });
-},
+}
 
 function formatPhoneNumber(number) {
   // Eliminar caracteres no numéricos excepto el signo +
@@ -774,7 +789,7 @@ function formatPhoneNumber(number) {
     }
     return "+593" + number;
   }
-},
+}
 
 function abrirModal_infoTienda(tienda) {
   let formData = new FormData();
@@ -799,7 +814,7 @@ function abrirModal_infoTienda(tienda) {
       alert(errorThrown);
     },
   });
-},
+}
 
 function obtenerURLImagen(imagePath, serverURL) {
   if (imagePath) {
@@ -821,4 +836,4 @@ function obtenerURLImagen(imagePath, serverURL) {
     console.error("imagePath es null o undefined");
     return serverURL + "public/img/broken-image.png";
   }
-})})
+}})
