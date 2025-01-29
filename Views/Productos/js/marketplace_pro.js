@@ -693,7 +693,7 @@ $(document).ready(function () {
       type: "GET",
       dataType: "json",
       success: function (response) {
-          console.log("Respuesta de cargar_categorias:", response);
+        //Aseguramos que la respuesta es un array
           if (Array.isArray(response)) {
               const sliderCategorias = document.getElementById("sliderCategorias");
               sliderCategorias.innerHTML = ""; // Limpia antes de insertar

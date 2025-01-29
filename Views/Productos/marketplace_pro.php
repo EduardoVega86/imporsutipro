@@ -85,6 +85,6 @@
 </div>
 
 
-<script src="<?php echo SERVERURL ?>/Views/Productos/js/marketplace.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Productos/js/marketplace_pro.js"></script>
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/tablaSeleccion_Producto.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
