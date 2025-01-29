@@ -597,12 +597,15 @@
         margin-bottom: 10px;
     }
 
-    /* Contenedor que hace scroll horizontal */
     .slider-categorias,
     .slider-proveedores {
         display: flex;
         gap: 10px;
         overflow-x: auto;
+        /* NUEVO: Para que no rebase el ancho */
+        max-width: 100%;
+        box-sizing: border-box;
+        
         padding: 10px;
         border-radius: 8px;
         background-color: #f9f9f9;
