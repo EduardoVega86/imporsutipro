@@ -640,7 +640,6 @@
         font-size: 18px;
         /* Tamaño del ícono */
         /* color: #007bff; */
-        /* Color del ícono */
     }
 
     /* Para marcar un chip seleccionado */
@@ -661,5 +660,20 @@
     .slider-proveedores::-webkit-scrollbar-thumb {
         background-color: #ccc;
         border-radius: 3px;
+    }
+
+    /* Estilo para las imágenes dentro de los chips */
+    .icon-chip {
+        width: 28px;
+        /* Tamaño ajustable */
+        height: 28px;
+        margin-right: 10px;
+        vertical-align: middle;
+        border-radius: 50%;
+        /* Hace la imagen redonda */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        /* Efecto de sombra */
+        object-fit: cover;
+        /* Ajuste correcto de imagen */
     }
 </style>
