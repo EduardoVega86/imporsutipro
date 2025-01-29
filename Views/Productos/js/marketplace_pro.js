@@ -534,12 +534,18 @@ document.addEventListener("DOMContentLoaded", function () {
           // Ruta de la imagen en el servidor
           const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
   
+          // Asegurar que proveedor.categories sea un array antes de manipularlo
+          const categoriasMostradas = Array.isArray(proveedor.categories) 
+            ? proveedor.categories.slice(0, 3)
+            : "Sin categorías";
+
           chipProv.innerHTML = `
           <div class="chip-content">
             <img src="${iconUrl}" class="icon-chip"> 
             <div class="chip-text">
               <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
               <span class="chip-count">${proveedor.cantidad_productos} productos</span>
+              <span class="chip-categories">${categoriasMostradas}</span>
             </div>
           </div>
         `;       
