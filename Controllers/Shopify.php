@@ -22,6 +22,25 @@ class Shopify extends Controller
         } else {
             $data = file_get_contents("php://input");
             $response = $this->model->agregarJson($id_plataforma, $data);
+        }
+    }
+
+    public function pruebaShopify($id_plataforma)
+    {
+        if (empty($id_plataforma)) {
+            die("Error: No se ha especificado una plataforma");
+        }
+        if ($this->model->existenciaPlataforma($id_plataforma)) {
+            $data = file_get_contents("php://input");
+            $response = $this->model->agregarJson($id_plataforma, $data);
+            echo json_encode($response);
+            $valido = $this->model->productoPlataforma($id_plataforma, $data);
+            if ($valido) {
+                $this->model->gestionarRequestPrueba($id_plataforma, $data);
+            } else return;
+        } else {
+            $data = file_get_contents("php://input");
+            $response = $this->model->agregarJson($id_plataforma, $data);
             echo json_encode($response);
         }
     }
@@ -31,12 +50,10 @@ class Shopify extends Controller
         if (empty($id_plataforma)) {
             die("Error: No se ha especificado una plataforma");
         }
-       
-            $data = file_get_contents("php://input");
-            $response = $this->model->agregarJsonGooenvios($id_plataforma, $data);
-            echo json_encode($response);
-           
-       
+
+        $data = file_get_contents("php://input");
+        $response = $this->model->agregarJsonGooenvios($id_plataforma, $data);
+        echo json_encode($response);
     }
 
     public function constructor()

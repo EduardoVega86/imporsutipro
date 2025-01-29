@@ -14,7 +14,6 @@ class ShopifyModel extends Query
             foreach ($data['line_items'] as $item) {
 
                 $sql = "SELECT * FROM shopify_tienda WHERE id_plataforma = $id_plataforma and id_inventario =" . $item['sku'];
-                echo $sql;
                 $response = $this->select($sql);
                 if (count($response) == 0) {
                     return false;
@@ -26,6 +25,37 @@ class ShopifyModel extends Query
         }
     }
 
+    public function verificarDuplicidad($id_plataforma, $id, $phone, $name)
+    {
+        $sql = "SELECT count(*) as cantidad
+                FROM web_hook_shopify
+                WHERE id_plataforma = $id_plataforma
+                AND json LIKE '%$id%'
+                AND json LIKE '%$name%'
+                AND json LIKE '%$phone%'";
+
+        $response = $this->select($sql);
+        return $response[0]['cantidad'];
+    }
+
+    public function gestionarRequestPrueba($plataforma, $data)
+    {
+        $json_String = mb_convert_encoding($data, "UTF-8", "auto");
+        $data = json_decode($json_String, true);
+        $order_number = $data['order_number'];
+
+        $id = $data['id'];
+        $phone = $data['phone'];
+        $name = $data['name'];
+
+        $duplicado = $this->verificarDuplicidad($plataforma, $id, $phone, $name);
+        if ($duplicado > 0) {
+            echo json_encode(array("status" => 400, "message" => "Este pedido esta duplicado", "title" => "Duplicado"));
+            exit();
+        }
+
+        echo json_encode(array("status" => 200, "message" => "Pedido no duplicado", "title" => "No duplicado"));
+    }
     public function gestionarRequest($plataforma, $data)
     {
         $json_String = mb_convert_encoding($data, "UTF-8", "auto");
@@ -34,6 +64,15 @@ class ShopifyModel extends Query
         $configuraciones = $this->obtenerConfiguracion($plataforma);
         $configuraciones = $configuraciones[0];
         $resultados = [];
+        $id = $data['id'];
+        $phone = $data['phone'];
+        $name = $data['name'];
+
+        $duplicado = $this->verificarDuplicidad($plataforma, $id, $phone, $name);
+        if ($duplicado > 0) {
+            echo json_encode(array("status" => 400, "message" => "Este pedido esta duplicado", "title" => "Duplicado"));
+            exit();
+        }
 
         foreach ($configuraciones as $key => $value) {
             $resultados[$key] = $this->obtenerData($data, $value);
