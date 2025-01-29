@@ -13,21 +13,25 @@
 
                 <!-- Fila 1: Categorías y Proveedores -->
                 <div class="primer_seccionFiltro">
-                    <div class="slider-categorias-container">
-                        <h5>Categorías</h5>
-                        <div id="sliderCategorias" class="slider-categorias">
-                            <!-- Chips de categorías -->
-                        </div>
-                    </div>
+                  <div class="col-md-4 mb-3 mb-md-0">
+                      <div class="slider-categorias-container">
+                          <h5>Categorías</h5>
+                          <div id="sliderCategorias" class="slider-categorias">
+                              <!-- Chips de categorías -->
+                          </div>
+                      </div>
+                  </div>    
 
                 </div>
                 <div class="primer_seccionFiltro">
-                    <div class="slider-proveedores-container">
-                        <h5>Proveedores</h5>
-                        <div id="sliderProveedores" class="slider-proveedores">
-                            <!-- Chips de proveedores -->
-                        </div>
-                    </div>
+                  <div class="col-md-4 mb-3 mb-md-0">    
+                      <div class="slider-proveedores-container">
+                          <h5>Proveedores</h5>
+                          <div id="sliderProveedores" class="slider-proveedores">
+                              <!-- Chips de proveedores -->
+                          </div>
+                      </div>
+                  </div>    
                 </div>
                 <!-- Fila 2: Nombre + Favoritos -->
                 <div class="primer_seccionFiltro">
