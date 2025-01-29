@@ -307,6 +307,8 @@ const listGuias = async () => {
                      </div>
                      </div>
                     </td>
+                    <td>${despachado}</td>
+                    <td>${impresiones}</td>
                     <td>${guia.monto_factura}</td>
                     <td>${guia.costo_producto}</td>
                     <td>${guia.costo_flete}</td>
@@ -317,8 +319,6 @@ const listGuias = async () => {
                       guia.costo_flete
                     }</td>
                     <td>${guia.cod == 1 ? "SI" : "NO"}</td>
-                    <td>${despachado}</td>
-                    <td>${impresiones}</td>
                     <td>
                     <div class="dropdown">
                     <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
