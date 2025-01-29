@@ -201,7 +201,6 @@
             <div class="submenu" id="submenu5">
                 <a href="<?php echo SERVERURL ?>Pedidos/plantillas_chat_center"><i class="fa-solid fa-message menu-icon"></i> <span class="menu-text">Plantillas</span></a>
                 <a href="<?php echo SERVERURL ?>/Pedidos/configuracion_chats_imporsuit"><i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuracion</span></a>
-                <!-- <a href="<?php echo SERVERURL ?>Pedidos/chat_imporsuit"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Chat-Center</span></a> -->
                 <a href="https://chatcenter.imporfactory.app/"><i class="fa-brands fa-rocketchat menu-icon"></i> <span class="menu-text">Chat-Center V2.0</span></a>
             </div>
         </div>
