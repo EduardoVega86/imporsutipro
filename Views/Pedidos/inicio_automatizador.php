@@ -29,7 +29,7 @@
             </div>
 
             <!-- Separador vertical -->
-            <div class="col-md-1 d-none d-md-block" style="border-left: 2px solid #ddd; height: 400px; width: 10px;"></div>
+            <div class="col-md-1 d-none d-md-block" style="border-left: 2px solid #ddd; height: 450px; width: 10px;"></div>
 
             <!-- Columna derecha: Calendario -->
             <div class="col-md-5 text-center">
