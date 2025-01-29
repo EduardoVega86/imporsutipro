@@ -633,6 +633,16 @@
         transform: scale(1.05);
     }
 
+    /* Ajuste de los iconos dentro de los chips */
+    .slider-chip i {
+        margin-right: 8px;
+        /* Espacio entre el ícono y el texto */
+        font-size: 18px;
+        /* Tamaño del ícono */
+        /* color: #007bff; */
+        /* Color del ícono */
+    }
+
     /* Para marcar un chip seleccionado */
     .slider-chip.selected {
         background-color: #007bff;

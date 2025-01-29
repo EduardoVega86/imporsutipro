@@ -505,6 +505,9 @@ document.addEventListener("DOMContentLoaded", function () {
           chip.textContent = categoria.nombre_linea;
           chip.dataset.catId = categoria.id_linea;
 
+          // Agregar el ícono de categoría (FontAwesome)
+          chip.innerHTML = `<i class="fas fa-tags"></i> ${categoria.nombre_linea}`;
+
           // Toggle logic
           chip.addEventListener("click", function (e) {
             const clickedChip = e.currentTarget;
@@ -554,6 +557,10 @@ document.addEventListener("DOMContentLoaded", function () {
           chipProv.classList.add("slider-chip");
           chipProv.textContent = proveedor.nombre_tienda.toUpperCase();
           chipProv.dataset.provId = proveedor.id_plataforma;
+
+          // Agregar el ícono de un camión o tienda (FontAwesome)
+          chipProv.innerHTML = `<i class="fas fa-truck-moving"></i> ${proveedor.nombre_tienda.toUpperCase()}`;
+
 
           // Toggle logic
           chipProv.addEventListener("click", function (e) {
