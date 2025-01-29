@@ -195,7 +195,7 @@
                 <a href="<?php echo SERVERURL ?>Pedidos/scanner_speed"><i class='fa-solid fa-motorcycle menu-icon'></i> <span class="menu-text">Scanner Speed</span></a>
             <?php } ?>
 
-            <?php if ($_SESSION['validar_config_chat']) { ?>
+            <?php if ($_SESSION['validar_config_chat'] == "1") { ?>
                 <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
 
                 <div class="submenu" id="submenu5">
@@ -267,7 +267,5 @@
             const MARCA = "<?php echo MARCA ?>";
             const CARGO = <?php echo $_SESSION['cargo']; ?>;
             const ID_PLATAFORMA = <?php echo $_SESSION['id_plataforma']; ?>;
-            const VALIDAR = <?php echo $_SESSION['validar_config_chat']; ?>;
-            console.log("VALIDAR: " + VALIDAR);
             const MATRIZ = <?php echo MATRIZ; ?>;
         </script>
