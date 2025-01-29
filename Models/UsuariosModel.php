@@ -1475,7 +1475,7 @@ ON
         $data = [$plantilla, $plataforma];
         $editar_perfil = $this->dselect($sql, $data);
 
-        echo $editar_perfil;
+        print_r($editar_perfil);
         if ($editar_perfil == 1) {
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
