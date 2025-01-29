@@ -543,54 +543,54 @@ document.addEventListener("DOMContentLoaded", function () {
             sliderProveedores.innerHTML = ""; // Limpia antes de insertar
 
             response.forEach(function (proveedor) {
-                const chipProv = document.createElement("div");
-                chipProv.classList.add("slider-chip");
-                chipProv.dataset.provId = proveedor.id_plataforma;
-
-                // Ruta de la imagen en el servidor
-                const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
-
-                // Dividir las categorías en un array
-                const categoriasArray = proveedor.categorias.split(', ');
-                const categoriasMostrar = categoriasArray.slice(0, 3); // Mostrar solo las primeras 4 categorías
-                const categoriasRestantes = categoriasArray.slice(10); // Resto de las categorías
-
-                // Creación del contenedor de categorías con botón de expandir
-                let categoriasHTML = `
-                    <div class="chip-categories categoria-container">
-                        ${categoriasMostrar.join(', ')}
-                        ${categoriasRestantes.length > 0 ? `<span class="categoria-expand-btn" onclick="toggleCategorias(this)">Ver más</span>` : ''}
-                    </div>
-                `;
-
-                chipProv.innerHTML = `
-                    <div class="chip-content">
-                        <img src="${iconUrl}" class="icon-chip"> 
-                        <div class="chip-text">
-                            <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
-                            <span class="chip-count">${proveedor.cantidad_productos} productos</span>
-                            ${categoriasHTML}
-                        </div>
-                    </div>
-                `;
-
-                // Toggle logic
-                chipProv.addEventListener("click", function (e) {
-                    const clickedProvChip = e.currentTarget;
-                    if (clickedProvChip.classList.contains("selected")) {
-                        clickedProvChip.classList.remove("selected");
-                        formData_filtro.set("plataforma", "");
-                    } else {
-                        document
-                            .querySelectorAll("#sliderProveedores .slider-chip")
-                            .forEach((el) => el.classList.remove("selected"));
-                        clickedProvChip.classList.add("selected");
-                        formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
-                    }
-                    clearAndFetchProducts();
-                });
-
-                sliderProveedores.appendChild(chipProv);
+              const chipProv = document.createElement("div");
+              chipProv.classList.add("slider-chip");
+              chipProv.dataset.provId = proveedor.id_plataforma;
+          
+              // Ruta de la imagen en el servidor
+              const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
+          
+              // Verificar si proveedor.categorias es null o está vacío
+              const categoriasArray = proveedor.categorias ? proveedor.categorias.split(', ') : [];
+              const categoriasMostrar = categoriasArray.slice(0, 4); // Mostrar solo las primeras 4 categorías
+              const categoriasRestantes = categoriasArray.slice(4); // Resto de las categorías
+          
+              // Creación del contenedor de categorías con botón de expandir
+              let categoriasHTML = `
+                  <div class="chip-categories categoria-container">
+                      ${categoriasMostrar.join(', ')}
+                      ${categoriasRestantes.length > 0 ? `<span class="categoria-expand-btn" onclick="toggleCategorias(this)">Ver más</span>` : ''}
+                  </div>
+              `;
+          
+              chipProv.innerHTML = `
+                  <div class="chip-content">
+                      <img src="${iconUrl}" class="icon-chip"> 
+                      <div class="chip-text">
+                          <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
+                          <span class="chip-count">${proveedor.cantidad_productos} productos</span>
+                          ${categoriasHTML}
+                      </div>
+                  </div>
+              `;
+          
+              // Toggle logic
+              chipProv.addEventListener("click", function (e) {
+                  const clickedProvChip = e.currentTarget;
+                  if (clickedProvChip.classList.contains("selected")) {
+                      clickedProvChip.classList.remove("selected");
+                      formData_filtro.set("plataforma", "");
+                  } else {
+                      document
+                          .querySelectorAll("#sliderProveedores .slider-chip")
+                          .forEach((el) => el.classList.remove("selected"));
+                      clickedProvChip.classList.add("selected");
+                      formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
+                  }
+                  clearAndFetchProducts();
+              });
+          
+              sliderProveedores.appendChild(chipProv);      
             });
         } else {
             console.log("La respuesta de la API no es un array:", response);
