@@ -11,17 +11,25 @@
         <div class="caja p-4 shadow-sm bg-white">
             <div class="caja_filtros">
 
-                <div class="row">
+                <!-- Fila 1: Categorías y Proveedores -->
+                <div class="primer_seccionFiltro">
                     <div class="col-12 col-md-6">
                         <div class="slider-categorias-container">
                             <h5>Categorías</h5>
-                            <div id="sliderCategorias" class="slider-categorias"></div>
+                            <div id="sliderCategorias" class="slider-categorias">
+                                <!-- Chips de categorías -->
+                            </div>
                         </div>
                     </div>
+
+                </div>
+                <div class="primer_seccionFiltro">
                     <div class="col-12 col-md-6">
                         <div class="slider-proveedores-container">
                             <h5>Proveedores</h5>
-                            <div id="sliderProveedores" class="slider-proveedores"></div>
+                            <div id="sliderProveedores" class="slider-proveedores">
+                                <!-- Chips de proveedores -->
+                            </div>
                         </div>
                     </div>
                 </div>
