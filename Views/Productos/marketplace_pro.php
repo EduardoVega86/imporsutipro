@@ -13,7 +13,7 @@
 
                 <!-- Fila 1: Categorías y Proveedores -->
                 <div class="primer_seccionFiltro">
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-11">
                         <div class="slider-categorias-container">
                             <h5>Categorías</h5>
                             <div id="sliderCategorias" class="slider-categorias">
@@ -24,7 +24,7 @@
 
                 </div>
                 <div class="primer_seccionFiltro">
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-11">
                         <div class="slider-proveedores-container">
                             <h5>Proveedores</h5>
                             <div id="sliderProveedores" class="slider-proveedores">
