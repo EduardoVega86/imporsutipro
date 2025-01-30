@@ -1393,7 +1393,7 @@ $result = $this->insert($detalle_sql_historial, $data);
         $response = $this->initialResponse();
 
 
-        $sql = "INSERT INTO detalle_devolucion (numero_guia, id_cabecera_devolucion) VALUES (?, ?)";
+        $sql = "INSERT INTO detalle_devolucion_producto (numero_guia, id_cabecera_devolucion) VALUES (?, ?)";
         $data = [$num_guia, $id_cabecera];
         // Ejecuta la inserción
         $insertar_detalle_rd = $this->insert($sql, $data);
