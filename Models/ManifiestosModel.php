@@ -95,7 +95,78 @@ class ManifiestosModel extends Query
         return $reponse;
     }
 
+    public function generarManifiestoGuiasProductosIngreso($arreglo, $id_cabecera)
+    {
 
+        //echo $id_cabecera;
+
+        $ids = array_column($arreglo, 'id_inventario');
+
+// Generar la cadena separada por comas
+$string = '(' . implode(',', $ids) . ')';
+
+//echo $string;
+
+        // Verificar que se haya obtenido el resumen
+        
+
+
+        $sql_bodega = "SELECT b.id as id, b.nombre as bodega, b.contacto, b.responsable, b.direccion FROM inventario_bodegas ib, bodega b WHERE ib.id_inventario in  $string and  ib.bodega=b.id limit 1;";
+       // echo $sql_bodega;
+        //  echo $sql_factura;$id_factura
+        $bodega = $this->select($sql_bodega);
+        $bodega_nombre = $bodega[0]['bodega'];
+        $telefono = $bodega[0]['contacto'];
+        $responsable = $bodega[0]['responsable'];
+        $direccion = $bodega[0]['direccion'];
+        $id_bodega = $bodega[0]['id'];
+
+
+
+        // $html ='<h3 style="text-align: center;>tecto</h3>';
+        $html = $this->generarTablaManifiestoProductos($arreglo, $bodega_nombre, $direccion, $telefono, $responsable);
+       // echo $html;
+        // Generar el PDF con Dompdf
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Ruta del archivo PDF
+        $combinedPdfPath = $this->generateUniqueFilename('RelacionDespacho-', __DIR__ . '/manifiestos');
+        $tempName = explode('-', $combinedPdfPath);
+        $tempName[0] = str_replace(__DIR__ . '/manifiestos/', '', $tempName[0]);
+        $lastNumber = glob(__DIR__ . '/manifiestos/' . $tempName[0] . '-*');
+        if (count($lastNumber) > 0) {
+            $lastNumber = explode('-', $lastNumber[count($lastNumber) - 1]);
+            $lastNumber = $lastNumber[1];
+            $lastNumber = explode('.', $lastNumber);
+            $lastNumber = $lastNumber[0];
+            $lastNumber = intval($lastNumber) + 1;
+            $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-' . $lastNumber . '.pdf';
+        } else {
+            $combinedPdfPath = __DIR__ . '/manifiestos/' . $tempName[0] . '-1000.pdf';
+        }
+
+        // Guardar el PDF en el servidor
+        file_put_contents($combinedPdfPath, $dompdf->output());
+
+        // Devolver la respuesta
+        $new_url = str_replace("/home/imporsuitpro/public_html/new", "", $combinedPdfPath);
+        $new_url = URL_MATRIZ . $new_url;
+
+        $reponse = [
+            "url" => $combinedPdfPath,
+            "download" => $new_url,
+            "status" => "200"
+        ];
+
+        $update = "UPDATE cabecera_relacion_despacho_producto SET url_documento = '$new_url' WHERE id_relacion_despacho = $id_cabecera";
+        echo $update;
+        $this->select($update);
+
+        return $reponse;
+    }
     public function generarManifiestoGuiasProductos($arreglo, $id_cabecera)
     {
 
@@ -1102,7 +1173,7 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
         $response = $this->initialResponse();
 
 
-        $sql = "INSERT INTO detall_ingreso_producto (sku_producto, id_cabecera, cantidad) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO detalle_ingreso_producto (sku_producto, id_cabecera, cantidad) VALUES (?, ?, ?)";
         $sku= $num_guia['sku'];
         $cantidad=$num_guia['cantidad'];
         $id_inventario=$num_guia['id_inventario'];
