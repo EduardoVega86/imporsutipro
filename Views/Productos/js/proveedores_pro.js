@@ -1,100 +1,58 @@
-let formData_filtro;
-
 document.addEventListener("DOMContentLoaded", function () {
-  formData_filtro = new FormData();
+  let formData_filtro = new FormData();
+  formData_filtro.append("nombre", "");
 
-  const initialProveedoresPerPage = 24;
-  const additionalProductsPerPage = 24;
-  let currentPage = 1;
-  let proveedores = [];
-  let displayedProveedores = new Set();
+  const proveedoresContainer = document.getElementById("sliderProveedores");
+  const loadingIndicator = document.getElementById("loading-indicator");
+  const loadMoreButton = document.getElementById("load-more");
+  let isLoading = false;
 
-
-  // Filtro por texto (nombre)
-  $("#buscar_nombre").on(
-    "input",
-    debounce(function () {
-      var q = $("#buscar_nombre").val();
-      formData_filtro.set("nombre", q);
-      clearAndFetchProducts();
-    }, 300)
-  );
-
-  // Botón “Cargar más”
-  loadMoreButton.addEventListener("click", () => {
-    if (!isLoading) {
+  function fetchProveedores() {
+      if (isLoading) return;
       isLoading = true;
       loadingIndicator.style.display = "block";
-      currentPage++;
-      fetchProducts(false);
-    }
+      
+      $.ajax({
+          url: SERVERURL + "marketplace/obtenerProveedoresConProductosCategorias",
+          type: "GET",
+          dataType: "json",
+          success: function (response) {
+              console.log("Respuesta de obtener proveedores con productos:", response);
+              if (Array.isArray(response)) {
+                  proveedoresContainer.innerHTML = "";
+                  response.forEach(proveedor => {
+                      const proveedorCard = document.createElement("div");
+                      proveedorCard.classList.add("proveedor-card");
+                      proveedorCard.innerHTML = `
+                          <div class="proveedor-logo">
+                              <img src="${proveedor.logo || SERVERURL + 'public/img/icons/proveedor.png'}" alt="Logo">
+                          </div>
+                          <div class="proveedor-info">
+                              <h6>${proveedor.nombre_tienda.toUpperCase()}</h6>
+                              <p>${proveedor.cantidad_productos} productos</p>
+                              <p>${proveedor.categorias ? proveedor.categorias.split(",").slice(0, 3).join(", ") : 'Sin categorías'}</p>
+                          </div>
+                      `;
+                      proveedoresContainer.appendChild(proveedorCard);
+                  });
+              } else {
+                  console.log("La respuesta de la API no es un array:", response);
+              }
+          },
+          error: function (error) {
+              console.error("Error al obtener la lista de proveedores:", error);
+          },
+          complete: function () {
+              isLoading = false;
+              loadingIndicator.style.display = "none";
+          }
+      });
+  }
+
+  document.getElementById("buscar_nombre").addEventListener("input", function () {
+      formData_filtro.set("nombre", this.value);
+      fetchProveedores();
   });
-  
-  // Cargar proveedores
-  $.ajax({
-    url: SERVERURL + "marketplace/obtenerProveedoresConProductosCategorias",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-      console.log("Respuesta de obtener proveedores con productos:", response);
-      if (Array.isArray(response)) {
-        const sliderProveedores = document.getElementById("sliderProveedores");
-        sliderProveedores.innerHTML = ""; // Limpia antes de insertar
-  
-        response.forEach(proveedor => {
-          const chipProv = document.createElement("div");
-          chipProv.classList.add("slider-chip");
-          chipProv.dataset.provId = proveedor.id_plataforma;
-        
-          // Ruta de la imagen en el servidor
-          const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
-        
-          // Convertir string de categorías a un array limpio
-          const categoriasArray = proveedor.categorias
-            ? proveedor.categorias.split(",").map(cat => cat.trim()) // Separar por comas y quitar espacios
-            : [];
-        
-          // Mostrar solo las primeras 3 categorías
-          const categoriasMostradas = categoriasArray.length > 0
-            ? categoriasArray.slice(0, 3).join(", ") // Tomar solo 3 y unir con comas
-            : "Sin categorías";
-        
-          chipProv.innerHTML = `
-            <div class="chip-content">
-              <img src="${iconUrl}" class="icon-chip"> 
-              <div class="chip-text">
-                <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
-                <span class="chip-count">${proveedor.cantidad_productos} productos</span>
-                <span class="chip-categories">${categoriasMostradas}</span>
-              </div>
-            </div>
-          `;
-          // Toggle logic
-          chipProv.addEventListener("click", function (e) {
-            const clickedProvChip = e.currentTarget;
-            if (clickedProvChip.classList.contains("selected")) {
-              clickedProvChip.classList.remove("selected");
-              formData_filtro.set("plataforma", "");
-            } else {
-              document
-                .querySelectorAll("#sliderProveedores .slider-chip")
-                .forEach((el) => el.classList.remove("selected"));
-              clickedProvChip.classList.add("selected");
-              formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
-            }
-            clearAndFetchProducts();
-          });
-  
-          sliderProveedores.appendChild(chipProv);
-        });
-      } else {
-        console.log("La respuesta de la API no es un array:", response);
-      }
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de proveedores:", error);
-    },
-   }
-  )
- }
-);
+
+  fetchProveedores();
+});
