@@ -161,7 +161,7 @@ $string = '(' . implode(',', $ids) . ')';
             "status" => "200"
         ];
 
-        $update = "UPDATE cabecera_relacion_despacho_producto SET url_documento = '$new_url' WHERE id_relacion_despacho = $id_cabecera";
+        $update = "UPDATE cabecera_devolucion_producto SET url_documento = '$new_url' WHERE id_devolucion = $id_cabecera";
         echo $update;
         $this->select($update);
 
@@ -1433,7 +1433,7 @@ $result = $this->insert($detalle_sql_historial, $data);
                         $plataforma
                     );
                     $guardar_detalle = $this->insert($detalle_sql_despacho, $despacho_data);
-                    $nota = 'Se elimina ' . $tmp['cantidad'] . ' productos(s) del inventario -DESPACHO GUIA-';
+                    $nota = 'Se agrega ' . $tmp['cantidad'] . ' productos(s) del inventario -INGRESO-';
                     $id_inventario = $tmp['id_inventario'];
                     $sql_bodega = "SELECT bodega FROM inventario_bodegas WHERE id_inventario = $id_inventario";
                     //echo $sql_bodega;
@@ -1445,7 +1445,7 @@ $result = $this->insert($detalle_sql_historial, $data);
                     $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
                     $stock = $this->select($sql_id);
                     $stock_inventario = $stock[0]['saldo_stock'];
-                    $saldo_stock = $stock_inventario - $tmp['cantidad'];
+                    $saldo_stock = $stock_inventario + $tmp['cantidad'];
                     $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
                     $data = [$saldo_stock, $id_inventario];
                     $actualizar_stock = $this->update($sql_update, $data);
