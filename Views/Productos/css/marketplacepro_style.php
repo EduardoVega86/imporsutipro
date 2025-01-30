@@ -740,7 +740,16 @@
     }
 
     .proveedor-logo {
-        width: 80px;
-        height: auto;
+        width: 40px;
+        /* Tamaño ajustable */
+        height: 40px;
+        margin-right: 10px;
+        vertical-align: middle;
+        border-radius: 40%;
+        /* Hace la imagen redonda */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        /* Efecto de sombra */
+        object-fit: cover;
+        /* Ajuste correcto de imagen */
     }
 </style>
