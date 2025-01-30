@@ -69,7 +69,7 @@ class ShopifyModel extends Query
         $name = $data['name'];
 
         $duplicado = $this->verificarDuplicidad($plataforma, $id, $phone, $name);
-        if ($duplicado > 0) {
+        if ($duplicado > 1) {
             echo json_encode(array("status" => 400, "message" => "Este pedido esta duplicado", "title" => "Duplicado", "duplicados" => $duplicado));
             exit();
         }
