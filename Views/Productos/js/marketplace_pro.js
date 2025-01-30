@@ -1,5 +1,275 @@
 let formData_filtro;
 
+/************************************************
+ * FUNCIONES FUERA DE DOMContentLoaded
+ * (para poder llamarlas con onclick, etc.)
+ ************************************************/
+function copyToClipboard(id) {
+  navigator.clipboard.writeText(id).then(
+    function () {
+      toastr.success("ID " + id + " COPIADA CON EXITO", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+    },
+    function (err) {
+      console.error("Error al copiar al portapapeles: ", err);
+    }
+  );
+
+  /* mandar a shopify */
+  let formData = new FormData();
+  formData.append("id_inventario", id);
+  $.ajax({
+    url: SERVERURL + "Productos/importar_productos_shopify",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE AGREGO CORRECTAMENTE a shopify", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+// Función para manejar el clic en el botón de corazón
+function handleHeartClick(productId, esFavorito) {
+  const heartButton = event.currentTarget;
+  const newFavoritoStatus = !heartButton.classList.toggle("clicked");
+
+  let formData_favoritos = new FormData();
+  formData_favoritos.append("id_producto", productId);
+  formData_favoritos.append("favorito", newFavoritoStatus ? 1 : 0);
+
+  $.ajax({
+    url: SERVERURL + "marketplace/agregarFavoritos",
+    type: "POST",
+    data: formData_favoritos,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      console.log("Producto actualizado:", response);
+    },
+    error: function (error) {
+      console.error("Error al actualizar el producto:", error);
+    },
+  });
+}
+
+//agregar informacion al modal descripcion marketplace
+function agregarModal_marketplace(id) {
+  // Limpiar el carrusel y las miniaturas antes de agregar nuevas imágenes
+  $(".carousel-inner").html("");
+  $(".carousel-thumbnails").html("");
+
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "marketplace/obtener_producto/" + id,
+    dataType: "json",
+    success: function (response) {
+      if (response) {
+        const data = response[0];
+
+        $("#codigo_producto").text(data.codigo_producto);
+        $("#nombre_producto").text(data.nombre_producto);
+        $("#precio_proveedor").text(data.pcp);
+        $("#precio_sugerido").text(data.pvp);
+        $("#stock").text(data.saldo_stock);
+        $("#nombre_proveedor").text(data.contacto);
+        $("#telefono_proveedor").text(formatPhoneNumber(data.whatsapp));
+        $("#descripcion").text(data.descripcion_producto);
+
+        var imagen_descripcion = obtenerURLImagen(data.image_path, SERVERURL);
+
+        // Agregar la imagen principal al carrusel y su miniatura
+        $(".carousel-inner").append(`
+          <div class="carousel-item active">
+            <img src="${imagen_descripcion}" class="d-block w-100 fixed-size-img" alt="Product Image 1">
+          </div>
+        `);
+
+        $(".carousel-thumbnails").append(`
+          <img src="${imagen_descripcion}" class="img-thumbnail mx-1" alt="Thumbnail 1" data-bs-target="#productCarousel" data-bs-slide-to="0">
+        `);
+
+        let formData = new FormData();
+        formData.append("id_producto", id);
+
+        // Hacer la solicitud para obtener las imágenes adicionales
+        $.ajax({
+          url: SERVERURL + "Productos/listar_imagenAdicional_productos",
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          dataType: "json",
+          success: function (response) {
+            if (response && response.length > 0) {
+              response.forEach(function (imgData, index) {
+                var imgURL = obtenerURLImagen(imgData.url, SERVERURL);
+
+                $(".carousel-inner").append(`
+                  <div class="carousel-item">
+                    <img src="${imgURL}" class="d-block w-100 fixed-size-img" alt="Product Image ${index + 2}">
+                  </div>
+                `);
+
+                $(".carousel-thumbnails").append(`
+                  <img src="${imgURL}" class="img-thumbnail mx-1" alt="Thumbnail ${index + 2}" data-bs-target="#productCarousel" data-bs-slide-to="${index + 1}">
+                `);
+              });
+            } else {
+              console.error("No se encontraron imágenes adicionales.");
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.error(
+              "Error al obtener imágenes adicionales:",
+              errorThrown
+            );
+          },
+        });
+
+        // Abrir el modal
+        $("#descripcion_productModal").modal("show");
+      } else {
+        console.error("La respuesta está vacía o tiene un formato incorrecto.");
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al obtener la información del producto");
+    },
+  });
+}
+
+function procesarPlataforma(url) {
+  let sinProtocolo = url.replace("https://", "");
+  let primerPunto = sinProtocolo.indexOf(".");
+  let baseNombre = sinProtocolo.substring(0, primerPunto);
+  return baseNombre.toUpperCase();
+}
+
+//abrir modal de seleccion de producto con atributo especifico
+function abrir_modalSeleccionAtributo(id) {
+  $("#id_productoSeleccionado").val(id);
+  initDataTableSeleccionProductoAtributo();
+  $("#seleccionProdcutoAtributoModal").modal("show");
+}
+
+function abrir_modal_idInventario(id) {
+  $("#id_productoIventario").val(id);
+  initDataTableTablaIdInventario();
+  $("#tabla_idInventarioModal").modal("show");
+}
+
+//enviar cliente
+function enviar_cliente(id, sku, pvp, id_inventario) {
+  const formData = new FormData();
+  formData.append("cantidad", 1);
+  formData.append("precio", pvp);
+  formData.append("id_producto", id);
+  formData.append("sku", sku);
+  formData.append("id_inventario", id_inventario);
+
+  $.ajax({
+    type: "POST",
+    url: "" + SERVERURL + "marketplace/agregarTmp",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response2) {
+      response2 = JSON.parse(response2);
+      if (response2.status == 500) {
+        Swal.fire({
+          icon: "error",
+          title: response2.title,
+          text: response2.message,
+        });
+      } else if (response2.status == 200) {
+        window.location.href =
+          SERVERURL + "Pedidos/nuevo?id_producto=" + id + "&sku=" + sku;
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al agregar el producto temporalmente");
+    },
+  });
+}
+
+function formatPhoneNumber(number) {
+  // Eliminar caracteres no numéricos excepto el signo +
+  number = number.replace(/[^\d+]/g, "");
+  if (/^\+593/.test(number)) {
+    return number;
+  } else if (/^593/.test(number)) {
+    return "+" + number;
+  } else {
+    if (number.startsWith("0")) {
+      number = number.substring(1);
+    }
+    return "+593" + number;
+  }
+}
+
+function abrirModal_infoTienda(tienda) {
+  let formData = new FormData();
+  formData.append("tienda", tienda);
+
+  $.ajax({
+    url: SERVERURL + "pedidos/datosPlataformas",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      response = JSON.parse(response);
+      $("#nombreTienda").val(response[0].nombre_tienda);
+      $("#telefonoTienda").val(response[0].whatsapp);
+      $("#correoTienda").val(response[0].email);
+      $("#enlaceTienda").val(response[0].url_imporsuit);
+
+      $("#infoTiendaModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+function obtenerURLImagen(imagePath, serverURL) {
+  if (imagePath) {
+    // Verificar si el imagePath ya es una URL completa
+    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+      return imagePath;
+    } else {
+      if (
+        imagePath.includes("../") ||
+        imagePath.includes("..\\") ||
+        imagePath === "" ||
+        imagePath === "."
+      ) {
+        return serverURL + "public/img/broken-image.png";
+      }
+      return `${serverURL}${imagePath}`;
+    }
+  } else {
+    console.error("imagePath es null o undefined");
+    return serverURL + "public/img/broken-image.png";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   formData_filtro = new FormData();
   formData_filtro.append("nombre", "");
@@ -580,273 +850,4 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error al obtener la lista de proveedores:", error);
     },
   }));
-
-/************************************************
- * FUNCIONES FUERA DE DOMContentLoaded
- * (para poder llamarlas con onclick, etc.)
- ************************************************/
-function copyToClipboard(id) {
-  navigator.clipboard.writeText(id).then(
-    function () {
-      toastr.success("ID " + id + " COPIADA CON EXITO", "NOTIFICACIÓN", {
-        positionClass: "toast-bottom-center",
-      });
-    },
-    function (err) {
-      console.error("Error al copiar al portapapeles: ", err);
-    }
-  );
-
-  /* mandar a shopify */
-  let formData = new FormData();
-  formData.append("id_inventario", id);
-  $.ajax({
-    url: SERVERURL + "Productos/importar_productos_shopify",
-    type: "POST",
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function (response) {
-      if (response.status == 500) {
-        toastr.error("NO SE AGREGO CORRECTAMENTE a shopify", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      } else if (response.status == 200) {
-        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-    },
-  });
-}
-
-// Función para manejar el clic en el botón de corazón
-function handleHeartClick(productId, esFavorito) {
-  const heartButton = event.currentTarget;
-  const newFavoritoStatus = !heartButton.classList.toggle("clicked");
-
-  let formData_favoritos = new FormData();
-  formData_favoritos.append("id_producto", productId);
-  formData_favoritos.append("favorito", newFavoritoStatus ? 1 : 0);
-
-  $.ajax({
-    url: SERVERURL + "marketplace/agregarFavoritos",
-    type: "POST",
-    data: formData_favoritos,
-    processData: false,
-    contentType: false,
-    success: function (response) {
-      console.log("Producto actualizado:", response);
-    },
-    error: function (error) {
-      console.error("Error al actualizar el producto:", error);
-    },
-  });
-}
-
-//agregar informacion al modal descripcion marketplace
-function agregarModal_marketplace(id) {
-  // Limpiar el carrusel y las miniaturas antes de agregar nuevas imágenes
-  $(".carousel-inner").html("");
-  $(".carousel-thumbnails").html("");
-
-  $.ajax({
-    type: "POST",
-    url: SERVERURL + "marketplace/obtener_producto/" + id,
-    dataType: "json",
-    success: function (response) {
-      if (response) {
-        const data = response[0];
-
-        $("#codigo_producto").text(data.codigo_producto);
-        $("#nombre_producto").text(data.nombre_producto);
-        $("#precio_proveedor").text(data.pcp);
-        $("#precio_sugerido").text(data.pvp);
-        $("#stock").text(data.saldo_stock);
-        $("#nombre_proveedor").text(data.contacto);
-        $("#telefono_proveedor").text(formatPhoneNumber(data.whatsapp));
-        $("#descripcion").text(data.descripcion_producto);
-
-        var imagen_descripcion = obtenerURLImagen(data.image_path, SERVERURL);
-
-        // Agregar la imagen principal al carrusel y su miniatura
-        $(".carousel-inner").append(`
-          <div class="carousel-item active">
-            <img src="${imagen_descripcion}" class="d-block w-100 fixed-size-img" alt="Product Image 1">
-          </div>
-        `);
-
-        $(".carousel-thumbnails").append(`
-          <img src="${imagen_descripcion}" class="img-thumbnail mx-1" alt="Thumbnail 1" data-bs-target="#productCarousel" data-bs-slide-to="0">
-        `);
-
-        let formData = new FormData();
-        formData.append("id_producto", id);
-
-        // Hacer la solicitud para obtener las imágenes adicionales
-        $.ajax({
-          url: SERVERURL + "Productos/listar_imagenAdicional_productos",
-          type: "POST",
-          data: formData,
-          processData: false,
-          contentType: false,
-          dataType: "json",
-          success: function (response) {
-            if (response && response.length > 0) {
-              response.forEach(function (imgData, index) {
-                var imgURL = obtenerURLImagen(imgData.url, SERVERURL);
-
-                $(".carousel-inner").append(`
-                  <div class="carousel-item">
-                    <img src="${imgURL}" class="d-block w-100 fixed-size-img" alt="Product Image ${index + 2}">
-                  </div>
-                `);
-
-                $(".carousel-thumbnails").append(`
-                  <img src="${imgURL}" class="img-thumbnail mx-1" alt="Thumbnail ${index + 2}" data-bs-target="#productCarousel" data-bs-slide-to="${index + 1}">
-                `);
-              });
-            } else {
-              console.error("No se encontraron imágenes adicionales.");
-            }
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            console.error(
-              "Error al obtener imágenes adicionales:",
-              errorThrown
-            );
-          },
-        });
-
-        // Abrir el modal
-        $("#descripcion_productModal").modal("show");
-      } else {
-        console.error("La respuesta está vacía o tiene un formato incorrecto.");
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información del producto");
-    },
-  });
-}
-
-function procesarPlataforma(url) {
-  let sinProtocolo = url.replace("https://", "");
-  let primerPunto = sinProtocolo.indexOf(".");
-  let baseNombre = sinProtocolo.substring(0, primerPunto);
-  return baseNombre.toUpperCase();
-}
-
-//abrir modal de seleccion de producto con atributo especifico
-function abrir_modalSeleccionAtributo(id) {
-  $("#id_productoSeleccionado").val(id);
-  initDataTableSeleccionProductoAtributo();
-  $("#seleccionProdcutoAtributoModal").modal("show");
-}
-
-function abrir_modal_idInventario(id) {
-  $("#id_productoIventario").val(id);
-  initDataTableTablaIdInventario();
-  $("#tabla_idInventarioModal").modal("show");
-}
-
-//enviar cliente
-function enviar_cliente(id, sku, pvp, id_inventario) {
-  const formData = new FormData();
-  formData.append("cantidad", 1);
-  formData.append("precio", pvp);
-  formData.append("id_producto", id);
-  formData.append("sku", sku);
-  formData.append("id_inventario", id_inventario);
-
-  $.ajax({
-    type: "POST",
-    url: "" + SERVERURL + "marketplace/agregarTmp",
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function (response2) {
-      response2 = JSON.parse(response2);
-      if (response2.status == 500) {
-        Swal.fire({
-          icon: "error",
-          title: response2.title,
-          text: response2.message,
-        });
-      } else if (response2.status == 200) {
-        window.location.href =
-          SERVERURL + "Pedidos/nuevo?id_producto=" + id + "&sku=" + sku;
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al agregar el producto temporalmente");
-    },
-  });
-}
-
-function formatPhoneNumber(number) {
-  // Eliminar caracteres no numéricos excepto el signo +
-  number = number.replace(/[^\d+]/g, "");
-  if (/^\+593/.test(number)) {
-    return number;
-  } else if (/^593/.test(number)) {
-    return "+" + number;
-  } else {
-    if (number.startsWith("0")) {
-      number = number.substring(1);
-    }
-    return "+593" + number;
-  }
-}
-
-function abrirModal_infoTienda(tienda) {
-  let formData = new FormData();
-  formData.append("tienda", tienda);
-
-  $.ajax({
-    url: SERVERURL + "pedidos/datosPlataformas",
-    type: "POST",
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function (response) {
-      response = JSON.parse(response);
-      $("#nombreTienda").val(response[0].nombre_tienda);
-      $("#telefonoTienda").val(response[0].whatsapp);
-      $("#correoTienda").val(response[0].email);
-      $("#enlaceTienda").val(response[0].url_imporsuit);
-
-      $("#infoTiendaModal").modal("show");
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-    },
-  });
-}
-
-function obtenerURLImagen(imagePath, serverURL) {
-  if (imagePath) {
-    // Verificar si el imagePath ya es una URL completa
-    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-      return imagePath;
-    } else {
-      if (
-        imagePath.includes("../") ||
-        imagePath.includes("..\\") ||
-        imagePath === "" ||
-        imagePath === "."
-      ) {
-        return serverURL + "public/img/broken-image.png";
-      }
-      return `${serverURL}${imagePath}`;
-    }
-  } else {
-    console.error("imagePath es null o undefined");
-    return serverURL + "public/img/broken-image.png";
-  }
-}})
+})
