@@ -91,9 +91,9 @@
 <div class="full-screen-container">
     <!-- Formulario -->
     <div class="custom-container-fluid">
-        <h1>Despacho de producto</h1>
+        <h1>Devolucion / Ingreso producto</h1>
         <div class="form-group">
-            <label for="numeroGuia">Escanee los productos que desea despachar</label>
+            <label for="numeroGuia">Escanee los productos que desea ingresar</label>
             <input type="text" id="numeroGuia" class="form-control" placeholder="Coloca el cursor aquí">
         </div>
         <button id="despachoBtn" class="btn btn-success mt-2">Despacho</button>
@@ -138,11 +138,11 @@
         var numeroGuia = document.getElementById('numeroGuia').value;
 
         let formData = new FormData();
-        formData.append("bodega", bodega);
+        //formData.append("bodega", bodega);
 
         $.ajax({
             type: "POST",
-            url: SERVERURL + "Inventarios/generarDespachoProducto/" + numeroGuia,
+            url: SERVERURL + "Inventarios/generarIngresoProducto/" + numeroGuia,
             data: formData,
             processData: false,
             contentType: false,
@@ -247,7 +247,7 @@
 
     // Enviar la solicitud al servicio web
     $.ajax({
-        url: '/Manifiestos/generarSalidaProducto', // Cambia la URL al endpoint correcto
+        url: '/Manifiestos/generarIngresoProducto', // Cambia la URL al endpoint correcto
         type: 'POST',
         contentType: 'application/json', // Indicamos que enviamos JSON
         data: datosJSON, // Enviamos el JSON completo

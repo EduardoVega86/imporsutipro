@@ -10,20 +10,20 @@
         </div>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
-            <table id="datatable_lista_despachos" class="table table-striped">
+            <table id="datatable_lista_devoluciones" class="table table-striped">
                 <!-- <caption>
                     DataTable.js Demo
                 </caption> -->
                 <thead>
                     <tr>
-                        <th class="centered">ID despacho</th>
+                        <th class="centered">ID</th>
                         <th class="centered">Usuario</th>
                         <th class="centered">Bodega</th>
                         <th class="centered">Fecha y hora</th>
                         <th class="centered">Ver PDF</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody_lista_despachos"></tbody>
+                <tbody id="tableBody_lista_devoluciones"></tbody>
             </table>
         </div>
     </div>

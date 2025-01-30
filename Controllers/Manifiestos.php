@@ -107,6 +107,40 @@ class Manifiestos extends Controller
     }
 }
 
+public function generarIngresoProducto()
+{
+    // Leer el JSON desde el cuerpo de la solicitud
+    $jsonInput = file_get_contents('php://input');
+    
+    // Decodificar el JSON
+    $datos = json_decode($jsonInput, true);
+
+    // Verificar que los datos son válidos
+    if (!$datos || !isset($datos['productos'])) {
+        echo json_encode(['error' => 'Datos inválidos o incompletos']);
+        return;
+    }
+
+    // Extraer bodega y productos
+    //$bodega = $datos['bodega'];
+    $productos = $datos['productos'];
+
+    if (count($productos) > 0) {
+        $id_cabecera = $this->model->guardarCabeceraIngreso($_SESSION['id_plataforma']);
+
+        $resultados = [];
+        foreach ($productos as $producto) {
+            $resultado = $this->model->ingreso_producto($producto, $_SESSION['id_plataforma'], $id_cabecera);
+            $resultados[] = $resultado;
+        }
+
+        print_r($resultados);
+        $html = $this->model->generarManifiestoGuiasProductosIngreso($productos, $id_cabecera);
+        echo json_encode($html);
+    } else {
+        echo json_encode(['error' => 'No se encontraron productos para procesar']);
+    }
+}
 
     public function generarManifiestoDevolucion()
     {
