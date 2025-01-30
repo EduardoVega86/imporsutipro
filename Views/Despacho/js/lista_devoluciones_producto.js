@@ -88,7 +88,6 @@ const listListaDevoluciones = async () => {
                 <tr>
                 <td>${devolucion.id_devolucion}</td>
                 <td>${devolucion.id_usuario}</td>
-                <td>${devolucion.id_plataforma}</td>
                 <td>${devolucion.id_bodega}</td>
                 <td>${devolucion.fecha_hora}</td>
                 <td><a href="${devolucion.url_documento}" download><i class='bx bxs-file-pdf' style="color:red;"></i></a></td>
