@@ -23,7 +23,7 @@
                         <th class="centered">Ver PDF</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody_lista_despachos"></tbody>
+                <tbody id="tableBody_lista_devoluciones"></tbody>
             </table>
         </div>
     </div>
