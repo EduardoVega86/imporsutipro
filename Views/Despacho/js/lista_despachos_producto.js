@@ -111,7 +111,7 @@ document
       if (bodegaValue !== "") {
         const url =
           SERVERURL +
-          `despacho/despacho_producto?bodega=${bodegaValue}`;
+          `despacho/devolucion_producto?bodega=${bodegaValue}`;
         window.location.href = url;
       } else {
         toastr.error("Por favor selecciona una bodega.", "NOTIFICACIÓN", {
