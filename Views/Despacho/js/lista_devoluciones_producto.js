@@ -77,7 +77,7 @@ const initDataTableListaDevoluciones = async () => {
 const listListaDevoluciones = async () => {
   try {
     const response = await fetch(
-      "" + SERVERURL + "despacho/listarDevoluciones"
+      "" + SERVERURL + "despacho/listarDevolucionesProducto"
     );
     const listaDevoluciones = await response.json();
 
