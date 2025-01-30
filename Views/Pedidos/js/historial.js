@@ -247,6 +247,22 @@ function abrirModal_infoTienda(tienda) {
   });
 }
 
+function obtenerSubdominio(urlString) {
+  // Verificar si urlString es nulo, indefinido o vacío
+  if (!urlString) {
+    return ""; // Devolver cadena vacía si no hay valor
+  }
+
+  try {
+    // Crear un objeto URL y descomponer el hostname
+    let url = new URL(urlString);
+    return url.hostname.split(".")[0]; // Devolver el subdominio
+  } catch (error) {
+    console.error("URL inválida:", urlString);
+    return ""; // Devolver cadena vacía si la URL es inválida
+  }
+}
+
 function procesarPlataforma(url) {
   // Eliminar el "https://"
   let sinProtocolo = url.replace("https://", "");
