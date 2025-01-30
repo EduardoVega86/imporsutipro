@@ -162,7 +162,7 @@ $string = '(' . implode(',', $ids) . ')';
         ];
 
         $update = "UPDATE cabecera_devolucion_producto SET url_documento = '$new_url' WHERE id_devolucion = $id_cabecera";
-        echo $update;
+        //echo $update;
         $this->select($update);
 
         return $reponse;
