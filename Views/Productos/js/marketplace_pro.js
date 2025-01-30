@@ -248,6 +248,28 @@ function abrirModal_infoTienda(tienda) {
   });
 }
 
+function obtenerURLImagen(imagePath, serverURL) {
+  if (imagePath) {
+    // Verificar si el imagePath ya es una URL completa
+    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+      return imagePath;
+    } else {
+      if (
+        imagePath.includes("../") ||
+        imagePath.includes("..\\") ||
+        imagePath === "" ||
+        imagePath === "."
+      ) {
+        return serverURL + "public/img/broken-image.png";
+      }
+      return `${serverURL}${imagePath}`;
+    }
+  } else {
+    console.error("imagePath es null o undefined");
+    return serverURL + "public/img/broken-image.png";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   formData_filtro = new FormData();
   formData_filtro.append("nombre", "");
@@ -828,27 +850,4 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error al obtener la lista de proveedores:", error);
     },
   }));
-
-
-
-function obtenerURLImagen(imagePath, serverURL) {
-  if (imagePath) {
-    // Verificar si el imagePath ya es una URL completa
-    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-      return imagePath;
-    } else {
-      if (
-        imagePath.includes("../") ||
-        imagePath.includes("..\\") ||
-        imagePath === "" ||
-        imagePath === "."
-      ) {
-        return serverURL + "public/img/broken-image.png";
-      }
-      return `${serverURL}${imagePath}`;
-    }
-  } else {
-    console.error("imagePath es null o undefined");
-    return serverURL + "public/img/broken-image.png";
-  }
-}})
+})
