@@ -791,7 +791,6 @@ document.addEventListener("DOMContentLoaded", function () {
     type: "GET",
     dataType: "json",
     success: function (response) {
-      console.log("Respuesta de obtener proveedores con productos:", response);
       if (Array.isArray(response)) {
         const sliderProveedores = document.getElementById("sliderProveedores");
         sliderProveedores.innerHTML = ""; // Limpia antes de insertar
