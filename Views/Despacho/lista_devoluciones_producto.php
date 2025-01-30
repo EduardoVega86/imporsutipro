@@ -10,7 +10,7 @@
         </div>
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
-            <table id="datatable_lista_despachos" class="table table-striped">
+            <table id="datatable_lista_devoluciones" class="table table-striped">
                 <!-- <caption>
                     DataTable.js Demo
                 </caption> -->
