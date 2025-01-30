@@ -27,10 +27,10 @@ document.addEventListener("DOMContentLoaded", function () {
                           <div class="proveedor-logo">
                               <img src="${proveedor.logo || SERVERURL + 'public/img/icons/proveedor.png'}" alt="Logo">
                           </div>
-                          <div class="proveedor-info">
-                              <h6>${proveedor.nombre_tienda.toUpperCase()}</h6>
-                              <p>${proveedor.cantidad_productos} productos</p>
-                              <p>${proveedor.categorias ? proveedor.categorias.split(",").slice(0, 3).join(", ") : 'Sin categorías'}</p>
+                          <div class="chip-text">
+                              <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
+                              <span class="chip-count">${proveedor.cantidad_productos} productos</span>
+                              <span class="chip-categories">${proveedor.categorias ? proveedor.categorias.split(",").slice(0, 3).join(", ") : 'Sin categorías'}</span>
                           </div>
                       `;
                       proveedoresContainer.appendChild(proveedorCard);
