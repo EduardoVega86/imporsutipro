@@ -3,7 +3,7 @@ let dataTableListaDevolucionesIsInitialized = false;
 
 const dataTableListaDevolucionesOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5] },
+    { className: "centered", targets: [1, 2, 3, 4] },
     { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
   pageLength: 10,
@@ -16,7 +16,7 @@ const dataTableListaDevolucionesOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [0, 1, 2, 3, 4, 5],
+        columns: [0, 1, 2, 3, 4],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
@@ -28,7 +28,7 @@ const dataTableListaDevolucionesOptions = {
       title: "Panel de Control: Productos",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [0, 1, 2, 3, 4, 5],
+        columns: [0, 1, 2, 3, 4],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
