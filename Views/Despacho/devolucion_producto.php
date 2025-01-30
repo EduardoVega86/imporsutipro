@@ -91,7 +91,7 @@
 <div class="full-screen-container">
     <!-- Formulario -->
     <div class="custom-container-fluid">
-        <h1>Devolucion ingreso producto</h1>
+        <h1>Devolucion / Ingreso producto</h1>
         <div class="form-group">
             <label for="numeroGuia">Escanee los productos que desea ingresar</label>
             <input type="text" id="numeroGuia" class="form-control" placeholder="Coloca el cursor aquí">
