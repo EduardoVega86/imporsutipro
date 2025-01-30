@@ -115,8 +115,8 @@ class Inventarios extends Controller
     {
        
       
-       // $bodega= $_POST['bodega'];
-       $response = $this->model->despacho_producto($num_guia, $_SESSION['id_plataforma']);
+        $bodega= $_POST['bodega'];
+       $response = $this->model->despacho_producto($num_guia, $_SESSION['id_plataforma'], $bodega);
         // print_r($response);
         echo json_encode($response);
     }
@@ -125,8 +125,8 @@ class Inventarios extends Controller
     {
        
       
-        $bodega= $_POST['bodega'];
-       $response = $this->model->ingreso_producto($num_guia, $_SESSION['id_plataforma'], $bodega);
+        //$bodega= $_POST['bodega'];
+       $response = $this->model->ingreso_producto($num_guia, $_SESSION['id_plataforma']);
         // print_r($response);
         echo json_encode($response);
     }
