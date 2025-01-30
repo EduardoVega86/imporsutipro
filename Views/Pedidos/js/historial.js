@@ -125,32 +125,46 @@ const listHistorialPedidos = async () => {
         plataforma = procesarPlataforma(historialPedido.plataforma);
       }
 
-      let boton_envia_automatizador = "";
-      /* if (ID_PLATAFORMA == 3436) {
-        boton_envia_automatizador = `<button class="btn btn-sm btn-danger" onclick="enviar_mensaje_automatizador(
-          '${historialPedido.numero_factura}',
-          ${historialPedido.ciudad_cot},
-          '${historialPedido.celular}',
-          '${historialPedido.nombre}',
-          '${historialPedido.c_principal}',
-          '${historialPedido.c_secundaria}',
-          '${historialPedido.contiene}',
-          ${historialPedido.monto_factura}
-        )"><i class="fa-brands fa-whatsapp"></i></button>`;
-      } */
+      let plataforma_proveedor = obtenerSubdominio(
+        historialPedido.plataforma_proveedor
+      );
+
+      let canal_venta;
+      let color_canal_venta;
+
+      if (historialPedido.importado == 0) {
+        canal_venta = "manual";
+        color_canal_venta = "red";
+      } else if (historialPedido.plataforma_importa == "Funnelish") {
+        canal_venta = "Funnelish";
+        color_canal_venta = "#5e81f4";
+      } else if (historialPedido.plataforma_importa == "Shopify") {
+        canal_venta = "Shopify";
+        color_canal_venta = "#79b258";
+      }
 
       content += `
                 <tr>
                     <td>${historialPedido.numero_factura}</td>
                     <td>${historialPedido.fecha_factura}</td>
+                    <td>${canal_venta}</td>
                     <td>
                         <div><strong>${historialPedido.nombre}</strong></div>
-                        <div>${historialPedido.c_principal} - ${historialPedido.c_secundaria}</div>
                         <div>telf: ${historialPedido.telefono}</div>
                     </td>
-                    <td>${historialPedido.contiene}</td>
-                    <td>${historialPedido.provinciaa}-${ciudad}</td>
-                    <td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${historialPedido.plataforma}')">${plataforma}</span></td>
+                    <td>
+                    <div>${historialPedido.direccion} - ${historialPedido.entre_calles}, ${historialPedido.colonia}, ${historialPedido.codigo_postal}</div>
+                    <div>${historialPedido.provinciaa}-${ciudad}</div>
+                    </td>
+                    <td>
+                    <div>
+                    <strong>${plataforma_proveedor}</strong>
+                    </div>
+                    <div>
+                    ${historialPedido.contiene}
+                    </div>
+                    </td>
+                    <td>$ ${historialPedido.monto_factura}</td>
                     <td>
                     <div style = "text-align: -webkit-center;">
                     ${transporte_content}
@@ -160,7 +174,6 @@ const listHistorialPedidos = async () => {
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
                         <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
-                        ${boton_envia_automatizador}
                     </td>
                 </tr>`;
     });
