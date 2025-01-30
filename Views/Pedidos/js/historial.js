@@ -153,7 +153,7 @@ const listHistorialPedidos = async () => {
                         <div>telf: ${historialPedido.telefono}</div>
                     </td>
                     <td>
-                    <div>${historialPedido.direccion} - ${historialPedido.entre_calles}, ${historialPedido.colonia}, ${historialPedido.codigo_postal}</div>
+                    <div>${historialPedido.c_principal} - ${historialPedido.c_secundaria}</div>
                     <div>${historialPedido.provinciaa}-${ciudad}</div>
                     </td>
                     <td>
