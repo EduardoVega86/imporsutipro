@@ -740,7 +740,7 @@
     }
 
     .proveedor-logo {
-        width: 100%;
+        width: 80px;
         height: auto;
     }
 </style>
