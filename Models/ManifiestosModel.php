@@ -1400,7 +1400,7 @@ $result = $this->insert($detalle_sql_historial, $data);
 
         //print_r($insertar_detalle_rd);
         $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia'";
-        //  echo $sql_factura;
+          echo $sql_factura;
         $factura = $this->select($sql_factura);
         $id_factura = $factura[0]['id_factura'];
         $estado_factura = $factura[0]['estado_factura'];
