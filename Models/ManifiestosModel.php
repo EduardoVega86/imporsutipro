@@ -1371,6 +1371,33 @@ $result = $this->insert($detalle_sql_historial, $data);
         return $lastInsertId;
     }
 
+    public function guardarCabeceraIngreso($plataforma)
+    {
+
+        $id_usuario = $_SESSION['id'];
+        $fecha_actual = date('Y-m-d H:i:s');
+
+        
+        $sql = "INSERT INTO cabecera_devolucion_producto (id_usuario, id_plataforma,  id_bodega, fecha_hora) VALUES (?, ?,  ?, ?)";
+        //echo $sql;
+        $data = [$id_usuario, $plataforma,  0, $fecha_actual];
+        // Ejecuta la inserción
+        $insertar_producto = $this->insert($sql, $data);
+
+        //print_r($insertar_producto);
+
+        $sql_id = "SELECT id_devolucion FROM cabecera_devolucion_producto WHERE id_usuario = $id_usuario "
+            . "and fecha_hora = '$fecha_actual' ";
+        $stock = $this->select($sql_id);
+        //echo $sql_id;
+        $lastInsertId = $stock[0]['id_devolucion'];
+
+        // Obtiene el ID del último registro insertado
+
+        // Devuelve el ID generado
+        return $lastInsertId;
+    }
+
     public function guardarCabeceraDevolucion($plataforma)
     {
 

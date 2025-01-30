@@ -247,7 +247,7 @@
 
     // Enviar la solicitud al servicio web
     $.ajax({
-        url: '/Manifiestos/generarSalidaProducto', // Cambia la URL al endpoint correcto
+        url: '/Manifiestos/generarIngresoProducto', // Cambia la URL al endpoint correcto
         type: 'POST',
         contentType: 'application/json', // Indicamos que enviamos JSON
         data: datosJSON, // Enviamos el JSON completo
