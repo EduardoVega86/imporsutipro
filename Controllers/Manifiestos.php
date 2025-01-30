@@ -130,12 +130,12 @@ public function generarIngresoProducto()
 
         $resultados = [];
         foreach ($productos as $producto) {
-            $resultado = $this->model->despacho_producto($producto, $_SESSION['id_plataforma'], $id_cabecera);
+            $resultado = $this->model->ingreso_producto($producto, $_SESSION['id_plataforma'], $id_cabecera);
             $resultados[] = $resultado;
         }
 
         print_r($resultados);
-        $html = $this->model->generarManifiestoGuiasProductos($productos, $id_cabecera);
+        $html = $this->model->generarManifiestoGuiasProductosIngreso($productos, $id_cabecera);
         echo json_encode($html);
     } else {
         echo json_encode(['error' => 'No se encontraron productos para procesar']);
