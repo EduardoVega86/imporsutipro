@@ -1096,7 +1096,115 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
         }
         return $response;
     }
+    public function ingreso_producto($num_guia, $plataforma, $id_cabecera)
+    {
 
+        $response = $this->initialResponse();
+
+
+        $sql = "INSERT INTO detall_ingreso_producto (sku_producto, id_cabecera, cantidad) VALUES (?, ?, ?)";
+        $sku= $num_guia['sku'];
+        $cantidad=$num_guia['cantidad'];
+        $id_inventario=$num_guia['id_inventario'];
+        $data = [$sku, $id_cabecera, $cantidad];
+        // Ejecuta la inserción
+        $insertar_detalle_rd = $this->insert($sql, $data);
+        //print_r($insertar_detalle_rd);
+        $sql_producto = "SELECT * FROM inventario_bodegas WHERE id_inventario = '$id_inventario'";
+        //  echo $sql_factura;
+        $producto = $this->select($sql_producto);
+        $id_producto = $producto[0]['id_producto'];
+        $id_bodega = $producto[0]['bodega'];
+        //$estado_factura = $factura[0]['estado_factura'];
+
+        
+                   //  echo $id_factura;
+
+               // $tmp_cotizaciones = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = $id_factura");
+                //$detalle_sql_despacho = "INSERT INTO `historial_depacho` (`id_pedido`, `guia`, `id_producto`, `sku`, `cantidad`, `id_usuario`, `id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                // $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                //print_r($tmp_cotizaciones);
+                $nota='Se descuenta por despacho externo';
+                $id_usuario = $_SESSION['id'];
+         
+                    
+                    $sql_id = "SELECT saldo_stock FROM inventario_bodegas WHERE id_inventario = $id_inventario";
+                    $stock = $this->select($sql_id);
+                    $stock_inventario = $stock[0]['saldo_stock'];
+                    $saldo_stock = $stock_inventario - $cantidad;
+                    
+                    $sql_update = "UPDATE inventario_bodegas 
+               SET saldo_stock = :saldo_stock 
+               WHERE id_inventario = :id_inventario";
+
+$data = [
+    ':saldo_stock' => $saldo_stock,
+    ':id_inventario' => $id_inventario
+];
+
+$result = $this->update($sql_update, $data);
+
+                    //$data = [$saldo_stock, $id_inventario];
+                    //echo 'enta';
+                  //  echo $sql_update;
+                 //   $sqlResult = $this->select($sql);
+              //      $output = "Resultado: " . json_encode($sqlResult); // Convertir a JSON
+             
+                    //echo 'enta2';
+                /*    $historial_data = array(
+                        $id_usuario,
+                        $id_inventario,
+                        $plataforma,
+                        $sku,
+                        $nota,
+                        $num_guia,
+                        $cantidad,
+                        2,
+                        $id_bodega,
+                        $id_producto,
+                        $saldo_stock
+                    );*/
+
+                    $detalle_sql_historial = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (:id_users, :id_inventario, :id_plataforma, :sku, :nota_historial, :referencia_historial, :cantidad_historial, :tipo_historial, :id_bodega, :id_producto, :saldo)";
+
+$data = [
+    ':id_users' => $id_usuario,
+    ':id_inventario' => $id_inventario,
+    ':id_plataforma' => $plataforma,
+    ':sku' => $sku,
+    ':nota_historial' => $nota,
+    ':referencia_historial' => 'n/a',
+    ':cantidad_historial' => $cantidad,
+    ':tipo_historial' => 2,
+    ':id_bodega' => $id_bodega,
+    ':id_producto' => $id_producto,
+    ':saldo' => $saldo_stock,
+];
+
+
+$result = $this->insert($detalle_sql_historial, $data);
+//print_r($result)
+                    
+                   
+
+                    //print_r($guardar_detalle
+
+                //print_r($tmp_cotizaciones);
+
+                if ($result == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Despacho Exitoso';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al generar el despacho';
+                }
+          
+       
+        return $response;
+    }
 
     public function despacho_producto($num_guia, $plataforma, $id_cabecera)
     {
