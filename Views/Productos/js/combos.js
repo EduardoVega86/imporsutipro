@@ -510,7 +510,9 @@ const listDetalleCombo = async (id_combo) => {
                     <td>${combo.pvp}</td>
                     <td>${combo.cantidad}</td>
                     <td>
-                        <button class="btn btn-sm btn-danger" onclick="eliminar_detalle_combo(${combo.id})"><i class="fas fa-arrow-left"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminar_detalle_combo(${combo.id}, ${id_combo})">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
                     </td>
                 </tr>`;
     });
@@ -521,7 +523,7 @@ const listDetalleCombo = async (id_combo) => {
 };
 /* fin tabla detalle combo */
 
-function eliminar_detalle_combo(id) {
+function eliminar_detalle_combo(id, id_combo) {
   let formData = new FormData();
   formData.append("id_detalle_combo", id);
   $.ajax({
@@ -541,7 +543,7 @@ function eliminar_detalle_combo(id) {
           positionClass: "toast-bottom-center",
         });
 
-        initDataTableDetalleCombo();
+        initDataTableDetalleCombo(id_combo);
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
