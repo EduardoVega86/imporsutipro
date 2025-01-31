@@ -596,18 +596,17 @@
         margin-bottom: 10px;
     }
 
-    @media (max-width: 768px) {
-        .slider-proveedores {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            /* Evitar desbordes */
-            box-sizing: border-box;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            scroll-behavior: smooth;
-            white-space: nowrap;
-        }
+    .slider-proveedores {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        max-width: 1620px;
+        /* Evitar desbordes */
+        box-sizing: border-box;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        scroll-behavior: smooth;
+        white-space: nowrap;
     }
 
     /* Estilo para cada 'chip' o botón */
