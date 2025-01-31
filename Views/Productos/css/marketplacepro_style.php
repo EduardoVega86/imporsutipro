@@ -620,8 +620,12 @@
     }
 
     .slider-arrow-right {
-        right: -12px;
-        top: 78px;
+        position: absolute;
+        right: 10px;
+        /* Flecha pegada al borde */
+        top: 50%;
+        transform: translateY(-50%);
+        /* El resto de tus estilos para la flecha */
     }
 
     .slider-arrow:hover {
