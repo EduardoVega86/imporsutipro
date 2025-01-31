@@ -1237,69 +1237,70 @@ class PedidosModel extends Query
             $id_configuracion = $id_configuracion[0]['id'];
 
             if (!empty($id_configuracion)) {
+                if ($celular != "") {
+
+                    $nombre_ciudad = $this->select("SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = $ciudad_cot");
+                    $nombre_ciudad = $nombre_ciudad[0]['ciudad'];
 
 
-                $nombre_ciudad = $this->select("SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = $ciudad_cot");
-                $nombre_ciudad = $nombre_ciudad[0]['ciudad'];
+                    $data = $this->ejecutar_automatizador($nueva_factura);
 
+                    $telefono_cliente = $this->formatearTelefono($celular);
 
-                $data = $this->ejecutar_automatizador($nueva_factura);
-
-                $telefono_cliente = $this->formatearTelefono($celular);
-
-                $data = [
-                    "id_configuracion" => $id_configuracion,
-                    "value_blocks_type" => "1",
-                    "user_id" => "1",
-                    "order_id" => $nueva_factura,
-                    "nombre" => $nombre_cliente,
-                    "direccion" => $c_principal . " y " . $c_secundaria,
-                    "email" => "",
-                    "celular" => $telefono_cliente,
-                    "contenido" => $contiene,
-                    "costo" => $monto_factura,
-                    "ciudad" => $nombre_ciudad,
-                    "tracking" => "",
-                    "transportadora" => "",
-                    "numero_guia" => "",
-                    "productos" => $data['productos'] ?? [],
-                    "categorias" => $data['categorias'] ?? [],
-                    "status" => [""],
-                    "novedad" => [""],
-                    "provincia" => [""],
-                    "ciudad" => [""],
-                    "user_info" => [
+                    $data = [
+                        "id_configuracion" => $id_configuracion,
+                        "value_blocks_type" => "1",
+                        "user_id" => "1",
+                        "order_id" => $nueva_factura,
                         "nombre" => $nombre_cliente,
                         "direccion" => $c_principal . " y " . $c_secundaria,
                         "email" => "",
                         "celular" => $telefono_cliente,
-                        "order_id" => $nueva_factura,
                         "contenido" => $contiene,
                         "costo" => $monto_factura,
                         "ciudad" => $nombre_ciudad,
                         "tracking" => "",
                         "transportadora" => "",
-                        "numero_guia" => ""
-                    ]
-                ];
+                        "numero_guia" => "",
+                        "productos" => $data['productos'] ?? [],
+                        "categorias" => $data['categorias'] ?? [],
+                        "status" => [""],
+                        "novedad" => [""],
+                        "provincia" => [""],
+                        "ciudad" => [""],
+                        "user_info" => [
+                            "nombre" => $nombre_cliente,
+                            "direccion" => $c_principal . " y " . $c_secundaria,
+                            "email" => "",
+                            "celular" => $telefono_cliente,
+                            "order_id" => $nueva_factura,
+                            "contenido" => $contiene,
+                            "costo" => $monto_factura,
+                            "ciudad" => $nombre_ciudad,
+                            "tracking" => "",
+                            "transportadora" => "",
+                            "numero_guia" => ""
+                        ]
+                    ];
 
 
-                $response_api = $this->enviar_a_api($data);
+                    $response_api = $this->enviar_a_api($data);
 
 
-                if (!$response_api['success']) {
+                    if (!$response_api['success']) {
 
-                    $response['status'] = 500;
-                    $response['title'] = 'Error';
-                    $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
-                } else {
+                        $response['status'] = 500;
+                        $response['title'] = 'Error';
+                        $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
+                    } else {
 
-                    $response['status'] = 200;
-                    $response['title'] = 'Peticion exitosa';
-                    $response['message'] = "Pedido creado correctamente y datos enviados";
-                    $response["numero_factura"] = $nueva_factura;
-                    $response['data'] = $data;
-                    $response['respuesta_curl'] = $response_api['response'];
+                        $response['status'] = 200;
+                        $response['title'] = 'Peticion exitosa';
+                        $response['message'] = "Pedido creado correctamente y datos enviados";
+                        $response["numero_factura"] = $nueva_factura;
+                        $response['data'] = $data;
+                        $response['respuesta_curl'] = $response_api['response'];
+                    }
                 }
             } else {
                 $response['status'] = 200;
@@ -1446,68 +1447,70 @@ class PedidosModel extends Query
 
         if (!empty($id_configuracion)) {
 
+            if ($celular != "") {
 
-            $nombre_ciudad = $this->select("SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = $ciudad_cot");
-            $nombre_ciudad = $nombre_ciudad[0]['ciudad'];
+                $nombre_ciudad = $this->select("SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = $ciudad_cot");
+                $nombre_ciudad = $nombre_ciudad[0]['ciudad'];
 
 
-            $data = $this->ejecutar_automatizador($nueva_factura);
+                $data = $this->ejecutar_automatizador($nueva_factura);
 
-            $telefono_cliente = $this->formatearTelefono($celular);
+                $telefono_cliente = $this->formatearTelefono($celular);
 
-            $data = [
-                "id_configuracion" => $id_configuracion,
-                "value_blocks_type" => "1",
-                "user_id" => "1",
-                "order_id" => $nueva_factura,
-                "nombre" => $nombre_cliente,
-                "direccion" => $c_principal . " y " . $c_secundaria,
-                "email" => "",
-                "celular" => $telefono_cliente,
-                "contenido" => $contiene,
-                "costo" => $monto_factura,
-                "ciudad" => $nombre_ciudad,
-                "tracking" => "",
-                "transportadora" => "",
-                "numero_guia" => "",
-                "productos" => $data['productos'] ?? [],
-                "categorias" => $data['categorias'] ?? [],
-                "status" => [""],
-                "novedad" => [""],
-                "provincia" => [""],
-                "ciudad" => [""],
-                "user_info" => [
+                $data = [
+                    "id_configuracion" => $id_configuracion,
+                    "value_blocks_type" => "1",
+                    "user_id" => "1",
+                    "order_id" => $nueva_factura,
                     "nombre" => $nombre_cliente,
                     "direccion" => $c_principal . " y " . $c_secundaria,
                     "email" => "",
                     "celular" => $telefono_cliente,
-                    "order_id" => $nueva_factura,
                     "contenido" => $contiene,
                     "costo" => $monto_factura,
                     "ciudad" => $nombre_ciudad,
                     "tracking" => "",
                     "transportadora" => "",
-                    "numero_guia" => ""
-                ]
-            ];
+                    "numero_guia" => "",
+                    "productos" => $data['productos'] ?? [],
+                    "categorias" => $data['categorias'] ?? [],
+                    "status" => [""],
+                    "novedad" => [""],
+                    "provincia" => [""],
+                    "ciudad" => [""],
+                    "user_info" => [
+                        "nombre" => $nombre_cliente,
+                        "direccion" => $c_principal . " y " . $c_secundaria,
+                        "email" => "",
+                        "celular" => $telefono_cliente,
+                        "order_id" => $nueva_factura,
+                        "contenido" => $contiene,
+                        "costo" => $monto_factura,
+                        "ciudad" => $nombre_ciudad,
+                        "tracking" => "",
+                        "transportadora" => "",
+                        "numero_guia" => ""
+                    ]
+                ];
 
 
-            $response_api = $this->enviar_a_api($data);
+                $response_api = $this->enviar_a_api($data);
 
 
-            if (!$response_api['success']) {
+                if (!$response_api['success']) {
 
-                $response['status'] = 500;
-                $response['title'] = 'Error';
-                $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
-            } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
+                } else {
 
-                $response['status'] = 200;
-                $response['title'] = 'Peticion exitosa';
-                $response['message'] = "Pedido creado correctamente y datos enviados";
-                $response["numero_factura"] = $nueva_factura;
-                $response['data'] = $data;
-                $response['respuesta_curl'] = $response_api['response'];
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = "Pedido creado correctamente y datos enviados";
+                    $response["numero_factura"] = $nueva_factura;
+                    $response['data'] = $data;
+                    $response['respuesta_curl'] = $response_api['response'];
+                }
             }
         } else {
             $response['status'] = 200;
