@@ -619,6 +619,7 @@
 
     .slider-arrow-right {
         right: 10px;
+        top: 78px;
     }
 
     .slider-arrow:hover {
