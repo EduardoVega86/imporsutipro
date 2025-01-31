@@ -2244,14 +2244,10 @@ class PedidosModel extends Query
 
             /* sacar informacion de configuracion */
             $sql_telefono_configuracion = "SELECT id_telefono, nombre_configuracion FROM configuraciones WHERE id_plataforma = $id_plataforma";
-            $id_telefono = $this->select($sql_telefono_configuracion);
+            $id_telefono_sql = $this->select($sql_telefono_configuracion);
 
-            print_r($id_telefono);
-
-            echo "id_platagor: " . $id_plataforma;
-
-            $id_telefono = $id_telefono[0]['id_telefono'];
-            $nombre_cliente = $id_telefono[0]['nombre_configuracion'];
+            $id_telefono = $id_telefono_sql[0]['id_telefono'];
+            $nombre_cliente = $id_telefono_sql[0]['nombre_configuracion'];
             $apellido_cliente = "";
             /* sacar informacino de configuracion */
 
