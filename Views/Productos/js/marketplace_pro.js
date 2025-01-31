@@ -879,7 +879,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (providerToScroll) {
         let container = $("#sliderProveedores");
         let providerOffset = providerToScroll.position().left + container.scrollLeft();
-        container.animate({ scrollLeft: providerOffset - 10 }, 400);
+        container.animate({ scrollLeft: providerOffset - 100 }, 400);
       }
     });
   })
