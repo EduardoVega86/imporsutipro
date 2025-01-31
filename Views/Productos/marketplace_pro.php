@@ -78,7 +78,9 @@
     </div>
     <div style="padding: 10px;">
         <div id="loading-indicator" style="display: none;">Cargando...</div>
-        <button id="load-more" class="boton_mas" style="display: none;">Cargar más...</button>
+        <div class="contenedor-boton-mas" style="display: flex; justify-content: center; margin: 20px 0;">
+            <button id="load-more" class="boton_mas">Cargar más</button>
+        </div>
     </div>
 </div>
 

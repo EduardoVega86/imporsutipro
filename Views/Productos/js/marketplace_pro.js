@@ -749,6 +749,7 @@ document.addEventListener("DOMContentLoaded", function () {
   loadMoreButton.addEventListener("click", () => {
     if (!isLoading) {
       isLoading = true;
+      loadingIndicator.style.display = "block";
       currentPage++;
       fetchProducts(false);
     }
