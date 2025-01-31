@@ -587,8 +587,43 @@
 
     /* Contenedores principales de los sliders */
     .slider-proveedores-container {
+        position: relative;
         width: 100%;
         margin-bottom: 20px;
+        overflow: hidden;
+    }
+
+    .slider-arrow {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        z-index: 2;
+        /* para que quede por encima de los chips */
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Flechas */
+
+    .slider-arrow-left {
+        left: 10px;
+    }
+
+    .slider-arrow-right {
+        right: 10px;
+    }
+
+    .slider-arrow:hover {
+        background-color: rgba(255, 255, 255, 1);
+        transform: translateY(-50%) scale(1.05);
     }
 
     /* Encabezado */

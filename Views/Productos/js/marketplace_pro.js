@@ -288,9 +288,31 @@ document.addEventListener("DOMContentLoaded", function () {
   const cardContainer = document.getElementById("card-container");
   const loadingIndicator = document.getElementById("loading-indicator");
   const loadMoreButton = document.getElementById("load-more");
+  const sliderProveedores = document.getElementById("sliderProveedores");
+  const leftArrow = document.getElementById("sliderProveedoresLeft");
+  const rightArrow = document.getElementById("sliderProveedoresRight");
+
   let isLoading = false;
   let currentFetchController = null;
   let currentDisplayController = null;
+
+  // Al hacer click en flecha izquierda, desplazamos a la izquierda 200px
+  leftArrow.addEventListener("click", () => {
+    sliderProveedores.scrollBy({
+      left: -200,
+      behavior: "smooth"
+    });
+  });
+
+  // Al hacer click en flecha derecha, desplazamos a la derecha 200px
+  rightArrow.addEventListener("click", () => {
+    sliderProveedores.scrollBy({
+      left: 200,
+      behavior: "smooth"
+    });
+  });
+
+  
 
   /************************************************
    * Función para vaciar pedidos temporales al cargar
