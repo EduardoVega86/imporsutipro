@@ -594,6 +594,7 @@
     /* Encabezado */
     .slider-proveedores-container h5 {
         margin-bottom: 10px;
+
     }
 
     .slider-proveedores {
