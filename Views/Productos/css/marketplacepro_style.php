@@ -618,7 +618,7 @@
     }
 
     .slider-arrow-right {
-        right: 40px;
+        right: -12px;
         top: 78px;
     }
 
