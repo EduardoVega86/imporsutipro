@@ -652,7 +652,7 @@
         background-color: #e0e0e0;
         color: #333;
         /* Ancho fijo */
-        min-width: 180px;
+        min-width: 283px;
         /* Alto fijo */
         height: 105px;
         /* Borde que solicitas */
