@@ -809,7 +809,7 @@ document.addEventListener("DOMContentLoaded", function () {
             : [];
         
           // Mostrar solo las primeras 3 categorías
-          const categoriasMostradas = categoriasArray.length > 0
+          let categoriasMostradas = categoriasArray.length > 0
             ? categoriasArray.slice(0, 3).join(", ") // Tomar solo 3 y unir con comas
             : "Sin categorías";
 
