@@ -600,7 +600,7 @@
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        max-width: auto;
+        width: 100%;
         /* Evitar desbordes */
         box-sizing: border-box;
         border-radius: 8px;
@@ -611,7 +611,7 @@
 
     /* Estilo para cada 'chip' o botón */
     .slider-chip {
-        min-width: 340px;
+        min-width: 325px;
         /* Define un ancho fijo para todos los proveedores */
         height: 120px;
         /* Altura fija */
