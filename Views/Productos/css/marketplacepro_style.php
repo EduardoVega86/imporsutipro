@@ -299,6 +299,12 @@
     }
 
     /* CSS Filtros */
+    .caja {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
     .form-check-input:checked {
         background-color: #ff6f61;
@@ -580,61 +586,13 @@
     }
 
     /* Contenedores principales de los sliders */
-    /* ----- Caja Principal ----- */
-    .caja {
-        background-color: #ffffff;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 1200px;
-        /* Ajusta según tu diseño */
-        margin: 0 auto;
-        box-sizing: border-box;
-        overflow: hidden;
-        /* Evita que el contenido se salga */
-    }
-
-    /* ----- Ajuste para evitar desbordes en Bootstrap ----- */
-    .row {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        overflow: hidden;
-    }
-
-    .col-12,
-    .col-md-4,
-    .col-md-3,
-    .col-md-2 {
-        max-width: 100%;
-        overflow: hidden;
-    }
-
-    /* ----- Slider de Proveedores ----- */
     .slider-proveedores-container {
         position: relative;
         width: 100%;
         margin-bottom: 20px;
         overflow: hidden;
-        padding: 0 15px;
-        /* Asegura que no se desborde */
-        box-sizing: border-box;
     }
 
-    .slider-proveedores {
-        display: flex;
-        gap: 10px;
-        overflow-x: auto;
-        max-width: 100%;
-        box-sizing: border-box;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-        scroll-behavior: smooth;
-        white-space: nowrap;
-        padding: 10px;
-    }
-
-    /* ----- Flechas de Navegación ----- */
     .slider-arrow {
         cursor: pointer;
         position: absolute;
@@ -648,39 +606,109 @@
         align-items: center;
         justify-content: center;
         font-size: 16px;
-        z-index: 10;
+        z-index: 2;
+        /* para que quede por encima de los chips */
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     }
 
+    /* Flechas */
+
     .slider-arrow-left {
-        left: 10px;
+        left: 17px;
     }
 
     .slider-arrow-right {
-        right: 10px;
-        /* Se corrigió para que no se salga */
+        right: -12px;
+        top: 78px;
     }
 
-    /* ----- Estilos de los Chips (Elementos del Slider) ----- */
+    .slider-arrow:hover {
+        background-color: rgba(255, 255, 255, 1);
+        transform: translateY(-50%) scale(1.05);
+    }
+
+    /* Encabezado */
+    .slider-proveedores-container h5 {
+        margin-bottom: 10px;
+    }
+
+    .slider-proveedores {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        max-width: 1650px;
+        /* Evitar desbordes */
+        box-sizing: border-box;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        scroll-behavior: smooth;
+        white-space: nowrap;
+    }
+
+    /* Estilo para cada 'chip' o botón */
     .slider-chip {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         background-color: #e0e0e0;
         color: #333;
-        min-width: 250px;
+        /* Ancho fijo */
+        min-width: 283px;
+        /* Alto fijo */
         height: 105px;
+        /* Borde que solicitas */
         border: 1px solid #ccc;
         border-radius: 20px;
         cursor: pointer;
+        /* Ocultará contenido que se desborde */
         overflow: hidden;
+        /* Opcional: recorta texto muy largo con “...” */
         white-space: nowrap;
         text-overflow: ellipsis;
         text-align: center;
+        /* Ajusta si necesitas más o menos espacio interno */
         padding: 10px;
+        /* Asegura que padding no rompa el ancho/alto */
         box-sizing: border-box;
         transition: background-color 0.3s ease, transform 0.3s ease;
+        /* Evita la selección del texto al clicar */
         user-select: none;
+    }
+
+
+    /* Mantener el título en la parte superior */
+    .chip-title {
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    /* Poner la cantidad de productos en la parte inferior */
+    .chip-count {
+        font-size: 12px;
+        margin-top: 3px;
+    }
+
+    .chip-categories {
+        font-size: 12px;
+        color: #666;
+        margin-top: 3px;
+    }
+
+    .chip-content {
+        display: flex;
+        align-items: center;
+        /* Alinea verticalmente */
+        gap: 10px;
+        /* Espacio entre imagen y texto */
+    }
+
+    .chip-text {
+        display: flex;
+        flex-direction: column;
+        /* Hace que el nombre y cantidad estén en columnas */
+        align-items: flex-start;
+        /* Alinea a la izquierda */
     }
 
     .slider-chip:hover {
@@ -688,21 +716,25 @@
         transform: scale(1.05);
     }
 
+    /* Ajuste de los iconos dentro de los chips */
+    .slider-chip i {
+        margin-right: 8px;
+        /* Espacio entre el ícono y el texto */
+        font-size: 18px;
+        /* Tamaño del ícono */
+        /* color: #007bff; */
+    }
+
+    /* Para marcar un chip seleccionado */
     .slider-chip.selected {
         background-color: rgb(91, 158, 230);
         color: white;
         transform: scale(1.05);
     }
 
-    /* Ajuste de los iconos dentro de los chips */
-    .slider-chip i {
-        margin-right: 8px;
-        font-size: 18px;
-    }
-
-    /* Scrollbar en el slider */
     .slider-proveedores::-webkit-scrollbar {
         height: 6px;
+        /* Altura de la barra de scroll */
     }
 
     .slider-proveedores::-webkit-scrollbar-thumb {
@@ -710,18 +742,22 @@
         border-radius: 3px;
     }
 
-    /* ----- Estilo para las imágenes dentro de los chips ----- */
+    /* Estilo para las imágenes dentro de los chips */
     .icon-chip {
         width: 40px;
+        /* Tamaño ajustable */
         height: 40px;
         margin-right: 10px;
         vertical-align: middle;
         border-radius: 40%;
+        /* Hace la imagen redonda */
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        /* Efecto de sombra */
         object-fit: cover;
+        /* Ajuste correcto de imagen */
     }
 
-    /* ----- Estilos de la Vista de Proveedores ----- */
+    /*Estilos de vista proveedores_pro    */
     .proveedores-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -754,23 +790,17 @@
         background: #f0f0f0;
     }
 
-    /* Ajustes para imágenes de proveedores */
     .proveedor-logo {
         width: 40px;
+        /* Tamaño ajustable */
         height: 40px;
         margin-right: 10px;
         vertical-align: middle;
         border-radius: 40%;
+        /* Hace la imagen redonda */
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        /* Efecto de sombra */
         object-fit: cover;
-    }
-
-    /* ----- RESPONSIVE (Ajuste para Pantallas Pequeñas) ----- */
-    @media (max-width: 768px) {
-        .slider-chip {
-            min-width: 150px;
-            /* Reduce el tamaño en pantallas pequeñas */
-            height: 90px;
-        }
+        /* Ajuste correcto de imagen */
     }
 </style>
