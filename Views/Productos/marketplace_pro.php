@@ -27,10 +27,10 @@
                     <div class="slider-proveedores-container">
                         <h6>Proveedores</h6>
 
-                        <!-- Flecha izquierda -->
-                        <div class="slider-arrow slider-arrow-left" id="sliderProveedoresLeft">
+                        <!-- Flecha izquierda, OCUPAR SOLO SI SE SOLICITA -->
+                        <!-- <div class="slider-arrow slider-arrow-left" id="sliderProveedoresLeft">
                             <i class="fas fa-chevron-left"></i>
-                        </div>
+                        </div> -->
                         <!-- Contenido deslizable -->
                         <div id="sliderProveedores" class="slider-proveedores"></div>
 

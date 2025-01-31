@@ -296,13 +296,14 @@ document.addEventListener("DOMContentLoaded", function () {
   let currentFetchController = null;
   let currentDisplayController = null;
 
+  //Ocupar solo si se solicita flecha izquierda
   // Al hacer click en flecha izquierda, desplazamos a la izquierda 200px
-  leftArrow.addEventListener("click", () => {
-    sliderProveedores.scrollBy({
-      left: -200,
-      behavior: "smooth"
-    });
-  });
+  // leftArrow.addEventListener("click", () => {
+  //   sliderProveedores.scrollBy({
+  //     left: -200,
+  //     behavior: "smooth"
+  //   });
+  // });
 
   // Al hacer click en flecha derecha, desplazamos a la derecha 200px
   rightArrow.addEventListener("click", () => {
@@ -311,9 +312,6 @@ document.addEventListener("DOMContentLoaded", function () {
       behavior: "smooth"
     });
   });
-
-  
-
   /************************************************
    * Función para vaciar pedidos temporales al cargar
    ************************************************/
