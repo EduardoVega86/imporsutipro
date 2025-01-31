@@ -182,7 +182,7 @@
 
                 <thead>
                     <tr>
-                        <th></th>
+                        <th class="<?php if ($_SESSION['cargo'] == 25) echo 'hidden' ?>"></th>
                         <th class="centered">Factura</th>
                         <th class="centered">Detalle factura</th>
                         <th class="centered">Numero Guia</th>

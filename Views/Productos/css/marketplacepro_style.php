@@ -587,8 +587,43 @@
 
     /* Contenedores principales de los sliders */
     .slider-proveedores-container {
+        position: relative;
         width: 100%;
         margin-bottom: 20px;
+        overflow: hidden;
+    }
+
+    .slider-arrow {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        z-index: 2;
+        /* para que quede por encima de los chips */
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Flechas */
+
+    .slider-arrow-left {
+        left: 17px;
+    }
+
+    .slider-arrow-right {
+        right: 10px;
+    }
+
+    .slider-arrow:hover {
+        background-color: rgba(255, 255, 255, 1);
+        transform: translateY(-50%) scale(1.05);
     }
 
     /* Encabezado */
@@ -616,14 +651,29 @@
         justify-content: center;
         background-color: #e0e0e0;
         color: #333;
-        padding: 8px 15px;
+        /* Ancho fijo */
+        width: 180px;
+        /* Alto fijo */
+        height: 80px;
+        /* Borde que solicitas */
+        border: 1px solid #ccc;
         border-radius: 20px;
         cursor: pointer;
+        /* Ocultará contenido que se desborde */
+        overflow: hidden;
+        /* Opcional: recorta texto muy largo con “...” */
         white-space: nowrap;
+        text-overflow: ellipsis;
+        text-align: center;
+        /* Ajusta si necesitas más o menos espacio interno */
+        padding: 10px;
+        /* Asegura que padding no rompa el ancho/alto */
+        box-sizing: border-box;
         transition: background-color 0.3s ease, transform 0.3s ease;
+        /* Evita la selección del texto al clicar */
         user-select: none;
-        /* Evita que se seleccione el texto al dar clic */
     }
+
 
     /* Mantener el título en la parte superior */
     .chip-title {

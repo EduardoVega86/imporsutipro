@@ -26,7 +26,18 @@
                 <div class="col-12">
                     <div class="slider-proveedores-container">
                         <h6>Proveedores</h6>
+
+                        <!-- Flecha izquierda, OCUPAR SOLO SI SE SOLICITA -->
+                        <!-- <div class="slider-arrow slider-arrow-left" id="sliderProveedoresLeft">
+                            <i class="fas fa-chevron-left"></i>
+                        </div> -->
+                        <!-- Contenido deslizable -->
                         <div id="sliderProveedores" class="slider-proveedores"></div>
+
+                        <!-- Flecha derecha -->
+                        <div class="slider-arrow slider-arrow-right" id="sliderProveedoresRight">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
                     </div>
                 </div>
             </div>
