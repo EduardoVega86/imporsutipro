@@ -618,7 +618,7 @@
     }
 
     .slider-arrow-right {
-        right: 10px;
+        right: 40px;
         top: 78px;
     }
 
@@ -636,7 +636,7 @@
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        max-width: 1620px;
+        max-width: 1650px;
         /* Evitar desbordes */
         box-sizing: border-box;
         border-radius: 8px;
