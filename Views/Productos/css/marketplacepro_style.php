@@ -611,9 +611,9 @@
 
     /* Estilo para cada 'chip' o botón */
     .slider-chip {
-        width: 250px;
+        width: 550px;
         /* Define un ancho fijo para todos los proveedores */
-        height: 70px;
+        height: 120px;
         /* Altura fija */
         overflow: hidden;
         white-space: nowrap;
