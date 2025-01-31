@@ -304,6 +304,18 @@
         border-radius: 10px;
         padding: 20px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        display: flex;
+        flex-direction: column;
+        /* Asegura que los elementos internos se apilen */
+        justify-content: flex-start;
+        /* Evita que se expanda más de lo necesario */
+        width: 100%;
+        /* Evita que crezca fuera del viewport */
+        max-width: 1400px;
+        /* Limita su expansión */
+        margin: 0 auto;
+        /* Centra el contenedor */
     }
 
     .form-check-input:checked {
