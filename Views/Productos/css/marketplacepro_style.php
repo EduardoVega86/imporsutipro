@@ -589,10 +589,14 @@
     .slider-proveedores-container {
         position: relative;
         width: 100%;
+        max-width: 100%;
+        /* Evita que se salga del contenedor padre */
         margin-bottom: 20px;
         overflow: hidden;
+        /* Evita desbordamientos */
     }
 
+    /* Flechas del slider */
     .slider-arrow {
         cursor: pointer;
         position: absolute;
@@ -607,19 +611,26 @@
         justify-content: center;
         font-size: 16px;
         z-index: 2;
-        /* para que quede por encima de los chips */
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     }
 
-    /* Flechas */
-
+    /* Ajuste para la flecha izquierda */
     .slider-arrow-left {
-        left: 17px;
+        left: 10px;
     }
 
+    /* Ajuste para la flecha derecha */
     .slider-arrow-right {
-        right: -12px;
-        top: 78px;
+        right: 10px;
+    }
+
+    /* Ajuste de tamaño de las flechas en pantallas pequeñas */
+    @media (max-width: 768px) {
+        .slider-arrow {
+            width: 28px;
+            height: 28px;
+            font-size: 12px;
+        }
     }
 
     .slider-arrow:hover {
@@ -634,15 +645,26 @@
 
     .slider-proveedores {
         display: flex;
+        flex-wrap: nowrap;
+        /* Mantiene los elementos en una sola línea */
         gap: 10px;
         overflow-x: auto;
-        max-width: 1650px;
-        /* Evitar desbordes */
+        max-width: 100%;
         box-sizing: border-box;
         border-radius: 8px;
         background-color: #f9f9f9;
         scroll-behavior: smooth;
         white-space: nowrap;
+        /* Evita que los chips se rompan en varias líneas */
+    }
+
+    /* Evitar el scroll horizontal en el slider en pantallas pequeñas */
+    @media (max-width: 768px) {
+        .slider-proveedores {
+            overflow-x: auto;
+            justify-content: flex-start;
+            /* Evita que se centren los elementos */
+        }
     }
 
     /* Estilo para cada 'chip' o botón */
@@ -652,27 +674,32 @@
         justify-content: center;
         background-color: #e0e0e0;
         color: #333;
-        /* Ancho fijo */
-        min-width: 283px;
-        /* Alto fijo */
-        height: 105px;
-        /* Borde que solicitas */
+        min-width: 180px;
+        /* Ajuste mínimo en móvil */
+        max-width: 220px;
+        /* Limita el crecimiento en desktop */
+        height: 80px;
         border: 1px solid #ccc;
         border-radius: 20px;
         cursor: pointer;
-        /* Ocultará contenido que se desborde */
         overflow: hidden;
-        /* Opcional: recorta texto muy largo con “...” */
         white-space: nowrap;
         text-overflow: ellipsis;
         text-align: center;
-        /* Ajusta si necesitas más o menos espacio interno */
         padding: 10px;
-        /* Asegura que padding no rompa el ancho/alto */
         box-sizing: border-box;
         transition: background-color 0.3s ease, transform 0.3s ease;
-        /* Evita la selección del texto al clicar */
         user-select: none;
+    }
+
+    /* Chips en pantallas pequeñas */
+    @media (max-width: 768px) {
+        .slider-chip {
+            min-width: 140px;
+            /* Reduce tamaño en móviles */
+            height: 70px;
+            font-size: 12px;
+        }
     }
 
 
