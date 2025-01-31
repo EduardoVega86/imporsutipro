@@ -614,7 +614,7 @@
     /* Flechas */
 
     .slider-arrow-left {
-        left: 10px;
+        left: 17px;
     }
 
     .slider-arrow-right {
@@ -651,14 +651,29 @@
         justify-content: center;
         background-color: #e0e0e0;
         color: #333;
-        padding: 8px 15px;
+        /* Ancho fijo */
+        width: 180px;
+        /* Alto fijo */
+        height: 80px;
+        /* Borde que solicitas */
+        border: 1px solid #ccc;
         border-radius: 20px;
         cursor: pointer;
+        /* Ocultará contenido que se desborde */
+        overflow: hidden;
+        /* Opcional: recorta texto muy largo con “...” */
         white-space: nowrap;
+        text-overflow: ellipsis;
+        text-align: center;
+        /* Ajusta si necesitas más o menos espacio interno */
+        padding: 10px;
+        /* Asegura que padding no rompa el ancho/alto */
+        box-sizing: border-box;
         transition: background-color 0.3s ease, transform 0.3s ease;
+        /* Evita la selección del texto al clicar */
         user-select: none;
-        /* Evita que se seleccione el texto al dar clic */
     }
+
 
     /* Mantener el título en la parte superior */
     .chip-title {
