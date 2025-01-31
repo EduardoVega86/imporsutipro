@@ -23,7 +23,7 @@
 
             <!-- Fila : Proveedores -->
             <div class="row mb-3">
-                <div class="col-12">
+                <div class="d-flex">
                     <div class="slider-proveedores-container">
                         <h6>Proveedores</h6>
 

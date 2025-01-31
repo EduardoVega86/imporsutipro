@@ -347,8 +347,8 @@ $message_body2 = '<!DOCTYPE html>
                 <h2>Solicitud de Pago</h2>
             </article>
             <article>
-                <p>Saludos, de parte del departamento de CONTABILIDAD de IMPORFACTORY</p>
-                <p>Su solicitud de pago ha sido recibida y sera procesada en las proximas 24 horas laborables.</p>
+                <p>Saludos, de parte del departamento de CONTABILIDAD de IMPORSUIT</p>
+                <p>Su solicitud de pago ha sido recibida y sera procesada en las proximas 72 horas laborables.</p>
                 </article>
                 <article>
                 <p>Gracias por su atencion.</p>
