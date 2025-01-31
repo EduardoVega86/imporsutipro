@@ -2240,6 +2240,8 @@ class PedidosModel extends Query
         $data_check = [$telefono_configuracion, $id_plataforma];
         $id_clienteConfiguracion = $this->dselect($sql_idConfiguracion, $data_check);
 
+        print_r($id_clienteConfiguracion);
+
         if (empty($id_clienteConfiguracion)) {
 
             /* sacar informacion de configuracion */
