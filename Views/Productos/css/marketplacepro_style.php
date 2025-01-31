@@ -600,7 +600,7 @@
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        max-width: 1620px;
+        max-width: none;
         /* Evitar desbordes */
         box-sizing: border-box;
         border-radius: 8px;
@@ -624,16 +624,15 @@
         background-color: #e0e0e0;
         color: #333;
         padding: 8px 15px;
-        border-radius: 20px;
+        border-radius: 10px;
+        /* Mantener bordes redondeados */
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.3s ease;
         user-select: none;
         border: 1px solid #ccc;
         /* Borde gris delgado */
-        border-radius: 10px;
-        /* Bordes redondeados */
-        /* Evita que se seleccione el texto al dar clic */
     }
+
 
     /* Mantener el título en la parte superior */
     .chip-title {
