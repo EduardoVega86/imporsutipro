@@ -606,13 +606,12 @@
         border-radius: 8px;
         background-color: #f9f9f9;
         scroll-behavior: smooth;
-        flex-wrap: wrap;
-        white-space: normal;
+        white-space: nowrap;
     }
 
     /* Estilo para cada 'chip' o botón */
     .slider-chip {
-        width: 550px;
+        min-width: 550px;
         /* Define un ancho fijo para todos los proveedores */
         height: 120px;
         /* Altura fija */
