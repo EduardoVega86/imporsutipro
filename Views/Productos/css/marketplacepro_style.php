@@ -591,27 +591,8 @@
         width: 100%;
         margin-bottom: 20px;
         overflow: hidden;
-        max-width: 100%;
-        padding: 0 15px;
-        /* Asegura que no se desborde */
-        box-sizing: border-box;
     }
 
-    .slider-proveedores {
-        display: flex;
-        gap: 10px;
-        overflow-x: auto;
-        max-width: 100%;
-        box-sizing: border-box;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-        scroll-behavior: smooth;
-        white-space: nowrap;
-        padding: 10px;
-        /* Ajusta el espacio interno */
-    }
-
-    /* Flechas de navegación */
     .slider-arrow {
         cursor: pointer;
         position: absolute;
@@ -625,48 +606,156 @@
         align-items: center;
         justify-content: center;
         font-size: 16px;
-        z-index: 10;
+        z-index: 2;
+        /* para que quede por encima de los chips */
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     }
 
+    /* Flechas */
+
     .slider-arrow-left {
-        left: 0px;
+        left: 17px;
     }
 
     .slider-arrow-right {
-        right: 0px;
+        right: -12px;
+        top: 78px;
     }
 
-    /* Ajustes de los chips */
+    .slider-arrow:hover {
+        background-color: rgba(255, 255, 255, 1);
+        transform: translateY(-50%) scale(1.05);
+    }
+
+    /* Encabezado */
+    .slider-proveedores-container h5 {
+        margin-bottom: 10px;
+    }
+
+    .slider-proveedores {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        max-width: 1650px;
+        /* Evitar desbordes */
+        box-sizing: border-box;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        scroll-behavior: smooth;
+        white-space: nowrap;
+    }
+
+    /* Estilo para cada 'chip' o botón */
     .slider-chip {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         background-color: #e0e0e0;
         color: #333;
-        min-width: 250px;
+        /* Ancho fijo */
+        min-width: 283px;
+        /* Alto fijo */
         height: 105px;
+        /* Borde que solicitas */
         border: 1px solid #ccc;
         border-radius: 20px;
         cursor: pointer;
+        /* Ocultará contenido que se desborde */
         overflow: hidden;
+        /* Opcional: recorta texto muy largo con “...” */
         white-space: nowrap;
         text-overflow: ellipsis;
         text-align: center;
+        /* Ajusta si necesitas más o menos espacio interno */
         padding: 10px;
+        /* Asegura que padding no rompa el ancho/alto */
         box-sizing: border-box;
         transition: background-color 0.3s ease, transform 0.3s ease;
+        /* Evita la selección del texto al clicar */
         user-select: none;
     }
 
-    /* Ajustes para móviles */
-    @media (max-width: 768px) {
-        .slider-chip {
-            min-width: 150px;
-            height: 90px;
-        }
+
+    /* Mantener el título en la parte superior */
+    .chip-title {
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 5px;
     }
 
+    /* Poner la cantidad de productos en la parte inferior */
+    .chip-count {
+        font-size: 12px;
+        margin-top: 3px;
+    }
+
+    .chip-categories {
+        font-size: 12px;
+        color: #666;
+        margin-top: 3px;
+    }
+
+    .chip-content {
+        display: flex;
+        align-items: center;
+        /* Alinea verticalmente */
+        gap: 10px;
+        /* Espacio entre imagen y texto */
+    }
+
+    .chip-text {
+        display: flex;
+        flex-direction: column;
+        /* Hace que el nombre y cantidad estén en columnas */
+        align-items: flex-start;
+        /* Alinea a la izquierda */
+    }
+
+    .slider-chip:hover {
+        background-color: #ccc;
+        transform: scale(1.05);
+    }
+
+    /* Ajuste de los iconos dentro de los chips */
+    .slider-chip i {
+        margin-right: 8px;
+        /* Espacio entre el ícono y el texto */
+        font-size: 18px;
+        /* Tamaño del ícono */
+        /* color: #007bff; */
+    }
+
+    /* Para marcar un chip seleccionado */
+    .slider-chip.selected {
+        background-color: rgb(91, 158, 230);
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .slider-proveedores::-webkit-scrollbar {
+        height: 6px;
+        /* Altura de la barra de scroll */
+    }
+
+    .slider-proveedores::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 3px;
+    }
+
+    /* Estilo para las imágenes dentro de los chips */
+    .icon-chip {
+        width: 40px;
+        /* Tamaño ajustable */
+        height: 40px;
+        margin-right: 10px;
+        vertical-align: middle;
+        border-radius: 40%;
+        /* Hace la imagen redonda */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        /* Efecto de sombra */
+        object-fit: cover;
+        /* Ajuste correcto de imagen */
+    }
 
     /*Estilos de vista proveedores_pro    */
     .proveedores-grid {
