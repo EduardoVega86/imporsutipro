@@ -823,6 +823,12 @@ document.addEventListener("DOMContentLoaded", function () {
           // Ruta de la imagen en el servidor
           const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
         
+          // Truncar el nombre de la tienda si es muy largo
+          let nombreTienda = proveedor.nombre_tienda ? proveedor.nombre_tienda.toUpperCase() : "SIN NOMBRE";
+          if (nombreTienda.length > 20) {
+            nombreTienda = nombreTienda.substring(0, 17) + "..."; 
+          }
+
           // Convertir string de categorías a un array limpio
           const categoriasArray = proveedor.categorias
             ? proveedor.categorias.split(",").map(cat => cat.trim()) // Separar por comas y quitar espacios
@@ -841,7 +847,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="chip-content">
               <img src="${iconUrl}" class="icon-chip"> 
               <div class="chip-text">
-                <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
+                <span class="chip-title">${nombreTienda}</span>
                 <span class="chip-count">${proveedor.cantidad_productos} productos</span>
                 <span class="chip-categories">${categoriasMostradas}</span>
               </div>
@@ -903,7 +909,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (providerToScroll) {
         let container = $("#sliderProveedores");
         let providerOffset = providerToScroll.position().left + container.scrollLeft();
-        container.animate({ scrollLeft: providerOffset - 250 }, 400);
+        container.animate({ scrollLeft: providerOffset - 100 }, 400);
       }
     });
   })

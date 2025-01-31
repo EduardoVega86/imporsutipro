@@ -618,7 +618,8 @@
     }
 
     .slider-arrow-right {
-        right: 10px;
+        right: -12px;
+        top: 78px;
     }
 
     .slider-arrow:hover {
@@ -635,7 +636,7 @@
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        max-width: 1620px;
+        max-width: 1650px;
         /* Evitar desbordes */
         box-sizing: border-box;
         border-radius: 8px;
@@ -652,9 +653,9 @@
         background-color: #e0e0e0;
         color: #333;
         /* Ancho fijo */
-        width: 180px;
+        min-width: 283px;
         /* Alto fijo */
-        height: 80px;
+        height: 105px;
         /* Borde que solicitas */
         border: 1px solid #ccc;
         border-radius: 20px;

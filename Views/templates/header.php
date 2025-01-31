@@ -83,7 +83,9 @@
 
 
                 </div>
-                <a href="#" class="dropdown-btn" data-target="#tienda"><i class='bx bx-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
+                <?php if ($_SESSION['cargo'] != 25) { ?>
+                    <a href="#" class="dropdown-btn" data-target="#tienda"><i class='bx bx-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
+                <?php } ?>
                 <div class="submenu" id="tienda">
                     <a href="<?php echo SERVERURL ?>Productos/productos_tienda"><i class='bx bxs-cart menu-icon'></i> <span class="menu-text">Productos Tienda</span></a>
                     <a href="<?php echo SERVERURL ?>Productos/combos"><i class='bx bxs-category menu-icon'></i> <span class="menu-text">Combos</span></a>
@@ -91,7 +93,7 @@
                     <a href="<?php echo SERVERURL ?>usuarios/tienda_online"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
                 </div>
 
-                <?php if ($_SESSION['cargo'] != 5 || $_SESSION['cargo'] != 25) { ?>
+                <?php if ($_SESSION['cargo'] != 5 && $_SESSION['cargo'] != 25) { ?>
                     <a href="#" class="dropdown-btn" data-target="#submenu_inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventarios</span></a>
                 <?php } ?>
 
@@ -185,19 +187,21 @@
                 <a href="<?php echo SERVERURL ?>Pedidos/scanner_speed"><i class='fa-solid fa-motorcycle menu-icon'></i> <span class="menu-text">Scanner Speed</span></a>
             <?php } ?>
 
-            <?php if ($_SESSION['validar_config_chat']) { ?>
-                <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
-                <div class="submenu" id="submenu5">
-                    <a href="<?php echo SERVERURL ?>Pedidos/plantillas_chat_center"><i class="fa-solid fa-message menu-icon"></i> <span class="menu-text">Plantillas</span></a>
-                    <a href="<?php echo SERVERURL ?>/Pedidos/configuracion_chats_imporsuit"><i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuracion</span></a>
-                    <a href="https://chatcenter.imporfactory.app/"><i class="fa-brands fa-rocketchat menu-icon"></i> <span class="menu-text">Chat-Center V2.0</span></a>
-                </div>
-            <?php } else { ?>
-                <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
-                <div class="submenu" id="submenu5">
-                    <a href="<?php echo SERVERURL; ?>Pedidos/inicio_automatizador"><i class="fa-solid fa-graduation-cap menu-icon"></i> <span class="menu-text">Agendar</span></a>
-                    <a href="<?php echo SERVERURL ?>/Pedidos/configuracion_chats_imporsuit"><i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuracion</span></a>
-                </div>
+            <?php if ($_SESSION['cargo'] != 25) { ?>
+                <?php if ($_SESSION['validar_config_chat']) { ?>
+                    <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
+                    <div class="submenu" id="submenu5">
+                        <a href="<?php echo SERVERURL ?>Pedidos/plantillas_chat_center"><i class="fa-solid fa-message menu-icon"></i> <span class="menu-text">Plantillas</span></a>
+                        <a href="<?php echo SERVERURL ?>/Pedidos/configuracion_chats_imporsuit"><i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuracion</span></a>
+                        <a href="https://chatcenter.imporfactory.app/"><i class="fa-brands fa-rocketchat menu-icon"></i> <span class="menu-text">Chat-Center V2.0</span></a>
+                    </div>
+                <?php } else { ?>
+                    <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
+                    <div class="submenu" id="submenu5">
+                        <a href="<?php echo SERVERURL; ?>Pedidos/inicio_automatizador"><i class="fa-solid fa-graduation-cap menu-icon"></i> <span class="menu-text">Agendar</span></a>
+                        <a href="<?php echo SERVERURL ?>/Pedidos/configuracion_chats_imporsuit"><i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuracion</span></a>
+                    </div>
+                <?php } ?>
             <?php } ?>
         </div>
         <div class="footer-text">
