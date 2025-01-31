@@ -625,6 +625,12 @@
         /* Evita que se seleccione el texto al dar clic */
     }
 
+    .slider-chip.selected {
+        background-color: #ffca28 !important;
+        /* Amarillo */
+        color: #000;
+    }
+
     /* Mantener el título en la parte superior */
     .chip-title {
         font-size: 14px;

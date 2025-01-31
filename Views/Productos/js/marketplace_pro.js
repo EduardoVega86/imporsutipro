@@ -848,5 +848,36 @@ document.addEventListener("DOMContentLoaded", function () {
     error: function (error) {
       console.error("Error al obtener la lista de proveedores:", error);
     },
-  }));
+  },
+  $(document).ready(function () {
+    $("#buscar_proveedor").on("input", function () {
+      let searchValue = $(this).val().toLowerCase().trim();
+  
+      // Buscar el proveedor en el slider
+      let found = false;
+      $("#sliderProveedores .slider-chip").each(function () {
+        let providerName = $(this).find(".chip-title").text().toLowerCase();
+        
+        if (providerName.includes(searchValue)) {
+          // Resaltar proveedor encontrado
+          $("#sliderProveedores .slider-chip").removeClass("selected");
+          $(this).addClass("selected");
+  
+          // Hacer scroll hasta el proveedor encontrado
+          let container = document.getElementById("sliderProveedores");
+          let providerPosition = $(this).position().left;
+          container.scrollTo({ left: providerPosition - 50, behavior: "smooth" });
+  
+          found = true;
+          return false; // Detener el loop después de encontrar la coincidencia
+        }
+      });
+  
+      // Si no se encuentra, quitar selección
+      if (!found) {
+        $("#sliderProveedores .slider-chip").removeClass("selected");
+      }
+    });
+  })
+));
 })
