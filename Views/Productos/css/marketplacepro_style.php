@@ -636,7 +636,7 @@
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        max-width: 1650px;
+        max-width: 100%;
         /* Evitar desbordes */
         box-sizing: border-box;
         border-radius: 8px;
