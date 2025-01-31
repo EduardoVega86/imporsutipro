@@ -592,10 +592,26 @@
         margin-bottom: 20px;
         overflow: hidden;
         max-width: 100%;
-        padding-right: 20px;
-        /* Evita que los elementos toquen el borde */
+        padding: 0 15px;
+        /* Asegura que no se desborde */
+        box-sizing: border-box;
     }
 
+    .slider-proveedores {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        max-width: 100%;
+        box-sizing: border-box;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        scroll-behavior: smooth;
+        white-space: nowrap;
+        padding: 10px;
+        /* Ajusta el espacio interno */
+    }
+
+    /* Flechas de navegación */
     .slider-arrow {
         cursor: pointer;
         position: absolute;
@@ -609,55 +625,26 @@
         align-items: center;
         justify-content: center;
         font-size: 16px;
-        z-index: 2;
-        /* Para que quede por encima de los chips */
+        z-index: 10;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     }
 
-    /* Flechas */
     .slider-arrow-left {
-        left: 10px;
-        /* Ajuste para que no se salga */
+        left: 0px;
     }
 
     .slider-arrow-right {
-        right: 10px;
-        /* Ajuste para que no se salga */
-        top: 50%;
-        transform: translateY(-50%);
+        right: 0px;
     }
 
-    .slider-arrow:hover {
-        background-color: rgba(255, 255, 255, 1);
-        transform: translateY(-50%) scale(1.05);
-    }
-
-    /* Encabezado */
-    .slider-proveedores-container h5 {
-        margin-bottom: 10px;
-    }
-
-    .slider-proveedores {
-        display: flex;
-        gap: 10px;
-        overflow-x: auto;
-        max-width: 100%;
-        /* Ajuste para evitar desbordes */
-        box-sizing: border-box;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-        scroll-behavior: smooth;
-        white-space: nowrap;
-    }
-
-    /* Estilo para cada 'chip' o botón */
+    /* Ajustes de los chips */
     .slider-chip {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         background-color: #e0e0e0;
         color: #333;
-        min-width: 283px;
+        min-width: 250px;
         height: 105px;
         border: 1px solid #ccc;
         border-radius: 20px;
@@ -672,82 +659,10 @@
         user-select: none;
     }
 
-    /* Mantener el título en la parte superior */
-    .chip-title {
-        font-size: 14px;
-        font-weight: bold;
-        margin-top: 5px;
-    }
-
-    /* Poner la cantidad de productos en la parte inferior */
-    .chip-count {
-        font-size: 12px;
-        margin-top: 3px;
-    }
-
-    .chip-categories {
-        font-size: 12px;
-        color: #666;
-        margin-top: 3px;
-    }
-
-    .chip-content {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        /* Espacio entre imagen y texto */
-    }
-
-    .chip-text {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    /* Ajustes para hover y selección */
-    .slider-chip:hover {
-        background-color: #ccc;
-        transform: scale(1.05);
-    }
-
-    .slider-chip.selected {
-        background-color: rgb(91, 158, 230);
-        color: white;
-        transform: scale(1.05);
-    }
-
-    /* Ajuste de los iconos dentro de los chips */
-    .slider-chip i {
-        margin-right: 8px;
-        font-size: 18px;
-    }
-
-    /* Scrollbar */
-    .slider-proveedores::-webkit-scrollbar {
-        height: 6px;
-    }
-
-    .slider-proveedores::-webkit-scrollbar-thumb {
-        background-color: #ccc;
-        border-radius: 3px;
-    }
-
-    /* Estilo para las imágenes dentro de los chips */
-    .icon-chip {
-        width: 40px;
-        height: 40px;
-        margin-right: 10px;
-        vertical-align: middle;
-        border-radius: 40%;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-        object-fit: cover;
-    }
-
-    /* Ajuste responsivo para pantallas pequeñas */
+    /* Ajustes para móviles */
     @media (max-width: 768px) {
         .slider-chip {
             min-width: 150px;
-            /* Reduce el tamaño en pantallas pequeñas */
             height: 90px;
         }
     }
