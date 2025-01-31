@@ -870,10 +870,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
   
-      // Si no se encuentra, quitar selección
-      if (!found) {
-        $("#sliderProveedores .slider-chip").removeClass("selected");
-      }
+        //Si el input esa vacío quitar TODA seleccion
+        if(searchValue === ""){
+          $("#sliderProveedores .slider-chip").removeClass("selected");
+        }
   
       // Hacer scroll al proveedor encontrado
       if (providerToScroll) {
