@@ -599,11 +599,17 @@
 
     /* Contenedores principales de los sliders */
     .slider-proveedores-container {
-        position: relative;
         width: 100%;
-        margin-bottom: 20px;
+        max-width: 100%;
+        /* Para que no se expanda demasiado */
+        margin-bottom: 10px;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* Asegura que los elementos internos estén centrados */
     }
+
 
     .slider-arrow {
         cursor: pointer;
@@ -648,14 +654,15 @@
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        max-width: 1650px;
-        /* Evitar desbordes */
+        max-width: 95%;
+        /* Evita que se expanda más de lo necesario */
+        padding: 10px 0;
+        justify-content: flex-start;
         box-sizing: border-box;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-        scroll-behavior: smooth;
         white-space: nowrap;
+        /* Evita que los elementos se vayan a otra línea */
     }
+
 
     /* Estilo para cada 'chip' o botón */
     .slider-chip {
