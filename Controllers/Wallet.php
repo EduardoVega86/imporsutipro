@@ -70,7 +70,7 @@ class Wallet extends Controller
 
     public function auditoria_guias()
     {
-        if ($_SESSION["cargo"] != 10) {
+        if ($_SESSION["cargo"] != 10 && $_SESSION["cargo"] != 25) {
             header("Location: /wallet/billetera");
         }
         $this->views->render($this, "auditoria_guias");
@@ -87,7 +87,7 @@ class Wallet extends Controller
     public function pagar()
     {
         $tienda = $_GET['id_plataforma'];
-        if ($_SESSION["cargo"] != 10) {
+        if ($_SESSION["cargo"] != 10 && $_SESSION["cargo"] != 25) {
             header("Location: /wallet/billetera");
         }
         $existe = $this->model->existeTienda($tienda);
