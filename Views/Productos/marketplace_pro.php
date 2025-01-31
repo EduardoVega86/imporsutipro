@@ -88,9 +88,11 @@
         <!-- Tarjetas de productos se insertarán aquí -->
     </div>
     <div style="padding: 10px;">
-        <div class="contenedor-boton-mas" style="display: flex; justify-content: center; margin: 20px 0;">
+        <div class="contenedor cargando" style="display: flex; justify-content: cente;">
             <div id="loading-indicator" style="display: none;">Cargando...</div>
-            <button id="load-more" class="boton_mas">Cargar más</button>
+        </div>
+        <div class="contenedor-boton-mas" style="display: flex; justify-content: center; margin: 20px 0;">
+            <button id="load-more" class="boton_mas">Cargar Más</button>
         </div>
     </div>
 </div>
