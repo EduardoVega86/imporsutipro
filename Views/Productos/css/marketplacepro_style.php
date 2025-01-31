@@ -588,11 +588,9 @@
     /* Contenedores principales de los sliders */
     .slider-proveedores-container {
         position: relative;
-        display: flex;
-        /* Padre en flex para repartir el espacio */
-        align-items: center;
-        /* Centra verticalmente el slider y la flecha */
+        width: 100%;
         margin-bottom: 20px;
+        overflow: hidden;
     }
 
     .slider-arrow {
@@ -620,12 +618,8 @@
     }
 
     .slider-arrow-right {
-        position: absolute;
-        right: 10px;
-        /* Flecha pegada al borde */
-        top: 50%;
-        transform: translateY(-50%);
-        /* El resto de tus estilos para la flecha */
+        right: -12px;
+        top: 78px;
     }
 
     .slider-arrow:hover {
@@ -638,21 +632,17 @@
         margin-bottom: 10px;
     }
 
-    /* El contenedor del slider */
     .slider-proveedores {
-        flex: 1;
-        /* Ocupará todo el espacio restante en flex */
-        margin-right: 50px;
-        /* Deja sitio para la flecha (ajusta según su tamaño) */
         display: flex;
         gap: 10px;
+        overflow-x: auto;
+        max-width: 1650px;
+        /* Evitar desbordes */
         box-sizing: border-box;
         border-radius: 8px;
         background-color: #f9f9f9;
         scroll-behavior: smooth;
         white-space: nowrap;
-        overflow-x: auto;
-        /* Sin width fijo ni max-width */
     }
 
     /* Estilo para cada 'chip' o botón */
