@@ -204,7 +204,11 @@ const listFacturas = async () => {
             if (factura.visto == 1) {
               check = "";
             } else {
-              check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+              if (CARGO == 25) {
+                check = "";
+              } else {
+                check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+              }
             }
           } else {
             check = "";
@@ -219,7 +223,11 @@ const listFacturas = async () => {
             if (factura.visto == 1) {
               check = "";
             } else {
-              check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+              if (CARGO == 25) {
+                check = "";
+              } else {
+                check = `<input type="checkbox" class="selectCheckbox" data-factura-id_cabecera="${factura.id_cabecera}" data-factura-valor="${factura.monto_recibir}">`;
+              }
             }
           } else {
             check = "";
