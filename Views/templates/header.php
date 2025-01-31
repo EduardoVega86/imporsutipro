@@ -93,7 +93,7 @@
                     <a href="<?php echo SERVERURL ?>usuarios/tienda_online"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
                 </div>
 
-                <?php if ($_SESSION['cargo'] != 5 || $_SESSION['cargo'] != 25) { ?>
+                <?php if ($_SESSION['cargo'] != 5 && $_SESSION['cargo'] != 25) { ?>
                     <a href="#" class="dropdown-btn" data-target="#submenu_inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventarios</span></a>
                 <?php } ?>
 
