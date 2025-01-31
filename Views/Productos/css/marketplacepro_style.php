@@ -611,6 +611,13 @@
 
     /* Estilo para cada 'chip' o botón */
     .slider-chip {
+        width: 250px;
+        /* Define un ancho fijo para todos los proveedores */
+        height: 70px;
+        /* Altura fija */
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -619,9 +626,12 @@
         padding: 8px 15px;
         border-radius: 20px;
         cursor: pointer;
-        white-space: nowrap;
         transition: background-color 0.3s ease, transform 0.3s ease;
         user-select: none;
+        border: 1px solid #ccc;
+        /* Borde gris delgado */
+        border-radius: 10px;
+        /* Bordes redondeados */
         /* Evita que se seleccione el texto al dar clic */
     }
 

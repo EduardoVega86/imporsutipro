@@ -37,7 +37,7 @@
                     <input
                         type="text"
                         class="form-control"
-                        placeholder="Busca producto.."
+                        placeholder="Buscar producto.."
                         id="buscar_nombre" />
                 </div>
                 <div class="col-12 col-md-4 d-flex align-items-center mt-2 mt-md-0">

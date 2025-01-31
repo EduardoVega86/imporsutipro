@@ -812,7 +812,11 @@ document.addEventListener("DOMContentLoaded", function () {
           const categoriasMostradas = categoriasArray.length > 0
             ? categoriasArray.slice(0, 3).join(", ") // Tomar solo 3 y unir con comas
             : "Sin categorías";
-        
+
+          if (categoriasMostradas.length > 30) { 
+            categoriasMostradas = categoriasMostradas.substring(0, 27) + "..."; 
+          }
+            
           chipProv.innerHTML = `
             <div class="chip-content">
               <img src="${iconUrl}" class="icon-chip"> 
