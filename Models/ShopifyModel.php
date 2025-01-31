@@ -22,6 +22,8 @@ class ShopifyModel extends Query
                 }
             }
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -92,7 +94,7 @@ class ShopifyModel extends Query
         }
 
         // Gestión de creación de orden
-        $orden = $this->crearOrden($resultados, $lineItems, $plataforma, $order_number);
+       $this->crearOrden($resultados, $lineItems, $plataforma, $order_number);
     }
 
     public function crearOrden($data, $lineItems, $plataforma, $order_number)

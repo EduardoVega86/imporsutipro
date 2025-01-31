@@ -91,7 +91,7 @@
                     <a href="<?php echo SERVERURL ?>usuarios/tienda_online"><i class='bx bxs-store menu-icon'></i> <span class="menu-text">Tienda Online</span></a>
                 </div>
 
-                <?php if ($_SESSION['cargo'] != 5) { ?>
+                <?php if ($_SESSION['cargo'] != 5 || $_SESSION['cargo'] != 25) { ?>
                     <a href="#" class="dropdown-btn" data-target="#submenu_inventario"><i class='bx bx-list-plus menu-icon'></i> <span class="menu-text">Inventarios</span></a>
                 <?php } ?>
 
@@ -110,7 +110,7 @@
                 <a href="#" class="dropdown-btn" data-target="#submenu2"><i class='bx bx-receipt menu-icon'></i> <span class="menu-text">Pedidos</span></a>
                 <div class="submenu" id="submenu2">
                     <a href="<?php echo SERVERURL ?>Pedidos"><i class='bx bx-history menu-icon'></i> <span class="menu-text">Historial</span></a>
-                    <?php if ($_SESSION['cargo'] == 10) { ?>
+                    <?php if ($_SESSION['cargo'] == 10 || $_SESSION['cargo'] == 25) { ?>
                         <a href="<?php echo SERVERURL ?>pedidos/guias_administrador"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
                         <a href="<?php echo SERVERURL ?>pedidos/local"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías Speed</span></a>
                         <a href="<?php echo SERVERURL ?>pedidos/anuladas_administrador"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
