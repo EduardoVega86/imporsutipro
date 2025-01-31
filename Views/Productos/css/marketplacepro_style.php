@@ -767,7 +767,9 @@
     .slider-proveedores-container {
         width: 100%;
         max-width: 100%;
+        /* Asegura que no haya un límite */
         overflow-x: hidden;
+        /* Evita el desbordamiento horizontal */
         margin-bottom: 20px;
     }
 
@@ -776,17 +778,23 @@
         gap: 10px;
         overflow-x: auto;
         width: 100%;
+        /* Ocupa el 100% del ancho disponible */
         max-width: 100vw;
+        /* No exceder el ancho de la ventana */
         box-sizing: border-box;
         border-radius: 8px;
         background-color: #f9f9f9;
         scroll-behavior: smooth;
         white-space: nowrap;
+        padding: 10px;
+        /* Añade un poco de padding para mejor visualización */
     }
 
     .slider-chip {
         flex-shrink: 0;
+        /* Evita que los chips se encojan */
         min-width: 325px;
+        /* Ancho mínimo */
         height: 120px;
         overflow: hidden;
         white-space: nowrap;
@@ -807,6 +815,7 @@
     @media (max-width: 768px) {
         .slider-chip {
             min-width: 200px;
+            /* Reducir el ancho en móviles */
             height: 100px;
         }
     }
