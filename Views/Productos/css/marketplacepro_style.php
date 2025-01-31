@@ -304,7 +304,14 @@
         border-radius: 10px;
         padding: 20px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 100%;
+        /* Evita que se desborde */
+        overflow: hidden;
+        /* Oculta cualquier desbordamiento */
+        box-sizing: border-box;
+        /* Asegura que el padding no aumente el tamaño */
     }
+
 
     .form-check-input:checked {
         background-color: #ff6f61;
