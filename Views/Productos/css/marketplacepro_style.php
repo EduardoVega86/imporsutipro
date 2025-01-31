@@ -304,18 +304,6 @@
         border-radius: 10px;
         padding: 20px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-        display: flex;
-        flex-direction: column;
-        /* Asegura que los elementos internos se apilen */
-        justify-content: flex-start;
-        /* Evita que se expanda más de lo necesario */
-        width: 100%;
-        /* Evita que crezca fuera del viewport */
-        max-width: 1400px;
-        /* Limita su expansión */
-        margin: 0 auto;
-        /* Centra el contenedor */
     }
 
     .form-check-input:checked {
@@ -599,17 +587,11 @@
 
     /* Contenedores principales de los sliders */
     .slider-proveedores-container {
+        position: relative;
         width: 100%;
-        max-width: 100%;
-        /* Para que no se expanda demasiado */
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        /* Asegura que los elementos internos estén centrados */
     }
-
 
     .slider-arrow {
         cursor: pointer;
@@ -654,15 +636,14 @@
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        max-width: 95%;
-        /* Evita que se expanda más de lo necesario */
-        padding: 10px 0;
-        justify-content: flex-start;
+        max-width: 1650px;
+        /* Evitar desbordes */
         box-sizing: border-box;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        scroll-behavior: smooth;
         white-space: nowrap;
-        /* Evita que los elementos se vayan a otra línea */
     }
-
 
     /* Estilo para cada 'chip' o botón */
     .slider-chip {
