@@ -606,7 +606,8 @@
         border-radius: 8px;
         background-color: #f9f9f9;
         scroll-behavior: smooth;
-        white-space: nowrap;
+        flex-wrap: wrap;
+        white-space: normal;
     }
 
     /* Estilo para cada 'chip' o botón */
