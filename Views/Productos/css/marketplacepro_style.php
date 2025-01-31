@@ -596,7 +596,7 @@
         margin-bottom: 10px;
     }
 
-    @media (max-width: 1700px) {
+    @media (max-width: 768px) {
         .slider-proveedores {
             display: flex;
             gap: 10px;
