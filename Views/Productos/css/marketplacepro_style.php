@@ -594,14 +594,13 @@
     /* Encabezado */
     .slider-proveedores-container h5 {
         margin-bottom: 10px;
-
     }
 
     .slider-proveedores {
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        max-width: 1700px;
+        max-width: 1620px;
         /* Evitar desbordes */
         box-sizing: border-box;
         border-radius: 8px;
@@ -612,28 +611,19 @@
 
     /* Estilo para cada 'chip' o botón */
     .slider-chip {
-        min-width: 325px;
-        /* Define un ancho fijo para todos los proveedores */
-        height: 120px;
-        /* Altura fija */
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         background-color: #e0e0e0;
         color: #333;
         padding: 8px 15px;
-        border-radius: 10px;
-        /* Mantener bordes redondeados */
+        border-radius: 20px;
         cursor: pointer;
+        white-space: nowrap;
         transition: background-color 0.3s ease, transform 0.3s ease;
         user-select: none;
-        border: 1px solid #ccc;
-        /* Borde gris delgado */
+        /* Evita que se seleccione el texto al dar clic */
     }
-
 
     /* Mantener el título en la parte superior */
     .chip-title {
