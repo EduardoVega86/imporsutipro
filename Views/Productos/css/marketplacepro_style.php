@@ -600,7 +600,7 @@
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        width: 50%;
+        max-width: 1700px;
         /* Evitar desbordes */
         box-sizing: border-box;
         border-radius: 8px;
