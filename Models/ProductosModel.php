@@ -17,7 +17,7 @@ class ProductosModel extends Query
         $sql = "SELECT ib.*, p.*
         FROM `inventario_bodegas` AS ib
         INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
-        WHERE ib.`id_plataforma` = $plataforma AND eliminado = 0
+        WHERE ib.`id_plataforma` = $plataforma AND ib.eliminado = 0
         GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
 
         return $this->select($sql);
