@@ -852,24 +852,21 @@ document.addEventListener("DOMContentLoaded", function () {
   $(document).ready(function () {
     $("#buscar_proveedor").on("input", function () {
       let searchValue = $(this).val().toLowerCase().trim();
-  
-      // Buscar el proveedor en el slider
       let found = false;
+      let providerToScroll = null;
+  
       $("#sliderProveedores .slider-chip").each(function () {
         let providerName = $(this).find(".chip-title").text().toLowerCase();
-        
+  
         if (providerName.includes(searchValue)) {
           // Resaltar proveedor encontrado
           $("#sliderProveedores .slider-chip").removeClass("selected");
           $(this).addClass("selected");
   
-          // Hacer scroll hasta el proveedor encontrado
-          let container = document.getElementById("sliderProveedores");
-          let providerPosition = $(this).position().left;
-          container.scrollTo({ left: providerPosition - 50, behavior: "smooth" });
-  
+          // Guardamos el proveedor para hacer scroll después
+          providerToScroll = $(this);
           found = true;
-          return false; // Detener el loop después de encontrar la coincidencia
+          return false; // Salir del bucle al encontrar la coincidencia
         }
       });
   
@@ -877,7 +874,13 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!found) {
         $("#sliderProveedores .slider-chip").removeClass("selected");
       }
+  
+      // Hacer scroll al proveedor encontrado
+      if (providerToScroll) {
+        let container = $("#sliderProveedores");
+        let providerOffset = providerToScroll.position().left + container.scrollLeft();
+        container.animate({ scrollLeft: providerOffset - 50 }, 500);
+      }
     });
   })
-));
-})
+))});
