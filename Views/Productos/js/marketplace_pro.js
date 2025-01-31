@@ -809,10 +809,14 @@ document.addEventListener("DOMContentLoaded", function () {
             : [];
         
           // Mostrar solo las primeras 3 categorías
-          const categoriasMostradas = categoriasArray.length > 0
+          let categoriasMostradas = categoriasArray.length > 0
             ? categoriasArray.slice(0, 3).join(", ") // Tomar solo 3 y unir con comas
             : "Sin categorías";
-        
+
+          if (categoriasMostradas.length > 30) { 
+            categoriasMostradas = categoriasMostradas.substring(0, 27) + "..."; 
+          }
+            
           chipProv.innerHTML = `
             <div class="chip-content">
               <img src="${iconUrl}" class="icon-chip"> 
@@ -848,5 +852,39 @@ document.addEventListener("DOMContentLoaded", function () {
     error: function (error) {
       console.error("Error al obtener la lista de proveedores:", error);
     },
-  }));
-})
+  },
+  $(document).ready(function () {
+    $("#buscar_proveedor").on("input", function () {
+      let searchValue = $(this).val().toLowerCase().trim();
+      let found = false;
+      let providerToScroll = null;
+  
+      $("#sliderProveedores .slider-chip").each(function () {
+        let providerName = $(this).find(".chip-title").text().toLowerCase();
+  
+        if (providerName.includes(searchValue)) {
+          // Resaltar proveedor encontrado
+          $("#sliderProveedores .slider-chip").removeClass("selected");
+          $(this).addClass("selected");
+  
+          // Guardamos el proveedor para hacer scroll después
+          providerToScroll = $(this);
+          found = true;
+          return false; // Salir del bucle al encontrar la coincidencia
+        }
+      });
+  
+        //Si el input esa vacío quitar TODA seleccion
+        if(searchValue === ""){
+          $("#sliderProveedores .slider-chip").removeClass("selected");
+        }
+  
+      // Hacer scroll al proveedor encontrado
+      if (providerToScroll) {
+        let container = $("#sliderProveedores");
+        let providerOffset = providerToScroll.position().left + container.scrollLeft();
+        container.animate({ scrollLeft: providerOffset - 250 }, 400);
+      }
+    });
+  })
+))});

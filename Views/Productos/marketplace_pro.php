@@ -10,6 +10,17 @@
     <div style="padding-bottom: 20px; padding-top: 20px;">
         <div class="caja p-4 shadow-sm bg-white">
 
+            <!-- Buscador de Proveedores -->
+            <div class="row mb-3">
+                <div class="col-12 col-md-4">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Buscar proveedor..."
+                        id="buscar_proveedor" />
+                </div>
+            </div>
+
             <!-- Fila : Proveedores -->
             <div class="row mb-3">
                 <div class="col-12">
@@ -26,7 +37,7 @@
                     <input
                         type="text"
                         class="form-control"
-                        placeholder="Nombre de producto a encontrar.."
+                        placeholder="Buscar producto.."
                         id="buscar_nombre" />
                 </div>
                 <div class="col-12 col-md-4 d-flex align-items-center mt-2 mt-md-0">
@@ -67,7 +78,9 @@
     </div>
     <div style="padding: 10px;">
         <div id="loading-indicator" style="display: none;">Cargando...</div>
-        <button id="load-more" class="boton_mas" style="display: none;">Cargar más...</button>
+        <div class="contenedor-boton-mas" style="display: flex; justify-content: center; margin: 20px 0;">
+            <button id="load-more" class="boton_mas">Cargar más</button>
+        </div>
     </div>
 </div>
 
