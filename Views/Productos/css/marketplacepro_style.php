@@ -633,6 +633,7 @@
     }
 
     .slider-proveedores {
+        border: black;
         display: flex;
         gap: 10px;
         overflow-x: auto;
