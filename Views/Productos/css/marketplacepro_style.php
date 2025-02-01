@@ -806,4 +806,24 @@ Estilos CSS:
         object-fit: cover;
         /* Ajuste correcto de imagen */
     }
+    @media (max-width: 1024px) {
+        .slider-proveedores {
+            width: 100%;
+            margin-left: 10px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .slider-proveedores {
+            width: 100%;
+            margin-left: 5px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .slider-proveedores {
+            width: 100%;
+            margin-left: 0;
+        }
+    }
 </style>
