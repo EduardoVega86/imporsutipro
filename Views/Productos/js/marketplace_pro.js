@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", function () {
   rightArrow.addEventListener("click", () => {
     sliderProveedores.scrollBy({
       left: 200,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   });
   /************************************************
@@ -472,63 +472,62 @@ document.addEventListener("DOMContentLoaded", function () {
     card.className = "card card-custom position-relative";
     // Usar la función para obtener la URL de la imagen
     const imagePath = obtenerURLImagen(productDetails.image_path, SERVERURL);
+    let validador_imagen = 1;
+    validador_imagen = verificarImagen(imagePath);
 
-    // Lógica para verificar si la imagen existe
-    verificarImagen(imagePath).then((validador_imagen) => {
-      let finalImage = imagePath;
-      if (validador_imagen === 0) {
-        finalImage = SERVERURL + "public/img/broken-image.png";
-      }
-      card.innerHTML = `
-        <div class="image-container position-relative">
-          ${botonId_inventario}
-          <img src="${finalImage}" class="card-img-top" alt="Product Image">
-          <div class="add-to-store-button ${
-            product.agregadoTienda ? "added" : ""
-          }" data-product-id="${product.id_producto}">
-            <span class="plus-icon">+</span>
-            <span class="add-to-store-text">${
-              product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
-            }</span>
-          </div>
-          <div class="add-to-funnel-button" ${
-            product.agregadoFunnel ? "added" : ""
-          } data-funnel-id="${product.id_inventario}">
-            <span class="plus-icon">+</span>
-            <span class="add-to-funnel-text">${
-              product.agregadoFunnel ? "Quitar de funnel" : "Añadir a funnel"
-            }</span>
-          </div>
-        </div>
-        <button class="btn btn-heart ${
-          esFavorito ? "clicked" : ""
-        }" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
-          <i class="fas fa-heart"></i>
-        </button>
-        <div class="card-body text-center d-flex flex-column justify-content-between">
-          <div>
-            <h6 class="card-title"><strong>${
-              product.nombre_producto
-            }</strong></h6>
-            <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
-            <p class="card-text">Precio Proveedor: <strong>${
-              productDetails.pcp
-            }</strong></p>
-            <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-            <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${
-        productDetails.nombre_tienda
-      }</a></p>
-          </div>
-          <div>
-            <button class="btn btn-description" onclick="agregarModal_marketplace(${
-              product.id_producto
-            })">Descripción</button>
-            ${boton_enviarCliente}
-          </div>
-        </div>
-      `;
-    });
+    if (validador_imagen == 0) {
+      imagePath = SERVERURL + "public/img/broken-image.png";
+    }
 
+    card.innerHTML = `
+      <div class="image-container position-relative">
+        ${botonId_inventario}
+        <img src="${imagePath}" class="card-img-top" alt="Product Image">
+        <div class="add-to-store-button ${
+          product.agregadoTienda ? "added" : ""
+        }" data-product-id="${product.id_producto}">
+          <span class="plus-icon">+</span>
+          <span class="add-to-store-text">${
+            product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
+          }</span>
+        </div>
+        <div class="add-to-funnel-button" ${
+          product.agregadoFunnel ? "added" : ""
+        } data-funnel-id="${product.id_inventario}">
+          <span class="plus-icon">+</span>
+          <span class="add-to-funnel-text">${
+            product.agregadoFunnel ? "Quitar de funnel" : "Añadir a funnel"
+          }</span>
+          </div>
+
+      </div>
+      <button class="btn btn-heart ${
+        esFavorito ? "clicked" : ""
+      }" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
+        <i class="fas fa-heart"></i>
+      </button>
+      <div class="card-body text-center d-flex flex-column justify-content-between">
+        <div>
+          <h6 class="card-title"><strong>${
+            product.nombre_producto
+          }</strong></h6>
+          <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
+          <p class="card-text">Precio Proveedor: <strong>${
+            productDetails.pcp
+          }</strong></p>
+          <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
+          <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${
+      productDetails.nombre_tienda
+    }</a></p>
+        </div>
+        <div>
+          <button class="btn btn-description" onclick="agregarModal_marketplace(${
+            product.id_producto
+          })">Descripción</button>
+          ${boton_enviarCliente}
+        </div>
+      </div>
+    `;
     cardContainer.appendChild(card);
   }
 
@@ -779,71 +778,78 @@ document.addEventListener("DOMContentLoaded", function () {
    * Cargar chips de categorías y proveedores (chips)
    * (Toggling: si clicas el chip ya seleccionado, lo quita)
    *****************************************************/
- //cargar select categoria
-  $(document).ready(function () {
-    // Realiza la solicitud AJAX para obtener la lista de categorias
-    $.ajax({
-      url: SERVERURL + "productos/cargar_categorias",
-      type: "GET",
-      dataType: "json",
-      success: function (response) {
-        // Asegúrate de que la respuesta es un array
-        if (Array.isArray(response)) {
-          response.forEach(function (categoria) {
-            // Agrega una nueva opción al select por cada categoria
-            $("#categoria_filtroMarketplace").append(
-              new Option(categoria.nombre_linea, categoria.id_linea)
-            );
-          });
-        } else {
-          console.log("La respuesta de la API no es un array:", response);
-        }
-      },
-      error: function (error) {
-        console.error("Error al obtener la lista de categorias:", error);
-      },
-    });
-  },
-  
-  // Cargar proveedores
-  $.ajax({
-    url: SERVERURL + "marketplace/obtenerProveedoresConProductosCategorias",
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-      if (Array.isArray(response)) {
-        const sliderProveedores = document.getElementById("sliderProveedores");
-        sliderProveedores.innerHTML = ""; // Limpia antes de insertar
-  
-        response.forEach(proveedor => {
-          const chipProv = document.createElement("div");
-          chipProv.classList.add("slider-chip");
-          chipProv.dataset.provId = proveedor.id_plataforma;
-        
-          // Ruta de la imagen en el servidor
-          const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
-        
-          // Truncar el nombre de la tienda si es muy largo
-          let nombreTienda = proveedor.nombre_tienda ? proveedor.nombre_tienda.toUpperCase() : "SIN NOMBRE";
-          if (nombreTienda.length > 20) {
-            nombreTienda = nombreTienda.substring(0, 17) + "..."; 
+  //cargar select categoria
+  $(document).ready(
+    function () {
+      // Realiza la solicitud AJAX para obtener la lista de categorias
+      $.ajax({
+        url: SERVERURL + "productos/cargar_categorias",
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+          // Asegúrate de que la respuesta es un array
+          if (Array.isArray(response)) {
+            response.forEach(function (categoria) {
+              // Agrega una nueva opción al select por cada categoria
+              $("#categoria_filtroMarketplace").append(
+                new Option(categoria.nombre_linea, categoria.id_linea)
+              );
+            });
+          } else {
+            console.log("La respuesta de la API no es un array:", response);
           }
+        },
+        error: function (error) {
+          console.error("Error al obtener la lista de categorias:", error);
+        },
+      });
+    },
 
-          // Convertir string de categorías a un array limpio
-          const categoriasArray = proveedor.categorias
-            ? proveedor.categorias.split(",").map(cat => cat.trim()) // Separar por comas y quitar espacios
-            : [];
-        
-          // Mostrar solo las primeras 3 categorías
-          let categoriasMostradas = categoriasArray.length > 0
-            ? categoriasArray.slice(0, 3).join(", ") // Tomar solo 3 y unir con comas
-            : "Sin categorías";
+    // Cargar proveedores
+    $.ajax(
+      {
+        url: SERVERURL + "marketplace/obtenerProveedoresConProductosCategorias",
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+          if (Array.isArray(response)) {
+            const sliderProveedores =
+              document.getElementById("sliderProveedores");
+            sliderProveedores.innerHTML = ""; // Limpia antes de insertar
 
-          if (categoriasMostradas.length > 30) { 
-            categoriasMostradas = categoriasMostradas.substring(0, 27) + "..."; 
-          }
-            
-          chipProv.innerHTML = `
+            response.forEach((proveedor) => {
+              const chipProv = document.createElement("div");
+              chipProv.classList.add("slider-chip");
+              chipProv.dataset.provId = proveedor.id_plataforma;
+
+              // Ruta de la imagen en el servidor
+              const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
+
+              // Truncar el nombre de la tienda si es muy largo
+              let nombreTienda = proveedor.nombre_tienda
+                ? proveedor.nombre_tienda.toUpperCase()
+                : "SIN NOMBRE";
+              if (nombreTienda.length > 20) {
+                nombreTienda = nombreTienda.substring(0, 17) + "...";
+              }
+
+              // Convertir string de categorías a un array limpio
+              const categoriasArray = proveedor.categorias
+                ? proveedor.categorias.split(",").map((cat) => cat.trim()) // Separar por comas y quitar espacios
+                : [];
+
+              // Mostrar solo las primeras 3 categorías
+              let categoriasMostradas =
+                categoriasArray.length > 0
+                  ? categoriasArray.slice(0, 3).join(", ") // Tomar solo 3 y unir con comas
+                  : "Sin categorías";
+
+              if (categoriasMostradas.length > 30) {
+                categoriasMostradas =
+                  categoriasMostradas.substring(0, 27) + "...";
+              }
+
+              chipProv.innerHTML = `
             <div class="chip-content">
               <img src="${iconUrl}" class="icon-chip"> 
               <div class="chip-text">
@@ -853,64 +859,70 @@ document.addEventListener("DOMContentLoaded", function () {
               </div>
             </div>
           `;
-          // Toggle logic
-          chipProv.addEventListener("click", function (e) {
-            const clickedProvChip = e.currentTarget;
-            if (clickedProvChip.classList.contains("selected")) {
-              clickedProvChip.classList.remove("selected");
-              formData_filtro.set("plataforma", "");
-            } else {
-              document
-                .querySelectorAll("#sliderProveedores .slider-chip")
-                .forEach((el) => el.classList.remove("selected"));
-              clickedProvChip.classList.add("selected");
-              formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
+              // Toggle logic
+              chipProv.addEventListener("click", function (e) {
+                const clickedProvChip = e.currentTarget;
+                if (clickedProvChip.classList.contains("selected")) {
+                  clickedProvChip.classList.remove("selected");
+                  formData_filtro.set("plataforma", "");
+                } else {
+                  document
+                    .querySelectorAll("#sliderProveedores .slider-chip")
+                    .forEach((el) => el.classList.remove("selected"));
+                  clickedProvChip.classList.add("selected");
+                  formData_filtro.set(
+                    "plataforma",
+                    clickedProvChip.dataset.provId
+                  );
+                }
+                clearAndFetchProducts();
+              });
+
+              sliderProveedores.appendChild(chipProv);
+            });
+          } else {
+            console.log("La respuesta de la API no es un array:", response);
+          }
+        },
+        error: function (error) {
+          console.error("Error al obtener la lista de proveedores:", error);
+        },
+      },
+      $(document).ready(function () {
+        $("#buscar_proveedor").on("input", function () {
+          let searchValue = $(this).val().toLowerCase().trim();
+          let found = false;
+          let providerToScroll = null;
+
+          $("#sliderProveedores .slider-chip").each(function () {
+            let providerName = $(this).find(".chip-title").text().toLowerCase();
+
+            if (providerName.includes(searchValue)) {
+              // Resaltar proveedor encontrado
+              $("#sliderProveedores .slider-chip").removeClass("selected");
+              $(this).addClass("selected");
+
+              // Guardamos el proveedor para hacer scroll después
+              providerToScroll = $(this);
+              found = true;
+              return false; // Salir del bucle al encontrar la coincidencia
             }
-            clearAndFetchProducts();
           });
-  
-          sliderProveedores.appendChild(chipProv);
+
+          //Si el input esa vacío quitar TODA seleccion
+          if (searchValue === "") {
+            $("#sliderProveedores .slider-chip").removeClass("selected");
+          }
+
+          // Hacer scroll al proveedor encontrado
+          if (providerToScroll) {
+            let container = $("#sliderProveedores");
+            let providerOffset =
+              providerToScroll.position().left + container.scrollLeft();
+            container.animate({ scrollLeft: providerOffset - 100 }, 400);
+          }
         });
-      } else {
-        console.log("La respuesta de la API no es un array:", response);
-      }
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de proveedores:", error);
-    },
-  },
-  $(document).ready(function () {
-    $("#buscar_proveedor").on("input", function () {
-      let searchValue = $(this).val().toLowerCase().trim();
-      let found = false;
-      let providerToScroll = null;
-  
-      $("#sliderProveedores .slider-chip").each(function () {
-        let providerName = $(this).find(".chip-title").text().toLowerCase();
-  
-        if (providerName.includes(searchValue)) {
-          // Resaltar proveedor encontrado
-          $("#sliderProveedores .slider-chip").removeClass("selected");
-          $(this).addClass("selected");
-  
-          // Guardamos el proveedor para hacer scroll después
-          providerToScroll = $(this);
-          found = true;
-          return false; // Salir del bucle al encontrar la coincidencia
-        }
-      });
-  
-        //Si el input esa vacío quitar TODA seleccion
-        if(searchValue === ""){
-          $("#sliderProveedores .slider-chip").removeClass("selected");
-        }
-  
-      // Hacer scroll al proveedor encontrado
-      if (providerToScroll) {
-        let container = $("#sliderProveedores");
-        let providerOffset = providerToScroll.position().left + container.scrollLeft();
-        container.animate({ scrollLeft: providerOffset - 100 }, 400);
-      }
-    });
-  })
-))});
+      })
+    )
+  );
+});
