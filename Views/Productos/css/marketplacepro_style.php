@@ -199,6 +199,12 @@
         .slider-chip {
             min-width: 200px;
         }
+        .card-container {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+        .card-custom {
+            height: auto;
+        }
     }
 
     @media (max-width: 768px) {
@@ -214,6 +220,12 @@
             width: 30px;
             height: 30px;
         }
+        .card-custom img {
+            height: 150px;
+        }
+        .card-custom {
+            padding: 10px;
+        }
     }
 
     @media (max-width: 480px) {
@@ -224,6 +236,12 @@
         .slider-chip img {
             width: 20px;
             height: 20px;
+        }
+        .card-container {
+            grid-template-columns: 1fr;
+        }
+        .card-custom {
+            height: auto;
         }
     }
 </style>
