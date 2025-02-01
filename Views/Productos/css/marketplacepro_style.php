@@ -638,14 +638,14 @@ Estilos CSS:
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        width: 50px;;
+        width: 100%;
         /* Evitar desbordes */
         box-sizing: border-box;
         border-radius: 8px;
         background-color: #f9f9f9;
         scroll-behavior: smooth;
         white-space: nowrap;
-        margin-left:30px
+       
     }
 
     /* Estilo para cada 'chip' o botón */
