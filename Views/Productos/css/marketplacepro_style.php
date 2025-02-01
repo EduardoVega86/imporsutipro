@@ -1,4 +1,5 @@
 <style>
+   
     /* cards */
     .card-container {
         display: grid;
@@ -123,24 +124,9 @@
     }
 
     /* carrusel responsive */
-    .slider-proveedores-container {
-        position: relative;
-        width: 100%;
-        margin-bottom: 20px;
-        overflow: hidden;
-    }
+   
 
-    .slider-proveedores {
-        display: flex;
-        gap: 10px;
-        overflow-x: auto;
-        max-width: 100%;
-        box-sizing: border-box;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-        scroll-behavior: smooth;
-        white-space: nowrap;
-    }
+   
 
     .slider-chip {
         display: inline-flex;
