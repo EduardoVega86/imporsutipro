@@ -587,10 +587,7 @@
 
     /* Contenedores principales de los sliders */
     .slider-proveedores-container {
-        position: relative;
-        width: 100%;
-        margin-bottom: 20px;
-        overflow: hidden;
+        display: grid;
     }
 
     .slider-arrow {
@@ -636,7 +633,7 @@
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        max-width: 1650px;
+        width: 100%;
         /* Evitar desbordes */
         box-sizing: border-box;
         border-radius: 8px;
