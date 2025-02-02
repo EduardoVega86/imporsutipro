@@ -531,8 +531,8 @@
     .slider-proveedores-container {
         position: relative;
         width: 100%;
-        margin-bottom: 20px;
         overflow: hidden;
+
     }
 
     .slider-arrow-left { left: 10px; }
@@ -545,7 +545,6 @@
             font-size: 14px;
         }
     } {
-        cursor: pointer;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -557,8 +556,8 @@
         align-items: center;
         justify-content: center;
         font-size: 16px;
+        cursor: pointer;
         z-index: 2;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     }
 
     .slider-arrow-left {

@@ -33,7 +33,7 @@
                         </div>
 
                         <!-- Flecha derecha -->
-                        <div class="slider-arrow slider-arrow-right" id="sliderProveedoresRight">
+                        <div class="slider-arrow slider-arrow-left" id="sliderProveedoresLeft">
                             <i class="fas fa-chevron-right"></i>
                         </div>
                     </div>
@@ -97,4 +97,19 @@
 
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/marketplace_pro.js"></script>
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/tablaSeleccion_Producto.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const slider = document.getElementById('sliderProveedores');
+        const sliderLeft = document.getElementById('sliderProveedoresLeft');
+        const sliderRight = document.getElementById('sliderProveedoresRight');
+        
+        sliderRight.addEventListener('click', function () {
+            slider.scrollBy({ left: 200, behavior: 'smooth' });
+        });
+
+        sliderLeft.addEventListener('click', function () {
+            slider.scrollBy({ left: -200, behavior: 'smooth' });
+        });
+    });
+</script>
 <?php require_once './Views/templates/footer.php'; ?>
