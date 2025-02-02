@@ -1,4 +1,3 @@
-Estilos CSS: 
 
 <style>
     /* cards */
@@ -6,12 +5,10 @@ Estilos CSS:
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
         gap: 10px;
-        /* Ajusta este valor para el espaciado deseado entre las tarjetas */
     }
 
     .card-custom {
         position: relative;
-        /* Añadir esto para posicionar el span absolutamente */
         border-radius: 15px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s, box-shadow 0.3s;
@@ -19,9 +16,7 @@ Estilos CSS:
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        /* Para evitar que el contenido se salga */
         width: 100%;
-        /* Hacer que la tarjeta ocupe todo el ancho de su contenedor */
     }
 
     .card-custom:hover {
@@ -35,9 +30,7 @@ Estilos CSS:
         height: 200px;
         width: 100%;
         object-fit: cover;
-        /* Mantener la proporción de la imagen */
         flex-shrink: 0;
-        /* Evitar que la imagen se encoja */
     }
 
     .card-custom .card-body {
@@ -46,7 +39,6 @@ Estilos CSS:
         flex-direction: column;
         justify-content: space-between;
         overflow: hidden;
-        /* Para evitar que el contenido se salga */
     }
 
     .card-custom .btn-description,
@@ -54,31 +46,8 @@ Estilos CSS:
         border-radius: 50px;
         padding: 10px 20px;
         margin: 5px auto;
-        /* Center the buttons */
         width: 80%;
     }
-
-    /* Estilos para el ID del producto */
-    .card-id-container {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background-color: rgba(255, 255, 255, 0.8);
-        /* Fondo blanco semi-transparente */
-        border-radius: 5px;
-        padding: 5px 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-        cursor: pointer;
-        z-index: 10;
-        /* Asegura que el span esté por encima de la imagen */
-    }
-
-    .card-id {
-        font-size: 14px;
-        font-weight: bold;
-        color: #333;
-    }
-
 
     .btn-description {
         background-color: #00aaff;
@@ -89,13 +58,30 @@ Estilos CSS:
         background-color: #ffc107;
         color: white;
         margin-bottom: 10px;
-        /* Añade margen inferior para espacio adicional */
     }
 
     .card-text {
         margin-bottom: 1px;
     }
 
+    /* Estilos para el ID del producto */
+    .card-id-container {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 5px;
+        padding: 5px 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+        z-index: 10;
+    }
+
+    .card-id {
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+    }
 
     /* modal */
     .modal-content {
@@ -140,12 +126,9 @@ Estilos CSS:
     }
 
     /* carrusel */
-    /* Imagen principal del carrusel */
-    /* Contenedor de miniaturas */
     .carousel-thumbnails {
         display: flex;
         justify-content: flex-start;
-        /* Alineamos las miniaturas al principio */
         align-items: center;
         gap: 10px;
         overflow-x: auto;
@@ -154,14 +137,10 @@ Estilos CSS:
         background-color: #f9f9f9;
         scroll-behavior: smooth;
         white-space: nowrap;
-        /* Las miniaturas se mantendrán en una sola línea */
         scrollbar-width: thin;
-        /* Scroll más delgado */
         -webkit-overflow-scrolling: touch;
-        /* Suavizar el desplazamiento en dispositivos móviles */
     }
 
-    /* Miniaturas */
     .carousel-thumbnails img {
         height: 80px;
         width: 80px;
@@ -172,38 +151,30 @@ Estilos CSS:
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* Efecto hover en miniaturas */
     .carousel-thumbnails img:hover {
         border: 2px solid #007bff;
         transform: scale(1.05);
     }
 
-    /* Miniatura activa */
     .carousel-thumbnails img.active-thumbnail {
         border: 3px solid #007bff;
         transform: scale(1.1);
     }
 
-    /* Evitar que las miniaturas se corten en dispositivos pequeños */
     .carousel-thumbnails img {
         min-width: 80px;
-        /* Garantizamos un ancho mínimo para que no se corten */
     }
 
-    /* Medios de comunicación para dispositivos móviles */
     @media (max-width: 768px) {
         .carousel-thumbnails {
             justify-content: flex-start;
-            /* Asegura que las miniaturas no desaparezcan en móviles */
         }
 
         .carousel-thumbnails img {
             height: 70px;
-            /* Ajuste de tamaño para pantallas más pequeñas */
             width: 70px;
         }
     }
-
 
     .descripcion_producto {
         display: flex;
@@ -212,9 +183,7 @@ Estilos CSS:
 
     .informacion_producto {
         width: 50%;
-        /* Aproximadamente la mitad del contenedor, similar a col-6 */
         margin-bottom: 1rem;
-        /* Espaciado en la parte inferior, similar a mb-4 */
     }
 
     @media (max-width: 768px) {
@@ -279,7 +248,6 @@ Estilos CSS:
         text-align: center;
         vertical-align: middle;
         border: 1px solid #ddd;
-        /* Añadir borde a celdas */
     }
 
     .table-striped tbody tr:nth-of-type(odd) {
@@ -370,33 +338,25 @@ Estilos CSS:
         }
     }
 
-    /* Slide de rango de precions con noUiSlider */
-    /* Base del Slider */
+    /* Slide de rango de precios con noUiSlider */
     .noUi-target {
         background-color: #B2B2B2;
         height: 10px;
         border-radius: 5px;
     }
 
-    /* Conexión entre las manijas */
     .noUi-connect {
         background-color: <?php echo COLOR_FONDO; ?>;
-        /* Tu color de elección para la barra activa */
     }
 
-    /* Manijas del Slider */
     .noUi-handle {
         outline: none;
         top: -5px;
-        /* Ajusta esta propiedad para cambiar la posición vertical de la manija */
         border: 1px solid #D3D3D3;
-        /* Borde de la manija */
         background-color: white;
         border-radius: 50%;
         width: 19px !important;
-        /* Ancho de la manija */
         height: 19px !important;
-        /* Altura de la manija */
         box-shadow: none;
         cursor: pointer;
         background-image: none !important;
@@ -405,16 +365,11 @@ Estilos CSS:
     .noUi-handle::after,
     .noUi-handle::before {
         content: none !important;
-        /* Elimina el contenido de los pseudo-elementos */
     }
 
-    /* Tooltips (los que muestran los valores encima de las manijas) */
     .noUi-tooltip {
         display: none;
-        /* Oculta el tooltip por defecto de noUiSlider */
     }
-
-    /* CSS filtros */
 
     /* boton favoritos */
     .btn-heart {
@@ -424,7 +379,6 @@ Estilos CSS:
         background: transparent;
         border: none;
         color: grey;
-        /* Color apagado */
         font-size: 1.5em;
         cursor: pointer;
         transition: transform 0.3s ease, color 0.3s ease;
@@ -432,12 +386,10 @@ Estilos CSS:
 
     .btn-heart.clicked {
         color: <?php echo COLOR_FAVORITO; ?>;
-        /* Color encendido */
     }
 
     .btn-heart:hover {
         color: <?php echo COLOR_FAVORITO; ?>;
-        /* Cambia este color al que desees */
     }
 
     .btn-heart:focus {
@@ -559,32 +511,20 @@ Estilos CSS:
         font-size: 15px;
         border-radius: 0.3rem;
         background-color: #007bff;
-        /* Color de fondo */
         color: #fff;
-        /* Color de texto */
         padding: 10px 20px;
-        /* Espaciado interno */
         border: none;
-        /* Sin borde */
         cursor: pointer;
-        /* Cursor de mano */
         transition: background-color 0.3s, transform 0.3s;
-        /* Transiciones suaves */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        /* Sombra */
         display: flex;
-        /* Centrado del texto */
         align-items: center;
-        /* Centrado del texto */
         justify-content: center;
-        /* Centrado del texto */
     }
 
     .boton_mas:hover {
         background-color: #0056b3;
-        /* Color de fondo al pasar el cursor */
         transform: translateY(-2px);
-        /* Efecto de elevación */
     }
 
     /* Contenedores principales de los sliders */
@@ -595,7 +535,16 @@ Estilos CSS:
         overflow: hidden;
     }
 
-    .slider-arrow {
+    .slider-arrow-left { left: 10px; }
+    .slider-arrow-right { right: 10px; }
+    
+    @media (max-width: 768px) {
+        .slider-arrow {
+            width: 30px;
+            height: 30px;
+            font-size: 14px;
+        }
+    } {
         cursor: pointer;
         position: absolute;
         top: 50%;
@@ -609,19 +558,15 @@ Estilos CSS:
         justify-content: center;
         font-size: 16px;
         z-index: 2;
-        /* para que quede por encima de los chips */
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     }
 
-    /* Flechas */
-
     .slider-arrow-left {
-        left: 17px;
+        left: 10px;
     }
 
     .slider-arrow-right {
-        right: -12px;
-        top: 78px;
+        right: 10px;
     }
 
     .slider-arrow:hover {
@@ -629,89 +574,34 @@ Estilos CSS:
         transform: translateY(-50%) scale(1.05);
     }
 
-    /* Encabezado */
-    .slider-proveedores-container h5 {
-        margin-bottom: 10px;
-    }
-
     .slider-proveedores {
         display: flex;
         gap: 10px;
         overflow-x: auto;
-        width: 100%;
-        /* Evitar desbordes */
-        box-sizing: border-box;
-        border-radius: 8px;
-        background-color: #f9f9f9;
         scroll-behavior: smooth;
         white-space: nowrap;
-       
+        padding-bottom: 10px;
     }
 
-    /* Estilo para cada 'chip' o botón */
     .slider-chip {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         background-color: #e0e0e0;
         color: #333;
-        /* Ancho fijo */
-        min-width: 283px;
-        /* Alto fijo */
-        height: 105px;
-        /* Borde que solicitas */
+        min-width: 200px;
+        height: 80px;
         border: 1px solid #ccc;
         border-radius: 20px;
         cursor: pointer;
-        /* Ocultará contenido que se desborde */
         overflow: hidden;
-        /* Opcional: recorta texto muy largo con “...” */
         white-space: nowrap;
         text-overflow: ellipsis;
         text-align: center;
-        /* Ajusta si necesitas más o menos espacio interno */
         padding: 10px;
-        /* Asegura que padding no rompa el ancho/alto */
         box-sizing: border-box;
         transition: background-color 0.3s ease, transform 0.3s ease;
-        /* Evita la selección del texto al clicar */
         user-select: none;
-    }
-
-
-    /* Mantener el título en la parte superior */
-    .chip-title {
-        font-size: 14px;
-        font-weight: bold;
-        margin-top: 5px;
-    }
-
-    /* Poner la cantidad de productos en la parte inferior */
-    .chip-count {
-        font-size: 12px;
-        margin-top: 3px;
-    }
-
-    .chip-categories {
-        font-size: 12px;
-        color: #666;
-        margin-top: 3px;
-    }
-
-    .chip-content {
-        display: flex;
-        align-items: center;
-        /* Alinea verticalmente */
-        gap: 10px;
-        /* Espacio entre imagen y texto */
-    }
-
-    .chip-text {
-        display: flex;
-        flex-direction: column;
-        /* Hace que el nombre y cantidad estén en columnas */
-        align-items: flex-start;
-        /* Alinea a la izquierda */
     }
 
     .slider-chip:hover {
@@ -719,16 +609,6 @@ Estilos CSS:
         transform: scale(1.05);
     }
 
-    /* Ajuste de los iconos dentro de los chips */
-    .slider-chip i {
-        margin-right: 8px;
-        /* Espacio entre el ícono y el texto */
-        font-size: 18px;
-        /* Tamaño del ícono */
-        /* color: #007bff; */
-    }
-
-    /* Para marcar un chip seleccionado */
     .slider-chip.selected {
         background-color: rgb(91, 158, 230);
         color: white;
@@ -737,7 +617,6 @@ Estilos CSS:
 
     .slider-proveedores::-webkit-scrollbar {
         height: 6px;
-        /* Altura de la barra de scroll */
     }
 
     .slider-proveedores::-webkit-scrollbar-thumb {
@@ -745,85 +624,27 @@ Estilos CSS:
         border-radius: 3px;
     }
 
-    /* Estilo para las imágenes dentro de los chips */
     .icon-chip {
         width: 40px;
-        /* Tamaño ajustable */
         height: 40px;
         margin-right: 10px;
         vertical-align: middle;
         border-radius: 40%;
-        /* Hace la imagen redonda */
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-        /* Efecto de sombra */
         object-fit: cover;
-        /* Ajuste correcto de imagen */
     }
 
-    /*Estilos de vista proveedores_pro    */
-    .proveedores-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 20px;
-        padding: 20px;
-    }
-
-    .proveedor-card {
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        padding: 15px;
-        text-align: center;
-        transition: transform 0.3s ease;
-    }
-
-    .proveedor-card:hover {
-        transform: translateY(-5px);
-    }
-
-    .proveedor-logo-container {
-        width: 100px;
-        height: 100px;
-        margin: 0 auto 10px;
-        border-radius: 50%;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #f0f0f0;
-    }
-
-    .proveedor-logo {
-        width: 40px;
-        /* Tamaño ajustable */
-        height: 40px;
-        margin-right: 10px;
-        vertical-align: middle;
-        border-radius: 40%;
-        /* Hace la imagen redonda */
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-        /* Efecto de sombra */
-        object-fit: cover;
-        /* Ajuste correcto de imagen */
-    }
-    @media (max-width: 1024px) {
-        .slider-proveedores {
-            width: 100%;
-            margin-left: 10px;
-        }
-    }
-
+    /* Responsive para móviles */
     @media (max-width: 768px) {
-        .slider-proveedores {
-            width: 100%;
-            margin-left: 5px;
+        .slider-chip {
+            min-width: 150px;
+            height: 70px;
         }
-    }
 
-    @media (max-width: 480px) {
-        .slider-proveedores {
-            width: 100%;
-            margin-left: 0;
+        .slider-arrow {
+            width: 30px;
+            height: 30px;
+            font-size: 14px;
         }
     }
 </style>

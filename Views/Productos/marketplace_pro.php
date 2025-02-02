@@ -27,12 +27,10 @@
                     <div class="slider-proveedores-container">
                         <h6>Proveedores</h6>
 
-                        <!-- Flecha izquierda, OCUPAR SOLO SI SE SOLICITA -->
-                        <!-- <div class="slider-arrow slider-arrow-left" id="sliderProveedoresLeft">
-                            <i class="fas fa-chevron-left"></i>
-                        </div> -->
                         <!-- Contenido deslizable -->
-                        <div id="sliderProveedores" class="slider-proveedores"></div>
+                        <div id="sliderProveedores" class="slider-proveedores">
+                            <!-- Aquí se cargarán dinámicamente los proveedores -->
+                        </div>
 
                         <!-- Flecha derecha -->
                         <div class="slider-arrow slider-arrow-right" id="sliderProveedoresRight">
@@ -96,7 +94,6 @@
         </div>
     </div>
 </div>
-
 
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/marketplace_pro.js"></script>
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/tablaSeleccion_Producto.js"></script>
