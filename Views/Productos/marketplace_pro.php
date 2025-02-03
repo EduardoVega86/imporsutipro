@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <!-- Fila : Nombre + Favoritos -->
+            <!-- Fila : Nombre + Favoritos + Vendidos -->
             <div class="row mb-3">
                 <div class="col-12 col-md-4">
                     <input
@@ -53,6 +53,12 @@
                     <div class="form-check form-switch ms-md-4">
                         <input class="form-check-input" type="checkbox" id="favoritosSwitch" />
                         <label class="form-check-label" for="favoritosSwitch">Favoritos</label>
+                    </div>
+
+                    <!-- Switch de vendidos -->
+                    <div class="form-check form-switch ms-md-4">
+                        <input class="form-check-input" type="checkbox" id="vendidosSwitch" />
+                        <label class="form-check-label" for="vendidosSwitch">Vendidos</label>
                     </div>
                 </div>
                 <div class="col-md-2 mb-3 mb-md-0">
