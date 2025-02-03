@@ -107,7 +107,7 @@ const listHistorialPedidos = async () => {
       let boton_automatizador = "";
 
       if (ID_PLATAFORMA == 1251 || ID_PLATAFORMA == 1206 || ID_PLATAFORMA == 2293){
-        boton_automatizador = `<button class="btn btn-sm btn-danger" onclick="enviar_mensaje_automatizador(
+        boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
           ${historialPedido.id_factura},
           '${historialPedido.ciudad_cot}', // Si es string, ponlo entre comillas
           '${historialPedido.celular}', // Lo mismo aquí si es string
@@ -116,7 +116,7 @@ const listHistorialPedidos = async () => {
           '${historialPedido.c_secundaria}',
           '${historialPedido.contiene}',
           ${historialPedido.monto_factura} // Si es número, no necesita comillas
-          )"><i class="fa-solid fa-trash-can"></i></button>`;
+          )"><i class="fa-brands fa-whatsapp"></i></button>`;
       }
 
       if (historialPedido.estado_pedido == 3) {
