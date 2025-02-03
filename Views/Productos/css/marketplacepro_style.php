@@ -604,7 +604,7 @@
         font-size: 16px;
         z-index: 2;
         margin-right: 13px
-        /* para que quede por encima de los chips */
+            /* para que quede por encima de los chips */
     }
 
     /* Flechas */
@@ -756,23 +756,21 @@
     /*Estilos de vista proveedores_pro    */
     .proveedores-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 20px;
-        padding: 20px;
     }
 
     .proveedor-card {
-        background: white;
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        width: 100%;
+        /* Evitar desbordes */
+        box-sizing: border-box;
         border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        padding: 15px;
-        text-align: center;
-        transition: transform 0.3s ease;
+        background-color: #f9f9f9;
+        scroll-behavior: smooth;
+        white-space: nowrap;
     }
 
-    .proveedor-card:hover {
-        transform: translateY(-5px);
-    }
 
     .proveedor-logo-container {
         width: 100px;
