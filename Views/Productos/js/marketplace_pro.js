@@ -278,6 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
   formData_filtro.append("min", "");
   formData_filtro.append("max", "");
   formData_filtro.append("favorito", "0");
+  formData_filtro.append("vendido", "0");
 
   const initialProductsPerPage = 24;
   const additionalProductsPerPage = 24;
@@ -761,6 +762,15 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#favoritosSwitch").change(function () {
     var estado = $(this).is(":checked") ? 1 : 0;
     formData_filtro.set("favorito", estado);
+    clearAndFetchProducts();
+  });
+
+  //Switch de VENDIDOS
+  $("#vendidosSwitch").change(function(){
+    const estado = $(this).is(":checked") ? 1:0;
+    //Actualizamos la varitable en el formData
+    formData_filtro.set("vendido", estado);
+    //Limpiamos y recargar los productos
     clearAndFetchProducts();
   });
 

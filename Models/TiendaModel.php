@@ -164,8 +164,8 @@ class TiendaModel extends Query
 
         return $this->select($sql);
     }
-    
-      public function profesionales($plataforma)
+
+    public function profesionales($plataforma)
     {
         $sql = "SELECT * FROM profesionales WHERE id_plataforma = $plataforma";
 
@@ -981,15 +981,15 @@ class TiendaModel extends Query
     }
     /* Fin plantilla 2 */
 
-/* Plantilla 3 */
+    /* Plantilla 3 */
     public function obtener_informacion_plantilla3($plataforma)
     {
-     //   echo $sql;
+        //   echo $sql;
         $sql = "SELECT * FROM plantilla_3 WHERE id_plataforma=$plataforma";
         return $this->select($sql);
     }
-      /* Fin plantilla 3 */
-    
+    /* Fin plantilla 3 */
+
     public function agregar_carrito($id_producto, $cantidad, $precio,  $plataforma, $id_invetario, $timestamp)
     {
 

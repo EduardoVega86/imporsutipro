@@ -31,116 +31,124 @@ class MarketplaceModel extends Query
     }
 
 
-    public function obtener_productos($plataforma, $nombre, $linea, $plataforma_filtro, $min, $max, $favorito)
-    {
+    public function obtener_productos(
+        $plataforma,
+        $nombre,
+        $linea,
+        $plataforma_filtro,
+        $min,
+        $max,
+        $favorito,
+        $vendido
+    ) {
         $where = '';
         $favorito_filtro = '';
-        if (isset($nombre) and $nombre != '') {
-            $where .= " and p.nombre_producto like '%$nombre%' ";
+
+        // Filtro por nombre
+        if (!empty($nombre)) {
+            $where .= " AND p.nombre_producto LIKE '%$nombre%' ";
         }
 
-        if (isset($linea) and $linea != '') {
-            $where .= " and p.id_linea_producto = $linea ";
+        // Filtro por línea
+        if (!empty($linea)) {
+            $where .= " AND p.id_linea_producto = $linea ";
         }
 
-        if (isset($plataforma_filtro) and $plataforma_filtro != '') {
-            $where .= " and p.id_plataforma = $plataforma_filtro ";
+        // Filtro por plataforma
+        if (!empty($plataforma_filtro)) {
+            $where .= " AND p.id_plataforma = $plataforma_filtro ";
         }
 
-        if (isset($min) and $min != '') {
-            $where .= " and ib.pvp >= $min ";
+        // Filtro precio mínimo
+        if (!empty($min)) {
+            $where .= " AND ib.pvp >= $min ";
         }
 
-        if (isset($max) and $max != '') {
-            $where .= " and ib.pvp <= $max ";
+        // Filtro precio máximo
+        if (!empty($max)) {
+            $where .= " AND ib.pvp <= $max ";
         }
 
+        // Filtro FAVORITO
         if ($favorito == 0) {
-            $favorito_filtro = " ";
+            // Sin filtro de favorito
+            $favorito_filtro = "";
         } else {
-            $favorito_filtro = " AND pf.id_producto IS NOT NULL  ";
+            // Solo los que estén en la tabla productos_favoritos
+            $favorito_filtro = " AND pf.id_producto IS NOT NULL ";
         }
 
+        // Filtro VENDIDO:
+        // Si $vendido == 1, queremos solo productos que aparecen en facturas NO anuladas
+        if ($vendido == 1) {
+            $where .= "
+                AND p.id_producto IN (
+                    SELECT df.id_producto
+                    FROM detalle_fact_cot df
+                    JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura
+                    WHERE fc.anulada = 0
+                      AND (
+                          fc.id_plataforma = $plataforma
+                          OR fc.id_propietario = $plataforma
+                      )
+                )
+            ";
+        }
+
+
+        // Obtener la matriz
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
 
-        //        $sql = "SELECT DISTINCT p.nombre_producto, p.producto_variable, ib.*, plat.id_matriz,
-        //       CASE WHEN pf.id_producto IS NULL THEN 0 ELSE 1 END as Es_Favorito
-        //FROM productos p
-        //JOIN (
-        //    SELECT ib.id_producto, MIN(ib.sku) AS min_sku, ib.id_plataforma, ib.bodega, MIN(ib.id_inventario) AS min_id_inventario
-        //    FROM inventario_bodegas ib
-        //    WHERE ib.bodega != 0 AND ib.bodega != 50000
-        //    GROUP BY ib.id_producto, ib.id_plataforma, ib.bodega
-        //) ib_filtered ON p.id_producto = ib_filtered.id_producto
-        //JOIN inventario_bodegas ib ON ib.id_producto = ib_filtered.id_producto
-        //    AND ib.sku = ib_filtered.min_sku 
-        //    AND ib.id_inventario = ib_filtered.min_id_inventario
-        //JOIN plataformas plat ON ib.id_plataforma = plat.id_plataforma
-        //LEFT JOIN productos_favoritos pf ON pf.id_producto = p.id_producto
-        //WHERE (p.drogshipin = 1 OR p.id_plataforma = $plataforma) 
-        //    AND plat.id_matriz  =  $id_matriz $where $favorito_filtro" ;
-
+        // Armamos la consulta final
         $sql = "SELECT DISTINCT 
-    p.nombre_producto, 
-    p.producto_variable, 
-    ib.*, 
-    plat.id_matriz, 
-    CASE WHEN pf.id_producto IS NULL THEN 0 ELSE 1 END as Es_Favorito 
-FROM 
-    productos p 
-JOIN 
-    (
-        SELECT 
-            ib.id_producto, 
-            MIN(ib.sku) AS min_sku, 
-            ib.id_plataforma, 
-            ib.bodega, 
-            MIN(ib.id_inventario) AS min_id_inventario 
-        FROM 
-            inventario_bodegas ib 
-        WHERE 
-            ib.bodega != 0 
-            AND ib.bodega != 50000 
-            AND ib.saldo_stock > 0  -- Filtrar por saldo_stock mayor a 0
-        GROUP BY 
-            ib.id_producto, 
-            ib.id_plataforma, 
-            ib.bodega
-    ) ib_filtered 
-    ON p.id_producto = ib_filtered.id_producto 
-JOIN 
-    inventario_bodegas ib 
-    ON ib.id_producto = ib_filtered.id_producto 
-    AND ib.sku = ib_filtered.min_sku 
-    AND ib.id_inventario = ib_filtered.min_id_inventario 
-    AND ib.saldo_stock > 0  -- Asegurar que saldo_stock sea mayor a 0
-JOIN 
-    plataformas plat 
-    ON ib.id_plataforma = plat.id_plataforma 
-LEFT JOIN 
-    productos_favoritos pf 
-    ON pf.id_producto = p.id_producto 
-    AND pf.id_plataforma = $plataforma 
-WHERE 
-    p.drogshipin = 1 
-    AND p.producto_privado = 0 
-    $where 
-    $favorito_filtro 
-    AND ib.id_plataforma NOT IN (
-        SELECT id_plataforma 
-        FROM plataforma_matriz 
-        WHERE id_matriz = $id_matriz
-    ) 
-ORDER BY 
-    RAND();
-";
-
-
-        //echo $sql;
+                    p.nombre_producto, 
+                    p.producto_variable, 
+                    ib.*, 
+                    plat.id_matriz, 
+                    CASE WHEN pf.id_producto IS NULL THEN 0 ELSE 1 END AS Es_Favorito
+                FROM productos p
+                JOIN (
+                    SELECT 
+                        ib.id_producto, 
+                        MIN(ib.sku) AS min_sku, 
+                        ib.id_plataforma, 
+                        ib.bodega, 
+                        MIN(ib.id_inventario) AS min_id_inventario
+                    FROM inventario_bodegas ib
+                    WHERE 
+                        ib.bodega != 0 
+                        AND ib.bodega != 50000
+                        AND ib.saldo_stock > 0  -- Filtrar con saldo > 0 si así lo deseas
+                    GROUP BY 
+                        ib.id_producto, 
+                        ib.id_plataforma, 
+                        ib.bodega
+                ) ib_filtered
+                    ON p.id_producto = ib_filtered.id_producto
+                JOIN inventario_bodegas ib
+                    ON ib.id_producto = ib_filtered.id_producto
+                    AND ib.sku = ib_filtered.min_sku
+                    AND ib.id_inventario = ib_filtered.min_id_inventario
+                    AND ib.saldo_stock > 0
+                JOIN plataformas plat 
+                    ON ib.id_plataforma = plat.id_plataforma
+                LEFT JOIN productos_favoritos pf 
+                    ON pf.id_producto = p.id_producto
+                    AND pf.id_plataforma = $plataforma
+                WHERE 
+                    p.drogshipin = 1
+                    AND p.producto_privado = 0
+                    $where
+                    $favorito_filtro
+                    AND ib.id_plataforma NOT IN (
+                        SELECT id_plataforma
+                        FROM plataforma_matriz
+                        WHERE id_matriz = $id_matriz
+                    )
+                ORDER BY RAND()";
         return $this->select($sql);
     }
-
 
     public function obtener_productos_privados($plataforma, $nombre, $linea, $plataforma_filtro, $min, $max, $favorito)
     {

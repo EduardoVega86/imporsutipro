@@ -30,6 +30,27 @@
                             <label for="pais">País</label>
                             <select class="form-control" id="pais" name="pais">
                                 <option selected="selected" value="EC"> 🇪🇨 Ecuador (+593)</option>
+                                <option value="AR">🇦🇷 Argentina (+54)</option>
+                                <option value="BO">🇧🇴 Bolivia (+591)</option>
+                                <option value="BR">🇧🇷 Brazil (+55)</option>
+                                <option value="CL">🇨🇱 Chile (+56)</option>
+                                <option value="CO">🇨🇴 Colombia (+57)</option>
+                                <option value="CR">🇨🇷 Costa Rica (+506)</option>
+                                <option value="CU">🇨🇺 Cuba (+53)</option>
+                                <option value="DO">🇩🇴 Dominican Republic (+1)</option>
+                                <option value="SV">🇸🇻 El Salvador (+503)</option>
+                                <option value="GT">🇬🇹 Guatemala (+502)</option>
+                                <option value="HN">🇭🇳 Honduras (+504)</option>
+                                <option value="MX">🇲🇽 Mexico (+52)</option>
+                                <option value="NI">🇳🇮 Nicaragua (+505)</option>
+                                <option value="PA">🇵🇦 Panama (+507)</option>
+                                <option value="PY">🇵🇾 Paraguay (+595)</option>
+                                <option value="PE">🇵🇪 Peru (+51)</option>
+                                <option value="PR">🇵­🇷 Puerto Rico (+1)</option>
+                                <option value="UY">🇺🇾 Uruguay (+598)</option>
+                                <option value="VE">🇻🇪 Venezuela (+58)</option>
+                                <option value="US">🇺🇸 United States (+1)</option>
+                                <!-- Add other countries as needed -->
                                 <!-- Más opciones -->
                             </select>
                         </div>
@@ -162,7 +183,7 @@
             return;
         }
 
-        fetch(SERVERURL+'Acceso/validar_tiendas', {
+        fetch(SERVERURL + 'Acceso/validar_tiendas', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

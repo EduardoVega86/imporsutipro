@@ -2,6 +2,7 @@ let dataTable;
 let dataTableIsInitialized = false;
 
 const dataTableOptions = {
+  
   columnDefs: [
     {
       className: "centered",
