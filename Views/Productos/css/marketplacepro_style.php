@@ -756,45 +756,45 @@
     /*Estilos de vista proveedores_pro    */
     .proveedores-grid {
         display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        /* Columnas dinámicas */
+        gap: 15px;
+        /* Espaciado entre tarjetas */
+        padding: 20px;
     }
 
     .proveedor-card {
         display: flex;
-        gap: 10px;
-        overflow-x: auto;
-        width: 100%;
-        /* Evitar desbordes */
-        box-sizing: border-box;
-        border-radius: 8px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
         background-color: #f9f9f9;
-        scroll-behavior: smooth;
-        white-space: nowrap;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease-in-out;
     }
 
+    .proveedor-card:hover {
+        transform: scale(1.05);
+    }
 
     .proveedor-logo-container {
-        width: 100px;
-        height: 100px;
-        margin: 0 auto 10px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
         overflow: hidden;
+        background: #f0f0f0;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #f0f0f0;
     }
 
     .proveedor-logo {
-        width: 40px;
-        /* Tamaño ajustable */
-        height: 40px;
-        margin-right: 10px;
-        vertical-align: middle;
-        border-radius: 40%;
-        /* Hace la imagen redonda */
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-        /* Efecto de sombra */
+        width: 100%;
+        height: 100%;
         object-fit: cover;
-        /* Ajuste correcto de imagen */
+        border-radius: 50%;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     }
 </style>
