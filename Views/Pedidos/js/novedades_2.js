@@ -128,7 +128,6 @@ const listNovedades = async () => {
                     <td>${transportadora}</td>
                     <td>${novedad.cliente_novedad}</td>
                     <td>${novedad.novedad}</td>
-                    <td></td>
                     <td>${novedad.estado_novedad}</td>
                     <td>
                     ${boton_gestionar}
