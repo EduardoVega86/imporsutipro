@@ -130,7 +130,7 @@
                     <?php
                     }
                     ?>
-                    <a href="<?php echo SERVERURL ?>pedidos/novedades"><i class='bx bx-info-circle menu-icon'></i> <span class="menu-text">Novedades</span></a>
+                    <a href="<?php echo SERVERURL ?>pedidos/novedades_2"><i class='bx bx-info-circle menu-icon'></i> <span class="menu-text">Novedades</span></a>
                 </div>
 
                 <?php if ($_SESSION['cargo'] != 5) { ?>
