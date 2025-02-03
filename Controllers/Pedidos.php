@@ -120,6 +120,14 @@ class Pedidos extends Controller
         $this->views->render($this, "novedades");
     }
 
+    public function novedades_2()
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "novedades_2");
+    }
+
     public function chat_imporsuit($filtro = "")
     {
         if (!$this->isAuth()) {
