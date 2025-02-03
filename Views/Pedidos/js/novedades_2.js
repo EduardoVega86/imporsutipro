@@ -585,7 +585,3 @@ const listNovedadesGestionadas = async (guia) => {
 /* window.addEventListener("load", async () => {
   await initDataTableNovedadesGestionadas();
 }); */
-
-function ver_detalle_cot(){
-  $("#vista_detalle_novedad").modal("show");
-}

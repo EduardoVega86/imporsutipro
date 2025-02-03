@@ -73,7 +73,7 @@
                 <h2 class="text-center mb-4">Novedades Gestionadas</h2>
                 <div class="table-responsive">
                     <!-- <table class="table table-bordered table-striped table-hover"> -->
-                    <table id="datatable_novedades_gestionadas" class="table table-striped">
+                    <table id="datatable_novedades_gestionadas" class="table table-striped" style="width: 100% !important;">
                         <!-- <caption>
                     DataTable.js Demo
                 </caption> -->
