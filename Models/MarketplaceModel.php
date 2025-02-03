@@ -81,15 +81,20 @@ class MarketplaceModel extends Query
         // Filtro VENDIDO:
         // Si $vendido == 1, queremos solo productos que aparecen en facturas NO anuladas
         if ($vendido == 1) {
-            $where .= " 
+            $where .= "
                 AND p.id_producto IN (
                     SELECT df.id_producto
                     FROM detalle_fact_cot df
                     JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura
                     WHERE fc.anulada = 0
+                      AND (
+                          fc.id_plataforma = $plataforma
+                          OR fc.id_propietario = $plataforma
+                      )
                 )
             ";
         }
+
 
         // Obtener la matriz
         $id_matriz = $this->obtenerMatriz();
