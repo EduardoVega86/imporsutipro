@@ -10,12 +10,11 @@ class NovedadesModel extends Query
     public function cargarNovedades($plataforma)
     {
         $sql = "SELECT * 
-                FROM novedades 
-                WHERE id_plataforma = $plataforma 
-                AND solucionada = 0 
-                AND NOT (guia_novedad LIKE 'I00%' AND estado_novedad = 6);
-                ";
-
+            FROM novedades 
+            WHERE id_plataforma = $plataforma 
+            AND NOT ((guia_novedad LIKE 'IMP%' OR guia_novedad LIKE 'MKP%' ) AND estado_novedad IN (97, 108, 118, 57, 44, 56, 53, 52, 123, 121, 51, 10, 54, 119, 109, 55, 99, 120, 104, 122, 93, 111, 3, 8, 98, 15, 113))
+            AND NOT (guia_novedad LIKE 'I00%' AND estado_novedad = 6);
+            ";
 
         $response = $this->select($sql);
         return $response;
@@ -199,7 +198,7 @@ class NovedadesModel extends Query
         return $response;
     }
 
-    public function cargarHistorial($plataforma,$guia)
+    public function cargarHistorial($plataforma, $guia)
     {
         $sql = "SELECT *, (SELECT nombre_users from users where id_users = id_responsable) as nombre_responsable FROM historial_novedad where id_plataforma = '$plataforma' AND guia = '$guia';";
         $response = $this->select($sql);
