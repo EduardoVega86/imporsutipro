@@ -84,7 +84,7 @@ class MarketplaceModel extends Query
             $where .= " 
                 AND p.id_producto IN (
                     SELECT df.id_producto
-                    FROM detalle_factura df
+                    FROM detalle_fact_cot df
                     JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura
                     WHERE fc.anulada = 0
                 )
