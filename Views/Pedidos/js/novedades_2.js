@@ -105,7 +105,14 @@ const listNovedades = async () => {
         content += `
                 <tr>
                     <td>${novedad.id_novedad}</td>
-                    <td>${novedad.guia_novedad}</td>
+                    <td>
+                     <div>
+                      ${novedad.guia_novedad}
+                     </div>
+                     <div><button onclick="ver_detalle_cot('${
+                      novedad.guia_novedad
+                    }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
+                    </td>
                     <td>${novedad.fecha}</td>
                     <td>${transportadora}</td>
                     <td>${novedad.cliente_novedad}</td>
@@ -563,3 +570,7 @@ const listNovedadesGestionadas = async () => {
 window.addEventListener("load", async () => {
   await initDataTableNovedadesGestionadas();
 });
+
+function ver_detalle_cot(){
+  $("#vista_detalle_novedad").modal("show");
+}
