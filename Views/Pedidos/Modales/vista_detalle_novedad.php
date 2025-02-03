@@ -81,7 +81,7 @@
                             <tr>
                                 <th class="centered"># de Guia</th>
                                 <th class="centered">Fecha</th>
-                                <th class="centered">Medida</th>
+                                <th class="centered">Solucion</th>
                                 <th class="centered">Responsable</th>
                             </tr>
                         </thead>
