@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           <div class="chip-text">
                               <span class="chip-title">${proveedor.nombre_tienda.toUpperCase()}</span>
                               <span class="chip-count">${proveedor.cantidad_productos} productos</span>
-                              <span class="chip-categories">${proveedor.categorias ? proveedor.categorias.split(",").slice(0, 3).join(", ") : 'Sin categorías'}</span>
+                              <span class="chip-categories">${proveedor.categorias ? proveedor.categorias.split(",").slice(0, 8).join(", ") : 'Sin categorías'}</span>
                           </div>
                       `;
                       proveedoresContainer.appendChild(proveedorCard);
