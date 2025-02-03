@@ -104,6 +104,21 @@ const listHistorialPedidos = async () => {
 
       //tomar solo la ciudad
 
+      let boton_automatizador = "";
+
+      if (ID_PLATAFORMA == 1251 || ID_PLATAFORMA == 1206){
+        boton_automatizador `<button class="btn btn-sm btn-danger" onclick="enviar_mensaje_automatizador(
+        ${historialPedido.id_factura},
+        ${historialPedido.ciudad_cot},
+        ${historialPedido.celular},
+        ${historialPedido.nombre},
+        ${historialPedido.c_principal},
+        ${historialPedido.c_secundaria},
+        ${historialPedido.contiene},
+        ${historialPedido.monto_factura}
+        )"><i class="fa-solid fa-trash-can"></i></button>`;
+      }
+
       if (historialPedido.estado_pedido == 3) {
         select_estados_pedidos += `<span>${historialPedido.detalle_noDesea_pedido}</span>`;
       }
@@ -174,6 +189,7 @@ const listHistorialPedidos = async () => {
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
                         <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
+                        ${boton_automatizador}
                     </td>
                 </tr>`;
     });
