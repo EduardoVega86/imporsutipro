@@ -106,7 +106,7 @@ const listHistorialPedidos = async () => {
 
       let boton_automatizador = "";
 
-      if (ID_PLATAFORMA == 1251 && ID_PLATAFORMA == 1206 && ID_PLATAFORMA == 2293){
+      if (ID_PLATAFORMA == 1251 || ID_PLATAFORMA == 1206 || ID_PLATAFORMA == 2293){
         boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
           ${historialPedido.id_factura},
           '${historialPedido.ciudad_cot}', // Si es string, ponlo entre comillas
