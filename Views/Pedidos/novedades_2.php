@@ -21,7 +21,6 @@
                         <th class="centered">Transportadora</th>
                         <th class="centered">Cliente</th>
                         <th class="centered">Novedad</th>
-                        <th class="centered">Medida tomada</th>
                         <th class="centered">Estado</th>
                         <th class="centered">Solución</th>
                         <th class="centered">Tracking</th>
