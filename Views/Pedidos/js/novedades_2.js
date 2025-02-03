@@ -109,7 +109,7 @@ const listNovedades = async () => {
                      <div>
                       ${novedad.guia_novedad}
                      </div>
-                     <div><button onclick="ver_detalle_cot('${
+                     <div><button onclick="initDataTableNovedadesGestionadas('${
                       novedad.guia_novedad
                     }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
                     </td>
@@ -351,7 +351,7 @@ function enviar_gintraNovedad() {
           $("#gestionar_novedadModal").modal("hide");
           button.disabled = false;
           initDataTableNovedades();
-          initDataTableNovedadesGestionadas();
+          /* initDataTableNovedadesGestionadas(); */
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -421,7 +421,7 @@ function enviar_serviNovedad() {
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
         initDataTableNovedades();
-        initDataTableNovedadesGestionadas();
+        /* initDataTableNovedadesGestionadas(); */
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -486,7 +486,7 @@ function enviar_laarNovedad() {
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
         initDataTableNovedades();
-        initDataTableNovedadesGestionadas();
+        /* initDataTableNovedadesGestionadas(); */
       } else if (response.status == 400) {
         toastr.error(response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
@@ -530,12 +530,12 @@ const dataTableNovedadesGestionadasOptions = {
   },
 };
 
-const initDataTableNovedadesGestionadas = async () => {
+const initDataTableNovedadesGestionadas = async (guia) => {
   if (dataTableNovedadesGestionadasIsInitialized) {
     dataTableNovedadesGestionadas.destroy();
   }
 
-  await listNovedadesGestionadas();
+  await listNovedadesGestionadas(guia);
 
   dataTableNovedadesGestionadas = $(
     "#datatable_novedades_gestionadas"
@@ -544,11 +544,22 @@ const initDataTableNovedadesGestionadas = async () => {
   dataTableNovedadesGestionadasIsInitialized = true;
 };
 
-const listNovedadesGestionadas = async () => {
+const listNovedadesGestionadas = async (guia) => {
   try {
-    const response = await fetch("" + SERVERURL + "novedades/cargarHistorial");
+    // Crear el objeto FormData y agregar la variable "guia"
+    const formData = new FormData();
+    formData.append("guia", guia);
+
+    // Realizar la solicitud a la API con el FormData
+    const response = await fetch("" + SERVERURL + "novedades/cargarHistorial", {
+      method: "POST", // Usar POST para enviar el FormData
+      body: formData,
+    });
+
+    // Procesar la respuesta
     const novedadesGestionadas = await response.json();
 
+    // Generar el contenido dinámico para la tabla
     let content = ``;
 
     novedadesGestionadas.forEach((novedad, index) => {
@@ -560,16 +571,20 @@ const listNovedadesGestionadas = async () => {
                     <td>${novedad.nombre_responsable}</td>
                 </tr>`;
     });
+
+    // Insertar el contenido generado en el cuerpo de la tabla
     document.getElementById("tableBody_novedades_gestionadas").innerHTML =
       content;
+
+      $("#vista_detalle_novedad").modal("show");
   } catch (ex) {
-    alert(ex);
+    alert("Error al cargar las novedades: " + ex);
   }
 };
 
-window.addEventListener("load", async () => {
+/* window.addEventListener("load", async () => {
   await initDataTableNovedadesGestionadas();
-});
+}); */
 
 function ver_detalle_cot(){
   $("#vista_detalle_novedad").modal("show");
