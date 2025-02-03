@@ -104,12 +104,12 @@ const listNovedades = async () => {
 
       let boton_gestionar = "";
       if (novedad.solucionada == 0) {
-        let validar_estado_novedad = validar_estado_novedad(
+        let validar_estado = validar_estado_novedad(
           novedad.guia_novedad,
           novedad.estado_novedad
         );
 
-        if (validar_estado_novedad) {
+        if (validar_estado) {
           boton_gestionar = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${novedad.guia_novedad}')">Gestionar</button>`;
         }
       }
