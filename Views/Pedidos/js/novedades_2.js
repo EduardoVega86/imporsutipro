@@ -101,6 +101,19 @@ const listNovedades = async () => {
         transportadora = "SERVIENTREGA";
         ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${novedad.guia_novedad}&tipo=GUIA`;
       }
+
+      let boton_gestionar = "";
+      if (novedad.solucionada == 0) {
+        let validar_estado_novedad = validar_estado_novedad(
+          novedad.guia_novedad,
+          novedad.estado_novedad
+        );
+
+        if (validar_estado_novedad) {
+          boton_gestionar = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${novedad.guia_novedad}')">Gestionar</button>`;
+        }
+      }
+
       if (novedad.terminado == 0) {
         content += `
                 <tr>
@@ -109,9 +122,7 @@ const listNovedades = async () => {
                      <div>
                       ${novedad.guia_novedad}
                      </div>
-                     <div><button onclick="initDataTableNovedadesGestionadas('${
-                      novedad.guia_novedad
-                    }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
+                     <div><button onclick="initDataTableNovedadesGestionadas('${novedad.guia_novedad}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
                     </td>
                     <td>${novedad.fecha}</td>
                     <td>${transportadora}</td>
@@ -120,7 +131,7 @@ const listNovedades = async () => {
                     <td></td>
                     <td>${novedad.estado_novedad}</td>
                     <td>
-                    <button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${novedad.guia_novedad}')">Gestionar</button>
+                    ${boton_gestionar}
                     </td>
                     <td><a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
                     <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
@@ -137,6 +148,24 @@ const listNovedades = async () => {
 window.addEventListener("load", async () => {
   await initDataTableNovedades();
 });
+
+function validar_estado_novedad(guia_novedad, estado_novedad) {
+  // Array con los estados que deben retornar false
+  const estadosInvalidos_laar = [124, 26, 117, 18];
+  const estadosInvalidos_gintra = [1, 2, 3, 4, 5, 6, 7, 15, 27];
+
+  // Verificar si guia_novedad contiene "IMP" o "MKP"
+  if (guia_novedad.includes("IMP") || guia_novedad.includes("MKP")) {
+    if (estadosInvalidos_laar.includes(estado_novedad)) {
+      return false;
+    }
+  } else if (guia_novedad.includes("I00")) {
+    if (estadosInvalidos_gintra.includes(estado_novedad)) {
+      return false;
+    }
+  }
+  return true;
+}
 
 function gestionar_novedad(guia_novedad) {
   resetModalInputs("gestionar_novedadModal");
@@ -220,29 +249,29 @@ function gestionar_novedad(guia_novedad) {
 function resetModalInputs(modalId) {
   // Selecciona el modal por su ID
   const modal = document.querySelector(`#${modalId}`);
-  
+
   if (modal) {
-      // Selecciona todos los inputs y los limpia
-      const inputs = modal.querySelectorAll('input');
-      inputs.forEach(input => {
-          input.value = '';
-      });
+    // Selecciona todos los inputs y los limpia
+    const inputs = modal.querySelectorAll("input");
+    inputs.forEach((input) => {
+      input.value = "";
+    });
 
-      // Selecciona todos los select y los reinicia al valor predeterminado
-      const selects = modal.querySelectorAll('select');
-      selects.forEach(select => {
-          select.selectedIndex = 0; // Reinicia al primer option
-      });
+    // Selecciona todos los select y los reinicia al valor predeterminado
+    const selects = modal.querySelectorAll("select");
+    selects.forEach((select) => {
+      select.selectedIndex = 0; // Reinicia al primer option
+    });
 
-      // Oculta las secciones opcionales que estén configuradas con "display: none"
-      const optionalSections = modal.querySelectorAll('[style*="display"]');
-      optionalSections.forEach(section => {
-          section.style.display = 'none';
-      });
+    // Oculta las secciones opcionales que estén configuradas con "display: none"
+    const optionalSections = modal.querySelectorAll('[style*="display"]');
+    optionalSections.forEach((section) => {
+      section.style.display = "none";
+    });
 
-      console.log('Modal inputs and selects reset successfully.');
+    console.log("Modal inputs and selects reset successfully.");
   } else {
-      console.error('Modal not found!');
+    console.error("Modal not found!");
   }
 }
 
@@ -576,7 +605,7 @@ const listNovedadesGestionadas = async (guia) => {
     document.getElementById("tableBody_novedades_gestionadas").innerHTML =
       content;
 
-      $("#vista_detalle_novedad").modal("show");
+    $("#vista_detalle_novedad").modal("show");
   } catch (ex) {
     alert("Error al cargar las novedades: " + ex);
   }
@@ -585,7 +614,3 @@ const listNovedadesGestionadas = async (guia) => {
 /* window.addEventListener("load", async () => {
   await initDataTableNovedadesGestionadas();
 }); */
-
-function ver_detalle_cot(){
-  $("#vista_detalle_novedad").modal("show");
-}
