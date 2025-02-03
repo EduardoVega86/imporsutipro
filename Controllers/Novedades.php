@@ -89,12 +89,10 @@ class Novedades extends Controller
 
     public function cargarHistorial()
     {
-        $data = $this->model->cargarHistorial($_SESSION['id_plataforma']);
+        $guia = $_POST['guia'];
+        $data = $this->model->cargarHistorial($_SESSION['id_plataforma'], $guia);
         echo json_encode($data);
     }
-
-
-
 
     //////////8/// DEBUGGING ///////*///////
     public function revision()
