@@ -45,12 +45,11 @@
                 </div>
             </div>
 
-            <!-- Card 4: Número de confirmaciones -->
             <div class="col-md-3">
                 <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #dc3545;">
                     <h5 class="text-danger">
-                        <i class="bx bx-check-shield" style="font-size: 24px;"></i> Confirmaciones
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Número total de pedidos confirmados"></i>
+                        <i class="bx bx-check-shield" style="font-size: 24px;"></i> Confirmacion <span id="id_confirmacion"></span>
+                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Procentaje de guias o pedidos confirmados"></i>
                     </h5>
                     <h3 class="font-weight-bold" id="num_confirmaciones">0</h3>
                 </div>
@@ -92,20 +91,7 @@
     </div>
 </div>
 
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/historial.js"></script>
-
-<!-- ACTIVAR TOOLTIP PARA DESCRIPCIONES -->
-<script>
-    $(document).ready(function() {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-
-    // Simulación de datos (reemplazar con datos reales desde AJAX)
-    document.getElementById('num_pedidos').innerText = 150;
-    document.getElementById('valor_pedidos').innerText = "$45,000.00";
-    document.getElementById('num_guias').innerText = 120;
-    document.getElementById('num_confirmaciones').innerText = 135;
-</script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/historial_temporal.js"></script>
 
 <script>
     let fecha_inicio = "";
@@ -149,6 +135,7 @@
             fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
             fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
             initDataTableHistorial();
+            cargarCardsPedidos();
         });
 
         // Establece los valores iniciales en el input de fechas
@@ -161,6 +148,64 @@
         /* $("#tienda_q,#estado_q,#transporte,#impresion,#despachos").change(function() {
             initDataTable();
         }); */
+    });
+</script>
+
+<script>
+    // Definir la función para consumir la API
+    function cargarCardsPedidos() {
+        // URL de tu API (reemplazar con la URL real de tu backend)
+        const apiUrl = SERVERURL + 'Pedidos/cargar_cards_pedidos';
+
+        // Crear el objeto FormData
+        const formData = new FormData();
+        formData.append("fecha_inicio", fecha_inicio); // Parámetro de fecha de inicio
+        formData.append("fecha_fin", fecha_fin); // Parámetro de fecha de fin
+
+        // Realizar la solicitud AJAX
+        $.ajax({
+            url: apiUrl,
+            method: 'POST', // Enviar la solicitud como POST
+            data: formData, // Pasar el FormData
+            processData: false, // Evitar que jQuery procese los datos
+            contentType: false, // Evitar que jQuery configure el tipo de contenido
+            dataType: "json", // Indicar que la respuesta es JSON
+            success: function(data) {
+                // Verificar si se recibieron los datos correctamente
+                if (data) {
+                    // Actualizar los valores en las tarjetas usando jQuery
+                    $("#num_pedidos").text(data.total_pedidos || 0);
+                    $("#valor_pedidos").text(
+                        data.valor_pedidos ?
+                        `$${parseFloat(data.valor_pedidos).toLocaleString('en-US', { minimumFractionDigits: 2 })}` :
+                        '$0.00'
+                    );
+                    $("#num_guias").text(data.total_guias || 0);
+                    $("#num_confirmaciones").text(
+                        data.porcentaje_confirmacion ?
+                        `${parseFloat(data.porcentaje_confirmacion).toFixed(2)}%` :
+                        '0%'
+                    );
+
+                    $("#id_confirmacion").text("de "+data.mensaje || "");
+                } else {
+                    console.error('No se recibieron datos válidos de la API.');
+                }
+            },
+            error: function(xhr, status, error) {
+                // Manejar errores de la solicitud
+                console.error('Error al consumir la API:', error);
+            }
+        });
+    }
+
+    // Ejemplo de uso: ejecutar la función cuando se cargue la página
+    $(document).ready(function() {
+        // Inicializar tooltips
+        $('[data-toggle="tooltip"]').tooltip();
+
+        // Llamar a la función con valores de ejemplo (reemplazar por los reales)
+        cargarCardsPedidos(); // Llama a la API con las fechas inicial y final
     });
 </script>
 

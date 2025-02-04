@@ -1728,10 +1728,87 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function cargar_cards_pedidos($plataforma)
+    public function cargar_cards_pedidos($plataforma, $fecha_inicio, $fecha_fin)
     {
-        $sql = "SELECT * FROM facturas_cot WHERE id_factura = $plataforma";
-        return $this->select($sql);
+        /* numero pedidos */
+        // Base de la consulta SQL
+        $sql_numero_pedidos = "SELECT COUNT(*) AS total_pedidos 
+        FROM facturas_cot 
+        WHERE anulada = 0 
+        AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+        AND id_plataforma = '$plataforma'";
+
+        // Agregar rango de fechas si se proporciona
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql_numero_pedidos .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+        // Ejecutar la consulta y obtener el resultado
+        $resultado_numero_pedidos = $this->select($sql_numero_pedidos);
+        /* numero pedidos */
+
+        /* valor pedidos */
+        $sql_valor_pedidos = "SELECT SUM(monto_factura) AS valor_pedidos 
+        FROM facturas_cot 
+        WHERE anulada = 0 
+        AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+        AND id_plataforma = '$plataforma'";
+
+        // Agregar rango de fechas si se proporciona
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql_valor_pedidos .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+        // Ejecutar la consulta y obtener el resultado
+        $resultado_valor_pedidos = $this->select($sql_valor_pedidos);
+
+        /* valor pedidos */
+
+        /* numero guias */
+        // Base de la consulta SQL
+        $sql_numero_guias = "SELECT COUNT(*) AS total_guias 
+        FROM facturas_cot 
+        WHERE anulada = 0 
+        AND (TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND numero_guia <> '0')
+        AND id_plataforma = '$plataforma'";
+
+        // Agregar rango de fechas si se proporciona
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql_numero_guias .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+        // Ejecutar la consulta y obtener el resultado
+        $resultado_numero_guias = $this->select($sql_numero_guias);
+        /* numero guias */
+
+        $response['total_pedidos'] = $resultado_numero_pedidos[0]['total_pedidos'];
+        $response['valor_pedidos'] = $resultado_valor_pedidos[0]['valor_pedidos'];
+        $response['total_guias'] = $resultado_numero_guias[0]['total_guias'];
+
+        // Calcular el total combinado
+        $total_general = $response['total_pedidos'] + $response['total_guias'];
+
+        // Verificar que el total general sea mayor a 0 para evitar divisiones por cero
+        if ($total_general > 0) {
+            // Si total_guias es mayor
+            if ($response['total_guias'] > $response['total_pedidos']) {
+                $response['porcentaje_confirmacion'] = round(
+                    ($response['total_guias'] / $total_general) * 100,
+                    2
+                );
+                $response['mensaje'] = "guías";
+            }
+            // Si total_pedidos es mayor o igual
+            else {
+                $response['porcentaje_confirmacion'] = round(
+                    ($response['total_pedidos'] / $total_general) * 100,
+                    2
+                );
+                $response['mensaje'] = "pedidos";
+            }
+        } else {
+            $response['porcentaje_confirmacion'] = 0;
+            $response['mensaje'] = "";
+        }
+
+        return $response;
     }
 
     public function eliminarPedido($id_factura)

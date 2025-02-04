@@ -50,6 +50,13 @@ class Pedidos extends Controller
     {
         $this->views->render($this, "guias_administrador_2");
     }
+    public function historial_temporal($filtro = "")
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "historial_temporal");
+    }
     public function anuladas($filtro = "")
     {
         if (!$this->isAuth()) {
@@ -556,7 +563,9 @@ class Pedidos extends Controller
 
     public function cargar_cards_pedidos($id_plataforma = null)
     {
-        $data = $this->model->cargar_cards_pedidos($_SESSION["id_plataforma"]);
+        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
+        $fecha_fin = $_POST['fecha_fin'] ?? "";
+        $data = $this->model->cargar_cards_pedidos($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin);
         echo json_encode($data);
     }
 
