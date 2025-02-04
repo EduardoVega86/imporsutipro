@@ -1750,7 +1750,6 @@ class PedidosModel extends Query
         $sql_valor_pedidos = "SELECT SUM(monto_factura) AS valor_pedidos 
         FROM facturas_cot 
         WHERE anulada = 0 
-        AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
         AND id_plataforma = '$plataforma'";
 
         // Agregar rango de fechas si se proporciona
@@ -1778,31 +1777,21 @@ class PedidosModel extends Query
         $resultado_numero_guias = $this->select($sql_numero_guias);
         /* numero guias */
 
-        $response['total_pedidos'] = $resultado_numero_pedidos[0]['total_pedidos'];
+        
         $response['valor_pedidos'] = $resultado_valor_pedidos[0]['valor_pedidos'];
         $response['total_guias'] = $resultado_numero_guias[0]['total_guias'];
 
         // Calcular el total combinado
-        $total_general = $response['total_pedidos'] + $response['total_guias'];
+        $total_general = $resultado_numero_pedidos[0]['total_pedidos'] + $response['total_guias'];
+        $response['total_pedidos'] = $total_general;
 
         // Verificar que el total general sea mayor a 0 para evitar divisiones por cero
         if ($total_general > 0) {
-            // Si total_guias es mayor
-            if ($response['total_guias'] > $response['total_pedidos']) {
-                $response['porcentaje_confirmacion'] = round(
-                    ($response['total_guias'] / $total_general) * 100,
-                    2
-                );
-                $response['mensaje'] = "guías";
-            }
-            // Si total_pedidos es mayor o igual
-            else {
-                $response['porcentaje_confirmacion'] = round(
-                    ($response['total_pedidos'] / $total_general) * 100,
-                    2
-                );
-                $response['mensaje'] = "pedidos";
-            }
+            $response['porcentaje_confirmacion'] = round(
+                ($response['total_guias'] / $total_general) * 100,
+                2
+            );
+            $response['mensaje'] = "guías";
         } else {
             $response['porcentaje_confirmacion'] = 0;
             $response['mensaje'] = "";
