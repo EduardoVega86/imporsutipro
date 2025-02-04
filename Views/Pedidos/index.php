@@ -1,22 +1,58 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Pedidos/css/historial_style.php'; ?>
-
-
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 <?php require_once './Views/Pedidos/Modales/agregar_detalle_noDeseaPedido.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Historial de Pedidos</h2>
-        <!-- <div class="filtros_producos justify-content-between align-items-center mb-3">
 
-        </div> -->
+        <!-- 🔹 SECCIÓN DE CARDS INFORMATIVAS 🔹 -->
+        <div class="row mb-4">
+            <!-- Card 1: Número de pedidos -->
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #007bff;">
+                    <h5 class="text-primary">📦 Número de Pedidos
+                        <i class="fa fa-question-circle text-muted" data-toggle="tooltip" title="Cantidad total de pedidos registrados"></i>
+                    </h5>
+                    <h3 class="font-weight-bold" id="num_pedidos">0</h3>
+                </div>
+            </div>
+
+            <!-- Card 2: Valor de pedidos -->
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #28a745;">
+                    <h5 class="text-success">💰 Valor de Pedidos
+                        <i class="fa fa-question-circle text-muted" data-toggle="tooltip" title="Monto total de los pedidos en el sistema"></i>
+                    </h5>
+                    <h3 class="font-weight-bold" id="valor_pedidos">$0.00</h3>
+                </div>
+            </div>
+
+            <!-- Card 3: Número de guías confirmadas -->
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
+                    <h5 class="text-warning">🚚 Guías Confirmadas
+                        <i class="fa fa-question-circle text-muted" data-toggle="tooltip" title="Cantidad de guías que han sido confirmadas"></i>
+                    </h5>
+                    <h3 class="font-weight-bold" id="num_guias">0</h3>
+                </div>
+            </div>
+
+            <!-- Card 4: Número de confirmaciones -->
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #dc3545;">
+                    <h5 class="text-danger">✅ Confirmaciones
+                        <i class="fa fa-question-circle text-muted" data-toggle="tooltip" title="Número total de pedidos confirmados"></i>
+                    </h5>
+                    <h3 class="font-weight-bold" id="num_confirmaciones">0</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA DE HISTORIAL DE PEDIDOS -->
         <div class="table-responsive">
-            <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_historialPedidos" class="table table-striped">
-                <!-- <caption>
-                    DataTable.js Demo
-                </caption> -->
                 <thead>
                     <tr>
                         <th class="centered"># Orden</th>
@@ -35,5 +71,20 @@
         </div>
     </div>
 </div>
+
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/historial.js"></script>
+
+<!-- ACTIVAR TOOLTIP PARA DESCRIPCIONES -->
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    // Simulación de datos (reemplazar con datos reales desde AJAX)
+    document.getElementById('num_pedidos').innerText = 150;
+    document.getElementById('valor_pedidos').innerText = "$45,000.00";
+    document.getElementById('num_guias').innerText = 120;
+    document.getElementById('num_confirmaciones').innerText = 135;
+</script>
+
 <?php require_once './Views/templates/footer.php'; ?>
