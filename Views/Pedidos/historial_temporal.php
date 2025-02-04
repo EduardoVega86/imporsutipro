@@ -91,7 +91,7 @@
     </div>
 </div>
 
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/historial.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/historial_temporal.js"></script>
 
 <script>
     let fecha_inicio = "";
