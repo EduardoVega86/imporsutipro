@@ -771,7 +771,7 @@ class GuiasModel extends Query
 
         // Ejecutar la solicitud
         $response = curl_exec($ch);
-
+        echo $response;
         // Verificar si ocurrió algún error durante la solicitud
         if (curl_errno($ch)) {
             echo 'Error en la solicitud cURL: ' . curl_error($ch);
