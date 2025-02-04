@@ -94,7 +94,20 @@ class ShopifyModel extends Query
         }
 
         // Gestión de creación de orden
-       $this->crearOrden($resultados, $lineItems, $plataforma, $order_number);
+        $this->crearOrden($resultados, $lineItems, $plataforma, $order_number);
+    }
+
+    private function CambiarEstructuraNumero($telefono)
+    {
+        $telefono = str_replace("+", "", $telefono);
+        $telefono = str_replace(" ", "", $telefono);
+        $telefono = str_replace("-", "", $telefono);
+        $telefono = str_replace("(", "", $telefono);
+        $telefono = str_replace(")", "", $telefono);
+        $telefono = str_replace("5930", '593', $telefono);
+
+
+        return $telefono;
     }
 
     public function crearOrden($data, $lineItems, $plataforma, $order_number)
@@ -102,7 +115,7 @@ class ShopifyModel extends Query
         $nombre = $data['nombre'] . " " . $data['apellido'];
         $telefono = $data['telefono'];
         // Quitar el + de la cadena
-        $telefono = str_replace("+", "", $telefono);
+        $telefono =  $this->CambiarEstructuraNumero($telefono);
         $calle_principal = $data['principal'];
         $calle_secundaria = $data['secundaria'] ?? "";
         $provincia = $data['provincia'];
