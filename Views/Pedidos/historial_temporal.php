@@ -136,6 +136,7 @@
             fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
             fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
             initDataTableHistorial();
+            cargarCardsPedidos();
         });
 
         // Establece los valores iniciales en el input de fechas
@@ -152,17 +153,15 @@
 </script>
 
 <script>
-    $(document).ready(function () {
-        // Inicializar tooltips
-        $('[data-toggle="tooltip"]').tooltip();
-
+    // Definir la función para consumir la API
+    function cargarCardsPedidos() {
         // URL de tu API (reemplazar con la URL real de tu backend)
-        const apiUrl = SERVERURL+'Pedidos/cargar_cards_pedidos';
+        const apiUrl = SERVERURL + 'Pedidos/cargar_cards_pedidos';
 
         // Crear el objeto FormData
         const formData = new FormData();
-        formData.append("fecha_inicio", fecha_inicio); // fecha_inicio ya está definida globalmente
-        formData.append("fecha_fin", fecha_fin); // fecha_fin ya está definida globalmente
+        formData.append("fecha_inicio", fecha_inicio); // Parámetro de fecha de inicio
+        formData.append("fecha_fin", fecha_fin); // Parámetro de fecha de fin
 
         // Realizar la solicitud AJAX
         $.ajax({
@@ -171,28 +170,39 @@
             data: formData, // Pasar el FormData
             processData: false, // Evitar que jQuery procese los datos
             contentType: false, // Evitar que jQuery configure el tipo de contenido
-            success: function (response) {
+            success: function(response) {
                 // Verificar si la respuesta es exitosa
                 if (response) {
                     // Actualizar los valores en los elementos HTML
                     document.getElementById('num_pedidos').innerText = response.total_pedidos || 0;
-                    document.getElementById('valor_pedidos').innerText = response.valor_pedidos
-                        ? `$${parseFloat(response.valor_pedidos).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
-                        : '$0.00';
+                    document.getElementById('valor_pedidos').innerText = response.valor_pedidos ?
+                        `$${parseFloat(response.valor_pedidos).toLocaleString('en-US', { minimumFractionDigits: 2 })}` :
+                        '$0.00';
                     document.getElementById('num_guias').innerText = response.total_guias || 0;
-                    document.getElementById('num_confirmaciones').innerText = response.porcentaje_confirmacion
-                        ? `${response.porcentaje_confirmacion}%`
-                        : '0%';
+                    document.getElementById('num_confirmaciones').innerText = response.porcentaje_confirmacion ?
+                        `${response.porcentaje_confirmacion}%` :
+                        '0%';
                 } else {
                     console.error('No se recibieron datos válidos de la API.');
                 }
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 // Manejar errores de la solicitud
                 console.error('Error al consumir la API:', error);
             }
         });
+    }
+
+    // Ejemplo de uso: ejecutar la función cuando se cargue la página
+    $(document).ready(function() {
+        // Inicializar tooltips
+        $('[data-toggle="tooltip"]').tooltip();
+
+        // Llamar a la función con valores de ejemplo (reemplazar por los reales)
+        cargarCardsPedidos(); // Llama a la API con las fechas inicial y final
     });
+
+    // Puedes llamar `cargarCardsPedidos()` desde cualquier lugar de tu código con las fechas que necesites
 </script>
 
 <?php require_once './Views/templates/footer.php'; ?>
