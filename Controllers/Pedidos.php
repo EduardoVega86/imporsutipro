@@ -50,6 +50,13 @@ class Pedidos extends Controller
     {
         $this->views->render($this, "guias_administrador_2");
     }
+    public function historial_temporal($filtro = "")
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "historial_temporal");
+    }
     public function anuladas($filtro = "")
     {
         if (!$this->isAuth()) {
