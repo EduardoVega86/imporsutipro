@@ -1782,14 +1782,30 @@ class PedidosModel extends Query
         $response['valor_pedidos'] = $resultado_valor_pedidos[0]['valor_pedidos'];
         $response['total_guias'] = $resultado_numero_guias[0]['total_guias'];
 
-        // Calcular el porcentaje de confirmación
-        if ($response['total_pedidos'] > 0) {
-            $response['porcentaje_confirmacion'] = round(
-                ($response['total_guias'] / $response['total_pedidos']) * 100,
-                2
-            );
+        // Calcular el total combinado
+        $total_general = $response['total_pedidos'] + $response['total_guias'];
+
+        // Verificar que el total general sea mayor a 0 para evitar divisiones por cero
+        if ($total_general > 0) {
+            // Si total_guias es mayor
+            if ($response['total_guias'] > $response['total_pedidos']) {
+                $response['porcentaje_confirmacion'] = round(
+                    ($response['total_guias'] / $total_general) * 100,
+                    2
+                );
+                $response['mensaje'] = "Porcentaje basado en guías generadas.";
+            }
+            // Si total_pedidos es mayor o igual
+            else {
+                $response['porcentaje_confirmacion'] = round(
+                    ($response['total_pedidos'] / $total_general) * 100,
+                    2
+                );
+                $response['mensaje'] = "Porcentaje basado en pedidos registrados.";
+            }
         } else {
-            $response['porcentaje_confirmacion'] = 0; // Evitar división por cero
+            $response['porcentaje_confirmacion'] = 0;
+            $response['mensaje'] = "No hay datos suficientes para calcular el porcentaje.";
         }
 
         return $response;
