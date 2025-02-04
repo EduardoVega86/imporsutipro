@@ -48,8 +48,8 @@
             <div class="col-md-3">
                 <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #dc3545;">
                     <h5 class="text-danger">
-                        <i class="bx bx-check-shield" style="font-size: 24px;"></i> Confirmaciones
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Número total de pedidos confirmados"></i>
+                        <i class="bx bx-check-shield" style="font-size: 24px;"></i> Confirmaciones de <span id="id_confirmacion"></span>
+                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Procentaje de guias o pedidos confirmados"></i>
                     </h5>
                     <h3 class="font-weight-bold" id="num_confirmaciones">0</h3>
                 </div>
@@ -186,6 +186,8 @@
                         `${parseFloat(data.porcentaje_confirmacion).toFixed(2)}%` :
                         '0%'
                     );
+
+                    $("#id_confirmacion").text(data.mensaje || "");
                 } else {
                     console.error('No se recibieron datos válidos de la API.');
                 }

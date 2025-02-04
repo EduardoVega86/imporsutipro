@@ -1793,7 +1793,7 @@ class PedidosModel extends Query
                     ($response['total_guias'] / $total_general) * 100,
                     2
                 );
-                $response['mensaje'] = "Porcentaje basado en guías generadas.";
+                $response['mensaje'] = "guías";
             }
             // Si total_pedidos es mayor o igual
             else {
@@ -1801,7 +1801,7 @@ class PedidosModel extends Query
                     ($response['total_pedidos'] / $total_general) * 100,
                     2
                 );
-                $response['mensaje'] = "Porcentaje basado en pedidos registrados.";
+                $response['mensaje'] = "pedidos";
             }
         } else {
             $response['porcentaje_confirmacion'] = 0;
