@@ -94,19 +94,6 @@
 
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/historial.js"></script>
 
-<!-- ACTIVAR TOOLTIP PARA DESCRIPCIONES -->
-<script>
-    $(document).ready(function() {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-
-    // Simulación de datos (reemplazar con datos reales desde AJAX)
-    document.getElementById('num_pedidos').innerText = 150;
-    document.getElementById('valor_pedidos').innerText = "$45,000.00";
-    document.getElementById('num_guias').innerText = 120;
-    document.getElementById('num_confirmaciones').innerText = 135;
-</script>
-
 <script>
     let fecha_inicio = "";
     let fecha_fin = "";
@@ -161,6 +148,50 @@
         /* $("#tienda_q,#estado_q,#transporte,#impresion,#despachos").change(function() {
             initDataTable();
         }); */
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        // Inicializar tooltips
+        $('[data-toggle="tooltip"]').tooltip();
+
+        // URL de tu API (reemplazar con la URL real de tu backend)
+        const apiUrl = SERVERURL+'Pedidos/cargar_cards_pedidos';
+
+        // Crear el objeto FormData
+        const formData = new FormData();
+        formData.append("fecha_inicio", fecha_inicio); // fecha_inicio ya está definida globalmente
+        formData.append("fecha_fin", fecha_fin); // fecha_fin ya está definida globalmente
+
+        // Realizar la solicitud AJAX
+        $.ajax({
+            url: apiUrl,
+            method: 'POST', // Enviar la solicitud como POST
+            data: formData, // Pasar el FormData
+            processData: false, // Evitar que jQuery procese los datos
+            contentType: false, // Evitar que jQuery configure el tipo de contenido
+            success: function (response) {
+                // Verificar si la respuesta es exitosa
+                if (response) {
+                    // Actualizar los valores en los elementos HTML
+                    document.getElementById('num_pedidos').innerText = response.total_pedidos || 0;
+                    document.getElementById('valor_pedidos').innerText = response.valor_pedidos
+                        ? `$${parseFloat(response.valor_pedidos).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+                        : '$0.00';
+                    document.getElementById('num_guias').innerText = response.total_guias || 0;
+                    document.getElementById('num_confirmaciones').innerText = response.porcentaje_confirmacion
+                        ? `${response.porcentaje_confirmacion}%`
+                        : '0%';
+                } else {
+                    console.error('No se recibieron datos válidos de la API.');
+                }
+            },
+            error: function (xhr, status, error) {
+                // Manejar errores de la solicitud
+                console.error('Error al consumir la API:', error);
+            }
+        });
     });
 </script>
 
