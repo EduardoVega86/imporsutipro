@@ -45,7 +45,6 @@
                 </div>
             </div>
 
-            <!-- Card 4: Número de confirmaciones -->
             <div class="col-md-3">
                 <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #dc3545;">
                     <h5 class="text-danger">
@@ -187,6 +186,12 @@
                         `${parseFloat(data.porcentaje_confirmacion).toFixed(2)}%` :
                         '0%'
                     );
+
+                    // Actualizar el atributo title del tooltip con el mensaje
+                    $(".bx-help-circle").attr("title", data.mensaje || "Sin información");
+
+                    // Reinicializar los tooltips para que tomen el nuevo título
+                    $('[data-toggle="tooltip"]').tooltip('dispose').tooltip();
                 } else {
                     console.error('No se recibieron datos válidos de la API.');
                 }
