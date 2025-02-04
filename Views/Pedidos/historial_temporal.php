@@ -170,6 +170,7 @@
             data: formData, // Pasar el FormData
             processData: false, // Evitar que jQuery procese los datos
             contentType: false, // Evitar que jQuery configure el tipo de contenido
+            dataType:"json",
             success: function(response) {
                 // Verificar si la respuesta es exitosa
                 if (response) {
@@ -201,8 +202,6 @@
         // Llamar a la función con valores de ejemplo (reemplazar por los reales)
         cargarCardsPedidos(); // Llama a la API con las fechas inicial y final
     });
-
-    // Puedes llamar `cargarCardsPedidos()` desde cualquier lugar de tu código con las fechas que necesites
 </script>
 
 <?php require_once './Views/templates/footer.php'; ?>
