@@ -22,15 +22,13 @@ class DashboardModel extends Query
                 ";
         $response = $this->select($sql);
 
-        $sql = "SELECT COUNT(*) as total_guias 
-                FROM facturas_cot 
-                WHERE TRIM(numero_guia) <> '' 
-                AND numero_guia IS NOT NULL 
-                AND numero_guia <> '0' 
-                AND anulada = 0 
-                AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f' 
-                AND (id_plataforma = '$id_plataforma' OR id_propietario = '$id_plataforma')
-                ";
+        $sql = "SELECT 
+                    COUNT(*) as total_guias 
+                FROM cabecera_cuenta_pagar 
+                WHERE fecha BETWEEN '$fecha_i' AND '$fecha_f' 
+                AND id_plataforma = '$id_plataforma' 
+                AND visto = 1;
+                ;";
 
         $response2 = $this->select($sql);
 
@@ -70,7 +68,7 @@ class DashboardModel extends Query
             fecha BETWEEN DATE_FORMAT(NOW(), '%Y-%m-01') AND LAST_DAY(NOW()) 
             AND id_plataforma LIKE '%$id_plataforma%' 
             AND estado_guia = 7 
-            AND visto = 1
+            AND visto = 1;
         GROUP BY 
             dia 
         ORDER BY 
@@ -138,7 +136,7 @@ class DashboardModel extends Query
         $sql = "SELECT AVG(fc.monto_factura) AS promedio_ventas FROM facturas_cot fc WHERE fc.estado_guia_sistema NOT IN (1, 2, 8, 9, 12, 500, 501, 502, 503) AND fc.id_plataforma = $id_plataforma  AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f' ;";
         $response14 = $this->select($sql);
 
-        $sql = "SELECT AVG(fc.monto_factura) AS promedio_devoluciones FROM facturas_cot fc WHERE fc.estado_guia_sistema NOT IN (1, 2, 8, 7, 12, 9, 400, 401, 402, 403) AND fc.id_plataforma = $id_plataforma  AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f' ;";
+        $sql = "SELECT AVG(fc.monto_factura) AS promedio_devoluciones FROM facturas_cot fc WHERE fc.estado_guia_sistema NOT IN (1, 2, 8, 7 12, 9, 400, 401, 402, 403) AND fc.id_plataforma = $id_plataforma  AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f' ;";
         $response15 = $this->select($sql);
 
         $sql = "SELECT AVG(fc.costo_flete) AS promedio_flete FROM facturas_cot fc WHERE fc.estado_guia_sistema NOT IN (1, 2, 8, 12) AND fc.id_plataforma = $id_plataforma  AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f' ;";
