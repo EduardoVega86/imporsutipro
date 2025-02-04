@@ -10,52 +10,7 @@
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Historial de Pedidos</h2>
 
-        <!-- 🔹 SECCIÓN DE CARDS INFORMATIVAS 🔹 -->
-        <div class="row mb-4">
-            <!-- Card 1: Número de pedidos -->
-            <div class="col-md-3">
-                <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #007bff;">
-                    <h5 class="text-primary">
-                        <i class="bx bx-box" style="font-size: 24px;"></i> Número de Pedidos
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de pedidos registrados"></i>
-                    </h5>
-                    <h3 class="font-weight-bold" id="num_pedidos">0</h3>
-                </div>
-            </div>
-
-            <!-- Card 2: Valor de pedidos -->
-            <div class="col-md-3">
-                <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #28a745;">
-                    <h5 class="text-success">
-                        <i class="bx bx-money" style="font-size: 24px;"></i> Valor de Pedidos
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Monto total de los pedidos en el sistema"></i>
-                    </h5>
-                    <h3 class="font-weight-bold" id="valor_pedidos">$0.00</h3>
-                </div>
-            </div>
-
-            <!-- Card 3: Número de guías confirmadas -->
-            <div class="col-md-3">
-                <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
-                    <h5 class="text-warning">
-                        <i class="bx bx-package" style="font-size: 24px;"></i> Guías Confirmadas
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad de guías que han sido confirmadas"></i>
-                    </h5>
-                    <h3 class="font-weight-bold" id="num_guias">0</h3>
-                </div>
-            </div>
-
-            <!-- Card 4: Número de confirmaciones -->
-            <div class="col-md-3">
-                <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #dc3545;">
-                    <h5 class="text-danger">
-                        <i class="bx bx-check-shield" style="font-size: 24px;"></i> Confirmaciones
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Número total de pedidos confirmados"></i>
-                    </h5>
-                    <h3 class="font-weight-bold" id="num_confirmaciones">0</h3>
-                </div>
-            </div>
-        </div>
+        
 
         <div class="primer_seccionFiltro" style="width: 100%;">
             <div class="d-flex flex-row align-items-end filtro_fecha">
