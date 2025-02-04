@@ -1711,6 +1711,29 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function cargarPedidos_imporsuit($plataforma, $fecha_inicio, $fecha_fin)
+    {
+        $sql = "SELECT *, 
+        (SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad,
+        (SELECT provincia FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as provinciaa,
+        (SELECT url_imporsuit from plataformas where id_plataforma = id_propietario) as plataforma 
+        FROM facturas_cot WHERE anulada = 0 AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+         and id_plataforma = '$plataforma'";
+
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        $sql .= " ORDER BY numero_factura DESC;";
+        return $this->select($sql);
+    }
+
+    public function cargar_cards_pedidos($plataforma)
+    {
+        $sql = "SELECT * FROM facturas_cot WHERE id_factura = $plataforma";
+        return $this->select($sql);
+    }
+
     public function eliminarPedido($id_factura)
     {
         $sql = "UPDATE `facturas_cot` SET  `anulada` = ?, `estado_guia_sistema` = ? WHERE `id_factura` = ?";
