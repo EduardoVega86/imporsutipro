@@ -353,11 +353,11 @@ function enviar_mensaje_automatizador(
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error("NO SE ENVIO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
-        toastr.success("ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("ENVIADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       }
