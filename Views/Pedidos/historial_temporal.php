@@ -170,19 +170,23 @@
             data: formData, // Pasar el FormData
             processData: false, // Evitar que jQuery procese los datos
             contentType: false, // Evitar que jQuery configure el tipo de contenido
-            dataType:"json",
-            success: function(response) {
-                // Verificar si la respuesta es exitosa
-                if (response) {
-                    // Actualizar los valores en los elementos HTML
-                    document.getElementById('num_pedidos').innerText = response.total_pedidos || 0;
-                    document.getElementById('valor_pedidos').innerText = response.valor_pedidos ?
-                        `$${parseFloat(response.valor_pedidos).toLocaleString('en-US', { minimumFractionDigits: 2 })}` :
-                        '$0.00';
-                    document.getElementById('num_guias').innerText = response.total_guias || 0;
-                    document.getElementById('num_confirmaciones').innerText = response.porcentaje_confirmacion ?
-                        `${response.porcentaje_confirmacion}%` :
-                        '0%';
+            dataType: "json", // Indicar que la respuesta es JSON
+            success: function(data) {
+                // Verificar si se recibieron los datos correctamente
+                if (data) {
+                    // Actualizar los valores en las tarjetas usando jQuery
+                    $("#num_pedidos").text(data.total_pedidos || 0);
+                    $("#valor_pedidos").text(
+                        data.valor_pedidos ?
+                        `$${parseFloat(data.valor_pedidos).toLocaleString('en-US', { minimumFractionDigits: 2 })}` :
+                        '$0.00'
+                    );
+                    $("#num_guias").text(data.total_guias || 0);
+                    $("#num_confirmaciones").text(
+                        data.porcentaje_confirmacion ?
+                        `${parseFloat(data.porcentaje_confirmacion).toFixed(2)}%` :
+                        '0%'
+                    );
                 } else {
                     console.error('No se recibieron datos válidos de la API.');
                 }
