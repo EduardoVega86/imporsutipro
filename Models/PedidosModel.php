@@ -1805,7 +1805,7 @@ class PedidosModel extends Query
             }
         } else {
             $response['porcentaje_confirmacion'] = 0;
-            $response['mensaje'] = "No hay datos suficientes para calcular el porcentaje.";
+            $response['mensaje'] = "";
         }
 
         return $response;
