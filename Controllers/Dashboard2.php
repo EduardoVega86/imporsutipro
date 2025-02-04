@@ -15,14 +15,10 @@ class Dashboard2 extends Controller
     {
         $this->views->render($this, "dashboard");
     }
-    public function dashboard()
-    {
-        $this->views->render($this, "dashboard");
-    }
 
     public function dashboard2()
     {
-        $this->views->render($this, "dashboard2");
+        $this->views->render("Dashboard", "dashboard2");
     }
 
     public function home()
