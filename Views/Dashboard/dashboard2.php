@@ -34,7 +34,7 @@
                             <i class="fa fa-truck"></i>
                         </div>
                         <h3><span id="total_guias"></span></h3>
-                        <p>Total Guias</p>
+                        <p>Total Guias Generadas</p>
                     </div>
                     <div class="stat-box">
                         <div class="icon-container" style="background: linear-gradient(to right, #43e97b, #38f9d7);">
@@ -186,6 +186,6 @@
 
 </div>
 
-<script src="<?php echo SERVERURL ?>/Views/Dashboard/js/dashboard.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Dashboard/js/dashboard2.js"></script>
 
 <?php require_once './Views/templates/footer.php'; ?>
