@@ -1764,7 +1764,7 @@ class PedidosModel extends Query
 
         /* numero guias */
         // Base de la consulta SQL
-        $sql_numero_guias = "SELECT COUNT(*) AS total_pedidos 
+        $sql_numero_guias = "SELECT COUNT(*) AS total_guias 
         FROM facturas_cot 
         WHERE anulada = 0 
         AND (TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND numero_guia <> '0')
