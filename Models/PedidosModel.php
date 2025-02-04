@@ -1724,6 +1724,8 @@ class PedidosModel extends Query
             $sql .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
+        echo $sql;
+
         $sql .= " ORDER BY numero_factura DESC;";
         return $this->select($sql);
     }
