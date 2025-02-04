@@ -1721,7 +1721,7 @@ class PedidosModel extends Query
          and id_plataforma = '$plataforma'";
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
         $sql .= " ORDER BY numero_factura DESC;";
