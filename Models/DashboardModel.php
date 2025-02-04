@@ -22,13 +22,15 @@ class DashboardModel extends Query
                 ";
         $response = $this->select($sql);
 
-        $sql = "SELECT 
-                    COUNT(*) as total_guias 
-                FROM cabecera_cuenta_pagar 
-                WHERE fecha BETWEEN '$fecha_i' AND '$fecha_f' 
-                AND id_plataforma = '$id_plataforma' 
-                AND visto = 1;
-                ;";
+        $sql = "SELECT COUNT(*) as total_guias 
+                FROM facturas_cot 
+                WHERE TRIM(numero_guia) <> '' 
+                AND numero_guia IS NOT NULL 
+                AND numero_guia <> '0' 
+                AND anulada = 0 
+                AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f' 
+                AND (id_plataforma = '$id_plataforma' OR id_propietario = '$id_plataforma')
+                ";
 
         $response2 = $this->select($sql);
 
