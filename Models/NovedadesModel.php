@@ -29,6 +29,12 @@ class NovedadesModel extends Query
 
     public function solventarNovedadLaar($guia, $ciudad, $nombre, $cedula, $callePrincipal, $calleSecundaria, $numeracion, $referencia, $telefono, $celular, $observacion, $correo, $isDevolucion, $nombreA, $observacionA, $id_novedad)
     {
+        $sql_update = "UPDATE `novedades` SET `solucionada` = ? WHERE `guia_novedad` = ?";
+        $update_data = [1, $guia];
+
+        // Ejecutar la actualización
+        $actualizar_novedad = $this->update($sql_update, $update_data);
+
         $data = array(
             "guia" => $guia,
             "destino" => array(
@@ -94,6 +100,12 @@ class NovedadesModel extends Query
     public function solventarNovedadServientrega($guia, $observacion, $id_novedad)
     {
 
+        $sql_update = "UPDATE `novedades` SET `solucionada` = ? WHERE `guia_novedad` = ?";
+        $update_data = [1, $guia];
+
+        // Ejecutar la actualización
+        $actualizar_novedad = $this->update($sql_update, $update_data);
+
         $url = "https://servientrega-ecuador.appsiscore.com/app/ws/confirmaciones.php?wsdl";
 
         $xml = <<<XML
@@ -151,6 +163,12 @@ class NovedadesModel extends Query
 
     public function solventarNovedadGintracom($tipo, $guia, $observacion, $id_novedad, $recaudo, $fecha)
     {
+        $sql_update = "UPDATE `novedades` SET `solucionada` = ? WHERE `guia_novedad` = ?";
+        $update_data = [1, $guia];
+
+        // Ejecutar la actualización
+        $actualizar_novedad = $this->update($sql_update, $update_data);
+
         $data = array(
             "guia" => $guia,
             "observacion" => $observacion,
