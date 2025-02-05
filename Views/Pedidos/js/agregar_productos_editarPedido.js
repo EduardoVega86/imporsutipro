@@ -4,23 +4,52 @@ let dataTableNuevosPedidosIsInitialized = false;
 // Obtener el valor del id_factura desde la URL
 var url_1 = window.location.href;
 var id_factura_1 = url_1.split("/").pop();
+const getFecha = () => {
+  let fecha = new Date();
+  let dia = fecha.getDate();
+  let mes = fecha.getMonth() + 1;
+  let anio = fecha.getFullYear();
+  let hora = fecha.getHours();
+  let minutos = fecha.getMinutes();
+  let segundos = fecha.getSeconds();
+  return `${dia}-${mes}-${anio}_${hora}-${minutos}-${segundos}`;
+};
 
 const dataTableNuevosPedidosOptions = {
-  //scrollX: "2000px",
-  /* lengthMenu: [5, 10, 15, 20, 100, 200, 500], */
-  columnDefs: [
-    { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
-    /* { orderable: false, targets: [5, 6] }, */
-    /* { searchable: false, targets: [1] } */
-    //{ width: "50%", targets: [0] }
-  ],
-  pageLength: 10,
   destroy: true,
+  responsive: true,
+  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+  buttons: [
+    {
+      extend: "excelHtml5",
+      text: 'Excel <i class="fa-solid fa-file-excel"></i>',
+      title: "Panel de Control: Usuarios",
+      titleAttr: "Exportar a Excel",
+      exportOptions: {
+        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      },
+      filename: "Productos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-excel",
+    },
+    {
+      extend: "csvHtml5",
+      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
+      title: "Panel de Control: Productos",
+      titleAttr: "Exportar a CSV",
+      exportOptions: {
+        columns: [1, 2, 3, 4, 5, 6, 7, 8],
+      },
+      filename: "Productos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-csv",
+    },
+  ],
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
-    zeroRecords: "Ningún pedido encontrado",
+    zeroRecords: "Ningún usuario encontrado",
     info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
-    infoEmpty: "Ningún pedido encontrado",
+    infoEmpty: "Ningún usuario encontrado",
     infoFiltered: "(filtrados desde _MAX_ registros totales)",
     search: "Buscar:",
     loadingRecords: "Cargando...",
