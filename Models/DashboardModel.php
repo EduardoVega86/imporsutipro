@@ -22,6 +22,7 @@ class DashboardModel extends Query
                 ";
         $response = $this->select($sql);
 
+        //Total Guias
         $sql = "SELECT COUNT(DISTINCT fc.id_factura) AS total_guias
                 FROM facturas_cot fc
                 LEFT JOIN bodega b ON b.id = fc.id_bodega
@@ -46,15 +47,14 @@ class DashboardModel extends Query
         $response3 = $this->select($sql);
 
         // Consulta para pedidos
-        $sql = "SELECT 
-                    COUNT(*) as pedidos 
+        $sql = "SELECT COUNT(*) as pedidos 
                 FROM facturas_cot 
-                WHERE fecha_factura BETWEEN '$fecha_i' AND '$fecha_f' 
+                WHERE anulada = 0
+                AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+                AND fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
                 AND id_plataforma = '$id_plataforma'";
-        $response4 = $this->select($sql);
 
-        /*         $sql = "SELECT DATE_FORMAT(fecha, '%Y-%m-%d') as dia, ROUND(SUM(total_venta),2) as ventas, ROUND(SUM(monto_recibir),2) as ganancias, ROUND(SUM(precio_envio),2) as envios, COUNT(*) as cantidad FROM cabecera_cuenta_pagar WHERE fecha BETWEEN DATE_FORMAT(LAST_DAY(NOW() - INTERVAL 1 MONTH) + INTERVAL 1 DAY - INTERVAL 1 MONTH, '%Y-%m-%d') AND LAST_DAY(NOW() - INTERVAL 1 MONTH) and tienda like '%$plataforma%' and estado_guia = 7 GROUP BY dia ORDER BY dia;";
-        */
+
 
         //Ventas del ultimo mes
 
