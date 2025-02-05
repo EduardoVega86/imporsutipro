@@ -1777,7 +1777,7 @@ class PedidosModel extends Query
         $resultado_numero_guias = $this->select($sql_numero_guias);
         /* numero guias */
 
-        
+
         $response['valor_pedidos'] = $resultado_valor_pedidos[0]['valor_pedidos'];
         $response['total_guias'] = $resultado_numero_guias[0]['total_guias'];
 
@@ -2629,9 +2629,18 @@ class PedidosModel extends Query
             $actualizar_configuracion = $this->update($sql_update, $update_data);
 
             if ($actualizar_configuracion == 1) {
-                $response['status'] = 200;
-                $response['title'] = 'Petición exitosa';
-                $response['message'] = 'Configuración agregada y actualizada correctamente';
+                $sql_cliente = "INSERT INTO `clientes_chat_center` (`id_plataforma`, `uid_cliente`, `nombre_cliente`, `celular_cliente`) 
+                VALUES (?, ?, ?, ?)";
+                $data_cliente = [$id_plataforma, $id_telefono, $nombre_configuracion, $telefono];
+
+                // Insertar configuración
+                $insertar_cliente = $this->insert($sql_cliente, $data_cliente);
+
+                if ($insertar_cliente == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Petición exitosa';
+                    $response['message'] = 'Configuración agregada y actualizada correctamente';
+                }
             } else {
                 $response['status'] = 500;
                 $response['title'] = 'Error en actualización';
