@@ -99,7 +99,7 @@ const listNuevosPedidos = async () => {
       if (typeof response === "string") {
         nuevosPedidos = JSON.parse(response);
       }
-
+      console.log(nuevosPedidos);
       if (Array.isArray(nuevosPedidos)) {
         let content = ``;
         nuevosPedidos.forEach((nuevoPedido, index) => {
