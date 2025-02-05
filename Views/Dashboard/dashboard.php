@@ -40,7 +40,7 @@
                         <div class="icon-container" style="background: linear-gradient(to right, #43e97b, #38f9d7);">
                             <i class="fa fa-hand-holding-usd"></i>
                         </div>
-                        <h3>$ <span id="total_recaudo"></span></h3>
+                        <h3><span id="total_recaudo"></span></h3>
                         <p>Total Recaudo</p>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                         <div class="icon-container" style="background: linear-gradient(to right, #bdc3c7, #2c3e50);">
                             <i class="fa fa-undo"></i>
                         </div>
-                        <h3>$ <span id="devoluciones"></span></h3>
+                        <h3><span id="devoluciones"></span></h3>
                         <p>Devoluciones</p>
                     </div>
                 </div>
