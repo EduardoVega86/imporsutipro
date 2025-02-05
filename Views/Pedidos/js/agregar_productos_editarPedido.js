@@ -83,7 +83,18 @@ const listNuevosPedidos = async () => {
   // Crear una instancia de FormData
   let formData = new FormData();
   formData.append("sku", sku); // Añadir el SKU al FormData
+  //fetch
+  const response = await fetch(
+    `${SERVERURL}pedidos/buscarProductosBodega/${id_producto}`,
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
+  const productos = await response.json();
+  console.log(productos);
 
+  //
   $.ajax({
     url: SERVERURL + "pedidos/buscarProductosBodega/" + id_producto,
     type: "POST", // Cambiar a POST para enviar FormData
