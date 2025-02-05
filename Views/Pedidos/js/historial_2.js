@@ -51,10 +51,13 @@ const listHistorialPedidos = async () => {
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
 
-    const response = await fetch(`${SERVERURL}pedidos/cargarPedidos_imporsuit`, {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      `${SERVERURL}pedidos/cargarPedidos_imporsuit`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     const historialPedidos = await response.json();
 
@@ -168,6 +171,9 @@ const listHistorialPedidos = async () => {
 
       let canal_venta;
       let color_canal_venta;
+      let numero_orden_shopify = "";
+
+      let factura = historialPedido.numero_factura;
 
       if (historialPedido.importado == 0) {
         canal_venta = "manual";
@@ -178,11 +184,21 @@ const listHistorialPedidos = async () => {
       } else if (historialPedido.plataforma_importa == "Shopify") {
         canal_venta = "Shopify";
         color_canal_venta = "#79b258";
+
+        let comentario = historialPedido.comentario;
+
+        // Dividir la cadena en partes usando "número de orden: "
+        let partes = comentario.split("número de orden: ");
+
+        // Si se encontró la frase, tomar la segunda parte y limpiar espacios
+        numero_orden_shopify = partes.length > 1 ? partes[1].trim() : null;
+
+        factura = numero_orden_shopify;
       }
 
       content += `
                 <tr>
-                    <td>${historialPedido.numero_factura}</td>
+                    <td>${factura}</td>
                     <td>${historialPedido.fecha_factura}</td>
                     <td>${canal_venta}</td>
                     <td>
