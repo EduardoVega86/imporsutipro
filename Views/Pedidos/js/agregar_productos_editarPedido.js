@@ -1,7 +1,6 @@
 let dataTableNuevosPedidos;
 let dataTableNuevosPedidosIsInitialized = false;
 
-
 // Obtener el valor del id_factura desde la URL
 var url_1 = window.location.href;
 var id_factura_1 = url_1.split("/").pop();
@@ -48,7 +47,6 @@ const initDataTableNuevosPedidos = async () => {
   dataTableNuevosPedidosIsInitialized = true;
 };
 
-
 const listNuevosPedidos = () => {
   var id_producto = $("#id_productoBuscar_0").val();
   var sku = $("#sku_productoBuscar_0").val();
@@ -74,7 +72,7 @@ const listNuevosPedidos = () => {
       if (Array.isArray(nuevosPedidos)) {
         let content = ``;
         nuevosPedidos.forEach((nuevoPedido, index) => {
-          let imagen = obtenerURLImagen(nuevoPedido.image_path,SERVERURL);
+          let imagen = obtenerURLImagen(nuevoPedido.image_path, SERVERURL);
           content += `
                         <tr>
                             <td><img src="${imagen}" class="icon-button" width="50px"></td>
@@ -172,8 +170,8 @@ function enviar_cliente(id, index) {
                 text: response2.message,
               });
             } else if (response2.status == 200) {
-                console.log("entro en el 200")
-              initDataTableNuevoPedido();
+              console.log("entro en el 200");
+              initDataTableNuevosPedidos();
             }
           },
           error: function (xhr, status, error) {
