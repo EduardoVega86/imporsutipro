@@ -90,6 +90,10 @@ const listHistorialPedidos = async () => {
         color_estadoPedido = "#0d6efd";
       } else if (historialPedido.estado_pedido == 3) {
         color_estadoPedido = "red";
+      } else if (historialPedido.estado_pedido == 4) {
+        color_estadoPedido = "green";
+      } else if (historialPedido.estado_pedido == 5) {
+        color_estadoPedido = "green";
       }
 
       select_estados_pedidos = `
@@ -108,6 +112,12 @@ const listHistorialPedidos = async () => {
                         <option value="3" ${
                           historialPedido.estado_pedido == 3 ? "selected" : ""
                         }>No desea</option>
+                        <option value="4" ${
+                          historialPedido.estado_pedido == 4 ? "selected" : ""
+                        }>1ra llamada</option>
+                        <option value="5" ${
+                          historialPedido.estado_pedido == 5 ? "selected" : ""
+                        }>2da llamada</option>
                     </select>`;
 
       //tomar solo la ciudad
