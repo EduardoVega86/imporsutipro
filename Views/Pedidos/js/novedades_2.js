@@ -103,6 +103,7 @@ const listNovedades = async () => {
       }
 
       let boton_gestionar = "";
+      let boton_ver_detalle = `<div><button onclick="initDataTableNovedadesGestionadas('${novedad.guia_novedad}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>`;
       if (novedad.solucionada == 0) {
         let validar_estado = validar_estado_novedad(
           novedad.guia_novedad,
@@ -111,10 +112,12 @@ const listNovedades = async () => {
 
         if (validar_estado) {
           boton_gestionar = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${novedad.guia_novedad}')">Gestionar</button>`;
+        } else {
+          boton_gestionar = boton_ver_detalle;
         }
+      } else {
+        boton_gestionar = boton_ver_detalle;
       }
-
-      let boton_ver_detalle = `<div><button onclick="initDataTableNovedadesGestionadas('${novedad.guia_novedad}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>`;
 
       if (novedad.terminado == 0) {
         content += `
@@ -565,6 +568,7 @@ const listNovedadesGestionadas = async (guia) => {
                     <td>${novedad.fecha}</td>
                     <td>${novedad.medida}</td>
                     <td>${novedad.nombre_responsable}</td>
+                    <td>${novedad.respuesta_transportadora}</td>
                 </tr>`;
     });
 

@@ -1603,7 +1603,9 @@ class PedidosModel extends Query
         $id_bodega = $id_bodega_buscar[0]['bodega'];
         $id_plataforma = $id_bodega_buscar[0]['id_plataforma'];
 
-        $sql = "SELECT * FROM inventario_bodegas , productos WHERE bodega=$id_bodega and productos.id_plataforma =$id_plataforma and productos.id_producto=inventario_bodegas.id_producto";
+        //$sql = "SELECT * FROM inventario_bodegas , productos WHERE bodega=$id_bodega and productos.id_plataforma =$id_plataforma and productos.id_producto=inventario_bodegas.id_producto";
+        $sql = "SELECT * FROM inventario_bodegas ib INNER JOIN productos p ON ib.id_producto = p.id_producto WHERE ib.bodega = $id_bodega AND p.id_plataforma = $id_plataforma AND ib.id_producto = $producto";
+
         //echo $sql;
         return $this->select($sql);
     }
@@ -1771,7 +1773,7 @@ class PedidosModel extends Query
 
         // Agregar rango de fechas si se proporciona
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql_numero_guias .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $sql_numero_guias .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
         // Ejecutar la consulta y obtener el resultado
         $resultado_numero_guias = $this->select($sql_numero_guias);

@@ -208,10 +208,10 @@ class NovedadesModel extends Query
         return $response;
     }
 
-    public function historial($guia, $id_plataforma, $id_novedad, $medida, $id_usuario)
+    public function historial($guia, $id_plataforma, $id_novedad, $medida, $id_usuario, $data)
     {
-        $sql = "INSERT INTO `historial_novedad`(`id_responsable`, `guia`, `medida`, `id_plataforma`, `id_novedad`) VALUES (?, ?, ?, ?, ?)";
-        $data = array($id_usuario, $guia, $medida, $id_plataforma, $id_novedad);
+        $sql = "INSERT INTO `historial_novedad`(`id_responsable`, `guia`, `medida`, `id_plataforma`, `id_novedad`, `respuesta_transportadora`) VALUES (?, ?, ?, ?, ?, ?)";
+        $data = array($id_usuario, $guia, $medida, $id_plataforma, $id_novedad, $data);
         $response = $this->insert($sql, $data);
         return $response;
     }

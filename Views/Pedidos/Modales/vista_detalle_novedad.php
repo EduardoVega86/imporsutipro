@@ -83,6 +83,7 @@
                                 <th class="centered">Fecha</th>
                                 <th class="centered">Solucion</th>
                                 <th class="centered">Responsable</th>
+                                <th class="centered">Respuesta transportadora</th>
                             </tr>
                         </thead>
                         <tbody id="tableBody_novedades_gestionadas"></tbody>

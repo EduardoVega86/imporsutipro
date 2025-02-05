@@ -1,27 +1,54 @@
 let dataTableNuevosPedidos;
 let dataTableNuevosPedidosIsInitialized = false;
 
-
 // Obtener el valor del id_factura desde la URL
 var url_1 = window.location.href;
 var id_factura_1 = url_1.split("/").pop();
+const getFecha = () => {
+  let fecha = new Date();
+  let dia = fecha.getDate();
+  let mes = fecha.getMonth() + 1;
+  let anio = fecha.getFullYear();
+  let hora = fecha.getHours();
+  let minutos = fecha.getMinutes();
+  let segundos = fecha.getSeconds();
+  return `${dia}-${mes}-${anio}_${hora}-${minutos}-${segundos}`;
+};
 
 const dataTableNuevosPedidosOptions = {
-  //scrollX: "2000px",
-  /* lengthMenu: [5, 10, 15, 20, 100, 200, 500], */
-  columnDefs: [
-    { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
-    /* { orderable: false, targets: [5, 6] }, */
-    /* { searchable: false, targets: [1] } */
-    //{ width: "50%", targets: [0] }
-  ],
-  pageLength: 10,
   destroy: true,
+  responsive: true,
+  buttons: [
+    {
+      extend: "excelHtml5",
+      text: 'Excel <i class="fa-solid fa-file-excel"></i>',
+      title: "Panel de Control: Usuarios",
+      titleAttr: "Exportar a Excel",
+      exportOptions: {
+        columns: [1, 2, 3, 4, 5],
+      },
+      filename: "Productos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-excel",
+    },
+    {
+      extend: "csvHtml5",
+      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
+      title: "Panel de Control: Productos",
+      titleAttr: "Exportar a CSV",
+      exportOptions: {
+        columns: [1, 2, 3, 4, 5],
+      },
+      filename: "Productos" + "_" + getFecha(),
+      footer: true,
+      className: "btn-csv",
+    },
+  ],
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
-    zeroRecords: "Ningún pedido encontrado",
+    zeroRecords: "Ningún usuario encontrado",
     info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
-    infoEmpty: "Ningún pedido encontrado",
+    infoEmpty: "Ningún usuario encontrado",
     infoFiltered: "(filtrados desde _MAX_ registros totales)",
     search: "Buscar:",
     loadingRecords: "Cargando...",
@@ -39,6 +66,7 @@ const initDataTableNuevosPedidos = async () => {
     dataTableNuevosPedidos.destroy();
   }
 
+  // Esperar la carga de los datos antes de inicializar la tabla
   await listNuevosPedidos();
 
   dataTableNuevosPedidos = $("#datatable_nuevosPedidos").DataTable(
@@ -48,34 +76,28 @@ const initDataTableNuevosPedidos = async () => {
   dataTableNuevosPedidosIsInitialized = true;
 };
 
-
-const listNuevosPedidos = () => {
+const listNuevosPedidos = async () => {
   var id_producto = $("#id_productoBuscar_0").val();
   var sku = $("#sku_productoBuscar_0").val();
   // Crear una instancia de FormData
   let formData = new FormData();
   formData.append("sku", sku); // Añadir el SKU al FormData
+  //fetch
+  const response = await fetch(
+    `${SERVERURL}pedidos/buscarProductosBodega/${id_producto}`,
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
+  const productos = await response.json();
+  console.log(productos);
 
-  $.ajax({
-    url: SERVERURL + "pedidos/buscarProductosBodega/" + id_producto,
-    type: "POST", // Cambiar a POST para enviar FormData
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {
-      /* console.log("Respuesta del servidor:", response); */
-
-      // Verificar si la respuesta es un JSON y tiene el formato esperado
-      let nuevosPedidos = response;
-      if (typeof response === "string") {
-        nuevosPedidos = JSON.parse(response);
-      }
-
-      if (Array.isArray(nuevosPedidos)) {
-        let content = ``;
-        nuevosPedidos.forEach((nuevoPedido, index) => {
-          let imagen = obtenerURLImagen(nuevoPedido.image_path,SERVERURL);
-          content += `
+  if (productos) {
+    let content = "";
+    productos.forEach((nuevoPedido, index) => {
+      let imagen = obtenerURLImagen(nuevoPedido.image_path, SERVERURL);
+      content += `
                         <tr>
                             <td><img src="${imagen}" class="icon-button" width="50px"></td>
                             <td>${nuevoPedido.id_producto}</td>
@@ -87,17 +109,12 @@ const listNuevosPedidos = () => {
                             <button class="btn btn-sm btn-success" onclick="enviar_cliente(${nuevoPedido.id_producto}, ${index})"><i class="fa-solid fa-plus"></i></button>
                             </td>
                         </tr>`;
-        });
-        document.getElementById("tableBody_nuevosPedidos").innerHTML = content;
-      } else {
-        console.error("La respuesta no es un array:", nuevosPedidos);
-        alert("Error: La respuesta no tiene el formato esperado.");
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-    },
-  });
+    });
+    document.getElementById("tableBody_nuevosPedidos").innerHTML = content;
+  } else {
+    console.error("La respuesta no es un array:", nuevosPedidos);
+    alert("Error: La respuesta no tiene el formato esperado.");
+  }
 };
 
 function obtenerURLImagen(imagePath, serverURL) {
@@ -172,8 +189,8 @@ function enviar_cliente(id, index) {
                 text: response2.message,
               });
             } else if (response2.status == 200) {
-                console.log("entro en el 200")
-              initDataTableNuevoPedido();
+              console.log("entro en el 200");
+              initDataTableNuevosPedidos();
             }
           },
           error: function (xhr, status, error) {

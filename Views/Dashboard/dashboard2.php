@@ -18,7 +18,7 @@
                             <i class="fa fa-dollar-sign"></i>
                         </div>
                         <h3>$ <span id="total_ventas"></span></h3>
-                        <p>Total Ventas</p>
+                        <p>Total Vendido</p>
                     </div>
                     <div class="stat-box">
                         <div class="icon-container" style="background: linear-gradient(to right, #6a11cb, #2575fc);">
