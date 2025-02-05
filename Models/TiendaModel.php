@@ -536,8 +536,22 @@ class TiendaModel extends Query
 
             // Calcular el total por bodega (suma de los precios de los productos en esta bodega)
             $total_bodega = 0;
+            $costo_total_bodega = 0; // Nueva variable para almacenar el costo del producto
+
             foreach ($productos as $producto) {
                 $total_bodega += $producto['precio_tmp'] * $producto['cantidad_tmp'];
+
+                // Obtener el precio de costo (pcp) desde inventario_bodegas
+                $datos_producto = $this->select("SELECT pcp FROM inventario_bodegas WHERE id_inventario = " . $producto['id_inventario']);
+
+                if (!empty($datos_producto)) {
+                    $costo_producto = $datos_producto[0]['pcp'];
+                } else {
+                    $costo_producto = 0; // En caso de que no haya datos, evita errores
+                }
+
+                // Sumar al costo total de la bodega
+                $costo_total_bodega += $costo_producto * $producto['cantidad_tmp'];
             }
 
             if ($combo_selected == 1) {
@@ -625,7 +639,7 @@ class TiendaModel extends Query
                 0,
                 '',
                 0,
-                0,
+                $costo_total_bodega, // Agregar el costo total del producto aquí
                 0,
                 0,
                 0,
