@@ -13,7 +13,7 @@ const dataTableNuevosPedidosOptions = {
     {
       extend: "excelHtml5",
       text: 'Excel <i class="fa-solid fa-file-excel"></i>',
-      title: "Panel de Control: Productos",
+      title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
         columns: [1, 2, 3, 4, 5, 6],
