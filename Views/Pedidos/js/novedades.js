@@ -213,29 +213,29 @@ function gestionar_novedad(guia_novedad) {
 function resetModalInputs(modalId) {
   // Selecciona el modal por su ID
   const modal = document.querySelector(`#${modalId}`);
-
+  
   if (modal) {
-    // Selecciona todos los inputs y los limpia
-    const inputs = modal.querySelectorAll("input");
-    inputs.forEach((input) => {
-      input.value = "";
-    });
+      // Selecciona todos los inputs y los limpia
+      const inputs = modal.querySelectorAll('input');
+      inputs.forEach(input => {
+          input.value = '';
+      });
 
-    // Selecciona todos los select y los reinicia al valor predeterminado
-    const selects = modal.querySelectorAll("select");
-    selects.forEach((select) => {
-      select.selectedIndex = 0; // Reinicia al primer option
-    });
+      // Selecciona todos los select y los reinicia al valor predeterminado
+      const selects = modal.querySelectorAll('select');
+      selects.forEach(select => {
+          select.selectedIndex = 0; // Reinicia al primer option
+      });
 
-    // Oculta las secciones opcionales que estén configuradas con "display: none"
-    const optionalSections = modal.querySelectorAll('[style*="display"]');
-    optionalSections.forEach((section) => {
-      section.style.display = "none";
-    });
+      // Oculta las secciones opcionales que estén configuradas con "display: none"
+      const optionalSections = modal.querySelectorAll('[style*="display"]');
+      optionalSections.forEach(section => {
+          section.style.display = 'none';
+      });
 
-    console.log("Modal inputs and selects reset successfully.");
+      console.log('Modal inputs and selects reset successfully.');
   } else {
-    console.error("Modal not found!");
+      console.error('Modal not found!');
   }
 }
 
@@ -329,14 +329,23 @@ function enviar_gintraNovedad() {
       processData: false, // No procesar los datos
       contentType: false, // No establecer ningún tipo de contenido
       success: function (response) {
-        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+        response = JSON.parse(response);
+        if (response.error === true) {
+          toastr.error("" + response.message, "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
 
-        $("#gestionar_novedadModal").modal("hide");
-        button.disabled = false;
-        initDataTableNovedades();
-        initDataTableNovedadesGestionadas();
+          button.disabled = false;
+        } else if (response.error === false) {
+          toastr.success("" + response.message, "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+
+          $("#gestionar_novedadModal").modal("hide");
+          button.disabled = false;
+          initDataTableNovedades();
+          initDataTableNovedadesGestionadas();
+        }
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(errorThrown);
@@ -390,14 +399,23 @@ function enviar_serviNovedad() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-        positionClass: "toast-bottom-center",
-      });
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
 
-      $("#gestionar_novedadModal").modal("hide");
-      button.disabled = false;
-      initDataTableNovedades();
-      initDataTableNovedadesGestionadas();
+        button.disabled = false;
+      } else if (response.status == 200) {
+        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#gestionar_novedadModal").modal("hide");
+        button.disabled = false;
+        initDataTableNovedades();
+        initDataTableNovedadesGestionadas();
+      }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
@@ -446,14 +464,29 @@ function enviar_laarNovedad() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-        positionClass: "toast-bottom-center",
-      });
+      response = JSON.parse(response);
+      if (response.status == 500) {
+        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
 
-      $("#gestionar_novedadModal").modal("hide");
-      button.disabled = false;
-      initDataTableNovedades();
-      initDataTableNovedadesGestionadas();
+        button.disabled = false;
+      } else if (response.status == 200) {
+        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        $("#gestionar_novedadModal").modal("hide");
+        button.disabled = false;
+        initDataTableNovedades();
+        initDataTableNovedadesGestionadas();
+      } else if (response.status == 400) {
+        toastr.error(response.message, "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        button.disabled = false;
+      }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
