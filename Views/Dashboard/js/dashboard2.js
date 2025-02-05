@@ -35,18 +35,21 @@ $(function () {
 
   // Evento que se dispara cuando se aplica un nuevo rango de fechas
   $("#daterange").on("apply.daterangepicker", function (ev, picker) {
-    // Actualiza el valor del input con el rango de fechas seleccionado
+    // Actualiza el valor del input (si lo deseas mantener en formato "YYYY-MM-DD - YYYY-MM-DD")
     $(this).val(
       picker.startDate.format("YYYY-MM-DD") +
         " - " +
         picker.endDate.format("YYYY-MM-DD")
     );
-
+  
+    // Se envían al servidor: la fecha de inicio sin cambios y la fecha final extendida para incluir todo el día.
     fecha_inicio = picker.startDate.format("YYYY-MM-DD");
-    fecha_fin = picker.endDate.format("YYYY-MM-DD");
+    // Aquí se añade " 23:59:59" para que el rango incluya todo el último día.
+    fecha_fin = picker.endDate.format("YYYY-MM-DD") + " 23:59:59";
+  
     informacion_dashboard(fecha_inicio, fecha_fin);
   });
-
+  
   // Variables globales para almacenar las referencias a los gráficos
   let salesChart;
   let pastelChart;
