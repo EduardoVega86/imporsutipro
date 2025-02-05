@@ -18,7 +18,6 @@ const getFecha = () => {
 const dataTableNuevosPedidosOptions = {
   destroy: true,
   responsive: true,
-  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
   buttons: [
     {
       extend: "excelHtml5",
