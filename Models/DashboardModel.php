@@ -22,9 +22,10 @@ class DashboardModel extends Query
                 ";
         $response = $this->select($sql);
 
-        $sql = "SELECT COUNT(*) AS total_guias
+        $sql = "SELECT COUNT(DISTINCT fc.id_factura) AS total_guias
                 FROM facturas_cot fc
                 LEFT JOIN bodega b ON b.id = fc.id_bodega
+                LEFT JOIN novedades n ON n.guia_novedad = fc.numero_guia
                 WHERE TRIM(fc.numero_guia) <> ''
                 AND fc.numero_guia IS NOT NULL
                 AND fc.numero_guia <> '0'
