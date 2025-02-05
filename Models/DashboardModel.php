@@ -57,6 +57,7 @@ class DashboardModel extends Query
         $response4 = $this->select($sql);
 
 
+
         //Ventas del ultimo mes
 
         $sql = "
