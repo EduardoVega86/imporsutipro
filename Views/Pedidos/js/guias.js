@@ -2,7 +2,6 @@ let dataTable;
 let dataTableIsInitialized = false;
 
 const dataTableOptions = {
-  
   columnDefs: [
     {
       className: "centered",
@@ -186,11 +185,11 @@ const listGuias = async () => {
 
       novedad = "";
       if (guia.estado_guia_sistema == 14 && transporte == 1) {
-        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad()">Gestionar novedad</button>`;
       } else if (guia.estado_guia_sistema == 6 && transporte == 3) {
-        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad()">Gestionar novedad</button>`;
       } else if (guia.estado_guia_sistema == 14 && transporte == 4) {
-        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad()">Gestionar novedad</button>`;
       }
 
       if (
@@ -212,7 +211,7 @@ const listGuias = async () => {
         transporte == 2 &&
         guia.solucionada == 0
       ) {
-        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad()">Gestionar novedad</button>`;
       } else if (
         guia.estado_guia_sistema >= 318 &&
         guia.estado_guia_sistema <= 351 &&
@@ -825,75 +824,8 @@ function anular_guiaGintracom(numero_guia) {
 
 //fin anular guia
 //modal novedades
-function gestionar_novedad(guia_novedad) {
-  resetModalInputs("gestionar_novedadModal");
-  let transportadora = "";
-  $.ajax({
-    url: SERVERURL + "novedades/datos/" + guia_novedad,
-    type: "GET",
-    dataType: "json",
-    success: function (response) {
-      if (
-        response.novedad[0].guia_novedad.includes("IMP") ||
-        response.novedad[0].guia_novedad.includes("MKP")
-      ) {
-        transportadora = "LAAR";
-        $("#seccion_laar").show();
-        $("#seccion_servientrega").hide();
-        $("#seccion_gintracom").hide();
-        $("#seccion_speed").hide();
-
-        $("#nombre_novedadesServi").val(response.factura[0].nombre);
-        $("#ciudad_novedadesServi").val(response.factura[0].ciudad);
-        $("#callePrincipal_novedadesServi").val(
-          response.factura[0].c_principal
-        );
-        $("#calleSecundaria_novedadesServi").val(
-          response.factura[0].c_secundaria
-        );
-
-        $("#referencia_novedadesServi").val(response.factura[0].referencia);
-        $("#telefono_novedadesServi").val(response.factura[0].telefono);
-        $("#celular_novedadesServi").val(response.factura[0].telefono);
-
-        hiden_laar();
-      } else if (response.novedad[0].guia_novedad.includes("I")) {
-        transportadora = "GINTRACOM";
-        $("#seccion_laar").hide();
-        $("#seccion_servientrega").hide();
-        $("#seccion_gintracom").show();
-        $("#seccion_speed").hide();
-      } else if (response.novedad[0].guia_novedad.includes("SPD")) {
-        transportadora = "SPEED";
-        $("#seccion_laar").hide();
-        $("#seccion_servientrega").hide();
-        $("#seccion_gintracom").hide();
-        $("#seccion_speed").show();
-      } else {
-        transportadora = "SERVIENTREGA";
-        $("#seccion_laar").hide();
-        $("#seccion_servientrega").show();
-        $("#seccion_gintracom").hide();
-        $("#seccion_speed").hide();
-      }
-
-      $("#id_gestionarNov").text(response.novedad[0].id_novedad);
-      $("#cliente_gestionarNov").text(response.novedad[0].cliente_novedad);
-      $("#estado_gestionarNov").text(response.novedad[0].estado_novedad);
-      $("#transportadora_gestionarNov").text(transportadora);
-      $("#novedad_gestionarNov").text(response.novedad[0].novedad);
-      $("#tracking_gestionarNov").attr("href", response.novedad[0].tracking);
-
-      $("#id_novedad").val(response.novedad[0].id_novedad);
-      $("#numero_guia").val(response.novedad[0].guia_novedad);
-      $("#id_factura_novedad").val(response.factura[0].id_factura);
-
-      $("#gestionar_novedadModal").modal("show");
-    },
-    error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
-    },
-  });
+function gestionar_novedad() {
+  window.location.href = '<?php echo SERVERURL; ?>Pedidos/novedades_2';
 }
 
 function resetModalInputs(modalId) {
@@ -975,81 +907,6 @@ $(document).ready(function () {
   });
 });
 
-function enviar_gintraNovedad() {
-  var button = document.getElementById("boton_gintra");
-  button.disabled = true; // Desactivar el botón
-
-  var guia = $("#numero_guia").val();
-  var observacion = $("#Solucion_novedad").val();
-  var id_novedad = $("#id_novedad").val();
-  var tipo = $("#tipo_gintracom").val();
-  var estado_novedad = $("#estado_gestionarNov").text();
-  var recaudo = "";
-  var fecha = "";
-
-  if (tipo == "recaudo") {
-    recaudo = $("#Valor_recaudar").val();
-  }
-  if (tipo !== "rechazar") {
-    fecha = $("#datepicker").val();
-  }
-
-  let formData = new FormData();
-  formData.append("guia", guia);
-  formData.append("observacion", observacion);
-  formData.append("id_novedad", id_novedad);
-  formData.append("tipo", tipo);
-  formData.append("recaudo", recaudo);
-  formData.append("fecha", fecha);
-
-  let validador = true;
-  if (estado_novedad == 26) {
-    validador = validados_numero(observacion);
-  }
-
-  if (validador) {
-    $.ajax({
-      url: SERVERURL + "novedades/solventarNovedadGintracom",
-      type: "POST",
-      data: formData,
-      processData: false, // No procesar los datos
-      contentType: false, // No establecer ningún tipo de contenido
-      success: function (response) {
-        response = JSON.parse(response);
-        if (response.error === true) {
-          toastr.error("" + response.message, "NOTIFICACIÓN", {
-            positionClass: "toast-bottom-center",
-          });
-
-          button.disabled = false;
-        } else if (response.error === false) {
-          toastr.success("" + response.message, "NOTIFICACIÓN", {
-            positionClass: "toast-bottom-center",
-          });
-
-          $("#gestionar_novedadModal").modal("hide");
-          button.disabled = false;
-          initDataTableNovedades();
-        }
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        alert(errorThrown);
-        button.disabled = false;
-      },
-    });
-  } else {
-    toastr.error(
-      "Necesitas registrar un numero de telefono en la novedad",
-      "NOTIFICACIÓN",
-      {
-        positionClass: "toast-bottom-center",
-      }
-    );
-
-    button.disabled = false;
-  }
-}
-
 function validados_numero(observacion) {
   // Definir una expresión regular para encontrar números de teléfono
   // Este ejemplo considera números con formato de 10 dígitos, con o sin separadores.
@@ -1062,154 +919,4 @@ function validados_numero(observacion) {
   } else {
     return false;
   }
-}
-
-function enviar_serviNovedad() {
-  var button = document.getElementById("boton_servi");
-  button.disabled = true; // Desactivar el botón
-
-  var guia = $("#numero_guia").val();
-  var observacion = $("#observacion_nov").val();
-  var id_novedad = $("#id_novedad").val();
-
-  let formData = new FormData();
-  formData.append("guia", guia);
-  formData.append("observacion", observacion);
-  formData.append("id_novedad", id_novedad);
-
-  $.ajax({
-    url: SERVERURL + "novedades/solventarNovedadServientrega",
-    type: "POST",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {
-      response = JSON.parse(response);
-      if (response.status == 500) {
-        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        button.disabled = false;
-      } else if (response.status == 200) {
-        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        $("#gestionar_novedadModal").modal("hide");
-        button.disabled = false;
-        initDataTableNovedades();
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-      button.disabled = false;
-    },
-  });
-}
-
-function enviar_speedUsuariosNovedad() {
-  var button = document.getElementById("boton_speed");
-  button.disabled = true; // Desactivar el botón
-
-  var observacion = $("#observacion_usuario_speed").val();
-  var id_novedad = $("#id_novedad").val();
-
-  let formData = new FormData();
-  formData.append("observacion", observacion);
-  formData.append("id_novedad", id_novedad);
-
-  $.ajax({
-    url: SERVERURL + "speed/solventarNovedad",
-    type: "POST",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {
-      response = JSON.parse(response);
-      if (response.status == 500) {
-        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        button.disabled = false;
-      } else if (response.status == 200) {
-        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        $("#gestionar_novedadModal").modal("hide");
-        button.disabled = false;
-        initDataTable();
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-      button.disabled = false;
-    },
-  });
-}
-
-function enviar_laarNovedad() {
-  var button = document.getElementById("boton_laar");
-  button.disabled = true; // Desactivar el botón
-
-  var guia = $("#numero_guia").val();
-  var id_novedad = $("#id_novedad").val();
-  var ciudad = $("#ciudad_novedadesServi").val();
-  var nombre_novedadesServi = $("#nombre_novedadesServi").val();
-  var callePrincipal_novedadesServi = $("#callePrincipal_novedadesServi").val();
-  var calleSecundaria_novedadesServi = $(
-    "#calleSecundaria_novedadesServi"
-  ).val();
-  var numeracion_novedadesServi = $("#numeracion_novedadesServi").val();
-  var referencia_novedadesServi = $("#referencia_novedadesServi").val();
-  var telefono_novedadesServi = $("#telefono_novedadesServi").val();
-  var celular_novedadesServi = $("#celular_novedadesServi").val();
-  var observacion_novedadesServi = $("#observacion_novedadesServi").val();
-  var observacionA = $("#observacionA").val();
-
-  let formData = new FormData();
-  formData.append("guia", guia);
-  formData.append("observacionA", observacionA);
-  formData.append("id_novedad", id_novedad);
-  formData.append("ciudad", ciudad);
-  formData.append("nombre", nombre_novedadesServi);
-  formData.append("callePrincipal", callePrincipal_novedadesServi);
-  formData.append("calleSecundaria", calleSecundaria_novedadesServi);
-  formData.append("numeracion", numeracion_novedadesServi);
-  formData.append("referencia", referencia_novedadesServi);
-  formData.append("telefono", telefono_novedadesServi);
-  formData.append("celular", celular_novedadesServi);
-  formData.append("observacion", observacion_novedadesServi);
-
-  $.ajax({
-    url: SERVERURL + "novedades/solventarNovedadLaar",
-    type: "POST",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {
-      response = JSON.parse(response);
-      if (response.status == 500) {
-        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        button.disabled = false;
-      } else if (response.status == 200) {
-        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        $("#gestionar_novedadModal").modal("hide");
-        button.disabled = false;
-        initDataTableNovedades();
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-      button.disabled = false;
-    },
-  });
 }

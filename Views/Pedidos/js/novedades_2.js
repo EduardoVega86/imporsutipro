@@ -114,6 +114,8 @@ const listNovedades = async () => {
         }
       }
 
+      let boton_ver_detalle = `<div><button onclick="initDataTableNovedadesGestionadas('${novedad.guia_novedad}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>`;
+
       if (novedad.terminado == 0) {
         content += `
                 <tr>
@@ -122,7 +124,6 @@ const listNovedades = async () => {
                      <div>
                       ${novedad.guia_novedad}
                      </div>
-                     <div><button onclick="initDataTableNovedadesGestionadas('${novedad.guia_novedad}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
                     </td>
                     <td>${novedad.fecha}</td>
                     <td>${transportadora}</td>
