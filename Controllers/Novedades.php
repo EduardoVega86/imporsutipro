@@ -42,7 +42,7 @@ class Novedades extends Controller
 
         $data = $this->model->solventarNovedadLaar($guia, $ciudad, $nombre, $cedula, $callePrincipal, $calleSecundaria, $numeracion, $referencia, $telefono, $celular, $observacion, $correo, $isDevolucion, $nombreA, $observacionA, $id_novedad);
 
-        $this->historial($guia, $_SESSION['id_plataforma'], $id_novedad, $observacionA, $_SESSION['id']);
+        $this->historial($guia, $_SESSION['id_plataforma'], $id_novedad, $observacionA, $_SESSION['id'], $data);
         echo json_encode($data);
     }
 
