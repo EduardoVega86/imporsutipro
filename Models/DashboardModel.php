@@ -54,6 +54,7 @@ class DashboardModel extends Query
                 AND fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
                 AND id_plataforma = '$id_plataforma'";
 
+        $response4 = $this->select($sql);
 
 
         //Ventas del ultimo mes
