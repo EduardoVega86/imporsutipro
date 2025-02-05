@@ -825,7 +825,7 @@ function anular_guiaGintracom(numero_guia) {
 //fin anular guia
 //modal novedades
 function gestionar_novedad() {
-  window.location.href = '<?php echo SERVERURL; ?>Pedidos/novedades_2';
+  window.location.href = SERVERURL+'Pedidos/novedades_2';
 }
 
 function resetModalInputs(modalId) {
