@@ -38,6 +38,7 @@ const initDataTableNuevosPedidos = async () => {
     dataTableNuevosPedidos.destroy();
   }
 
+  // Esperar la carga de los datos antes de inicializar la tabla
   await listNuevosPedidos();
 
   dataTableNuevosPedidos = $("#datatable_nuevosPedidos").DataTable(
@@ -47,7 +48,7 @@ const initDataTableNuevosPedidos = async () => {
   dataTableNuevosPedidosIsInitialized = true;
 };
 
-const listNuevosPedidos = () => {
+const listNuevosPedidos = async () => {
   var id_producto = $("#id_productoBuscar_0").val();
   var sku = $("#sku_productoBuscar_0").val();
   // Crear una instancia de FormData
