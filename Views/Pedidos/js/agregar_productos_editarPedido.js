@@ -26,7 +26,7 @@ const dataTableNuevosPedidosOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        columns: [1, 2, 3, 4, 5],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
@@ -38,7 +38,7 @@ const dataTableNuevosPedidosOptions = {
       title: "Panel de Control: Productos",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8],
+        columns: [1, 2, 3, 4, 5],
       },
       filename: "Productos" + "_" + getFecha(),
       footer: true,
@@ -95,6 +95,7 @@ const listNuevosPedidos = async () => {
 
       // Verificar si la respuesta es un JSON y tiene el formato esperado
       let nuevosPedidos = response;
+      console.log(nuevosPedidos);
       if (typeof response === "string") {
         nuevosPedidos = JSON.parse(response);
       }
