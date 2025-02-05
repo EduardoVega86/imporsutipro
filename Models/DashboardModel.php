@@ -57,8 +57,7 @@ class DashboardModel extends Query
         //Total Recaudo
         $sql_wallet = "SELECT ROUND(saldo,2) as recaudo 
                FROM billeteras 
-               WHERE id_plataforma = '$id_plataforma'
-               AND fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'";
+               WHERE id_plataforma = '$id_plataforma'";
         $response_wallet = $this->select($sql_wallet);
         $recaudo = $response_wallet[0]['recaudo'] ?? 0;
 
