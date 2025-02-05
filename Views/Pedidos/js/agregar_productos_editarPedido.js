@@ -95,6 +95,7 @@ const listNuevosPedidos = async () => {
   console.log(productos);
 
   if (productos) {
+    let content = "";
     productos.forEach((nuevoPedido, index) => {
       let imagen = obtenerURLImagen(nuevoPedido.image_path, SERVERURL);
       content += `
