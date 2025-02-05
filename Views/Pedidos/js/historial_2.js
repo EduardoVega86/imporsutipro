@@ -90,6 +90,10 @@ const listHistorialPedidos = async () => {
         color_estadoPedido = "#0d6efd";
       } else if (historialPedido.estado_pedido == 3) {
         color_estadoPedido = "red";
+      } else if (historialPedido.estado_pedido == 4) {
+        color_estadoPedido = "green";
+      } else if (historialPedido.estado_pedido == 5) {
+        color_estadoPedido = "green";
       }
 
       select_estados_pedidos = `
