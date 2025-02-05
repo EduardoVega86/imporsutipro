@@ -94,28 +94,10 @@ const listNuevosPedidos = async () => {
   const productos = await response.json();
   console.log(productos);
 
-  //
-  $.ajax({
-    url: SERVERURL + "pedidos/buscarProductosBodega/" + id_producto,
-    type: "POST", // Cambiar a POST para enviar FormData
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    success: function (response) {
-      /* console.log("Respuesta del servidor:", response); */
-
-      // Verificar si la respuesta es un JSON y tiene el formato esperado
-      let nuevosPedidos = response;
-      console.log(nuevosPedidos);
-      if (typeof response === "string") {
-        nuevosPedidos = JSON.parse(response);
-      }
-      console.log(nuevosPedidos);
-      if (Array.isArray(nuevosPedidos)) {
-        let content = ``;
-        nuevosPedidos.forEach((nuevoPedido, index) => {
-          let imagen = obtenerURLImagen(nuevoPedido.image_path, SERVERURL);
-          content += `
+  if (productos) {
+    productos.forEach((nuevoPedido, index) => {
+      let imagen = obtenerURLImagen(nuevoPedido.image_path, SERVERURL);
+      content += `
                         <tr>
                             <td><img src="${imagen}" class="icon-button" width="50px"></td>
                             <td>${nuevoPedido.id_producto}</td>
@@ -127,17 +109,12 @@ const listNuevosPedidos = async () => {
                             <button class="btn btn-sm btn-success" onclick="enviar_cliente(${nuevoPedido.id_producto}, ${index})"><i class="fa-solid fa-plus"></i></button>
                             </td>
                         </tr>`;
-        });
-        document.getElementById("tableBody_nuevosPedidos").innerHTML = content;
-      } else {
-        console.error("La respuesta no es un array:", nuevosPedidos);
-        alert("Error: La respuesta no tiene el formato esperado.");
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-    },
-  });
+    });
+    document.getElementById("tableBody_nuevosPedidos").innerHTML = content;
+  } else {
+    console.error("La respuesta no es un array:", nuevosPedidos);
+    alert("Error: La respuesta no tiene el formato esperado.");
+  }
 };
 
 function obtenerURLImagen(imagePath, serverURL) {
