@@ -22,16 +22,15 @@ class DashboardModel extends Query
                 ";
         $response = $this->select($sql);
 
-        $sql = "SELECT COUNT(*) as total_guias 
+        $sql = "SELECT COUNT(*) AS total_guias
                 FROM facturas_cot fc
                 LEFT JOIN bodega b ON b.id = fc.id_bodega
-                WHERE TRIM(fc.numero_guia) <> '' 
-                AND fc.numero_guia IS NOT NULL 
-                AND fc.numero_guia <> '0' 
-                AND fc.anulada = 0 
-                AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f' 
+                WHERE TRIM(fc.numero_guia) <> ''
+                AND fc.numero_guia IS NOT NULL
+                AND fc.numero_guia <> '0'
+                AND fc.anulada = 0
                 AND (fc.id_plataforma = '$id_plataforma' OR fc.id_propietario = '$id_plataforma' OR b.id_plataforma = '$id_plataforma')
-                ";
+                AND fc.fecha_guia BETWEEN '$fecha_i' AND '$fecha_f'";
 
         $response2 = $this->select($sql);
 
