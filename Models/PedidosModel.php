@@ -1773,7 +1773,7 @@ class PedidosModel extends Query
 
         // Agregar rango de fechas si se proporciona
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql_numero_guias .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $sql_numero_guias .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
         // Ejecutar la consulta y obtener el resultado
         $resultado_numero_guias = $this->select($sql_numero_guias);
