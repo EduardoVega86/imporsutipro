@@ -364,23 +364,14 @@ function enviar_gintraNovedad() {
       processData: false, // No procesar los datos
       contentType: false, // No establecer ningún tipo de contenido
       success: function (response) {
-        response = JSON.parse(response);
-        if (response.error === true) {
-          toastr.error("" + response.message, "NOTIFICACIÓN", {
-            positionClass: "toast-bottom-center",
-          });
+        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
 
-          button.disabled = false;
-        } else if (response.error === false) {
-          toastr.success("" + response.message, "NOTIFICACIÓN", {
-            positionClass: "toast-bottom-center",
-          });
-
-          $("#gestionar_novedadModal").modal("hide");
-          button.disabled = false;
-          initDataTableNovedades();
-          /* initDataTableNovedadesGestionadas(); */
-        }
+        $("#gestionar_novedadModal").modal("hide");
+        button.disabled = false;
+        initDataTableNovedades();
+        /* initDataTableNovedadesGestionadas(); */
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(errorThrown);
@@ -434,23 +425,14 @@ function enviar_serviNovedad() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      response = JSON.parse(response);
-      if (response.status == 500) {
-        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+      toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
 
-        button.disabled = false;
-      } else if (response.status == 200) {
-        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        $("#gestionar_novedadModal").modal("hide");
-        button.disabled = false;
-        initDataTableNovedades();
-        /* initDataTableNovedadesGestionadas(); */
-      }
+      $("#gestionar_novedadModal").modal("hide");
+      button.disabled = false;
+      initDataTableNovedades();
+      /* initDataTableNovedadesGestionadas(); */
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
@@ -499,29 +481,14 @@ function enviar_laarNovedad() {
     processData: false, // No procesar los datos
     contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
-      response = JSON.parse(response);
-      if (response.status == 500) {
-        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+      toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
 
-        button.disabled = false;
-      } else if (response.status == 200) {
-        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        $("#gestionar_novedadModal").modal("hide");
-        button.disabled = false;
-        initDataTableNovedades();
-        /* initDataTableNovedadesGestionadas(); */
-      } else if (response.status == 400) {
-        toastr.error(response.message, "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        button.disabled = false;
-      }
+      $("#gestionar_novedadModal").modal("hide");
+      button.disabled = false;
+      initDataTableNovedades();
+      /* initDataTableNovedadesGestionadas(); */
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert(errorThrown);
