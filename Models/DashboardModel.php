@@ -54,6 +54,13 @@ class DashboardModel extends Query
 
         $response4 = $this->select($sql);
 
+        //Total Recaudo
+        $sql_wallet = "SELECT ROUND(saldo,2) as recaudo 
+               FROM billeteras 
+               WHERE id_plataforma = '$id_plataforma'
+               AND fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'";
+        $response_wallet = $this->select($sql_wallet);
+        $recaudo = $response_wallet[0]['recaudo'] ?? 0;
 
 
         //Ventas del ultimo mes
@@ -164,7 +171,7 @@ class DashboardModel extends Query
         $datos = [
             'ventas' => $ventas,
             'envios' => $envios,
-            'ganancias' => $ganancias,
+            'ganancias' => $recaudo,
             'total_guias' => $total_guias,
             'devoluciones' => $devoluciones,
             'pedidos' => $pedidos,
