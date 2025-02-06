@@ -75,7 +75,7 @@ $(function () {
   
   // Variables globales para almacenar las referencias a los gráficos
   let salesChart;
-  let pastelChart;
+  let distributionChart;
 
   function informacion_dashboard(fecha_inicio, fecha_fin) {
     let formData = new FormData();
