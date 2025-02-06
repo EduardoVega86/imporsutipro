@@ -8,7 +8,7 @@ class DashboardModel extends Query
 
     public function filtroInicial($fecha_i, $fecha_f, $plataforma, $id_plataforma)
     {
-        // Total Vendido (Utilizamos estado_guia IN (7, 9) para obtener el histórico de ganancias)
+        // Total Vendido y ganancias historicas para obtener el histórico de ganancias)
         $sql = "SELECT 
                     ROUND(SUM(total_venta),2) as ventas, 
                     ROUND(SUM(monto_recibir),2) as ganancias, 
@@ -16,7 +16,6 @@ class DashboardModel extends Query
                 FROM cabecera_cuenta_pagar 
                 WHERE id_plataforma = '$id_plataforma' 
                 AND visto = 1
-                -- AND estado_guia IN (7, 9)
                 AND fecha BETWEEN '$fecha_i' AND '$fecha_f'";
 
         $response = $this->select($sql);
