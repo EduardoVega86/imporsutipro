@@ -7,6 +7,13 @@
 <div class="custom-container-fluid">
     <?php if ($_SESSION['cargo'] != 5) { ?>
         <div class="banner_estadisticas">
+            <div class="flex-fill" style="padding: 10px;">
+                <h6>Seleccione el rango de fechas:</h6>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="daterange">
+                    <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                </div>
+            </div>
             <div class="container mt-4">
                 <div class="row mb-4">
                     <!-- Card: Total Vendido -->
@@ -71,13 +78,6 @@
                             <h3 class="font-weight-bold" id="devoluciones">0</h3>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="flex-fill" style="padding: 10px;">
-                <h6>Seleccione el rango de fechas:</h6>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="daterange">
-                    <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                 </div>
             </div>
             <div class="slider-container">
