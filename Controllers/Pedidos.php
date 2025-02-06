@@ -568,6 +568,13 @@ class Pedidos extends Controller
         $data = $this->model->cargar_cards_pedidos($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin);
         echo json_encode($data);
     }
+    public function cargar_cards_pedidos_mes($id_plataforma = null)
+    {
+        $fecha_inicio = $_POST['fecha_inicio'] != "" ? $_POST['fecha_inicio'] : date('Y-m-01');
+        $fecha_fin = $_POST['fecha_fin']  != "" ? $_POST['fecha_fin'] : date('Y-m-t', strtotime($fecha_inicio));
+        $data = $this->model->cargar_cards_pedidos($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin);
+        echo json_encode($data);
+    }
 
     public function eliminarPedido($id_factura)
     {

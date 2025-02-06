@@ -8,6 +8,7 @@ class Usuarios extends Controller
         parent::__construct();
         if (!$this->isAuth()) {
             header("Location:  " . SERVERURL . "login");
+            exit();
         }
     }
 
@@ -50,11 +51,47 @@ class Usuarios extends Controller
         $this->views->render($this, "checkout");
     }
 
+    public function passwords()
+    {
+        $this->views->render($this, "passwords");
+    }
+
     public function actualizacionMasiva_tiendas()
     {
         $this->views->render($this, "actualizacionMasiva_tiendas");
     }
 
+    public function passwords_list()
+    {
+        if ($_SESSION['cargo'] != '10') {
+            $response = [
+                'status' => 501,
+                'title' => 'Error',
+                'message' => 'No tienes permisos para realizar esta acción'
+            ];
+            echo json_encode($response);
+            return;
+        }
+        $data = $this->model->cargarUsuariosList();
+        $datos['data'] = $data;
+        echo json_encode($datos);
+    }
+
+    public function default_password()
+    {
+        $id_usuario = $_POST['id_usuario'];
+        $response = $this->model->default_password($id_usuario);
+        echo json_encode($response);
+    }
+
+    public function normal_password()
+    {
+        $id_usuario = $_POST['id_usuario'];
+        $password = $_POST['password'];
+
+        $response = $this->model->normal_password($id_usuario, $password);
+        echo json_encode($response);
+    }
 
 
 

@@ -30,7 +30,7 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #007bff;">
                             <h5 class="text-primary">
-                                <i class="bx bx-cart"></i> Numero de Pedidos
+                                <i class="bx bx-cart"></i> Total de Pedidos
                                 <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de pedidos"></i>
                             </h5>
                             <h3 class="font-weight-bold" id="total_pedidos">0</h3>
@@ -40,7 +40,7 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
                             <h5 class="text-warning">
-                                <i class="bx bx-package"></i> Guias Confirmadas
+                                <i class="bx bx-package"></i> Total Guías
                                 <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de guías generadas"></i>
                             </h5>
                             <h3 class="font-weight-bold" id="total_guias">0</h3>

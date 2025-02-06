@@ -2042,4 +2042,88 @@ ON
 
         return $template;
     }
+
+    public function cargarUsuariosList()
+    {
+        $sql = "
+            SELECT 
+                u.id_users,
+                u.nombre_users,
+                u.email_users,
+                p.nombre_tienda,
+                u.date_added,
+                p.whatsapp
+            FROM
+                users u
+            LEFT JOIN usuario_plataforma up ON
+                u.id_users = up.id_usuario
+            LEFT JOIN plataformas p ON
+                up.id_plataforma = p.id_plataforma
+        ";
+
+        $usuarios = $this->select($sql);
+
+        foreach ($usuarios as $key => $usuario) {
+            //si detecta el campo whatsapp vacio, lo cambia por sin asignar
+            $usuarios[$key]['whatsapp']  = trim($usuario['whatsapp']);
+            if ($usuario['whatsapp'] == "" || $usuario['whatsapp'] == null) {
+                $usuarios[$key]['whatsapp'] = 'Sin asignar';
+            }
+            //si detecta letras que no sean + o numeros, lo cambia por sin asignar
+            if (!preg_match('/^[0-9+]+$/', $usuario['whatsapp'])) {
+                $usuarios[$key]['whatsapp'] = 'Sin asignar';
+            }
+
+            //trim a los campos
+            $usuarios[$key]['nombre_users'] = trim($usuario['nombre_users']);
+            $usuarios[$key]['email_users'] = trim($usuario['email_users']);
+            $usuarios[$key]['nombre_tienda'] = $usuario['nombre_tienda'] == null ? 'Sin asignar' : $usuario['nombre_tienda'];
+            $usuarios[$key]['acciones'] = '
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalEditarUsuario" onclick="editarUsuario(' . $usuario['id_users'] . ')">
+                  <span>Cambiar contraseña</span> <i class="fas fa-edit"></i>
+                </button>';
+        }
+
+        return $usuarios;
+    }
+
+    public function default_password($id_usuario)
+    {
+        $response = $this->initialResponse();
+        $contrasena = password_hash('import.1', PASSWORD_DEFAULT);
+        $sql = "UPDATE users SET con_users = ? WHERE id_users = ?";
+        $data = [$contrasena, $id_usuario];
+        $editar_usuario = $this->update($sql, $data);
+        if ($editar_usuario == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Contraseña cambiada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al cambiar la contraseña';
+        }
+
+        return $response;
+    }
+
+    public function normal_password($id_usuario, $contrasena)
+    {
+        $response = $this->initialResponse();
+        $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+        $sql = "UPDATE users SET con_users = ? WHERE id_users = ?";
+        $data = [$contrasena, $id_usuario];
+        $editar_usuario = $this->update($sql, $data);
+        if ($editar_usuario == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Contraseña cambiada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al cambiar la contraseña';
+        }
+
+        return $response;
+    }
 }

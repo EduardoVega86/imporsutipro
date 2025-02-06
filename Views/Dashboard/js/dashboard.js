@@ -33,24 +33,30 @@ $(function () {
     autoUpdateInput: false,
   });
 
-  // Evento que se dispara cuando se aplica un nuevo rango de fechas
+  // Cuando se selecciona un rango de fechas
   $("#daterange").on("apply.daterangepicker", function (ev, picker) {
-    // Actualiza el valor del input (si lo deseas mantener en formato "YYYY-MM-DD - YYYY-MM-DD")
+    // Actualiza el input con el rango seleccionado
     $(this).val(
       picker.startDate.format("YYYY-MM-DD") +
-        " - " +
-        picker.endDate.format("YYYY-MM-DD")
+      " - " +
+      picker.endDate.format("YYYY-MM-DD")
     );
   
-    // Se envían al servidor: la fecha de inicio sin cambios y la fecha final extendida para incluir todo el día.
+    // Asignamos las fechas seleccionadas
     fecha_inicio = picker.startDate.format("YYYY-MM-DD");
-    // Aquí se añade " 23:59:59" para que el rango incluya todo el último día.
     fecha_fin = picker.endDate.format("YYYY-MM-DD") + " 23:59:59";
 
-    //Actualizamos las cards
-    actualizarCardsPedidos(fecha_inicio, fecha_fin);
-  
+    // Llamamos a ambas funciones con el rango seleccionado
     informacion_dashboard(fecha_inicio, fecha_fin);
+    actualizarCardsPedidos(fecha_inicio, fecha_fin);
+  });
+
+  // Al cargar la página, obtenemos las fechas por defecto (mes actual)
+  $(document).ready(function () {
+    // Para el dashboard usamos el comportamiento actual (si no se pasa nada, se cargan todos)
+    informacion_dashboard("", "");
+    // Pero para las cards, forzamos el uso de las fechas por defecto
+    actualizarCardsPedidos("", "");
   });
   
   // Variables globales para almacenar las referencias a los gráficos
@@ -443,7 +449,7 @@ $(function () {
 
   $(document).ready(function () {
     informacion_dashboard("", "");
-    actualizarCardsPedidos();
+    actualizarCardsPedidos("","");
   });
 
   // Función para calcular el porcentaje (opcional según el formato de tus datos)
@@ -629,25 +635,37 @@ $(function () {
       .appendChild(productElement);
   }
 
-  function actualizarCardsPedidos(fecha_inicio = "", fecha_fin = "") {
+  function actualizarCardsPedidos(fecha_inicio, fecha_fin) {
     let formData = new FormData();
+    // Usamos los mismos nombres de campo que el endpoint espera
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
     
     $.ajax({
-      url: SERVERURL + "Pedidos/cargar_cards_pedidos",
+      url: SERVERURL + "Pedidos/cargar_cards_pedidos_mes",
       type: "POST",
       data: formData,
       processData: false,
       contentType: false,
+      dataType: "json", // Si tu backend ya devuelve JSON, esto ayuda
       success: function(response) {
-        // Convertimos la respuesta JSON (si no lo hace automáticamente)
+        // En caso de que no se parseé automáticamente, lo hacemos:
         let data = typeof response === "object" ? response : JSON.parse(response);
-        
-        $("#total_ventas").text(data.valor_pedidos);
-        $("#total_pedidos").text(data.total_pedidos);
-        $("#total_guias").text(data.total_guias);
-
+  
+        // Actualizamos los elementos correspondientes con una lógica similar al "if"
+        $("#total_ventas").text(
+          data.valor_pedidos
+            ? `$${parseFloat(data.valor_pedidos).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+            : '$0.00'
+        );
+        $("#total_pedidos").text(data.total_pedidos || 0);
+        $("#total_guias").text(data.total_guias || 0);
+        $("#num_confirmaciones").text(
+          data.porcentaje_confirmacion
+            ? `${parseFloat(data.porcentaje_confirmacion).toFixed(2)}%`
+            : '0%'
+        );
+        $("#id_confirmacion").text("de " + (data.mensaje || ""));
       },
       error: function(jqXHR, textStatus, errorThrown) {
         console.error("Error al actualizar las cards:", errorThrown);
