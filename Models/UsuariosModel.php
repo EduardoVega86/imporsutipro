@@ -992,7 +992,6 @@ ON
 
     public function eliminar_plantilla($id_template)
     {
-        // codigo para eliminar categoria
         $response = $this->initialResponse();
 
         $sql = "DELETE FROM templates_chat_center WHERE id_template  = ?";
