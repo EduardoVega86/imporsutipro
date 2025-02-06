@@ -16,7 +16,7 @@ class DashboardModel extends Query
                 FROM cabecera_cuenta_pagar 
                 WHERE id_plataforma = '$id_plataforma' 
                 AND visto = 1
-                AND estado_guia IN (7, 9)
+                -- AND estado_guia IN (7, 9)
                 AND fecha BETWEEN '$fecha_i' AND '$fecha_f'";
 
         $response = $this->select($sql);
