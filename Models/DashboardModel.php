@@ -8,18 +8,16 @@ class DashboardModel extends Query
 
     public function filtroInicial($fecha_i, $fecha_f, $plataforma, $id_plataforma)
     {
-        // Consulta para ventas, ganancias, envíos y total de guías
+        // Total Vendido
         $sql = "SELECT 
                     ROUND(SUM(total_venta),2) as ventas, 
                     ROUND(SUM(monto_recibir),2) as ganancias, 
                     ROUND(SUM(precio_envio),2) as envios
-                   
                 FROM cabecera_cuenta_pagar 
-                WHERE fecha BETWEEN '$fecha_i' AND '$fecha_f' 
-                AND id_plataforma = '$id_plataforma' 
-                AND estado_guia IN (7, 9)
-                AND visto = 1;
-                ";
+                WHERE id_plataforma = '$id_plataforma' 
+                AND visto = 1
+                AND fecha BETWEEN '$fecha_i' AND '$fecha_f'";
+
         $response = $this->select($sql);
 
         //Total Guias
@@ -56,6 +54,12 @@ class DashboardModel extends Query
 
         $response4 = $this->select($sql);
 
+        //Total Recaudo
+        $sql_wallet = "SELECT ROUND(saldo,2) as recaudo 
+               FROM billeteras 
+               WHERE id_plataforma = '$id_plataforma'";
+        $response_wallet = $this->select($sql_wallet);
+        $recaudo = $response_wallet[0]['recaudo'] ?? 0;
 
 
         //Ventas del ultimo mes
@@ -166,7 +170,7 @@ class DashboardModel extends Query
         $datos = [
             'ventas' => $ventas,
             'envios' => $envios,
-            'ganancias' => $ganancias,
+            'ganancias' => $recaudo,
             'total_guias' => $total_guias,
             'devoluciones' => $devoluciones,
             'pedidos' => $pedidos,
