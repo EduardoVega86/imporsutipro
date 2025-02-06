@@ -138,6 +138,10 @@ class FunnelishModel extends Query
 
         // recorre los productos y verifica las condiciones
         foreach ($json["products"] as $product) {
+
+            echo "_______________________________";
+            print_r($product);
+            echo "_______________________________";
             // Verifica si el nombre del producto inicia con "2"
             if (preg_match('/^2\s/', $product["name"])) {
                 $product["qty"] = 2; // Ajusta la cantidad a 2
