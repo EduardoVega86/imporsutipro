@@ -219,14 +219,28 @@ $(function () {
           "Por Recolectar": "rgba(128, 0, 128, 1)",
         };
 
+        // Define una paleta de colores
+        const paletteBackground = [
+          'rgba(255, 99, 132, 0.8)',   // rojo
+          'rgba(54, 162, 235, 0.8)',     // azul
+          'rgba(255, 206, 86, 0.8)',     // amarillo
+          'rgba(75, 192, 192, 0.8)',     // verde
+          'rgba(153, 102, 255, 0.8)',    // morado
+          'rgba(255, 159, 64, 0.8)'      // naranja
+        ];
+
+        // Asigna los colores a cada estado en función de su posición
+        let estadosBackgroundColors = estadosLabels.map((label, index) => {
+          return paletteBackground[index % paletteBackground.length];
+        });
+
+
         // Preparar los datos para el gráfico de pastel
         let estadosLabels = response.estados.map(
           (estado) => estado.estado_descripcion
         );
         let estadosData = response.estados.map((estado) => estado.cantidad);
-        let estadosBackgroundColors = estadosLabels.map(
-          (label) => estadoColors[label]
-        );
+
         let estadosBorderColors = estadosLabels.map(
           (label) => estadoBorderColors[label]
         );
@@ -246,8 +260,7 @@ $(function () {
               label: "Cantidad de guías",
               data: estadosData, // Ej: [10, 25, 40, 15, 5, 8]
               backgroundColor: estadosBackgroundColors,
-              borderColor: estadosBorderColors,
-              borderWidth: 1
+              borderWidth: 0
             }]
           },
           options: {
