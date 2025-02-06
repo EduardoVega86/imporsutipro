@@ -631,8 +631,8 @@ $(function () {
 
   function actualizarCardsPedidos(fecha_inicio = "", fecha_fin = "") {
     let formData = new FormData();
-    formData.append("fecha_inicio", fecha_inicio);
-    formData.append("fecha_fin", fecha_fin);
+    formData.append("fechai", fecha_inicio);
+    formData.append("fechaf", fecha_fin);
     
     $.ajax({
       url: SERVERURL + "Pedidos/cargar_cards_pedidos",
