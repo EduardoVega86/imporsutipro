@@ -30,7 +30,7 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #007bff;">
                             <h5 class="text-primary">
-                                <i class="bx bx-cart"></i> Total de Pedidos
+                                <i class="bx bx-money"></i> Total de Pedidos
                                 <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de pedidos"></i>
                             </h5>
                             <h3 class="font-weight-bold" id="total_pedidos">0</h3>
@@ -52,7 +52,7 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #17a2b8;">
                             <h5 class="text-info">
-                                <i class="bx bx-wallet"></i> Total Recaudo
+                                <i class="bx bx-wallet"></i> Total Utilidad
                                 <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Monto total recaudado"></i>
                             </h5>
                             <h3 class="font-weight-bold" id="total_recaudo"></h3>

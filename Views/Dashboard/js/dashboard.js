@@ -1,6 +1,17 @@
 let fecha_inicio = "";
 let fecha_fin = "";
 
+// Función para obtener las fechas por defecto (primer y último día del mes actual)
+function obtenerFechasPorDefecto() {
+  let now = new Date();
+  let firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+  let lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const pad = n => (n < 10 ? "0" + n : n);
+  let fechaInicio = `${firstDay.getFullYear()}-${pad(firstDay.getMonth() + 1)}-${pad(firstDay.getDate())}`;
+  let fechaFin = `${lastDay.getFullYear()}-${pad(lastDay.getMonth() + 1)}-${pad(lastDay.getDate())} 23:59:59`;
+  return { fechaInicio, fechaFin };
+}
+
 $(function () {
   $("#daterange").daterangepicker({
     opens: "right",
@@ -51,12 +62,15 @@ $(function () {
     actualizarCardsPedidos(fecha_inicio, fecha_fin);
   });
 
-  // Al cargar la página, obtenemos las fechas por defecto (mes actual)
+  // Al cargar la página, obtenemos las fechas por defecto (mes actual) y las mostramos en el input
   $(document).ready(function () {
-    // Para el dashboard usamos el comportamiento actual (si no se pasa nada, se cargan todos)
-    informacion_dashboard("", "");
-    // Pero para las cards, forzamos el uso de las fechas por defecto
-    actualizarCardsPedidos("", "");
+    let { fechaInicio, fechaFin } = obtenerFechasPorDefecto();
+    // Asigna el valor al input con el rango en formato "YYYY-MM-DD - YYYY-MM-DD"
+    $("#daterange").val(fechaInicio + " - " + fechaFin);
+    
+    // Llama a las funciones con las fechas por defecto
+    informacion_dashboard(fechaInicio, fechaFin);
+    actualizarCardsPedidos(fechaInicio, fechaFin);
   });
   
   // Variables globales para almacenar las referencias a los gráficos
@@ -75,12 +89,21 @@ $(function () {
       contentType: false, // No establecer ningún tipo de contenido
       success: function (response) {
         response = JSON.parse(response);
-        $("#devoluciones").text(response.devoluciones);
-        $("#total_fletes").text(response.envios);
-        $("#total_recaudo").text(response.ganancias);
-        // $("#total_pedidos").text(response.pedidos);
-        // $("#total_guias").text(response.total_guias);
-        // $("#total_ventas").text(response.ventas);
+        $("#devoluciones").text(
+          response.devoluciones
+            ? `$${parseFloat(response.devoluciones).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+            : '$0.00'
+        );
+        $("#total_fletes").text(
+          response.envios
+            ? `$${parseFloat(response.envios).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+            : '$0.00'
+        );
+        $("#total_recaudo").text(
+          response.ganancias
+            ? `$${parseFloat(response.ganancias).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+            : '$0.00'
+        );
         $("#ticket_promedio").text(
           parseFloat(response.ticket_promedio).toFixed(2)
         );
