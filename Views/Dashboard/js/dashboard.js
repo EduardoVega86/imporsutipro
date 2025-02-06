@@ -201,7 +201,6 @@ $(function () {
           },
         });
 
-        // Definir los colores para cada estado
         const estadoColors = {
           Anulado: "rgba(255, 0, 0, 0.2)", // rojo
           "En Transito": "rgba(255, 255, 0, 0.2)", // amarillo
@@ -210,15 +209,14 @@ $(function () {
           Otro: "rgba(128, 128, 128, 0.2)", // gris
           "Por Recolectar": "rgba(128, 0, 128, 0.2)", // morado
         };
-
-        // Definir los colores del borde para cada estado
+        
         const estadoBorderColors = {
-          Anulado: "rgba(255, 0, 0, 1)", // rojo
-          "En Transito": "rgba(255, 255, 0, 1)", // amarillo
-          Entregado: "rgba(144, 238, 144, 1)", // verde claro
-          Generado: "rgba(0, 0, 255, 1)", // azul
-          Otro: "rgba(128, 128, 128, 1)", // gris
-          "Por Recolectar": "rgba(128, 0, 128, 1)", // morado
+          Anulado: "rgba(255, 0, 0, 1)",
+          "En Transito": "rgba(255, 255, 0, 1)",
+          Entregado: "rgba(144, 238, 144, 1)",
+          Generado: "rgba(0, 0, 255, 1)",
+          Otro: "rgba(128, 128, 128, 1)",
+          "Por Recolectar": "rgba(128, 0, 128, 1)",
         };
 
         // Preparar los datos para el gráfico de pastel
