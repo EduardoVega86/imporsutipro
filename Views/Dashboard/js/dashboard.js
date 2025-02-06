@@ -233,41 +233,49 @@ $(function () {
           (label) => estadoBorderColors[label]
         );
 
-               // Destruir el gráfico anterior si existe
-        if (pastelChart) {
-          pastelChart.destroy();
+        // Destruir el gráfico anterior si es necesario
+        if (distributionChart) {
+          distributionChart.destroy();
         }
-        
-        // Crear el gráfico donut
-        let pastelCtx = document.getElementById("pastelChart").getContext("2d");
-        pastelChart = new Chart(pastelCtx, {
-          type: "doughnut", // Cambiado a doughnut
+
+        // Crear el gráfico de barras horizontales
+        const ctxDistribution = document.getElementById("distributionChart").getContext("2d");
+        distributionChart = new Chart(ctxDistribution, {
+          type: "bar",
           data: {
-            labels: estadosLabels,
+            labels: estadosLabels, // Ej: ["Anulado", "En Transito", "Entregado", "Generado", "Otro", "Por Recolectar"]
             datasets: [{
-              data: estadosData,
+              label: "Cantidad de guías",
+              data: estadosData, // Ej: [10, 25, 40, 15, 5, 8]
               backgroundColor: estadosBackgroundColors,
               borderColor: estadosBorderColors,
               borderWidth: 1
             }]
           },
           options: {
-            responsive: true,
+            indexAxis: "y", // Esto lo hace horizontal
+            scales: {
+              x: {
+                beginAtZero: true,
+                ticks: {
+                  precision: 0
+                }
+              }
+            },
             plugins: {
               legend: {
-                position: "right", // Muestra la leyenda al lado del gráfico
+                display: false // Opcional: si prefieres mostrar las etiquetas directamente en las barras
               },
               tooltip: {
                 callbacks: {
-                  label: function (tooltipItem) {
-                    return tooltipItem.label + ": " + tooltipItem.raw;
+                  label: function(context) {
+                    return context.label + ": " + context.raw;
                   }
                 }
               }
             }
           }
         });
-
         /* seccion de productos despachados */
         let total_despachos = 0;
 
