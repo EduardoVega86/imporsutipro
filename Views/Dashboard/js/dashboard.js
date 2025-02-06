@@ -233,41 +233,39 @@ $(function () {
           (label) => estadoBorderColors[label]
         );
 
-        // Destruir el gráfico existente si ya hay uno
+               // Destruir el gráfico anterior si existe
         if (pastelChart) {
           pastelChart.destroy();
         }
-
-        // Crear el nuevo gráfico de pastel con Chart.js
+        
+        // Crear el gráfico donut
         let pastelCtx = document.getElementById("pastelChart").getContext("2d");
         pastelChart = new Chart(pastelCtx, {
-          type: "pie", // Gráfico de pastel
+          type: "doughnut", // Cambiado a doughnut
           data: {
             labels: estadosLabels,
-            datasets: [
-              {
-                data: estadosData,
-                backgroundColor: estadosBackgroundColors,
-                borderColor: estadosBorderColors,
-                borderWidth: 1,
-              },
-            ],
+            datasets: [{
+              data: estadosData,
+              backgroundColor: estadosBackgroundColors,
+              borderColor: estadosBorderColors,
+              borderWidth: 1
+            }]
           },
           options: {
             responsive: true,
             plugins: {
               legend: {
-                position: "top",
+                position: "right", // Muestra la leyenda al lado del gráfico
               },
               tooltip: {
                 callbacks: {
                   label: function (tooltipItem) {
                     return tooltipItem.label + ": " + tooltipItem.raw;
-                  },
-                },
-              },
-            },
-          },
+                  }
+                }
+              }
+            }
+          }
         });
 
         /* seccion de productos despachados */
