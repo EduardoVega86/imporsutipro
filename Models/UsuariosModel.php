@@ -1680,8 +1680,8 @@ ON
             // Si no existe, realizar un INSERT
             $sql_insert = "INSERT INTO `plantilla_3` (`id_plataforma`, $campo) VALUES (?, ?)";
             $data_insert = [$plataforma, $valor];
-            $insertar_plantilla_2 = $this->dselect($sql_insert, $data_insert);
-            print_r($insertar_plantilla_2);
+            $insertar_plantilla_2 = $this->insert($sql_insert, $data_insert);
+            //print_r($insertar_plantilla_2);
             if ($insertar_plantilla_2 == 1) {
                 $responses = array('status' => 200, 'title' => 'Peticion exitosa', 'message' => 'Inserción realizada correctamente');
             } else {
