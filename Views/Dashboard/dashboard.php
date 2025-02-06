@@ -62,7 +62,7 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #fd7e14;">
                             <h5 style="color: #fd7e14;">
-                                <i class="bx bx-truck"></i> Total Fletes
+                                <i class="bx bx-dollar"></i> Total Fletes
                                 <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de fletes"></i>
                             </h5>
                             <h3 class="font-weight-bold" id="total_fletes">0</h3>
@@ -72,7 +72,7 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #dc3545;">
                             <h5 class="text-danger">
-                                <i class="bx bx-undo"></i> Devoluciones
+                                <i class="bx bx-dollar"></i> Devoluciones
                                 <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de devoluciones"></i>
                             </h5>
                             <h3 class="font-weight-bold" id="devoluciones">0</h3>
