@@ -635,7 +635,7 @@ $(function () {
     formData.append("fecha_fin", fecha_fin);
     
     $.ajax({
-      url: SERVERURL + "dashboard/cargar_cards_pedidos",
+      url: SERVERURL + "Pedidos/cargar_cards_pedidos",
       type: "POST",
       data: formData,
       processData: false,
