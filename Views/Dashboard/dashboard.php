@@ -22,52 +22,57 @@
                         <h3 class="font-weight-bold">$ <span id="total_ventas">0.00</span></h3>
                     </div>
                 </div>
-                <div class="d-flex flex-row">
-                    <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #ff7e5f, #feb47b);">
-                            <i class="fa fa-dollar-sign"></i>
-                        </div>
-                        <h3>$ <span id="total_ventas"></span></h3>
-                        <p>Total Vendido</p>
-                    </div>
-                    <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #6a11cb, #2575fc);">
-                            <i class="fa fa-shopping-cart"></i>
-                        </div>
-                        <h3><span id="total_pedidos"></span></h3>
-                        <p>Total Pedidos</p>
+
+                <!-- Card 2: Total Pedidos -->
+                <div class="col-md-3">
+                    <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #28a745;">
+                        <h5 class="text-success">
+                            <i class="bx bx-cart" style="font-size: 24px;"></i> Total Pedidos
+                        </h5>
+                        <h3 class="font-weight-bold"><span id="total_pedidos">0</span></h3>
                     </div>
                 </div>
-                <div class="d-flex flex-row">
-                    <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #ff512f, #dd2476);">
-                            <i class="fa fa-truck"></i>
-                        </div>
-                        <h3><span id="total_guias"></span></h3>
-                        <p>Total Guias Generadas</p>
-                    </div>
-                    <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #43e97b, #38f9d7);">
-                            <i class="fa fa-hand-holding-usd"></i>
-                        </div>
-                        <h3><span id="total_recaudo"></span></h3>
-                        <p>Total Recaudo</p>
+
+                <!-- Card 3: Total Guías Generadas -->
+                <div class="col-md-3">
+                    <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
+                        <h5 class="text-warning">
+                            <i class="bx bx-truck" style="font-size: 24px;"></i> Total Guías
+                        </h5>
+                        <h3 class="font-weight-bold"><span id="total_guias">0</span></h3>
                     </div>
                 </div>
-                <div class="d-flex flex-row">
-                    <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #f7971e, #ffd200);">
-                            <i class="fa fa-shipping-fast"></i>
-                        </div>
-                        <h3><span id="total_fletes"></span></h3>
-                        <p>Total Fletes</p>
+
+                <!-- Card 4: Total Recaudo -->
+                <div class="col-md-3">
+                    <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #dc3545;">
+                        <h5 class="text-danger">
+                            <i class="bx bx-wallet" style="font-size: 24px;"></i> Total Recaudo
+                        </h5>
+                        <h3 class="font-weight-bold">$ <span id="total_recaudo">0.00</span></h3>
                     </div>
-                    <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #bdc3c7, #2c3e50);">
-                            <i class="fa fa-undo"></i>
-                        </div>
-                        <h3><span id="devoluciones"></span></h3>
-                        <p>Devoluciones</p>
+                </div>
+            </div>
+
+            <!-- Segunda fila de cards -->
+            <div class="row mb-4">
+                <!-- Card 5: Total Fletes -->
+                <div class="col-md-3">
+                    <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #f7971e;">
+                        <h5 class="text-warning">
+                            <i class="bx bx-send" style="font-size: 24px;"></i> Total Fletes
+                        </h5>
+                        <h3 class="font-weight-bold">$ <span id="total_fletes">0.00</span></h3>
+                    </div>
+                </div>
+
+                <!-- Card 6: Devoluciones -->
+                <div class="col-md-3">
+                    <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #bdc3c7;">
+                        <h5 class="text-secondary">
+                            <i class="bx bx-undo" style="font-size: 24px;"></i> Devoluciones
+                        </h5>
+                        <h3 class="font-weight-bold"><span id="devoluciones">0</span></h3>
                     </div>
                 </div>
             </div>
