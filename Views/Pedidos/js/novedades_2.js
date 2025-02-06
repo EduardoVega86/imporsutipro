@@ -197,6 +197,8 @@ function gestionar_novedad(guia_novedad) {
             timer: 2000,
             showConfirmButton: false,
           });
+
+          initDataTableNovedades();
         },
         error: function (error) {
           Swal.fire({
