@@ -443,7 +443,7 @@ $(function () {
 
   $(document).ready(function () {
     informacion_dashboard("", "");
-    actualizarCardsPedidos();
+    actualizarCardsPedidos("","");
   });
 
   // Función para calcular el porcentaje (opcional según el formato de tus datos)
