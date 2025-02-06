@@ -23,7 +23,7 @@
                                 <i class="bx bx-dollar"></i> Valor de Pedidos
                                 <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Valor total de pedidos"></i>
                             </h5>
-                            <h3 class="font-weight-bold" id="total_ventas">$0.00</h3>
+                            <h3 class="font-weight-bold" id="total_ventas"></h3>
                         </div>
                     </div>
                     <!-- Card: Total Pedidos -->
@@ -55,7 +55,7 @@
                                 <i class="bx bx-wallet"></i> Total Recaudo
                                 <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Monto total recaudado"></i>
                             </h5>
-                            <h3 class="font-weight-bold" id="total_recaudo">$0.00</h3>
+                            <h3 class="font-weight-bold" id="total_recaudo"></h3>
                         </div>
                     </div>
                     <!-- Card: Total Fletes -->
