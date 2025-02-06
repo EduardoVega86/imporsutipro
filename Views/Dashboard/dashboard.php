@@ -12,6 +12,16 @@
                         <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                     </div>
                 </div>
+
+                <!-- Card 1: Total Vendido -->
+                <div class="col-md-3">
+                    <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #007bff;">
+                        <h5 class="text-primary">
+                            <i class="bx bx-dollar-circle" style="font-size: 24px;"></i> Total Vendido
+                        </h5>
+                        <h3 class="font-weight-bold">$ <span id="total_ventas">0.00</span></h3>
+                    </div>
+                </div>
                 <div class="d-flex flex-row">
                     <div class="stat-box">
                         <div class="icon-container" style="background: linear-gradient(to right, #ff7e5f, #feb47b);">
