@@ -46,6 +46,9 @@ $(function () {
     fecha_inicio = picker.startDate.format("YYYY-MM-DD");
     // Aquí se añade " 23:59:59" para que el rango incluya todo el último día.
     fecha_fin = picker.endDate.format("YYYY-MM-DD") + " 23:59:59";
+
+    //Actualizamos las cards
+    actualizarCardsPedidos(fecha_inicio, fecha_fin);
   
     informacion_dashboard(fecha_inicio, fecha_fin);
   });
@@ -69,9 +72,9 @@ $(function () {
         $("#devoluciones").text(response.devoluciones);
         $("#total_fletes").text(response.envios);
         $("#total_recaudo").text(response.ganancias);
-        $("#total_pedidos").text(response.pedidos);
-        $("#total_guias").text(response.total_guias);
-        $("#total_ventas").text(response.ventas);
+        // $("#total_pedidos").text(response.pedidos);
+        // $("#total_guias").text(response.total_guias);
+        // $("#total_ventas").text(response.ventas);
         $("#ticket_promedio").text(
           parseFloat(response.ticket_promedio).toFixed(2)
         );
@@ -440,6 +443,7 @@ $(function () {
 
   $(document).ready(function () {
     informacion_dashboard("", "");
+    actualizarCardsPedidos();
   });
 
   // Función para calcular el porcentaje (opcional según el formato de tus datos)
@@ -624,4 +628,30 @@ $(function () {
       .getElementById("ciudadesDevolucion-container")
       .appendChild(productElement);
   }
+
+  function actualizarCardsPedidos(fecha_inicio = "", fecha_fin = "") {
+    let formData = new FormData();
+    formData.append("fecha_inicio", fecha_inicio);
+    formData.append("fecha_fin", fecha_fin);
+    
+    $.ajax({
+      url: SERVERURL + "Pedidos/cargar_cards_pedidos",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(response) {
+        // Convertimos la respuesta JSON (si no lo hace automáticamente)
+        let data = typeof response === "object" ? response : JSON.parse(response);
+        
+        $("#total_ventas").text(data.valor_pedidos);
+        $("#total_pedidos").text(data.total_pedidos);
+        $("#total_guias").text(data.total_guias);
+
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error("Error al actualizar las cards:", errorThrown);
+      }
+    });
+  }  
 });
