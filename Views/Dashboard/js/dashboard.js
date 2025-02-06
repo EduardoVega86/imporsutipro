@@ -1,6 +1,18 @@
 let fecha_inicio = "";
 let fecha_fin = "";
 
+// Función para obtener las fechas por defecto (primer y último día del mes actual)
+function obtenerFechasPorDefecto() {
+  let now = new Date();
+  let firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+  let lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const pad = (n) => (n < 10 ? "0" + n : n);
+  let fechaInicio = `${firstDay.getFullYear()}-${pad(firstDay.getMonth() + 1)}-${pad(firstDay.getDate())}`;
+  let fechaFin = `${lastDay.getFullYear()}-${pad(lastDay.getMonth() + 1)}-${pad(lastDay.getDate())} 23:59:59`;
+  return { fechaInicio, fechaFin };
+}
+
+
 $(function () {
   $("#daterange").daterangepicker({
     opens: "right",
@@ -33,24 +45,31 @@ $(function () {
     autoUpdateInput: false,
   });
 
-  // Evento que se dispara cuando se aplica un nuevo rango de fechas
+  // Cuando se selecciona un rango de fechas
   $("#daterange").on("apply.daterangepicker", function (ev, picker) {
-    // Actualiza el valor del input (si lo deseas mantener en formato "YYYY-MM-DD - YYYY-MM-DD")
+    // Actualiza el input con el rango seleccionado
     $(this).val(
       picker.startDate.format("YYYY-MM-DD") +
-        " - " +
-        picker.endDate.format("YYYY-MM-DD")
+      " - " +
+      picker.endDate.format("YYYY-MM-DD")
     );
   
-    // Se envían al servidor: la fecha de inicio sin cambios y la fecha final extendida para incluir todo el día.
+    // Asignamos las fechas seleccionadas
     fecha_inicio = picker.startDate.format("YYYY-MM-DD");
-    // Aquí se añade " 23:59:59" para que el rango incluya todo el último día.
     fecha_fin = picker.endDate.format("YYYY-MM-DD") + " 23:59:59";
 
-    //Actualizamos las cards
-    actualizarCardsPedidos(fecha_inicio, fecha_fin);
-  
+    // Llamamos a ambas funciones con el rango seleccionado
     informacion_dashboard(fecha_inicio, fecha_fin);
+    actualizarCardsPedidos(fecha_inicio, fecha_fin);
+  });
+
+  // Al cargar la página, obtenemos las fechas por defecto (mes actual)
+  $(document).ready(function () {
+    let { fechaInicio, fechaFin } = obtenerFechasPorDefecto();
+    // Para el dashboard usamos el comportamiento actual (si no se pasa nada, se cargan todos)
+    informacion_dashboard(fechaInicio, fechaFin);
+    // Pero para las cards, forzamos el uso de las fechas por defecto
+    actualizarCardsPedidos(fechaInicio, fechaFin);
   });
   
   // Variables globales para almacenar las referencias a los gráficos
