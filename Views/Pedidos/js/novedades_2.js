@@ -568,7 +568,6 @@ const listNovedadesGestionadas = async (guia) => {
                     <td>${novedad.fecha}</td>
                     <td>${novedad.medida}</td>
                     <td>${novedad.nombre_responsable}</td>
-                    <td>${novedad.respuesta_transportadora}</td>
                 </tr>`;
     });
 
