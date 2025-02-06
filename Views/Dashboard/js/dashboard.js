@@ -72,9 +72,9 @@ $(function () {
         $("#devoluciones").text(response.devoluciones);
         $("#total_fletes").text(response.envios);
         $("#total_recaudo").text(response.ganancias);
-        $("#total_pedidos").text(response.pedidos);
-        $("#total_guias").text(response.total_guias);
-        $("#total_ventas").text(response.ventas);
+        // $("#total_pedidos").text(response.pedidos);
+        // $("#total_guias").text(response.total_guias);
+        // $("#total_ventas").text(response.ventas);
         $("#ticket_promedio").text(
           parseFloat(response.ticket_promedio).toFixed(2)
         );
