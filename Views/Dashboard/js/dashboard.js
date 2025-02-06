@@ -219,6 +219,21 @@ $(function () {
           "Por Recolectar": "rgba(128, 0, 128, 1)",
         };
 
+        // Define una paleta de colores
+        const paletteBackground = [
+          'rgba(255, 99, 132, 0.8)',   // rojo
+          'rgba(54, 162, 235, 0.8)',     // azul
+          'rgba(255, 206, 86, 0.8)',     // amarillo
+          'rgba(75, 192, 192, 0.8)',     // verde
+          'rgba(153, 102, 255, 0.8)',    // morado
+          'rgba(255, 159, 64, 0.8)'      // naranja
+        ];
+
+        // Asigna los colores a cada estado en función de su posición
+        let estadosBackgroundColors = estadosLabels.map((label, index) => {
+          return paletteBackground[index % paletteBackground.length];
+        });
+
 
         // Preparar los datos para el gráfico de pastel
         let estadosLabels = response.estados.map(
@@ -271,21 +286,6 @@ $(function () {
               }
             }
           }
-        });
-
-        // Define una paleta de colores
-        const paletteBackground = [
-          'rgba(255, 99, 132, 0.8)',   // rojo
-          'rgba(54, 162, 235, 0.8)',     // azul
-          'rgba(255, 206, 86, 0.8)',     // amarillo
-          'rgba(75, 192, 192, 0.8)',     // verde
-          'rgba(153, 102, 255, 0.8)',    // morado
-          'rgba(255, 159, 64, 0.8)'      // naranja
-        ];
-
-        // Asigna los colores a cada estado en función de su posición
-        let estadosBackgroundColors = estadosLabels.map((label, index) => {
-          return paletteBackground[index % paletteBackground.length];
         });
         /* seccion de productos despachados */
         let total_despachos = 0;
