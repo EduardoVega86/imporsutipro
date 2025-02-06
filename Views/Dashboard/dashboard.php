@@ -1,68 +1,85 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Dashboard/css/dashboard_style.php'; ?>
 
+<!-- Agregar CDN de Boxicons -->
+<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+
 <div class="custom-container-fluid">
     <?php if ($_SESSION['cargo'] != 5) { ?>
         <div class="banner_estadisticas">
-            <div class="stats-container">
-                <div class="flex-fill" style="padding: 10px;">
-                    <h6>Seleccione el rango de fechas:</h6>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="daterange">
-                        <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+            <div class="container mt-4">
+                <div class="row mb-4">
+                    <!-- Card: Total Vendido -->
+                    <div class="col-md-4">
+                        <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #007bff;">
+                            <h5 class="text-primary">
+                                <i class="bx bx-dollar"></i> Total Vendido
+                                <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Monto total vendido"></i>
+                            </h5>
+                            <h3 class="font-weight-bold" id="total_ventas">$0.00</h3>
+                        </div>
+                    </div>
+                    <!-- Card: Total Pedidos -->
+                    <div class="col-md-4">
+                        <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #28a745;">
+                            <h5 class="text-success">
+                                <i class="bx bx-cart"></i> Total Pedidos
+                                <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de pedidos"></i>
+                            </h5>
+                            <h3 class="font-weight-bold" id="total_pedidos">0</h3>
+                        </div>
+                    </div>
+                    <!-- Card: Total Guias Generadas -->
+                    <div class="col-md-4">
+                        <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
+                            <h5 class="text-warning">
+                                <i class="bx bx-package"></i> Total Guias Generadas
+                                <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de guías generadas"></i>
+                            </h5>
+                            <h3 class="font-weight-bold" id="total_guias">0</h3>
+                        </div>
                     </div>
                 </div>
-
-                <div class="d-flex flex-row">
-                    <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #ff7e5f, #feb47b);">
-                            <i class="fa fa-dollar-sign"></i>
+                <div class="row mb-4">
+                    <!-- Card: Total Recaudo -->
+                    <div class="col-md-4">
+                        <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #17a2b8;">
+                            <h5 class="text-info">
+                                <i class="bx bx-wallet"></i> Total Recaudo
+                                <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Monto total recaudado"></i>
+                            </h5>
+                            <h3 class="font-weight-bold" id="total_recaudo">$0.00</h3>
                         </div>
-                        <h3>$ <span id="total_ventas"></span></h3>
-                        <p>Total Vendido</p>
                     </div>
-                    <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #6a11cb, #2575fc);">
-                            <i class="fa fa-shopping-cart"></i>
+                    <!-- Card: Total Fletes -->
+                    <div class="col-md-4">
+                        <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #fd7e14;">
+                            <h5 style="color: #fd7e14;">
+                                <i class="bx bx-truck"></i> Total Fletes
+                                <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de fletes"></i>
+                            </h5>
+                            <h3 class="font-weight-bold" id="total_fletes">0</h3>
                         </div>
-                        <h3><span id="total_pedidos"></span></h3>
-                        <p>Total Pedidos</p>
                     </div>
-                </div>
-                <div class="d-flex flex-row">
-                    <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #ff512f, #dd2476);">
-                            <i class="fa fa-truck"></i>
+                    <!-- Card: Devoluciones -->
+                    <div class="col-md-4">
+                        <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #dc3545;">
+                            <h5 class="text-danger">
+                                <i class="bx bx-undo"></i> Devoluciones
+                                <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de devoluciones"></i>
+                            </h5>
+                            <h3 class="font-weight-bold" id="devoluciones">0</h3>
                         </div>
-                        <h3><span id="total_guias"></span></h3>
-                        <p>Total Guias Generadas</p>
-                    </div>
-                    <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #43e97b, #38f9d7);">
-                            <i class="fa fa-hand-holding-usd"></i>
-                        </div>
-                        <h3><span id="total_recaudo"></span></h3>
-                        <p>Total Recaudo</p>
-                    </div>
-                </div>
-                <div class="d-flex flex-row">
-                    <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #f7971e, #ffd200);">
-                            <i class="fa fa-shipping-fast"></i>
-                        </div>
-                        <h3><span id="total_fletes"></span></h3>
-                        <p>Total Fletes</p>
-                    </div>
-                    <div class="stat-box">
-                        <div class="icon-container" style="background: linear-gradient(to right, #bdc3c7, #2c3e50);">
-                            <i class="fa fa-undo"></i>
-                        </div>
-                        <h3><span id="devoluciones"></span></h3>
-                        <p>Devoluciones</p>
                     </div>
                 </div>
             </div>
-
+            <div class="flex-fill" style="padding: 10px;">
+                <h6>Seleccione el rango de fechas:</h6>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="daterange">
+                    <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                </div>
+            </div>
             <div class="slider-container">
                 <img src="<?php echo BANNER_INICIO; ?>" alt="Slider">
             </div>
