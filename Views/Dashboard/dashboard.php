@@ -112,7 +112,7 @@
                 <!-- fin de tabla ultimos pedidos -->
                 <div class="content-box" id="pie-chart-container" style="text-align: -webkit-center;">
                     <h4>Distribución de estados de guías de envío</h4>
-                    <canvas id="pastelChart"></canvas>
+                    <canvas id="distributionChart" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
