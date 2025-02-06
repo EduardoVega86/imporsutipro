@@ -150,6 +150,9 @@ class FunnelishModel extends Query
 
             $existe = $this->existeProducto($product["id"]);
             if ($existe) {
+                echo "Existe";
+
+
                 $id_producto_venta = $this->buscarProducto($product["id"])["id_inventario"];
                 $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
                 $producto_costo = $this->obtenerCosto($id_producto_venta);
@@ -185,6 +188,7 @@ class FunnelishModel extends Query
                     "item_total_price" => $items_total,
                 ];
             } else {
+                echo "No existe";
                 $productosSinSkus[] = [
                     "id_producto_venta" => null,
                     "nombre" => $product["name"],
