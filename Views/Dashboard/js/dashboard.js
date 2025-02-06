@@ -8,7 +8,7 @@ function obtenerFechasPorDefecto() {
   let lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
   const pad = n => (n < 10 ? "0" + n : n);
   let fechaInicio = `${firstDay.getFullYear()}-${pad(firstDay.getMonth() + 1)}-${pad(firstDay.getDate())}`;
-  let fechaFin = `${lastDay.getFullYear()}-${pad(lastDay.getMonth() + 1)}-${pad(lastDay.getDate())} 23:59:59`;
+  let fechaFin = `${lastDay.getFullYear()}-${pad(lastDay.getMonth() + 1)}-${pad(lastDay.getDate())}`;
   return { fechaInicio, fechaFin };
 }
 

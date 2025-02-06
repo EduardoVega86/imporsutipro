@@ -20,7 +20,7 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #28a745;">
                             <h5 class="text-success">
-                                <i class="bx bx-dollar"></i> Valor de Pedidos
+                                <i class="bx bx-money"></i> Valor de Pedidos
                                 <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Valor total de pedidos"></i>
                             </h5>
                             <h3 class="font-weight-bold" id="total_ventas"></h3>
