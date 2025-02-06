@@ -990,6 +990,26 @@ ON
         return $response;
     }
 
+    public function eliminar_plantilla($id_template)
+    {
+        // codigo para eliminar categoria
+        $response = $this->initialResponse();
+
+        $sql = "DELETE FROM templates_chat_center WHERE id_template  = ?";
+        $data = [$id_template];
+        $eliminar_plantilla = $this->delete($sql, $data);
+        if ($eliminar_plantilla == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Plantilla eliminada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $eliminar_plantilla['message'];
+        }
+        return $response;
+    }
+
     public function eliminarTestimonio($id, $plataforma)
     {
         // codigo para eliminar categoria
