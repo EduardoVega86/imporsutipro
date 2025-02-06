@@ -8,7 +8,7 @@ class DashboardModel extends Query
 
     public function filtroInicial($fecha_i, $fecha_f, $plataforma, $id_plataforma)
     {
-        // Total Vendido
+        // Total Vendido (Utilizamos estado_guia IN (7, 9) para obtener el histórico de ganancias)
         $sql = "SELECT 
                     ROUND(SUM(total_venta),2) as ventas, 
                     ROUND(SUM(monto_recibir),2) as ganancias, 
@@ -16,6 +16,7 @@ class DashboardModel extends Query
                 FROM cabecera_cuenta_pagar 
                 WHERE id_plataforma = '$id_plataforma' 
                 AND visto = 1
+                AND estado_guia IN (7, 9)
                 AND fecha BETWEEN '$fecha_i' AND '$fecha_f'";
 
         $response = $this->select($sql);
@@ -55,11 +56,8 @@ class DashboardModel extends Query
         $response4 = $this->select($sql);
 
         //Total Recaudo
-        $sql_wallet = "SELECT ROUND(saldo,2) as recaudo 
-               FROM billeteras 
-               WHERE id_plataforma = '$id_plataforma'";
-        $response_wallet = $this->select($sql_wallet);
-        $recaudo = $response_wallet[0]['recaudo'] ?? 0;
+
+        $recaudo = $response[0]['ganancias'] ?? 0;
 
 
         //Ventas del ultimo mes
@@ -170,7 +168,7 @@ class DashboardModel extends Query
         $datos = [
             'ventas' => $ventas,
             'envios' => $envios,
-            'ganancias' => $recaudo,
+            'ganancias' => $ganancias,
             'total_guias' => $total_guias,
             'devoluciones' => $devoluciones,
             'pedidos' => $pedidos,
