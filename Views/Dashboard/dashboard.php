@@ -8,14 +8,14 @@
     <?php if ($_SESSION['cargo'] != 5) { ?>
         <div class="banner_estadisticas">
             <div class="container mt-4">
-                <div class="flex-fill" style="padding: 10px;">
-                    <div class="input-group">
-                        <h6>Seleccione el rango de fechas:</h6>
-                        <input type="text" class="form-control" id="daterange">
-                        <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                    </div>
-                </div>
                 <div class="row mb-4">
+                    <div class="flex-fill" style="padding: 10px;">
+                        <div class="input-group">
+                            <h6>Seleccione el rango de fechas:</h6>
+                            <input type="text" class="form-control" id="daterange">
+                            <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
                     <!-- Card: Total Vendido -->
                     <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #28a745;">
