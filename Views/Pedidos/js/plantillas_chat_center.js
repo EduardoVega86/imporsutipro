@@ -119,7 +119,7 @@ function abrir_modal_subirPlaca(id_usuario) {
 
 function eliminar_plantilla(id_template) {
   let formData = new FormData();
-  formData.append("id_usuario", id_template); // Añadir el SKU al FormData
+  formData.append("id_template", id_template);
   $.ajax({
     url: SERVERURL + "usuarios/eliminar_plantilla",
     type: "POST",

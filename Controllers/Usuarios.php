@@ -512,6 +512,12 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+    public function eliminar_plantilla()
+    {
+        $id_template = $_POST['id_template'];
+        $response = $this->model->eliminar_plantilla($id_template);
+        echo json_encode($response);
+    }
 
     public function eliminarTestimonio()
     {
