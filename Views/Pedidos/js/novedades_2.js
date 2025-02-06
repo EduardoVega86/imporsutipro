@@ -171,6 +171,47 @@ function validar_estado_novedad(guia_novedad, estado_novedad) {
 }
 
 function gestionar_novedad(guia_novedad) {
+  Swal.fire({
+    title: "¿Ya validó la información con el cliente?",
+    text: "Si acepta, volveremos a ofrecer el pedido. De lo contrario, será devuelto al remitente.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, volver a ofrecer",
+    cancelButtonText: "No, devolver al remitente",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Si el usuario acepta, ejecutar toda la función normalmente
+      ejecutarGestionNovedad(guia_novedad);
+      Swal.close();
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      // Si el usuario cancela, ejecutar el otro AJAX y terminar
+      $.ajax({
+        url: SERVERURL + "Pedidos/devolver_novedad/" + guia_novedad,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+          Swal.fire({
+            title: "Pedido devuelto",
+            text: "El pedido ha sido devuelto correctamente al remitente.",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        },
+        error: function (error) {
+          Swal.fire({
+            title: "Error",
+            text: "Hubo un problema al devolver el pedido.",
+            icon: "error",
+          });
+        },
+      });
+    }
+  });
+}
+
+// Función que ejecuta toda la lógica original
+function ejecutarGestionNovedad(guia_novedad) {
   resetModalInputs("gestionar_novedadModal");
   let transportadora = "";
   $.ajax({
