@@ -1,18 +1,6 @@
 let fecha_inicio = "";
 let fecha_fin = "";
 
-// Función para obtener las fechas por defecto (primer y último día del mes actual)
-function obtenerFechasPorDefecto() {
-  let now = new Date();
-  let firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-  let lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-  const pad = (n) => (n < 10 ? "0" + n : n);
-  let fechaInicio = `${firstDay.getFullYear()}-${pad(firstDay.getMonth() + 1)}-${pad(firstDay.getDate())}`;
-  let fechaFin = `${lastDay.getFullYear()}-${pad(lastDay.getMonth() + 1)}-${pad(lastDay.getDate())} 23:59:59`;
-  return { fechaInicio, fechaFin };
-}
-
-
 $(function () {
   $("#daterange").daterangepicker({
     opens: "right",
@@ -65,11 +53,10 @@ $(function () {
 
   // Al cargar la página, obtenemos las fechas por defecto (mes actual)
   $(document).ready(function () {
-    let { fechaInicio, fechaFin } = obtenerFechasPorDefecto();
     // Para el dashboard usamos el comportamiento actual (si no se pasa nada, se cargan todos)
-    informacion_dashboard(fechaInicio, fechaFin);
+    informacion_dashboard("", "");
     // Pero para las cards, forzamos el uso de las fechas por defecto
-    actualizarCardsPedidos(fechaInicio, fechaFin);
+    actualizarCardsPedidos("", "");
   });
   
   // Variables globales para almacenar las referencias a los gráficos
@@ -655,7 +642,7 @@ $(function () {
     formData.append("fecha_fin", fecha_fin);
     
     $.ajax({
-      url: SERVERURL + "Pedidos/cargar_cards_pedidos",
+      url: SERVERURL + "Pedidos/cargar_cards_pedidos_mes",
       type: "POST",
       data: formData,
       processData: false,
