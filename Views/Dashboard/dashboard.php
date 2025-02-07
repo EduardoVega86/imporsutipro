@@ -111,7 +111,7 @@
                 </div>
                 <!-- fin de tabla ultimos pedidos -->
                 <div class="content-box" id="pie-chart-container" style="text-align: -webkit-center;">
-                    <h3 class="fw-bold">Distribución de estados en guías de envío</h3>
+                    <h3 class="fs-4 fw-bold">Distribución de estados en guías de envío</h3>
                     <canvas id="distributionChart" width="400" height="200"></canvas>
                 </div>
             </div>
