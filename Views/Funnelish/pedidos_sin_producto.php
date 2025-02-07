@@ -21,22 +21,21 @@
         </div>
 
         <div class="table-responsive">
-            <!-- <table class="table table-bordered table-striped table-hover"> -->
-            <table id="datatable_obtener_usuarios_plataforma" class="table table-striped">
+            <table id="datatable_pedidos_sin_producto" class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="centered">ID</th>
-                        <th class="centered">Nombres</th>
-                        <th class="centered">Usuario</th>
-                        <th class="centered">Email</th>
-                        <th class="centered">Telefono</th>
-                        <th class="centered">Tienda</th>
-                        <th class="centered">Agregado</th>
-                        <th class="centered">Agregar Placa</th>
+                        <th class="centered"># Orden</th>
+                        <th class="centered">Fecha</th>
+                        <th class="centered">Canal de venta</th>
+                        <th class="centered">Cliente</th>
+                        <th class="centered">Destino</th>
+                        <th class="centered">Contiene</th>
+                        <th class="centered">Monto</th>
+                        <th class="centered">Estado Pedido</th>
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody_obtener_usuarios_plataforma"></tbody>
+                <tbody id="tableBody_pedidos_sin_producto"></tbody>
             </table>
         </div>
     </div>
