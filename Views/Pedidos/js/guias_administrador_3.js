@@ -16,8 +16,7 @@ $(function() {
     startDate: haceUnaSemana,
     endDate: hoy,
     locale: {
-      // Aquí es donde debes añadir la clave 'format':
-      format: 'YYYY-MM-DD',                // <- IMPORTANTE
+      format: 'YYYY-MM-DD',               
       separator: ' - ',
       applyLabel: 'Aplicar',
       cancelLabel: 'Cancelar',
