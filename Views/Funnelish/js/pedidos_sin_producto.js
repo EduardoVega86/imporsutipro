@@ -201,8 +201,11 @@ const listPedidosSinProducto = async () => {
                     <td>${pedido.fecha_factura}</td>
                     <td>
                     <div>
-                    <span>${canal_venta}</span>
+                    ${canal_venta}
+                    </div>
+                    <div>
                     <span class="badge_warning">no vinculado</span>
+                    </div>
                     </div>
                     </td>
                     <td>
