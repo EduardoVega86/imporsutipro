@@ -32,9 +32,9 @@ const initDataTablePedidosSinProducto = async () => {
 
   await listPedidosSinProducto();
 
-  dataTablePedidosSinProducto = $(
-    "#datatable_pedidos_sin_producto"
-  ).DataTable(dataTablePedidosSinProductoOptions);
+  dataTablePedidosSinProducto = $("#datatable_pedidos_sin_producto").DataTable(
+    dataTablePedidosSinProductoOptions
+  );
 
   dataTablePedidosSinProductoIsInitialized = true;
 };
@@ -45,46 +45,189 @@ const listPedidosSinProducto = async () => {
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
 
-    const response = await fetch(`${SERVERURL}pedidos/cargar_pedidos_sin_producto`, {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      `${SERVERURL}pedidos/cargar_pedidos_sin_producto`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
     const pedidosSinProducto = await response.json();
 
     let content = ``;
 
     pedidosSinProducto.forEach((pedido, index) => {
-      let editar = "";
-      let placa = "";
-      if (pedido.cargo_users == 35) {
-        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_motorizado(${pedido.id_users})"><i class="fa-solid fa-pencil"></i>Editar</button>`;
+      let transporte = pedido.id_transporte;
+      console.log(transporte);
+      let transporte_content = "";
+      /* if (transporte == 2) {
+        transporte_content =
+          '<span text-nowrap style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
+      } else if (transporte == 1) {
+        transporte_content =
+          '<span text-nowrap style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
+      } else if (transporte == 4) {
+        transporte_content =
+          '<span text-nowrap style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+      } else if (transporte == 3) {
+        transporte_content =
+          '<span text-nowrap style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
+      } else if (transporte == 0) {
+      transporte_content =
+        '<span text-nowrap style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
+            } */
 
-        placa = `<i class="fa-solid fa-store" style='cursor:pointer' onclick="abrir_modal_subirPlaca(${pedido.id_users})"></i>`;
+      let select_estados_pedidos = "";
+
+      color_estadoPedido = "";
+
+      if (pedido.estado_pedido == 1) {
+        color_estadoPedido = "#ff8301";
+      } else if (pedido.estado_pedido == 2) {
+        color_estadoPedido = "#0d6efd";
+      } else if (pedido.estado_pedido == 3) {
+        color_estadoPedido = "red";
+      } else if (pedido.estado_pedido == 4) {
+        color_estadoPedido = "green";
+      } else if (pedido.estado_pedido == 5) {
+        color_estadoPedido = "green";
+      } else if (pedido.estado_pedido == 6) {
+        color_estadoPedido = "green";
+      }
+
+      select_estados_pedidos = `
+                    <select class="form-select select-estado-pedido" style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
+        pedido.id_factura
+      }">
+                        <option value="0" ${
+                          pedido.estado_pedido == 0 ? "selected" : ""
+                        }>-- Selecciona estado --</option>
+                        <option value="1" ${
+                          pedido.estado_pedido == 1 ? "selected" : ""
+                        }>Pendiente</option>
+                        <option value="2" ${
+                          pedido.estado_pedido == 2 ? "selected" : ""
+                        }>Gestionado</option>
+                        <option value="3" ${
+                          pedido.estado_pedido == 3 ? "selected" : ""
+                        }>No desea</option>
+                        <option value="4" ${
+                          pedido.estado_pedido == 4 ? "selected" : ""
+                        }>1ra llamada</option>
+                        <option value="5" ${
+                          pedido.estado_pedido == 5 ? "selected" : ""
+                        }>2da llamada</option>
+                        <option value="6" ${
+                          pedido.estado_pedido == 6 ? "selected" : ""
+                        }>Observación</option>
+                    </select>`;
+
+      //tomar solo la ciudad
+
+      let boton_automatizador = "";
+
+      if (
+        ID_PLATAFORMA == 1251 ||
+        ID_PLATAFORMA == 1206 ||
+        ID_PLATAFORMA == 2293
+      ) {
+        boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
+          ${pedido.id_factura},
+          '${pedido.ciudad_cot}', // Si es string, ponlo entre comillas
+          '${pedido.celular}', // Lo mismo aquí si es string
+          '${pedido.nombre}',
+          '${pedido.c_principal}',
+          '${pedido.c_secundaria}',
+          '${pedido.contiene}',
+          ${pedido.monto_factura} // Si es número, no necesita comillas
+          )"><i class="fa-brands fa-whatsapp"></i></button>`;
+      }
+
+      if (pedido.estado_pedido == 3) {
+        select_estados_pedidos += `<span>${pedido.detalle_noDesea_pedido}</span>`;
+      }
+
+      let ciudadCompleta = pedido.ciudad;
+      let ciudad = "";
+      if (ciudadCompleta !== null) {
+        let ciudadArray = ciudadCompleta.split("/");
+        ciudad = ciudadArray[0];
+      }
+
+      let plataforma = "";
+      if (
+        pedido.plataforma == "" ||
+        pedido.plataforma == null
+      ) {
+        plataforma = "";
       } else {
-        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${pedido.id_users})"><i class="fa-solid fa-pencil"></i>Editar</button>`;
+        plataforma = procesarPlataforma(pedido.plataforma);
+      }
+
+      let plataforma_proveedor = obtenerSubdominio(
+        pedido.plataforma_proveedor
+      );
+
+      let canal_venta;
+      let color_canal_venta;
+      let numero_orden_shopify = "";
+
+      let factura = pedido.numero_factura;
+
+      if (pedido.importado == 0) {
+        canal_venta = "manual";
+        color_canal_venta = "red";
+      } else if (pedido.plataforma_importa == "Funnelish") {
+        canal_venta = "Funnelish";
+        color_canal_venta = "#5e81f4";
+      } else if (pedido.plataforma_importa == "Shopify") {
+        canal_venta = "Shopify";
+        color_canal_venta = "#79b258";
+
+        let comentario = pedido.comentario;
+
+        // Dividir la cadena en partes usando "número de orden: "
+        let partes = comentario.split("número de orden: ");
+
+        // Si se encontró la frase, tomar la segunda parte y limpiar espacios
+        numero_orden_shopify = partes.length > 1 ? partes[1].trim() : null;
+
+        factura = numero_orden_shopify;
       }
 
       content += `
                 <tr>
-                <td>${pedido.id_users}</td>
-                <td>${pedido.nombre_users}</td>
-                <td>${pedido.usuario_users}</td>
-                <td>${pedido.email_users}</td>
-                <td>
-                <a href="https://wa.me/${formatPhoneNumber(
-                  pedido.whatsapp
-                )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
-                <i class='bx bxl-whatsapp-square' style="color: green;"></i>
-                </a></td>
-                <td>${pedido.nombre_tienda}</td>
-                <td>${pedido.date_added}</td>
-                <td>${placa}</td>
-                <td>
-                ${editar}
-                <button class="btn btn-sm btn-danger" onclick="eliminar_usuario(${
-                  pedido.id_users
-                })"><i class="fa-solid fa-trash-can"></i>Borrar</button>
-                </td>
+                    <td>${factura}</td>
+                    <td>${pedido.fecha_factura}</td>
+                    <td>${canal_venta}</td>
+                    <td>
+                        <div><strong>${pedido.nombre}</strong></div>
+                        <div>telf: ${pedido.telefono}</div>
+                    </td>
+                    <td>
+                    <div>${pedido.c_principal} - ${pedido.c_secundaria}</div>
+                    <div>${pedido.provinciaa}-${ciudad}</div>
+                    </td>
+                    <td>
+                    <div>
+                    <strong>${plataforma_proveedor}</strong>
+                    </div>
+                    <div>
+                    ${pedido.contiene}
+                    </div>
+                    </td>
+                    <td>$ ${pedido.monto_factura}</td>
+                    <td>
+                    <div style = "text-align: -webkit-center;">
+                    ${transporte_content}
+                    ${select_estados_pedidos}
+                    </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${pedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${pedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
+                        ${boton_automatizador}
+                    </td>
                 </tr>`;
     });
     document.getElementById("tableBody_pedidos_sin_producto").innerHTML =
@@ -93,6 +236,181 @@ const listPedidosSinProducto = async () => {
     alert(ex);
   }
 };
+
+// Event delegation for select change
+document.addEventListener("change", async (event) => {
+  if (event.target && event.target.classList.contains("select-estado-pedido")) {
+    const idFactura = event.target.getAttribute("data-id-factura");
+    const nuevoEstado = event.target.value;
+    const formData = new FormData();
+    formData.append("id_factura", idFactura);
+    formData.append("estado_nuevo", nuevoEstado);
+    formData.append("detalle_noDesea_pedido", "");
+
+    try {
+      const response = await fetch(
+        SERVERURL + `Pedidos/cambiar_estado_pedido`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const result = await response.json();
+      if (result.status == 200) {
+        toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        if (nuevoEstado == 3) {
+          $("#id_factura_ingresar_motivo").val(idFactura);
+
+          $("#ingresar_nodDesea_pedidoModal").modal("show");
+        }
+
+        if (nuevoEstado == 6) {
+          $("#id_factura_ingresar_observacion").val(idFactura);
+
+          $("#ingresar_observacion_pedidoModal").modal("show");
+        }
+
+        initDataTableHistorial();
+      }
+    } catch (error) {
+      console.error("Error al conectar con la API", error);
+      alert("Error al conectar con la API");
+    }
+  }
+});
+
+function abrirModal_infoTienda(tienda) {
+  let formData = new FormData();
+  formData.append("tienda", tienda);
+
+  $.ajax({
+    url: SERVERURL + "pedidos/datosPlataformas",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    success: function (response) {
+      response = JSON.parse(response);
+      $("#nombreTienda").val(response[0].nombre_tienda);
+      $("#telefonoTienda").val(response[0].whatsapp);
+      $("#correoTienda").val(response[0].email);
+      $("#enlaceTienda").val(response[0].url_imporsuit);
+
+      $("#infoTiendaModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
+
+function obtenerSubdominio(urlString) {
+  // Verificar si urlString es nulo, indefinido o vacío
+  if (!urlString) {
+    return ""; // Devolver cadena vacía si no hay valor
+  }
+
+  try {
+    // Crear un objeto URL y descomponer el hostname
+    let url = new URL(urlString);
+    return url.hostname.split(".")[0]; // Devolver el subdominio
+  } catch (error) {
+    console.error("URL inválida:", urlString);
+    return ""; // Devolver cadena vacía si la URL es inválida
+  }
+}
+
+function procesarPlataforma(url) {
+  // Eliminar el "https://"
+  let sinProtocolo = url.replace("https://", "");
+
+  // Encontrar la posición del primer punto
+  let primerPunto = sinProtocolo.indexOf(".");
+
+  // Obtener la subcadena desde el inicio hasta el primer punto
+  let baseNombre = sinProtocolo.substring(0, primerPunto);
+
+  // Convertir a mayúsculas
+  let resultado = baseNombre.toUpperCase();
+
+  return resultado;
+}
+
+function boton_editarPedido(id) {
+  window.location.href = "" + SERVERURL + "Pedidos/editar/" + id;
+}
+
+function boton_anularPedido(id_factura) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "Pedidos/eliminarPedido/" + id_factura,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+        initDataTableHistorial();
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al elimnar pedido");
+    },
+  });
+}
+
+function enviar_mensaje_automatizador(
+  nueva_factura,
+  ciudad_cot,
+  celular,
+  nombre,
+  c_principal,
+  c_secundaria,
+  contiene,
+  monto_factura
+) {
+  let formData = new FormData();
+  formData.append("nueva_factura", nueva_factura);
+  formData.append("ciudad_cot", ciudad_cot);
+  formData.append("celular", celular);
+  formData.append("nombre", nombre);
+  formData.append("c_principal", c_principal);
+  formData.append("c_secundaria", c_secundaria);
+  formData.append("contiene", contiene);
+  formData.append("monto_factura", monto_factura);
+
+  $.ajax({
+    url: SERVERURL + "pedidos/enviar_mensaje_automatizador",
+    type: "POST",
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE ENVIO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("ENVIADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+}
 
 window.addEventListener("load", async () => {
   await initDataTablePedidosSinProducto();

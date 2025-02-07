@@ -1,5 +1,8 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Funnelish/css/pedidos_sin_producto_style.php'; ?>
+<?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
+<?php require_once './Views/Pedidos/Modales/agregar_detalle_noDeseaPedido.php'; ?>
+<?php require_once './Views/Pedidos/Modales/agregar_detalle_observacion.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
