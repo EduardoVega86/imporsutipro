@@ -2872,8 +2872,8 @@ class PedidosModel extends Query
     public function devolver_novedad($guia_novedad)
     {
         // Buscar la factura asociada con consulta preparada
-        $sql = "SELECT id_factura FROM facturas_cot WHERE numero_guia = ?";
-        $response = $this->select($sql, array($guia_novedad));
+        $sql = "SELECT id_factura FROM facturas_cot WHERE numero_guia = $guia_novedad";
+        $response = $this->select($sql);
 
         // Verificar si hay resultados
         if (empty($response)) {
@@ -2883,8 +2883,6 @@ class PedidosModel extends Query
             ];
         }
 
-        print_r($response);
-        
         $id_factura = $response[0]['id_factura'];
         return $this->devolucion($id_factura);
     }
