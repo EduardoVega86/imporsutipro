@@ -175,6 +175,14 @@ class Pedidos extends Controller
         $this->views->render($this, "pedidos_sin_producto");
     }
 
+    public function vista_anadir_sin_producto()
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "vista_anadir_sin_producto");
+    }
+
     public function local()
     {
         if (!$this->isAuth()) {
