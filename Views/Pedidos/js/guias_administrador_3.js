@@ -1,10 +1,14 @@
 let dataTable;
 let dataTableIsInitialized = false;
 
+// NUEVO: Agregamos este botón que usaremos para aplicar los filtros manualmente.
+// IMPORTANTE: Asegúrate de tener un botón con id="btnAplicarFiltros" en tu HTML.
+
+// Configuración del DataTable
 const dataTableOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
-    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
+    { orderable: false, targets: 0 }, // Evitar ordenar por la columna de checkboxes
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 25,
@@ -55,6 +59,83 @@ const dataTableOptions = {
   },
 };
 
+// Variables para fecha de inicio y fin
+let fecha_inicio = "";
+let fecha_fin = "";
+
+// Calcula la fecha de inicio (hace 7 días) y la fecha de fin (hoy)
+let hoy = moment();
+let haceUnaSemana = moment().subtract(6, "days"); // Rango de 7 días
+
+// Asignar las fechas iniciales al cargar la página
+fecha_inicio = haceUnaSemana.format("YYYY-MM-DD") + " 00:00:00";
+fecha_fin = hoy.format("YYYY-MM-DD") + " 23:59:59";
+
+// Inicializa el daterangepicker
+$(function () {
+  $("#daterange").daterangepicker(
+    {
+      opens: "right",
+      startDate: haceUnaSemana, // Fecha de inicio predefinida
+      endDate: hoy, // Fecha de fin predefinida
+      locale: {
+        format: "YYYY-MM-DD",
+        separator: " - ",
+        applyLabel: "Aplicar",
+        cancelLabel: "Cancelar",
+        fromLabel: "Desde",
+        toLabel: "Hasta",
+        customRangeLabel: "Custom",
+        weekLabel: "S",
+        daysOfWeek: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+        monthNames: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        firstDay: 1,
+      },
+      autoUpdateInput: true, // Actualiza el input automáticamente
+    }
+  );
+
+  // =========================================================
+  // COMENTAMOS la recarga inmediata de DataTable:
+  // =========================================================
+  // $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+  //     // Anteriormente recargaba la DataTable aquí
+  //     // initDataTable();
+  // });
+  // =========================================================
+
+  // Establece los valores iniciales en el input de fechas
+  $("#daterange").val(
+    haceUnaSemana.format("YYYY-MM-DD") + " - " + hoy.format("YYYY-MM-DD")
+  );
+});
+
+// =========================================================
+// COMENTAMOS este bloque que recargaba la tabla en cada cambio
+// =========================================================
+// $(document).ready(function() {
+//   $("#tienda_q,#estado_q,#transporte,#impresion,#despachos").change(function() {
+//       initDataTable();
+//   });
+// });
+// =========================================================
+
+/**
+ * Devuelve una cadena con la fecha actual en formato YYYY-MM-DD
+ */
 function getFecha() {
   let fecha = new Date();
   let mes = fecha.getMonth() + 1;
@@ -64,18 +145,18 @@ function getFecha() {
   return fechaHoy;
 }
 
+/**
+ * Inicializa o recarga el DataTable
+ */
 const initDataTable = async () => {
   if (dataTableIsInitialized) {
     dataTable.destroy();
   }
-
   await listGuias();
-
   dataTable = $("#datatable_guias").DataTable(dataTableOptions);
-
   dataTableIsInitialized = true;
 
-  // Handle select all checkbox
+  // Manejar el checkbox "select all"
   document.getElementById("selectAll").addEventListener("change", function () {
     const checkboxes = document.querySelectorAll(".selectCheckbox");
     checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
@@ -92,12 +173,17 @@ const reloadDataTable = async () => {
   dataTable.page.len(currentLength).draw();
   dataTable.page(currentPage).draw(false);
   dataTableIsInitialized = true;
+
+  // Volver a asignar el evento "select all" al checkbox principal
   document.getElementById("selectAll").addEventListener("change", function () {
     const checkboxes = document.querySelectorAll(".selectCheckbox");
     checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
   });
 };
 
+/**
+ * Obtiene las guías del servidor con los filtros actuales y rellena la tabla
+ */
 const listGuias = async () => {
   try {
     const formData = new FormData();
@@ -109,18 +195,16 @@ const listGuias = async () => {
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
 
-    const response = await fetch(
-      `${SERVERURL}pedidos/obtener_guiasAdministrador`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch(`${SERVERURL}pedidos/obtener_guiasAdministrador`, {
+      method: "POST",
+      body: formData,
+    });
     const guias = await response.json();
 
     let content = ``;
     let impresiones = "";
     let novedad = "";
+
     guias.forEach((guia, index) => {
       let transporte = guia.id_transporte;
       let transporte_content = "";
@@ -130,67 +214,37 @@ const listGuias = async () => {
       let select_speed = "";
       let drogshipin = "";
       let despachado = "";
+
       if (transporte == 2) {
-        transporte_content =
-          '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
+        transporte_content = `<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>`;
         ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Servientrega/guia/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
         ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=GUIA`;
         funcion_anular = `anular_guiaServi('${guia.numero_guia}')`;
         estado = validar_estadoServi(guia.estado_guia_sistema);
       } else if (transporte == 1) {
-        transporte_content =
-          '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
-
+        transporte_content = `<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>`;
         ruta_descarga = `<a class="w-100" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
-
         ruta_traking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
         funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
         estado = validar_estadoLaar(guia.estado_guia_sistema);
       } else if (transporte == 4) {
         if (guia.numero_guia.includes("MKL")) {
-          transporte_content =
-            '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">MerkaLogistic</span>';
+          transporte_content = `<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">MerkaLogistic</span>`;
         } else if (guia.numero_guia.includes("SPD")) {
-          transporte_content =
-            '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
+          transporte_content = `<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>`;
         }
         ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
         ruta_traking = ``;
         funcion_anular = `anular_guiaSpeed('${guia.numero_guia}')`;
         estado = validar_estadoSpeed(guia.estado_guia_sistema);
-        /* select_speed = `
-                    <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${
-                      guia.numero_guia
-                    }">
-                        <option value="0" ${
-                          guia.estado_guia_sistema == 0 ? "selected" : ""
-                        }>-- Selecciona estado --</option>
-                        <option value="2" ${
-                          guia.estado_guia_sistema == 2 ? "selected" : ""
-                        }>Generado</option>
-                        <option value="3" ${
-                          guia.estado_guia_sistema == 3 ? "selected" : ""
-                        }>Transito</option>
-                        <option value="7" ${
-                          guia.estado_guia_sistema == 7 ? "selected" : ""
-                        }>Entregado</option>
-                        <option value="9" ${
-                          guia.estado_guia_sistema == 9 ? "selected" : ""
-                        }>Devuelto</option>
-                        <option value="14" ${
-                          guia.estado_guia_sistema == 14 ? "selected" : ""
-                        }>Novedad</option>
-                    </select>`; */
       } else if (transporte == 3) {
-        transporte_content =
-          '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
+        transporte_content = `<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>`;
         ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
         ruta_traking = `https://ec.gintracom.site/web/site/tracking?guia=${guia.numero_guia}`;
         funcion_anular = `anular_guiaGintracom('${guia.numero_guia}')`;
         estado = validar_estadoGintracom(guia.estado_guia_sistema);
       } else {
-        transporte_content =
-          '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
+        transporte_content = `<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>`;
       }
 
       var span_estado = estado.span_estado;
@@ -202,17 +256,11 @@ const listGuias = async () => {
         drogshipin = "Drogshipin";
       }
 
-      // Definir la variable ciudad antes de los bloques if-else
       let ciudad = "Ciudad no especificada";
-
-      // Verificar si la ciudad es válida antes de usar split
       let ciudadCompleta = guia.ciudad;
-
       if (ciudadCompleta) {
         let ciudadArray = ciudadCompleta.split("/");
         ciudad = ciudadArray[0];
-      } else {
-        console.log("La ciudad no está definida o está vacía");
       }
 
       novedad = "";
@@ -220,9 +268,7 @@ const listGuias = async () => {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       } else if (guia.estado_guia_sistema == 6 && transporte == 3) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      } /* else if (guia.estado_guia_sistema == 14 && transporte == 4) {
-        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      } */
+      } 
       if (
         guia.estado_guia_sistema >= 318 &&
         guia.estado_guia_sistema <= 351 &&
@@ -248,105 +294,86 @@ const listGuias = async () => {
       }
 
       content += `
-                <tr>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${
-                      guia.id_factura
-                    }"></td>
-                    <td>
-                    <div>
-                     ${ruta_descarga}
-                    </div>
-                    <div>
-                    ${drogshipin}
-                    </div>
-                    </td>
-                    <td>
-                    <div><button onclick="ver_detalle_cot('${
-                      guia.id_factura
-                    }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
-                    <div>${guia.fecha_factura}</td></div>
-                    <td>
-                        <div><strong>${guia.nombre}</strong></div>
-                        <div>${guia.c_principal} y ${guia.c_secundaria}</div>
-                        <div>telf: ${guia.telefono}</div>
-                    </td>
-                    <td>${guia.provinciaa}-${ciudad}</td>
-                    <td>
-                      <div>
-                        <strong>Tienda:</strong> <span class="link-like" id="plataformaLink">${
-                          guia.tienda
-                        }</span>
-                      </div>
-                      <div>
-                        <strong>Proveedor:</strong> <span class="link-like" id="plataformaLink">${
-                          guia.nombre_proveedor
-                        }</span>
-                      </div>
-                    </td>
-                    <td>${transporte_content}</td>
-                    <td>
-                     <div style="text-align: center;">
-                     <div>
-                      <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
-                     </div>
-                     <div style="position: relative; display: inline-block;">
-                      <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
-                        <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
-                      </a>
-                      <a href="https://wa.me/${formatPhoneNumber(
-                        guia.telefono
-                      )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
-                      <i class='bx bxl-whatsapp-square' style="color: green;"></i>
-                      </a>
-                     </div>
-                     <div style="text-align: -webkit-center;">
-                     ${select_speed}
-                     </div>
-                     <div>
-                     ${novedad}
-                     </div>
-                     </div>
-                    </td>
-                    <td>${despachado}</td>
-                    <td>${impresiones}</td>
-                    <td>${guia.monto_factura}</td>
-                    <td>${guia.costo_producto}</td>
-                    <td>${guia.costo_flete}</td>
-                    <td></td>
-                    <td>${
-                      guia.monto_factura -
-                      guia.costo_producto -
-                      guia.costo_flete
-                    }</td>
-                    <td>${guia.cod == 1 ? "SI" : "NO"}</td>
-                    <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='transito(${
-                          guia.id_factura
-                        })' >Transito</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='entregar(${
-                          guia.id_factura
-                        })' >Entregado</span></li>
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='devolucion(${
-                          guia.id_factura
-                        })' >Devolución</span></li>
-                    </ul>
-                </div>
-                    </td>
-                </tr>`;
+        <tr>
+          <td><input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura}"></td>
+          <td>
+            <div>${ruta_descarga}</div>
+            <div>${drogshipin}</div>
+          </td>
+          <td>
+            <div><button onclick="ver_detalle_cot('${guia.id_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
+            <div>${guia.fecha_factura}</div>
+          </td>
+          <td>
+            <div><strong>${guia.nombre}</strong></div>
+            <div>${guia.c_principal} y ${guia.c_secundaria}</div>
+            <div>telf: ${guia.telefono}</div>
+          </td>
+          <td>${guia.provinciaa}-${ciudad}</td>
+          <td>
+            <div>
+              <strong>Tienda:</strong> <span class="link-like" id="plataformaLink">${guia.tienda}</span>
+            </div>
+            <div>
+              <strong>Proveedor:</strong> <span class="link-like" id="plataformaLink">${guia.nombre_proveedor}</span>
+            </div>
+          </td>
+          <td>${transporte_content}</td>
+          <td>
+            <div style="text-align: center;">
+              <div>
+                <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
+              </div>
+              <div style="position: relative; display: inline-block;">
+                <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
+                  <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
+                </a>
+                <a href="https://wa.me/${formatPhoneNumber(guia.telefono)}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;">
+                  <i class='bx bxl-whatsapp-square' style="color: green;"></i>
+                </a>
+              </div>
+              <div style="text-align: -webkit-center;">
+                ${select_speed}
+              </div>
+              <div>${novedad}</div>
+            </div>
+          </td>
+          <td>${despachado}</td>
+          <td>${impresiones}</td>
+          <td>${guia.monto_factura}</td>
+          <td>${guia.costo_producto}</td>
+          <td>${guia.costo_flete}</td>
+          <td></td>
+          <td>${
+            guia.monto_factura - guia.costo_producto - guia.costo_flete
+          }</td>
+          <td>${guia.cod == 1 ? "SI" : "NO"}</td>
+          <td>
+            <div class="dropdown">
+              <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-gear"></i>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>
+                <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
+                <li><span class="dropdown-item" style="cursor: pointer;" onclick='transito(${guia.id_factura})'>Transito</span></li>
+                <li><span class="dropdown-item" style="cursor: pointer;" onclick='entregar(${guia.id_factura})'>Entregado</span></li>
+                <li><span class="dropdown-item" style="cursor: pointer;" onclick='devolucion(${guia.id_factura})'>Devolución</span></li>
+              </ul>
+            </div>
+          </td>
+        </tr>`;
     });
+
     document.getElementById("tableBody_guias").innerHTML = content;
   } catch (ex) {
     alert(ex);
   }
 };
 
+/**
+ * Marca el estado como en tránsito
+ */
 function transito(id_cabecera) {
   $.ajax({
     type: "POST",
@@ -370,6 +397,9 @@ function transito(id_cabecera) {
   });
 }
 
+/**
+ * Marca el estado como entregado
+ */
 function entregar(id_cabecera) {
   $.ajax({
     type: "POST",
@@ -393,6 +423,9 @@ function entregar(id_cabecera) {
   });
 }
 
+/**
+ * Marca el estado como devolución
+ */
 function devolucion(id_cabecera) {
   $.ajax({
     type: "POST",
@@ -404,7 +437,7 @@ function devolucion(id_cabecera) {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
-        toastr.success("CANBIO REALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("CAMBIO REALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       }
@@ -416,7 +449,7 @@ function devolucion(id_cabecera) {
   });
 }
 
-// Event delegation for select change
+// Event delegation for select change (estado-speed)
 document.addEventListener("change", async (event) => {
   if (event.target && event.target.classList.contains("select-estado-speed")) {
     const numeroGuia = event.target.getAttribute("data-numero-guia");
@@ -580,16 +613,12 @@ function procesarPlataforma(url) {
   }
   // Eliminar el "https://"
   let sinProtocolo = url.replace("https://", "");
-
   // Encontrar la posición del primer punto
   let primerPunto = sinProtocolo.indexOf(".");
-
   // Obtener la subcadena desde el inicio hasta el primer punto
   let baseNombre = sinProtocolo.substring(0, primerPunto);
-
   // Convertir a mayúsculas
   let resultado = baseNombre.toUpperCase();
-
   return resultado;
 }
 
@@ -633,7 +662,6 @@ function validar_estadoLaar(estado) {
     span_estado = "badge_danger";
     estado_guia = "Devuelto";
   }
-
   return {
     span_estado: span_estado,
     estado_guia: estado_guia,
@@ -665,7 +693,6 @@ function validar_estadoServi(estado) {
     span_estado = "badge_danger";
     estado_guia = "Devuelto";
   }
-
   return {
     span_estado: span_estado,
     estado_guia: estado_guia,
@@ -675,7 +702,6 @@ function validar_estadoServi(estado) {
 function validar_estadoGintracom(estado) {
   var span_estado = "";
   var estado_guia = "";
-
   if (estado == 1) {
     span_estado = "badge_purple";
     estado_guia = "Generada";
@@ -716,7 +742,6 @@ function validar_estadoGintracom(estado) {
     span_estado = "badge_danger";
     estado_guia = "Devuelto";
   }
-
   return {
     span_estado: span_estado,
     estado_guia: estado_guia,
@@ -742,14 +767,13 @@ function validar_estadoSpeed(estado) {
     span_estado = "badge_purple";
     estado_guia = "Novedad";
   }
-
   return {
     span_estado: span_estado,
     estado_guia: estado_guia,
   };
 }
 
-// Function to handle the click event for sending selected items
+// Manejador del botón para "Generar Impresión"
 document.getElementById("imprimir_guias").addEventListener("click", () => {
   const selectedGuias = [];
   const checkboxes = document.querySelectorAll(".selectCheckbox:checked");
@@ -758,7 +782,6 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
     selectedGuias.push(checkbox.getAttribute("data-id"));
   });
 
-  // Convert the selected items to JSON and log it to the console
   const selectedGuiasJson = JSON.stringify(selectedGuias);
   console.log(selectedGuiasJson);
 
@@ -767,7 +790,7 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
 
   $.ajax({
     type: "POST",
-    url: SERVERURL + "/Manifiestos/generar", // Asegúrate de que SERVERURL esté definida
+    url: SERVERURL + "/Manifiestos/generar",
     data: formData,
     processData: false, // Necesario para FormData
     contentType: false, // Necesario para FormData
@@ -788,12 +811,11 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
       if (response.status == 200) {
         const link = document.createElement("a");
         link.href = response.download;
-        link.download = ""; // Puedes poner un nombre de archivo aquí si lo deseas
+        link.download = "";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
 
-        // Cerrar el Swal después de hacer clic en el enlace
         reloadDataTable();
         Swal.close();
       }
@@ -805,34 +827,27 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
   });
 });
 
-window.addEventListener("load", async () => {
-  await initDataTable();
-});
-
+/**
+ * Ajusta un número de teléfono al formato +593, si no lo tuviera
+ */
 function formatPhoneNumber(number) {
-  // Eliminar caracteres no numéricos excepto el signo +
   number = number.replace(/[^\d+]/g, "");
-
-  // Verificar si el número ya tiene el código de país +593
   if (/^\+593/.test(number)) {
-    // El número ya está correctamente formateado con +593
     return number;
   } else if (/^593/.test(number)) {
-    // El número tiene 593 al inicio pero le falta el +
     return "+" + number;
   } else {
-    // Si el número comienza con 0, quitarlo
     if (number.startsWith("0")) {
       number = number.substring(1);
     }
-    // Agregar el código de país +593 al inicio del número
     number = "+593" + number;
   }
-
   return number;
 }
 
-//anular guia
+// =========================================================
+// Funciones para anular guías
+// =========================================================
 function anular_guiaLaar(numero_guia) {
   let formData = new FormData();
   formData.append("guia", numero_guia);
@@ -841,8 +856,8 @@ function anular_guiaLaar(numero_guia) {
     url: SERVERURL + "guias/anularGuia",
     type: "POST",
     data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
+    processData: false,
+    contentType: false,
     success: function (response) {
       response = JSON.parse(response);
       if (response.status == 500) {
@@ -853,7 +868,6 @@ function anular_guiaLaar(numero_guia) {
         toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
         $("#imagen_categoriaModal").modal("hide");
         reloadDataTable();
       }
@@ -869,15 +883,16 @@ function anular_guiaServi(numero_guia) {
     type: "GET",
     url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia,
     dataType: "json",
-    success: function (response) {},
+    success: function (response) {
+      // Petición a la API externa
+    },
     error: function (xhr, status, error) {
-      /* alert("Hubo un problema al anular la guia de Servientrega"); */
+      // alert("Hubo un problema al anular la guia de Servientrega");
     },
   });
 
   $.ajax({
     type: "GET",
-    /* url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia, */
     url: SERVERURL + "Guias/anularServi_temporal/" + numero_guia,
     dataType: "json",
     success: function (response) {
@@ -889,7 +904,6 @@ function anular_guiaServi(numero_guia) {
         toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
         reloadDataTable();
       }
     },
@@ -909,7 +923,6 @@ function anular_guiaGintracom(numero_guia) {
         toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
         $("#imagen_categoriaModal").modal("hide");
         reloadDataTable();
       } else {
@@ -925,8 +938,9 @@ function anular_guiaGintracom(numero_guia) {
   });
 }
 
-//fin anular guia
-//modal novedades
+// =========================================================
+// Funciones de gestión de novedades
+// =========================================================
 function gestionar_novedad(guia_novedad) {
   let transportadora = "";
   $.ajax({
@@ -976,6 +990,7 @@ function gestionar_novedad(guia_novedad) {
     },
   });
 }
+
 $(document).ready(function () {
   $("#tipo_gintracom").change(function () {
     var tipo = $("#tipo_gintracom").val();
@@ -1030,13 +1045,11 @@ function enviar_gintraNovedad() {
         toastr.error("" + response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
         button.disabled = false;
       } else if (response.error === false) {
         toastr.success("" + response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
         initDataTableNovedades();
@@ -1074,13 +1087,11 @@ function enviar_serviNovedad() {
         toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
         button.disabled = false;
       } else if (response.status == 200) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
         initDataTableNovedades();
@@ -1102,9 +1113,7 @@ function enviar_laarNovedad() {
   var ciudad = $("#ciudad_novedadesServi").val();
   var nombre_novedadesServi = $("#nombre_novedadesServi").val();
   var callePrincipal_novedadesServi = $("#callePrincipal_novedadesServi").val();
-  var calleSecundaria_novedadesServi = $(
-    "#calleSecundaria_novedadesServi"
-  ).val();
+  var calleSecundaria_novedadesServi = $("#calleSecundaria_novedadesServi").val();
   var numeracion_novedadesServi = $("#numeracion_novedadesServi").val();
   var referencia_novedadesServi = $("#referencia_novedadesServi").val();
   var telefono_novedadesServi = $("#telefono_novedadesServi").val();
@@ -1138,13 +1147,11 @@ function enviar_laarNovedad() {
         toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
         button.disabled = false;
       } else if (response.status == 200) {
         toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
         initDataTableNovedades();
@@ -1156,3 +1163,29 @@ function enviar_laarNovedad() {
     },
   });
 }
+
+// =========================================================
+// NUEVO: Cargamos la tabla cuando el DOM esté listo (si quieres tener datos por defecto).
+//       Y agregamos un listener al botón "Aplicar Filtros" para recargar la tabla con
+//       los valores seleccionados.
+// =========================================================
+document.addEventListener("DOMContentLoaded", function () {
+  // NUEVO: si deseas cargar la DataTable por defecto al entrar a la página
+  initDataTable(); // <--- NEW: se puede comentar si no deseas cargar nada al inicio
+
+  // NUEVO: agregar el evento al botón "Aplicar Filtros"
+  const btnAplicar = document.getElementById("btnAplicarFiltros");
+  if (btnAplicar) {
+    btnAplicar.addEventListener("click", async function () {
+      // NUEVO: Leer la fecha seleccionada en el daterangepicker
+      let rangoFechas = $("#daterange").val();
+      if (rangoFechas) {
+        let fechas = rangoFechas.split(" - ");
+        fecha_inicio = fechas[0] + " 00:00:00";
+        fecha_fin = fechas[1] + " 23:59:59";
+      }
+      // NUEVO: Recargar la DataTable con los nuevos valores de los filtros
+      await initDataTable();
+    });
+  }
+});

@@ -86,8 +86,7 @@
             </div>
         </div>
         <div style="padding-top: 20px;">
-
-
+            <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
             <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
         </div>
 
