@@ -1,25 +1,3 @@
-// Función debounce: espera a que pasen "delay" milisegundos sin nuevas invocaciones para ejecutar la función
-function debounce(func, delay) {
-  let timeoutId;
-  return function (...args) {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      func.apply(this, args);
-    }, delay);
-  };
-}
-
-// Definición global de fecha_inicio y fecha_fin
-let fecha_inicio = "";
-let fecha_fin = "";
-
-// Configuración de las fechas usando moment.js (ajusta según lo que necesites)
-let hoy = moment();
-let haceUnaSemana = moment().subtract(6, 'days');
-
-fecha_inicio = haceUnaSemana.format('YYYY-MM-DD') + ' 00:00:00';
-fecha_fin = hoy.format('YYYY-MM-DD') + ' 23:59:59';
-
 let dataTable;
 let dataTableIsInitialized = false;
 
@@ -1178,12 +1156,3 @@ function enviar_laarNovedad() {
     },
   });
 }
-  // Usamos jQuery para asignar el evento "change" (o "input", según el caso) a los filtros
-  $(document).ready(function () {
-    $("#estado_q, #tienda_q, #transporte, #impresion, #despachos").on(
-    "change",
-    debounce(function () {
-      reloadDataTable();
-    }, 500)
-  );
-});
