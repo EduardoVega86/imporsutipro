@@ -41,9 +41,16 @@ const initDataTablePedidosSinProducto = async () => {
 
 const listPedidosSinProducto = async () => {
   try {
+    const formData = new FormData();
+    formData.append("filtro", 1);
+    
     const response = await fetch(
-      "" + SERVERURL + "pedidos/obtener_pedidos_sin_producto"
-    );
+        `${SERVERURL}productos/obtener_productos_bps`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
     const pedidosSinProducto = await response.json();
 
     let content = ``;
