@@ -1166,3 +1166,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+
+window.addEventListener("load", async () => {
+ await initDataTable();
+});
