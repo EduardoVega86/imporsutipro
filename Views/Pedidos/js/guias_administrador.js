@@ -1177,7 +1177,7 @@ function enviar_laarNovedad() {
       button.disabled = false;
     },
   });
-
+}
   // Usamos jQuery para asignar el evento "change" (o "input", según el caso) a los filtros
   $(document).ready(function () {
     $("#estado_q, #tienda_q, #transporte, #impresion, #despachos").on(
@@ -1186,5 +1186,4 @@ function enviar_laarNovedad() {
       reloadDataTable();
     }, 500)
   );
-
-})}
+});
