@@ -113,7 +113,7 @@
                 <div class="submenu" id="submenu2">
                     <a href="<?php echo SERVERURL ?>Pedidos/historial_2"><i class='bx bx-history menu-icon'></i> <span class="menu-text">Historial</span></a>
                     <?php if ($_SESSION['cargo'] == 10 || $_SESSION['cargo'] == 25) { ?>
-                        <a href="<?php echo SERVERURL ?>pedidos/guias_administrador"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
+                        <a href="<?php echo SERVERURL ?>pedidos/guias_administrador3"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
                         <a href="<?php echo SERVERURL ?>pedidos/local"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías Speed</span></a>
                         <a href="<?php echo SERVERURL ?>pedidos/anuladas_administrador"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
                     <?php
@@ -161,9 +161,9 @@
                 <div class="submenu" id="submenu4">
                     <?php if ($_SESSION['cargo'] == 10 || $_SESSION['cargo'] == 20) { ?>
                         <a href="<?php echo SERVERURL ?>usuarios/plataformas"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Plataformas Marketplace</span></a>
-                         <a href="<?php echo SERVERURL ?>usuarios/listamatriz"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
+                        <a href="<?php echo SERVERURL ?>usuarios/listamatriz"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
 
-                            <a href="<?php echo SERVERURL ?>usuarios/passwords"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Contraseñas</span></a>
+                        <a href="<?php echo SERVERURL ?>usuarios/passwords"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Contraseñas</span></a>
                         <a href="<?php echo SERVERURL ?>usuarios/actualizacionMasiva_tiendas"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Actualizacion Masiva</span></a>
                     <?php
                     } else {
