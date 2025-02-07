@@ -2616,6 +2616,30 @@ class PedidosModel extends Query
         return $response;
     }
 
+    public function agregar_detalle_observacion($id_factura, $observacion_pedido)
+    {
+        // Inicializar la respuesta
+        $response = $this->initialResponse();
+
+        // Consulta de inserción con la clave única
+        $sql_update = "UPDATE `facturas_cot` SET `observacion_pedido` = ? WHERE `id_factura` = ?";
+        $update_data = [$observacion_pedido, $id_factura];
+        $actualizar_Estadofacturas_cot = $this->update($sql_update, $update_data);
+
+        // Verificar si la inserción fue exitosa
+        if ($actualizar_Estadofacturas_cot == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Estado actualizado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error en inserción';
+            $response['message'] = "Error";
+        }
+
+        return $response;
+    }
+
     /* automatizador */
     public function configuraciones_automatizador($id_plataforma)
     {

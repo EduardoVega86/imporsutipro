@@ -97,6 +97,8 @@ const listHistorialPedidos = async () => {
         color_estadoPedido = "green";
       } else if (historialPedido.estado_pedido == 5) {
         color_estadoPedido = "green";
+      } else if (historialPedido.estado_pedido == 6) {
+        color_estadoPedido = "green";
       }
 
       select_estados_pedidos = `
@@ -121,6 +123,9 @@ const listHistorialPedidos = async () => {
                         <option value="5" ${
                           historialPedido.estado_pedido == 5 ? "selected" : ""
                         }>2da llamada</option>
+                        <option value="6" ${
+                          historialPedido.estado_pedido == 6 ? "selected" : ""
+                        }>Observación</option>
                     </select>`;
 
       //tomar solo la ciudad
@@ -265,6 +270,12 @@ document.addEventListener("change", async (event) => {
           $("#id_factura_ingresar_motivo").val(idFactura);
 
           $("#ingresar_nodDesea_pedidoModal").modal("show");
+        }
+
+        if (nuevoEstado == 6) {
+          $("#id_factura_ingresar_observacion").val(idFactura);
+
+          $("#ingresar_observacion_pedidoModal").modal("show");
         }
 
         initDataTableHistorial();

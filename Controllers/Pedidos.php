@@ -1125,6 +1125,15 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function agregar_detalle_observacion()
+    {
+        $id_factura = $_POST['id_factura_ingresar_observacion'];
+        $observacion_pedido = $_POST['observacion_pedido'];
+
+        $response = $this->model->agregar_detalle_observacion($id_factura, $observacion_pedido);
+        echo json_encode($response);
+    }
+
     /* automatizador */
     public function configuraciones_automatizador()
     {
