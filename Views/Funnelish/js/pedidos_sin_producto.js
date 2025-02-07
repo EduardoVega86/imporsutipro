@@ -230,8 +230,7 @@ const listPedidosSinProducto = async () => {
                     </td>
                 </tr>`;
     });
-    document.getElementById("tableBody_pedidos_sin_producto").innerHTML =
-      content;
+    document.getElementById("tableBody_pedidos_sin_producto").innerHTML = content;
   } catch (ex) {
     alert(ex);
   }
