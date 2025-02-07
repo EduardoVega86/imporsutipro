@@ -91,12 +91,6 @@
             <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
         </div>
 
-        <!-- Botón para aplicar filtros -->
-        <div style="padding-top: 20px;">
-            <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
-            <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
-        </div>
-
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_guias" class="table table-striped">
