@@ -12,6 +12,7 @@
                 <table id="datatable_pedidos_sin_producto" class="table table-striped table-bordered">
                     <thead>
                         <tr>
+                            
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Usuario</th>
