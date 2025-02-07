@@ -16,7 +16,21 @@ $(function() {
     startDate: haceUnaSemana,
     endDate: hoy,
     locale: {
-      // ...
+      // Aquí es donde debes añadir la clave 'format':
+      format: 'YYYY-MM-DD',                // <- IMPORTANTE
+      separator: ' - ',
+      applyLabel: 'Aplicar',
+      cancelLabel: 'Cancelar',
+      fromLabel: 'Desde',
+      toLabel: 'Hasta',
+      customRangeLabel: 'Personalizado',
+      weekLabel: 'S',
+      daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+      monthNames: [
+        'Enero','Febrero','Marzo','Abril','Mayo','Junio',
+        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
+      ],
+      firstDay: 1
     },
     autoUpdateInput: true
   });
@@ -25,10 +39,10 @@ $(function() {
   $('#daterange').on('apply.daterangepicker', function(ev, picker) {
     fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
     fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
-    // Si NO quieres recargar automáticamente:
-    // initDataTable(); // coméntalo si solo deseas recargar con botón
+    // initDataTable(); // Coméntalo si SOLO filtras con el botón.
   });
 });
+
 // NUEVO: Agregamos este botón que usaremos para aplicar los filtros manualmente.
 // IMPORTANTE: Asegúrate de tener un botón con id="btnAplicarFiltros" en tu HTML.
 
