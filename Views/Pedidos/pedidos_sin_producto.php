@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Funnelish/css/pedidos_sin_producto_style.php'; ?>
+<?php require_once './Views/Pedidos/css/pedidos_sin_producto_style.php'; ?>
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 <?php require_once './Views/Pedidos/Modales/agregar_detalle_noDeseaPedido.php'; ?>
 <?php require_once './Views/Pedidos/Modales/agregar_detalle_observacion.php'; ?>
@@ -95,5 +95,5 @@
         });
     });
 </script>
-<script src="<?php echo SERVERURL ?>/Views/Funnelish/js/pedidos_sin_producto.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/pedidos_sin_producto.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
