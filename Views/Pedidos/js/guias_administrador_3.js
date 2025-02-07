@@ -1,6 +1,34 @@
 let dataTable;
 let dataTableIsInitialized = false;
+let fecha_inicio = "";
+let fecha_fin = "";
 
+// Configurar rango inicial
+let hoy = moment();
+let haceUnaSemana = moment().subtract(6, 'days');
+fecha_inicio = haceUnaSemana.format('YYYY-MM-DD') + ' 00:00:00';
+fecha_fin = hoy.format('YYYY-MM-DD') + ' 23:59:59';
+
+// Configurar daterangepicker al cargar la página
+$(function() {
+  $('#daterange').daterangepicker({
+    opens: 'right',
+    startDate: haceUnaSemana,
+    endDate: hoy,
+    locale: {
+      // ...
+    },
+    autoUpdateInput: true
+  });
+
+  // Este evento se disparará cuando cambie el rango:
+  $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+    fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
+    fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
+    // Si NO quieres recargar automáticamente:
+    // initDataTable(); // coméntalo si solo deseas recargar con botón
+  });
+});
 // NUEVO: Agregamos este botón que usaremos para aplicar los filtros manualmente.
 // IMPORTANTE: Asegúrate de tener un botón con id="btnAplicarFiltros" en tu HTML.
 
@@ -58,80 +86,6 @@ const dataTableOptions = {
     },
   },
 };
-
-// Variables para fecha de inicio y fin
-let fecha_inicio = "";
-let fecha_fin = "";
-
-// Calcula la fecha de inicio (hace 7 días) y la fecha de fin (hoy)
-let hoy = moment();
-let haceUnaSemana = moment().subtract(6, "days"); // Rango de 7 días
-
-// Asignar las fechas iniciales al cargar la página
-fecha_inicio = haceUnaSemana.format("YYYY-MM-DD") + " 00:00:00";
-fecha_fin = hoy.format("YYYY-MM-DD") + " 23:59:59";
-
-// Inicializa el daterangepicker
-$(function () {
-  $("#daterange").daterangepicker(
-    {
-      opens: "right",
-      startDate: haceUnaSemana, // Fecha de inicio predefinida
-      endDate: hoy, // Fecha de fin predefinida
-      locale: {
-        format: "YYYY-MM-DD",
-        separator: " - ",
-        applyLabel: "Aplicar",
-        cancelLabel: "Cancelar",
-        fromLabel: "Desde",
-        toLabel: "Hasta",
-        customRangeLabel: "Custom",
-        weekLabel: "S",
-        daysOfWeek: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-        monthNames: [
-          "Enero",
-          "Febrero",
-          "Marzo",
-          "Abril",
-          "Mayo",
-          "Junio",
-          "Julio",
-          "Agosto",
-          "Septiembre",
-          "Octubre",
-          "Noviembre",
-          "Diciembre",
-        ],
-        firstDay: 1,
-      },
-      autoUpdateInput: true, // Actualiza el input automáticamente
-    }
-  );
-
-  // =========================================================
-  // COMENTAMOS la recarga inmediata de DataTable:
-  // =========================================================
-  // $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-  //     // Anteriormente recargaba la DataTable aquí
-  //     // initDataTable();
-  // });
-  // =========================================================
-
-  // Establece los valores iniciales en el input de fechas
-  $("#daterange").val(
-    haceUnaSemana.format("YYYY-MM-DD") + " - " + hoy.format("YYYY-MM-DD")
-  );
-});
-
-// =========================================================
-// COMENTAMOS este bloque que recargaba la tabla en cada cambio
-// =========================================================
-// $(document).ready(function() {
-//   $("#tienda_q,#estado_q,#transporte,#impresion,#despachos").change(function() {
-//       initDataTable();
-//   });
-// });
-// =========================================================
 
 /**
  * Devuelve una cadena con la fecha actual en formato YYYY-MM-DD
