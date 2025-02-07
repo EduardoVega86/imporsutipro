@@ -127,6 +127,12 @@ $(function () {
           $("#facturas-body").append(row);
         });
 
+        // Verificar si `ventas_diarias` es un array antes de usar `.map()`
+        if (!Array.isArray(response.ventas_diarias)) {
+          console.error("Error: ventas_diarias no es un array", response.ventas_diarias);
+          return;
+        }
+
         // Preparar los datos para el gráfico de líneas
         let labels = response.ventas_diarias.map((venta) => venta.dia);
         let ventasData = response.ventas_diarias.map((venta) =>

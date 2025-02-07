@@ -63,7 +63,7 @@ class DashboardModel extends Query
 
         $sql = "
         SELECT 
-            DATE_FORMAT(fecha, '%Y-%m-%d') as dia, 
+            DATE_FORMAT(fecha_factura, '%Y-%m-%d') as dia, 
             ROUND(SUM(monto_factura), 2) as ventas,  
             ROUND(SUM(costo_flete), 2) as envios, 
             COUNT(*) as cantidad 
