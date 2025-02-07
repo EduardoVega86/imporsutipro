@@ -987,21 +987,7 @@ function gestionar_novedad(guia_novedad) {
     },
   });
 }
-$(document).ready(function () {
-  $("#tipo_gintracom").change(function () {
-    var tipo = $("#tipo_gintracom").val();
-    if (tipo == "recaudo") {
-      $("#valor_recaudoGintra").show();
-      $("#fecha_gintra").show();
-    } else if (tipo == "rechazar") {
-      $("#valor_recaudoGintra").hide();
-      $("#fecha_gintra").hide();
-    } else {
-      $("#valor_recaudoGintra").hide();
-      $("#fecha_gintra").show();
-    }
-  });
-});
+
 
 function enviar_gintraNovedad() {
   var button = document.getElementById("boton_gintra");
