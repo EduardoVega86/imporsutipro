@@ -64,21 +64,15 @@ class DashboardModel extends Query
         $sql = "
         SELECT 
             DATE_FORMAT(fecha, '%Y-%m-%d') as dia, 
-            ROUND(SUM(total_venta), 2) as ventas, 
-            ROUND(SUM(monto_recibir), 2) as ganancias, 
-            ROUND(SUM(precio_envio), 2) as envios, 
+            ROUND(SUM(monto_factura), 2) as ventas,  
+            ROUND(SUM(costo_flete), 2) as envios, 
             COUNT(*) as cantidad 
-        FROM 
-            cabecera_cuenta_pagar 
-        WHERE 
-            fecha BETWEEN DATE_FORMAT(NOW(), '%Y-%m-01') AND LAST_DAY(NOW()) 
-            AND id_plataforma LIKE '%$id_plataforma%' 
-            AND estado_guia = 7 
-            AND visto = 1
-        GROUP BY 
-            dia 
-        ORDER BY 
-            dia;
+        FROM facturas_cot
+        WHERE anulada = 0
+        AND id_plataforma = '$id_plataforma'
+        AND fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
+        GROUP BY dia
+        ORDER BY dia;
         ";
 
         $response5 = $this->select($sql);
