@@ -87,7 +87,7 @@
         <div class="tablas_estaditicas">
             <div class="content-container">
                 <div class="content-box">
-                    <h3 class="display-3 fw-bold">Ventas del Último Mes</h3>
+                    <h3 class="display-1 fw-bold">Ventas del Último Mes</h3>
                     <canvas id="salesChart"></canvas>
                 </div>
                 <!-- tabla ultimos pedidos -->
