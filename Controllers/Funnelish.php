@@ -97,6 +97,15 @@ class Funnelish extends Controller
         $this->views->render($this, "constructor_vista_2");
     }
 
+    public function pedidos_sin_producto()
+    {
+        if (!$this->isAuth()) {
+            header('Location: ' . SERVERURL . 'login');
+            exit();
+        }
+        $this->views->render($this, "pedidos_sin_producto");
+    }
+
     public function data()
     {
         $data = json_decode(file_get_contents('php://input'), true);
