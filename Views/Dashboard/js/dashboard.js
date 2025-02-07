@@ -1,6 +1,17 @@
 let fecha_inicio = "";
 let fecha_fin = "";
 
+// Función para obtener las fechas por defecto (primer y último día del mes actual)
+function obtenerFechasPorDefecto() {
+  let now = new Date();
+  let firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+  let lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const pad = n => (n < 10 ? "0" + n : n);
+  let fechaInicio = `${firstDay.getFullYear()}-${pad(firstDay.getMonth() + 1)}-${pad(firstDay.getDate())}`;
+  let fechaFin = `${lastDay.getFullYear()}-${pad(lastDay.getMonth() + 1)}-${pad(lastDay.getDate())}`;
+  return { fechaInicio, fechaFin };
+}
+
 $(function () {
   $("#daterange").daterangepicker({
     opens: "right",
@@ -51,17 +62,20 @@ $(function () {
     actualizarCardsPedidos(fecha_inicio, fecha_fin);
   });
 
-  // Al cargar la página, obtenemos las fechas por defecto (mes actual)
+  // Al cargar la página, obtenemos las fechas por defecto (mes actual) y las mostramos en el input
   $(document).ready(function () {
-    // Para el dashboard usamos el comportamiento actual (si no se pasa nada, se cargan todos)
-    informacion_dashboard("", "");
-    // Pero para las cards, forzamos el uso de las fechas por defecto
-    actualizarCardsPedidos("", "");
+    let { fechaInicio, fechaFin } = obtenerFechasPorDefecto();
+    // Asigna el valor al input con el rango en formato "YYYY-MM-DD - YYYY-MM-DD"
+    $("#daterange").val(fechaInicio + " - " + fechaFin);
+    
+    // Llama a las funciones con las fechas por defecto
+    informacion_dashboard(fechaInicio, fechaFin);
+    actualizarCardsPedidos(fechaInicio, fechaFin);
   });
   
   // Variables globales para almacenar las referencias a los gráficos
   let salesChart;
-  let pastelChart;
+  let distributionChart;
 
   function informacion_dashboard(fecha_inicio, fecha_fin) {
     let formData = new FormData();
@@ -75,12 +89,21 @@ $(function () {
       contentType: false, // No establecer ningún tipo de contenido
       success: function (response) {
         response = JSON.parse(response);
-        $("#devoluciones").text(response.devoluciones);
-        $("#total_fletes").text(response.envios);
-        $("#total_recaudo").text(response.ganancias);
-        // $("#total_pedidos").text(response.pedidos);
-        // $("#total_guias").text(response.total_guias);
-        // $("#total_ventas").text(response.ventas);
+        $("#devoluciones").text(
+          response.devoluciones
+            ? `$${parseFloat(response.devoluciones).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+            : '$0.00'
+        );
+        $("#total_fletes").text(
+          response.envios
+            ? `$${parseFloat(response.envios).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+            : '$0.00'
+        );
+        $("#total_recaudo").text(
+          response.ganancias
+            ? `$${parseFloat(response.ganancias).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+            : '$0.00'
+        );
         $("#ticket_promedio").text(
           parseFloat(response.ticket_promedio).toFixed(2)
         );
@@ -177,76 +200,82 @@ $(function () {
             },
           },
         });
-
-        // Definir los colores para cada estado
-        const estadoColors = {
-          Anulado: "rgba(255, 0, 0, 0.2)", // rojo
-          "En Transito": "rgba(255, 255, 0, 0.2)", // amarillo
-          Entregado: "rgba(144, 238, 144, 0.2)", // verde claro
-          Generado: "rgba(0, 0, 255, 0.2)", // azul
-          Otro: "rgba(128, 128, 128, 0.2)", // gris
-          "Por Recolectar": "rgba(128, 0, 128, 0.2)", // morado
-        };
-
-        // Definir los colores del borde para cada estado
-        const estadoBorderColors = {
-          Anulado: "rgba(255, 0, 0, 1)", // rojo
-          "En Transito": "rgba(255, 255, 0, 1)", // amarillo
-          Entregado: "rgba(144, 238, 144, 1)", // verde claro
-          Generado: "rgba(0, 0, 255, 1)", // azul
-          Otro: "rgba(128, 128, 128, 1)", // gris
-          "Por Recolectar": "rgba(128, 0, 128, 1)", // morado
-        };
-
-        // Preparar los datos para el gráfico de pastel
+        // Primero, extraer los datos de los estados desde la respuesta
         let estadosLabels = response.estados.map(
           (estado) => estado.estado_descripcion
         );
-        let estadosData = response.estados.map((estado) => estado.cantidad);
-        let estadosBackgroundColors = estadosLabels.map(
-          (label) => estadoColors[label]
-        );
-        let estadosBorderColors = estadosLabels.map(
-          (label) => estadoBorderColors[label]
+        let estadosData = response.estados.map(
+          (estado) => estado.cantidad
         );
 
-        // Destruir el gráfico existente si ya hay uno
-        if (pastelChart) {
-          pastelChart.destroy();
+        // Define una paleta de colores para asignar a cada estado
+        const paletteBackground = [
+          'rgba(255, 99, 132, 0.8)',   // rojo
+          'rgba(54, 162, 235, 0.8)',     // azul
+          'rgba(255, 206, 86, 0.8)',     // amarillo
+          'rgba(75, 192, 192, 0.8)',     // verde
+          'rgba(153, 102, 255, 0.8)',    // morado
+          'rgba(255, 159, 64, 0.8)'      // naranja
+        ];
+        // Asigna los colores a cada estado en función de su posición en la lista
+        let estadosBackgroundColors = estadosLabels.map((label, index) => {
+          return paletteBackground[index % paletteBackground.length];
+        });
+ 
+        // (Opcional) Si necesitas colores de borde, puedes definirlos así:
+        const estadoBorderColors = {
+          Anulado: "rgba(255, 0, 0, 1)",
+          "En Transito": "rgba(255, 255, 0, 1)",
+          Entregado: "rgba(144, 238, 144, 1)",
+          Generado: "rgba(0, 0, 255, 1)",
+          Otro: "rgba(128, 128, 128, 1)",
+          "Por Recolectar": "rgba(128, 0, 128, 1)",
+        };
+        let estadosBorderColorsDynamic = estadosLabels.map((label) => {
+          return estadoBorderColors[label] || 'rgba(0, 0, 0, 1)';
+        });
+
+        // Crear el gráfico de barras horizontales
+        if (distributionChart) {
+          distributionChart.destroy();
         }
-
-        // Crear el nuevo gráfico de pastel con Chart.js
-        let pastelCtx = document.getElementById("pastelChart").getContext("2d");
-        pastelChart = new Chart(pastelCtx, {
-          type: "pie", // Gráfico de pastel
+        const ctxDistribution = document.getElementById("distributionChart").getContext("2d");
+        distributionChart = new Chart(ctxDistribution, {
+          type: "bar",
           data: {
-            labels: estadosLabels,
-            datasets: [
-              {
-                data: estadosData,
-                backgroundColor: estadosBackgroundColors,
-                borderColor: estadosBorderColors,
-                borderWidth: 1,
-              },
-            ],
+            labels: estadosLabels, // Ejemplo: ["Anulado", "En Transito", ...]
+            datasets: [{
+              label: "Cantidad de guías",
+              data: estadosData,    // Ejemplo: [10, 25, 40, ...]
+              backgroundColor: estadosBackgroundColors,
+              borderWidth: 0
+            }]
           },
           options: {
-            responsive: true,
+            indexAxis: "y", // Barras horizontales
+            scales: {
+              x: {
+                beginAtZero: true,
+                ticks: {
+                  precision: 0
+                }
+              }
+            },
             plugins: {
               legend: {
-                position: "top",
+                display: false
               },
               tooltip: {
                 callbacks: {
-                  label: function (tooltipItem) {
-                    return tooltipItem.label + ": " + tooltipItem.raw;
-                  },
-                },
-              },
-            },
-          },
+                  label: function(context) {
+                    return context.label + ": " + context.raw;
+                  }
+                }
+              }
+            }
+          }
         });
-
+        
         /* seccion de productos despachados */
         let total_despachos = 0;
 

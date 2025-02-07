@@ -8,19 +8,19 @@
     <?php if ($_SESSION['cargo'] != 5) { ?>
         <div class="banner_estadisticas">
             <div class="container mt-4">
-                <div class="flex-fill" style="padding: 10px;">
-                    <div class="input-group">
-                        <h6>Seleccione el rango de fechas:</h6>
-                        <input type="text" class="form-control" id="daterange">
-                        <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                    </div>
-                </div>
                 <div class="row mb-4">
+                    <div class="flex-fill" style="padding: 10px;">
+                        <div class="input-group">
+                            <h6 class="h6">Seleccione el rango de fechas:</h6>
+                            <input type="text" class="form-control" id="daterange">
+                            <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
                     <!-- Card: Total Vendido -->
                     <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #28a745;">
                             <h5 class="text-success">
-                                <i class="bx bx-dollar"></i> Valor de Pedidos
+                                <i class="bx bx-money"></i> Valor de Pedidos
                                 <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Valor total de pedidos"></i>
                             </h5>
                             <h3 class="font-weight-bold" id="total_ventas"></h3>
@@ -30,7 +30,7 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #007bff;">
                             <h5 class="text-primary">
-                                <i class="bx bx-cart"></i> Total de Pedidos
+                                <i class="bx bx-money"></i> Total de Pedidos
                                 <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de pedidos"></i>
                             </h5>
                             <h3 class="font-weight-bold" id="total_pedidos">0</h3>
@@ -52,7 +52,7 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #17a2b8;">
                             <h5 class="text-info">
-                                <i class="bx bx-wallet"></i> Total Recaudo
+                                <i class="bx bx-wallet"></i> Total Utilidad
                                 <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Monto total recaudado"></i>
                             </h5>
                             <h3 class="font-weight-bold" id="total_recaudo"></h3>
@@ -112,7 +112,7 @@
                 <!-- fin de tabla ultimos pedidos -->
                 <div class="content-box" id="pie-chart-container" style="text-align: -webkit-center;">
                     <h4>Distribución de estados de guías de envío</h4>
-                    <canvas id="pastelChart"></canvas>
+                    <canvas id="distributionChart" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>

@@ -1170,6 +1170,12 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function devolver_novedad($guia_novedad)
+    {
+        $response = $this->model->devolver_novedad($guia_novedad);
+        echo json_encode($response);
+    }
+
     public function entregar($id)
     {
         $response = $this->model->entregar($id);

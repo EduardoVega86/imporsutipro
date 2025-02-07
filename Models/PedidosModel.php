@@ -2810,6 +2810,7 @@ class PedidosModel extends Query
         }
         return $responses;
     }
+
     public function devolucion($id)
     {
         //buscar la guia
@@ -2866,6 +2867,24 @@ class PedidosModel extends Query
             $responses["status"] = 400;
         }
         return $responses;
+    }
+
+    public function devolver_novedad($guia_novedad)
+    {
+        // Buscar la factura asociada con consulta preparada
+        $sql = "SELECT id_factura FROM facturas_cot WHERE numero_guia = ?";
+        $response = $this->select($sql, array($guia_novedad));
+
+        // Verificar si hay resultados
+        if (empty($response)) {
+            return [
+                "message" => "Guía no encontrada",
+                "status" => 404
+            ];
+        }
+
+        $id_factura = $response[0]['id_factura'];
+        return $this->devolucion($id_factura);
     }
 
     public function obtenerDetallesPedido($id_factura)

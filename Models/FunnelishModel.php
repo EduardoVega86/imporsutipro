@@ -138,6 +138,10 @@ class FunnelishModel extends Query
 
         // recorre los productos y verifica las condiciones
         foreach ($json["products"] as $product) {
+
+            echo "_______________________________";
+            print_r($product);
+            echo "_______________________________";
             // Verifica si el nombre del producto inicia con "2"
             if (preg_match('/^2\s/', $product["name"])) {
                 $product["qty"] = 2; // Ajusta la cantidad a 2
@@ -146,6 +150,9 @@ class FunnelishModel extends Query
 
             $existe = $this->existeProducto($product["id"]);
             if ($existe) {
+                echo "Existe";
+
+
                 $id_producto_venta = $this->buscarProducto($product["id"])["id_inventario"];
                 $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
                 $producto_costo = $this->obtenerCosto($id_producto_venta);
@@ -181,6 +188,7 @@ class FunnelishModel extends Query
                     "item_total_price" => $items_total,
                 ];
             } else {
+                echo "No existe";
                 $productosSinSkus[] = [
                     "id_producto_venta" => null,
                     "nombre" => $product["name"],

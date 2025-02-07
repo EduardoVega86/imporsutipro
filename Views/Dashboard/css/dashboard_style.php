@@ -257,6 +257,10 @@
         width: 50% !important;
     }
 
+    .h6 {
+        margin-top: 11px;
+    }
+
     @media (max-width: 768px) {
         .seccion_dashboard1 {
             width: 100% !important;

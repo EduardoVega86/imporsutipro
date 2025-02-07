@@ -93,7 +93,7 @@ const listNovedades = async () => {
         ruta_traking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${novedad.guia_novedad}`;
       } else if (novedad.guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";
-        ruta_traking = `https://ec.gintracom.site/web/site/tracking`;
+        ruta_traking = `https://ec.gintracom.site/web/site/tracking?guia=${novedad.guia_novedad}`;
       } else if (novedad.guia_novedad.includes("SPD")) {
         transportadora = "SPEED";
         ruta_traking = ``;
@@ -171,6 +171,49 @@ function validar_estado_novedad(guia_novedad, estado_novedad) {
 }
 
 function gestionar_novedad(guia_novedad) {
+  Swal.fire({
+    title: "¿Ya validó la información con el cliente?",
+    text: "Si acepta, volveremos a ofrecer el pedido. De lo contrario, será devuelto al remitente.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, volver a ofrecer",
+    cancelButtonText: "No, devolver al remitente",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Si el usuario acepta, ejecutar toda la función normalmente
+      ejecutarGestionNovedad(guia_novedad);
+      Swal.close();
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      // Si el usuario cancela, ejecutar el otro AJAX y terminar
+      $.ajax({
+        url: SERVERURL + "Pedidos/devolver_novedad/" + guia_novedad,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+          Swal.fire({
+            title: "Pedido devuelto",
+            text: "El pedido ha sido devuelto correctamente al remitente.",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+
+          initDataTableNovedades();
+        },
+        error: function (error) {
+          Swal.fire({
+            title: "Error",
+            text: "Hubo un problema al devolver el pedido.",
+            icon: "error",
+          });
+        },
+      });
+    }
+  });
+}
+
+// Función que ejecuta toda la lógica original
+function ejecutarGestionNovedad(guia_novedad) {
   resetModalInputs("gestionar_novedadModal");
   let transportadora = "";
   $.ajax({
@@ -219,23 +262,20 @@ function gestionar_novedad(guia_novedad) {
       }
 
       $("#id_gestionarNov").text(response.novedad[0].id_novedad);
+      $("#guia_novedad_nodal").text(response.novedad[0].guia_novedad);
       $("#cliente_gestionarNov").text(response.novedad[0].cliente_novedad);
       $("#estado_gestionarNov").text(response.novedad[0].estado_novedad);
       $("#transportadora_gestionarNov").text(transportadora);
       $("#novedad_gestionarNov").text(response.novedad[0].novedad);
 
-      if (
-        response.novedad[0].tracking.includes(
-          "https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia="
-        )
-      ) {
-        $("#tracking_gestionarNov").attr(
-          "href",
-          "https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=" +
-            response.novedad[0].guia_novedad
-        );
-      } else {
-        $("#tracking_gestionarNov").attr("href", response.novedad[0].tracking);
+      if (response.factura[0].transporte == "LAAR"){
+        $("#tracking_gestionarNov").attr("href", `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${response.novedad[0].guia_novedad}`);
+      } else if (response.factura[0].transporte == "SERVIENTREGA"){
+        $("#tracking_gestionarNov").attr("href", `https://www.servientrega.com.ec/Tracking/?guia=${response.novedad[0].guia_novedad}&tipo=GUIA`);
+      } else if (response.factura[0].transporte == "GINTRACOM"){
+        $("#tracking_gestionarNov").attr("href", `https://ec.gintracom.site/web/site/tracking?guia=${response.novedad[0].guia_novedad}`);
+      } else if (response.factura[0].transporte == "SPEED"){
+        $("#tracking_gestionarNov").attr("href", ``);
       }
 
       $("#id_novedad").val(response.novedad[0].id_novedad);
