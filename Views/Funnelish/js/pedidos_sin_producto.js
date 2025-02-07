@@ -204,7 +204,7 @@ const listPedidosSinProducto = async () => {
                     ${canal_venta}
                     </div>
                     <div>
-                    <span class="badge_warning">no vinculado</span>
+                    <span class="badge_warning no-wrap">no vinculado</span>
                     </div>
                     </div>
                     </td>
