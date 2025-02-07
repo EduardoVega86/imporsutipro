@@ -73,6 +73,12 @@ class Funnelish extends Controller
         echo json_encode($data);
     }
 
+    public function constructor()
+    {
+        $this->isAuth();
+        $this->views->render($this, "constructor");
+    }
+
     public function constructor_vista()
     {
         if (!$this->isAuth()) {

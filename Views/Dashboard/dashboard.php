@@ -87,12 +87,12 @@
         <div class="tablas_estaditicas">
             <div class="content-container">
                 <div class="content-box">
-                    <h4>Ventas del Último Mes</h4>
+                    <h3 class="fs-5 fw-bold">Ventas del último Mes</h3>
                     <canvas id="salesChart"></canvas>
                 </div>
                 <!-- tabla ultimos pedidos -->
                 <div class="content-box">
-                    <h4>Últimos Pedidos</h4>
+                    <h3 class="fs-5 fw-bold">Últimos pedidos</h3>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -111,7 +111,7 @@
                 </div>
                 <!-- fin de tabla ultimos pedidos -->
                 <div class="content-box" id="pie-chart-container" style="text-align: -webkit-center;">
-                    <h4>Distribución de estados de guías de envío</h4>
+                    <h3 class="fs-5 fw-bold">Distribución de estados en guías de envío</h3>
                     <canvas id="distributionChart" width="400" height="200"></canvas>
                 </div>
             </div>

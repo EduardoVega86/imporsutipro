@@ -63,22 +63,16 @@ class DashboardModel extends Query
 
         $sql = "
         SELECT 
-            DATE_FORMAT(fecha, '%Y-%m-%d') as dia, 
-            ROUND(SUM(total_venta), 2) as ventas, 
-            ROUND(SUM(monto_recibir), 2) as ganancias, 
-            ROUND(SUM(precio_envio), 2) as envios, 
+            DATE_FORMAT(fecha_factura, '%Y-%m-%d') as dia, 
+            ROUND(SUM(monto_factura), 2) as ventas,  
+            ROUND(SUM(costo_flete), 2) as envios, 
             COUNT(*) as cantidad 
-        FROM 
-            cabecera_cuenta_pagar 
-        WHERE 
-            fecha BETWEEN DATE_FORMAT(NOW(), '%Y-%m-01') AND LAST_DAY(NOW()) 
-            AND id_plataforma LIKE '%$id_plataforma%' 
-            AND estado_guia = 7 
-            AND visto = 1
-        GROUP BY 
-            dia 
-        ORDER BY 
-            dia;
+        FROM facturas_cot
+        WHERE anulada = 0
+        AND id_plataforma = '$id_plataforma'
+        AND fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
+        GROUP BY dia
+        ORDER BY dia;
         ";
 
         $response5 = $this->select($sql);
@@ -90,26 +84,28 @@ class DashboardModel extends Query
 
         $sql = "
            SELECT 
-     estado_descripcion,
+                estado_descripcion,
                 COUNT(*) as cantidad
             FROM (
                 SELECT 
-                CASE 
-                WHEN estado_guia_sistema IN (1, 100) THEN 'Generado'
-                WHEN estado_guia_sistema IN (2, 102) THEN 'Por Recolectar'
-                WHEN estado_guia_sistema IN (3) THEN 'Recolectado'
-                WHEN estado_guia_sistema = 4 OR (estado_guia_sistema >= 200 AND estado_guia_sistema < 300) THEN 'En Bodega'
-                WHEN estado_guia_sistema = 5 OR (estado_guia_sistema >= 300 AND estado_guia_sistema < 400) THEN 'En Transito'
-                WHEN estado_guia_sistema = 6 THEN 'Zona de Entrega'
-                WHEN estado_guia_sistema IN (7, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410) THEN 'Entregado'
-                WHEN estado_guia_sistema IN (8, 101) THEN 'Anulado'
-                WHEN estado_guia_sistema = 9 OR (estado_guia_sistema >= 500 AND estado_guia_sistema <= 505) THEN 'Devolucion'
-                ELSE 'Otro'
-                END as estado_descripcion
-                FROM 
-                facturas_cot where id_plataforma = $id_plataforma
-                AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f'
-            ) subquery
+                  CASE 
+                    WHEN estado_guia_sistema IN (1, 100) THEN 'Generado'
+                    WHEN estado_guia_sistema IN (2, 102) THEN 'Por Recolectar'
+                    WHEN estado_guia_sistema IN (3) THEN 'Recolectado'
+                    WHEN estado_guia_sistema = 4 OR (estado_guia_sistema BETWEEN 200 AND 299) THEN 'En Bodega'
+                    WHEN estado_guia_sistema = 5 OR (estado_guia_sistema BETWEEN 300 AND 399) THEN 'En Tránsito'
+                    WHEN estado_guia_sistema = 6 THEN 'Zona de Entrega'
+                    WHEN estado_guia_sistema IN (7, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410) THEN 'Entregado'
+                    WHEN estado_guia_sistema IN (8, 101) THEN 'Anulado'
+                    WHEN estado_guia_sistema = 9 OR (estado_guia_sistema BETWEEN 500 AND 505) THEN 'Devolución'
+                    ELSE 'Otro'
+                  END as estado_descripcion
+                FROM facturas_cot 
+                WHERE id_plataforma = '$id_plataforma'
+                AND anulada = 0
+                AND (TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND numero_guia <> '0')
+                AND fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
+            ) AS subquery
             GROUP BY 
                 estado_descripcion
             ORDER BY 

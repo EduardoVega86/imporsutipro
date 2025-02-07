@@ -127,6 +127,12 @@ $(function () {
           $("#facturas-body").append(row);
         });
 
+        // Verificar si `ventas_diarias` es un array antes de usar `.map()`
+        if (!Array.isArray(response.ventas_diarias)) {
+          console.error("Error: ventas_diarias no es un array", response.ventas_diarias);
+          return;
+        }
+
         // Preparar los datos para el gráfico de líneas
         let labels = response.ventas_diarias.map((venta) => venta.dia);
         let ventasData = response.ventas_diarias.map((venta) =>
@@ -200,26 +206,15 @@ $(function () {
             },
           },
         });
+        // Primero, extraer los datos de los estados desde la respuesta
+        let estadosLabels = response.estados.map(
+          (estado) => estado.estado_descripcion
+        );
+        let estadosData = response.estados.map(
+          (estado) => estado.cantidad
+        );
 
-        const estadoColors = {
-          Anulado: "rgba(255, 0, 0, 0.2)", // rojo
-          "En Transito": "rgba(255, 255, 0, 0.2)", // amarillo
-          Entregado: "rgba(144, 238, 144, 0.2)", // verde claro
-          Generado: "rgba(0, 0, 255, 0.2)", // azul
-          Otro: "rgba(128, 128, 128, 0.2)", // gris
-          "Por Recolectar": "rgba(128, 0, 128, 0.2)", // morado
-        };
-        
-        const estadoBorderColors = {
-          Anulado: "rgba(255, 0, 0, 1)",
-          "En Transito": "rgba(255, 255, 0, 1)",
-          Entregado: "rgba(144, 238, 144, 1)",
-          Generado: "rgba(0, 0, 255, 1)",
-          Otro: "rgba(128, 128, 128, 1)",
-          "Por Recolectar": "rgba(128, 0, 128, 1)",
-        };
-
-        // Define una paleta de colores
+        // Define una paleta de colores para asignar a cada estado
         const paletteBackground = [
           'rgba(255, 99, 132, 0.8)',   // rojo
           'rgba(54, 162, 235, 0.8)',     // azul
@@ -228,43 +223,42 @@ $(function () {
           'rgba(153, 102, 255, 0.8)',    // morado
           'rgba(255, 159, 64, 0.8)'      // naranja
         ];
-
-        // Asigna los colores a cada estado en función de su posición
+        // Asigna los colores a cada estado en función de su posición en la lista
         let estadosBackgroundColors = estadosLabels.map((label, index) => {
           return paletteBackground[index % paletteBackground.length];
         });
+ 
+        // (Opcional) Si necesitas colores de borde, puedes definirlos así:
+        const estadoBorderColors = {
+          Anulado: "rgba(255, 0, 0, 1)",
+          "En Transito": "rgba(255, 255, 0, 1)",
+          Entregado: "rgba(144, 238, 144, 1)",
+          Generado: "rgba(0, 0, 255, 1)",
+          Otro: "rgba(128, 128, 128, 1)",
+          "Por Recolectar": "rgba(128, 0, 128, 1)",
+        };
+        let estadosBorderColorsDynamic = estadosLabels.map((label) => {
+          return estadoBorderColors[label] || 'rgba(0, 0, 0, 1)';
+        });
 
-
-        // Preparar los datos para el gráfico de pastel
-        let estadosLabels = response.estados.map(
-          (estado) => estado.estado_descripcion
-        );
-        let estadosData = response.estados.map((estado) => estado.cantidad);
-
-        let estadosBorderColors = estadosLabels.map(
-          (label) => estadoBorderColors[label]
-        );
-
-        // Destruir el gráfico anterior si es necesario
+        // Crear el gráfico de barras horizontales
         if (distributionChart) {
           distributionChart.destroy();
         }
-
-        // Crear el gráfico de barras horizontales
         const ctxDistribution = document.getElementById("distributionChart").getContext("2d");
         distributionChart = new Chart(ctxDistribution, {
           type: "bar",
           data: {
-            labels: estadosLabels, // Ej: ["Anulado", "En Transito", "Entregado", "Generado", "Otro", "Por Recolectar"]
+            labels: estadosLabels, // Ejemplo: ["Anulado", "En Transito", ...]
             datasets: [{
               label: "Cantidad de guías",
-              data: estadosData, // Ej: [10, 25, 40, 15, 5, 8]
+              data: estadosData,    // Ejemplo: [10, 25, 40, ...]
               backgroundColor: estadosBackgroundColors,
               borderWidth: 0
             }]
           },
           options: {
-            indexAxis: "y", // Esto lo hace horizontal
+            indexAxis: "y", // Barras horizontales
             scales: {
               x: {
                 beginAtZero: true,
@@ -275,7 +269,7 @@ $(function () {
             },
             plugins: {
               legend: {
-                display: false // Opcional: si prefieres mostrar las etiquetas directamente en las barras
+                display: false
               },
               tooltip: {
                 callbacks: {
@@ -287,6 +281,7 @@ $(function () {
             }
           }
         });
+        
         /* seccion de productos despachados */
         let total_despachos = 0;
 
