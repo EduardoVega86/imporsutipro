@@ -1,6 +1,10 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Pedidos/css/anadir_sin_producto_style.php'; ?>
 
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+?>
 <div class="custom-container-fluid">
     <div class="container mt-5">
         <h2 class="text-center mb-4">Pedidos sin Productos</h2>
@@ -12,7 +16,7 @@
                 <table id="datatable_pedidos_sin_producto" class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            
+
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Usuario</th>
