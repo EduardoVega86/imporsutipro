@@ -56,8 +56,8 @@ const dataTableOptions = {
 };
 
 // Variables para fecha de inicio y fin
-let fecha_inicio = "";
-let fecha_fin = "";
+// let fecha_inicio = "";
+// let fecha_fin = "";
 
 // Calcula la fecha de inicio (hace 7 días) y la fecha de fin (hoy)
 let hoy = moment();
