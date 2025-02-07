@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'vendor/autoload.php';
+
 //use PHPExcel_IOFactory;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -16,15 +17,18 @@ class Productos extends Controller
             header("Location: /dashboard");
         } */
     }
+
     ///Vistas
     public function index()
     {
         $this->views->render($this, "index");
     }
+
     public function bodegas()
     {
         $this->views->render($this, "bodegas");
     }
+
     public function agregar_bodegas()
     {
         $this->views->render($this, "agregar_bodegas");
@@ -34,6 +38,7 @@ class Productos extends Controller
     {
         $this->views->render($this, "editar_bodega");
     }
+
     public function locales()
     {
         $data = $this->model->cargarLocales();
@@ -128,8 +133,6 @@ class Productos extends Controller
     {
         $this->views->render($this, "bovedas");
     }
-
-
 
 
     ///Funciones
@@ -251,7 +254,6 @@ class Productos extends Controller
     }
 
 
-
     public function obtenerProveedores()
     {
         $proveedores = $this->model->obtenerProveedores();
@@ -326,6 +328,7 @@ class Productos extends Controller
         $response = $this->model->obtener_productos_tienda($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
     public function obtener_productos_tienda_automatizador()
     {
         $response = $this->model->obtener_productos_tienda_automatizador($_SESSION['id_plataforma']);
@@ -628,7 +631,6 @@ class Productos extends Controller
         }
 
 
-
         $response = $this->model->editarProductoTienda($id_producto_tienda, $nombre, $pvp_tienda, $id_categoria, $pref, $_SESSION['id_plataforma'], $aplica_funnelish, $funnelish);
 
         echo json_encode($response);
@@ -655,9 +657,6 @@ class Productos extends Controller
         $response = $this->model->BajarMarketplace($id, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
-
-
-
 
 
     public function listar_marketplace()
@@ -947,7 +946,6 @@ class Productos extends Controller
     }
 
 
-
     public function obtener_productos_shopify()
     {
         $response = $this->model->obtener_productos_shopify($_SESSION['id_plataforma']);
@@ -1081,5 +1079,20 @@ class Productos extends Controller
         $response = $this->model->actualizar_oferta($id_producto_tienda, $oferta);
         echo json_encode($response);
     }
+
     /* Fin ofertas */
+
+    public function obtener_productos_bps()
+    {
+        $filtro = $_POST["filtro"];
+        if ($filtro == 1) {
+            $response = $this->model->obtener_productos_bodegas_propias($_SESSION['id_plataforma']);
+
+        } elseif ($filtro == 2) {
+            $response = $this->model->obtener_productos_marketplace();
+        }
+
+        echo json_encode($response);
+    }
+
 }

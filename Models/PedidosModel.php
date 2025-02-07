@@ -1,4 +1,5 @@
 <?php
+
 class PedidosModel extends Query
 {
     public function __construct()
@@ -8,16 +9,17 @@ class PedidosModel extends Query
 
     public function cargarPedidosIngresados($plataforma)
     {
-
-        $sql = "SELECT * FROM facturas_cot where numero_guia = '' or numero_guia is null and anulada = 0 and id_plataforma = '$plataforma'  ORDER BY numero_factura DESC";
+        $sql = "SELECT * FROM facturas_cot where numero_guia = '' or numero_guia is null and anulada = 0 and id_plataforma = '$plataforma' and no_producto = 0  ORDER BY numero_factura DESC";
         return $this->select($sql);
     }
+
     public function costo_producto($id_inventario)
     {
         $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_inventario";
         $result = $this->select($sql);
         return $result[0]['pcp'];
     }
+
     public function obtenerIdBodega($id_inventario)
     {
         $sql = "SELECT * FROM inventario_bodegas WHERE id_inventario = $id_inventario";
@@ -37,6 +39,7 @@ class PedidosModel extends Query
 
         return $id_platafomra;
     }
+
     public function cargarGuias($plataforma, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
     {
         $sql = "SELECT 
@@ -485,7 +488,8 @@ class PedidosModel extends Query
         $search,
         $orderColumn,
         $orderDir
-    ) {
+    )
+    {
         // Mapea "column index" => "campo de tu tabla"
         $columns = [
             0 => "id_factura",
@@ -679,7 +683,6 @@ class PedidosModel extends Query
                 </div>';
         }
     }
-
 
 
     public function enlaceTracking($transportadora, $guia, $enlace)
@@ -943,6 +946,7 @@ class PedidosModel extends Query
         $result = $this->select($sql);
         return $result[0]['total'];
     }
+
     // Método para contar el total de registros
     public function contarTotalGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin)
     {
@@ -998,7 +1002,6 @@ class PedidosModel extends Query
             $factura_numero = 'COT-0000000000';
         }
         $nueva_factura = $this->incrementarNumeroFactura($factura_numero);
-
 
 
         $response = $this->initialResponse();
@@ -1122,7 +1125,6 @@ class PedidosModel extends Query
             $factura_numero = 'COT-0000000000';
         }
         $nueva_factura = $this->incrementarNumeroFactura($factura_numero);
-
 
 
         $response = $this->initialResponse();
@@ -1525,6 +1527,7 @@ class PedidosModel extends Query
         $id_platafomra = $id_platafomra[0]['id_plataforma'];
         return $id_platafomra;
     }
+
     public function obtenerDestinatarioShopify($id)
     {
         $sql = "SELECT id_plataforma FROM inventario_bodegas WHERE id_inventario = $id";
@@ -1699,6 +1702,7 @@ class PedidosModel extends Query
 
         return $nuevaFactura;
     }
+
     //editar pedido
 
     public function verPedido($id)
@@ -1723,12 +1727,31 @@ class PedidosModel extends Query
          and id_plataforma = '$plataforma'";
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin' AND no_producto = 0";
         }
 
         $sql .= " ORDER BY numero_factura DESC;";
         return $this->select($sql);
     }
+
+    public function cargar_pedidos_sin_producto($plataforma, $fecha_inicio, $fecha_fin): array
+    {
+        $sql = "SELECT *, 
+        (SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad,
+        (SELECT provincia FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as provinciaa,
+        (SELECT url_imporsuit from plataformas where id_plataforma = id_propietario) as plataforma 
+        FROM facturas_cot WHERE anulada = 0 AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+         and id_plataforma = '$plataforma'";
+
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin' AND no_producto = 1";
+        }
+
+        $sql .= " ORDER BY numero_factura DESC;";
+        return $this->select($sql);
+    }
+
+
 
     public function cargar_cards_pedidos($plataforma, $fecha_inicio, $fecha_fin)
     {
@@ -1839,7 +1862,7 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function agregarDetalle($id_producto, $cantidad, $precio,  $plataforma, $sku, $id_factura, $id_inventario)
+    public function agregarDetalle($id_producto, $cantidad, $precio, $plataforma, $sku, $id_factura, $id_inventario)
     {
         //verificar productos
         $timestamp = session_id();
@@ -2593,6 +2616,30 @@ class PedidosModel extends Query
         return $response;
     }
 
+    public function agregar_detalle_observacion($id_factura, $observacion_pedido)
+    {
+        // Inicializar la respuesta
+        $response = $this->initialResponse();
+
+        // Consulta de inserción con la clave única
+        $sql_update = "UPDATE `facturas_cot` SET `observacion_pedido` = ? WHERE `id_factura` = ?";
+        $update_data = [$observacion_pedido, $id_factura];
+        $actualizar_Estadofacturas_cot = $this->update($sql_update, $update_data);
+
+        // Verificar si la inserción fue exitosa
+        if ($actualizar_Estadofacturas_cot == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Estado actualizado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error en inserción';
+            $response['message'] = "Error";
+        }
+
+        return $response;
+    }
+
     /* automatizador */
     public function configuraciones_automatizador($id_plataforma)
     {
@@ -2700,7 +2747,7 @@ class PedidosModel extends Query
     {
         //buscar la guia
         $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         $guia = $response[0]['numero_guia'];
         $tipo = "";
         switch ($guia) {
@@ -2731,9 +2778,9 @@ class PedidosModel extends Query
             $estado = 3;
         }
         $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE id_factura = ?";
-        $response =  $this->update($sql, array($estado, $id));
+        $response = $this->update($sql, array($estado, $id));
         $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE guia = ?";
-        $response =  $this->update($sql, array($estado, $guia));
+        $response = $this->update($sql, array($estado, $guia));
 
         if ($response == 1) {
             $responses["message"] = "Se ha actualizado el estado de la guia";
@@ -2744,20 +2791,21 @@ class PedidosModel extends Query
                 $responses["message"] = "Se ha actualizado el estado de la guia";
                 $responses["status"] = 200;
             } else {
-                $responses["message"] =  $response;
+                $responses["message"] = $response;
                 $responses["status"] = 400;
             }
         } else {
-            $responses["message"] =  $response;
+            $responses["message"] = $response;
             $responses["status"] = 400;
         }
         return $responses;
     }
+
     public function entregar($id)
     {
         //buscar la guia
         $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         $guia = $response[0]['numero_guia'];
         $tipo = "";
         switch ($guia) {
@@ -2788,9 +2836,9 @@ class PedidosModel extends Query
             $estado = 7;
         }
         $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE id_factura = ?";
-        $response =  $this->update($sql, array($estado, $id));
+        $response = $this->update($sql, array($estado, $id));
         $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE guia = ?";
-        $response =  $this->update($sql, array($estado, $guia));
+        $response = $this->update($sql, array($estado, $guia));
 
         if ($response == 1) {
             $responses["message"] = "Se ha actualizado el estado de la guia";
@@ -2801,11 +2849,11 @@ class PedidosModel extends Query
                 $responses["message"] = "Se ha actualizado el estado de la guia";
                 $responses["status"] = 200;
             } else {
-                $responses["message"] =  $response;
+                $responses["message"] = $response;
                 $responses["status"] = 400;
             }
         } else {
-            $responses["message"] =  $response;
+            $responses["message"] = $response;
             $responses["status"] = 400;
         }
         return $responses;
@@ -2815,7 +2863,7 @@ class PedidosModel extends Query
     {
         //buscar la guia
         $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         $guia = $response[0]['numero_guia'];
         $tipo = "";
         switch ($guia) {
@@ -2846,9 +2894,9 @@ class PedidosModel extends Query
             $estado = 9;
         }
         $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE id_factura = ?";
-        $response =  $this->update($sql, array($estado, $id));
+        $response = $this->update($sql, array($estado, $id));
         $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE guia = ?";
-        $response =  $this->update($sql, array($estado, $guia));
+        $response = $this->update($sql, array($estado, $guia));
 
         if ($response == 1) {
             $responses["message"] = "Se ha actualizado el estado de la guia";
@@ -2859,11 +2907,11 @@ class PedidosModel extends Query
                 $responses["message"] = "Se ha actualizado el estado de la guia";
                 $responses["status"] = 200;
             } else {
-                $responses["message"] =  $response;
+                $responses["message"] = $response;
                 $responses["status"] = 400;
             }
         } else {
-            $responses["message"] =  $response;
+            $responses["message"] = $response;
             $responses["status"] = 400;
         }
         return $responses;
@@ -2893,10 +2941,11 @@ class PedidosModel extends Query
         return $this->devolucion($id_factura);
     }
 
+
     public function obtenerDetallesPedido($id_factura)
     {
         $sql = "SELECT * FROM facturas_cot WHERE id_factura = $id_factura";
-        $factura =  $this->select($sql);
+        $factura = $this->select($sql);
 
         $numero_factura = $factura[0]['numero_factura'];
 
@@ -2954,6 +3003,7 @@ class PedidosModel extends Query
         }
         return $response;
     }
+
     public function agregarProductoAPedido($id_pedido, $id_producto, $cantidad, $precio, $sku, $id_inventario)
     {
         // Obtener detalles de la factura
@@ -3012,6 +3062,7 @@ class PedidosModel extends Query
         }
         return $response;
     }
+
     public function eliminarProductoDePedido($id_detalle)
     {
         // Obtener el id de la factura a la que pertenece el detalle
@@ -3167,7 +3218,8 @@ class PedidosModel extends Query
         $rol_mensaje,
         $celular_recibe,
         $phone_whatsapp_from
-    ) {
+    )
+    {
         // Inicializar la respuesta
         $response = $this->initialResponse();
 
@@ -3205,4 +3257,24 @@ class PedidosModel extends Query
 
         return $response;
     }
+
+    public function nuevo_pedido_sin_producto($datos, $productos): void
+    {
+        print_r($datos);
+        $ultima_factura = $this->select("SELECT MAX(numero_factura) as factura_numero FROM facturas_cot");
+        $factura_numero = $ultima_factura[0]['factura_numero'];
+        if (!$factura_numero || $factura_numero == '') {
+            $factura_numero = 'COT-0000000000';
+        }
+        $nueva_factura = $this->incrementarNumeroFactura($factura_numero);
+        // poner en texto productos
+        $productos = json_encode($productos);
+
+        $sql = "INSERT INTO `facturas_cot`(`numero_factura`, `fecha_factura`, `monto_factura`, `estado_factura`, `nombre`, `telefono`, `provincia`, `c_principal`, `ciudad_cot`, `c_secundaria`, `referencia`, `observacion`, `celular`, `importado`, `plataforma_importa`, `estado_guia_sistema`, `id_plataforma`, `tipo_servicio`, `contiene`, `costo_flete`, `costo_producto`, `comentario`, `id_transporte`, `no_producto`, `productos`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $data = [$nueva_factura, date("y-m-d h:i:s"), $datos['total_venta'], 1, $datos['nombre'], $datos['telefono'], $datos['provincia'], $datos['calle_principal'], $datos['ciudad_cot'], $datos['calle_secundaria'], $datos['referencia'], $datos['observacion'], $datos['celular'], $datos['importado'], $datos['plataforma_importa'], 1, $datos['id_plataforma'], $datos['tipo_servicio'], $datos['contiene'],0, 0,$datos['comentario'],0, 1, $productos];
+        $response = $this->insert($sql, $data);
+
+        echo json_encode($response);
+    }
+
 }

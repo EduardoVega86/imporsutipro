@@ -167,6 +167,22 @@ class Pedidos extends Controller
         $this->views->render($this, "inicio_automatizador");
     }
 
+    public function pedidos_sin_producto()
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "pedidos_sin_producto");
+    }
+
+    public function vista_anadir_sin_producto()
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "vista_anadir_sin_producto");
+    }
+
     public function local()
     {
         if (!$this->isAuth()) {
@@ -558,6 +574,14 @@ class Pedidos extends Controller
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
         $data = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin);
+        echo json_encode($data);
+    }
+
+    public function cargar_pedidos_sin_producto()
+    {
+        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
+        $fecha_fin = $_POST['fecha_fin'] ?? "";
+        $data = $this->model->cargar_pedidos_sin_producto($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin);
         echo json_encode($data);
     }
 
@@ -1114,6 +1138,15 @@ class Pedidos extends Controller
         $motivo_noDesea = $_POST['motivo_noDesea'];
 
         $response = $this->model->agregar_detalle_noDesea($id_factura, $motivo_noDesea);
+        echo json_encode($response);
+    }
+
+    public function agregar_detalle_observacion()
+    {
+        $id_factura = $_POST['id_factura_ingresar_observacion'];
+        $observacion_pedido = $_POST['observacion_pedido'];
+
+        $response = $this->model->agregar_detalle_observacion($id_factura, $observacion_pedido);
         echo json_encode($response);
     }
 

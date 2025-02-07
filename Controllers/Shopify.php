@@ -6,7 +6,7 @@ class Shopify extends Controller
         parent::__construct();
     }
 
-    public function index($id_plataforma)
+    /*public function index($id_plataforma): void
     {
         if (empty($id_plataforma)) {
             die("Error: No se ha especificado una plataforma");
@@ -23,6 +23,26 @@ class Shopify extends Controller
             $data = file_get_contents("php://input");
             $response = $this->model->agregarJson($id_plataforma, $data);
         }
+    }*/
+
+    public function index($id_plataforma) :void
+    {
+        if(empty($id_plataforma)) {
+            echo json_encode(["error" => "No se ha especificado una plataforma", "status"=> "error", "code" => 400]);
+            exit();
+        }
+        if(!$this->model->existenciaPlataforma($id_plataforma)){
+            $this->model->agregarJson($id_plataforma, file_get_contents("php://input"));
+            echo json_encode(["message" => "Se registro la plataforma", "status"=> "success", "code" => 200]);
+            exit();
+        }
+        $data = file_get_contents("php://input");
+        $this->model->agregarJson($id_plataforma, $data);
+        if($this->model->productoPlataforma($id_plataforma, $data)){
+            $this->model->gestionarRequest($id_plataforma, $data);
+            exit();
+        }
+        $this->model->gestionarRequestSinProducto($id_plataforma, $data);
     }
 
     public function pruebaShopify($id_plataforma)
@@ -43,17 +63,6 @@ class Shopify extends Controller
             $response = $this->model->agregarJson($id_plataforma, $data);
             echo json_encode($response);
         }
-    }
-
-    public function gooenvios($id_plataforma)
-    {
-        if (empty($id_plataforma)) {
-            die("Error: No se ha especificado una plataforma");
-        }
-
-        $data = file_get_contents("php://input");
-        $response = $this->model->agregarJsonGooenvios($id_plataforma, $data);
-        echo json_encode($response);
     }
 
     public function constructor()

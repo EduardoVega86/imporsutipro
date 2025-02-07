@@ -1,24 +1,18 @@
-let dataTableHistorial;
-let dataTableHistorialIsInitialized = false;
+let dataTablePedidosSinProducto;
+let dataTablePedidosSinProductoIsInitialized = false;
 
-const dataTableHistorialOptions = {
-  //scrollX: "2000px",
-  /* lengthMenu: [5, 10, 15, 20, 100, 200, 500], */
+const dataTablePedidosSinProductoOptions = {
   columnDefs: [
-    { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
-    /* { orderable: false, targets: [5, 6] }, */
-    /* { searchable: false, targets: [1] } */
-    //{ width: "50%", targets: [0] }
+    { className: "centered", targets: [1, 2, 3, 4, 5] },
+    { orderable: false, targets: 0 }, // ocultar para columna 0 el ordenar columna
   ],
-  order: [[1, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
   destroy: true,
-  responsive: true,
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
-    zeroRecords: "Ningún usuario encontrado",
+    zeroRecords: "Ningún pedido encontrado",
     info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
-    infoEmpty: "Ningún usuario encontrado",
+    infoEmpty: "Ningún pedido encontrado",
     infoFiltered: "(filtrados desde _MAX_ registros totales)",
     search: "Buscar:",
     loadingRecords: "Cargando...",
@@ -31,39 +25,39 @@ const dataTableHistorialOptions = {
   },
 };
 
-const initDataTableHistorial = async () => {
-  if (dataTableHistorialIsInitialized) {
-    dataTableHistorial.destroy();
+const initDataTablePedidosSinProducto = async () => {
+  if (dataTablePedidosSinProductoIsInitialized) {
+    dataTablePedidosSinProducto.destroy();
   }
 
-  await listHistorialPedidos();
+  await listPedidosSinProducto();
 
-  dataTableHistorial = $("#datatable_historialPedidos").DataTable(
-    dataTableHistorialOptions
+  dataTablePedidosSinProducto = $("#datatable_pedidos_sin_producto").DataTable(
+    dataTablePedidosSinProductoOptions
   );
 
-  dataTableHistorialIsInitialized = true;
+  dataTablePedidosSinProductoIsInitialized = true;
 };
 
-const listHistorialPedidos = async () => {
+const listPedidosSinProducto = async () => {
   try {
     const formData = new FormData();
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
 
     const response = await fetch(
-      `${SERVERURL}pedidos/cargarPedidos_imporsuit`,
+      `${SERVERURL}pedidos/cargar_pedidos_sin_producto`,
       {
         method: "POST",
         body: formData,
       }
     );
-
-    const historialPedidos = await response.json();
+    const pedidosSinProducto = await response.json();
 
     let content = ``;
-    historialPedidos.forEach((historialPedido, index) => {
-      let transporte = historialPedido.id_transporte;
+
+    pedidosSinProducto.forEach((pedido, index) => {
+      let transporte = pedido.id_transporte;
       console.log(transporte);
       let transporte_content = "";
       /* if (transporte == 2) {
@@ -87,44 +81,44 @@ const listHistorialPedidos = async () => {
 
       color_estadoPedido = "";
 
-      if (historialPedido.estado_pedido == 1) {
+      if (pedido.estado_pedido == 1) {
         color_estadoPedido = "#ff8301";
-      } else if (historialPedido.estado_pedido == 2) {
+      } else if (pedido.estado_pedido == 2) {
         color_estadoPedido = "#0d6efd";
-      } else if (historialPedido.estado_pedido == 3) {
+      } else if (pedido.estado_pedido == 3) {
         color_estadoPedido = "red";
-      } else if (historialPedido.estado_pedido == 4) {
+      } else if (pedido.estado_pedido == 4) {
         color_estadoPedido = "green";
-      } else if (historialPedido.estado_pedido == 5) {
+      } else if (pedido.estado_pedido == 5) {
         color_estadoPedido = "green";
-      } else if (historialPedido.estado_pedido == 6) {
+      } else if (pedido.estado_pedido == 6) {
         color_estadoPedido = "green";
       }
 
       select_estados_pedidos = `
                     <select class="form-select select-estado-pedido" style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
-        historialPedido.id_factura
+        pedido.id_factura
       }">
                         <option value="0" ${
-                          historialPedido.estado_pedido == 0 ? "selected" : ""
+                          pedido.estado_pedido == 0 ? "selected" : ""
                         }>-- Selecciona estado --</option>
                         <option value="1" ${
-                          historialPedido.estado_pedido == 1 ? "selected" : ""
+                          pedido.estado_pedido == 1 ? "selected" : ""
                         }>Pendiente</option>
                         <option value="2" ${
-                          historialPedido.estado_pedido == 2 ? "selected" : ""
+                          pedido.estado_pedido == 2 ? "selected" : ""
                         }>Gestionado</option>
                         <option value="3" ${
-                          historialPedido.estado_pedido == 3 ? "selected" : ""
+                          pedido.estado_pedido == 3 ? "selected" : ""
                         }>No desea</option>
                         <option value="4" ${
-                          historialPedido.estado_pedido == 4 ? "selected" : ""
+                          pedido.estado_pedido == 4 ? "selected" : ""
                         }>1ra llamada</option>
                         <option value="5" ${
-                          historialPedido.estado_pedido == 5 ? "selected" : ""
+                          pedido.estado_pedido == 5 ? "selected" : ""
                         }>2da llamada</option>
                         <option value="6" ${
-                          historialPedido.estado_pedido == 6 ? "selected" : ""
+                          pedido.estado_pedido == 6 ? "selected" : ""
                         }>Observación</option>
                     </select>`;
 
@@ -138,22 +132,22 @@ const listHistorialPedidos = async () => {
         ID_PLATAFORMA == 2293
       ) {
         boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
-          ${historialPedido.id_factura},
-          '${historialPedido.ciudad_cot}', // Si es string, ponlo entre comillas
-          '${historialPedido.celular}', // Lo mismo aquí si es string
-          '${historialPedido.nombre}',
-          '${historialPedido.c_principal}',
-          '${historialPedido.c_secundaria}',
-          '${historialPedido.contiene}',
-          ${historialPedido.monto_factura} // Si es número, no necesita comillas
+          ${pedido.id_factura},
+          '${pedido.ciudad_cot}', // Si es string, ponlo entre comillas
+          '${pedido.celular}', // Lo mismo aquí si es string
+          '${pedido.nombre}',
+          '${pedido.c_principal}',
+          '${pedido.c_secundaria}',
+          '${pedido.contiene}',
+          ${pedido.monto_factura} // Si es número, no necesita comillas
           )"><i class="fa-brands fa-whatsapp"></i></button>`;
       }
 
-      if (historialPedido.estado_pedido == 3) {
-        select_estados_pedidos += `<span>${historialPedido.detalle_noDesea_pedido}</span>`;
+      if (pedido.estado_pedido == 3) {
+        select_estados_pedidos += `<span>${pedido.detalle_noDesea_pedido}</span>`;
       }
 
-      let ciudadCompleta = historialPedido.ciudad;
+      let ciudadCompleta = pedido.ciudad;
       let ciudad = "";
       if (ciudadCompleta !== null) {
         let ciudadArray = ciudadCompleta.split("/");
@@ -162,35 +156,35 @@ const listHistorialPedidos = async () => {
 
       let plataforma = "";
       if (
-        historialPedido.plataforma == "" ||
-        historialPedido.plataforma == null
+        pedido.plataforma == "" ||
+        pedido.plataforma == null
       ) {
         plataforma = "";
       } else {
-        plataforma = procesarPlataforma(historialPedido.plataforma);
+        plataforma = procesarPlataforma(pedido.plataforma);
       }
 
       let plataforma_proveedor = obtenerSubdominio(
-        historialPedido.plataforma_proveedor
+        pedido.plataforma_proveedor
       );
 
       let canal_venta;
       let color_canal_venta;
       let numero_orden_shopify = "";
 
-      let factura = historialPedido.numero_factura;
+      let factura = pedido.numero_factura;
 
-      if (historialPedido.importado == 0) {
+      if (pedido.importado == 0) {
         canal_venta = "manual";
         color_canal_venta = "red";
-      } else if (historialPedido.plataforma_importa == "Funnelish") {
+      } else if (pedido.plataforma_importa == "Funnelish") {
         canal_venta = "Funnelish";
         color_canal_venta = "#5e81f4";
-      } else if (historialPedido.plataforma_importa == "Shopify") {
+      } else if (pedido.plataforma_importa == "Shopify") {
         canal_venta = "Shopify";
         color_canal_venta = "#79b258";
 
-        let comentario = historialPedido.comentario;
+        let comentario = pedido.comentario;
 
         // Dividir la cadena en partes usando "número de orden: "
         let partes = comentario.split("número de orden: ");
@@ -204,25 +198,33 @@ const listHistorialPedidos = async () => {
       content += `
                 <tr>
                     <td>${factura}</td>
-                    <td>${historialPedido.fecha_factura}</td>
-                    <td>${canal_venta}</td>
+                    <td>${pedido.fecha_factura}</td>
                     <td>
-                        <div><strong>${historialPedido.nombre}</strong></div>
-                        <div>telf: ${historialPedido.telefono}</div>
+                    <div>
+                    ${canal_venta}
+                    </div>
+                    <div>
+                    <span class="badge_warning no-wrap">no vinculado</span>
+                    </div>
+                    </div>
                     </td>
                     <td>
-                    <div>${historialPedido.c_principal} - ${historialPedido.c_secundaria}</div>
-                    <div>${historialPedido.provinciaa}-${ciudad}</div>
+                        <div><strong>${pedido.nombre}</strong></div>
+                        <div>telf: ${pedido.telefono}</div>
+                    </td>
+                    <td>
+                    <div>${pedido.c_principal} - ${pedido.c_secundaria}</div>
+                    <div>${pedido.provinciaa}-${ciudad}</div>
                     </td>
                     <td>
                     <div>
                     <strong>${plataforma_proveedor}</strong>
                     </div>
                     <div>
-                    ${historialPedido.contiene}
+                    ${pedido.contiene}
                     </div>
                     </td>
-                    <td>$ ${historialPedido.monto_factura}</td>
+                    <td>$ ${pedido.monto_factura}</td>
                     <td>
                     <div style = "text-align: -webkit-center;">
                     ${transporte_content}
@@ -230,13 +232,13 @@ const listHistorialPedidos = async () => {
                     </div>
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${pedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${pedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
                         ${boton_automatizador}
                     </td>
                 </tr>`;
     });
-    document.getElementById("tableBody_historialPedidos").innerHTML = content;
+    document.getElementById("tableBody_pedidos_sin_producto").innerHTML = content;
   } catch (ex) {
     alert(ex);
   }
@@ -418,7 +420,7 @@ function enviar_mensaje_automatizador(
 }
 
 window.addEventListener("load", async () => {
-  await initDataTableHistorial();
+  await initDataTablePedidosSinProducto();
 });
 
 function formatPhoneNumber(number) {

@@ -73,6 +73,12 @@ class Funnelish extends Controller
         echo json_encode($data);
     }
 
+    public function constructor()
+    {
+        $this->isAuth();
+        $this->views->render($this, "constructor");
+    }
+
     public function constructor_vista()
     {
         if (!$this->isAuth()) {
@@ -80,6 +86,15 @@ class Funnelish extends Controller
             exit();
         }
         $this->views->render($this, "constructor_vista");
+    }
+
+    public function constructor_vista_2()
+    {
+        if (!$this->isAuth()) {
+            header('Location: ' . SERVERURL . 'login');
+            exit();
+        }
+        $this->views->render($this, "constructor_vista_2");
     }
 
     public function data()
