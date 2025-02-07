@@ -172,13 +172,6 @@
         // Establece los valores iniciales en el input de fechas
         $('#daterange').val(haceUnaSemana.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD'));
     });
-
-    $(document).ready(function() {
-        // Inicializa la tabla cuando cambian los selectores
-        $("#tienda_q,#estado_q,#transporte,#impresion,#despachos").change(function() {
-            initDataTable();
-        });
-    });
 </script>
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias_administrador.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
