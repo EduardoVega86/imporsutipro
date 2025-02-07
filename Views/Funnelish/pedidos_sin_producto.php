@@ -6,7 +6,7 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Lista de Usuarios</h2>
+        <h2 class="text-center mb-4">Pedidos sin Productos</h2>
 
         <div class="primer_seccionFiltro" style="width: 100%;">
             <div class="d-flex flex-row align-items-end filtro_fecha">
