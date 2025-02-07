@@ -2883,6 +2883,8 @@ class PedidosModel extends Query
             ];
         }
 
+        print_r($response);
+        
         $id_factura = $response[0]['id_factura'];
         return $this->devolucion($id_factura);
     }
