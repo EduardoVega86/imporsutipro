@@ -9,6 +9,17 @@ function debounce(func, delay) {
   };
 }
 
+// Definición global de fecha_inicio y fecha_fin
+let fecha_inicio = "";
+let fecha_fin = "";
+
+// Configuración de las fechas usando moment.js (ajusta según lo que necesites)
+let hoy = moment();
+let haceUnaSemana = moment().subtract(6, 'days');
+
+fecha_inicio = haceUnaSemana.format('YYYY-MM-DD') + ' 00:00:00';
+fecha_fin = hoy.format('YYYY-MM-DD') + ' 23:59:59';
+
 let dataTable;
 let dataTableIsInitialized = false;
 
@@ -987,7 +998,21 @@ function gestionar_novedad(guia_novedad) {
     },
   });
 }
-
+$(document).ready(function () {
+  $("#tipo_gintracom").change(function () {
+    var tipo = $("#tipo_gintracom").val();
+    if (tipo == "recaudo") {
+      $("#valor_recaudoGintra").show();
+      $("#fecha_gintra").show();
+    } else if (tipo == "rechazar") {
+      $("#valor_recaudoGintra").hide();
+      $("#fecha_gintra").hide();
+    } else {
+      $("#valor_recaudoGintra").hide();
+      $("#fecha_gintra").show();
+    }
+  });
+});
 
 function enviar_gintraNovedad() {
   var button = document.getElementById("boton_gintra");
