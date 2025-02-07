@@ -93,7 +93,7 @@ const listNovedades = async () => {
         ruta_traking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${novedad.guia_novedad}`;
       } else if (novedad.guia_novedad.includes("I")) {
         transportadora = "GINTRACOM";
-        ruta_traking = `https://ec.gintracom.site/web/site/tracking`;
+        ruta_traking = `https://ec.gintracom.site/web/site/tracking?guia=${novedad.guia_novedad}`;
       } else if (novedad.guia_novedad.includes("SPD")) {
         transportadora = "SPEED";
         ruta_traking = ``;
@@ -262,23 +262,20 @@ function ejecutarGestionNovedad(guia_novedad) {
       }
 
       $("#id_gestionarNov").text(response.novedad[0].id_novedad);
+      $("#guia_novedad_nodal").text(response.novedad[0].guia_novedad);
       $("#cliente_gestionarNov").text(response.novedad[0].cliente_novedad);
       $("#estado_gestionarNov").text(response.novedad[0].estado_novedad);
       $("#transportadora_gestionarNov").text(transportadora);
       $("#novedad_gestionarNov").text(response.novedad[0].novedad);
 
-      if (
-        response.novedad[0].tracking.includes(
-          "https://fenix.laarcourier.com/Tracking/Guiacompleta.aspx?guia="
-        )
-      ) {
-        $("#tracking_gestionarNov").attr(
-          "href",
-          "https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=" +
-            response.novedad[0].guia_novedad
-        );
-      } else {
-        $("#tracking_gestionarNov").attr("href", response.novedad[0].tracking);
+      if (response.factura[0].transporte == "LAAR"){
+        $("#tracking_gestionarNov").attr("href", `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${response.novedad[0].guia_novedad}`);
+      } else if (response.factura[0].transporte == "SERVIENTREGA"){
+        $("#tracking_gestionarNov").attr("href", `https://www.servientrega.com.ec/Tracking/?guia=${response.novedad[0].guia_novedad}&tipo=GUIA`);
+      } else if (response.factura[0].transporte == "GINTRACOM"){
+        $("#tracking_gestionarNov").attr("href", `https://ec.gintracom.site/web/site/tracking?guia=${response.novedad[0].guia_novedad}`);
+      } else if (response.factura[0].transporte == "SPEED"){
+        $("#tracking_gestionarNov").attr("href", ``);
       }
 
       $("#id_novedad").val(response.novedad[0].id_novedad);

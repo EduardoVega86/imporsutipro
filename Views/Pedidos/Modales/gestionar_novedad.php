@@ -79,6 +79,7 @@
                         <input type="hidden" id="id_factura_novedad" name="id_factura_novedad">
 
                         <p class="texto_modal"><strong>ID:</strong> <span id="id_gestionarNov"></span></p>
+                        <p class="texto_modal"><strong>Guia:</strong> <span id="guia_novedad_nodal"></span></p>
                         <p class="texto_modal"><strong>Cliente:</strong> <span id="cliente_gestionarNov"></span></p>
                         <p class="texto_modal"><strong>Estado:</strong> <span id="estado_gestionarNov"></span></p>
                         <p class="texto_modal"><strong>Transportadora:</strong> <span id="transportadora_gestionarNov"></span></p>
