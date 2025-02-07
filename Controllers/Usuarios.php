@@ -63,7 +63,7 @@ class Usuarios extends Controller
 
     public function passwords_list()
     {
-        if ($_SESSION['cargo'] != '10') {
+        if ($_SESSION['cargo'] != '10' && $_SESSION['cargo'] != '20') {
             $response = [
                 'status' => 501,
                 'title' => 'Error',

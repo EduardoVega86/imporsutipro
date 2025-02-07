@@ -2039,4 +2039,10 @@ class ProductosModel extends Query
         return $response;
     }
     /* fin oferta */
+
+    public function obtener_productos_bodegas_propias($id_plataforma){
+        $sql = "SELECT ib.id_inventario, ib.id_producto, ib.bodega, ib.pvp, ib.pcp, ib.sku, p.image_path, p.nombre_producto, v.variedad FROM inventario_bodegas ib inner join productos p on p.id_producto = ib.id_producto left join variedades v on ib.id_variante = v.id_variedad WHERE ib.id_plataforma = $id_plataforma;";
+        return $this->select($sql);
+
+    }
 }
