@@ -5,8 +5,7 @@
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 <?php require_once './Views/Pedidos/Modales/detalles_factura.php'; ?>
 <?php require_once './Views/Pedidos/Modales/gestionar_novedad.php'; ?>
-
-
+<?php require_once './Views/Pedidos/Modales/gestionar_novedadSpeed.php'; ?>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Guias</h2>
@@ -92,8 +91,6 @@
             <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
         </div>
 
-
-
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_guias" class="table table-striped">
@@ -107,13 +104,17 @@
                         <th class="centered">Detalle</th>
                         <th class="centered">Cliente</th>
                         <th class="centered">Destino</th>
-                        <th class="centered">Tienda</th>
-                        <th class="centered">Proveedor</th>
-                        <th class="centered">Productos</th>
+                        <th class="centered">Entidades</th>
                         <th class="centered">Transportadora</th>
                         <th class="centered">Estado</th>
                         <th class="centered">Despachado</th>
                         <th class="centered">Impreso</th>
+                        <th class="centered">Venta total</th>
+                        <th class="centered">Costo producto</th>
+                        <th class="centered">Costo flete</th>
+                        <th class="centered">Fulfillment</th>
+                        <th class="centered">Monto a recibir</th>
+                        <th class="centered">Recaudo</th>
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
@@ -177,5 +178,5 @@
         });
     });
 </script>
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias_administrador_3.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias_administrador.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
