@@ -2884,6 +2884,12 @@ class PedidosModel extends Query
         }
 
         $id_factura = $response[0]['id_factura'];
+
+        $sql_update = "UPDATE `novedades` SET `solucionada` = ? WHERE `guia_novedad` = ?";
+        $update_data = [1, $guia_novedad];
+
+        // Ejecutar la actualización
+        $actualizar_novedad = $this->update($sql_update, $update_data);
         return $this->devolucion($id_factura);
     }
 
