@@ -257,7 +257,7 @@ const listGuias = async () => {
       } else if (guia.estado_factura == 1) {
         despachado = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
       } else if (guia.estado_factura == 3) {
-        despachado = `<i class='bx bxs-truck' style="color:red; font-size: 30px;"></i>`;
+        despachado = `<i class='bi bi-arrow-counterclockwise' style="color:blue; font-size: 30px;"></i>`;
       }
 
       content += `
