@@ -70,7 +70,6 @@ const listPedidosSinProducto = async () => {
                 <td>${pedido.pvp}</td>
                 <td>${cargar_imagen}</td>
                 <td>
-                ${editar}
                 <button class="btn btn-sm btn-danger" onclick="eliminar_usuario(${
                   pedido.id_users
                 })"><i class="fa-solid fa-trash-can"></i>Borrar</button>
