@@ -134,7 +134,6 @@ class PedidosModel extends Query
 
         $sql .= " ORDER BY fc.numero_factura DESC;";
 
-        error_log("CONSULTA FINAL: " . $sql);
         return $this->select($sql);
     }
 
@@ -1515,6 +1514,10 @@ class PedidosModel extends Query
             $response['message'] = "Pedido creado correctamente";
             $response["numero_factura"] = $nueva_factura;
         }
+
+        $sql = "UPDATE facturas_cot SET automatizar_ws = ? WHERE id_factura = ?";
+        $data = [1, $nueva_factura];
+        $editar_tmp = $this->update($sql, $data);
 
         return $response;
     }
