@@ -47,7 +47,7 @@ class MarketplaceModel extends Query
 
         // Filtro por id: si se proporciona, se busca una coincidencia exacta
         if (!empty($id)) {
-            $where .= " AND p.id_producto = $id ";
+            $where .= " AND ib.id_inventario = $id ";
         } else {
             // Filtro por nombre (sólo si no se busca por id)
             if (!empty($nombre)) {
