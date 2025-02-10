@@ -741,7 +741,7 @@ document.addEventListener("DOMContentLoaded", function () {
     debounce(function () {
       var q = $("#buscar_nombre").val();
       formData_filtro.set("nombre", q);
-      formData_filtro.set("id", q);
+      formData_filtro.set("id", p);
       clearAndFetchProducts();
     }, 300)
   );
