@@ -39,14 +39,20 @@ class MarketplaceModel extends Query
         $min,
         $max,
         $favorito,
-        $vendido
+        $vendido,
+        $id
     ) {
         $where = '';
         $favorito_filtro = '';
 
-        // Filtro por nombre
-        if (!empty($nombre)) {
-            $where .= " AND p.nombre_producto LIKE '%$nombre%' ";
+        // Filtro por id: si se proporciona, se busca una coincidencia exacta
+        if (!empty($id)) {
+            $where .= " AND p.id_producto = $id ";
+        } else {
+            // Filtro por nombre (sólo si no se busca por id)
+            if (!empty($nombre)) {
+                $where .= " AND p.nombre_producto LIKE '%$nombre%' ";
+            }
         }
 
         // Filtro por línea

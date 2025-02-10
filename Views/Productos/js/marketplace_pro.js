@@ -741,14 +741,13 @@ document.addEventListener("DOMContentLoaded", function () {
       var q = $("#buscar_nombre").val().trim();
   
       if (/^\d+$/.test(q)) {
-        // Si el valor es únicamente numérico, lo usamos para buscar por id
+        // CAMBIO: Si el valor es numérico, se asume búsqueda por id.
         formData_filtro.set("id", q);
-        // Limpiamos el filtro de nombre para que no interfiera
+        // Se limpia el filtro por nombre para que no interfiera
         formData_filtro.set("nombre", "");
       } else {
-        // Si el valor contiene letras o es texto, se busca por nombre
+        // CAMBIO: Si el valor es texto, se busca por nombre y se elimina el filtro id.
         formData_filtro.set("nombre", q);
-        // Se elimina el filtro id si existe
         formData_filtro.delete("id");
       }
   
