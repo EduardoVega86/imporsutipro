@@ -411,6 +411,8 @@ function enviar_mensaje_automatizador(
         toastr.success("ENVIADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
+        initDataTableHistorial();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {

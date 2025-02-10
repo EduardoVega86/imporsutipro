@@ -28,7 +28,8 @@
 <body>
 
     <!-- Modal con estilo Wizard de 2 pasos -->
-    <div class="modal fade" id="agregar_productoModal" tabindex="-1" aria-labelledby="agregar_productoModalLabel" aria-hidden="true">
+    <div class="modal fade" id="agregar_productoModal" tabindex="-1" aria-labelledby="agregar_productoModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
@@ -37,7 +38,7 @@
                     <h5 class="modal-title" id="agregar_productoModalLabel">
                         <i class="fas fa-edit"></i> Nuevo Producto
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <!-- Cuerpo del modal, con pasos -->
@@ -77,7 +78,8 @@
                                     <div class="d-flex flex-column w-100">
                                         <div class="form-group">
                                             <label for="formato-pagina">Formato Página Productos:</label>
-                                            <select onchange="formato()" class="form-select" id="formato-pagina" required>
+                                            <select onchange="formato()" class="form-select" id="formato-pagina"
+                                                required>
                                                 <option selected value="">-- Selecciona --</option>
                                                 <option value="1">Formato 1</option>
                                                 <option value="2">Formato 2</option>
@@ -97,7 +99,8 @@
                                     <div class="form-group">
                                         <label>Formato:</label>
                                         <div class="d-flex">
-                                            <img src="https://new.imporsuitpro.com/public/img/formato_pro.jpg" alt="Formato" class="me-2" width="350px;">
+                                            <img src="https://new.imporsuitpro.com/public/img/formato_pro.jpg" alt="Formato"
+                                                class="me-2" width="350px;">
                                         </div>
                                     </div>
                                 </div>
@@ -110,12 +113,12 @@
                             <div class="d-flex flex-column">
                                 <div class="d-flex flex-row gap-3">
                                     <div class="form-group w-100">
-                                        <label for="precio-venta">Precio de Venta (Sugerido):</label>
-                                        <input type="text" class="form-control" id="precio-venta" required>
-                                    </div>
-                                    <div class="form-group w-100">
                                         <label for="precio-proveedor">Precio Proveedor:</label>
                                         <input type="text" class="form-control" id="precio-proveedor" required>
+                                    </div>
+                                    <div class="form-group w-100">
+                                        <label for="precio-venta">Precio de Venta (Sugerido):</label>
+                                        <input type="text" class="form-control" id="precio-venta" required>
                                     </div>
                                 </div>
 
@@ -164,7 +167,8 @@
                     <button type="button" class="btn btn-primary" id="previousStepBtn" style="display:none;">Anterior</button>
                     <button type="button" class="btn btn-primary" id="nextStepBtn">Siguiente</button>
                     <!-- Botón Guardar que envía el formulario (solo visible en el paso 2) -->
-                    <button type="submit" form="agregar_producto_form" class="btn btn-success" id="guardar_producto" style="display:none;">Guardar</button>
+                    <button type="submit" form="agregar_producto_form" class="btn btn-success" id="guardar_producto"
+                        style="display:none;">Guardar</button>
                 </div>
 
             </div>
@@ -208,7 +212,7 @@
 
             // Botón "Siguiente"
             nextBtn.addEventListener('click', function() {
-                // Ejemplo: Validar que "codigo" y "nombre" no vengan vacíos
+                // Validar que "codigo" y "nombre" no vengan vacíos
                 if (!document.getElementById('codigo').value.trim()) {
                     toastr.error("Falta el código del producto", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center"
@@ -242,13 +246,12 @@
             // Iniciar mostrando el paso 1
             showStep(currentStep);
 
-            //RESETEAR AL PASO 1 AL CERRAR EL MODAL ***
+            // RESETEAR AL PASO 1 AL CERRAR EL MODAL
             $('#agregar_productoModal').on('hidden.bs.modal', function() {
                 currentStep = 1;
                 showStep(currentStep);
             });
         });
-
 
         // 1. Ocultar/Mostrar campo "bodega" si es necesario
         // 2. Controlar "funnelish"
@@ -268,6 +271,22 @@
                 document.getElementById("funnelish").style.display = 'none';
             }
         }
+
+        // =============== VALIDACIÓN DE LOS CAMPOS DE PRECIO ===============
+        // Solo se permiten números y puntos (.) como separador decimal. No se aceptan comas u otros símbolos.
+        $(document).ready(function() {
+            $('#precio-venta, #precio-proveedor').on('input', function() {
+                var value = $(this).val();
+                // Si se encuentran caracteres que no sean dígitos o puntos
+                if (/[^0-9.]/.test(value)) {
+                    toastr.error("Solo se permiten números y puntos (.) como separador decimal. Por favor, no utilice comas u otros símbolos.", "NOTIFICACIÓN", {
+                        positionClass: "toast-bottom-center"
+                    });
+                    // Elimina los caracteres no permitidos
+                    $(this).val(value.replace(/[^0-9.]/g, ''));
+                }
+            });
+        });
 
         // =============== LÓGICA PARA ENVIAR EL FORMULARIO VIA AJAX ===============
         $(document).ready(function() {

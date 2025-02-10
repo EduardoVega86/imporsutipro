@@ -47,7 +47,18 @@ const initDataTableHistorial = async () => {
 
 const listHistorialPedidos = async () => {
   try {
-    const response = await fetch("" + SERVERURL + "pedidos/cargarPedidos");
+    const formData = new FormData();
+    formData.append("fecha_inicio", fecha_inicio);
+    formData.append("fecha_fin", fecha_fin);
+
+    const response = await fetch(
+      `${SERVERURL}pedidos/cargarPedidos_imporsuit`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
     const historialPedidos = await response.json();
 
     let content = ``;
@@ -82,6 +93,12 @@ const listHistorialPedidos = async () => {
         color_estadoPedido = "#0d6efd";
       } else if (historialPedido.estado_pedido == 3) {
         color_estadoPedido = "red";
+      } else if (historialPedido.estado_pedido == 4) {
+        color_estadoPedido = "green";
+      } else if (historialPedido.estado_pedido == 5) {
+        color_estadoPedido = "green";
+      } else if (historialPedido.estado_pedido == 6) {
+        color_estadoPedido = "green";
       }
 
       select_estados_pedidos = `
@@ -100,13 +117,27 @@ const listHistorialPedidos = async () => {
                         <option value="3" ${
                           historialPedido.estado_pedido == 3 ? "selected" : ""
                         }>No desea</option>
+                        <option value="4" ${
+                          historialPedido.estado_pedido == 4 ? "selected" : ""
+                        }>1ra llamada</option>
+                        <option value="5" ${
+                          historialPedido.estado_pedido == 5 ? "selected" : ""
+                        }>2da llamada</option>
+                        <option value="6" ${
+                          historialPedido.estado_pedido == 6 ? "selected" : ""
+                        }>Observación</option>
                     </select>`;
 
       //tomar solo la ciudad
 
       let boton_automatizador = "";
 
-      if (ID_PLATAFORMA == 1251 || ID_PLATAFORMA == 1206 || ID_PLATAFORMA == 2293){
+      if (
+        ID_PLATAFORMA == 1251 ||
+        ID_PLATAFORMA == 1206 ||
+        ID_PLATAFORMA == 2293
+      ) {
+        if (historialPedido.automatizar_ws == 0){
         boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
           ${historialPedido.id_factura},
           '${historialPedido.ciudad_cot}', // Si es string, ponlo entre comillas
@@ -117,6 +148,7 @@ const listHistorialPedidos = async () => {
           '${historialPedido.contiene}',
           ${historialPedido.monto_factura} // Si es número, no necesita comillas
           )"><i class="fa-brands fa-whatsapp"></i></button>`;
+        }
       }
 
       if (historialPedido.estado_pedido == 3) {
@@ -146,6 +178,9 @@ const listHistorialPedidos = async () => {
 
       let canal_venta;
       let color_canal_venta;
+      let numero_orden_shopify = "";
+
+      let factura = historialPedido.numero_factura;
 
       if (historialPedido.importado == 0) {
         canal_venta = "manual";
@@ -156,11 +191,21 @@ const listHistorialPedidos = async () => {
       } else if (historialPedido.plataforma_importa == "Shopify") {
         canal_venta = "Shopify";
         color_canal_venta = "#79b258";
+
+        let comentario = historialPedido.comentario;
+
+        // Dividir la cadena en partes usando "número de orden: "
+        let partes = comentario.split("número de orden: ");
+
+        // Si se encontró la frase, tomar la segunda parte y limpiar espacios
+        numero_orden_shopify = partes.length > 1 ? partes[1].trim() : null;
+
+        factura = numero_orden_shopify;
       }
 
       content += `
                 <tr>
-                    <td>${historialPedido.numero_factura}</td>
+                    <td>${factura}</td>
                     <td>${historialPedido.fecha_factura}</td>
                     <td>${canal_venta}</td>
                     <td>
@@ -227,6 +272,12 @@ document.addEventListener("change", async (event) => {
           $("#id_factura_ingresar_motivo").val(idFactura);
 
           $("#ingresar_nodDesea_pedidoModal").modal("show");
+        }
+
+        if (nuevoEstado == 6) {
+          $("#id_factura_ingresar_observacion").val(idFactura);
+
+          $("#ingresar_observacion_pedidoModal").modal("show");
         }
 
         initDataTableHistorial();
@@ -360,6 +411,8 @@ function enviar_mensaje_automatizador(
         toastr.success("ENVIADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
+        initDataTableHistorial();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {

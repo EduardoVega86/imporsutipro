@@ -33,8 +33,9 @@ class Marketplace extends Controller
         $max = $_POST['max'];
         $favorito = $_POST['favorito'];
         $vendido = $_POST['vendido'];
+        $id = $_POST['id'] ?? null;
 
-        $response = $this->model->obtener_productos($_SESSION['id_plataforma'], $nombre, $linea, $plataforma, $min, $max, $favorito, $vendido);
+        $response = $this->model->obtener_productos($_SESSION['id_plataforma'], $nombre, $linea, $plataforma, $min, $max, $favorito, $vendido, $id);
         echo json_encode($response);
     }
 

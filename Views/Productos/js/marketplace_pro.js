@@ -279,6 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
   formData_filtro.append("max", "");
   formData_filtro.append("favorito", "0");
   formData_filtro.append("vendido", "0");
+  formData_filtro.append("id", "")
 
   const initialProductsPerPage = 24;
   const additionalProductsPerPage = 24;
@@ -734,12 +735,22 @@ document.addEventListener("DOMContentLoaded", function () {
     clearAndFetchProducts();
   }, 300);
 
-  // Filtro por texto (nombre)
   $("#buscar_nombre").on(
     "input",
     debounce(function () {
-      var q = $("#buscar_nombre").val();
-      formData_filtro.set("nombre", q);
+      var q = $("#buscar_nombre").val().trim();
+  
+      if (/^\d+$/.test(q)) {
+        // CAMBIO: Si el valor es numérico, se asume búsqueda por id.
+        formData_filtro.set("id", q);
+        // Se limpia el filtro por nombre para que no interfiera
+        formData_filtro.set("nombre", "");
+      } else {
+        // CAMBIO: Si el valor es texto, se busca por nombre y se elimina el filtro id.
+        formData_filtro.set("nombre", q);
+        formData_filtro.delete("id");
+      }
+  
       clearAndFetchProducts();
     }, 300)
   );
