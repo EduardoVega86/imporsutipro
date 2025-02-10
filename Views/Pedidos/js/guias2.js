@@ -77,7 +77,6 @@ const initDataTable = async () => {
   await listGuias();
 
   dataTable = $("#datatable_guias").DataTable(dataTableOptions);
-
   dataTableIsInitialized = true;
 
   // Handle select all checkbox
@@ -683,6 +682,19 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
 
 window.addEventListener("load", async () => {
   await initDataTable();
+
+  const btnAplicar = document.getElementById("btnAplicarFiltros");
+  if(btnAplicar){
+    btnAplicar.addEventListener("click", async function () {
+        let rangoFechas = $("#daterange").val();
+        if (rangoFechas){
+            let fechas = rangoFechas.split(" - ");
+            fecha_inicio = fechas[0] + "00:00:00";
+            fecha_fin = fechas[1] + "23:59:59";
+        }
+        await initDataTable();
+    })
+  }
 });
 
 function formatPhoneNumber(number) {
