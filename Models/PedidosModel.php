@@ -134,8 +134,6 @@ class PedidosModel extends Query
 
         $sql .= " ORDER BY fc.numero_factura DESC;";
 
-        print_r($sql);
-
         return $this->select($sql);
     }
 
