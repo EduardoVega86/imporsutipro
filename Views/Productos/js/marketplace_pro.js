@@ -735,23 +735,23 @@ document.addEventListener("DOMContentLoaded", function () {
     clearAndFetchProducts();
   }, 300);
 
-  // Filtro por texto (nombre o id)
   $("#buscar_nombre").on(
     "input",
     debounce(function () {
       var q = $("#buscar_nombre").val().trim();
-      // Actualizamos el filtro para el nombre
-      formData_filtro.set("nombre", q);
-      
-      // Si el valor ingresado es solo dígitos, también lo usamos como filtro por id
+  
       if (/^\d+$/.test(q)) {
+        // Si el valor es únicamente numérico, lo usamos para buscar por id
         formData_filtro.set("id", q);
+        // Limpiamos el filtro de nombre para que no interfiera
+        formData_filtro.set("nombre", "");
       } else {
-        // Si no es solo numérico, se remueve (o se deja vacío) el filtro de id
+        // Si el valor contiene letras o es texto, se busca por nombre
+        formData_filtro.set("nombre", q);
+        // Se elimina el filtro id si existe
         formData_filtro.delete("id");
       }
-      
-      // Vaciamos y volvemos a cargar los productos con los filtros actualizados
+  
       clearAndFetchProducts();
     }, 300)
   );
