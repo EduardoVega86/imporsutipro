@@ -1515,6 +1515,10 @@ class PedidosModel extends Query
             $response["numero_factura"] = $nueva_factura;
         }
 
+        $sql = "UPDATE facturas_cot SET automatizar_ws = ? WHERE id_factura = ?";
+        $data = [1, $nueva_factura];
+        $editar_tmp = $this->update($sql, $data);
+
         return $response;
     }
 
