@@ -133,7 +133,7 @@ class PedidosModel extends Query
         }
 
         $sql .= " ORDER BY fc.numero_factura DESC;";
-        echo json_encode(["sql" => $sql]); // forzando salida
+        error_log("CONSULTA FINAL: " . $sql);
 
         return $this->select($sql);
     }
