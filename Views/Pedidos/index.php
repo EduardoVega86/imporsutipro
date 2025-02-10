@@ -70,7 +70,7 @@
 
         </div>
 
-        <div class="d-flex justify-content-center mb-3">
+        <div class="d-flex mb-3 mt-3">
             <button id="btnPedidos" class="btn btn-primary me-2 active">Pedidos</button>
             <button id="btnAbandonados" class="btn btn-secondary">Abandonados</button>
         </div>
