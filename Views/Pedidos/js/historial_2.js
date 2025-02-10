@@ -137,6 +137,7 @@ const listHistorialPedidos = async () => {
         ID_PLATAFORMA == 1206 ||
         ID_PLATAFORMA == 2293
       ) {
+        if (historialPedido.automatizar_ws == 0){
         boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
           ${historialPedido.id_factura},
           '${historialPedido.ciudad_cot}', // Si es string, ponlo entre comillas
@@ -147,6 +148,7 @@ const listHistorialPedidos = async () => {
           '${historialPedido.contiene}',
           ${historialPedido.monto_factura} // Si es número, no necesita comillas
           )"><i class="fa-brands fa-whatsapp"></i></button>`;
+        }
       }
 
       if (historialPedido.estado_pedido == 3) {
