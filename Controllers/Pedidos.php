@@ -32,6 +32,13 @@ class Pedidos extends Controller
         }
         $this->views->render($this, "guias");
     }
+    public function guias2($filtro = "")
+    {
+        if (!$this->isAuth()) {
+            header("Location:" . SERVERURL . "login");
+        }
+        $this->views->render($this, "guias2");
+    }
     public function guias_administrador($filtro = "")
     {
         if (!$this->isAuth()) {
@@ -45,10 +52,6 @@ class Pedidos extends Controller
             header("Location: " . SERVERURL . "login");
         }
         $this->views->render($this, "guias_administrador_3");
-    }
-    public function guias_administrador_2($filtro = "")
-    {
-        $this->views->render($this, "guias_administrador_2");
     }
     public function historial_2($filtro = "")
     {
