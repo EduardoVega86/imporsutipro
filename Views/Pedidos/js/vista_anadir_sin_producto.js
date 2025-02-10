@@ -56,31 +56,19 @@ const listPedidosSinProducto = async () => {
     let content = ``;
 
     pedidosSinProducto.forEach((pedido, index) => {
-      let editar = "";
-      let placa = "";
-      if (pedido.cargo_users == 35) {
-        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_motorizado(${pedido.id_users})"><i class="fa-solid fa-pencil"></i>Editar</button>`;
+      const enlace_imagen = obtenerURLImagen(pedido.image_path, SERVERURL);
 
-        placa = `<i class="fa-solid fa-store" style='cursor:pointer' onclick="abrir_modal_subirPlaca(${pedido.id_users})"></i>`;
-      } else {
-        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${pedido.id_users})"><i class="fa-solid fa-pencil"></i>Editar</button>`;
-      }
+      let cargar_imagen = pedido.image_path
+        ? `<img src="${enlace_imagen}" class="icon-button" alt="Agregar imagen" width="50px">`
+        : `<i class="bx bxs-camera-plus"></i>`;
 
       content += `
                 <tr>
-                <td>${pedido.id_users}</td>
-                <td>${pedido.nombre_users}</td>
-                <td>${pedido.usuario_users}</td>
-                <td>${pedido.email_users}</td>
-                <td>
-                <a href="https://wa.me/${formatPhoneNumber(
-                  pedido.whatsapp
-                )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
-                <i class='bx bxl-whatsapp-square' style="color: green;"></i>
-                </a></td>
-                <td>${pedido.nombre_tienda}</td>
-                <td>${pedido.date_added}</td>
-                <td>${placa}</td>
+                <td>${pedido.sku}</td>
+                <td>${pedido.nombre_producto}</td>
+                <td>${pedido.pcp}</td>
+                <td>${pedido.pvp}</td>
+                <td>${cargar_imagen}</td>
                 <td>
                 ${editar}
                 <button class="btn btn-sm btn-danger" onclick="eliminar_usuario(${
@@ -99,3 +87,21 @@ const listPedidosSinProducto = async () => {
 window.addEventListener("load", async () => {
   await initDataTablePedidosSinProducto();
 });
+
+function obtenerURLImagen(imagePath, serverURL) {
+  // Verificar si el imagePath no es null
+  if (imagePath) {
+    // Verificar si el imagePath ya es una URL completa
+    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+      // Si ya es una URL completa, retornar solo el imagePath
+      return imagePath;
+    } else {
+      // Si no es una URL completa, agregar el serverURL al inicio
+      return `${serverURL}${imagePath}`;
+    }
+  } else {
+    // Manejar el caso cuando imagePath es null
+    console.error("imagePath es null o undefined");
+    return null; // o un valor por defecto si prefieres
+  }
+}
