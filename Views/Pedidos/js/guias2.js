@@ -689,8 +689,8 @@ window.addEventListener("load", async () => {
         let rangoFechas = $("#daterange").val();
         if (rangoFechas){
             let fechas = rangoFechas.split(" - ");
-            fecha_inicio = fechas[0] + "00:00:00";
-            fecha_fin = fechas[1] + "23:59:59";
+            fecha_inicio = fechas[0] + " 00:00:00";
+            fecha_fin = fechas[1] + " 23:59:59";
         }
         await initDataTable();
     })
