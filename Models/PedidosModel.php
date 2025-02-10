@@ -134,6 +134,7 @@ class PedidosModel extends Query
 
         $sql .= " ORDER BY fc.numero_factura DESC;";
 
+        error_log("CONSULTA FINAL: " . $sql);
         return $this->select($sql);
     }
 
@@ -488,8 +489,7 @@ class PedidosModel extends Query
         $search,
         $orderColumn,
         $orderDir
-    )
-    {
+    ) {
         // Mapea "column index" => "campo de tu tabla"
         $columns = [
             0 => "id_factura",
@@ -3218,8 +3218,7 @@ class PedidosModel extends Query
         $rol_mensaje,
         $celular_recibe,
         $phone_whatsapp_from
-    )
-    {
+    ) {
         // Inicializar la respuesta
         $response = $this->initialResponse();
 
@@ -3271,10 +3270,9 @@ class PedidosModel extends Query
         $productos = json_encode($productos);
 
         $sql = "INSERT INTO `facturas_cot`(`numero_factura`, `fecha_factura`, `monto_factura`, `estado_factura`, `nombre`, `telefono`, `provincia`, `c_principal`, `ciudad_cot`, `c_secundaria`, `referencia`, `observacion`, `celular`, `importado`, `plataforma_importa`, `estado_guia_sistema`, `id_plataforma`, `tipo_servicio`, `contiene`, `costo_flete`, `costo_producto`, `comentario`, `id_transporte`, `no_producto`, `productos`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $data = [$nueva_factura, date("y-m-d h:i:s"), $datos['total_venta'], 1, $datos['nombre'], $datos['telefono'], $datos['provincia'], $datos['calle_principal'], $datos['ciudad_cot'], $datos['calle_secundaria'], $datos['referencia'], $datos['observacion'], $datos['celular'], $datos['importado'], $datos['plataforma_importa'], 1, $datos['id_plataforma'], $datos['tipo_servicio'], $datos['contiene'],0, 0,$datos['comentario'],0, 1, $productos];
+        $data = [$nueva_factura, date("y-m-d h:i:s"), $datos['total_venta'], 1, $datos['nombre'], $datos['telefono'], $datos['provincia'], $datos['calle_principal'], $datos['ciudad_cot'], $datos['calle_secundaria'], $datos['referencia'], $datos['observacion'], $datos['celular'], $datos['importado'], $datos['plataforma_importa'], 1, $datos['id_plataforma'], $datos['tipo_servicio'], $datos['contiene'], 0, 0, $datos['comentario'], 0, 1, $productos];
         $response = $this->insert($sql, $data);
 
         echo json_encode($response);
     }
-
 }

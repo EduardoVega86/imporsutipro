@@ -1,10 +1,11 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Pedidos/css/guias_administrador_style.php'; ?>
+<?php require_once './Views/Pedidos/css/guias_style.php'; ?>
 
 
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 <?php require_once './Views/Pedidos/Modales/detalles_factura.php'; ?>
 <?php require_once './Views/Pedidos/Modales/gestionar_novedad.php'; ?>
+
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Guias</h2>
@@ -85,8 +86,7 @@
             </div>
         </div>
         <div style="padding-top: 20px;">
-
-
+            <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
             <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
         </div>
 
@@ -105,13 +105,15 @@
                         <th class="centered">Detalle</th>
                         <th class="centered">Cliente</th>
                         <th class="centered">Destino</th>
-                        <th class="centered">Tienda</th>
-                        <th class="centered">Proveedor</th>
+                        <!-- <th class="centered">Tienda</th> -->
                         <th class="centered">Transportadora</th>
                         <th class="centered">Estado</th>
                         <th class="centered">Despachado</th>
                         <th class="centered">Impreso</th>
                         <th class="centered">Acciones</th>
+                        <th class="centered">Contiene</th>
+                        <th class="centered">Monto</th>
+                        <th class="centered">Costo</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody_guias"></tbody>
@@ -152,27 +154,17 @@
             autoUpdateInput: true // Actualiza el input automáticamente
         });
 
-        // Evento que se dispara cuando se aplica un nuevo rango de fechas
+        // NO recargamos la tabla directamente al aplicar el rango, lo haremos con el botón "Aplicar Filtros".
         $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-            // Actualiza el valor del input con el rango de fechas seleccionado
-            $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
-
-            // Actualizar las variables con las nuevas fechas seleccionadas
             fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
             fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
-            initDataTable();
         });
 
-        // Establece los valores iniciales en el input de fechas
-        $('#daterange').val(haceUnaSemana.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD'));
-    });
-
-    $(document).ready(function() {
-        // Inicializa la tabla cuando cambian los selectores
-        $("#tienda_q,#estado_q,#transporte,#impresion,#despachos").change(function() {
-            initDataTable();
-        });
+        // Seteamos en el input la fecha inicial y final
+        $('#daterange').val(
+            haceUnaSemana.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD')
+        );
     });
 </script>
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias_administrador_2.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias2.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>

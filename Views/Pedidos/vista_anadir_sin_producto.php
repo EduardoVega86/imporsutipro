@@ -16,15 +16,11 @@ ini_set('display_errors', 1);
                 <table id="datatable_pedidos_sin_producto" class="table table-striped table-bordered">
                     <thead>
                         <tr>
-
-                            <th>ID</th>
+                            <th>SKU</th>
                             <th>Nombre</th>
-                            <th>Usuario</th>
-                            <th>Email</th>
-                            <th>WhatsApp</th>
-                            <th>Tienda</th>
-                            <th>Fecha</th>
-                            <th>Placa</th>
+                            <th>Precio Proveedor</th>
+                            <th>Previo Venta</th>
+                            <th>Imange</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
