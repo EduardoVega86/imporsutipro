@@ -134,7 +134,7 @@ class PedidosModel extends Query
 
         $sql .= " ORDER BY fc.numero_factura DESC;";
 
-        error_log("CONSULTA FINAL: " . $sql);
+        var_dump("CONSULTA FINAL: " . $sql);
         return $this->select($sql);
     }
 
