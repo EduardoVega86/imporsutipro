@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  document.getElementById("buscar_nombre").addEventListener("input", function () {
+  document.getElementById("buscar_proveedor").addEventListener("input", function () {
       formData_filtro.set("nombre", this.value);
       fetchProveedores();
   });
