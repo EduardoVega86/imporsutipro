@@ -1,6 +1,6 @@
 let dataTablePedidosSinProducto;
 let dataTablePedidosSinProductoIsInitialized = false;
-let filtroProductos = 1; // 1: Propios | 2: Bodegas | 3: Privados (Valor inicial: Propios)
+let filtroProductos = 1; // 1: Propios | 2: Bodegas | 3: Privados
 let bodega_seleccionada = 0;
 
 const dataTablePedidosSinProductoOptions = {
@@ -43,16 +43,13 @@ const initDataTablePedidosSinProducto = async () => {
 const listPedidosSinProducto = async () => {
   try {
     const formData = new FormData();
-    formData.append("filtro", filtroProductos); // 🔹 Se envía el filtro a la API (1, 2 o 3)
+    formData.append("filtro", filtroProductos);
     formData.append("bodegas", bodega_seleccionada);
 
-    const response = await fetch(
-      `${SERVERURL}productos/obtener_productos_bps`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch(`${SERVERURL}productos/obtener_productos_bps`, {
+      method: "POST",
+      body: formData,
+    });
 
     const data = await response.json();
 
@@ -89,8 +86,7 @@ const listPedidosSinProducto = async () => {
         </tr>`;
     });
 
-    document.getElementById("tableBody_pedidos_sin_producto").innerHTML =
-      content;
+    document.getElementById("tableBody_pedidos_sin_producto").innerHTML = content;
   } catch (ex) {
     Swal.fire({
       icon: "error",
@@ -102,7 +98,22 @@ const listPedidosSinProducto = async () => {
   }
 };
 
-// 🚀 **Eventos para cambiar entre Propios, Bodegas y Privados**
+// ✅ **Definir la función `actualizarBotones()`**
+const actualizarBotones = () => {
+  document.getElementById("btnPropios").classList.toggle("active", filtroProductos === 1);
+  document.getElementById("btnBodegas").classList.toggle("active", filtroProductos === 2);
+  document.getElementById("btnPrivados").classList.toggle("active", filtroProductos === 3);
+
+  document.getElementById("btnPropios").classList.toggle("btn-primary", filtroProductos === 1);
+  document.getElementById("btnBodegas").classList.toggle("btn-primary", filtroProductos === 2);
+  document.getElementById("btnPrivados").classList.toggle("btn-primary", filtroProductos === 3);
+
+  document.getElementById("btnPropios").classList.toggle("btn-secondary", filtroProductos !== 1);
+  document.getElementById("btnBodegas").classList.toggle("btn-secondary", filtroProductos !== 2);
+  document.getElementById("btnPrivados").classList.toggle("btn-secondary", filtroProductos !== 3);
+};
+
+// ✅ **Eventos para cambiar entre Propios, Bodegas y Privados**
 document.getElementById("btnPropios").addEventListener("click", () => {
   filtroProductos = 1;
   bodega_seleccionada = 0;
@@ -115,7 +126,7 @@ document.getElementById("btnBodegas").addEventListener("click", async () => {
   filtroProductos = 2;
   mostrarSelectBodegas();
   actualizarBotones();
-  await cargarBodegas(); // 🔹 Llama a la API para llenar el select de bodegas
+  await cargarBodegas();
 });
 
 document.getElementById("btnPrivados").addEventListener("click", () => {
@@ -126,13 +137,13 @@ document.getElementById("btnPrivados").addEventListener("click", () => {
   initDataTablePedidosSinProducto();
 });
 
-// 🚀 **Evento para cambiar la bodega seleccionada**
+// ✅ **Evento para cambiar la bodega seleccionada**
 document.getElementById("selectBodega").addEventListener("change", () => {
   bodega_seleccionada = document.getElementById("selectBodega").value;
   initDataTablePedidosSinProducto();
 });
 
-// 🚀 **Mostrar u ocultar el select de bodegas**
+// ✅ **Mostrar u ocultar el select de bodegas**
 const mostrarSelectBodegas = () => {
   document.getElementById("bodegaContainer").style.display = "block";
 };
@@ -141,7 +152,7 @@ const ocultarSelectBodegas = () => {
   document.getElementById("bodegaContainer").style.display = "none";
 };
 
-// 🚀 **Cargar las bodegas desde la API**
+// ✅ **Cargar las bodegas desde la API**
 const cargarBodegas = async () => {
   try {
     const response = await fetch(`${SERVERURL}productos/obtener_bodegas_psp`);
@@ -157,7 +168,7 @@ const cargarBodegas = async () => {
     }
 
     const selectBodega = document.getElementById("selectBodega");
-    selectBodega.innerHTML = '<option value="0">Seleccione una bodega</option>'; // Resetear opciones
+    selectBodega.innerHTML = '<option value="0">Seleccione una bodega</option>'; 
 
     data.data.forEach((bodega) => {
       selectBodega.innerHTML += `<option value="${bodega.id_bodega}">${bodega.nombre_bodega}</option>`;
@@ -171,7 +182,7 @@ const cargarBodegas = async () => {
   }
 };
 
-// 🚀 **Inicialización al cargar la página**
+// ✅ **Inicialización al cargar la página**
 window.addEventListener("load", async () => {
   await initDataTablePedidosSinProducto();
 });
