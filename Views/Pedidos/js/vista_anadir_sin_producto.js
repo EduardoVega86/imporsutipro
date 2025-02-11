@@ -1,7 +1,7 @@
 let dataTablePedidosSinProducto;
 let dataTablePedidosSinProductoIsInitialized = false;
 let filtroProductos = 1; // 1: Propios | 2: Bodegas | 3: Privados (Valor inicial: Propios)
-
+let bodega_seleccinada = 0;
 const dataTablePedidosSinProductoOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5] },
@@ -43,7 +43,7 @@ const listPedidosSinProducto = async () => {
   try {
     const formData = new FormData();
     formData.append("filtro", filtroProductos); // 🔹 Se envía el filtro a la API (1, 2 o 3)
-    formData.append("bodegas", "");
+    formData.append("bodegas", bodega_seleccinada);
 
     const response = await fetch(
       `${SERVERURL}productos/obtener_productos_bps`,
