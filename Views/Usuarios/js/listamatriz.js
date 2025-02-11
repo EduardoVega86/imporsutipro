@@ -250,9 +250,3 @@ function abrirModalSubirImagen(id_plataforma) {
   // Muestra el modal (asumiendo que estás usando Bootstrap)
   $("#modalSubirImagen").modal("show");
 }
-
-// Abre el modal de "Cambiar Contraseña"
-function editarUsuario(id) {
-  $("#id_usuarioCambiar").val(id);
-  $("#cambiarClave_usuarioModal").modal("show");
-}
