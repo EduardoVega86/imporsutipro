@@ -257,7 +257,7 @@ ON
             if ($uploadResponse['status'] == 200) {
                 $target_file = $uploadResponse['data'];
                 // Actualizar en la base de datos
-                $sql = "UPDATE plataformas SET imagen = ? WHERE id_plataforma  = ?";
+                $sql = "UPDATE plataformas SET image = ? WHERE id_plataforma  = ?";
                 $data = [$target_file, $id_plataforma];
                 $editar_imagen = $this->update($sql, $data);
 
