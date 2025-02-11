@@ -183,7 +183,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 10;
+        z-index: 9999;
         /* Asegura que esté por encima de la tabla */
     }
 </style>

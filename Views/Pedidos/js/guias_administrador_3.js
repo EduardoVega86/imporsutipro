@@ -129,7 +129,6 @@ function hideTableLoader() {
  * Inicializa o recarga el DataTable
  */
 const initDataTable = async () => {
-  showTableLoader(); // Muestra el loader antes de comenzar
   try {
     if (dataTableIsInitialized) {
       dataTable.destroy();
