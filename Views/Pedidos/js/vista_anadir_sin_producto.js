@@ -276,7 +276,7 @@ $(document).ready(function () {
         // Llenar la información del cliente
         $("#cliente_factura").text(factura.nombre);
         $("#telefono_factura").text(factura.telefono);
-        $("#fecha_factura").text(new Date().toLocaleDateString()); // Se puede cambiar por la fecha real si existe en la API
+        /* $("#fecha_factura").text(new Date().toLocaleDateString()); */
         $("#total_factura").text("$" + calcularTotalFactura(factura.productos));
 
         // Llenar la tabla de productos

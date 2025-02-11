@@ -72,14 +72,14 @@
                         <span class="info-value" id="telefono_factura"></span>
                     </div>
                 </div>
-                <div class="row mt-2">
+                <!-- <div class="row mt-2">
                     <div class="col-md-6">
                         <label class="info-label">Fecha:</label>
                     </div>
                     <div class="col-md-6">
                         <span class="info-value" id="fecha_factura"></span>
                     </div>
-                </div>
+                </div> -->
                 <div class="row mt-2">
                     <div class="col-md-6">
                         <label class="info-label">Total:</label>
@@ -100,7 +100,6 @@
                     </thead>
                     <tbody id="tableBody_productos"></tbody>
                 </table>
-
             </div>
         </div>
     </div>
