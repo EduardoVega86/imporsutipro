@@ -124,25 +124,6 @@ const listPedidosSinProducto = async () => {
 
       //tomar solo la ciudad
 
-      let boton_automatizador = "";
-
-      if (
-        ID_PLATAFORMA == 1251 ||
-        ID_PLATAFORMA == 1206 ||
-        ID_PLATAFORMA == 2293
-      ) {
-        boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
-          ${pedido.id_factura},
-          '${pedido.ciudad_cot}', // Si es string, ponlo entre comillas
-          '${pedido.celular}', // Lo mismo aquí si es string
-          '${pedido.nombre}',
-          '${pedido.c_principal}',
-          '${pedido.c_secundaria}',
-          '${pedido.contiene}',
-          ${pedido.monto_factura} // Si es número, no necesita comillas
-          )"><i class="fa-brands fa-whatsapp"></i></button>`;
-      }
-
       if (pedido.estado_pedido == 3) {
         select_estados_pedidos += `<span>${pedido.detalle_noDesea_pedido}</span>`;
       }
@@ -233,8 +214,6 @@ const listPedidosSinProducto = async () => {
                     </td>
                     <td>
                         <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${pedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${pedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
-                        ${boton_automatizador}
                     </td>
                 </tr>`;
     });
@@ -347,76 +326,7 @@ function procesarPlataforma(url) {
 }
 
 function boton_editarPedido(id) {
-  window.location.href = "" + SERVERURL + "Pedidos/editar/" + id;
-}
-
-function boton_anularPedido(id_factura) {
-  $.ajax({
-    type: "POST",
-    url: SERVERURL + "Pedidos/eliminarPedido/" + id_factura,
-    dataType: "json",
-    success: function (response) {
-      if (response.status == 500) {
-        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      } else if (response.status == 200) {
-        toastr.success("ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-
-        initDataTableHistorial();
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al elimnar pedido");
-    },
-  });
-}
-
-function enviar_mensaje_automatizador(
-  nueva_factura,
-  ciudad_cot,
-  celular,
-  nombre,
-  c_principal,
-  c_secundaria,
-  contiene,
-  monto_factura
-) {
-  let formData = new FormData();
-  formData.append("nueva_factura", nueva_factura);
-  formData.append("ciudad_cot", ciudad_cot);
-  formData.append("celular", celular);
-  formData.append("nombre", nombre);
-  formData.append("c_principal", c_principal);
-  formData.append("c_secundaria", c_secundaria);
-  formData.append("contiene", contiene);
-  formData.append("monto_factura", monto_factura);
-
-  $.ajax({
-    url: SERVERURL + "pedidos/enviar_mensaje_automatizador",
-    type: "POST",
-    data: formData,
-    processData: false, // No procesar los datos
-    contentType: false, // No establecer ningún tipo de contenido
-    dataType: "json",
-    success: function (response) {
-      if (response.status == 500) {
-        toastr.error("NO SE ENVIO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      } else if (response.status == 200) {
-        toastr.success("ENVIADO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-    },
-  });
+  window.location.href = "" + SERVERURL + "Pedidos/vista_anadir_sin_producto/" + id;
 }
 
 window.addEventListener("load", async () => {

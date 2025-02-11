@@ -258,6 +258,16 @@ $(document).ready(function () {
     bodega_seleccionada = $(this).val(); // ✅ Guardar el valor seleccionado en la variable global
     await initDataTablePedidosSinProducto(); // ✅ Recargar la tabla con la nueva bodega seleccionada
   });
+
+  $.ajax({
+    url: SERVERURL + "productos/listar_bodegas",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {},
+    error: function (error) {
+      console.error("Error al obtener la lista de bodegas:", error);
+    },
+  });
 });
 
 // ✅ **Inicialización al cargar la página**
