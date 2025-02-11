@@ -124,9 +124,11 @@ document.getElementById("btnPropios").addEventListener("click", () => {
 
 document.getElementById("btnBodegas").addEventListener("click", async () => {
   filtroProductos = 2;
+  bodega_seleccionada = 0;
   mostrarSelectBodegas();
   actualizarBotones();
   await cargarBodegas();
+  initDataTablePedidosSinProducto();
 });
 
 document.getElementById("btnPrivados").addEventListener("click", () => {
@@ -171,7 +173,7 @@ const cargarBodegas = async () => {
     selectBodega.innerHTML = '<option value="0">Seleccione una bodega</option>'; 
 
     data.data.forEach((bodega) => {
-      selectBodega.innerHTML += `<option value="${bodega.id_bodega}">${bodega.nombre_bodega}</option>`;
+      selectBodega.innerHTML += `<option value="${bodega.id_bodega}">${bodega.nombre}</option>`;
     });
   } catch (ex) {
     Swal.fire({
