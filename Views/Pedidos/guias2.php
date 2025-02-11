@@ -90,7 +90,14 @@
             <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
         </div>
 
-
+        <div class="table-container" style="position: relative;">
+            <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
+            <div id="tableLoader" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
+        </div>
 
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->

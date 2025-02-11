@@ -69,21 +69,43 @@ function getFecha() {
   return fechaHoy;
 }
 
-const initDataTable = async () => {
-  if (dataTableIsInitialized) {
-    dataTable.destroy();
-  }
+//Cargando
+function showTableLoader() {
+  // Inserta siempre el HTML del spinner y luego muestra el contenedor
+  $("#tableLoader").html(
+    '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
+  ).css("display", "flex");
+}
 
+function hideTableLoader() {
+  $("#tableLoader").css("display", "none");
+}
+
+const initDataTable = async () => {
+  showTableLoader();
+
+  try{
+    if(dataTableIsInitialized){
+      dataTable.destroy();
+    }
+  
+ //Realiza solicitud para obtener los datos
   await listGuias();
 
+  //Inicializamos datatable con los nuevos datos
   dataTable = $("#datatable_guias").DataTable(dataTableOptions);
   dataTableIsInitialized = true;
 
-  // Handle select all checkbox
+  // Maneja el checkbox de "selleccionar todos"
   document.getElementById("selectAll").addEventListener("change", function () {
     const checkboxes = document.querySelectorAll(".selectCheckbox");
     checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
   });
+  }catch (error){
+    console.error("Error al cargar la tabla:", error)
+  }finally{
+    hideTableLoader();
+  }
 };
 
 const listGuias = async () => {
