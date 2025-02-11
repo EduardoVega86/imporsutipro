@@ -114,11 +114,13 @@ function getFecha() {
 
 //Cargando
 function showTableLoader() {
-  // Inserta siempre el HTML del spinner y luego muestra el contenedor
   $("#tableLoader").html(
-    '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
+    '<div class="spinner-border text-primary d-block" role="status" style="width: 3rem; height: 3rem; border-width: .25em;">' +
+      '<span class="visually-hidden">Cargando...</span>' +
+    '</div>'
   ).css("display", "flex");
 }
+
 
 function hideTableLoader() {
   $("#tableLoader").css("display", "none");
