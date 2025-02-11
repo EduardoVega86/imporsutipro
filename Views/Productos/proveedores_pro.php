@@ -9,7 +9,7 @@
                 <div class="col-12">
                     <div class="slider-proveedores-container">
                         <h6>Proveedores</h6>
-                        <input type="text" class="form-control mb-3" placeholder="Nombre de proveedor a encontrar.." id="buscar_nombre" />
+                        <input type="text" class="form-control mb-3" placeholder="Buscar proveedor..." id="buscar_proveedor" />
                         <div id="sliderProveedores" class="proveedores-grid"></div>
                     </div>
                 </div>
