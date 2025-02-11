@@ -245,8 +245,8 @@ function editarUsuario(id) {
 
 // Abre tu modal y asigna el id_plataforma en el input oculto
 function abrirModalSubirImagen(id_plataforma) {
-  // Asigna el id_plataforma en un input hidden dentro del modal
-  document.getElementById("id_plataforma_subir").value = id_plataforma;
+  $("#id_plataforma_subir").val(id_plataforma);
+
   // Muestra el modal (asumiendo que estás usando Bootstrap)
   $("#modalSubirImagen").modal("show");
 }
