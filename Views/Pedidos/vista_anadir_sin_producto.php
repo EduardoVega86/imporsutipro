@@ -12,7 +12,7 @@
         </div>
         <div id="bodegaContainer" class="mt-3" style="display: none;">
             <label for="selectBodega">Seleccionar Bodega:</label>
-            <select id="selectBodega" class="form-control">
+            <select id="selectBodega" class="form-control select2">
                 <option value="0">Seleccione una bodega</option>
             </select>
         </div>

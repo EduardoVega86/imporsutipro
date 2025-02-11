@@ -46,10 +46,13 @@ const listPedidosSinProducto = async () => {
     formData.append("filtro", filtroProductos);
     formData.append("bodegas", bodega_seleccionada);
 
-    const response = await fetch(`${SERVERURL}productos/obtener_productos_bps`, {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      `${SERVERURL}productos/obtener_productos_bps`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     const data = await response.json();
 
@@ -86,7 +89,8 @@ const listPedidosSinProducto = async () => {
         </tr>`;
     });
 
-    document.getElementById("tableBody_pedidos_sin_producto").innerHTML = content;
+    document.getElementById("tableBody_pedidos_sin_producto").innerHTML =
+      content;
   } catch (ex) {
     Swal.fire({
       icon: "error",
@@ -100,17 +104,35 @@ const listPedidosSinProducto = async () => {
 
 // ✅ **Definir la función `actualizarBotones()`**
 const actualizarBotones = () => {
-  document.getElementById("btnPropios").classList.toggle("active", filtroProductos === 1);
-  document.getElementById("btnBodegas").classList.toggle("active", filtroProductos === 2);
-  document.getElementById("btnPrivados").classList.toggle("active", filtroProductos === 3);
+  document
+    .getElementById("btnPropios")
+    .classList.toggle("active", filtroProductos === 1);
+  document
+    .getElementById("btnBodegas")
+    .classList.toggle("active", filtroProductos === 2);
+  document
+    .getElementById("btnPrivados")
+    .classList.toggle("active", filtroProductos === 3);
 
-  document.getElementById("btnPropios").classList.toggle("btn-primary", filtroProductos === 1);
-  document.getElementById("btnBodegas").classList.toggle("btn-primary", filtroProductos === 2);
-  document.getElementById("btnPrivados").classList.toggle("btn-primary", filtroProductos === 3);
+  document
+    .getElementById("btnPropios")
+    .classList.toggle("btn-primary", filtroProductos === 1);
+  document
+    .getElementById("btnBodegas")
+    .classList.toggle("btn-primary", filtroProductos === 2);
+  document
+    .getElementById("btnPrivados")
+    .classList.toggle("btn-primary", filtroProductos === 3);
 
-  document.getElementById("btnPropios").classList.toggle("btn-secondary", filtroProductos !== 1);
-  document.getElementById("btnBodegas").classList.toggle("btn-secondary", filtroProductos !== 2);
-  document.getElementById("btnPrivados").classList.toggle("btn-secondary", filtroProductos !== 3);
+  document
+    .getElementById("btnPropios")
+    .classList.toggle("btn-secondary", filtroProductos !== 1);
+  document
+    .getElementById("btnBodegas")
+    .classList.toggle("btn-secondary", filtroProductos !== 2);
+  document
+    .getElementById("btnPrivados")
+    .classList.toggle("btn-secondary", filtroProductos !== 3);
 };
 
 // ✅ **Eventos para cambiar entre Propios, Bodegas y Privados**
@@ -170,10 +192,17 @@ const cargarBodegas = async () => {
     }
 
     const selectBodega = document.getElementById("selectBodega");
-    selectBodega.innerHTML = '<option value="0">Seleccione una bodega</option>'; 
+    selectBodega.innerHTML = '<option value="0">Seleccione una bodega</option>';
 
     data.data.forEach((bodega) => {
       selectBodega.innerHTML += `<option value="${bodega.id_bodega}">${bodega.nombre}</option>`;
+    });
+
+    // ✅ **Inicializar Select2**
+    $("#selectBodega").select2({
+      width: "100%",
+      placeholder: "Seleccione una bodega",
+      allowClear: true,
     });
   } catch (ex) {
     Swal.fire({
