@@ -55,7 +55,7 @@ const listPedidosSinProducto = async () => {
     const pedidosSinProducto = await response.json();
     let content = ``;
 
-    pedidosSinProducto.forEach((pedido) => {
+    pedidosSinProducto.data.forEach((pedido) => {
       const enlace_imagen = obtenerURLImagen(pedido.image_path, SERVERURL);
       let cargar_imagen = pedido.image_path
         ? `<img src="${enlace_imagen}" class="icon-button" alt="Imagen" width="50px">`
