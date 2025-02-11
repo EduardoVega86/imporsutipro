@@ -129,6 +129,7 @@ function hideTableLoader() {
  * Inicializa o recarga el DataTable
  */
 const initDataTable = async () => {
+  showTableLoader(); 
   try {
     if (dataTableIsInitialized) {
       dataTable.destroy();
@@ -175,7 +176,6 @@ const reloadDataTable = async () => {
  * Obtiene las guías del servidor con los filtros actuales y rellena la tabla
  */
 const listGuias = async () => {
-  showTableLoader(); 
   try {
     const formData = new FormData();
     formData.append("fecha_inicio", fecha_inicio);

@@ -92,14 +92,12 @@
 
         <div class="table-container" style="position: relative;">
             <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
-            <div id="tableLoader" style="display: none; display: flex; align-items: center; gap: 10px;">
+            <div id="tableLoader" style="display: none;">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Cargando...</span>
                 </div>
-                <span style="font-size: 16px; font-weight: bold; color: #007bff;">Cargando...</span>
             </div>
         </div>
-
 
         <div class="table-responsive">
             <table id="datatable_guias" class="table table-striped">
