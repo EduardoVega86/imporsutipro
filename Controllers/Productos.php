@@ -11,8 +11,10 @@ class Productos extends Controller
     public function __construct()
     {
         parent::__construct();
-        if (!$this->isAuth())
+        if (!$this->isAuth()) {
             header("Location:  " . SERVERURL . "login");
+            exit();
+        }
         /* if (!$this->hasPermission(2)) {
             header("Location: /dashboard");
         } */
@@ -1086,15 +1088,21 @@ class Productos extends Controller
     public function obtener_productos_bps()
     {
         $filtro = $_POST["filtro"];
-        $response=[];
-        try{
-        if ($filtro == 1) {
-            $response = $this->model->obtener_productos_bodegas_propias($_SESSION['id_plataforma']);
-        } elseif ($filtro == 2) {
-            $response = $this->model->obtener_productos_marketplace($_POST["id_bodega"]);
-        } else if ($filtro == 3){
-            $response = $this->model->obtener_productos_privados_bsp($_SESSION['id_plataforma']);
-        }
+        $response = [];
+        try {
+            if ($filtro < 1 || $filtro > 3) {
+                throw new Exception("Se envió un filtro incorrecto");
+            }
+            if ($filtro == 1) {
+                $response = $this->model->obtener_productos_bodegas_propias($_SESSION['id_plataforma']);
+            } elseif ($filtro == 2) {
+                if (!isset($_POST["id_bodega"])) {
+                    throw new Exception("No se envió la bodega");
+                }
+                $response = $this->model->obtener_productos_marketplace($_POST["id_bodega"]);
+            } else if ($filtro == 3) {
+                $response = $this->model->obtener_productos_privados_bsp($_SESSION['id_plataforma']);
+            }
 
             $response = [
                 "status" => 200,
@@ -1102,12 +1110,13 @@ class Productos extends Controller
                 "message" => "Productos obtenidos correctamente",
                 "data" => $response,
                 "count" => count($response)
-                ];
+            ];
         } catch (Exception $e) {
             $response = [
                 "status" => 500,
                 "title" => "Error",
-                "message" => "Error al obtener los productos"
+                "message" => $e->getMessage(),
+                "count" => 0
             ];
         }
 
@@ -1115,7 +1124,8 @@ class Productos extends Controller
 
     }
 
-    public function obtener_bodegas_psp(){
+    public function obtener_bodegas_psp()
+    {
         $response = $this->model->obtener_bodegas_psp();
         $count = count($response);
         $data["data"] = $response;
