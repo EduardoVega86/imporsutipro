@@ -7,7 +7,7 @@ const dataTablePedidosSinProductoOptions = {
     { className: "centered", targets: [1, 2, 3, 4, 5] },
     { orderable: false, targets: 0 },
   ],
-  pageLength: 10,
+  pageLength: 5,
   destroy: true,
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
@@ -43,6 +43,7 @@ const listPedidosSinProducto = async () => {
   try {
     const formData = new FormData();
     formData.append("filtro", filtroProductos); // 🔹 Se envía el filtro a la API (1, 2 o 3)
+    formData.append("bodegas", "");
 
     const response = await fetch(
       `${SERVERURL}productos/obtener_productos_bps`,
