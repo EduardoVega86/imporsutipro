@@ -1,16 +1,20 @@
-<!-- Modal para subir imagen -->
 <div class="modal fade" id="modalSubirImagen" tabindex="-1" aria-labelledby="modalSubirImagenLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <!-- Header -->
+            <div class="modal-header" style="background-color: pink;">
                 <h5 class="modal-title" id="modalSubirImagenLabel">Subir Imagen</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <!-- Botón de cierre para Bootstrap 5 -->
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
+
+            <!-- Body -->
             <div class="modal-body">
                 <input type="hidden" id="id_plataforma_subir" />
-
                 <div class="form-group">
                     <label for="fileImagenProveedor">Selecciona la imagen:</label>
                     <input
@@ -20,11 +24,14 @@
                         accept="image/*" />
                 </div>
             </div>
+
+            <!-- Footer -->
             <div class="modal-footer">
+                <!-- Botón de cerrar con Bootstrap 5 -->
                 <button
                     type="button"
                     class="btn btn-secondary"
-                    data-dismiss="modal">
+                    data-bs-dismiss="modal">
                     Cerrar
                 </button>
                 <button
@@ -37,6 +44,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     async function enviarImagen() {
