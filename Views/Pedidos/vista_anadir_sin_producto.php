@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="table-container">
-                    <table class="table table-striped table-bordered">
+                    <table id="datatable_productos" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>Producto</th>
