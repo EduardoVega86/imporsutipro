@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       const proveedorCard = document.createElement("div");
                       proveedorCard.classList.add("proveedor-card");
                       proveedorCard.innerHTML = `
-                          <div class="proveedor-logo">
+                          <div class="proveedor-logo-container">
                               <img src="${proveedor.logo || SERVERURL + 'public/img/icons/proveedor.png'}" alt="Logo">
                           </div>
                           <div class="chip-text">
