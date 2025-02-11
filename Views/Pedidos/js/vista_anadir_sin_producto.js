@@ -213,6 +213,14 @@ const cargarBodegas = async () => {
   }
 };
 
+$(document).ready(function() {
+  // ✅ Hacer la función `change` `async` para poder usar `await`
+  $("#selectBodega").change(async function() {
+    bodega_seleccionada = $(this).val(); // ✅ Guardar el valor seleccionado en la variable global
+    await initDataTablePedidosSinProducto(); // ✅ Recargar la tabla con la nueva bodega seleccionada
+  });
+});
+
 // ✅ **Inicialización al cargar la página**
 window.addEventListener("load", async () => {
   await initDataTablePedidosSinProducto();
