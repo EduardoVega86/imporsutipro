@@ -112,23 +112,44 @@ function getFecha() {
   return fechaHoy;
 }
 
+//Cargando
+function showLoader() {
+  document.getElementById('loader').style.display = 'flex';
+}
+
+function hideLoader() {
+  document.getElementById('loader').style.display = 'none';
+}
 /**
  * Inicializa o recarga el DataTable
  */
 const initDataTable = async () => {
-  if (dataTableIsInitialized) {
-    dataTable.destroy();
-  }
-  await listGuias();
-  dataTable = $("#datatable_guias").DataTable(dataTableOptions);
-  dataTableIsInitialized = true;
+  showLoader(); // Muestra el loader antes de comenzar
 
-  // Manejar el checkbox "select all"
-  document.getElementById("selectAll").addEventListener("change", function () {
-    const checkboxes = document.querySelectorAll(".selectCheckbox");
-    checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
-  });
+  try {
+    if (dataTableIsInitialized) {
+      dataTable.destroy();
+    }
+
+    // Realiza la solicitud para obtener los datos
+    await listGuias();
+
+    // Inicializa DataTables con los nuevos datos
+    dataTable = $("#datatable_guias").DataTable(dataTableOptions);
+    dataTableIsInitialized = true;
+
+    // Maneja el checkbox de "Seleccionar todos"
+    document.getElementById("selectAll").addEventListener("change", function () {
+      const checkboxes = document.querySelectorAll(".selectCheckbox");
+      checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
+    });
+  } catch (error) {
+    console.error("Error al cargar la tabla:", error);
+  } finally {
+    hideLoader(); // Oculta el loader cuando ya se completó la carga (o si ocurre un error)
+  }
 };
+
 
 // Nueva función para recargar el DataTable manteniendo la paginación y el pageLength
 const reloadDataTable = async () => {
