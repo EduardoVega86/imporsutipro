@@ -1130,6 +1130,7 @@ class Productos extends Controller
                 "count" => count($response)
             ]);
         })();
-
     }
+
+
 }
