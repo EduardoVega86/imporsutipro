@@ -93,7 +93,7 @@
         <div class="table-container" style="position: relative;">
             <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
             <div id="tableLoader" style="display: none;">
-                <div class="spinner-border text-primary" role="status">
+                <div class="spinner-border text-primary" role="status">Cargando..
                     <span class="visually-hidden">Cargando...</span>
                 </div>
             </div>
