@@ -54,4 +54,20 @@
         color: #333;
         padding-left: 10px;
     }
+
+    /* ✅ Responsive: Cambiar de fila a columna en pantallas pequeñas */
+    @media (max-width: 768px) {
+        .content-wrapper {
+            flex-direction: column; /* Apila los elementos */
+            align-items: center; /* Centra el contenido */
+        }
+
+        .table-container, .info-container {
+            width: 100%; /* Ocupa todo el ancho en móviles */
+        }
+
+        .divider {
+            display: none; /* Oculta la línea divisoria en móviles */
+        }
+    }
 </style>
