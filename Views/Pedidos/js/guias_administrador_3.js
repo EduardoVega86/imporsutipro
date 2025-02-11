@@ -130,9 +130,6 @@ function hideTableLoader() {
  */
 const initDataTable = async () => {
   showTableLoader(); // Muestra el loader antes de comenzar
-    // Espera brevemente para que el spinner se renderice
-    await new Promise(resolve => setTimeout(resolve, 50));
-
   try {
     if (dataTableIsInitialized) {
       dataTable.destroy();
@@ -179,6 +176,7 @@ const reloadDataTable = async () => {
  * Obtiene las guías del servidor con los filtros actuales y rellena la tabla
  */
 const listGuias = async () => {
+  showTableLoader(); 
   try {
     const formData = new FormData();
     formData.append("fecha_inicio", fecha_inicio);
