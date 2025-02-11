@@ -101,7 +101,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="provincia" class="form-label">Provincia</label>
-                            <select id="provincia" class="form-select" onchange="cargarCiudades()">
+                            <select id="provincia" class="form-select" >
                                 <option selected>Selecciona una opción</option>
                                 <!-- Agregar opciones aquí -->
                             </select>
