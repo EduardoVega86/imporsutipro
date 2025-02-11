@@ -175,8 +175,7 @@
     #tableLoader {
         position: absolute;
         top: -18px;
-        left: -340px;
-        width: 100%;
+        width: 54%;
         height: 100%;
         background: rgba(255, 255, 255, 0.8);
         /* Fondo semitransparente */
