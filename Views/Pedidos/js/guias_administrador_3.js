@@ -147,7 +147,7 @@ const initDataTable = async () => {
   } catch (error) {
     console.error("Error al cargar la tabla:", error);
   } finally {
-    hideLoader(); // Oculta el loader cuando ya se completó la carga (o si ocurre un error)
+    hideTableLoader(); // Oculta el loader cuando ya se completó la carga (o si ocurre un error)
   }
 };
 
