@@ -5,8 +5,15 @@
     <div class="container mt-5">
         <h2 class="text-center mb-4">Pedidos sin Productos</h2>
 
+        <div class="d-flex justify-content-center mb-3">
+            <button id="btnPropios" class="btn btn-primary me-2 active">Propios</button>
+            <button id="btnBodegas" class="btn btn-secondary me-2">Bodegas</button>
+            <button id="btnPrivados" class="btn btn-secondary">Privados</button>
+        </div>
+
         <!-- Contenedor de tabla e información -->
         <div class="content-wrapper">
+
             <!-- Tabla con DataTable -->
             <div class="table-container">
                 <table id="datatable_pedidos_sin_producto" class="table table-striped table-bordered">

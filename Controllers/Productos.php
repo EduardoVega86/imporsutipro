@@ -11,8 +11,10 @@ class Productos extends Controller
     public function __construct()
     {
         parent::__construct();
-        if (!$this->isAuth())
+        if (!$this->isAuth()) {
             header("Location:  " . SERVERURL . "login");
+            exit();
+        }
         /* if (!$this->hasPermission(2)) {
             header("Location: /dashboard");
         } */
@@ -1085,41 +1087,49 @@ class Productos extends Controller
     // cosas para productos
     public function obtener_productos_bps()
     {
-        $filtro = $_POST["filtro"];
-        $response=[];
-        try{
-        if ($filtro == 1) {
-            $response = $this->model->obtener_productos_bodegas_propias($_SESSION['id_plataforma']);
-        } elseif ($filtro == 2) {
-            $response = $this->model->obtener_productos_marketplace($_POST["id_bodega"]);
-        } else if ($filtro == 3){
-            $response = $this->model->obtener_productos_privados_bsp($_SESSION['id_plataforma']);
-        }
-
-            $response = [
+        $this->catchAsync(function (){
+            $filtro = $_POST["filtro"];
+            if ($filtro < 1 || $filtro > 3) {
+                throw new Exception("Se envió un filtro incorrecto");
+            }
+            if ($filtro == 1) {
+                $response = $this->model->obtener_productos_bodegas_propias($_SESSION['id_plataforma']);
+            } elseif ($filtro == 2) {
+                if (!isset($_POST["id_bodega"])) {
+                    throw new Exception("No se envió la bodega");
+                }
+                if ($_POST["id_bodega"] == 0) {
+                    throw new Exception("Por favor seleccione una bodega");
+                }
+                $response = $this->model->obtener_productos_marketplace($_POST["id_bodega"]);
+            } else {
+                $response = $this->model->obtener_productos_privados_bsp($_SESSION['id_plataforma']);
+            }
+            echo json_encode([
                 "status" => 200,
                 "title" => "Éxito",
                 "message" => "Productos obtenidos correctamente",
                 "data" => $response,
                 "count" => count($response)
-                ];
-        } catch (Exception $e) {
-            $response = [
-                "status" => 500,
-                "title" => "Error",
-                "message" => "Error al obtener los productos"
-            ];
-        }
-
-        echo json_encode($response);
-
+            ]);
+        })();
     }
 
-    public function obtener_bodegas_psp(){
-        $response = $this->model->obtener_bodegas_psp();
-        $count = count($response);
-        $data["data"] = $response;
-        $data["count"] = $count;
-        echo json_encode($data);
+    public function obtener_bodegas_psp()
+    {
+        $this->catchAsync(function (){
+            $response = $this->model->obtener_bodegas_psp();
+            if(count($response) == 0){
+                throw new Exception("No se encontraron bodegas");
+            }
+            echo json_encode([
+                "status" => 200,
+                "title" => "Éxito",
+                "message" => "Bodegas obtenidas correctamente",
+                "data" => $response,
+                "count" => count($response)
+            ]);
+        })();
+
     }
 }

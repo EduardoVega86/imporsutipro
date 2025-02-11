@@ -155,4 +155,22 @@
         border-color: #102BB4;
         color: white;
     }
+
+    .table-container {
+        position: relative;
+    }
+
+    #tableLoader {
+        position: absolute;
+        top: -18px;
+        width: 54%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        /* Fondo semitransparente */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        /* Asegura que esté por encima de la tabla */
+    }
 </style>

@@ -38,7 +38,7 @@ $(function() {
   $('#daterange').on('apply.daterangepicker', function(ev, picker) {
     fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
     fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
-    // initDataTable(); // Coméntalo si SOLO filtras con el botón.
+    initDataTable(); 
   });
 });
 
@@ -112,22 +112,46 @@ function getFecha() {
   return fechaHoy;
 }
 
+//Cargando
+function showTableLoader() {
+  // Inserta siempre el HTML del spinner y luego muestra el contenedor
+  $("#tableLoader").html(
+    '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
+  ).css("display", "flex");
+}
+
+function hideTableLoader() {
+  $("#tableLoader").css("display", "none");
+}
+
+
 /**
  * Inicializa o recarga el DataTable
  */
 const initDataTable = async () => {
-  if (dataTableIsInitialized) {
-    dataTable.destroy();
-  }
-  await listGuias();
-  dataTable = $("#datatable_guias").DataTable(dataTableOptions);
-  dataTableIsInitialized = true;
+  showTableLoader(); 
+  try {
+    if (dataTableIsInitialized) {
+      dataTable.destroy();
+    }
 
-  // Manejar el checkbox "select all"
-  document.getElementById("selectAll").addEventListener("change", function () {
-    const checkboxes = document.querySelectorAll(".selectCheckbox");
-    checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
-  });
+    // Realiza la solicitud para obtener los datos
+    await listGuias();
+
+    // Inicializa DataTables con los nuevos datos
+    dataTable = $("#datatable_guias").DataTable(dataTableOptions);
+    dataTableIsInitialized = true;
+
+    // Maneja el checkbox de "Seleccionar todos"
+    document.getElementById("selectAll").addEventListener("change", function () {
+      const checkboxes = document.querySelectorAll(".selectCheckbox");
+      checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
+    });
+  } catch (error) {
+    console.error("Error al cargar la tabla:", error);
+  } finally {
+    hideTableLoader(); // Oculta el loader cuando ya se completó la carga (o si ocurre un error)
+  }
 };
 
 // Nueva función para recargar el DataTable manteniendo la paginación y el pageLength
@@ -1131,11 +1155,9 @@ function enviar_laarNovedad() {
   });
 }
 
-// =========================================================
-// NUEVO: Cargamos la tabla cuando el DOM esté listo (si quieres tener datos por defecto).
-//       Y agregamos un listener al botón "Aplicar Filtros" para recargar la tabla con
-//       los valores seleccionados.
-// =========================================================
+
+//Cargamos la tabla cuando el DOM esté listo (si quieres tener datos por defecto).
+
 document.addEventListener("DOMContentLoaded", function () {
   // NUEVO: si deseas cargar la DataTable por defecto al entrar a la página
   initDataTable(); // <--- NEW: se puede comentar si no deseas cargar nada al inicio

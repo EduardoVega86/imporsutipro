@@ -90,7 +90,14 @@
             <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
         </div>
 
-
+        <div class="table-container" style="position: relative;">
+            <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
+            <div id="tableLoader" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
+        </div>
 
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
@@ -158,6 +165,9 @@
         $('#daterange').on('apply.daterangepicker', function(ev, picker) {
             fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
             fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
+
+            //Recargamos la tabla inmediatamente usando el nuevo rango de fechas
+            initDataTable();
         });
 
         // Seteamos en el input la fecha inicial y final
