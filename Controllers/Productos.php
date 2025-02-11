@@ -1099,6 +1099,9 @@ class Productos extends Controller
                 if (!isset($_POST["id_bodega"])) {
                     throw new Exception("No se envió la bodega");
                 }
+                if($_POST["id_bodega"] == 0){
+                    throw new Exception("Por favor seleccione una bodega");
+                }
                 $response = $this->model->obtener_productos_marketplace($_POST["id_bodega"]);
             } else if ($filtro == 3) {
                 $response = $this->model->obtener_productos_privados_bsp($_SESSION['id_plataforma']);
