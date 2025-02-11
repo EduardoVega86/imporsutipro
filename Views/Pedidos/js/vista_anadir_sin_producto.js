@@ -2,6 +2,7 @@ let dataTablePedidosSinProducto;
 let dataTablePedidosSinProductoIsInitialized = false;
 let filtroProductos = 1; // 1: Propios | 2: Bodegas | 3: Privados
 let bodega_seleccionada = 0;
+let productosSeleccionados = [];
 
 const dataTablePedidosSinProductoOptions = {
   columnDefs: [
@@ -82,15 +83,35 @@ const listPedidosSinProducto = async () => {
           <td>${pedido.pvp}</td>
           <td>${cargar_imagen}</td>
           <td>
-            <button class="btn btn-sm btn-danger" onclick="eliminar_producto(${pedido.id_producto})">
-              <i class="fa-solid fa-trash-can"></i> Borrar
-            </button>
+            <input type="checkbox" class="checkProducto" data-id="${pedido.id_inventario}">
           </td>
         </tr>`;
     });
 
     document.getElementById("tableBody_pedidos_sin_producto").innerHTML =
       content;
+
+    // ✅ Evento para capturar los cambios en los checkboxes
+    $(".checkProducto").change(function () {
+      let id = $(this).data("id");
+
+      if ($(this).is(":checked")) {
+        // Agregar al array si no existe
+        if (!productosSeleccionados.includes(id)) {
+          productosSeleccionados.push(id);
+        }
+      } else {
+        // Eliminar del array si se deselecciona
+        productosSeleccionados = productosSeleccionados.filter(
+          (item) => item !== id
+        );
+      }
+
+      console.log("Productos seleccionados:", productosSeleccionados); // ✅ Mostrar en consola
+
+      // ✅ Deshabilitar o habilitar botones y select
+      toggleBotonesYSelect();
+    });
   } catch (ex) {
     Swal.fire({
       icon: "error",
@@ -101,6 +122,24 @@ const listPedidosSinProducto = async () => {
     document.getElementById("tableBody_pedidos_sin_producto").innerHTML = "";
   }
 };
+
+// ✅ **Función para deshabilitar o habilitar botones y select**
+const toggleBotonesYSelect = () => {
+  let tieneSeleccionados = productosSeleccionados.length > 0;
+
+  $("#btnPropios, #btnBodegas, #btnPrivados, #selectBodega").prop(
+    "disabled",
+    tieneSeleccionados
+  );
+};
+
+// ✅ **Botón para agregar productos seleccionados**
+document.getElementById("btnAgregarProductos").addEventListener("click", () => {
+  console.log(
+    "Lista final de productos seleccionados:",
+    productosSeleccionados
+  );
+});
 
 // ✅ **Definir la función `actualizarBotones()`**
 const actualizarBotones = () => {
@@ -213,9 +252,9 @@ const cargarBodegas = async () => {
   }
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
   // ✅ Hacer la función `change` `async` para poder usar `await`
-  $("#selectBodega").change(async function() {
+  $("#selectBodega").change(async function () {
     bodega_seleccionada = $(this).val(); // ✅ Guardar el valor seleccionado en la variable global
     await initDataTablePedidosSinProducto(); // ✅ Recargar la tabla con la nueva bodega seleccionada
   });

@@ -37,6 +37,9 @@
                         <!-- Aquí se insertarán los datos dinámicamente desde JavaScript -->
                     </tbody>
                 </table>
+                <div class="text-center mt-3">
+                    <button id="btnAgregarProductos" class="btn btn-success">Agregar Productos</button>
+                </div>
             </div>
 
             <!-- Línea vertical separadora -->
