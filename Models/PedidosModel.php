@@ -1768,10 +1768,8 @@ class PedidosModel extends Query
 
         // Agregar rango de fechas si se proporciona
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql_numero_pedidos .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $sql_numero_pedidos .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin' AND no_producto = 0";
         }
-
-        print_r("sql_numero_pedidos:" . $sql_numero_pedidos);
 
         // Ejecutar la consulta y obtener el resultado
         $resultado_numero_pedidos = $this->select($sql_numero_pedidos);
@@ -1785,10 +1783,8 @@ class PedidosModel extends Query
 
         // Agregar rango de fechas si se proporciona
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql_valor_pedidos .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $sql_valor_pedidos .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin' AND no_producto = 0";
         }
-
-        print_r("sql_valor_pedidos:" . $sql_valor_pedidos);
 
         // Ejecutar la consulta y obtener el resultado
         $resultado_valor_pedidos = $this->select($sql_valor_pedidos);
@@ -1807,8 +1803,6 @@ class PedidosModel extends Query
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql_numero_guias .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
-
-        print_r("sql_numero_guias:" . $sql_numero_guias);
 
         // Ejecutar la consulta y obtener el resultado
         $resultado_numero_guias = $this->select($sql_numero_guias);
