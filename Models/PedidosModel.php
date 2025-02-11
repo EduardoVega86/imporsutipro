@@ -3278,4 +3278,5 @@ class PedidosModel extends Query
 
         echo json_encode($response);
     }
+
 }

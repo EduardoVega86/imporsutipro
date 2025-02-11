@@ -2045,4 +2045,9 @@ class ProductosModel extends Query
         return $this->select($sql);
 
     }
+
+    public function obtener_bodegas_psp(){
+        $sql = "SELECT b.id as id_bodega, b.nombre, b.direccion, b.num_casa, b.referencia, b.localidad as ciudadO, b.provincia as provinciaO, b.contacto as telefonoO, b.id_plataforma as id_propietario FROM bodega b inner join plataformas p on b.id_plataforma = p.id_plataforma where p.proveedor = 1";
+        return $this->select($sql);
+    }
 }

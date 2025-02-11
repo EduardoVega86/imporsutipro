@@ -1082,17 +1082,27 @@ class Productos extends Controller
 
     /* Fin ofertas */
 
+    // cosas para productos
     public function obtener_productos_bps()
     {
         $filtro = $_POST["filtro"];
+        $response=[];
         if ($filtro == 1) {
             $response = $this->model->obtener_productos_bodegas_propias($_SESSION['id_plataforma']);
-
         } elseif ($filtro == 2) {
-            $response = $this->model->obtener_productos_marketplace();
+            $response = $this->model->obtener_productos_marketplace($_POST["id_bodega"]);
+        } else if ($filtro == 3){
+            $response = $this->model->obtener_productos_privado($_SESSION['id_plataforma']);
         }
 
         echo json_encode($response);
     }
 
+    public function obtener_bodegas_psp(){
+        $response = $this->model->obtener_bodegas_psp();
+        $count = count($response);
+        $data["data"] = $response;
+        $data["count"] = $count;
+        echo json_encode($data);
+    }
 }
