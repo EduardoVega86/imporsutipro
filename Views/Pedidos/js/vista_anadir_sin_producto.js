@@ -259,26 +259,74 @@ $(document).ready(function () {
     await initDataTablePedidosSinProducto(); //  Recargar la tabla con la nueva bodega seleccionada
   });
 
-  //  Obtener el ID de la factura desde la URL
+  // ✅ Obtener el ID de la factura desde la URL
   let pathArray = window.location.pathname.split("/");
   let id_factura_global = pathArray[pathArray.length - 1]; // Última parte de la URL
 
-  console.log("ID de factura obtenida:", id_factura_global); //  Verificar en consola
-
-  //  Realizar el AJAX con el ID obtenido
+  // ✅ Realizar el AJAX con el ID obtenido
   $.ajax({
     url:
       SERVERURL + "pedidos/obtener_factura_sin_producto/" + id_factura_global,
     type: "GET",
     dataType: "json",
     success: function (response) {
-      console.log("Factura obtenida:", response); //  Verificar la respuesta
+      if (response.status === 200 && response.data.length > 0) {
+        let factura = response.data[0]; // Datos de la factura
+
+        // ✅ Llenar la información del cliente
+        $("#cliente_factura").text(factura.nombre);
+        $("#telefono_factura").text(factura.telefono);
+        $("#fecha_factura").text(new Date().toLocaleDateString()); // Se puede cambiar por la fecha real si existe en la API
+        $("#total_factura").text("$" + calcularTotalFactura(factura.productos));
+
+        // ✅ Llenar la tabla de productos
+        llenarTablaProductos(factura.productos);
+      } else {
+        console.error("No se encontraron datos en la factura.");
+      }
     },
     error: function (error) {
       console.error("Error al obtener la factura:", error);
     },
   });
 });
+
+// ✅ **Función para calcular el total de la factura**
+const calcularTotalFactura = (productosString) => {
+  try {
+    let productos = JSON.parse(productosString); // Convertir el JSON de productos
+    let total = productos.reduce(
+      (acc, item) => acc + parseFloat(item.total),
+      0
+    );
+    return total.toFixed(2); // Formato de dos decimales
+  } catch (error) {
+    console.error("Error al calcular total:", error);
+    return "0.00";
+  }
+};
+
+// ✅ **Función para llenar la tabla de productos**
+const llenarTablaProductos = (productosString) => {
+  try {
+    let productos = JSON.parse(productosString); // Convertir el JSON de productos
+    let content = "";
+
+    productos.forEach((producto) => {
+      content += `
+      <tr>
+        <td>${producto.nombre}</td>
+        <td>${producto.cantidad}</td>
+        <td>$${parseFloat(producto.precio).toFixed(2)}</td>
+        <td>$${parseFloat(producto.total).toFixed(2)}</td>
+      </tr>`;
+    });
+
+    $("#tableBody_productos").html(content);
+  } catch (error) {
+    console.error("Error al llenar la tabla de productos:", error);
+  }
+};
 
 // **Inicialización al cargar la página**
 window.addEventListener("load", async () => {
