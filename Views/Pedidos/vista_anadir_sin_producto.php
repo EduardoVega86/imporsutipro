@@ -89,17 +89,19 @@
                     </div>
                 </div>
 
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Precio</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody_productos"></tbody>
-                </table>
+                <div class="table-container">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody_productos"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
