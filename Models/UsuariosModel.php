@@ -1,4 +1,6 @@
 <?php
+
+require_once 'Class/ImageUploader.php';
 class UsuariosModel extends Query
 {
     public function __construct()
@@ -242,6 +244,49 @@ ON
         }
         return $response;
     }
+
+    public function subirFotoProveedor($id_plataforma, $imagen)
+    {
+        $response = $this->initialResponse();
+
+        if ($imagen !== null) {
+            // Instanciar ImageUploader con el directorio de destino
+            $uploader = new ImageUploader("public/img/proveedorespro/");
+            $uploadResponse = $uploader->uploadImage($imagen);
+
+            if ($uploadResponse['status'] == 200) {
+                $target_file = $uploadResponse['data'];
+                // Actualizar en la base de datos
+                $sql = "UPDATE plataformas SET image = ? WHERE id_plataforma  = ?";
+                $data = [$target_file, $id_plataforma];
+                $editar_imagen = $this->update($sql, $data);
+
+                if ($editar_imagen == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Petición exitosa';
+                    $response['message'] = 'Imagen subida correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = 'Error al subir la imagen';
+                }
+            } else {
+                // Error al subir la imagen
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = $uploadResponse['message'] ?? "Error al subir la imagen.";
+                error_log("Error al subir la imagen: " . $uploadResponse['message']);
+            }
+        } else {
+            // Manejo en caso de que no se haya recibido una imagen
+            $response['status'] = 400;
+            $response['title'] = 'Error';
+            $response['message'] = 'No se ha proporcionado ninguna imagen.';
+        }
+
+        return $response;
+    }
+
 
     public function cambiar_cargo($id_user, $cargo_nuevo)
     {

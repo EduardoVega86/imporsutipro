@@ -182,6 +182,14 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+    public function subir_foto_proveedor()
+    {
+        $id_plataforma = $_POST['id_plataforma'];
+        $imagen = $_FILES['imagen'] ?? null;
+        $response = $this->model->subirFotoProveedor($id_plataforma, $imagen);
+        echo json_encode($response);
+    }
+
     public function cambiar_cargo()
     {
         $id_user = $_POST['id_user'];

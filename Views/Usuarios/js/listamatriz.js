@@ -115,7 +115,14 @@ const listListaUsuarioMatriz = async () => {
                     <td>${usuario.date_added}</td>
                     <td><button class="btn btn-sm btn-primary" onclick="editarUsuario(${
                       usuario.id_users
-                    })"><i class="fa-solid fa-pencil"></i>Cambiar Contraseña</button></td>
+                    })"><i class="fa-solid fa-pencil"></i>Cambiar Contraseña</button>
+                      <!-- Botón para subir imagen (debajo) -->
+                      <button 
+                          class="btn btn-sm btn-success mt-1" 
+                          onclick="abrirModalSubirImagen(${usuario.id_plataforma})">
+                          <i class="fa-solid fa-upload"></i> Subir Imagen
+                      </button>
+                    </td>
                 </tr>`;
     });
     document.getElementById("tableBody_lista_usuarioMatriz").innerHTML =
@@ -234,4 +241,12 @@ function editarUsuario(id) {
   $("#id_usuarioCambiar").val(id);
 
   $("#cambiarClave_usuarioModal").modal("show");
+}
+
+// Abre tu modal y asigna el id_plataforma en el input oculto
+function abrirModalSubirImagen(id_plataforma) {
+  $("#id_plataforma_subir").val(id_plataforma);
+
+  // Muestra el modal (asumiendo que estás usando Bootstrap)
+  $("#modalSubirImagen").modal("show");
 }

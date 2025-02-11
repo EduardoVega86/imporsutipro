@@ -3281,5 +3281,9 @@ class PedidosModel extends Query
 
         echo json_encode($response);
     }
-
+    public function obtener_factura_sin_producto($id_factura)
+    {
+        $sql = "SELECT id_factura, nombre, telefono, productos,comentario FROM facturas_cot WHERE id_factura = $id_factura";
+        return $this->select($sql);
+    }
 }

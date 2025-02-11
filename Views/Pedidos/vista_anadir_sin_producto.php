@@ -37,6 +37,9 @@
                         <!-- Aquí se insertarán los datos dinámicamente desde JavaScript -->
                     </tbody>
                 </table>
+                <div class="text-center mt-3">
+                    <button id="btnAgregarProductos" class="btn btn-success">Agregar Productos</button>
+                </div>
             </div>
 
             <!-- Línea vertical separadora -->
@@ -45,37 +48,59 @@
             <!-- Información de la factura -->
             <div class="info-container">
                 <h4 class="text-center mb-3">Detalles de la Factura</h4>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-6">
                         <label class="info-label">Número de Factura:</label>
                     </div>
                     <div class="col-md-6">
                         <span class="info-value">#FCT-12345</span>
                     </div>
-                </div>
+                </div> -->
                 <div class="row mt-2">
                     <div class="col-md-6">
                         <label class="info-label">Cliente:</label>
                     </div>
                     <div class="col-md-6">
-                        <span class="info-value">Juan Pérez</span>
+                        <span class="info-value" id="cliente_factura"></span>
                     </div>
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-6">
+                        <label class="info-label">Teléfono:</label>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="info-value" id="telefono_factura"></span>
+                    </div>
+                </div>
+                <!-- <div class="row mt-2">
+                    <div class="col-md-6">
                         <label class="info-label">Fecha:</label>
                     </div>
                     <div class="col-md-6">
-                        <span class="info-value">07/02/2024</span>
+                        <span class="info-value" id="fecha_factura"></span>
                     </div>
-                </div>
+                </div> -->
                 <div class="row mt-2">
                     <div class="col-md-6">
                         <label class="info-label">Total:</label>
                     </div>
                     <div class="col-md-6">
-                        <span class="info-value">$250.00</span>
+                        <span class="info-value" id="total_factura"></span>
                     </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="datatable_productos" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody_productos"></tbody>
+                    </table>
                 </div>
             </div>
         </div>

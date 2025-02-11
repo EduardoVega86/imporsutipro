@@ -1355,4 +1355,21 @@ class Pedidos extends Controller
         // Responder con JSON
         echo json_encode($response);
     }
+
+    public function obtener_factura_sin_producto($id_factura)
+    {
+        $this->catchAsync(function () use ($id_factura) {
+            $response = $this->model->obtener_factura_sin_producto($id_factura);
+            if(count($response) == 0){
+                throw new Exception("No se encontraron facturas");
+            }
+            echo json_encode([
+                "status" => 200,
+                "title" => "Éxito",
+                "message" => "Facturas obtenidas correctamente",
+                "data" => $response,
+                "count" => count($response)
+            ]);
+        })();
+    }
 }
