@@ -2,8 +2,7 @@
     /* Contenedor principal con flexbox */
     .content-wrapper {
         display: flex;
-        flex-wrap: wrap;
-        /* Permite que los elementos se apilen en pantallas pequeñas */
+        flex-wrap: wrap; /* Apila en pantallas pequeñas */
         justify-content: center;
         gap: 20px;
         max-width: 1600px;
@@ -11,22 +10,20 @@
         padding: 20px;
     }
 
-    /* Diseño de la tabla */
+    /* Contenedor de la tabla */
     .table-container {
         flex: 1;
         background: #ffffff;
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        overflow-x: auto;
-        /* Para scroll horizontal si la tabla es muy grande */
+        overflow-x: auto; /* Permite desplazamiento horizontal si es necesario */
     }
 
-    /* Tabla responsive */
-    .table-container table {
+    /* Diseño de la tabla */
+    .table {
         width: 100%;
-        min-width: 600px;
-        /* Asegura que la tabla tenga un mínimo de ancho */
+        border-collapse: collapse;
     }
 
     .table thead {
@@ -69,66 +66,64 @@
 
     /* Botones responsivos */
     .d-flex button {
-        width: 100%;
-        /* Ocupa todo el ancho en móviles */
-        margin-bottom: 5px;
-        /* Espaciado entre botones */
+        width: 100%; /* Ocupa todo el ancho en móviles */
+        margin-bottom: 5px; /* Espaciado entre botones */
     }
 
     /* Responsive */
     @media (max-width: 768px) {
         .content-wrapper {
-            flex-direction: column;
-            /* Apila los elementos */
+            flex-direction: column; /* Apila los elementos */
         }
 
         .divider {
-            display: none;
-            /* Oculta la línea divisoria en móviles */
+            display: none; /* Oculta la línea divisoria en móviles */
         }
 
-        .table-container,
-        .info-container {
-            width: 100%;
-            /* Ocupa todo el ancho en móviles */
+        .table-container, .info-container {
+            width: 100%; /* Ocupa todo el ancho en móviles */
             padding: 15px;
         }
 
         .table-container table {
-            min-width: 100%;
-            /* Ajusta la tabla al 100% en móviles */
+            min-width: 100%; /* Ajusta la tabla al 100% en móviles */
         }
 
         .table thead {
-            display: none;
-            /* Oculta los encabezados en móviles */
+            display: none; /* Oculta los encabezados en móviles */
         }
 
-        .table tbody,
-        .table tr,
-        .table td {
+        .table tbody, .table tr, .table td {
             display: block;
             width: 100%;
+            text-align: right;
+            position: relative;
+            padding-left: 50%;
         }
 
         .table tbody tr {
             margin-bottom: 10px;
             border: 1px solid #ddd;
             padding: 10px;
-        }
-
-        .table td {
-            text-align: right;
-            position: relative;
-            padding-left: 50%;
+            background: #f9f9f9;
+            border-radius: 8px;
         }
 
         .table td::before {
             content: attr(data-label);
-            position: absolute;
-            left: 10px;
             font-weight: bold;
             color: #007bff;
+            position: absolute;
+            left: 10px;
+            text-align: left;
+        }
+
+        /* Ajuste para imágenes */
+        .table td img {
+            max-width: 50px;
+            height: auto;
+            display: block;
+            margin-left: auto;
         }
     }
 </style>

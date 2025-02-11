@@ -5,6 +5,7 @@ let bodega_seleccionada = 0;
 let productosSeleccionados = [];
 
 const dataTablePedidosSinProductoOptions = {
+  responsive: true,
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5] },
     { orderable: false, targets: 0 },
@@ -315,6 +316,7 @@ const calcularTotalFactura = (productosString) => {
 };
 
 // ✅ **Función para llenar la tabla de productos**
+// ✅ Función para llenar la tabla de productos y aplicar DataTables
 const llenarTablaProductos = (productosString) => {
   try {
     let productos = JSON.parse(productosString);
@@ -335,6 +337,28 @@ const llenarTablaProductos = (productosString) => {
     }
 
     $("#tableBody_productos").html(content);
+
+    // ✅ Inicializar DataTables después de llenar la tabla
+    $("#datatable_productos").DataTable({
+      responsive: true, // Hacerlo responsive
+      destroy: true, // Permite recargar la tabla sin errores
+      pageLength: 5,
+      language: {
+        lengthMenu: "Mostrar _MENU_ registros por página",
+        zeroRecords: "Ningún producto encontrado",
+        info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+        infoEmpty: "Ningún producto encontrado",
+        infoFiltered: "(filtrados desde _MAX_ registros totales)",
+        search: "Buscar:",
+        loadingRecords: "Cargando...",
+        paginate: {
+          first: "Primero",
+          last: "Último",
+          next: "Siguiente",
+          previous: "Anterior",
+        },
+      },
+    });
   } catch (error) {
     console.error("Error al llenar la tabla de productos:", error);
   }
