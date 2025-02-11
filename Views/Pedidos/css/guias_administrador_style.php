@@ -168,6 +168,10 @@
         color: white;
     }
 
+    .table-container {
+        position: relative;
+    }
+
     #tableLoader {
         position: absolute;
         top: 0;
@@ -180,6 +184,6 @@
         justify-content: center;
         align-items: center;
         z-index: 10;
-        /* Se coloca por encima de la tabla */
+        /* Asegura que esté por encima de la tabla */
     }
 </style>

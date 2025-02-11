@@ -114,21 +114,24 @@ function getFecha() {
 
 //Cargando
 function showTableLoader() {
-  const loaderDiv = document.getElementById('tableLoader');
-  // Siempre inserta el HTML del spinner (esto asegura que no se pierda)
-  loaderDiv.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>';
-  loaderDiv.style.display = 'flex';
+  // Inserta siempre el HTML del spinner y luego muestra el contenedor
+  $("#tableLoader").html(
+    '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
+  ).css("display", "flex");
 }
 
 function hideTableLoader() {
-  document.getElementById('tableLoader').style.display = 'none';
+  $("#tableLoader").css("display", "none");
 }
+
 
 /**
  * Inicializa o recarga el DataTable
  */
 const initDataTable = async () => {
   showTableLoader(); // Muestra el loader antes de comenzar
+    // Espera brevemente para que el spinner se renderice
+    await new Promise(resolve => setTimeout(resolve, 50));
 
   try {
     if (dataTableIsInitialized) {
