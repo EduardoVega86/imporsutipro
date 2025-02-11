@@ -91,7 +91,7 @@ const listPedidosSinProducto = async () => {
     document.getElementById("tableBody_pedidos_sin_producto").innerHTML =
       content;
 
-    // ✅ Evento para capturar los cambios en los checkboxes
+    // Evento para capturar los cambios en los checkboxes
     $(".checkProducto").change(function () {
       let id = $(this).data("id");
 
@@ -107,9 +107,9 @@ const listPedidosSinProducto = async () => {
         );
       }
 
-      console.log("Productos seleccionados:", productosSeleccionados); // ✅ Mostrar en consola
+      console.log("Productos seleccionados:", productosSeleccionados); // Mostrar en consola
 
-      // ✅ Deshabilitar o habilitar botones y select
+      // Deshabilitar o habilitar botones y select
       toggleBotonesYSelect();
     });
   } catch (ex) {
@@ -123,7 +123,7 @@ const listPedidosSinProducto = async () => {
   }
 };
 
-// ✅ **Función para deshabilitar o habilitar botones y select**
+// **Función para deshabilitar o habilitar botones y select**
 const toggleBotonesYSelect = () => {
   let tieneSeleccionados = productosSeleccionados.length > 0;
 
@@ -133,7 +133,7 @@ const toggleBotonesYSelect = () => {
   );
 };
 
-// ✅ **Botón para agregar productos seleccionados**
+// **Botón para agregar productos seleccionados**
 document.getElementById("btnAgregarProductos").addEventListener("click", () => {
   console.log(
     "Lista final de productos seleccionados:",
@@ -141,7 +141,7 @@ document.getElementById("btnAgregarProductos").addEventListener("click", () => {
   );
 });
 
-// ✅ **Definir la función `actualizarBotones()`**
+// **Definir la función `actualizarBotones()`**
 const actualizarBotones = () => {
   document
     .getElementById("btnPropios")
@@ -174,7 +174,7 @@ const actualizarBotones = () => {
     .classList.toggle("btn-secondary", filtroProductos !== 3);
 };
 
-// ✅ **Eventos para cambiar entre Propios, Bodegas y Privados**
+// **Eventos para cambiar entre Propios, Bodegas y Privados**
 document.getElementById("btnPropios").addEventListener("click", () => {
   filtroProductos = 1;
   bodega_seleccionada = 0;
@@ -200,13 +200,13 @@ document.getElementById("btnPrivados").addEventListener("click", () => {
   initDataTablePedidosSinProducto();
 });
 
-// ✅ **Evento para cambiar la bodega seleccionada**
+// **Evento para cambiar la bodega seleccionada**
 document.getElementById("selectBodega").addEventListener("change", () => {
   bodega_seleccionada = document.getElementById("selectBodega").value;
   initDataTablePedidosSinProducto();
 });
 
-// ✅ **Mostrar u ocultar el select de bodegas**
+// **Mostrar u ocultar el select de bodegas**
 const mostrarSelectBodegas = () => {
   document.getElementById("bodegaContainer").style.display = "block";
 };
@@ -215,7 +215,7 @@ const ocultarSelectBodegas = () => {
   document.getElementById("bodegaContainer").style.display = "none";
 };
 
-// ✅ **Cargar las bodegas desde la API**
+// **Cargar las bodegas desde la API**
 const cargarBodegas = async () => {
   try {
     const response = await fetch(`${SERVERURL}productos/obtener_bodegas_psp`);
@@ -237,7 +237,7 @@ const cargarBodegas = async () => {
       selectBodega.innerHTML += `<option value="${bodega.id_bodega}">${bodega.nombre}</option>`;
     });
 
-    // ✅ **Inicializar Select2**
+    // **Inicializar Select2**
     $("#selectBodega").select2({
       width: "100%",
       placeholder: "Seleccione una bodega",
@@ -253,24 +253,34 @@ const cargarBodegas = async () => {
 };
 
 $(document).ready(function () {
-  // ✅ Hacer la función `change` `async` para poder usar `await`
+  //  Hacer la función `change` `async` para poder usar `await`
   $("#selectBodega").change(async function () {
-    bodega_seleccionada = $(this).val(); // ✅ Guardar el valor seleccionado en la variable global
-    await initDataTablePedidosSinProducto(); // ✅ Recargar la tabla con la nueva bodega seleccionada
+    bodega_seleccionada = $(this).val(); //  Guardar el valor seleccionado en la variable global
+    await initDataTablePedidosSinProducto(); //  Recargar la tabla con la nueva bodega seleccionada
   });
 
+  //  Obtener el ID de la factura desde la URL
+  let pathArray = window.location.pathname.split("/");
+  let id_factura_global = pathArray[pathArray.length - 1]; // Última parte de la URL
+
+  console.log("ID de factura obtenida:", id_factura_global); //  Verificar en consola
+
+  //  Realizar el AJAX con el ID obtenido
   $.ajax({
-    url: SERVERURL + "productos/listar_bodegas",
+    url:
+      SERVERURL + "pedidos/obtener_factura_sin_producto/" + id_factura_global,
     type: "GET",
     dataType: "json",
-    success: function (response) {},
+    success: function (response) {
+      console.log("Factura obtenida:", response); //  Verificar la respuesta
+    },
     error: function (error) {
-      console.error("Error al obtener la lista de bodegas:", error);
+      console.error("Error al obtener la factura:", error);
     },
   });
 });
 
-// ✅ **Inicialización al cargar la página**
+// **Inicialización al cargar la página**
 window.addEventListener("load", async () => {
   await initDataTablePedidosSinProducto();
 });
