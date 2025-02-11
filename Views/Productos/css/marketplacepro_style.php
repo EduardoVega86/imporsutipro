@@ -784,10 +784,13 @@
         height: 80px;
         border-radius: 50%;
         overflow: hidden;
+        /* Para recortar la imagen dentro del círculo */
         background: #f0f0f0;
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-bottom: 10px;
+        /* Espacio debajo del logo */
     }
 
     .proveedor-logo {
