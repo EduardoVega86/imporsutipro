@@ -168,18 +168,18 @@
         color: white;
     }
 
-    #loader {
-        position: fixed;
+    #tableLoader {
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.8);
         /* Fondo semitransparente */
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 9999;
-        /* Asegura que esté por encima de otros elementos */
+        z-index: 10;
+        /* Se coloca por encima de la tabla */
     }
 </style>

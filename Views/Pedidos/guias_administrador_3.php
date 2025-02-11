@@ -89,6 +89,12 @@
             <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
             <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
         </div>
+        <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
+        <div id="tableLoader" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+        </div>
 
         <div class="table-responsive">
             <!-- <table class="table table-bordered table-striped table-hover"> -->
@@ -117,12 +123,6 @@
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
-                <!-- Loader Overlay -->
-                <div id="loader" style="display: none;">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Cargando...</span>
-                    </div>
-                </div>
 
                 <tbody id="tableBody_guias"></tbody>
             </table>

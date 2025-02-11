@@ -113,18 +113,19 @@ function getFecha() {
 }
 
 //Cargando
-function showLoader() {
-  document.getElementById('loader').style.display = 'flex';
+function showTableLoader() {
+  document.getElementById('tableLoader').style.display = 'flex';
 }
 
-function hideLoader() {
-  document.getElementById('loader').style.display = 'none';
+function hideTableLoader() {
+  document.getElementById('tableLoader').style.display = 'none';
 }
+
 /**
  * Inicializa o recarga el DataTable
  */
 const initDataTable = async () => {
-  showLoader(); // Muestra el loader antes de comenzar
+  showTableLoader(); // Muestra el loader antes de comenzar
 
   try {
     if (dataTableIsInitialized) {
