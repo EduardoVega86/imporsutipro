@@ -10,6 +10,12 @@
             <button id="btnBodegas" class="btn btn-secondary me-2">Bodegas</button>
             <button id="btnPrivados" class="btn btn-secondary">Privados</button>
         </div>
+        <div id="bodegaContainer" class="mt-3" style="display: none;">
+            <label for="selectBodega">Seleccionar Bodega:</label>
+            <select id="selectBodega" class="form-control">
+                <option value="0">Seleccione una bodega</option>
+            </select>
+        </div>
 
         <!-- Contenedor de tabla e información -->
         <div class="content-wrapper">

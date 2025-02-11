@@ -46,25 +46,25 @@ const listPedidosSinProducto = async () => {
     formData.append("filtro", filtroProductos); // 🔹 Se envía el filtro a la API (1, 2 o 3)
     formData.append("bodegas", bodega_seleccionada);
 
-    const response = await fetch(`${SERVERURL}productos/obtener_productos_bps`, {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      `${SERVERURL}productos/obtener_productos_bps`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     const data = await response.json();
 
     if (data.status === 500) {
-      toastr.error(
-        data.message,
-        "NOTIFICACIÓN", {
-            positionClass: "toast-bottom-center"
-        }
-    );
+      Swal.fire({
+        icon: "error",
+        title: data.title || "Error",
+        text: data.message || "Ocurrió un error inesperado",
+      });
 
-
-      // 🔹 Limpiar la tabla si hay un error
       document.getElementById("tableBody_pedidos_sin_producto").innerHTML = "";
-      return; // Salir de la función y no continuar
+      return;
     }
 
     let content = ``;
@@ -89,7 +89,8 @@ const listPedidosSinProducto = async () => {
         </tr>`;
     });
 
-    document.getElementById("tableBody_pedidos_sin_producto").innerHTML = content;
+    document.getElementById("tableBody_pedidos_sin_producto").innerHTML =
+      content;
   } catch (ex) {
     Swal.fire({
       icon: "error",
@@ -97,49 +98,83 @@ const listPedidosSinProducto = async () => {
       text: "No se pudo conectar con el servidor. Intenta nuevamente.",
     });
 
-    // 🔹 Limpiar la tabla si hay un error inesperado
     document.getElementById("tableBody_pedidos_sin_producto").innerHTML = "";
   }
 };
 
 // 🚀 **Eventos para cambiar entre Propios, Bodegas y Privados**
 document.getElementById("btnPropios").addEventListener("click", () => {
-  filtroProductos = 1; // Se establece como "Propios"
+  filtroProductos = 1;
+  bodega_seleccionada = 0;
+  ocultarSelectBodegas();
   actualizarBotones();
   initDataTablePedidosSinProducto();
 });
 
-document.getElementById("btnBodegas").addEventListener("click", () => {
-  filtroProductos = 2; // Se establece como "Bodegas"
+document.getElementById("btnBodegas").addEventListener("click", async () => {
+  filtroProductos = 2;
+  mostrarSelectBodegas();
   actualizarBotones();
-  initDataTablePedidosSinProducto();
+  await cargarBodegas(); // 🔹 Llama a la API para llenar el select de bodegas
 });
 
 document.getElementById("btnPrivados").addEventListener("click", () => {
-  filtroProductos = 3; // Se establece como "Privados"
+  filtroProductos = 3;
+  bodega_seleccionada = 0;
+  ocultarSelectBodegas();
   actualizarBotones();
   initDataTablePedidosSinProducto();
 });
 
-const actualizarBotones = () => {
-  document.getElementById("btnPropios").classList.toggle("active", filtroProductos === 1);
-  document.getElementById("btnBodegas").classList.toggle("active", filtroProductos === 2);
-  document.getElementById("btnPrivados").classList.toggle("active", filtroProductos === 3);
+// 🚀 **Evento para cambiar la bodega seleccionada**
+document.getElementById("selectBodega").addEventListener("change", () => {
+  bodega_seleccionada = document.getElementById("selectBodega").value;
+  initDataTablePedidosSinProducto();
+});
 
-  document.getElementById("btnPropios").classList.toggle("btn-primary", filtroProductos === 1);
-  document.getElementById("btnBodegas").classList.toggle("btn-primary", filtroProductos === 2);
-  document.getElementById("btnPrivados").classList.toggle("btn-primary", filtroProductos === 3);
+// 🚀 **Mostrar u ocultar el select de bodegas**
+const mostrarSelectBodegas = () => {
+  document.getElementById("bodegaContainer").style.display = "block";
+};
 
-  document.getElementById("btnPropios").classList.toggle("btn-secondary", filtroProductos !== 1);
-  document.getElementById("btnBodegas").classList.toggle("btn-secondary", filtroProductos !== 2);
-  document.getElementById("btnPrivados").classList.toggle("btn-secondary", filtroProductos !== 3);
+const ocultarSelectBodegas = () => {
+  document.getElementById("bodegaContainer").style.display = "none";
+};
+
+// 🚀 **Cargar las bodegas desde la API**
+const cargarBodegas = async () => {
+  try {
+    const response = await fetch(`${SERVERURL}productos/obtener_bodegas_psp`);
+    const data = await response.json();
+
+    if (data.status === 500) {
+      Swal.fire({
+        icon: "error",
+        title: data.title || "Error",
+        text: data.message || "No se pudieron cargar las bodegas",
+      });
+      return;
+    }
+
+    const selectBodega = document.getElementById("selectBodega");
+    selectBodega.innerHTML = '<option value="0">Seleccione una bodega</option>'; // Resetear opciones
+
+    data.data.forEach((bodega) => {
+      selectBodega.innerHTML += `<option value="${bodega.id_bodega}">${bodega.nombre_bodega}</option>`;
+    });
+  } catch (ex) {
+    Swal.fire({
+      icon: "error",
+      title: "Error de conexión",
+      text: "No se pudo conectar con el servidor para obtener las bodegas.",
+    });
+  }
 };
 
 // 🚀 **Inicialización al cargar la página**
 window.addEventListener("load", async () => {
   await initDataTablePedidosSinProducto();
 });
-
 
 function obtenerURLImagen(imagePath, serverURL) {
   // Verificar si el imagePath no es null
