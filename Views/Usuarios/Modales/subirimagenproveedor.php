@@ -111,7 +111,7 @@
             const result = await response.json();
 
             if (result.status === 200) {
-                alert(result.message || "Imagen subida correctamente.");
+                toastr.success("Imagen subida correctamente")
                 $("#modalSubirImagen").modal("hide");
                 // initDataTableListaUsuarioMatriz(); // Si quieres refrescar
             } else {
