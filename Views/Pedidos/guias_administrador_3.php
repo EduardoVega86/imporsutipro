@@ -88,15 +88,29 @@
         <div style="padding-top: 20px;">
             <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
             <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
-            <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
-            <div id="tableLoader" style="display: none;">
-                <div class="spinner-border text-primary" role="status">
+        </div>
+
+        <!-- Contenedor que envuelve la tabla y el loader -->
+        <div class="table-wrapper" style="position: relative; margin-top: 20px;">
+
+            <!-- Loader que cubrirá solo esta área -->
+            <div id="tableLoader" style="
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;">
+                <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem; border-width: .25em;">
                     <span class="visually-hidden">Cargando...</span>
                 </div>
             </div>
-        </div>
-        <div class="table-container" style="position: relative;">
 
+            <!-- La tabla se mostrará aquí -->
             <div class="table-responsive">
                 <table id="datatable_guias" class="table table-striped">
                     <thead>
