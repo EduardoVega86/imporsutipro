@@ -259,11 +259,11 @@ $(document).ready(function () {
     await initDataTablePedidosSinProducto(); //  Recargar la tabla con la nueva bodega seleccionada
   });
 
-  // ✅ Obtener el ID de la factura desde la URL
+  // Obtener el ID de la factura desde la URL
   let pathArray = window.location.pathname.split("/");
   let id_factura_global = pathArray[pathArray.length - 1]; // Última parte de la URL
 
-  // ✅ Realizar el AJAX con el ID obtenido
+  // Realizar el AJAX con el ID obtenido
   $.ajax({
     url:
       SERVERURL + "pedidos/obtener_factura_sin_producto/" + id_factura_global,
@@ -273,13 +273,13 @@ $(document).ready(function () {
       if (response.status === 200 && response.data.length > 0) {
         let factura = response.data[0]; // Datos de la factura
 
-        // ✅ Llenar la información del cliente
+        // Llenar la información del cliente
         $("#cliente_factura").text(factura.nombre);
         $("#telefono_factura").text(factura.telefono);
         $("#fecha_factura").text(new Date().toLocaleDateString()); // Se puede cambiar por la fecha real si existe en la API
         $("#total_factura").text("$" + calcularTotalFactura(factura.productos));
 
-        // ✅ Llenar la tabla de productos
+        // Llenar la tabla de productos
         llenarTablaProductos(factura.productos);
       } else {
         console.error("No se encontraron datos en la factura.");
@@ -291,7 +291,7 @@ $(document).ready(function () {
   });
 });
 
-// ✅ **Función para calcular el total de la factura**
+// **Función para calcular el total de la factura**
 const calcularTotalFactura = (productosString) => {
   try {
     let productos = JSON.parse(productosString); // Convertir el JSON de productos
@@ -306,7 +306,7 @@ const calcularTotalFactura = (productosString) => {
   }
 };
 
-// ✅ **Función para llenar la tabla de productos**
+// **Función para llenar la tabla de productos**
 const llenarTablaProductos = (productosString) => {
   try {
     let productos = JSON.parse(productosString); // Convertir el JSON de productos
