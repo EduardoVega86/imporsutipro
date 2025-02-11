@@ -174,8 +174,8 @@
 
     #tableLoader {
         position: absolute;
-        top: 30px;
-        left: 432px;
+        top: 42px;
+        left: -432px;
         width: 100%;
         height: 100%;
         background: rgba(255, 255, 255, 0.8);
