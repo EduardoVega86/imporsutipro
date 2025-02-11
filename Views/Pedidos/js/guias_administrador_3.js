@@ -114,7 +114,10 @@ function getFecha() {
 
 //Cargando
 function showTableLoader() {
-  document.getElementById('tableLoader').style.display = 'flex';
+  const loaderDiv = document.getElementById('tableLoader');
+  // Siempre inserta el HTML del spinner (esto asegura que no se pierda)
+  loaderDiv.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>';
+  loaderDiv.style.display = 'flex';
 }
 
 function hideTableLoader() {

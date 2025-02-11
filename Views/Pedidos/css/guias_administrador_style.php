@@ -170,7 +170,7 @@
 
     #tableLoader {
         position: absolute;
-        margin-top: 50px;
+        top: 0;
         left: 0;
         width: 100%;
         height: 100%;
