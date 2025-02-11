@@ -38,7 +38,7 @@ $(function() {
   $('#daterange').on('apply.daterangepicker', function(ev, picker) {
     fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
     fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
-    // initDataTable(); // Coméntalo si SOLO filtras con el botón.
+    initDataTable(); 
   });
 });
 
@@ -1131,11 +1131,9 @@ function enviar_laarNovedad() {
   });
 }
 
-// =========================================================
-// NUEVO: Cargamos la tabla cuando el DOM esté listo (si quieres tener datos por defecto).
-//       Y agregamos un listener al botón "Aplicar Filtros" para recargar la tabla con
-//       los valores seleccionados.
-// =========================================================
+
+//Cargamos la tabla cuando el DOM esté listo (si quieres tener datos por defecto).
+
 document.addEventListener("DOMContentLoaded", function () {
   // NUEVO: si deseas cargar la DataTable por defecto al entrar a la página
   initDataTable(); // <--- NEW: se puede comentar si no deseas cargar nada al inicio
