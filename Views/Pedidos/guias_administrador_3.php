@@ -91,12 +91,6 @@
         </div>
 
         <div class="table-responsive">
-            <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
-            <div id="tableLoader" style="display: none;">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Cargando...</span>
-                </div>
-            </div>
             <!-- <table class="table table-bordered table-striped table-hover"> -->
             <table id="datatable_guias" class="table table-striped">
                 <!-- <caption>
@@ -126,6 +120,12 @@
 
                 <tbody id="tableBody_guias"></tbody>
             </table>
+        </div>
+    </div>
+    <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
+    <div id="tableLoader" style="display: flex;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
         </div>
     </div>
 </div>
