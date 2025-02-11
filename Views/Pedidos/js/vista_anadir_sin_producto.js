@@ -253,17 +253,17 @@ const cargarBodegas = async () => {
 };
 
 $(document).ready(function () {
-  //  Hacer la función `change` `async` para poder usar `await`
+  // ✅ Evento para detectar cambio de bodega y actualizar la tabla
   $("#selectBodega").change(async function () {
-    bodega_seleccionada = $(this).val(); //  Guardar el valor seleccionado en la variable global
-    await initDataTablePedidosSinProducto(); //  Recargar la tabla con la nueva bodega seleccionada
+    bodega_seleccionada = $(this).val();
+    await initDataTablePedidosSinProducto();
   });
 
-  // Obtener el ID de la factura desde la URL
+  // ✅ Obtener el ID de la factura desde la URL
   let pathArray = window.location.pathname.split("/");
-  let id_factura_global = pathArray[pathArray.length - 1]; // Última parte de la URL
+  let id_factura_global = pathArray[pathArray.length - 1];
 
-  // Realizar el AJAX con el ID obtenido
+  // ✅ Realizar la petición AJAX con el ID obtenido
   $.ajax({
     url:
       SERVERURL + "pedidos/obtener_factura_sin_producto/" + id_factura_global,
@@ -273,16 +273,24 @@ $(document).ready(function () {
       if (response.status === 200 && response.data.length > 0) {
         let factura = response.data[0]; // Datos de la factura
 
-        // Llenar la información del cliente
-        $("#cliente_factura").text(factura.nombre);
-        $("#telefono_factura").text(factura.telefono);
-        /* $("#fecha_factura").text(new Date().toLocaleDateString()); */
-        $("#total_factura").text("$" + calcularTotalFactura(factura.productos));
+        // ✅ Llenar la información del cliente
+        $("#cliente_factura").text(factura.nombre || "N/A");
+        $("#telefono_factura").text(factura.telefono || "No disponible");
 
-        // Llenar la tabla de productos
-        llenarTablaProductos(factura.productos);
+        // ✅ Si la API envía fecha, usarla, sino usar la actual
+        let fechaFactura = factura.fecha
+          ? new Date(factura.fecha).toLocaleDateString()
+          : new Date().toLocaleDateString();
+        $("#fecha_factura").text(fechaFactura);
+
+        // ✅ Calcular y mostrar el total correctamente
+        let total = calcularTotalFactura(factura.productos || "[]");
+        $("#total_factura").text("$" + total);
+
+        // ✅ Llenar productos en la tabla
+        llenarTablaProductos(factura.productos || "[]");
       } else {
-        console.error("No se encontraron datos en la factura.");
+        console.warn("No se encontraron datos en la factura.");
       }
     },
     error: function (error) {
@@ -291,36 +299,40 @@ $(document).ready(function () {
   });
 });
 
-// **Función para calcular el total de la factura**
+// ✅ **Función para calcular el total de la factura**
 const calcularTotalFactura = (productosString) => {
   try {
-    let productos = JSON.parse(productosString); // Convertir el JSON de productos
+    let productos = JSON.parse(productosString);
     let total = productos.reduce(
-      (acc, item) => acc + parseFloat(item.total),
+      (acc, item) => acc + parseFloat(item.total || 0),
       0
     );
-    return total.toFixed(2); // Formato de dos decimales
+    return total.toFixed(2);
   } catch (error) {
     console.error("Error al calcular total:", error);
     return "0.00";
   }
 };
 
-// **Función para llenar la tabla de productos**
+// ✅ **Función para llenar la tabla de productos**
 const llenarTablaProductos = (productosString) => {
   try {
-    let productos = JSON.parse(productosString); // Convertir el JSON de productos
+    let productos = JSON.parse(productosString);
     let content = "";
 
-    productos.forEach((producto) => {
-      content += `
-      <tr>
-        <td>${producto.nombre}</td>
-        <td>${producto.cantidad}</td>
-        <td>$${parseFloat(producto.precio).toFixed(2)}</td>
-        <td>$${parseFloat(producto.total).toFixed(2)}</td>
-      </tr>`;
-    });
+    if (productos.length === 0) {
+      content = `<tr><td colspan="4" class="text-center">No hay productos en esta factura</td></tr>`;
+    } else {
+      productos.forEach((producto) => {
+        content += `
+        <tr>
+          <td>${producto.nombre || "Sin nombre"}</td>
+          <td>${producto.cantidad || 0}</td>
+          <td>$${parseFloat(producto.precio || 0).toFixed(2)}</td>
+          <td>$${parseFloat(producto.total || 0).toFixed(2)}</td>
+        </tr>`;
+      });
+    }
 
     $("#tableBody_productos").html(content);
   } catch (error) {
