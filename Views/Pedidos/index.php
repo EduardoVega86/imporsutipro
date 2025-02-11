@@ -70,6 +70,11 @@
 
         </div>
 
+        <div class="d-flex mb-3 mt-3">
+            <button id="btnPedidos" class="btn btn-primary me-2 active">Pedidos</button>
+            <button id="btnAbandonados" class="btn btn-secondary">Abandonados</button>
+        </div>
+
         <!-- TABLA DE HISTORIAL DE PEDIDOS -->
         <div class="table-responsive">
             <table id="datatable_historialPedidos" class="table table-striped">
@@ -188,7 +193,7 @@
                         '0%'
                     );
 
-                    $("#id_confirmacion").text("de "+data.mensaje || "");
+                    $("#id_confirmacion").text("de " + data.mensaje || "");
                 } else {
                     console.error('No se recibieron datos válidos de la API.');
                 }

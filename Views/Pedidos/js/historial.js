@@ -1,5 +1,6 @@
 let dataTableHistorial;
 let dataTableHistorialIsInitialized = false;
+let filtro = 1; // 1: Pedidos | 2: Abandonados (Valor inicial: Pedidos)
 
 const dataTableHistorialOptions = {
   //scrollX: "2000px",
@@ -50,6 +51,7 @@ const listHistorialPedidos = async () => {
     const formData = new FormData();
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
+    formData.append("filtro", filtro); // 🔹 Se envía el filtro a la API (1 o 2)
 
     const response = await fetch(
       `${SERVERURL}pedidos/cargarPedidos_imporsuit`,
@@ -243,6 +245,37 @@ const listHistorialPedidos = async () => {
     alert(ex);
   }
 };
+
+// 🚀 **Evento para cambiar entre Pedidos y Abandonados**
+document.getElementById("btnPedidos").addEventListener("click", () => {
+  filtro = 1; // Se establece como "Pedidos"
+  actualizarBotones();
+  initDataTableHistorial();
+});
+
+document.getElementById("btnAbandonados").addEventListener("click", () => {
+  filtro = 2; // Se establece como "Abandonados"
+  actualizarBotones();
+  initDataTableHistorial();
+});
+
+const actualizarBotones = () => {
+  if (filtro === 1) {
+    document.getElementById("btnPedidos").classList.add("active", "btn-primary");
+    document.getElementById("btnPedidos").classList.remove("btn-secondary");
+
+    document.getElementById("btnAbandonados").classList.remove("active", "btn-primary");
+    document.getElementById("btnAbandonados").classList.add("btn-secondary");
+  } else {
+    document.getElementById("btnAbandonados").classList.add("active", "btn-primary");
+    document.getElementById("btnAbandonados").classList.remove("btn-secondary");
+
+    document.getElementById("btnPedidos").classList.remove("active", "btn-primary");
+    document.getElementById("btnPedidos").classList.add("btn-secondary");
+  }
+};
+
+// Fin 🚀 **Evento para cambiar entre Pedidos y Abandonados**
 
 // Event delegation for select change
 document.addEventListener("change", async (event) => {
