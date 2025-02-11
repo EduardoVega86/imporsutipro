@@ -1,4 +1,6 @@
 <?php
+
+require_once 'Class/ImageUploader.php';
 class UsuariosModel extends Query
 {
     public function __construct()
@@ -246,73 +248,45 @@ ON
     public function subirFotoProveedor($id_plataforma, $imagen)
     {
         $response = $this->initialResponse();
-        $target_dir = "public/img/proveedores/";
-        $imageFileType = strtolower(pathinfo($imagen["name"], PATHINFO_EXTENSION));
 
-        // Generar un nombre de archivo único
-        $unique_name = uniqid('', true) . '.' . $imageFileType;
-        $target_file = $target_dir . $unique_name;
+        if ($imagen !== null) {
+            // Instanciar ImageUploader con el directorio de destino
+            $uploader = new ImageUploader("public/img/proveedorespro/");
+            $uploadResponse = $uploader->uploadImage($imagen);
 
-        // Verificar si el archivo existe y agregar un diferenciador si es necesario
-        $original_target_file = $target_file;
-
-        $counter = 1;
-        while (file_exists($target_file)) {
-            $target_file = $target_dir . uniqid('', true) . '.' . $imageFileType;
-            $counter++;
-        }
-        $uploadOk = 1;
-        $check = getimagesize($imagen["tmp_name"]);
-        if ($check !== false) {
-            $uploadOk = 1;
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'El archivo no es una imagen';
-            $uploadOk = 0;
-        }
-        if ($imagen["size"] > 50000000) { // Asegúrate de que este límite de tamaño sea correcto para tu caso de uso
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'El archivo es muy grande';
-            $uploadOk = 0;
-        }
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = 'Solo se permiten archivos JPG, JPEG, PNG';
-            $uploadOk = 0;
-        }
-        if ($uploadOk == 0) {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-        } else {
-            if (move_uploaded_file($imagen["tmp_name"], $target_file)) {
-                $response['status'] = 200;
-                $response['title'] = 'Peticion exitosa';
-                $response['message'] = 'Imagen subida correctamente';
-                $response['data'] = $target_file;
-
+            if ($uploadResponse['status'] == 200) {
+                $target_file = $uploadResponse['data'];
+                // Actualizar en la base de datos
                 $sql = "UPDATE plataformas SET imagen = ? WHERE plataformas.id_plataforma  = ?";
                 $data = [$target_file, $id_plataforma];
                 $editar_imagen = $this->update($sql, $data);
+
                 if ($editar_imagen == 1) {
                     $response['status'] = 200;
-                    $response['title'] = 'Peticion exitosa';
+                    $response['title'] = 'Petición exitosa';
                     $response['message'] = 'Imagen subida correctamente';
                 } else {
                     $response['status'] = 500;
                     $response['title'] = 'Error';
-                    $response['message'] = $editar_imagen;
+                    $response['message'] = 'Error al subir la imagen';
                 }
             } else {
+                // Error al subir la imagen
                 $response['status'] = 500;
                 $response['title'] = 'Error';
-                $response['message'] = 'Error al subir la imagen - MOVIMIENTO';
+                $response['message'] = $uploadResponse['message'] ?? "Error al subir la imagen.";
+                error_log("Error al subir la imagen: " . $uploadResponse['message']);
             }
+        } else {
+            // Manejo en caso de que no se haya recibido una imagen
+            $response['status'] = 400;
+            $response['title'] = 'Error';
+            $response['message'] = 'No se ha proporcionado ninguna imagen.';
         }
+
         return $response;
     }
+
 
     public function cambiar_cargo($id_user, $cargo_nuevo)
     {
