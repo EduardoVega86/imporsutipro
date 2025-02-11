@@ -8,6 +8,24 @@ class Controller
         $this->loadModel();
     }
 
+    function catchAsync($fn): Closure
+    {
+        return function() use ($fn) {
+            try {
+                $fn();
+            } catch (Exception $e) {
+                echo json_encode([
+                    "status" => 500,
+                    "title" => "Error",
+                    "message" => $e->getMessage(),
+                    "count" => 0,
+                    "data" => []
+                ]);
+            }
+        };
+    }
+
+
     public function loadModel()
     {
         $model = get_class($this) . "Model";

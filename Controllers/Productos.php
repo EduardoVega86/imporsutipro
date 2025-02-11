@@ -1087,9 +1087,8 @@ class Productos extends Controller
     // cosas para productos
     public function obtener_productos_bps()
     {
-        $filtro = $_POST["filtro"];
-        $response = [];
-        try {
+        $this->catchAsync(function (){
+            $filtro = $_POST["filtro"];
             if ($filtro < 1 || $filtro > 3) {
                 throw new Exception("Se envió un filtro incorrecto");
             }
@@ -1099,40 +1098,38 @@ class Productos extends Controller
                 if (!isset($_POST["id_bodega"])) {
                     throw new Exception("No se envió la bodega");
                 }
-                if($_POST["id_bodega"] == 0){
+                if ($_POST["id_bodega"] == 0) {
                     throw new Exception("Por favor seleccione una bodega");
                 }
                 $response = $this->model->obtener_productos_marketplace($_POST["id_bodega"]);
-            } else if ($filtro == 3) {
+            } else {
                 $response = $this->model->obtener_productos_privados_bsp($_SESSION['id_plataforma']);
             }
-
-            $response = [
+            echo json_encode([
                 "status" => 200,
                 "title" => "Éxito",
                 "message" => "Productos obtenidos correctamente",
                 "data" => $response,
                 "count" => count($response)
-            ];
-        } catch (Exception $e) {
-            $response = [
-                "status" => 500,
-                "title" => "Error",
-                "message" => $e->getMessage(),
-                "count" => 0
-            ];
-        }
-
-        echo json_encode($response);
-
+            ]);
+        })();
     }
 
     public function obtener_bodegas_psp()
     {
-        $response = $this->model->obtener_bodegas_psp();
-        $count = count($response);
-        $data["data"] = $response;
-        $data["count"] = $count;
-        echo json_encode($data);
+        $this->catchAsync(function (){
+            $response = $this->model->obtener_bodegas_psp();
+            if(count($response) == 0){
+                throw new Exception("No se encontraron bodegas");
+            }
+            echo json_encode([
+                "status" => 200,
+                "title" => "Éxito",
+                "message" => "Bodegas obtenidas correctamente",
+                "data" => $response,
+                "count" => count($response)
+            ]);
+        })();
+
     }
 }
