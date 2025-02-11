@@ -150,7 +150,6 @@ const initDataTable = async () => {
   }
 };
 
-
 // Nueva función para recargar el DataTable manteniendo la paginación y el pageLength
 const reloadDataTable = async () => {
   const currentPage = dataTable.page();
