@@ -54,12 +54,13 @@ const listPedidosSinProducto = async () => {
     const data = await response.json();
 
     if (data.status === 500) {
-      // 🔴 Manejo de error: mostrar SweetAlert con el mensaje del error
-      Swal.fire({
-        icon: "error",
-        title: data.title || "Error",
-        text: data.message || "Ocurrió un error inesperado",
-      });
+      toastr.error(
+        data.message,
+        "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center"
+        }
+    );
+
 
       // 🔹 Limpiar la tabla si hay un error
       document.getElementById("tableBody_pedidos_sin_producto").innerHTML = "";
