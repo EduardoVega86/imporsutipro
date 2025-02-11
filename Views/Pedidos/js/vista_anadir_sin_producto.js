@@ -44,7 +44,7 @@ const listPedidosSinProducto = async () => {
   try {
     const formData = new FormData();
     formData.append("filtro", filtroProductos);
-    formData.append("bodegas", bodega_seleccionada);
+    formData.append("id_bodega", bodega_seleccionada);
 
     const response = await fetch(
       `${SERVERURL}productos/obtener_productos_bps`,
