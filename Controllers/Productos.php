@@ -1087,15 +1087,32 @@ class Productos extends Controller
     {
         $filtro = $_POST["filtro"];
         $response=[];
+        try{
         if ($filtro == 1) {
             $response = $this->model->obtener_productos_bodegas_propias($_SESSION['id_plataforma']);
         } elseif ($filtro == 2) {
             $response = $this->model->obtener_productos_marketplace($_POST["id_bodega"]);
         } else if ($filtro == 3){
-            $response = $this->model->obtener_productos_privado($_SESSION['id_plataforma']);
+            $response = $this->model->obtener_productos_privados_bsp($_SESSION['id_plataforma']);
+        }
+
+            $response = [
+                "status" => 200,
+                "title" => "Éxito",
+                "message" => "Productos obtenidos correctamente",
+                "data" => $response,
+                "count" => count($response)
+                ];
+        } catch (Exception $e) {
+            $response = [
+                "status" => 500,
+                "title" => "Error",
+                "message" => "Error al obtener los productos"
+            ];
         }
 
         echo json_encode($response);
+
     }
 
     public function obtener_bodegas_psp(){

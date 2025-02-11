@@ -2050,4 +2050,25 @@ class ProductosModel extends Query
         $sql = "SELECT b.id as id_bodega, b.nombre, b.direccion, b.num_casa, b.referencia, b.localidad as ciudadO, b.provincia as provinciaO, b.contacto as telefonoO, b.id_plataforma as id_propietario FROM bodega b inner join plataformas p on b.id_plataforma = p.id_plataforma where p.proveedor = 1";
         return $this->select($sql);
     }
+
+    public function obtener_productos_marketplace($id_bodega){
+        $sql = "SELECT ib.id_inventario, ib.id_producto, ib.bodega, ib.pvp, ib.pcp, ib.sku, p.image_path, p.nombre_producto, v.variedad FROM inventario_bodegas ib inner join productos p on p.id_producto = ib.id_producto left join variedades v on ib.id_variante = v.id_variedad WHERE ib.bodega = $id_bodega and p.producto_privado = 0;";
+        return $this->select($sql);
+    }
+
+    public function obtener_productos_privados_bsp($id_plataforma){
+        $sql = "SELECT id_producto FROM producto_privado WHERE id_plataforma = $id_plataforma;";
+        $data=  $this->select($sql);
+
+        $productos = array();
+
+        foreach ($data as $key => $value) {
+            $productos[] = $value['id_producto'];
+        }
+
+        $sql = "SELECT ib.id_inventario, ib.id_producto, ib.bodega, ib.pvp, ib.pcp, ib.sku, p.image_path, p.nombre_producto, v.variedad FROM inventario_bodegas ib inner join productos p on p.id_producto = ib.id_producto left join variedades v on ib.id_variante = v.id_variedad WHERE ib.id_producto in (".implode(',',$productos).");";
+        return $this->select($sql);
+
+
+    }
 }
