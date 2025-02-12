@@ -897,21 +897,21 @@ document.addEventListener("DOMContentLoaded", function () {
               // Toggle logic
               chipProv.addEventListener("click", function (e) {
                 const clickedProvChip = e.currentTarget;
-                if (clickedProvChip.classList.contains("selected")) {
-                  clickedProvChip.classList.remove("selected");
-                  formData_filtro.set("plataforma", "");
-                } else {
-                  document
-                    .querySelectorAll("#sliderProveedores .slider-chip")
-                    .forEach((el) => el.classList.remove("selected"));
-                  clickedProvChip.classList.add("selected");
-                  formData_filtro.set(
-                    "plataforma",
-                    clickedProvChip.dataset.provId
-                  );
-                }
+              
+                // Deseleccionas cualquier otro chip
+                document.querySelectorAll("#sliderProveedores .slider-chip")
+                  .forEach((el) => el.classList.remove("selected"));
+              
+                // Seleccionas el chip clicado
+                clickedProvChip.classList.add("selected");
+                
+                // Ajusta tu filtro
+                formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
+              
+                // Vuelves a mostrar productos filtrados
                 clearAndFetchProducts();
               });
+              
 
               sliderProveedores.appendChild(chipProv);
             });
@@ -952,9 +952,24 @@ document.addEventListener("DOMContentLoaded", function () {
           // Hacer scroll al proveedor encontrado
           if (providerToScroll) {
             let container = $("#sliderProveedores");
-            let providerOffset =
-              providerToScroll.position().left + container.scrollLeft();
-            container.animate({ scrollLeft: providerOffset - 100 }, 400);
+
+            // Offset absoluto (en relación al documento)
+            let containerOffsetLeft = container.offset().left;
+            let itemOffsetLeft      = providerToScroll.offset().left;
+            
+            // scrollLeft actual del contenedor
+            let currentScrollLeft = container.scrollLeft();
+            
+            // Calculamos el scroll que necesitamos para que el chip sea visible
+            // Básicamente: la posición del chip - la posición del contenedor + lo que ya estaba scrolleado.
+            let scrollValue = currentScrollLeft + (itemOffsetLeft - containerOffsetLeft);
+            
+            // Opcionalmente, ajustamos un poco para no dejarlo “pegado” al borde
+            let ajuste = 30; // Cambia 30 si lo quieres más o menos separado
+            scrollValue = scrollValue - ajuste;
+            
+            // Hacemos la animación
+            container.animate({ scrollLeft: scrollValue }, 400);
           }
         });
       })
