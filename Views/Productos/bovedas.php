@@ -19,6 +19,7 @@
             <table id="datatable_bovedas" class="table table-striped">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Nombre</th>
                         <th>Categoría</th>
                         <th>Proveedor</th>

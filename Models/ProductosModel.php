@@ -58,7 +58,8 @@ class ProductosModel extends Query
                 bovedas.duplicar_funnel,
                 bovedas.id_boveda,
                 bovedas.videos,
-                bovedas.fecha_create_at
+                bovedas.fecha_create_at,
+                ib.id_inventario
             FROM 
                 bovedas
             INNER JOIN 
@@ -66,15 +67,42 @@ class ProductosModel extends Query
             INNER JOIN 
                 lineas ON bovedas.id_linea = lineas.id_linea
             INNER JOIN 
-                plataformas ON bovedas.id_plataforma = plataformas.id_plataforma";
+                plataformas ON bovedas.id_plataforma = plataformas.id_plataforma
+            JOIN (
+                SELECT 
+                    ib.id_producto, 
+                    MIN(ib.sku) AS min_sku, 
+                    ib.id_plataforma, 
+                    ib.bodega, 
+                    MIN(ib.id_inventario) AS min_id_inventario
+                FROM 
+                    inventario_bodegas ib
+                WHERE 
+                    ib.bodega != 0 
+                    AND ib.bodega != 50000
+                    AND ib.saldo_stock > 0
+                GROUP BY 
+                    ib.id_producto, 
+                    ib.id_plataforma, 
+                    ib.bodega
+            ) ib_filtered ON productos.id_producto = ib_filtered.id_producto
+            JOIN inventario_bodegas ib ON 
+                ib.id_producto = ib_filtered.id_producto
+                AND ib.sku = ib_filtered.min_sku
+                AND ib.id_inventario = ib_filtered.min_id_inventario
+                AND ib.saldo_stock > 0
+            ORDER BY 
+                bovedas.fecha_create_at DESC
+        ";
 
         $response = $this->select($sql);
         return [
             'status'  => 200,
-            'message' => 'Productos obtenidos exitosamente',
+            'message' => 'Bóvedas obtenidas exitosamente',
             'data'    => $response
         ];
     }
+
 
     public function obtenerBoveda($id)
     {
@@ -2040,25 +2068,28 @@ class ProductosModel extends Query
     }
     /* fin oferta */
 
-    public function obtener_productos_bodegas_propias($id_plataforma){
+    public function obtener_productos_bodegas_propias($id_plataforma)
+    {
         $sql = "SELECT ib.id_inventario, ib.id_producto, ib.bodega, ib.pvp, ib.pcp, ib.sku, p.image_path, p.nombre_producto, v.variedad FROM inventario_bodegas ib inner join productos p on p.id_producto = ib.id_producto left join variedades v on ib.id_variante = v.id_variedad WHERE ib.id_plataforma = $id_plataforma;";
         return $this->select($sql);
-
     }
 
-    public function obtener_bodegas_psp(){
+    public function obtener_bodegas_psp()
+    {
         $sql = "SELECT b.id as id_bodega, b.nombre, b.direccion, b.num_casa, b.referencia, b.localidad as ciudadO, b.provincia as provinciaO, b.contacto as telefonoO, b.id_plataforma as id_propietario FROM bodega b inner join plataformas p on b.id_plataforma = p.id_plataforma where p.proveedor = 1";
         return $this->select($sql);
     }
 
-    public function obtener_productos_marketplace($id_bodega){
+    public function obtener_productos_marketplace($id_bodega)
+    {
         $sql = "SELECT ib.id_inventario, ib.id_producto, ib.bodega, ib.pvp, ib.pcp, ib.sku, p.image_path, p.nombre_producto, v.variedad FROM inventario_bodegas ib inner join productos p on p.id_producto = ib.id_producto left join variedades v on ib.id_variante = v.id_variedad WHERE ib.bodega = $id_bodega and p.producto_privado = 0;";
         return $this->select($sql);
     }
 
-    public function obtener_productos_privados_bsp($id_plataforma){
+    public function obtener_productos_privados_bsp($id_plataforma)
+    {
         $sql = "SELECT id_producto FROM producto_privado WHERE id_plataforma = $id_plataforma;";
-        $data=  $this->select($sql);
+        $data =  $this->select($sql);
 
         $productos = array();
 
@@ -2066,9 +2097,7 @@ class ProductosModel extends Query
             $productos[] = $value['id_producto'];
         }
 
-        $sql = "SELECT ib.id_inventario, ib.id_producto, ib.bodega, ib.pvp, ib.pcp, ib.sku, p.image_path, p.nombre_producto, v.variedad FROM inventario_bodegas ib inner join productos p on p.id_producto = ib.id_producto left join variedades v on ib.id_variante = v.id_variedad WHERE ib.id_producto in (".implode(',',$productos).");";
+        $sql = "SELECT ib.id_inventario, ib.id_producto, ib.bodega, ib.pvp, ib.pcp, ib.sku, p.image_path, p.nombre_producto, v.variedad FROM inventario_bodegas ib inner join productos p on p.id_producto = ib.id_producto left join variedades v on ib.id_variante = v.id_variedad WHERE ib.id_producto in (" . implode(',', $productos) . ");";
         return $this->select($sql);
-
-
     }
 }

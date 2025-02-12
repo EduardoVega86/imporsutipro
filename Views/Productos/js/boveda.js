@@ -5,6 +5,7 @@ const dataTableOptions = {
   pageLength: 10,
   destroy: true,
   responsive: true,
+  order: [], // Deshabilita el ordenamiento automático para preservar el orden de la API .. reciente a antiguo
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "No se encontraron resultados",
@@ -53,11 +54,12 @@ const listBovedas = async () => {
       bovedas.forEach((boveda) => {
         content += `
           <tr>
+            <td>${boveda.id_inventario}</td>
             <td>${boveda.nombre}</td>
             <td>${boveda.categoria}</td>
             <td>${boveda.proveedor}</td>
             <td><img src="${SERVERURL + boveda.img}" alt="${boveda.nombre}" style="max-width: 100px; height: auto;"></td>
-            <td><a href="${boveda.plantillas_ventas}" target="_blank" class="link-primary">Visitar Plantilla</a></td>
+            <td><a href="${boveda.plantillas_ventas}" target="_blank" class="link-primary">Ver Mensajes</a></td>
             <td><a href="${boveda.ejemplo_landing}" target="_blank" class="link-primary">Ver Landing</a></td>
             <td><a href="${boveda.duplicar_funnel}" target="_blank" class="link-primary">Duplicar Funnel</a></td>
             <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
