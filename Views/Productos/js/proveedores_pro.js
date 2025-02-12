@@ -21,11 +21,15 @@ document.addEventListener("DOMContentLoaded", function () {
             response.forEach((proveedor) => {
               const proveedorCard = document.createElement("div");
               proveedorCard.classList.add("proveedor-card");
+
+              //Construimos la ruta si existe, de lo contrario usamos el ícono por defecto
+              const imageSrc = proveedor.image
+               ? SERVERURL + proveedor.image
+               : SERVERURL + "public/img/icons/proveedor.png"
+
               proveedorCard.innerHTML = `
                 <div class="proveedor-logo-container">
-                  <img class="proveedor-logo" src="${
-                    proveedor.logo || SERVERURL + "public/img/icons/proveedor.png"
-                  }" alt="Logo">
+                  <img class="proveedor-logo" src="${imageSrc}" alt="Logo">
                 </div>
                 <div class="chip-text">
                   <!-- IMPORTANTE: la clase .chip-title es la que usaremos para filtrar -->
