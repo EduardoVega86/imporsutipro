@@ -47,14 +47,12 @@ const listObtenerUsuariosPlataforma = async () => {
     const obtenerUsuariosPlataforma = await response.json();
 
     let content = ``;
-    let usuarioPrincipalId = null; // Guarda el ID del usuario principal
+    let usuarioPrincipalId = null; // Guardar el ID del usuario principal
 
-    // Buscar si existe un usuario principal
-    obtenerUsuariosPlataforma.forEach((usuario) => {
-      if (usuario.principal === 1) {
-        usuarioPrincipalId = usuario.id_template;
-      }
-    });
+    // Buscar si hay un usuario con principal === 1
+    usuarioPrincipalId =
+      obtenerUsuariosPlataforma.find((usuario) => usuario.principal === 1)
+        ?.id_template || null;
 
     obtenerUsuariosPlataforma.forEach((usuario) => {
       let editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${usuario.id_template})">
@@ -80,7 +78,7 @@ const listObtenerUsuariosPlataforma = async () => {
       // Checkbox con evento onchange
       let checkbox = `<input type="checkbox" class="chk-usuario" ${isChecked} ${isDisabled} 
                         data-id="${usuario.id_template}" 
-                        onchange="cambiarEstadoUsuario(this, ${usuarioPrincipalId})">`;
+                        onchange="cambiarEstadoUsuario(this)">`;
 
       content += `
                 <tr>
@@ -98,7 +96,7 @@ const listObtenerUsuariosPlataforma = async () => {
     document.getElementById("tableBody_obtener_usuarios_plataforma").innerHTML =
       content;
   } catch (ex) {
-    alert(ex);
+    alert("Error: " + ex);
   }
 };
 
