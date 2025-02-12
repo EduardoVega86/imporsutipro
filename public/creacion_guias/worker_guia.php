@@ -8,6 +8,13 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
+// Constantes de configuración de LAAR
+const LAAR_USER = "import.uio.api";
+const LAAR_PASSWORD = "Imp@rt*23";
+const LAAR_ENDPOINT_AUTH = "https://api.laarcourier.com:9727/authenticate";
+const LAAR_ENDPOINT = "https://api.laarcourier.com:9727/guias/contado";
+const LLAR_ENDPOINT_CANCEL = 'https://api.laarcourier.com:9727/guias/anular/';
+
 // Función para registrar errores en logs
 function logError($message)
 {
