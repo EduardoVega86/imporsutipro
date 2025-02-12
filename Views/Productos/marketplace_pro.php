@@ -24,10 +24,9 @@
                                 placeholder="Buscar proveedor..."
                                 id="buscar_proveedor"
                                 style="display: none; width: 200px;" />
-                            <br>
                         </div>
                         <!-- Contenido deslizable -->
-                        <div id="sliderProveedores" class="slider-proveedores">
+                        <div id="sliderProveedores" class="slider-proveedores mt-3">
                             <!-- Aquí se cargarán dinámicamente los proveedores -->
                         </div>
 
