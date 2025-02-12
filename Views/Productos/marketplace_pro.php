@@ -10,22 +10,19 @@
     <div style="padding-bottom: 20px; padding-top: 20px;">
         <div class="caja p-4 shadow-sm bg-white">
 
-            <!-- Buscador de Proveedores -->
-            <div class="row mb-3">
-                <div class="col-12 col-md-4">
-                    <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Buscar proveedor..."
-                        id="buscar_proveedor" />
-                </div>
-            </div>
-
             <!-- Fila : Proveedores -->
             <div class="row mb-3">
                 <div class="d-flex">
                     <div class="slider-proveedores-container">
-                        <h6>Proveedores</h6>
+                        <h6>Proveedores
+                            <button id="toggleSearch" class="btn btn-sm btn-primary">Buscar</button>
+                        </h6>
+                        <input
+                            type="text"
+                            class="form-control mb-3"
+                            placeholder="Buscar proveedor..."
+                            id="buscar_proveedor"
+                            style="display: none;" />
 
                         <!-- Contenido deslizable -->
                         <div id="sliderProveedores" class="slider-proveedores">
