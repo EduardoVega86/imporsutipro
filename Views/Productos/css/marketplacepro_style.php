@@ -649,9 +649,9 @@
         background-color: #e0e0e0;
         color: #333;
         /* Ancho fijo */
-        min-width: 283px;
+        min-width: 307px;
         /* Alto fijo */
-        height: 307px;
+        height: 105px;
         /* Borde que solicitas */
         border: 1px solid #ccc;
         border-radius: 20px;
