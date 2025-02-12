@@ -119,7 +119,7 @@ const listGuias = async () => {
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
 
-    const response = await fetch(`${SERVERURL}pedidos/obtener_guias`, {
+    const response = await fetch(`${SERVERURL}pedidos/obtener_guias_estado_guia_sistema`, {
       method: "POST",
       body: formData,
     });
@@ -267,6 +267,12 @@ const listGuias = async () => {
       } else if (guia.estado_factura == 3) {
         despachado = `<i class="fa-solid fa-arrow-rotate-right" style="color:red; font-size: 21px;"></i>`;
       }
+      
+      // 2) Si el usuario está filtrando “En tránsito” => despachos=4, mostramos un ícono de auto
+      if ($("#despachos").val() == '4') {
+        despachado = `<i class="fa-solid fa-car" style="color:blue; font-size: 30px;"></i>`;
+      }
+
       let mostrar_tienda = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${guia.plataforma}')">${plataforma}</span></td>`;
 
       mostrar_tienda = "";

@@ -137,6 +137,119 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function cargarGuiasEstadoGuiaSistema($plataforma, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
+    {
+        $sql = "SELECT 
+        fc.*, 
+        fc.id_plataforma AS tienda_venta, 
+        fc.id_propietario AS proveedor,
+        cc.ciudad, 
+        cc.provincia AS provinciaa, 
+        p.url_imporsuit AS plataforma,
+        pp.url_imporsuit AS proveedor_plataforma, 
+        b.nombre AS nombre_bodega, 
+        b.direccion AS direccion_bodega,
+        n.solucionada, 
+        n.terminado, 
+        n.estado_novedad
+        FROM 
+            facturas_cot fc
+        LEFT JOIN 
+            ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
+        LEFT JOIN 
+            plataformas p ON p.id_plataforma = fc.id_plataforma
+        LEFT JOIN 
+            plataformas pp ON pp.id_plataforma = fc.id_propietario 
+        LEFT JOIN 
+            bodega b ON b.id = fc.id_bodega
+        LEFT JOIN 
+            novedades n ON n.guia_novedad = fc.numero_guia
+        WHERE 
+            TRIM(fc.numero_guia) <> '' 
+            AND fc.numero_guia IS NOT NULL 
+            AND fc.numero_guia <> '0' 
+            AND fc.anulada = 0  
+            AND (fc.id_plataforma = $plataforma OR fc.id_propietario = $plataforma OR b.id_plataforma = $plataforma)
+        ";
+
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        if (!empty($transportadora)) {
+            $sql .= " AND transporte = '$transportadora'";
+        }
+
+        if (!empty($estado)) {
+            switch ($estado) {
+                case 'generada':
+                    $sql .= " AND ((estado_guia_sistema in (100,102,103) and id_transporte=2)
+                                OR (estado_guia_sistema in (1,2) and id_transporte=1)
+                                OR (estado_guia_sistema in (1,2,3) and id_transporte=3)
+                                OR (estado_guia_sistema in (2) and id_transporte=4))";
+                    break;
+                case 'en_transito':
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 300 AND 317 and id_transporte=2)
+                                OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
+                                OR (estado_guia_sistema in (5,4) and id_transporte=3)
+                                OR (estado_guia_sistema in (3) and id_transporte=4))";
+                    break;
+                case 'entregada':
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 400 AND 403 and id_transporte=2)
+                                OR (estado_guia_sistema in (7) and id_transporte=1)
+                                OR (estado_guia_sistema in (7) and id_transporte=3))";
+                    break;
+                case 'novedad':
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
+                                OR (estado_guia_sistema in (14) and id_transporte=1)
+                                OR (estado_guia_sistema in (6) and id_transporte=3))";
+                    break;
+                case 'devolucion':
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
+                                OR (estado_guia_sistema in (9) and id_transporte=1)
+                                OR (estado_guia_sistema in (9) and id_transporte=4)
+                                OR (estado_guia_sistema in (8,9,13) and id_transporte=3))";
+                    break;
+            }
+        }
+
+        if ($drogshipin == 0 || $drogshipin == 1) {
+            $sql .= " AND drogshipin = $drogshipin";
+        }
+
+        if ($impreso !== null && $impreso !== '') {
+            if ($impreso == 0 || $impreso == 1) {
+                $sql .= " AND impreso = '$impreso'";
+            }
+        }
+
+        if ($despachos !== null && $despachos !== '') {
+            if ($despachos == 1) {
+                // Lógica de "No despachado" con estado_factura
+                $sql .= " AND estado_factura = 1";
+            } else if ($despachos == 2) {
+                // Lógica de "Despachado" con estado_factura
+                $sql .= " AND estado_factura = 2";
+            } else if ($despachos == 3) {
+                // Lógica de "Devuelto" con estado_factura
+                $sql .= " AND estado_factura = 3";
+            } else if ($despachos == 4) {
+                // Nuevo filtro "En tránsito" basado en estado_guia_sistema
+                $sql .= " AND (
+                    (transporte = 'LAAR' AND estado_guia_sistema NOT IN (7,9,2,8))
+                    OR (transporte = 'SPEED' AND estado_guia_sistema NOT IN (1,2,7,9,8))
+                    OR (transporte = 'SERVIENTREGA' AND estado_guia_sistema NOT IN (400,500,100,101))
+                    OR (transporte = 'GINTRACOM' AND estado_guia_sistema NOT IN (7,8,9,1,2))
+                )";
+            }
+        }
+
+
+        $sql .= " ORDER BY fc.numero_factura DESC;";
+
+        return $this->select($sql);
+    }
+
 
     public function cargarGuiasAnuladas($plataforma, $fecha_inicio, $fecha_fin, $transportadora)
     {
