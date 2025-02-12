@@ -843,8 +843,10 @@ document.addEventListener("DOMContentLoaded", function () {
               chipProv.classList.add("slider-chip");
               chipProv.dataset.provId = proveedor.id_plataforma;
 
-              // Ruta de la imagen en el servidor
-              const iconUrl = SERVERURL + "public/img/icons/proveedor.png";
+              //Construimos la ruta si existe, caso contrario usamos ícono por defecto
+              const imageSrc = proveedor.image
+              ? SERVERURL + proveedor.image
+              : SERVERURL + "public/img/icons/proveedor.png"
 
               // Truncar el nombre de la tienda si es muy largo
               let nombreTienda = proveedor.nombre_tienda
@@ -872,7 +874,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
               chipProv.innerHTML = `
             <div class="chip-content">
-              <img src="${iconUrl}" class="icon-chip"> 
+              <img src="${imageSrc}" class="icon-chip"  alt="Logo"> 
               <div class="chip-text">
                 <span class="chip-title">${nombreTienda}</span>
                 <span class="chip-count">${proveedor.cantidad_productos} productos</span>

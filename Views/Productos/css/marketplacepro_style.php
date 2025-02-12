@@ -749,7 +749,7 @@
         /* Hace la imagen redonda */
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
         /* Efecto de sombra */
-        object-fit: cover;
+        object-fit: contain;
         /* Ajuste correcto de imagen */
     }
 
@@ -796,7 +796,7 @@
     .proveedor-logo {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
         border-radius: 50%;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     }
