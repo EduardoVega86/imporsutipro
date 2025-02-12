@@ -41,38 +41,82 @@ const initDataTableObtenerUsuariosPlataforma = async () => {
 
 const listObtenerUsuariosPlataforma = async () => {
   try {
-    const response = await fetch(
-      "" + SERVERURL + "usuarios/obtener_plantillas_plataforma"
-    );
+    const response = await fetch(SERVERURL + "usuarios/obtener_plantillas_plataforma");
     const obtenerUsuariosPlataforma = await response.json();
 
     let content = ``;
+    let usuarioPrincipalId = null; // Guardar el ID del usuario principal
 
-    obtenerUsuariosPlataforma.forEach((usuario, index) => {
-      let editar = "";
-      let placa = "";
-   
-        editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${usuario.id_template})"><i class="fa-solid fa-pencil"></i>Editar</button>`;
-      
+    // Buscar si hay un usuario con principal === 1
+    usuarioPrincipalId = obtenerUsuariosPlataforma.find(usuario => parseInt(usuario.principal) === 1)?.id_template || null;
+
+    obtenerUsuariosPlataforma.forEach((usuario) => {
+      let editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${usuario.id_template})">
+                      <i class="fa-solid fa-pencil"></i> Editar
+                    </button>`;
+      let eliminar = `<button class="btn btn-sm btn-danger" onclick="eliminar_plantilla(${usuario.id_template})">
+                        <i class="fa-solid fa-trash-can"></i> Borrar
+                      </button>`;
+
+      // Lógica del checkbox
+      let isChecked = parseInt(usuario.principal) === 1 ? "checked" : "";
+      let isDisabled = usuarioPrincipalId !== null && usuario.id_template !== usuarioPrincipalId ? "disabled" : "";
+
+      // Si no hay usuario principal, todos los checkboxes deben estar habilitados
+      if (usuarioPrincipalId === null) {
+        isDisabled = "";
+      }
+
+      // Checkbox con evento onchange
+      let checkbox = `<input type="checkbox" class="chk-usuario" ${isChecked} ${isDisabled} 
+                        data-id="${usuario.id_template}" 
+                        onchange="cambiarEstadoUsuario(this)">`;
 
       content += `
                 <tr>
                 <td>${usuario.id_template}</td>
                 <td>${usuario.atajo}</td>
                 <td>${usuario.mensaje}</td>
-                
+                <td>${checkbox}</td>
                 <td>
-                ${editar}
-                <button class="btn btn-sm btn-danger" onclick="eliminar_plantilla(${
-                  usuario.id_template
-                })"><i class="fa-solid fa-trash-can"></i>Borrar</button>
+                  ${editar}
+                  ${eliminar}
                 </td>
                 </tr>`;
     });
-    document.getElementById("tableBody_obtener_usuarios_plataforma").innerHTML =
-      content;
+
+    document.getElementById("tableBody_obtener_usuarios_plataforma").innerHTML = content;
   } catch (ex) {
-    alert(ex);
+    alert("Error: " + ex);
+  }
+};
+
+// Función para cambiar el estado del usuario cuando se activa/desactiva el checkbox
+const cambiarEstadoUsuario = async (checkbox) => {
+  let id = checkbox.getAttribute("data-id");
+  let estado = checkbox.checked ? 1 : 0;
+
+  let formData = new FormData();
+  formData.append("id_template", id);
+  formData.append("estado", estado);
+
+  try {
+    const response = await fetch(SERVERURL + "usuarios/cambiar_estado", {
+      method: "POST",
+      body: formData,
+    });
+
+    const resultado = await response.json();
+
+    if (resultado.status === 200) {
+      initDataTableObtenerUsuariosPlataforma();
+    } else {
+      alert(resultado.title + ": " + resultado.message); // Mostrar error
+      checkbox.checked = !checkbox.checked; // Revertir el cambio si falla
+    }
+  } catch (error) {
+    alert("Error en la petición al servidor");
+    checkbox.checked = !checkbox.checked; // Revertir el cambio si hay un error
   }
 };
 
@@ -156,7 +200,6 @@ function abrir_editar_usuario(id_template) {
     contentType: false, // No establecer ningún tipo de contenido
     dataType: "json",
     success: function (response) {
-       
       $("#id_template_Editar").val(id_template);
       $("#atajo_Editar").val(response.atajo);
       $("#texto_Editar").val(response.mensaje);

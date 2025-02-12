@@ -2,6 +2,12 @@
 $redis = new Redis();
 $redis->connect('3.233.119.65', 6379);
 
+// Incluir el archivo del modelo
+require_once __DIR__ . '/../../Models/GuiasModel.php'; // Ajusta la ruta si es necesario
+
+// Crear una instancia del modelo
+$model = new GuiaModel(); // Asegúrate de que el nombre de la clase es correcto
+
 // Conexión a la base de datos
 $conn = new mysqli('3.233.119.65', 'imporsuit_system', 'imporsuit_system', 'imporsuitpro_new');
 if ($conn->connect_error) {
@@ -29,7 +35,7 @@ while (true) {
         if ($job) {
             $data = json_decode($job, true);
             if ($data) {
-                procesarGuiaLaar($data, $conn);
+                procesarGuiaLaar($data, $conn, $model);
             } else {
                 logError("Error al decodificar JSON: $job");
             }
@@ -41,13 +47,13 @@ while (true) {
     }
 }
 
-function procesarGuiaLaar($data, $conn)
+function procesarGuiaLaar($data, $conn, $model)
 {
     // Obtener token de autenticación
-    $token = obtenerTokenLaar();
+    $token = $model->laarToken();
 
-    // Generar número de guía
-    $numero_guia = obtenerUltimaGuia($conn);
+    // Obtener número de guía del modelo
+    $numero_guia = $model->ultimaguia();
 
     // Preparar datos para la API de LAAR
     $datos = [
@@ -104,13 +110,22 @@ function procesarGuiaLaar($data, $conn)
 
     if (!empty($result["guia"])) {
         // 📌 Actualizar base de datos con la guía generada
-        actualizarGuia($conn, $data, $result["guia"]);
+        $model->actualizarGuia(
+            $data['numero_factura'], $result["guia"], $data['nombreDestino'], $data['ciudadDestino'],
+            $data['direccionDestino'], $data['telefonoDestino'], $data['celularDestino'], $data['referenciaDestino'],
+            $data['cod'], $data['costo_producto'], $data['comentario'], $data['id_usuario'],
+            $data['calle_principal'], $data['calle_secundaria'], $data['contiene'], $data['provincia'],
+            $data['costoflete'], "LAAR", 2
+        );
 
         // 📌 Asignar a Wallet
-        asignarWallet($conn, $data, $result["guia"]);
+        $model->asignarWallet(
+            $data['numero_factura'], $result["guia"], $data['fecha'], $data['nombreDestino'],
+            $data['id_plataforma'], 1, $data['costo_producto'], $data['cod'], $data['costoflete']
+        );
 
         // 📌 Descargar la guía
-        descargarGuia($result["guia"]);
+        $model->descargarGuia($result["guia"]);
     } else {
         logError("Error generando guía: " . json_encode($result));
     }
@@ -126,88 +141,4 @@ function obtenerTokenLaar()
     $response = json_decode(curl_exec($ch), true);
     curl_close($ch);
     return $response['token'] ?? '';
-}
-
-/** 🔹 Obtener el último número de guía */
-function obtenerUltimaGuia($conn)
-{
-    $sql = "SELECT MAX(numero_guia) as numero_guia FROM facturas_cot WHERE numero_guia LIKE 'LAAR00%' FOR UPDATE";
-    $result = $conn->query($sql);
-    return $result->fetch_assoc()['numero_guia'] + 1;
-}
-
-/** 🔹 Actualizar la base de datos con la guía generada */
-function actualizarGuia($conn, $data, $guia)
-{
-    $sql = "UPDATE facturas_cot SET 
-            id_usuario = ?, monto_factura = ?, nombre = ?, telefono = ?, provincia = ?, 
-            c_principal = ?, ciudad_cot = ?, c_secundaria = ?, referencia = ?, 
-            observacion = ?, guia_enviada = 1, transporte = 'LAAR', celular = ?, 
-            estado_guia_sistema = 2, numero_guia = ?, cod = ?, contiene = ?, 
-            comentario = ?, id_transporte = 1, costo_flete = ?, fecha_guia = NOW() 
-            WHERE numero_factura = ?";
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param(
-        "idsssssssssssdsi",
-        $_SESSION["id"] ?? $data["id_usuario"],
-        $data["costo_producto"],
-        $data["nombreDestino"],
-        $data["telefonoDestino"],
-        $data["provincia"],
-        $data["calle_principal"],
-        $data["ciudadDestino"],
-        $data["calle_secundaria"],
-        $data["referenciaDestino"],
-        $data["comentario"],
-        $data["celularDestino"],
-        $guia,
-        $data["cod"],
-        $data["contiene"],
-        $data["comentario"],
-        $data["costoflete"],
-        $data["numero_factura"]
-    );
-    $stmt->execute();
-}
-
-/** 🔹 Asignar la guía al Wallet */
-function asignarWallet($conn, $data, $guia)
-{
-    $sql = "INSERT INTO cabecera_cuenta_pagar 
-            (numero_factura, fecha, cliente, tienda, proveedor, estado_guia, 
-            total_venta, costo, precio_envio, monto_recibir, valor_cobrado, 
-            valor_pendiente, full, guia, cod, id_matriz, id_plataforma, 
-            id_proveedor, id_full, id_referido) 
-            VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param(
-        "sssssiidddddiiii",
-        $data["numero_factura"],
-        $data["nombreDestino"],
-        $data["tienda_venta"],
-        $data["proveedor"],
-        1, // estado_guia
-        $data["costo_producto"],
-        $data["costo_o"],
-        $data["precio_envio"],
-        $data["monto_recibir"],
-        $data["monto_recibir"],
-        $data["full"],
-        $guia,
-        $data["cod"],
-        $data["id_matriz"],
-        $data["id_plataforma"],
-        $data["id_plataforma_producto"],
-        $data["id_plataforma_bodega"],
-        $data["id_referido"]
-    );
-    $stmt->execute();
-}
-
-/** 🔹 Descargar la guía */
-function descargarGuia($guia)
-{
-    file_put_contents("public/repositorio/guias/guia_$guia.pdf", file_get_contents("https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=$guia"));
 }
