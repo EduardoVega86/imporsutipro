@@ -5,6 +5,7 @@ const dataTableOptions = {
   pageLength: 10,
   destroy: true,
   responsive: true,
+  order: [], // Deshabilita el ordenamiento automático para preservar el orden de la API .. reciente a antiguo
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "No se encontraron resultados",
@@ -53,6 +54,7 @@ const listBovedas = async () => {
       bovedas.forEach((boveda) => {
         content += `
           <tr>
+            <td>${boveda.id_inventario}</td>
             <td>${boveda.nombre}</td>
             <td>${boveda.categoria}</td>
             <td>${boveda.proveedor}</td>
