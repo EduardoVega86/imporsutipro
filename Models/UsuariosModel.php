@@ -1035,6 +1035,26 @@ ON
         return $response;
     }
 
+    public function cambiar_estado($id_template, $estado)
+    {
+        $response = $this->initialResponse();
+
+        $sql = "UPDATE `templates_chat_center` SET `principal` = ? WHERE `id_template` = ?";
+        $data = [$estado, $id_template];
+        $cambiar_estado = $this->update($sql, $data);
+        //print_r($editar_producto);
+        if ($cambiar_estado == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Categoria editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            // $response['message'] = $editar_producto['message'];
+        }
+        return $response;
+    }
+
     public function eliminar_plantilla($id_template)
     {
         $response = $this->initialResponse();

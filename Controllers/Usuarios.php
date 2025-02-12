@@ -520,6 +520,15 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+    public function cambiar_estado()
+    {
+        $id_template = $_POST['id_template'];
+        $estado = $_POST['estado'];
+
+        $response = $this->model->cambiar_estado($id_template, $estado);
+        echo json_encode($response);
+    }
+
     public function eliminar_plantilla()
     {
         $id_template = $_POST['id_template'];
