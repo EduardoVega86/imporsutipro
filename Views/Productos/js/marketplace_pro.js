@@ -642,6 +642,18 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+
+  //Botón que muesta/oculta el input de búsqueda
+  document.getElementById("toggleSearch").addEventListener("click", function () {
+    const input = document.getElementById("buscar_proveedor");
+    if (input.style.display === "none") {
+      input.style.display = "block";
+      input.focus(); // opcional, para enfocar el input al mostrarlo
+    } else {
+      input.style.display = "none";
+    }
+  });
+  
   /************************************************
    * Filtro de precio con noUiSlider
    ************************************************/
