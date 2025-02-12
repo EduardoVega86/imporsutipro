@@ -1378,56 +1378,35 @@ if ($stmt->execute()) {
 
     /* validar si tiene mensaje interno principal */
     $mensaje_interno = "";
-
-    /* Validar si tiene mensaje interno principal */
     $check_msj_interno_principal_stmt = $conn->prepare("SELECT mensaje FROM templates_chat_center WHERE id_plataforma = ? AND principal = ?");
     $check_msj_interno_principal_stmt->bind_param('ii', $id_plataforma, 1);
     $check_msj_interno_principal_stmt->execute();
     $check_msj_interno_principal_stmt->store_result();
-
-    // Si no se encontró ningún resultado, guardar log
-    if ($check_msj_interno_principal_stmt->num_rows === 0) {
-        file_put_contents('debug_log.txt', "No se encontró mensaje interno principal.\n", FILE_APPEND);
-    }
-
     $check_msj_interno_principal_stmt->bind_result($mensaje_interno);
     $check_msj_interno_principal_stmt->fetch();
     $check_msj_interno_principal_stmt->close();
 
-    // Guardar el valor de $mensaje_interno en el log
-    file_put_contents('debug_log.txt', "🔍 mensaje_interno: " . ($mensaje_interno ?: "VACÍO") . "\n", FILE_APPEND);
+    file_put_contents('debug_log.txt', "mensaje_interno: " . $mensaje_interno . "\n", FILE_APPEND);
 
-    // Verifica si $mensaje_interno no está vacío antes de continuar
+    // Verifica si $mensaje_interno no está vacío antes de llamar a la función
     if (!empty($mensaje_interno)) {
-        file_put_contents('debug_log.txt', " Se encontró mensaje interno. Continuando...\n", FILE_APPEND);
-
+        file_put_contents('debug_log.txt', "Entro en primera condicion: \n", FILE_APPEND);
         $count_mensajes_clientes = 0;
-        $check_valida_mensaje_stmt = $conn->prepare("SELECT COUNT(id) FROM mensajes_clientes WHERE id_plataforma = ? AND celular_recibe = ?");
-        $check_valida_mensaje_stmt->bind_param('ii', $id_plataforma, $id_cliente);
+        $check_valida_mensaje_stmt = $conn->prepare("SELECT count(id) FROM mensajes_clientes WHERE id_plataforma = ? AND celular_recibe = ?");
+        $check_valida_mensaje_stmt->bind_param('ii', $id_plataforma, $id_cliente);  // Buscamos por el celular_cliente
         $check_valida_mensaje_stmt->execute();
         $check_valida_mensaje_stmt->store_result();
-
-        // Si no se encontró ningún resultado, guardar log
-        if ($check_valida_mensaje_stmt->num_rows === 0) {
-            file_put_contents('debug_log.txt', "No se encontraron mensajes en mensajes_clientes.\n", FILE_APPEND);
-        }
-
         $check_valida_mensaje_stmt->bind_result($count_mensajes_clientes);
         $check_valida_mensaje_stmt->fetch();
         $check_valida_mensaje_stmt->close();
 
-        // Guardar el valor de $count_mensajes_clientes en el log
-        file_put_contents('debug_log.txt', "🔍 count_mensajes_clientes: $count_mensajes_clientes\n", FILE_APPEND);
+        file_put_contents('debug_log.txt', "count_mensajes_clientes: " . $count_mensajes_clientes . "\n", FILE_APPEND);
 
         if ($count_mensajes_clientes == 0) {
-            file_put_contents('debug_log.txt', " No hay mensajes previos, enviando mensaje a WhatsApp...\n", FILE_APPEND);
 
+            file_put_contents('debug_log.txt', "Entro en segunda condicion: \n", FILE_APPEND);
             enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
-        } else {
-            file_put_contents('debug_log.txt', "Cliente ya tiene mensajes previos. No se enviará el mensaje.\n", FILE_APPEND);
         }
-    } else {
-        file_put_contents('debug_log.txt', "mensaje_interno está vacío. No se ejecuta la función.\n", FILE_APPEND);
     }
     /* fin validad si tiene mensaje interno principal */
 
@@ -1441,7 +1420,7 @@ if ($stmt->execute()) {
         echo json_encode(["status" => "error", "message" => "No se pudo enviar los datos a la API."]);
     }
 } else {
-    file_put_contents('debug_log.txt', "Error SQL: " . $stmt->error . "\n", FILE_APPEND);  // Agregar log del error
+    file_put_contents('debug_log.txt', "Error SQL: " . $stmt->error . "\n", FILE_APPEND);
     echo json_encode(["status" => "error", "message" => "Error al procesar el mensaje: " . $stmt->error]);
 }
 
