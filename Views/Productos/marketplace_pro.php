@@ -15,15 +15,14 @@
                 <div class="d-flex">
                     <div class="slider-proveedores-container">
                         <h6>Proveedores
-                            <button id="toggleSearch" class="btn btn-sm btn-primary">Buscar</button>
+                            <button id="toggleSearch" class="btn btn-sm btn-success">+</button>
+                            <input
+                                type="text"
+                                class="form-control mb-3"
+                                placeholder="Buscar proveedor..."
+                                id="buscar_proveedor"
+                                style="display: none;" />
                         </h6>
-                        <input
-                            type="text"
-                            class="form-control mb-3"
-                            placeholder="Buscar proveedor..."
-                            id="buscar_proveedor"
-                            style="display: none;" />
-
                         <!-- Contenido deslizable -->
                         <div id="sliderProveedores" class="slider-proveedores">
                             <!-- Aquí se cargarán dinámicamente los proveedores -->
