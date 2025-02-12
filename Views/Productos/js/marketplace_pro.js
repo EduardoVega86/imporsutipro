@@ -897,21 +897,21 @@ document.addEventListener("DOMContentLoaded", function () {
               // Toggle logic
               chipProv.addEventListener("click", function (e) {
                 const clickedProvChip = e.currentTarget;
-                if (clickedProvChip.classList.contains("selected")) {
-                  clickedProvChip.classList.remove("selected");
-                  formData_filtro.set("plataforma", "");
-                } else {
-                  document
-                    .querySelectorAll("#sliderProveedores .slider-chip")
-                    .forEach((el) => el.classList.remove("selected"));
-                  clickedProvChip.classList.add("selected");
-                  formData_filtro.set(
-                    "plataforma",
-                    clickedProvChip.dataset.provId
-                  );
-                }
+              
+                // Deseleccionas cualquier otro chip
+                document.querySelectorAll("#sliderProveedores .slider-chip")
+                  .forEach((el) => el.classList.remove("selected"));
+              
+                // Seleccionas el chip clicado
+                clickedProvChip.classList.add("selected");
+                
+                // Ajusta tu filtro
+                formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
+              
+                // Vuelves a mostrar productos filtrados
                 clearAndFetchProducts();
               });
+              
 
               sliderProveedores.appendChild(chipProv);
             });
