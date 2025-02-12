@@ -668,6 +668,20 @@ class Pedidos extends Controller
         echo json_encode($data);
     }
 
+    public function obtener_guias_estado_guia_sistema()
+    {
+        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
+        $fecha_fin = $_POST['fecha_fin'] ?? "";
+        $transportadora = $_POST['transportadora'] ?? "";
+        $estado = $_POST['estado'] ?? "";
+        $drogshipin = $_POST['drogshipin'] ?? "";
+        $impreso = $_POST['impreso'] ?? "";
+        $despachos = $_POST['despachos'] ?? "";
+
+        $data = $this->model->cargarGuiasEstadoGuiaSistema($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
+        echo json_encode($data);
+    }
+
     public function obtener_guias_anuladas()
     {
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
@@ -1360,7 +1374,7 @@ class Pedidos extends Controller
     {
         $this->catchAsync(function () use ($id_factura) {
             $response = $this->model->obtener_factura_sin_producto($id_factura);
-            if(count($response) == 0){
+            if (count($response) == 0) {
                 throw new Exception("No se encontraron facturas");
             }
             echo json_encode([
