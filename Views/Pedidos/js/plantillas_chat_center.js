@@ -82,11 +82,11 @@ const listObtenerUsuariosPlataforma = async () => {
                 <td>${usuario.id_template}</td>
                 <td>${usuario.atajo}</td>
                 <td>${usuario.mensaje}</td>
+                <td>${checkbox}</td>
                 <td>
                   ${editar}
                   ${eliminar}
                 </td>
-                <td>${checkbox}</td>
                 </tr>`;
     });
 
