@@ -16,7 +16,7 @@
                     <div class="slider-proveedores-container">
                         <div class="d-flex align-items-center">
                             <h6 class="me-2 mb-0">Proveedores</h6>
-                            <button id="toggleSearch" class="btn btn-sm btn-primary me-2">Buscar</button>
+                            <button id="toggleSearch" class="btn btn-sm btn-success me-2">+</button>
                             <!-- Input oculto inicialmente -->
                             <input
                                 type="text"
