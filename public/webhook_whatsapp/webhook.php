@@ -1376,6 +1376,33 @@ if ($stmt->execute()) {
     }
     /* fin validador para enviar mensaje tipo buttom*/
 
+    /* validar si tiene mensaje interno principal */
+    $mensaje_interno = "";
+    $check_msj_interno_principal_stmt = $conn->prepare("SELECT mensaje FROM templates_chat_center WHERE id_plataforma = ? AND principal = ?");
+    $check_msj_interno_principal_stmt->bind_param('ii', $id_plataforma, 1);
+    $check_msj_interno_principal_stmt->execute();
+    $check_msj_interno_principal_stmt->store_result();
+    $check_msj_interno_principal_stmt->bind_result($mensaje_interno);
+    $check_msj_interno_principal_stmt->fetch();
+    $check_msj_interno_principal_stmt->close();
+
+    // Verifica si $mensaje_interno no está vacío antes de llamar a la función
+    if (!empty($mensaje_interno)) {
+        $count_mensajes_clientes = 0;
+        $check_valida_mensaje_stmt = $conn->prepare("SELECT count(id) FROM mensajes_clientes WHERE id_plataforma = ? AND celular_recibe = ?");
+        $check_valida_mensaje_stmt->bind_param('ii', $id_plataforma, $id_cliente);  // Buscamos por el celular_cliente
+        $check_valida_mensaje_stmt->execute();
+        $check_valida_mensaje_stmt->store_result();
+        $check_valida_mensaje_stmt->bind_result($count_mensajes_clientes);
+        $check_valida_mensaje_stmt->fetch();
+        $check_valida_mensaje_stmt->close();
+
+        if ($count_mensajes_clientes == 0) {
+            enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
+        }
+    }
+    /* fin validad si tiene mensaje interno principal */
+
     // Aquí llamas a la función para enviar datos a la API
     $resultado_api = enviarConsultaAPI($id_plataforma, $id_cliente);
     if ($resultado_api) {
