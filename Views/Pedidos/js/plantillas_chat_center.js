@@ -49,7 +49,7 @@ const listObtenerUsuariosPlataforma = async () => {
     let content = ``;
     let usuarioPrincipalId = null; // Guarda el ID del usuario principal
 
-    // Identificar el usuario principal antes de recorrer la tabla
+    // Buscar si existe un usuario principal
     obtenerUsuariosPlataforma.forEach((usuario) => {
       if (usuario.principal === 1) {
         usuarioPrincipalId = usuario.id_template;
@@ -64,7 +64,7 @@ const listObtenerUsuariosPlataforma = async () => {
                         <i class="fa-solid fa-trash-can"></i> Borrar
                       </button>`;
 
-      // Determinar si el checkbox debe estar habilitado o no
+      // Lógica del checkbox
       let isChecked = usuario.principal === 1 ? "checked" : "";
       let isDisabled =
         usuarioPrincipalId !== null &&
@@ -72,10 +72,15 @@ const listObtenerUsuariosPlataforma = async () => {
           ? "disabled"
           : "";
 
+      // Si no hay usuario principal, todos los checkboxes deben estar habilitados
+      if (usuarioPrincipalId === null) {
+        isDisabled = "";
+      }
+
       // Checkbox con evento onchange
       let checkbox = `<input type="checkbox" class="chk-usuario" ${isChecked} ${isDisabled} 
                         data-id="${usuario.id_template}" 
-                        onchange="cambiarEstadoUsuario(this)">`;
+                        onchange="cambiarEstadoUsuario(this, ${usuarioPrincipalId})">`;
 
       content += `
                 <tr>
