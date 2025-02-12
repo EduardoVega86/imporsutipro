@@ -651,7 +651,7 @@
         /* Ancho fijo */
         min-width: 283px;
         /* Alto fijo */
-        height: 105px;
+        height: 307px;
         /* Borde que solicitas */
         border: 1px solid #ccc;
         border-radius: 20px;
@@ -740,9 +740,9 @@
 
     /* Estilo para las imágenes dentro de los chips */
     .icon-chip {
-        width: 40px;
+        width: 65px;
         /* Tamaño ajustable */
-        height: 40px;
+        height: 65px;
         margin-right: 10px;
         vertical-align: middle;
         border-radius: 40%;
