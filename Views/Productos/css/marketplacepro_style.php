@@ -649,7 +649,7 @@
         background-color: #e0e0e0;
         color: #333;
         /* Ancho fijo */
-        min-width: 283px;
+        min-width: 307px;
         /* Alto fijo */
         height: 105px;
         /* Borde que solicitas */
@@ -740,12 +740,12 @@
 
     /* Estilo para las imágenes dentro de los chips */
     .icon-chip {
-        width: 40px;
+        width: 65px;
         /* Tamaño ajustable */
-        height: 40px;
+        height: 65px;
         margin-right: 10px;
         vertical-align: middle;
-        border-radius: 40%;
+        border-radius: 50%;
         /* Hace la imagen redonda */
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
         /* Efecto de sombra */
