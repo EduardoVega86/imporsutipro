@@ -649,9 +649,9 @@
         background-color: #e0e0e0;
         color: #333;
         /* Ancho fijo */
-        min-width: 283px;
+        min-width: 324px;
         /* Alto fijo */
-        height: 105px;
+        height: 120px;
         /* Borde que solicitas */
         border: 1px solid #ccc;
         border-radius: 20px;
@@ -742,10 +742,10 @@
     .icon-chip {
         width: 40px;
         /* Tamaño ajustable */
-        height: 40px;
-        margin-right: 10px;
+        height: 68px;
+        margin-right: 68px;
         vertical-align: middle;
-        border-radius: 40%;
+        border-radius: 50%;
         /* Hace la imagen redonda */
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
         /* Efecto de sombra */
