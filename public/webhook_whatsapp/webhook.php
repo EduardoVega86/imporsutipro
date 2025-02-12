@@ -1364,41 +1364,6 @@ $rol_mensaje = 0;  // Valor por defecto para rol_mensaje, ya que es bigint
 
 $stmt->bind_param('iissssiss', $id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente, $phone_whatsapp_from);
 
-
-/* validar si tiene mensaje interno principal */
-$mensaje_interno = "";
-$check_msj_interno_principal_stmt = $conn->prepare("SELECT mensaje FROM templates_chat_center WHERE id_plataforma = ? AND principal = ?");
-$check_msj_interno_principal_stmt->bind_param('ii', $id_plataforma, 1);
-$check_msj_interno_principal_stmt->execute();
-$check_msj_interno_principal_stmt->store_result();
-$check_msj_interno_principal_stmt->bind_result($mensaje_interno);
-$check_msj_interno_principal_stmt->fetch();
-$check_msj_interno_principal_stmt->close();
-
-file_put_contents('debug_log.txt', "mensaje_interno: " . $mensaje_interno . "\n", FILE_APPEND);
-
-// Verifica si $mensaje_interno no está vacío antes de llamar a la función
-if (!empty($mensaje_interno)) {
-    file_put_contents('debug_log.txt', "Entro en primera condicion: \n", FILE_APPEND);
-    $count_mensajes_clientes = 0;
-    $check_valida_mensaje_stmt = $conn->prepare("SELECT count(id) FROM mensajes_clientes WHERE id_plataforma = ? AND celular_recibe = ?");
-    $check_valida_mensaje_stmt->bind_param('ii', $id_plataforma, $id_cliente);  // Buscamos por el celular_cliente
-    $check_valida_mensaje_stmt->execute();
-    $check_valida_mensaje_stmt->store_result();
-    $check_valida_mensaje_stmt->bind_result($count_mensajes_clientes);
-    $check_valida_mensaje_stmt->fetch();
-    $check_valida_mensaje_stmt->close();
-
-    file_put_contents('debug_log.txt', "count_mensajes_clientes: " . $count_mensajes_clientes . "\n", FILE_APPEND);
-
-    if ($count_mensajes_clientes == 0) {
-
-        file_put_contents('debug_log.txt', "Entro en segunda condicion: \n", FILE_APPEND);
-        enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
-    }
-}
-/* fin validad si tiene mensaje interno principal */
-
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 
@@ -1410,6 +1375,40 @@ if ($stmt->execute()) {
         asignar_etiquetas($id_etiquetas, $id_plataforma, $id_cliente);
     }
     /* fin validador para enviar mensaje tipo buttom*/
+
+    /* validar si tiene mensaje interno principal */
+    $mensaje_interno = "";
+    $check_msj_interno_principal_stmt = $conn->prepare("SELECT mensaje FROM templates_chat_center WHERE id_plataforma = ? AND principal = ?");
+    $check_msj_interno_principal_stmt->bind_param('ii', $id_plataforma, 1);
+    $check_msj_interno_principal_stmt->execute();
+    $check_msj_interno_principal_stmt->store_result();
+    $check_msj_interno_principal_stmt->bind_result($mensaje_interno);
+    $check_msj_interno_principal_stmt->fetch();
+    $check_msj_interno_principal_stmt->close();
+
+    file_put_contents('debug_log.txt', "mensaje_interno: " . $mensaje_interno . "\n", FILE_APPEND);
+
+    // Verifica si $mensaje_interno no está vacío antes de llamar a la función
+    if (!empty($mensaje_interno)) {
+        file_put_contents('debug_log.txt', "Entro en primera condicion: \n", FILE_APPEND);
+        $count_mensajes_clientes = 0;
+        $check_valida_mensaje_stmt = $conn->prepare("SELECT count(id) FROM mensajes_clientes WHERE id_plataforma = ? AND celular_recibe = ?");
+        $check_valida_mensaje_stmt->bind_param('ii', $id_plataforma, $id_cliente);  // Buscamos por el celular_cliente
+        $check_valida_mensaje_stmt->execute();
+        $check_valida_mensaje_stmt->store_result();
+        $check_valida_mensaje_stmt->bind_result($count_mensajes_clientes);
+        $check_valida_mensaje_stmt->fetch();
+        $check_valida_mensaje_stmt->close();
+
+        file_put_contents('debug_log.txt', "count_mensajes_clientes: " . $count_mensajes_clientes . "\n", FILE_APPEND);
+
+        if ($count_mensajes_clientes == 0) {
+
+            file_put_contents('debug_log.txt', "Entro en segunda condicion: \n", FILE_APPEND);
+            enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
+        }
+    }
+    /* fin validad si tiene mensaje interno principal */
 
     // Aquí llamas a la función para enviar datos a la API
     $resultado_api = enviarConsultaAPI($id_plataforma, $id_cliente);
