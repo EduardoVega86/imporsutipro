@@ -223,27 +223,25 @@ class PedidosModel extends Query
             }
         }
 
+        // Filtro por despachos (1: No despachado, 2: Despachado, 3: Devuelto)
+        // AHORA añadimos la lógica especial si despachos == 4 (Devolucion - En Bodega)
         if ($despachos !== null && $despachos !== '') {
-            if ($despachos == 1) {
-                // Lógica de "No despachado" con estado_factura
-                $sql .= " AND estado_factura = 1";
-            } else if ($despachos == 2) {
-                // Lógica de "Despachado" con estado_factura
-                $sql .= " AND estado_factura = 2";
-            } else if ($despachos == 3) {
-                // Lógica de "Devuelto" con estado_factura
-                $sql .= " AND estado_factura = 3";
-            } else if ($despachos == 4) {
-                // Nuevo filtro "En tránsito" basado en estado_guia_sistema
+            if ($despachos == 4) {
+                // Fuerza estado “devolución” + estado_factura 1 ó 2
+                // (equivalente a “no despachados” o “despachados”)
                 $sql .= " AND (
-                    (transporte = 'LAAR' AND estado_guia_sistema NOT IN (7,9,2,8))
-                    OR (transporte = 'SPEED' AND estado_guia_sistema NOT IN (1,2,7,9,8))
-                    OR (transporte = 'SERVIENTREGA' AND estado_guia_sistema NOT IN (400,500,100,101))
-                    OR (transporte = 'GINTRACOM' AND estado_guia_sistema NOT IN (7,8,9,1,2))
-                )";
+                            (
+                                (estado_guia_sistema BETWEEN 500 AND 502 AND id_transporte=2)
+                                OR (estado_guia_sistema in (9) AND id_transporte=1)
+                                OR (estado_guia_sistema in (9) AND id_transporte=4)
+                                OR (estado_guia_sistema in (8,9,13) AND id_transporte=3)
+                            )
+                            AND (estado_factura IN (1,2))
+                        )";
+            } else if ($despachos == 1 || $despachos == 2 || $despachos == 3) {
+                $sql .= " AND estado_factura = '$despachos'";
             }
         }
-
 
         $sql .= " ORDER BY fc.numero_factura DESC;";
 
@@ -3398,5 +3396,125 @@ class PedidosModel extends Query
     {
         $sql = "SELECT id_factura, nombre, telefono, productos,comentario FROM facturas_cot WHERE id_factura = $id_factura";
         return $this->select($sql);
+    }
+
+    public function actualizar_productos_psp($id_factura, $productos)
+    {
+        $response = "";
+        $numero_factura = $this->obtenerNumeroDeFactura($id_factura);
+        $datos_final = [];
+        foreach ($productos as $producto) {
+            $datos_generales = $this->buscarDataProducto($producto);
+            if ($datos_generales != null) {
+                $datos_generales["id_inventario"] = $producto;
+                $datos_generales["numero_factura"] = $numero_factura;
+                $response = $this->agregarDetalleFactura($id_factura, $datos_generales);
+                if ($response == 1)
+                    $datos_final[] = $datos_generales;
+            }
+        }
+        $costo = 0;
+        $precio = 0;
+        if (!empty($datos_final)) {
+            foreach ($datos_final as $producto) {
+                $costo += $producto['costo'];
+                $precio += $producto['precio'];
+            }
+            $response_factura = $this->actualizarPetido($id_factura, $datos_final, ['costo' => $costo, 'precio' => $precio]);
+        } else {
+            $response_factura = 0;
+        }
+
+
+
+
+        if ($response == 1 && $response_factura == 1) {
+            $response = [
+                'status' => 200,
+                'title' => 'Peticion exitosa',
+                'message' => 'Productos agregados correctamente'
+            ];
+        } else {
+            $response = [
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Error al agregar los productos'
+            ];
+        }
+        return $response;
+    }
+
+    private function actualizarPetido($id_factura, $producto, $precios): array|int
+    {
+        $sql = "UPDATE facturas_cot SET costo_producto = ?, monto_factura =  ?, ciudadO = ?, provinciaO = ?, nombreO = ?, direccionO = ?, telefonoO = ?, referenciaO = ?, numeroCasaO = ?, id_propietario = ?, id_bodega = ?, no_producto = 0
+                    WHERE id_factura = ?";
+        $data = [$precios['costo'], $precios['precio'], $producto[0]['ciudadO'], $producto[0]['provinciaO'], $producto[0]['nombreO'], $producto[0]['direccionO'], $producto[0]['telefonoO'], $producto[0]['referenciaO'], $producto[0]['num_casaO'], $producto[0]['id_propietario'], $producto[0]['bodega'], $id_factura];
+        return $this->update($sql, $data);
+    }
+
+    private function agregarDetalleFactura($id_factura, $producto): array|int
+    {
+        $sql = "INSERT INTO detalle_fact_cot (id_factura, id_producto, cantidad, precio_venta, id_plataforma, sku, numero_factura, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = [$id_factura, $producto['id_producto'], 1, $producto['precio'], $producto['id_propietario'], $producto['sku'], $producto['numero_factura'], $producto['id_inventario']];
+        return $this->insert($sql, $data);
+    }
+
+    private function buscarDataProducto($id_inventario): ?array
+    {
+        $sql = "SELECT ib.pcp, 
+                    ib.pvp, 
+                    ib.id_plataforma, 
+                    ib.bodega, 
+                    ib.sku, 
+                    ib.id_producto,
+                    b.nombre,
+                    b.direccion,
+                    b.contacto,
+                    b.referencia,
+                    b.num_casa,
+                    b.localidad,
+                    b.provincia
+                FROM inventario_bodegas ib 
+                INNER JOIN bodega b ON b.id = ib.bodega 
+                WHERE ib.id_inventario = $id_inventario";
+        $datos = $this->select($sql);
+        if (empty($datos)) {
+            return null;
+        }
+        $id_propietario = $datos[0]['id_plataforma'];
+        $id_producto = $datos[0]['id_producto'];
+        $costo = $datos[0]['pcp'];
+        $precio = $datos[0]['pvp'];
+        $sku = $datos[0]['sku'];
+        $nombreO = $datos[0]['nombre'];
+        $direccionO = $datos[0]['direccion'];
+        $telefonoO = $datos[0]['contacto'];
+        $referenciaO = $datos[0]['referencia'];
+        $num_casaO = $datos[0]['num_casa'];
+        $ciudadO = $datos[0]['localidad'];
+        $provinciaO = $datos[0]['provincia'];
+        $bodega = $datos[0]['bodega'];
+        return [
+            'id_propietario' => $id_propietario,
+            'id_producto' => $id_producto,
+            'costo' => $costo,
+            'precio' => $precio,
+            'sku' => $sku,
+            'nombreO' => $nombreO,
+            'direccionO' => $direccionO,
+            'telefonoO' => $telefonoO,
+            'referenciaO' => $referenciaO,
+            'num_casaO' => $num_casaO,
+            'ciudadO' => $ciudadO,
+            'provinciaO' => $provinciaO,
+            'bodega' => $bodega
+        ];
+    }
+
+    private function obtenerNumeroDeFactura($id_factura)
+    {
+        $sql = "SELECT numero_factura FROM facturas_cot WHERE id_factura = ?";
+        $response = $this->dselect($sql, [$id_factura]);
+        return $response[0]['numero_factura'];
     }
 }

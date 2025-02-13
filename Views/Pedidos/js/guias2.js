@@ -119,7 +119,7 @@ const listGuias = async () => {
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
 
-    const response = await fetch(`${SERVERURL}pedidos/obtener_guias`, {
+    const response = await fetch(`${SERVERURL}pedidos/obtener_guias_estado_guia_sistema`, {
       method: "POST",
       body: formData,
     });
