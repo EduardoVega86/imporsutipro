@@ -461,26 +461,28 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function createProductCard(product, productDetails) {
-    const { costo_producto, pvp, saldo_stock, url_imporsuit } = productDetails;
+    const { costo_producto, pvp, saldo_stock, url_imporsuit, categoria } = productDetails;
 
     let boton_enviarCliente = ``;
     let botonId_inventario = ``;
+    
     if (product.producto_variable == 0) {
-      boton_enviarCliente = `<button class="btn btn-import" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
-      botonId_inventario = `<div class="card-id-container" onclick="copyToClipboard(${product.id_inventario})">
-        <span class="card-id">ID: ${product.id_inventario}</span>
-      </div>`;
+        boton_enviarCliente = `<button class="btn btn-import" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
+        botonId_inventario = `<div class="card-id-container" onclick="copyToClipboard(${product.id_inventario})">
+            <span class="card-id">ID: ${product.id_inventario}</span>
+        </div>`;
     } else if (product.producto_variable == 1) {
-      boton_enviarCliente = `<button class="btn btn-import" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
-      botonId_inventario = `<div class="card-id-container" onclick="abrir_modal_idInventario(${product.id_producto})">
-      <span class="card-id">Ver IDs de producto variable </span>
-    </div>`;
+        boton_enviarCliente = `<button class="btn btn-import" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
+        botonId_inventario = `<div class="card-id-container" onclick="abrir_modal_idInventario(${product.id_producto})">
+            <span class="card-id">Ver IDs de producto variable</span>
+        </div>`;
     }
 
     const esFavorito = product.Es_Favorito === "1"; // Conversión a booleano
 
     const card = document.createElement("div");
-    card.className = "card card-custom position-relative";
+    card.className = "card-custom position-relative";
+
     // Usar la función para obtener la URL de la imagen
     const imagePath = obtenerURLImagen(productDetails.image_path, SERVERURL);
     let validador_imagen = 1;
@@ -491,56 +493,35 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     card.innerHTML = `
-      <div class="image-container position-relative">
-        ${botonId_inventario}
-        <img src="${imagePath}" class="card-img-top" alt="Product Image">
-        <div class="add-to-store-button ${
-          product.agregadoTienda ? "added" : ""
-        }" data-product-id="${product.id_producto}">
-          <span class="plus-icon">+</span>
-          <span class="add-to-store-text">${
-            product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
-          }</span>
+        <div class="card-header">
+            <span class="card-category">${categoria || "Sin Categoría"}</span>
+            <span class="card-stock">Stock: <strong>${saldo_stock}</strong></span>
         </div>
-        <div class="add-to-funnel-button" ${
-          product.agregadoFunnel ? "added" : ""
-        } data-funnel-id="${product.id_inventario}">
-          <span class="plus-icon">+</span>
-          <span class="add-to-funnel-text">${
-            product.agregadoFunnel ? "Quitar de funnel" : "Añadir a funnel"
-          }</span>
-          </div>
-
-      </div>
-      <button class="btn btn-heart ${
-        esFavorito ? "clicked" : ""
-      }" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
-        <i class="fas fa-heart"></i>
-      </button>
-      <div class="card-body text-center d-flex flex-column justify-content-between">
-        <div>
-          <h6 class="card-title"><strong>${
-            product.nombre_producto
-          }</strong></h6>
-          <p class="card-text">Stock: <strong style="color:green">${saldo_stock}</strong></p>
-          <p class="card-text">Precio Proveedor: <strong>${
-            productDetails.pcp
-          }</strong></p>
-          <p class="card-text">Precio Sugerido: <strong>$${pvp}</strong></p>
-          <p class="card-text">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${
-      productDetails.nombre_tienda
-    }</a></p>
+        <div class="image-container position-relative">
+            ${botonId_inventario}
+            <img src="${imagePath}" class="card-img-top" alt="Imagen del producto">
+            <button class="btn-heart ${esFavorito ? "clicked" : ""}" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
+                <i class="fas fa-heart"></i>
+            </button>
         </div>
-        <div>
-          <button class="btn btn-description" onclick="agregarModal_marketplace(${
-            product.id_producto
-          })">Descripción</button>
-          ${boton_enviarCliente}
+        <div class="card-body text-center d-flex flex-column justify-content-between">
+            <div>
+                <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
+                <p class="card-subtitle">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${productDetails.nombre_tienda || "Proveedor desconocido"}</a></p>
+                <div class="card-pricing">
+                    <span class="precio-proveedor">Precio Proveedor: <strong>$${productDetails.pcp}</strong></span>
+                    <span class="precio-sugerido">Precio Sugerido: <strong>$${pvp}</strong></span>
+                </div>
+            </div>
+            <div class="card-buttons">
+                <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
+                ${boton_enviarCliente}
+            </div>
         </div>
-      </div>
     `;
+
     cardContainer.appendChild(card);
-  }
+}  
 
   function debounce(func, wait) {
     let timeout;

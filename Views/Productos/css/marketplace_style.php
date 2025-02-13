@@ -47,24 +47,32 @@
         /* Para evitar que el contenido se salga */
     }
 
+    /* Encabezado de la tarjeta */
     .card-header {
         display: flex;
         justify-content: space-between;
         font-size: 14px;
         color: #666;
+        padding: 8px 15px;
+        background-color: #f5f5f5;
+        border-bottom: 1px solid #ddd;
     }
 
+    /* Título del producto */
     .card-title {
         font-weight: bold;
         text-align: center;
+        margin-top: 10px;
     }
 
+    /* Subtítulo (Proveedor) */
     .card-subtitle {
         font-size: 14px;
         color: #666;
         text-align: center;
     }
 
+    /* Diseño de precios */
     .card-pricing {
         display: flex;
         justify-content: space-between;
@@ -76,14 +84,43 @@
         font-size: 16px;
     }
 
-    .card-custom .btn-description,
-    .card-custom .btn-import {
-        border-radius: 50px;
-        padding: 10px 20px;
-        margin: 5px auto;
-        /* Center the buttons */
-        width: 80%;
+    /* Contenedor de botones */
+    .card-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
     }
+
+    /* Estilos de los botones */
+    .btn-description {
+        background-color: #00aaff;
+        color: white;
+        border-radius: 50px;
+        padding: 8px 15px;
+        width: 48%;
+        text-align: center;
+    }
+
+    .btn-import {
+        background-color: #ffc107;
+        color: white;
+        border-radius: 50px;
+        padding: 8px 15px;
+        width: 48%;
+        text-align: center;
+    }
+
+    /* Ajustes en la imagen */
+    .image-container {
+        position: relative;
+    }
+
+    .image-container img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
 
     /* Estilos para el ID del producto */
     .card-id-container {
@@ -104,19 +141,6 @@
         font-size: 14px;
         font-weight: bold;
         color: #333;
-    }
-
-
-    .btn-description {
-        background-color: #00aaff;
-        color: white;
-    }
-
-    .btn-import {
-        background-color: #ffc107;
-        color: white;
-        margin-bottom: 10px;
-        /* Añade margen inferior para espacio adicional */
     }
 
     .card-text {
@@ -481,11 +505,6 @@
     }
 
     /* fin boton favoritos */
-
-    /* boton añadir a tienda */
-    .image-container {
-        position: relative;
-    }
 
     .add-to-store-button {
         position: absolute;
