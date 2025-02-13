@@ -70,6 +70,12 @@
 
         </div>
 
+        <div class="d-flex mb-3 mt-3">
+            <button id="btnPedidos" class="btn btn-primary me-2 active">Pedidos</button>
+            <button id="btnAbandonados" class="btn btn-secondary">Abandonados</button>
+            <button id="btnNo_vinculados" class="btn btn-secondary">No Vinculados</button>
+        </div>
+
         <!-- TABLA DE HISTORIAL DE PEDIDOS -->
         <div class="table-responsive">
             <table id="datatable_historialPedidos" class="table table-striped">
@@ -95,6 +101,8 @@
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/historial_2.js"></script>
 
 <script>
+    // Definir la URL de la API por defecto (Pedidos)
+    let currentAPI = "pedidos/cargarPedidos_imporsuit";
     let fecha_inicio = "";
     let fecha_fin = "";
 
@@ -188,7 +196,7 @@
                         '0%'
                     );
 
-                    $("#id_confirmacion").text("de "+data.mensaje || "");
+                    $("#id_confirmacion").text("de " + data.mensaje || "");
                 } else {
                     console.error('No se recibieron datos válidos de la API.');
                 }
