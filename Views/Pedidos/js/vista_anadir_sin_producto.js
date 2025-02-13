@@ -3,6 +3,9 @@ let dataTablePedidosSinProductoIsInitialized = false;
 let filtroProductos = 1; // 1: Propios | 2: Bodegas | 3: Privados
 let bodega_seleccionada = 0;
 let productosSeleccionados = [];
+// ✅ Obtener el ID de la factura desde la URL
+let pathArray = window.location.pathname.split("/");
+let id_factura_global = pathArray[pathArray.length - 1];
 
 const dataTablePedidosSinProductoOptions = {
   responsive: true,
@@ -136,6 +139,39 @@ const toggleBotonesYSelect = () => {
 
 // **Botón para agregar productos seleccionados**
 document.getElementById("btnAgregarProductos").addEventListener("click", () => {
+  let formData = new FormData();
+  formData.append("productos[]", productosSeleccionados);
+  $.ajax({
+    url: SERVERURL + "pedidos/actualizar_productos_psp/" + id_factura_global,
+    type: "POST", // Cambiar a POST para enviar FormData
+    data: formData,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        Swal.fire({
+          icon: "error",
+          title: response.title,
+          text: response.message,
+        });
+      } else if (response.status == 200) {
+        Swal.fire({
+          icon: "success",
+          title: response.title,
+          text: response.message,
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(() => {
+          window.location.href = "" + SERVERURL + "Pedidos/editar/"+id_factura_global;
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
+
   console.log(
     "Lista final de productos seleccionados:",
     productosSeleccionados
@@ -259,10 +295,6 @@ $(document).ready(function () {
     bodega_seleccionada = $(this).val();
     await initDataTablePedidosSinProducto();
   });
-
-  // ✅ Obtener el ID de la factura desde la URL
-  let pathArray = window.location.pathname.split("/");
-  let id_factura_global = pathArray[pathArray.length - 1];
 
   // ✅ Realizar la petición AJAX con el ID obtenido
   $.ajax({
