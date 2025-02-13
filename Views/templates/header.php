@@ -257,8 +257,8 @@
         </nav>
         <!-- Aquí va el contenido de la página -->
         <script>
-            const SERVERURL = "<?php echo SERVERURL ?>";
-            const MARCA = "<?php echo MARCA ?>";
+            const SERVERURL = "<?php echo SERVERURL; ?>";
+            const MARCA = "<?php echo MARCA; ?>";
             const CARGO = <?php echo $_SESSION['cargo']; ?>;
             const ID_PLATAFORMA = <?php echo $_SESSION['id_plataforma']; ?>;
             const MATRIZ = <?php echo MATRIZ; ?>;
