@@ -136,7 +136,8 @@ const listHistorialPedidos = async () => {
         ID_PLATAFORMA == 1251 ||
         ID_PLATAFORMA == 1206 ||
         ID_PLATAFORMA == 2293 ||
-        ID_PLATAFORMA == 3481
+        ID_PLATAFORMA == 3481 ||
+        ID_PLATAFORMA == 1166
       ) {
         if (historialPedido.automatizar_ws == 0){
         boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
