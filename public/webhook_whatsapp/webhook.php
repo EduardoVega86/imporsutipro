@@ -1379,7 +1379,7 @@ if ($stmt->execute()) {
     /* validar si tiene mensaje interno principal */
 
     // Ejecutar consulta con query()
-    $sql = "SELECT mensaje FROM templates_chat_center WHERE id_plataforma = $id_plataforma AND principal = 1";
+    $sql = "SELECT id_template FROM templates_chat_center WHERE id_plataforma = $id_plataforma AND principal = 1";
 
     $result = $conn->query($sql);
 
@@ -1401,6 +1401,8 @@ if ($stmt->execute()) {
 
     // Verifica si $mensaje_interno no está vacío antes de llamar a la función
     if (!empty($mensaje_interno)) {
+
+        $id_template_principal = $mensaje_interno;
         file_put_contents('debug_log.txt', "Entro en primera condición\n", FILE_APPEND);
 
         $sql_count = "SELECT count(id) AS total FROM mensajes_clientes WHERE id_plataforma = $id_plataforma AND celular_recibe = $id_cliente";
@@ -1421,7 +1423,7 @@ if ($stmt->execute()) {
 
         if ($count_mensajes_clientes == 1) {
             file_put_contents('debug_log.txt', "Entro en segunda condición\n", FILE_APPEND);
-            enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
+            enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template_principal);
         }
     }
     /* fin validar si tiene mensaje interno principal */
