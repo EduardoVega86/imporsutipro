@@ -84,13 +84,6 @@
         border-top: 1px solid #ddd;
     }
 
-    .precio-proveedor {
-        justify-content: space-between;
-        font-size: 12px;
-        margin-top: 5px;
-        display: flex;
-    }
-
     /* Contenedor de botones */
     .card-buttons {
         display: flex;
