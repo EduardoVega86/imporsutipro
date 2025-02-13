@@ -262,6 +262,6 @@
             const CARGO = <?php echo $_SESSION['cargo']; ?>;
             const ID_PLATAFORMA = <?php echo $_SESSION['id_plataforma']; ?>;
             const MATRIZ = <?php echo MATRIZ; ?>;
-            const VALIDAR_CONFIG_CHAT = <?php echo $_SESSION['validar_config_chat']; ?>;
-            console.log("VALIDAR_CONFIG_CHAT: "+VALIDAR_CONFIG_CHAT);
+            const VALIDAR_CONFIG_CHAT = <?php echo json_encode(!empty($_SESSION['validar_config_chat'])); ?>;
+            console.log("VALIDAR_CONFIG_CHAT:", VALIDAR_CONFIG_CHAT);
         </script>
