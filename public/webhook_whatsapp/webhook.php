@@ -1394,6 +1394,14 @@ if ($stmt->execute()) {
     $check_msj_interno_principal_stmt->execute();
     $check_msj_interno_principal_stmt->store_result();
 
+    if (!$check_msj_interno_principal_stmt->execute()) {
+        file_put_contents('debug_log.txt', "❌ Error SQL en mensaje_interno: " . $check_msj_interno_principal_stmt->error . "\n", FILE_APPEND);
+        exit;
+    }
+    
+    $check_msj_interno_principal_stmt->store_result();
+    file_put_contents('debug_log.txt', "🔍 Filas encontradas en consulta mensaje_interno: " . $check_msj_interno_principal_stmt->num_rows . "\n", FILE_APPEND);
+
     if ($check_msj_interno_principal_stmt->num_rows === 0) {
         file_put_contents('debug_log.txt', "No se encontró mensaje interno principal.\n", FILE_APPEND);
     } else {
