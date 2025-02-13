@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Productos/css/marketplacepro_style.php'; ?>
+<?php require_once './Views/Productos/css/marketplace_style.php'; ?>
 
 <?php require_once './Views/Productos/Modales/descripcion_marketplace.php'; ?>
 <?php require_once './Views/Productos/Modales/Seleccion_productoAtributo.php'; ?>
@@ -99,6 +99,6 @@
     </div>
 </div>
 
-<script src="<?php echo SERVERURL ?>/Views/Productos/js/marketplace_pro.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Productos/js/marketplace.js"></script>
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/tablaSeleccion_Producto.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
