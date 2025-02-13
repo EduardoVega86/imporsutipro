@@ -493,16 +493,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     card.innerHTML = `
-        <div class="card-header">
-            <span class="card-category">${product.categoria || "Sin Categoría"}</span>
-            <span class="card-stock">Stock: <strong>${saldo_stock}</strong></span>
-        </div>
         <div class="image-container position-relative">
             ${botonId_inventario}
             <img src="${imagePath}" class="card-img-top" alt="Imagen del producto">
             <button class="btn-heart ${esFavorito ? "clicked" : ""}" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
                 <i class="fas fa-heart"></i>
             </button>
+        </div>
+        <div class="card-header">
+            <span class="card-category">${product.categoria || "Sin Categoría"}</span>
+            <span class="card-stock text-success">Stock: <strong>${saldo_stock}</strong></span>
         </div>
         <div class="card-body text-center d-flex flex-column justify-content-between">
             <div>
