@@ -1330,6 +1330,7 @@ if ($check_client_stmt->num_rows == 0) {
 
 $check_client_stmt->close();
 
+file_put_contents('debug_log.txt', "Despues de mensaje procesado: \n", FILE_APPEND);
 /* Obtener nombres y teléfono configuracion */
 $telefono_configuracion = 0;
 $nombre_configuracion = "";
@@ -1364,6 +1365,7 @@ $rol_mensaje = 0;  // Valor por defecto para rol_mensaje, ya que es bigint
 
 $stmt->bind_param('iissssiss', $id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente, $phone_whatsapp_from);
 
+file_put_contents('debug_log.txt', "Antes de conficion principal: \n", FILE_APPEND);
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 
