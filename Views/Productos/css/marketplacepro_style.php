@@ -764,6 +764,7 @@
     }
 
     .proveedor-card {
+        cursor: pointer;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -778,6 +779,13 @@
     .proveedor-card:hover {
         transform: scale(1.05);
     }
+
+    /* Estilo para la card seleccionada */
+    .proveedor-card.selected {
+        border: 2px solid #007BFF;
+        background-color: #e6f7ff;
+    }
+
 
     .proveedor-logo-container {
         width: 80px;
