@@ -1365,8 +1365,6 @@ $rol_mensaje = 0;  // Valor por defecto para rol_mensaje, ya que es bigint
 
 $stmt->bind_param('iissssiss', $id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente, $phone_whatsapp_from);
 
-file_put_contents('debug_log.txt', "Antes de conficion principal: \n", FILE_APPEND);
-
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 
@@ -1379,12 +1377,9 @@ if ($stmt->execute()) {
     /* fin validador para enviar mensaje tipo buttom */
 
     /* validar si tiene mensaje interno principal */
-    file_put_contents('debug_log.txt', "Ejecutando consulta para mensaje_interno\n", FILE_APPEND);
-    file_put_contents('debug_log.txt', "🔍 id_plataforma antes de consulta: " . ($id_plataforma ?: "VACÍO") . "\n", FILE_APPEND);
 
     // Ejecutar consulta con query()
     $sql = "SELECT mensaje FROM templates_chat_center WHERE id_plataforma = $id_plataforma AND principal = 1";
-    file_put_contents('debug_log.txt', "🔎 Consulta SQL generada: " . $sql . "\n", FILE_APPEND);
 
     $result = $conn->query($sql);
 
@@ -1424,7 +1419,7 @@ if ($stmt->execute()) {
 
         file_put_contents('debug_log.txt', "count_mensajes_clientes: " . $count_mensajes_clientes . "\n", FILE_APPEND);
 
-        if ($count_mensajes_clientes == 0) {
+        if ($count_mensajes_clientes == 1) {
             file_put_contents('debug_log.txt', "Entro en segunda condición\n", FILE_APPEND);
             enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
         }
