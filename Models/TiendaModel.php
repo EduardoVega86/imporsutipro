@@ -44,7 +44,7 @@ class TiendaModel extends Query
 
         // El subdominio y su carpeta ya existen
         $directorio = $dominio; // Carpeta ya creada con el subdominio
-        echo $directorio;
+        $directorio = str_replace(".com", '', $directorio);
 
         // URL de la API para agregar el dominio utilizando la carpeta del subdominio
         $apiUrlDominio = $cpanelUrl . 'json-api/cpanel?cpanel_jsonapi_apiversion=2&cpanel_jsonapi_module=AddonDomain&cpanel_jsonapi_func=addaddondomain&newdomain=' . $dominio . '&dir=' . $directorio . '&subdomain=' . $subdominio;
