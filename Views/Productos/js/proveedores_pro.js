@@ -42,6 +42,13 @@ document.addEventListener("DOMContentLoaded", function () {
                   }</span>
                 </div>
               `;
+
+            // *** LÓGICA DE CLICK PARA REDIRECCIONAR A marketplace_pro CON EL FILTRO ***
+              proveedorCard.addEventListener("click", function () {
+                // Redireccionamos pasando ?plataforma=[ID_PROVEEDOR]
+                window.location.href = SERVERURL + "Productos/marketplace_pro?plataforma=" + proveedor.id_plataforma;
+              });
+
               proveedoresContainer.appendChild(proveedorCard);
             });
           } else {
