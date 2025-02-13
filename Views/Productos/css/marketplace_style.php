@@ -85,18 +85,11 @@
     }
 
     /* Estilo para el texto "Precio proveedor" y "Precio sugerido" */
-    .precio-proveedor,
-    .precio-sugerido {
+    .precio-proveedor {
         font-size: 14px;
         /* Tamaño del texto de las etiquetas */
         color: #666;
         /* Solo "Precio proveedor" tendrá este color */
-    }
-
-    /* Solo el precio será más grande y con un color diferente */
-    .precio-proveedor strong {
-        font-size: 18px;
-        /* Tamaño más grande para el precio */
     }
 
     .precio-sugerido strong {
