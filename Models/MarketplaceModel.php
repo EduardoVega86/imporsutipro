@@ -144,7 +144,7 @@ class MarketplaceModel extends Query
                     ON pf.id_producto = p.id_producto
                     AND pf.id_plataforma = $plataforma
                 LEFT JOIN lineas l
-                    ON p.id_linea_producto = l.nombre_linea    
+                    ON p.id_linea_producto = l.id_linea 
                 WHERE 
                     p.drogshipin = 1
                     AND p.producto_privado = 0
