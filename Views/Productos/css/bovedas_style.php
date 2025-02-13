@@ -39,7 +39,7 @@
         overflow-x: auto;
     }
 
-    #tableLoader {
+    #bovedasLoader {
         position: absolute;
         top: -18px;
         width: 54%;
