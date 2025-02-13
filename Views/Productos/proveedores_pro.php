@@ -8,7 +8,7 @@
             <div class="row mb-3">
                 <div class="col-12">
                     <div class="slider-proveedores-container">
-                        <h6 class="fs-5 text-align: center">Proveedores</h6>
+                        <h6 class="fs-2 textcenter">Proveedores</h6>
                         <input type="text" class="form-control mb-3" placeholder="Buscar proveedor..." id="buscar_proveedor" />
                         <div id="sliderProveedores" class="proveedores-grid"></div>
                     </div>
