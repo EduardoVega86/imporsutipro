@@ -447,6 +447,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <button class="btn btn-description d-flex align-items-center justify-content-center w-100" onclick="verProducto(${product.id_producto})">
                     <i class='bx bx-info-circle me-2'></i> Ver producto
                 </button>
+                ${boton_enviarCliente}
             </div>
         </div>
     `;
