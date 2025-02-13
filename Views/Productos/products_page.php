@@ -46,5 +46,4 @@
 </div>
 
 <script src="<?php echo SERVERURL; ?>/Views/Productos/js/products_page.js"></script>
-
-<?php require_once '../../templates/footer.php'; ?>
+<?php require_once './Views/templates/footer.php'; ?>
