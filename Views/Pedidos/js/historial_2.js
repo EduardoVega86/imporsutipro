@@ -51,10 +51,13 @@ const listHistorialPedidos = async () => {
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
 
-    const response = await fetch(`${SERVERURL}${currentAPI}`, {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      `${SERVERURL}pedidos/cargarPedidos_imporsuit`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     const historialPedidos = await response.json();
 
@@ -129,9 +132,15 @@ const listHistorialPedidos = async () => {
 
       let boton_automatizador = "";
 
-      if (VALIDAR_CONFIG_CHAT) {
-        if (historialPedido.automatizar_ws == 0) {
-          boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
+      if (
+        ID_PLATAFORMA == 1251 ||
+        ID_PLATAFORMA == 1206 ||
+        ID_PLATAFORMA == 2293 ||
+        ID_PLATAFORMA == 3481 ||
+        ID_PLATAFORMA == 1166
+      ) {
+        if (historialPedido.automatizar_ws == 0){
+        boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
           ${historialPedido.id_factura},
           '${historialPedido.ciudad_cot}', // Si es string, ponlo entre comillas
           '${historialPedido.celular}', // Lo mismo aquí si es string
@@ -198,16 +207,6 @@ const listHistorialPedidos = async () => {
         factura = numero_orden_shopify;
       }
 
-      let acciones = "";
-      if (currentAPI == "pedidos/cargarPedidos_imporsuit") {
-        acciones = `
-          <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
-          <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
-          ${boton_automatizador}`;
-      } else if (currentAPI == "pedidos/cargar_pedidos_sin_producto") {
-        acciones = `<button class="btn btn-sm btn-primary" onclick="boton_vista_anadir_sin_producto(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>`;
-      }
-
       content += `
                 <tr>
                     <td>${factura}</td>
@@ -237,7 +236,9 @@ const listHistorialPedidos = async () => {
                     </div>
                     </td>
                     <td>
-                        ${acciones}
+                        <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
+                        ${boton_automatizador}
                     </td>
                 </tr>`;
     });
@@ -246,38 +247,6 @@ const listHistorialPedidos = async () => {
     alert(ex);
   }
 };
-
-// Manejo de botones para cambiar API y recargar la tabla
-document.getElementById("btnPedidos").addEventListener("click", () => {
-  currentAPI = "pedidos/cargarPedidos_imporsuit";
-  cambiarBotonActivo("btnPedidos");
-  initDataTableHistorial();
-});
-
-/* document.getElementById("btnAbandonados").addEventListener("click", () => {
-  currentAPI = "pedidos/cargar_pedidos_abandonados"; // Ajusta la API correspondiente
-  cambiarBotonActivo("btnAbandonados");
-  initDataTableHistorial();
-}); */
-
-document.getElementById("btnNo_vinculados").addEventListener("click", () => {
-  currentAPI = "pedidos/cargar_pedidos_sin_producto";
-  cambiarBotonActivo("btnNo_vinculados");
-  initDataTableHistorial();
-});
-
-const cambiarBotonActivo = (botonID) => {
-  document.querySelectorAll(".d-flex button").forEach((btn) => {
-    btn.classList.remove("active", "btn-primary");
-    btn.classList.add("btn-secondary"); // Agregar btn-secondary a todos
-  });
-
-  const botonActivo = document.getElementById(botonID);
-  botonActivo.classList.remove("btn-secondary"); // Quitar secundario al botón activo
-  botonActivo.classList.add("btn-primary", "active"); // Agregar primario y activo
-};
-
-// Fin Manejo de botones para cambiar API y recargar la tabla
 
 // Event delegation for select change
 document.addEventListener("change", async (event) => {
@@ -383,11 +352,6 @@ function procesarPlataforma(url) {
 
 function boton_editarPedido(id) {
   window.location.href = "" + SERVERURL + "Pedidos/editar/" + id;
-}
-
-function boton_vista_anadir_sin_producto(id) {
-  window.location.href =
-    "" + SERVERURL + "Pedidos/vista_anadir_sin_producto/" + id;
 }
 
 function boton_anularPedido(id_factura) {
