@@ -1384,7 +1384,7 @@ if ($stmt->execute()) {
     file_put_contents('debug_log.txt', "🔍 id_plataforma antes de consulta: " . ($id_plataforma ?: "VACÍO") . "\n", FILE_APPEND);
 
     $mensaje_interno = "";
-    $check_msj_interno_principal_stmt = $conn->prepare("SELECT mensaje FROM templates_chat_center WHERE id_plataforma = ? AND principal = ?");
+    $check_msj_interno_principal_stmt = $conn->prepare("SELECT mensaje FROM templates_chat_center WHERE id_plataforma = ? AND principal = ? ");
     $check_msj_interno_principal_stmt->bind_param('ii', $id_plataforma, 1);
 
     file_put_contents('debug_log.txt', "🔎 A punto de ejecutar execute() en mensaje_interno\n", FILE_APPEND);
