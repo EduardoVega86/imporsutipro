@@ -71,6 +71,12 @@ class Shopify extends Controller
         $this->views->render($this, "constructor");
     }
 
+    public function constructor_abandonado()
+    {
+        $this->isAuth();
+        $this->views->render($this, "constructor_abandonado");
+    }
+
     public function constructor_vista()
     {
         $this->isAuth();
@@ -88,6 +94,8 @@ class Shopify extends Controller
         $data = $this->model->generarEnlace($_SESSION["id_plataforma"]);
         echo json_encode($data);
     }
+
+
 
 
     public function obtenerPlataforma()

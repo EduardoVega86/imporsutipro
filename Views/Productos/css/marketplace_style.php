@@ -72,16 +72,28 @@
         text-align: center;
     }
 
-    /* Diseño de precios */
+    /* Contenedor de precios */
     .card-pricing {
         display: flex;
         justify-content: space-between;
         font-size: 14px;
-        margin-top: 5px;
+        margin-top: 10px;
+        padding: 10px 15px;
+        background: #f8f9fa;
+        border-top: 1px solid #ddd;
     }
 
-    .card-pricing strong {
-        font-size: 16px;
+    /* Estilo para el texto "Precio proveedor" y "Precio sugerido" */
+    .precio-proveedor {
+        font-size: 14px;
+        /* Tamaño del texto de las etiquetas */
+        color: #666;
+        /* Solo "Precio proveedor" tendrá este color */
+    }
+
+    .precio-sugerido strong {
+        font-size: 18px;
+        /* Tamaño más grande para el precio */
     }
 
     /* Contenedor de botones */

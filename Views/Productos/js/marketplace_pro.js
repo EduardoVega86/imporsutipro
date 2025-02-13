@@ -532,7 +532,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }</a></p>
         </div>
         <div>
-          <button class="btn btn-description" onclick="agregarModal_marketplace(${
+          <button class="btn btn-description fw-bold" onclick="agregarModal_marketplace(${
             product.id_producto
           })">Descripción</button>
           ${boton_enviarCliente}

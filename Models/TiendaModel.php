@@ -35,12 +35,16 @@ class TiendaModel extends Query
     {
         // Configuración de cPanel
         $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
+
         $cpanelUsername = 'imporsuitpro';
         $cpanelPassword = 'd.)~Y=}+*!2vVrm5';
         $rootdomain = 'imporsuitpro.com';
 
+        $subdominio = str_replace(".$rootdomain", '', $subdominio);
+
         // El subdominio y su carpeta ya existen
         $directorio = $dominio; // Carpeta ya creada con el subdominio
+        $directorio = str_replace(".com", '', $directorio);
 
         // URL de la API para agregar el dominio utilizando la carpeta del subdominio
         $apiUrlDominio = $cpanelUrl . 'json-api/cpanel?cpanel_jsonapi_apiversion=2&cpanel_jsonapi_module=AddonDomain&cpanel_jsonapi_func=addaddondomain&newdomain=' . $dominio . '&dir=' . $directorio . '&subdomain=' . $subdominio;

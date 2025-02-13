@@ -67,90 +67,8 @@ function handleHeartClick(productId, esFavorito) {
 }
 
 //agregar informacion al modal descripcion marketplace
-function agregarModal_marketplace(id) {
-  // Limpiar el carrusel y las miniaturas antes de agregar nuevas imágenes
-  $(".carousel-inner").html("");
-  $(".carousel-thumbnails").html("");
-
-  $.ajax({
-    type: "POST",
-    url: SERVERURL + "marketplace/obtener_producto/" + id,
-    dataType: "json",
-    success: function (response) {
-      if (response) {
-        const data = response[0];
-
-        $("#codigo_producto").text(data.codigo_producto);
-        $("#nombre_producto").text(data.nombre_producto);
-        $("#precio_proveedor").text(data.pcp);
-        $("#precio_sugerido").text(data.pvp);
-        $("#stock").text(data.saldo_stock);
-        $("#nombre_proveedor").text(data.contacto);
-        $("#telefono_proveedor").text(formatPhoneNumber(data.whatsapp));
-        $("#descripcion").text(data.descripcion_producto);
-
-        var imagen_descripcion = obtenerURLImagen(data.image_path, SERVERURL);
-
-        // Agregar la imagen principal al carrusel y su miniatura
-        $(".carousel-inner").append(`
-          <div class="carousel-item active">
-            <img src="${imagen_descripcion}" class="d-block w-100 fixed-size-img" alt="Product Image 1">
-          </div>
-        `);
-
-        $(".carousel-thumbnails").append(`
-          <img src="${imagen_descripcion}" class="img-thumbnail mx-1" alt="Thumbnail 1" data-bs-target="#productCarousel" data-bs-slide-to="0">
-        `);
-
-        let formData = new FormData();
-        formData.append("id_producto", id);
-
-        // Hacer la solicitud para obtener las imágenes adicionales
-        $.ajax({
-          url: SERVERURL + "Productos/listar_imagenAdicional_productos",
-          type: "POST",
-          data: formData,
-          processData: false,
-          contentType: false,
-          dataType: "json",
-          success: function (response) {
-            if (response && response.length > 0) {
-              response.forEach(function (imgData, index) {
-                var imgURL = obtenerURLImagen(imgData.url, SERVERURL);
-
-                $(".carousel-inner").append(`
-                  <div class="carousel-item">
-                    <img src="${imgURL}" class="d-block w-100 fixed-size-img" alt="Product Image ${index + 2}">
-                  </div>
-                `);
-
-                $(".carousel-thumbnails").append(`
-                  <img src="${imgURL}" class="img-thumbnail mx-1" alt="Thumbnail ${index + 2}" data-bs-target="#productCarousel" data-bs-slide-to="${index + 1}">
-                `);
-              });
-            } else {
-              console.error("No se encontraron imágenes adicionales.");
-            }
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            console.error(
-              "Error al obtener imágenes adicionales:",
-              errorThrown
-            );
-          },
-        });
-
-        // Abrir el modal
-        $("#descripcion_productModal").modal("show");
-      } else {
-        console.error("La respuesta está vacía o tiene un formato incorrecto.");
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al obtener la información del producto");
-    },
-  });
+function verProducto(id){
+  window.location.href = SERVERURL + "Productos/products_page?id=" +id;
 }
 
 function procesarPlataforma(url) {
@@ -461,21 +379,33 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function createProductCard(product, productDetails) {
-    const { costo_producto, pvp, saldo_stock, url_imporsuit, categoria } = productDetails;
+    const { pcp, pvp, saldo_stock, url_imporsuit, categoria } = productDetails;
 
     let boton_enviarCliente = ``;
     let botonId_inventario = ``;
     
     if (product.producto_variable == 0) {
-        boton_enviarCliente = `<button class="btn btn-import" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
-        botonId_inventario = `<div class="card-id-container" onclick="copyToClipboard(${product.id_inventario})">
-            <span class="card-id">ID: ${product.id_inventario}</span>
-        </div>`;
+        boton_enviarCliente = `
+            <button class="btn btn-import d-flex align-items-center justify-content-center w-100" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">
+                <i class='bx bx-send me-2'></i> Enviar a cliente
+            </button>
+        `;
+        botonId_inventario = `
+            <div class="card-id-container" onclick="copyToClipboard(${product.id_inventario})">
+                <span class="card-id">ID: ${product.id_inventario}</span>
+            </div>
+        `;
     } else if (product.producto_variable == 1) {
-        boton_enviarCliente = `<button class="btn btn-import" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
-        botonId_inventario = `<div class="card-id-container" onclick="abrir_modal_idInventario(${product.id_producto})">
-            <span class="card-id">Ver IDs de producto variable</span>
-        </div>`;
+        boton_enviarCliente = `
+            <button class="btn btn-import d-flex align-items-center justify-content-center w-100" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">
+                <i class='bx bx-send me-2'></i> Enviar a cliente
+            </button>
+        `;
+        botonId_inventario = `
+            <div class="card-id-container" onclick="abrir_modal_idInventario(${product.id_producto})">
+                <span class="card-id">Ver IDs de producto variable</span>
+            </div>
+        `;
     }
 
     const esFavorito = product.Es_Favorito === "1"; // Conversión a booleano
@@ -493,10 +423,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     card.innerHTML = `
-        <div class="card-header">
-            <span class="card-category">${product.categoria || "Sin Categoría"}</span>
-            <span class="card-stock">Stock: <strong>${saldo_stock}</strong></span>
-        </div>
         <div class="image-container position-relative">
             ${botonId_inventario}
             <img src="${imagePath}" class="card-img-top" alt="Imagen del producto">
@@ -504,24 +430,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 <i class="fas fa-heart"></i>
             </button>
         </div>
+        <div class="card-header">
+            <span class="card-category">${product.categoria || "Sin Categoría"}</span>
+            <span class="card-stock text-success">Stock: <strong>${saldo_stock}</strong></span>
+        </div>
         <div class="card-body text-center d-flex flex-column justify-content-between">
             <div>
-                <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
+                <h6 class="card-title">${product.nombre_producto}</h6>
                 <p class="card-subtitle">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${productDetails.nombre_tienda || "Proveedor desconocido"}</a></p>
-                <div class="card-pricing">
-                    <span class="precio-proveedor">Precio Proveedor: <strong>$${productDetails.pcp}</strong></span>
-                    <span class="precio-sugerido">Precio Sugerido: <strong>$${pvp}</strong></span>
-                </div>
             </div>
-            <div class="card-buttons">
-                <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
+            <div class="card-pricing">
+                <span class="precio-proveedor">Precio proveedor: $${pcp}</strong></span>
+                <span class="precio-sugerido">Precio sugerido: <strong>$${pvp}</strong></span>
+            </div>
+            <div class="card-buttons d-flex flex-column gap-2">
+                <button class="btn btn-description d-flex align-items-center justify-content-center w-100" onclick="verProducto(${product.id_producto})">
+                    <i class='bx bx-info-circle me-2'></i> Ver producto
+                </button>
                 ${boton_enviarCliente}
             </div>
         </div>
     `;
 
     cardContainer.appendChild(card);
-}  
+}
 
   function debounce(func, wait) {
     let timeout;
