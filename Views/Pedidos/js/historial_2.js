@@ -260,11 +260,11 @@ document.getElementById("btnPedidos").addEventListener("click", () => {
   initDataTableHistorial();
 });
 
-document.getElementById("btnAbandonados").addEventListener("click", () => {
+/* document.getElementById("btnAbandonados").addEventListener("click", () => {
   currentAPI = "pedidos/cargar_pedidos_abandonados"; // Ajusta la API correspondiente
   cambiarBotonActivo("btnAbandonados");
   initDataTableHistorial();
-});
+}); */
 
 document.getElementById("btnNo_vinculados").addEventListener("click", () => {
   currentAPI = "pedidos/cargar_pedidos_sin_producto";
