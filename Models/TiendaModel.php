@@ -41,6 +41,8 @@ class TiendaModel extends Query
         $cpanelPassword = 'd.)~Y=}+*!2vVrm5';
         $rootdomain = 'imporsuitpro.com';
 
+        $subdominio = str_replace(".$rootdomain", '', $subdominio);
+
         // El subdominio y su carpeta ya existen
         $directorio = $dominio; // Carpeta ya creada con el subdominio
 
