@@ -70,7 +70,7 @@
                 <a href="#" class="dropdown-btn" data-target="#submenu01"><i class='bx bx-search menu-icon'></i> <span class="menu-text">Marketplace</span></a>
                 <div class="submenu" id="submenu01">
                     <a href="<?php echo SERVERURL ?>Productos/marketplace_pro"><i class='bx bx-shopping-bag menu-icon'></i> <span class="menu-text">Productos</span></a>
-                    <a href="<?php echo SERVERURL ?>Productos/proveedores_pro"><i class='bx bx-truck menu-icon'></i> <span class="menu-text">Proveedores</span></a>
+                    <a href="<?php echo SERVERURL ?>Productos/proveedores_pro"><i class='bx bi-truck menu-icon'></i> <span class="menu-text">Proveedores</span></a>
                 </div>
 
                 <a href="#" class="dropdown-btn" data-target="#submenu1"><i class='bx bx-cart menu-icon'></i> <span class="menu-text">Mis Productos</span></a>
