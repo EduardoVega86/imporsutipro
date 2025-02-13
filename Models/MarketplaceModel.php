@@ -112,7 +112,7 @@ class MarketplaceModel extends Query
                     p.producto_variable, 
                     ib.*, 
                     plat.id_matriz,
-                    c.nombre AS categoria,
+                    l.nombre_linea AS categoria,
                     CASE WHEN pf.id_producto IS NULL THEN 0 ELSE 1 END AS Es_Favorito
                 FROM productos p
                 JOIN (
