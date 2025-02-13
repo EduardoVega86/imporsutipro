@@ -223,27 +223,25 @@ class PedidosModel extends Query
             }
         }
 
+        // Filtro por despachos (1: No despachado, 2: Despachado, 3: Devuelto)
+        // AHORA añadimos la lógica especial si despachos == 4 (Devolucion - En Bodega)
         if ($despachos !== null && $despachos !== '') {
-            if ($despachos == 1) {
-                // Lógica de "No despachado" con estado_factura
-                $sql .= " AND estado_factura = 1";
-            } else if ($despachos == 2) {
-                // Lógica de "Despachado" con estado_factura
-                $sql .= " AND estado_factura = 2";
-            } else if ($despachos == 3) {
-                // Lógica de "Devuelto" con estado_factura
-                $sql .= " AND estado_factura = 3";
-            } else if ($despachos == 4) {
-                // Nuevo filtro "En tránsito" basado en estado_guia_sistema
+            if ($despachos == 4) {
+                // Fuerza estado “devolución” + estado_factura 1 ó 2
+                // (equivalente a “no despachados” o “despachados”)
                 $sql .= " AND (
-                    (transporte = 'LAAR' AND estado_guia_sistema NOT IN (7,9,2,8))
-                    OR (transporte = 'SPEED' AND estado_guia_sistema NOT IN (1,2,7,9,8))
-                    OR (transporte = 'SERVIENTREGA' AND estado_guia_sistema NOT IN (400,500,100,101))
-                    OR (transporte = 'GINTRACOM' AND estado_guia_sistema NOT IN (7,8,9,1,2))
-                )";
+                            (
+                                (estado_guia_sistema BETWEEN 500 AND 502 AND id_transporte=2)
+                                OR (estado_guia_sistema in (9) AND id_transporte=1)
+                                OR (estado_guia_sistema in (9) AND id_transporte=4)
+                                OR (estado_guia_sistema in (8,9,13) AND id_transporte=3)
+                            )
+                            AND (estado_factura IN (1,2))
+                        )";
+            } else if ($despachos == 1 || $despachos == 2 || $despachos == 3) {
+                $sql .= " AND estado_factura = '$despachos'";
             }
         }
-
 
         $sql .= " ORDER BY fc.numero_factura DESC;";
 
@@ -3407,30 +3405,30 @@ class PedidosModel extends Query
         $datos_final = [];
         foreach ($productos as $producto) {
             $datos_generales = $this->buscarDataProducto($producto);
-            if ($datos_generales != null){
+            if ($datos_generales != null) {
                 $datos_generales["id_inventario"] = $producto;
                 $datos_generales["numero_factura"] = $numero_factura;
                 $response = $this->agregarDetalleFactura($id_factura, $datos_generales);
-                if($response == 1)
+                if ($response == 1)
                     $datos_final[] = $datos_generales;
             }
         }
         $costo = 0;
         $precio = 0;
-        if(!empty($datos_final)){
+        if (!empty($datos_final)) {
             foreach ($datos_final as $producto) {
                 $costo += $producto['costo'];
                 $precio += $producto['precio'];
             }
             $response_factura = $this->actualizarPetido($id_factura, $datos_final, ['costo' => $costo, 'precio' => $precio]);
-        }else{
+        } else {
             $response_factura = 0;
         }
 
 
 
 
-        if($response == 1 && $response_factura == 1){
+        if ($response == 1 && $response_factura == 1) {
             $response = [
                 'status' => 200,
                 'title' => 'Peticion exitosa',
@@ -3444,7 +3442,6 @@ class PedidosModel extends Query
             ];
         }
         return $response;
-
     }
 
     private function actualizarPetido($id_factura, $producto, $precios): array|int
