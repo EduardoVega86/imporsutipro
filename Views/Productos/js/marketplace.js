@@ -518,11 +518,11 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
         <div class="card-body text-center d-flex flex-column justify-content-between">
             <div>
-                <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
+                <h6 class="card-title">${product.nombre_producto}</h6>
                 <p class="card-subtitle">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${productDetails.nombre_tienda || "Proveedor desconocido"}</a></p>
             </div>
             <div class="card-pricing">
-                <span class="precio-proveedor">Precio proveedor: <strong>$${pcp}</strong></span>
+                <span class="precio-proveedor">Precio proveedor: $${pcp}</strong></span>
                 <span class="precio-sugerido">Precio sugerido: <strong>$${pvp}</strong></span>
             </div>
             <div class="card-buttons d-flex flex-column gap-2">
