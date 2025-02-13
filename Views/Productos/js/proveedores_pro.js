@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isLoading) return;
     isLoading = true;
     loadingIndicator.style.display = "block";
-
+//pro
     $.ajax({
       url: SERVERURL + "marketplace/obtenerProveedoresConProductosCategorias",
       type: "GET",
