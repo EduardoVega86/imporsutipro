@@ -1373,75 +1373,69 @@ if ($stmt->execute()) {
     /* validador para enviar mensaje tipo buttom */
     if ($tipo_button == "template") {
         enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
-        /* enviarMensajeTemplateWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $template_name, $mensaje, $conn, $id_plataforma, $id_configuracion); */
     } else if ($tipo_button == "etiquetas") {
         asignar_etiquetas($id_etiquetas, $id_plataforma, $id_cliente);
     }
-    /* fin validador para enviar mensaje tipo buttom*/
+    /* fin validador para enviar mensaje tipo buttom */
 
     /* validar si tiene mensaje interno principal */
     file_put_contents('debug_log.txt', "Ejecutando consulta para mensaje_interno\n", FILE_APPEND);
     file_put_contents('debug_log.txt', "🔍 id_plataforma antes de consulta: " . ($id_plataforma ?: "VACÍO") . "\n", FILE_APPEND);
-    $sql_debug = "SELECT mensaje FROM templates_chat_center WHERE id_plataforma = $id_plataforma AND principal = 1;";
-    file_put_contents('debug_log.txt', "🔎 Consulta SQL generada: " . $sql_debug . "\n", FILE_APPEND);
-    
-    $mensaje_interno = "";
-    $check_msj_interno_principal_stmt = $conn->prepare("SELECT mensaje FROM templates_chat_center WHERE id_plataforma = ? AND principal = ? ");
-    $check_msj_interno_principal_stmt->bind_param('ii', $id_plataforma, 1);
 
-    file_put_contents('debug_log.txt', "🔎 A punto de ejecutar execute() en mensaje_interno\n", FILE_APPEND);
-    /* Verifica si la consulta se ejecuta */
-    if (!$check_msj_interno_principal_stmt->execute()) {
-        file_put_contents('debug_log.txt', "❌ Error en execute(): " . $check_msj_interno_principal_stmt->error . "\n", FILE_APPEND);
+    // Ejecutar consulta con query()
+    $sql = "SELECT mensaje FROM templates_chat_center WHERE id_plataforma = $id_plataforma AND principal = 1";
+    file_put_contents('debug_log.txt', "🔎 Consulta SQL generada: " . $sql . "\n", FILE_APPEND);
+
+    $result = $conn->query($sql);
+
+    if (!$result) {
+        file_put_contents('debug_log.txt', "❌ Error en query(): " . $conn->error . "\n", FILE_APPEND);
         exit;
     }
-    file_put_contents('debug_log.txt', "✅ execute() ejecutado correctamente\n", FILE_APPEND);    
 
-    $check_msj_interno_principal_stmt->store_result();
-    file_put_contents('debug_log.txt', "🔍 Filas encontradas en consulta mensaje_interno: " . $check_msj_interno_principal_stmt->num_rows . "\n", FILE_APPEND);
-
-    if ($check_msj_interno_principal_stmt->num_rows === 0) {
-        file_put_contents('debug_log.txt', "⚠️ No se encontró mensaje interno principal.\n", FILE_APPEND);
+    $mensaje_interno = "";
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $mensaje_interno = $row['mensaje'];
+        file_put_contents('debug_log.txt', "✅ mensaje_interno obtenido: " . $mensaje_interno . "\n", FILE_APPEND);
     } else {
-        file_put_contents('debug_log.txt', "🔎 A punto de ejecutar fetch() en mensaje_interno\n", FILE_APPEND);
-        $check_msj_interno_principal_stmt->bind_result($mensaje_interno);
-        if (!$check_msj_interno_principal_stmt->fetch()) {
-            file_put_contents('debug_log.txt', "❌ Error en fetch() de mensaje_interno\n", FILE_APPEND);
-        }
+        file_put_contents('debug_log.txt', "⚠️ No se encontró mensaje interno principal.\n", FILE_APPEND);
     }
 
-    $check_msj_interno_principal_stmt->close();
-    file_put_contents('debug_log.txt', "🔍 mensaje_interno después de consulta: " . ($mensaje_interno ?: "VACÍO") . "\n", FILE_APPEND);
+    $result->free(); // Liberar memoria del resultado
 
     // Verifica si $mensaje_interno no está vacío antes de llamar a la función
     if (!empty($mensaje_interno)) {
-        file_put_contents('debug_log.txt', "Entro en primera condicion: \n", FILE_APPEND);
+        file_put_contents('debug_log.txt', "Entro en primera condición\n", FILE_APPEND);
+
+        $sql_count = "SELECT count(id) AS total FROM mensajes_clientes WHERE id_plataforma = $id_plataforma AND celular_recibe = $id_cliente";
+        $result_count = $conn->query($sql_count);
+
+        if (!$result_count) {
+            file_put_contents('debug_log.txt', "❌ Error en query() de count: " . $conn->error . "\n", FILE_APPEND);
+            exit;
+        }
+
         $count_mensajes_clientes = 0;
-        $check_valida_mensaje_stmt = $conn->prepare("SELECT count(id) FROM mensajes_clientes WHERE id_plataforma = ? AND celular_recibe = ?");
-        $check_valida_mensaje_stmt->bind_param('ii', $id_plataforma, $id_cliente);  // Buscamos por el celular_cliente
-        $check_valida_mensaje_stmt->execute();
-        $check_valida_mensaje_stmt->store_result();
-        $check_valida_mensaje_stmt->bind_result($count_mensajes_clientes);
-        $check_valida_mensaje_stmt->fetch();
-        $check_valida_mensaje_stmt->close();
+        if ($row_count = $result_count->fetch_assoc()) {
+            $count_mensajes_clientes = $row_count['total'];
+        }
+        $result_count->free(); // Liberar memoria del resultado
 
         file_put_contents('debug_log.txt', "count_mensajes_clientes: " . $count_mensajes_clientes . "\n", FILE_APPEND);
 
         if ($count_mensajes_clientes == 0) {
-
-            file_put_contents('debug_log.txt', "Entro en segunda condicion: \n", FILE_APPEND);
+            file_put_contents('debug_log.txt', "Entro en segunda condición\n", FILE_APPEND);
             enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
         }
     }
-    /* fin validad si tiene mensaje interno principal */
+    /* fin validar si tiene mensaje interno principal */
 
     // Aquí llamas a la función para enviar datos a la API
     $resultado_api = enviarConsultaAPI($id_plataforma, $id_cliente);
     if ($resultado_api) {
-        // Manejo si la API responde correctamente
         echo json_encode(["status" => "success", "message" => "Datos enviados a la API correctamente."]);
     } else {
-        // Manejo si la API no responde correctamente
         echo json_encode(["status" => "error", "message" => "No se pudo enviar los datos a la API."]);
     }
 } else {
