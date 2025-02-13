@@ -1365,8 +1365,6 @@ $rol_mensaje = 0;  // Valor por defecto para rol_mensaje, ya que es bigint
 
 $stmt->bind_param('iissssiss', $id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente, $phone_whatsapp_from);
 
-file_put_contents('debug_log.txt', "Antes de conficion principal: \n", FILE_APPEND);
-
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 
@@ -1379,8 +1377,6 @@ if ($stmt->execute()) {
     /* fin validador para enviar mensaje tipo buttom */
 
     /* validar si tiene mensaje interno principal */
-    file_put_contents('debug_log.txt', "Ejecutando consulta para mensaje_interno\n", FILE_APPEND);
-    file_put_contents('debug_log.txt', "🔍 id_plataforma antes de consulta: " . ($id_plataforma ?: "VACÍO") . "\n", FILE_APPEND);
 
     // Ejecutar consulta con query()
     $sql = "SELECT id_template FROM templates_chat_center WHERE id_plataforma = $id_plataforma AND principal = 1";
