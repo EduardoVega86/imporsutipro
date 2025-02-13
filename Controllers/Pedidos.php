@@ -724,68 +724,6 @@ class Pedidos extends Controller
     /// sebastian
     public function obtener_guiasAdministrador3()
     {
-        $draw = isset($_POST['draw']) ? intval($_POST['draw']) : 0;
-        // DataTables paginado
-        $start       = isset($_POST['start']) ? intval($_POST['start']) : 0;
-        $length      = isset($_POST['length']) ? intval($_POST['length']) : 10;
-        $search      = isset($_POST['search']['value']) ? $_POST['search']['value'] : "";
-        $orderColumn = isset($_POST['order'][0]['column']) ? intval($_POST['order'][0]['column']) : 0;
-        $orderDir    = isset($_POST['order'][0]['dir']) ? $_POST['order'][0]['dir'] : "asc";
-
-        // Filtros personalizados
-        $transportadora = $_POST['transportadora'] ?? "";
-        $estado         = $_POST['estado'] ?? "";
-        $drogshipin     = $_POST['drogshipin'] ?? "";
-        $impreso        = $_POST['impreso'] ?? "";
-        $despachos      = $_POST['despachos'] ?? "";
-
-        $fecha_inicio   = $_POST["fecha_inicio"] ?? "";
-        $fecha_fin      = $_POST["fecha_fin"] ?? "";
-
-        // Si vienen 'undefined'
-        if ($fecha_inicio === 'undefined') {
-            $fecha_inicio = '';
-        }
-        if ($fecha_fin === 'undefined') {
-            $fecha_fin = '';
-        }
-
-        // Consulta en el modelo
-        $data = $this->model->cargarGuiasAdministrador3(
-            $fecha_inicio,
-            $fecha_fin,
-            $transportadora,
-            $estado,
-            $impreso,
-            $drogshipin,
-            $despachos,
-            $start,
-            $length,
-            $search,
-            $orderColumn,
-            $orderDir
-        );
-
-        // Total de registros (sin filtrar)
-        $totalRecords = $this->model->totalGuias();
-
-        $recordsFiltered = count($data);
-
-        echo json_encode([
-            "draw"            => $draw,
-            "recordsTotal"    => $totalRecords,
-            "recordsFiltered" => $recordsFiltered,
-            "data"            => $data,
-        ]);
-    }
-
-
-
-
-    //cristian
-    public function obtener_guiasAdministrador2()
-    {
-        // Capturamos los filtros enviados por el DataTable
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
         $transportadora = $_POST['transportadora'] ?? "";
@@ -793,28 +731,11 @@ class Pedidos extends Controller
         $drogshipin = $_POST['drogshipin'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
         $despachos = $_POST['despachos'] ?? "";
-
-        // Capturamos los parámetros de paginación enviados por el DataTable
-        $start = $_POST['start'] ?? 1;
-        $length = $_POST['length'] ?? 25;
-        $search = $_POST['search'] ?? "";
-        $data = $this->model->cargarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $start, $length, $search);
-        $totalRecords = $this->model->contarGuiasAdministrador2($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
-
-
-        $totalPages = ceil($totalRecords / $length);
-
-
-        echo json_encode([
-            "draw" => $_POST['draw'] ?? 1,
-            "recordsTotal" => $totalRecords,
-            "recordsFiltered" => $totalRecords,
-            "totalPages" => $totalPages,
-            "data" => $data
-        ]);
+        /*  $start = $_POST['start'] ?? 0;
+        $length = $_POST['length'] ?? 25; */
+        $data = $this->model->cargarGuiasAdministrador3($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
+        echo json_encode($data);
     }
-
-
 
 
     public function obtener_guiasAnuladas_admin()
@@ -1391,14 +1312,12 @@ class Pedidos extends Controller
     {
         $this->catchAsync(function () use ($id_factura) {
             $productos = $_POST['productos'] ?? [];
-            if(count($productos) == 0){
+            if (count($productos) == 0) {
                 throw new Exception("No envio productos");
             }
             $response = $this->model->actualizar_productos_psp($id_factura, $productos);
             // devolver una response en application/json
             echo json_encode($response);
-
         })();
     }
-
 }

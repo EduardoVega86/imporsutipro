@@ -41,7 +41,7 @@
                                 <option value="2"> Despachados </option>
                                 <option value="1"> No Despachados </option>
                                 <option value="3"> Devueltos </option>
-                                <option value="4"> Devolución - En bodega </option>
+                                <option value="4"> No Devueltos</option>
                             </select>
                         </div>
                     </div>
