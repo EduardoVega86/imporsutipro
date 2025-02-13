@@ -298,6 +298,15 @@ document.addEventListener("DOMContentLoaded", function () {
   let currentFetchController = null;
   let currentDisplayController = null;
 
+  //Revisamos si llego algun parametro en la URL (plataforma=xxx)
+  const urlParams = new URLSearchParams(window.location.search);
+  const plataformaParam = urlParams.get("plataforma")
+
+  if (plataformaParam){
+    //Seteamos el filtr de plataforma con ese valor
+    formData_filtro.set("plataforma", plataformaParam);
+  }
+
   //Ocupar solo si se solicita flecha izquierda
   // Al hacer click en flecha izquierda, desplazamos a la izquierda 200px
   // leftArrow.addEventListener("click", () => {
