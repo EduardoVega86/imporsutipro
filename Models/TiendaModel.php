@@ -35,6 +35,8 @@ class TiendaModel extends Query
     {
         // Configuración de cPanel
         $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
+
+        echo json_encode(['subdominio' => $subdominio, 'dominio' => $dominio]);
         $cpanelUsername = 'imporsuitpro';
         $cpanelPassword = 'd.)~Y=}+*!2vVrm5';
         $rootdomain = 'imporsuitpro.com';
