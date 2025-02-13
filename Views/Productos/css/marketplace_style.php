@@ -868,4 +868,49 @@
         border-radius: 50%;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     }
+
+    /* Vista productos , en vez de modal */
+
+    .product-title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .product-sku {
+        color: #777;
+        font-size: 14px;
+    }
+
+    .product-type {
+        font-size: 16px;
+        margin-top: 5px;
+    }
+
+    .product-pricing p {
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .product-stock {
+        font-size: 16px;
+        color: #28a745;
+    }
+
+    .product-actions button {
+        font-size: 14px;
+    }
+
+    .provider-info {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+    }
+
+    .provider-avatar img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
 </style>
