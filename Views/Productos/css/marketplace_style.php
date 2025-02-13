@@ -47,14 +47,80 @@
         /* Para evitar que el contenido se salga */
     }
 
-    .card-custom .btn-description,
-    .card-custom .btn-import {
-        border-radius: 50px;
-        padding: 10px 20px;
-        margin: 5px auto;
-        /* Center the buttons */
-        width: 80%;
+    /* Encabezado de la tarjeta */
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        color: #666;
+        padding: 8px 15px;
+        background-color: #f5f5f5;
+        border-bottom: 1px solid #ddd;
     }
+
+    /* Título del producto */
+    .card-title {
+        font-weight: bold;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    /* Subtítulo (Proveedor) */
+    .card-subtitle {
+        font-size: 14px;
+        color: #666;
+        text-align: center;
+    }
+
+    /* Diseño de precios */
+    .card-pricing {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .card-pricing strong {
+        font-size: 16px;
+    }
+
+    /* Contenedor de botones */
+    .card-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    /* Estilos de los botones */
+    .btn-description {
+        background-color: #00aaff;
+        color: white;
+        border-radius: 50px;
+        padding: 8px 15px;
+        width: 48%;
+        text-align: center;
+    }
+
+    .btn-import {
+        background-color: #ffc107;
+        color: white;
+        border-radius: 50px;
+        padding: 8px 15px;
+        width: 48%;
+        text-align: center;
+    }
+
+    /* Ajustes en la imagen */
+    .image-container {
+        position: relative;
+    }
+
+    .image-container img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
 
     /* Estilos para el ID del producto */
     .card-id-container {
@@ -75,19 +141,6 @@
         font-size: 14px;
         font-weight: bold;
         color: #333;
-    }
-
-
-    .btn-description {
-        background-color: #00aaff;
-        color: white;
-    }
-
-    .btn-import {
-        background-color: #ffc107;
-        color: white;
-        margin-bottom: 10px;
-        /* Añade margen inferior para espacio adicional */
     }
 
     .card-text {
@@ -453,11 +506,6 @@
 
     /* fin boton favoritos */
 
-    /* boton añadir a tienda */
-    .image-container {
-        position: relative;
-    }
-
     .add-to-store-button {
         position: absolute;
         bottom: 10px;
@@ -583,5 +631,229 @@
         /* Color de fondo al pasar el cursor */
         transform: translateY(-2px);
         /* Efecto de elevación */
+    }
+
+    /* Contenedores principales de los sliders */
+    .slider-proveedores-container {
+        display: grid;
+    }
+
+    .slider-arrow {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        width: 22px;
+        height: 63px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        z-index: 2;
+        margin-right: 13px
+            /* para que quede por encima de los chips */
+    }
+
+    /* Flechas */
+
+    .slider-arrow-left {
+        left: 17px;
+    }
+
+    .slider-arrow-right {
+        right: 3px;
+        top: 240px;
+    }
+
+    .slider-arrow:hover {
+        background-color: rgba(255, 255, 255, 1);
+        transform: translateY(-50%) scale(1.05);
+    }
+
+    /* Encabezado */
+    .slider-proveedores-container h5 {
+        margin-bottom: 10px;
+    }
+
+    .slider-proveedores {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        width: 100%;
+        /* Evitar desbordes */
+        box-sizing: border-box;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        scroll-behavior: smooth;
+        white-space: nowrap;
+    }
+
+    /* Estilo para cada 'chip' o botón */
+    .slider-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #e0e0e0;
+        color: #333;
+        /* Ancho fijo */
+        min-width: 307px;
+        /* Alto fijo */
+        height: 105px;
+        /* Borde que solicitas */
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        cursor: pointer;
+        /* Ocultará contenido que se desborde */
+        overflow: hidden;
+        /* Opcional: recorta texto muy largo con “...” */
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-align: center;
+        /* Ajusta si necesitas más o menos espacio interno */
+        padding: 10px;
+        /* Asegura que padding no rompa el ancho/alto */
+        box-sizing: border-box;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        /* Evita la selección del texto al clicar */
+        user-select: none;
+    }
+
+
+    /* Mantener el título en la parte superior */
+    .chip-title {
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    /* Poner la cantidad de productos en la parte inferior */
+    .chip-count {
+        font-size: 12px;
+        margin-top: 3px;
+    }
+
+    .chip-categories {
+        font-size: 12px;
+        color: #666;
+        margin-top: 3px;
+    }
+
+    .chip-content {
+        display: flex;
+        align-items: center;
+        /* Alinea verticalmente */
+        gap: 10px;
+        /* Espacio entre imagen y texto */
+    }
+
+    .chip-text {
+        display: flex;
+        flex-direction: column;
+        /* Hace que el nombre y cantidad estén en columnas */
+        align-items: flex-start;
+        /* Alinea a la izquierda */
+    }
+
+    .slider-chip:hover {
+        background-color: #ccc;
+        transform: scale(1.05);
+    }
+
+    /* Ajuste de los iconos dentro de los chips */
+    .slider-chip i {
+        margin-right: 8px;
+        /* Espacio entre el ícono y el texto */
+        font-size: 18px;
+        /* Tamaño del ícono */
+        /* color: #007bff; */
+    }
+
+    /* Para marcar un chip seleccionado */
+    .slider-chip.selected {
+        background-color: rgb(91, 158, 230);
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .slider-proveedores::-webkit-scrollbar {
+        height: 6px;
+        /* Altura de la barra de scroll */
+    }
+
+    .slider-proveedores::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 3px;
+    }
+
+    /* Estilo para las imágenes dentro de los chips */
+    .icon-chip {
+        width: 65px;
+        /* Tamaño ajustable */
+        height: 65px;
+        margin-right: 10px;
+        vertical-align: middle;
+        border-radius: 50%;
+        /* Hace la imagen redonda */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        /* Efecto de sombra */
+        object-fit: contain;
+        /* Ajuste correcto de imagen */
+    }
+
+    /*Estilos de vista proveedores_pro    */
+    .proveedores-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        /* Columnas dinámicas */
+        gap: 15px;
+        /* Espaciado entre tarjetas */
+        padding: 20px;
+    }
+
+    .proveedor-card {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .proveedor-card:hover {
+        transform: scale(1.05);
+    }
+
+    /* Estilo para la card seleccionada */
+    .proveedor-card.selected {
+        border: 2px solid #007BFF;
+        background-color: #e6f7ff;
+    }
+
+
+    .proveedor-logo-container {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+        /* Para recortar la imagen dentro del círculo */
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        /* Espacio debajo del logo */
+    }
+
+    .proveedor-logo {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 50%;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     }
 </style>
