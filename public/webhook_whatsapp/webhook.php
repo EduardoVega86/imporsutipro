@@ -1382,7 +1382,9 @@ if ($stmt->execute()) {
     /* validar si tiene mensaje interno principal */
     file_put_contents('debug_log.txt', "Ejecutando consulta para mensaje_interno\n", FILE_APPEND);
     file_put_contents('debug_log.txt', "🔍 id_plataforma antes de consulta: " . ($id_plataforma ?: "VACÍO") . "\n", FILE_APPEND);
-
+    $sql_debug = "SELECT mensaje FROM templates_chat_center WHERE id_plataforma = $id_plataforma AND principal = 1;";
+    file_put_contents('debug_log.txt', "🔎 Consulta SQL generada: " . $sql_debug . "\n", FILE_APPEND);
+    
     $mensaje_interno = "";
     $check_msj_interno_principal_stmt = $conn->prepare("SELECT mensaje FROM templates_chat_center WHERE id_plataforma = ? AND principal = ? ");
     $check_msj_interno_principal_stmt->bind_param('ii', $id_plataforma, 1);
