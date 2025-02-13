@@ -1419,7 +1419,7 @@ if ($stmt->execute()) {
 
         file_put_contents('debug_log.txt', "count_mensajes_clientes: " . $count_mensajes_clientes . "\n", FILE_APPEND);
 
-        if ($count_mensajes_clientes == 0) {
+        if ($count_mensajes_clientes == 1) {
             file_put_contents('debug_log.txt', "Entro en segunda condición\n", FILE_APPEND);
             enviarMensajeTextoWhatsApp($accessToken, $business_phone_id, $phone_whatsapp_from, $conn, $id_plataforma, $id_configuracion, $id_template);
         }
