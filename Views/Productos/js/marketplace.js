@@ -461,7 +461,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function createProductCard(product, productDetails) {
-    const { costo_producto, pvp, saldo_stock, url_imporsuit, categoria } = productDetails;
+    const { pcp, pvp, saldo_stock, url_imporsuit, categoria } = productDetails;
 
     let boton_enviarCliente = ``;
     let botonId_inventario = ``;
@@ -520,10 +520,10 @@ document.addEventListener("DOMContentLoaded", function () {
             <div>
                 <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
                 <p class="card-subtitle">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${productDetails.nombre_tienda || "Proveedor desconocido"}</a></p>
-                <div class="card-pricing">
-                    <span class="precio-proveedor">Precio Proveedor: <strong>$${productDetails.pcp}</strong></span>
-                    <span class="precio-sugerido">Precio Sugerido: <strong>$${pvp}</strong></span>
-                </div>
+            </div>
+            <div class="card-pricing">
+                <span class="precio-proveedor">Precio proveedor: <strong>$${pcp}</strong></span>
+                <span class="precio-sugerido">Precio sugerido: <strong>$${pvp}</strong></span>
             </div>
             <div class="card-buttons d-flex flex-column gap-2">
                 <button class="btn btn-description d-flex align-items-center justify-content-center w-100" onclick="agregarModal_marketplace(${product.id_producto})">
@@ -536,7 +536,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     cardContainer.appendChild(card);
 }
-
 
   function debounce(func, wait) {
     let timeout;
