@@ -14,6 +14,15 @@
             Agregar
         </button>
 
+        <div class="table-container" style="position: relative;">
+            <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
+            <div id="bovedasLoader" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
+        </div>
+
         <!-- Container -->
         <div class="table-responsive">
             <table id="datatable_bovedas" class="table table-striped">
