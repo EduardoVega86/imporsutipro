@@ -41,7 +41,7 @@
 
     #bovedasLoader {
         position: absolute;
-        top: 50px;
+        top: 32px;
         width: 36%;
         height: 100%;
         background: rgba(255, 255, 255, 0.8);
