@@ -1,7 +1,5 @@
-<?php
-require_once '../../templates/header.php';
-require_once '../../Productos/css/marketplace_style.php';
-?>
+<?php require_once './Views/templates/header.php'; ?>
+<?php require_once './Views/Productos/css/marketplace_style.php'; ?>
 
 <div class="container">
     <h1>Detalles del Producto</h1>
