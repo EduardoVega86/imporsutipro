@@ -521,7 +521,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <h6 class="card-title"><strong>${product.nombre_producto}</strong></h6>
                 <p class="card-subtitle">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${productDetails.nombre_tienda || "Proveedor desconocido"}</a></p>
                 <div class="card-pricing">
-                    <span class="precio-proveedor fw-bold">Precio Proveedor: <strong>$${productDetails.pcp}</strong></span>
+                    <span class="precio-proveedor">Precio Proveedor: <strong>$${productDetails.pcp}</strong></span>
                     <span class="precio-sugerido">Precio Sugerido: <strong>$${pvp}</strong></span>
                 </div>
             </div>

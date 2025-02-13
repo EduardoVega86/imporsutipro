@@ -80,6 +80,14 @@
         margin-top: 5px;
     }
 
+    .precio-proveedor {
+        justify-content: space-between;
+        font-size: 12px;
+        margin-top: 5px;
+        font-weight: bold;
+        display: flex;
+    }
+
     .card-pricing strong {
         font-size: 16px;
     }
