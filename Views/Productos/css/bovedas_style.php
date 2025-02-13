@@ -41,8 +41,8 @@
 
     #bovedasLoader {
         position: absolute;
-        top: -54px;
-        width: 18%;
+        top: 68px;
+        width: 36%;
         height: 100%;
         background: rgba(255, 255, 255, 0.8);
         /* Fondo semitransparente */
