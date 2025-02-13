@@ -494,7 +494,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     card.innerHTML = `
         <div class="card-header">
-            <span class="card-category">${categoria || "Sin Categoría"}</span>
+            <span class="card-category">${product.categoria || "Sin Categoría"}</span>
             <span class="card-stock">Stock: <strong>${saldo_stock}</strong></span>
         </div>
         <div class="image-container position-relative">
