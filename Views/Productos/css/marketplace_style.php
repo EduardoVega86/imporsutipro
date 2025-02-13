@@ -77,7 +77,6 @@
         display: flex;
         justify-content: space-between;
         font-size: 14px;
-        font-weight: bold;
         margin-top: 10px;
         padding: 10px 15px;
         background: #f8f9fa;
