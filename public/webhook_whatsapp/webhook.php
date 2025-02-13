@@ -1366,6 +1366,15 @@ $rol_mensaje = 0;  // Valor por defecto para rol_mensaje, ya que es bigint
 $stmt->bind_param('iissssiss', $id_plataforma, $id_cliente_configuracion, $mid_mensaje, $tipo_mensaje, $texto_mensaje, $ruta_archivo, $rol_mensaje, $id_cliente, $phone_whatsapp_from);
 
 file_put_contents('debug_log.txt', "Antes de conficion principal: \n", FILE_APPEND);
+
+if (!$stmt->execute()) {
+    file_put_contents('debug_log.txt', "❌ Error SQL al insertar mensaje: " . $stmt->error . "\n", FILE_APPEND);
+    echo json_encode(["status" => "error", "message" => "Error SQL: " . $stmt->error]);
+    exit; // Salir para evitar seguir con datos incorrectos
+} else {
+    file_put_contents('debug_log.txt', "✅ Inserción exitosa en mensajes_clientes\n", FILE_APPEND);
+}
+
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Mensaje procesado correctamente."]);
 
