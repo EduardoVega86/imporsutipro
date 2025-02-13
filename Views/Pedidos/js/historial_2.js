@@ -210,7 +210,7 @@ const listHistorialPedidos = async () => {
           <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
           <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
           ${boton_automatizador}`;
-      } else if (currentAPI == "pedidos/cargar_pedidos_sin_producto"){
+      } else if (currentAPI == "pedidos/cargar_pedidos_sin_producto") {
         acciones = `<button class="btn btn-sm btn-primary" onclick="boton_vista_anadir_sin_producto(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>`;
       }
 
@@ -260,6 +260,12 @@ document.getElementById("btnPedidos").addEventListener("click", () => {
   initDataTableHistorial();
 });
 
+document.getElementById("btnAbandonados").addEventListener("click", () => {
+  currentAPI = "pedidos/cargar_pedidos_abandonados"; // Ajusta la API correspondiente
+  cambiarBotonActivo("btnAbandonados");
+  initDataTableHistorial();
+});
+
 document.getElementById("btnNo_vinculados").addEventListener("click", () => {
   currentAPI = "pedidos/cargar_pedidos_sin_producto";
   cambiarBotonActivo("btnNo_vinculados");
@@ -267,10 +273,14 @@ document.getElementById("btnNo_vinculados").addEventListener("click", () => {
 });
 
 const cambiarBotonActivo = (botonID) => {
-  document
-    .querySelectorAll(".d-flex button")
-    .forEach((btn) => btn.classList.remove("active", "btn-primary"));
-  document.getElementById(botonID).classList.add("active", "btn-primary");
+  document.querySelectorAll(".d-flex button").forEach((btn) => {
+    btn.classList.remove("active", "btn-primary");
+    btn.classList.add("btn-secondary"); // Agregar btn-secondary a todos
+  });
+
+  const botonActivo = document.getElementById(botonID);
+  botonActivo.classList.remove("btn-secondary"); // Quitar secundario al botón activo
+  botonActivo.classList.add("btn-primary", "active"); // Agregar primario y activo
 };
 
 // Fin Manejo de botones para cambiar API y recargar la tabla
@@ -382,7 +392,8 @@ function boton_editarPedido(id) {
 }
 
 function boton_vista_anadir_sin_producto(id) {
-  window.location.href = "" + SERVERURL + "Pedidos/vista_anadir_sin_producto/" + id;
+  window.location.href =
+    "" + SERVERURL + "Pedidos/vista_anadir_sin_producto/" + id;
 }
 
 function boton_anularPedido(id_factura) {
