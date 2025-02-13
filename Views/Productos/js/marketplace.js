@@ -68,7 +68,7 @@ function handleHeartClick(productId, esFavorito) {
 
 //agregar informacion al modal descripcion marketplace
 function verProducto(id){
-  window.location.href = SERVERURL + "Productos/products_page.php?id=" +id;
+  window.location.href = SERVERURL + "Productos/products_page?id=" +id;
 }
 
 function procesarPlataforma(url) {
