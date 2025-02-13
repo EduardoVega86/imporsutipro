@@ -1383,27 +1383,17 @@ if ($stmt->execute()) {
     file_put_contents('debug_log.txt', "Ejecutando consulta para mensaje_interno\n", FILE_APPEND);
     file_put_contents('debug_log.txt', "🔍 id_plataforma antes de consulta: " . ($id_plataforma ?: "VACÍO") . "\n", FILE_APPEND);
 
-    if (!$conn || $conn->connect_error) {
-        file_put_contents('debug_log.txt', "❌ Error en la conexión MySQL: " . $conn->connect_error . "\n", FILE_APPEND);
-        exit;
-    }
-    file_put_contents('debug_log.txt', "✅ Conexión MySQL activa antes de prepare()\n", FILE_APPEND);
-
-
     $mensaje_interno = "";
     $check_msj_interno_principal_stmt = $conn->prepare("SELECT mensaje FROM templates_chat_center WHERE id_plataforma = ? AND principal = ?");
-    if (!$check_msj_interno_principal_stmt) {
-        file_put_contents('debug_log.txt', "❌ Error en prepare(): " . $conn->error . "\n", FILE_APPEND);
-        exit;
-    }
-    file_put_contents('debug_log.txt', "✅ Prepare() ejecutado correctamente\n", FILE_APPEND);
     $check_msj_interno_principal_stmt->bind_param('ii', $id_plataforma, 1);
 
+    file_put_contents('debug_log.txt', "🔎 A punto de ejecutar execute() en mensaje_interno\n", FILE_APPEND);
     /* Verifica si la consulta se ejecuta */
     if (!$check_msj_interno_principal_stmt->execute()) {
-        file_put_contents('debug_log.txt', "❌ Error SQL en mensaje_interno: " . $check_msj_interno_principal_stmt->error . "\n", FILE_APPEND);
+        file_put_contents('debug_log.txt', "❌ Error en execute(): " . $check_msj_interno_principal_stmt->error . "\n", FILE_APPEND);
         exit;
     }
+    file_put_contents('debug_log.txt', "✅ execute() ejecutado correctamente\n", FILE_APPEND);    
 
     $check_msj_interno_principal_stmt->store_result();
     file_put_contents('debug_log.txt', "🔍 Filas encontradas en consulta mensaje_interno: " . $check_msj_interno_principal_stmt->num_rows . "\n", FILE_APPEND);
