@@ -17,11 +17,6 @@ class Marketplace extends Controller
         $this->views->render($this, "index");
     }
 
-    public function products_pages()
-    {
-        $this->views->render($this, "products_pages");
-    }
-
     public function obtenerProveedoresConProductosCategorias()
     {
         $response = $this->model->obtenerProveedoresConProductosCategorias();

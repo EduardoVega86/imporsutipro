@@ -136,6 +136,10 @@ class Productos extends Controller
         $this->views->render($this, "bovedas");
     }
 
+    public function products_page()
+    {
+        $this->views->render($this, "products_page");
+    }
 
     ///Funciones
 
@@ -1087,7 +1091,7 @@ class Productos extends Controller
     // cosas para productos
     public function obtener_productos_bps()
     {
-        $this->catchAsync(function (){
+        $this->catchAsync(function () {
             $filtro = $_POST["filtro"];
             if ($filtro < 1 || $filtro > 3) {
                 throw new Exception("Se envió un filtro incorrecto");
@@ -1117,9 +1121,9 @@ class Productos extends Controller
 
     public function obtener_bodegas_psp()
     {
-        $this->catchAsync(function (){
+        $this->catchAsync(function () {
             $response = $this->model->obtener_bodegas_psp();
-            if(count($response) == 0){
+            if (count($response) == 0) {
                 throw new Exception("No se encontraron bodegas");
             }
             echo json_encode([
@@ -1131,6 +1135,4 @@ class Productos extends Controller
             ]);
         })();
     }
-
-
 }
