@@ -47,6 +47,35 @@
         /* Para evitar que el contenido se salga */
     }
 
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .card-title {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .card-subtitle {
+        font-size: 14px;
+        color: #666;
+        text-align: center;
+    }
+
+    .card-pricing {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .card-pricing strong {
+        font-size: 16px;
+    }
+
     .card-custom .btn-description,
     .card-custom .btn-import {
         border-radius: 50px;
