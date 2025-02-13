@@ -77,7 +77,11 @@
         display: flex;
         justify-content: space-between;
         font-size: 14px;
-        margin-top: 5px;
+        font-weight: bold;
+        margin-top: 10px;
+        padding: 10px 15px;
+        background: #f8f9fa;
+        border-top: 1px solid #ddd;
     }
 
     .precio-proveedor {
