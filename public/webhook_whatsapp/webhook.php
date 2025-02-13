@@ -1380,37 +1380,33 @@ if ($stmt->execute()) {
     /* fin validador para enviar mensaje tipo buttom*/
 
     /* validar si tiene mensaje interno principal */
-    file_put_contents('debug_log.txt', "Inserción exitosa en mensajes_clientes\n", FILE_APPEND);
-    file_put_contents('debug_log.txt', "Después de la inserción en mensajes_clientes\n", FILE_APPEND);
-
-    /* validar si tiene mensaje interno principal */
-    $mensaje_interno = "";
     file_put_contents('debug_log.txt', "Ejecutando consulta para mensaje_interno\n", FILE_APPEND);
-
     file_put_contents('debug_log.txt', "🔍 id_plataforma antes de consulta: " . ($id_plataforma ?: "VACÍO") . "\n", FILE_APPEND);
 
+    $mensaje_interno = "";
     $check_msj_interno_principal_stmt = $conn->prepare("SELECT mensaje FROM templates_chat_center WHERE id_plataforma = ? AND principal = ?");
     $check_msj_interno_principal_stmt->bind_param('ii', $id_plataforma, 1);
-    $check_msj_interno_principal_stmt->execute();
-    $check_msj_interno_principal_stmt->store_result();
 
+    /* Verifica si la consulta se ejecuta */
     if (!$check_msj_interno_principal_stmt->execute()) {
         file_put_contents('debug_log.txt', "❌ Error SQL en mensaje_interno: " . $check_msj_interno_principal_stmt->error . "\n", FILE_APPEND);
         exit;
     }
-    
+
     $check_msj_interno_principal_stmt->store_result();
     file_put_contents('debug_log.txt', "🔍 Filas encontradas en consulta mensaje_interno: " . $check_msj_interno_principal_stmt->num_rows . "\n", FILE_APPEND);
 
     if ($check_msj_interno_principal_stmt->num_rows === 0) {
-        file_put_contents('debug_log.txt', "No se encontró mensaje interno principal.\n", FILE_APPEND);
+        file_put_contents('debug_log.txt', "⚠️ No se encontró mensaje interno principal.\n", FILE_APPEND);
     } else {
+        file_put_contents('debug_log.txt', "🔎 A punto de ejecutar fetch() en mensaje_interno\n", FILE_APPEND);
         $check_msj_interno_principal_stmt->bind_result($mensaje_interno);
-        $check_msj_interno_principal_stmt->fetch();
+        if (!$check_msj_interno_principal_stmt->fetch()) {
+            file_put_contents('debug_log.txt', "❌ Error en fetch() de mensaje_interno\n", FILE_APPEND);
+        }
     }
 
     $check_msj_interno_principal_stmt->close();
-
     file_put_contents('debug_log.txt', "🔍 mensaje_interno después de consulta: " . ($mensaje_interno ?: "VACÍO") . "\n", FILE_APPEND);
 
     // Verifica si $mensaje_interno no está vacío antes de llamar a la función
