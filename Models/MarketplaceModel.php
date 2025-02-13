@@ -143,8 +143,8 @@ class MarketplaceModel extends Query
                 LEFT JOIN productos_favoritos pf 
                     ON pf.id_producto = p.id_producto
                     AND pf.id_plataforma = $plataforma
-                LEFT JOIN categorias c
-                    ON p.id_linea_producto = c.id_categoria    
+                LEFT JOIN lineas l
+                    ON p.id_linea_producto = l.nombre_linea    
                 WHERE 
                     p.drogshipin = 1
                     AND p.producto_privado = 0
