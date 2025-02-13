@@ -10,6 +10,7 @@ class Controller
 
     function catchAsync($fn): Closure
     {
+        header('Content-Type: application/json');
         return function() use ($fn) {
             try {
                 $fn();

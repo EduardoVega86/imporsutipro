@@ -1386,4 +1386,19 @@ class Pedidos extends Controller
             ]);
         })();
     }
+
+    public function actualizar_productos_psp($id_factura)
+    {
+        $this->catchAsync(function () use ($id_factura) {
+            $productos = $_POST['productos'] ?? [];
+            if(count($productos) == 0){
+                throw new Exception("No envio productos");
+            }
+            $response = $this->model->actualizar_productos_psp($id_factura, $productos);
+            // devolver una response en application/json
+            echo json_encode($response);
+
+        })();
+    }
+
 }
