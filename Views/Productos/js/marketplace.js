@@ -467,15 +467,27 @@ document.addEventListener("DOMContentLoaded", function () {
     let botonId_inventario = ``;
     
     if (product.producto_variable == 0) {
-        boton_enviarCliente = `<button class="btn btn-import" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
-        botonId_inventario = `<div class="card-id-container" onclick="copyToClipboard(${product.id_inventario})">
-            <span class="card-id">ID: ${product.id_inventario}</span>
-        </div>`;
+        boton_enviarCliente = `
+            <button class="btn btn-import d-flex align-items-center justify-content-center w-100" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">
+                <i class='bx bx-send me-2'></i> Enviar a cliente
+            </button>
+        `;
+        botonId_inventario = `
+            <div class="card-id-container" onclick="copyToClipboard(${product.id_inventario})">
+                <span class="card-id">ID: ${product.id_inventario}</span>
+            </div>
+        `;
     } else if (product.producto_variable == 1) {
-        boton_enviarCliente = `<button class="btn btn-import" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">Enviar a cliente</button>`;
-        botonId_inventario = `<div class="card-id-container" onclick="abrir_modal_idInventario(${product.id_producto})">
-            <span class="card-id">Ver IDs de producto variable</span>
-        </div>`;
+        boton_enviarCliente = `
+            <button class="btn btn-import d-flex align-items-center justify-content-center w-100" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">
+                <i class='bx bx-send me-2'></i> Enviar a cliente
+            </button>
+        `;
+        botonId_inventario = `
+            <div class="card-id-container" onclick="abrir_modal_idInventario(${product.id_producto})">
+                <span class="card-id">Ver IDs de producto variable</span>
+            </div>
+        `;
     }
 
     const esFavorito = product.Es_Favorito === "1"; // Conversión a booleano
@@ -513,15 +525,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     <span class="precio-sugerido">Precio Sugerido: <strong>$${pvp}</strong></span>
                 </div>
             </div>
-            <div class="card-buttons">
-                <button class="btn btn-description" onclick="agregarModal_marketplace(${product.id_producto})">Descripción</button>
+            <div class="card-buttons d-flex flex-column gap-2">
+                <button class="btn btn-description d-flex align-items-center justify-content-center w-100" onclick="agregarModal_marketplace(${product.id_producto})">
+                    <i class='bx bx-info-circle me-2'></i> Descripción
+                </button>
                 ${boton_enviarCliente}
             </div>
         </div>
     `;
 
     cardContainer.appendChild(card);
-}  
+}
+
 
   function debounce(func, wait) {
     let timeout;
