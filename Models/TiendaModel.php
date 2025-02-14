@@ -37,49 +37,41 @@ class TiendaModel extends Query
         $cpanelUrl      = 'https://administracion.imporsuitpro.com:2083/';
         $cpanelUsername = 'imporsuitpro';
         $cpanelPassword = 'd.)~Y=}+*!2vVrm5';
-        $rootdomain     = 'imporsuitpro.com';
+        // El dominio principal (o el "target") sobre el cual se parcheará el alias.
+        // Normalmente es el dominio principal de la cuenta.
+        $target = 'imporsuitpro.com';
 
-        // Ajustar el subdominio (quitar el rootdomain si está incluido)
-        $subdominio = str_replace(".$rootdomain", '', $subdominio);
+        // Construir la URL para la llamada UAPI de DomainAliases
+        // Nota: urlencode se usa para asegurar que los parámetros se transmitan correctamente
+        $apiUrlAlias = $cpanelUrl . 'execute/DomainAliases/add_domain_alias'
+            . '?domain=' . urlencode($dominioAlias)
+            . '&target=' . urlencode($target);
 
-        // Se asume que el subdominio y la carpeta ya existen;
-        // en este caso, se usará el nombre del dominio como nombre de carpeta
-        $directorio = str_replace(".com", '', $dominio);
-
-        // Construir la URL para la llamada UAPI
-        // UAPI utiliza el endpoint /execute/MODULE/FUNCTION
-        $apiUrlDominio = $cpanelUrl . 'execute/AddonDomain/addaddondomain'
-            . '?newdomain=' . urlencode($dominio)
-            . '&dir='       . urlencode($directorio)
-            . '&subdomain=' . urlencode($subdominio);
-
-        // Ejecutar la solicitud a través de tu método de conexión a cPanel
-        $response = $this->cpanelRequest($apiUrlDominio, $cpanelUsername, $cpanelPassword);
+        // Ejecutar la solicitud a través del método que tengas implementado para conectar con cPanel
+        $response = $this->cpanelRequest($apiUrlAlias, $cpanelUsername, $cpanelPassword);
 
         /*
-          La respuesta de UAPI tiene una estructura similar a:
+          La respuesta UAPI generalmente tiene esta estructura:
           {
-             "status": 1,
-             "data": { ... },
-             "errors": []
+              "status": 1,
+              "data": { ... },
+              "errors": []
           }
-          donde "status" vale 1 en caso de éxito y "errors" contiene mensajes de error si falló.
+          donde "status": 1 indica éxito.
         */
+
         if (isset($response['status']) && $response['status'] == 1) {
             $responses = array(
                 'status'  => 200,
                 'title'   => 'Petición exitosa',
-                'message' => 'Dominio agregado correctamente'
+                'message' => 'Alias (dominio parcheado) agregado correctamente'
             );
-            // Llamada a función interna, según la lógica original
-            $this->agregarDominio($dominio, $subdominio);
         } else {
-            // Se extrae el error, si existe
             $error = isset($response['errors'][0]) ? $response['errors'][0] : 'Error desconocido';
             $responses = array(
                 'status'  => 500,
                 'title'   => 'Error',
-                'message' => 'Error al añadir el dominio: ' . $error
+                'message' => 'Error al añadir el alias: ' . $error
             );
         }
         return $responses;
