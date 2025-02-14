@@ -14,7 +14,7 @@ const LAAR_PASSWORD = "Imp@rt*23";
 const LAAR_ENDPOINT_AUTH = "https://api.laarcourier.com:9727/authenticate";
 const LAAR_ENDPOINT = "https://api.laarcourier.com:9727/guias/contado";
 const LLAR_ENDPOINT_CANCEL = 'https://api.laarcourier.com:9727/guias/anular/';
-const PREFIJOS = "LAAR";
+const PREFIJOS = "IMP";
 const MATRIZ = 1;
 
 // Función para registrar errores en logs
