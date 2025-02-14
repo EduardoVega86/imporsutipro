@@ -440,7 +440,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <p class="card-subtitle">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${productDetails.nombre_tienda || "Proveedor desconocido"}</a></p>
             </div>
             <div class="card-pricing">
-                <span class="precio-proveedor">Precio proveedor: $${pcp}</strong></span>
+                <span class="precio-proveedor">Precio proveedor: <strong>$${pcp}</strong></span>
                 <span class="precio-sugerido">Precio sugerido: <strong>$${pvp}</strong></span>
             </div>
             <div class="card-buttons d-flex flex-column gap-2">
