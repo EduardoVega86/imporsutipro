@@ -223,6 +223,7 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
 
       const urlParams_calcular = new URLSearchParams(window.location.search);
       const idProducto_calcular = urlParams_calcular.get("id_producto");
+      const muestra = urlParams_calcular.get("muestra"); // ✅ Obtener el parámetro 'muestra'
 
       var monto_total_general = $("#monto_total").text().trim();
 
@@ -232,10 +233,10 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
       formData.append("tarifa", priceValue);
       formData.append("costo", costo_general);
 
-      //Si es muestra, usamos el nuevo endpoint 
+        // 🔥 Verifica correctamente si se trata de una muestra
       let url = SERVERURL + "calculadora/calcularGuiaDirecta";
-      if (window.location.href.includes("&muestra=1")){
-        url = SERVERURL + "calculadora/calcularGuiaDirectaMuestra";
+      if (muestra === "1") { 
+          url = SERVERURL + "calculadora/calcularGuiaDirectaMuestra"; // 🔥 Usar el nuevo endpoint
       }
 
       $.ajax({
