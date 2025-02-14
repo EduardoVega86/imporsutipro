@@ -668,5 +668,19 @@ class ShopifyModel extends Query
         return $arreglo;
     }
 
+    public function saveAbandonedCart($id_plataforma, $data)
+    {
+        $sql = "INSERT INTO abandoned_cart_shopify (id_plataforma, json) VALUES (?,?)";
+        $response = $this->insert($sql, [$id_plataforma, $data]);
+        if ($response == 1) {
+            $responses["status"] = "200";
+            $responses["message"] = "Json guardado correctamente";
+        } else {
+            $responses["status"] = "500";
+            $responses["message"] =  $response["message"];
+        }
+        return $responses;
+    }
+
 
 }
