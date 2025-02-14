@@ -13,17 +13,32 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json())
         .then(data => {
             if (data.length > 0) {
-                const producto = data[0];
+                const producto = data[0]; // Definir 'producto' correctamente
+
+                // Obtener el número de teléfono del proveedor
+                let telefono = producto.whatsapp ? producto.whatsapp.replace(/\D/g, '') : "";
+
+                // Si el número comienza con 0, lo ajustamos para Ecuador (+593)
+                if (telefono.startsWith("0")) {
+                    telefono = "+593" + telefono.substring(1);
+                } else if (!telefono.startsWith("+")) {
+                    telefono = "+593" + telefono; // Si falta el código de país, lo agregamos
+                }
 
                 // Rellenar los datos en la página
+                document.getElementById("imagen_proveedor").innerHTML = `<img src="${SERVERURL + producto.image}" class="proveedor-logo" alt="Logo del proveedor">`;
+                document.getElementById("producto-id-inventario").textContent = producto.id_inventario;
                 document.getElementById("codigo_producto").textContent = producto.codigo_producto;
                 document.getElementById("nombre_producto").textContent = producto.nombre_producto;
                 document.getElementById("precio_proveedor").textContent = "$" + producto.pcp;
                 document.getElementById("precio_sugerido").textContent = "$" + producto.pvp;
                 document.getElementById("stock").textContent = producto.saldo_stock;
                 document.getElementById("nombre_proveedor").textContent = producto.contacto;
-                document.getElementById("telefono_proveedor").textContent = producto.whatsapp;
-                document.getElementById("link_whatsapp").href = "https://wa.me/" + producto.whatsapp;
+
+                // Actualizar el enlace de WhatsApp con el número corregido
+                document.getElementById("telefono_proveedor").textContent = telefono;
+                document.getElementById("telefono_proveedor_link").href = `https://wa.me/${telefono}`;
+
                 document.getElementById("descripcion").textContent = producto.descripcion_producto;
 
                 // Cargar la imagen principal
@@ -68,6 +83,37 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         })
         .catch(error => console.error("Error al obtener el producto:", error));
+
+    /************************************************
+     * Botón de compartir - Copiar enlace al portapapeles
+     ************************************************/
+    const btnCopiarEnlace = document.getElementById("btn_copiar_enlace");
+
+    if (btnCopiarEnlace) {
+        btnCopiarEnlace.addEventListener("click", function () {
+            // Obtener la URL actual
+            const urlProducto = window.location.href;
+
+            // Copiar al portapapeles
+            navigator.clipboard.writeText(urlProducto)
+                .then(() => {
+                    // Cambiar el tooltip temporalmente para indicar que se copió
+                    btnCopiarEnlace.setAttribute("title", "Enlace copiado!");
+                    var tooltip = new bootstrap.Tooltip(btnCopiarEnlace);
+                    tooltip.show();
+
+                    // Restaurar el tooltip original después de 2 segundos
+                    setTimeout(() => {
+                        btnCopiarEnlace.setAttribute("title", "Copiar enlace del producto");
+                        tooltip.dispose(); // Eliminar el tooltip para que se pueda volver a mostrar
+                    }, 2000);
+                })
+                .catch(err => console.error("Error al copiar enlace:", err));
+        });
+
+        // Inicializar el tooltip de Bootstrap
+        new bootstrap.Tooltip(btnCopiarEnlace);
+    }
 });
 
 // Función para obtener la URL de la imagen
