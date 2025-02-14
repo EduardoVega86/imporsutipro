@@ -687,7 +687,7 @@ class ShopifyModel extends Query
      */
     public function searchAbandonedCart($id_plataforma)
     {
-        $sql = "SELECT json FROM abandoned_cart_shopify WHERE id_plataforma = $id_plataforma ORDER BY id_abandoned_cart DESC LIMIT 1;";
+        $sql = "SELECT json FROM abandoned_cart_shopify WHERE id_plataforma = $id_plataforma ORDER BY id DESC LIMIT 1;";
         $response = $this->select($sql);
         if(count($response) > 0){
             return [
