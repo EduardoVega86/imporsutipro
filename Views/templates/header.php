@@ -69,7 +69,7 @@
 
                 <a href="#" class="dropdown-btn" data-target="#submenu01"><i class='bx bx-search menu-icon'></i> <span class="menu-text">Marketplace</span></a>
                 <div class="submenu" id="submenu01">
-                    <a href="<?php echo SERVERURL ?>Productos/marketplace_pro"><i class='bx bx-shopping-bag menu-icon'></i> <span class="menu-text">Productos</span></a>
+                    <a href="<?php echo SERVERURL ?>Productos/marketplace"><i class='bx bx-shopping-bag menu-icon'></i> <span class="menu-text">Productos</span></a>
                     <a href="<?php echo SERVERURL ?>Productos/proveedores_pro"><i class='bx bxs-truck menu-icon'></i> <span class="menu-text">Proveedores</span></a>
                 </div>
 
@@ -112,7 +112,7 @@
 
                 <a href="#" class="dropdown-btn" data-target="#submenu2"><i class='bx bx-receipt menu-icon'></i> <span class="menu-text">Pedidos</span></a>
                 <div class="submenu" id="submenu2">
-                <a href="<?php echo SERVERURL ?>Pedidos"><i class='bx bx-history menu-icon'></i> <span class="menu-text">Historial</span></a>
+                    <a href="<?php echo SERVERURL ?>Pedidos"><i class='bx bx-history menu-icon'></i> <span class="menu-text">Historial</span></a>
                     <!-- <a href="<?php echo SERVERURL ?>Pedidos/historial_2"><i class='bx bx-history menu-icon'></i> <span class="menu-text">Historial</span></a> -->
                     <?php if ($_SESSION['cargo'] == 10 || $_SESSION['cargo'] == 25) { ?>
                         <a href="<?php echo SERVERURL ?>pedidos/guias_administrador3"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
