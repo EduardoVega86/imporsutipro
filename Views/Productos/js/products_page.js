@@ -77,7 +77,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 })
                 .catch(error => console.error("Error al obtener imágenes adicionales:", error));
-
+                const id_producto = producto.id_producto;
+                const sku         = producto.codigo_producto;
+                const pvp         = producto.pvp;
+                const id_inventario = producto.id_inventario;
+                  // Capturas el botón y le asignas el click
+            
+                const btnEnviar = document.getElementById("btn_enviar_cliente");
+                btnEnviar.addEventListener("click", function() {
+                    // Llamas a la función de arriba
+                    enviar_cliente(id_producto, sku, pvp, id_inventario);
+                });
             } else {
                 alert("Producto no encontrado.");
             }
@@ -123,3 +133,40 @@ function obtenerURLImagen(imagePath, serverURL) {
     }
     return serverURL + imagePath;
 }
+
+// Función para enviar al cliente (la misma que usas en marketplace.js)
+function enviar_cliente(id, sku, pvp, id_inventario) {
+    const formData = new FormData();
+    formData.append("cantidad", 1);
+    formData.append("precio", pvp);
+    formData.append("id_producto", id);
+    formData.append("sku", sku);
+    formData.append("id_inventario", id_inventario);
+  
+    $.ajax({
+      type: "POST",
+      url: SERVERURL + "marketplace/agregarTmp",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response2) {
+        response2 = JSON.parse(response2);
+  
+        if (response2.status == 500) {
+          Swal.fire({
+            icon: "error",
+            title: response2.title,
+            text: response2.message,
+          });
+        } else if (response2.status == 200) {
+          // Redirecciona a la pantalla de creación de guía
+          window.location.href = SERVERURL + "Pedidos/nuevo?id_producto=" + id + "&sku=" + sku;
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Error en la solicitud AJAX:", error);
+        alert("Hubo un problema al agregar el producto temporalmente");
+      },
+    });
+}
+  
