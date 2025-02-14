@@ -682,5 +682,25 @@ class ShopifyModel extends Query
         return $responses;
     }
 
+    /**
+     * @throws Exception
+     */
+    public function searchAbandonedCart($id_plataforma)
+    {
+        $sql = "SELECT json FROM abandoned_cart_shopify WHERE id_plataforma = $id_plataforma ORDER BY id_abandoned_cart DESC LIMIT 1;";
+        $response = $this->select($sql);
+        if(count($response) > 0){
+            return [
+                "status" => 200,
+                "message" => "Json encontrado",
+                "json" => $response[0]["json"]
+            ];
+        }else{
+            throw new Exception("No se ha encontrado el json");
+        }
+
+    }
+
+
 
 }
