@@ -60,7 +60,7 @@
                     style="background-color: #ffc107;">
                     Enviar al cliente
                 </button>
-                <button class="btn btn-outline-secondary">Solicitar muestra</button>
+                <button class="btn btn-outline-secondary" id="btn_solicitar_muestra">Solicitar muestra</button>
                 <button
                     class="btn btn-outline-primary d-flex align-items-center"
                     id="btn_copiar_enlace"
