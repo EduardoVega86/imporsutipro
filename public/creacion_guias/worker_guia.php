@@ -3,7 +3,9 @@ $redis = new Redis();
 $redis->connect('3.233.119.65', 6379);
 
 // Incluir el archivo del modelo
-require_once __DIR__ . '/../../Models/GuiasModel.php'; // Ajusta la ruta si es necesario
+require_once __DIR__ . '/../../Models/GuiasModel.php';
+
+logError("DIR".__DIR__);
 
 // Crear una instancia del modelo
 $model = new GuiaModel(); // Asegúrate de que el nombre de la clase es correcto
