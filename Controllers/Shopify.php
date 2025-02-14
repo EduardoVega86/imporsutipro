@@ -181,8 +181,9 @@ class Shopify extends Controller
 
     public function buscarEntradaAbandonado($id_plataforma){
         $this->catchAsync(function () use ($id_plataforma) {
+
             $response = $this->model->searchAbandonedCart($id_plataforma);
             echo json_encode($response);
-        });
+        })();
             }
 }
