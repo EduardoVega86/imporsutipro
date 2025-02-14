@@ -75,15 +75,12 @@
                     </a>
                 </div>
             </div>
+            <!-- Descripción del producto -->
+            <div class="product-description">
+                <h5>Descripción del Producto</h5>
+                <p id="descripcion"></p>
+            </div>
         </div>
-    </div>
-
-    <hr>
-
-    <!-- Descripción del producto -->
-    <div class="product-description">
-        <h5>Detalles</h5>
-        <p id="descripcion"></p>
     </div>
 </div>
 
