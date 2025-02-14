@@ -78,15 +78,16 @@ class Marketplace extends Controller
     public function agregarTmpMuestra()
     {
         $cantidad = $_POST['cantidad'];
-        $precio = 0; // Siempre será 0 porque es una muestra
         $id_producto = $_POST['id_producto'];
         $sku = $_POST['sku'];
         $id_inventario = $_POST['id_inventario'];
-        $muestra = isset($_POST['muestra']) ? $_POST['muestra'] : 0;
+        $plataforma = $_SESSION['id_plataforma'];
 
-        $response = $this->model->agregarTmpMuestra($id_producto, $cantidad, $precio, $_SESSION['id_plataforma'], $sku, $id_inventario, $muestra);
+        $response = $this->model->agregarTmpMuestra($id_producto, $cantidad, $plataforma, $sku, $id_inventario);
+
         echo json_encode($response);
     }
+
     public function vaciarTmp()
     {
         $response = $this->model->vaciarTmp();
