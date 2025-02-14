@@ -2,12 +2,6 @@
 $redis = new Redis();
 $redis->connect('3.233.119.65', 6379);
 
-// Incluir el archivo del modelo
-require_once __DIR__ . '/../../Models/GuiasModel.php'; // Ajusta la ruta si es necesario
-
-// Crear una instancia del modelo
-$model = new GuiaModel(); // Asegúrate de que el nombre de la clase es correcto
-
 // Conexión a la base de datos
 $conn = new mysqli('3.233.119.65', 'imporsuit_system', 'imporsuit_system', 'imporsuitpro_new');
 if ($conn->connect_error) {
@@ -35,7 +29,7 @@ while (true) {
         if ($job) {
             $data = json_decode($job, true);
             if ($data) {
-                procesarGuiaLaar($data, $conn, $model);
+                procesarGuiaLaar($data, $conn);
             } else {
                 logError("Error al decodificar JSON: $job");
             }
@@ -47,15 +41,12 @@ while (true) {
     }
 }
 
-function procesarGuiaLaar($data, $conn, $model)
+/** 🔹 Procesar guía */
+function procesarGuiaLaar($data, $conn)
 {
-    // Obtener token de autenticación
-    $token = $model->laarToken();
+    $token = laarToken();
+    $numero_guia = ultimaguia($conn);
 
-    // Obtener número de guía del modelo
-    $numero_guia = $model->ultimaguia();
-
-    // Preparar datos para la API de LAAR
     $datos = [
         "origen" => [
             "identificacionO" => "0",
@@ -95,7 +86,6 @@ function procesarGuiaLaar($data, $conn, $model)
         "extras" => []
     ];
 
-    // Enviar datos a LAAR
     $ch = curl_init(LAAR_ENDPOINT);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($datos));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -109,30 +99,16 @@ function procesarGuiaLaar($data, $conn, $model)
     $result = json_decode($response, true);
 
     if (!empty($result["guia"])) {
-        // 📌 Actualizar base de datos con la guía generada
-        $model->actualizarGuia(
-            $data['numero_factura'], $result["guia"], $data['nombreDestino'], $data['ciudadDestino'],
-            $data['direccionDestino'], $data['telefonoDestino'], $data['celularDestino'], $data['referenciaDestino'],
-            $data['cod'], $data['costo_producto'], $data['comentario'], $data['id_usuario'],
-            $data['calle_principal'], $data['calle_secundaria'], $data['contiene'], $data['provincia'],
-            $data['costoflete'], "LAAR", 2
-        );
-
-        // 📌 Asignar a Wallet
-        $model->asignarWallet(
-            $data['numero_factura'], $result["guia"], $data['fecha'], $data['nombreDestino'],
-            $data['id_plataforma'], 1, $data['costo_producto'], $data['cod'], $data['costoflete']
-        );
-
-        // 📌 Descargar la guía
-        $model->descargarGuia($result["guia"]);
+        actualizarGuia($conn, $data, $result["guia"]);
+        asignarWallet($conn, $data, $result["guia"]);
+        descargarGuia($result["guia"]);
     } else {
         logError("Error generando guía: " . json_encode($result));
     }
 }
 
 /** 🔹 Obtener Token de LAAR */
-function obtenerTokenLaar()
+function laarToken()
 {
     $ch = curl_init(LAAR_ENDPOINT_AUTH);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -141,4 +117,58 @@ function obtenerTokenLaar()
     $response = json_decode(curl_exec($ch), true);
     curl_close($ch);
     return $response['token'] ?? '';
+}
+
+/** 🔹 Obtener última guía */
+function ultimaguia($conn)
+{
+    $sql = "SELECT MAX(numero_guia) as numero_guia FROM facturas_cot WHERE numero_guia LIKE 'LAAR00%' FOR UPDATE";
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+    return $row['numero_guia'] ? incrementarGuia($row['numero_guia']) : 'LAAR000001';
+}
+
+/** 🔹 Actualizar la guía en la BD */
+function actualizarGuia($conn, $data, $guia)
+{
+    $stmt = $conn->prepare("UPDATE facturas_cot SET numero_guia=?, estado_guia_sistema=2 WHERE numero_factura=?");
+    $stmt->bind_param("ss", $guia, $data['numero_factura']);
+    $stmt->execute();
+    $stmt->close();
+}
+
+/** 🔹 Asignar Wallet */
+function asignarWallet($conn, $data, $guia)
+{
+    $stmt = $conn->prepare("INSERT INTO cabecera_cuenta_pagar (numero_factura, fecha, guia) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $data['numero_factura'], $data['fecha'], $guia);
+    $stmt->execute();
+    $stmt->close();
+}
+
+/** 🔹 Descargar la guía */
+function descargarGuia($guia)
+{
+    $url = "https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=$guia";
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    $rutaCarpeta = __DIR__ . '/guias/';
+    $nombreArchivo = "guia_$guia.pdf";
+    $rutaCompleta = $rutaCarpeta . $nombreArchivo;
+
+    if (!file_exists($rutaCarpeta)) {
+        mkdir($rutaCarpeta, 0777, true);
+    }
+
+    file_put_contents($rutaCompleta, $response);
+}
+
+/** 🔹 Incrementar número de guía */
+function incrementarGuia($numero_guia)
+{
+    $numero = intval(substr($numero_guia, -6)) + 1;
+    return 'LAAR' . str_pad($numero, 6, "0", STR_PAD_LEFT);
 }

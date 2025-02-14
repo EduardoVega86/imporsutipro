@@ -2,17 +2,11 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-/* require_once 'PHPMailer/PHPMailer.php';
+require_once 'PHPMailer/PHPMailer.php';
 require_once 'PHPMailer/SMTP.php';
-require_once 'PHPMailer/Exception.php'; */
-
-require_once __DIR__ . '/../PHPMailer/PHPMailer.php';
-require_once __DIR__ . '/../PHPMailer/SMTP.php';
-require_once __DIR__ . '/../PHPMailer/Exception.php';
+require_once 'PHPMailer/Exception.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
-
-require_once __DIR__ . '/../Config/App/Query.php';
 
 class GuiasModel extends Query
 {
