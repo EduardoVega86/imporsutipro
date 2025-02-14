@@ -236,6 +236,7 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
 
         // 🔥 Verifica correctamente si se trata de una muestra
       let url = SERVERURL + "calculadora/calcularGuiaDirecta";
+      console.log(muestra)
       if (muestra === "1") { 
           url = SERVERURL + "calculadora/calcularGuiaDirectaMuestra"; // 🔥 Usar el nuevo endpoint
       }
