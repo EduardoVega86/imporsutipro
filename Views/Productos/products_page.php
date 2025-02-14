@@ -67,12 +67,12 @@
                 </div>
                 <div class="ms-3">
                     <h6 class="fw-bold" id="nombre_proveedor"></h6>
-                    <p class="m-0"><strong>Contacto: </strong></p>
-                    <a id="telefono_proveedor_link" href="#" target="_blank" class="text-success d-flex align-items-center">
-                        <i class='bx bxl-whatsapp bx-sm me-2'></i>
-                        <span id="telefono_proveedor"></span>
+                    <p class="m-0">Contacto:</p>
+                    <a id="telefono_proveedor_link" href="#" target="_blank"
+                        class="d-flex align-items-center text-decoration-none">
+                        <i class='bx bxl-whatsapp text-success bx-sm me-2'></i>
+                        <span id="telefono_proveedor" class="fw-bold text-primary"></span>
                     </a>
-                    </p>
                 </div>
             </div>
         </div>
