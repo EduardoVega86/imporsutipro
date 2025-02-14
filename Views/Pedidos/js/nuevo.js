@@ -232,6 +232,12 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
       formData.append("tarifa", priceValue);
       formData.append("costo", costo_general);
 
+      //Si es muestra, usamos el nuevo endpoint 
+      let url = SERVERURL + "calculadora/calcularGuiaDirecta";
+      if (window.location.href.includes("&muestra=1")){
+        url = SERVERURL + "calculadora/calcularGuiaDirectaMuestra";
+      }
+
       $.ajax({
         url: SERVERURL + "calculadora/calcularGuiaDirecta",
         type: "POST", // Cambiar a POST para enviar FormData

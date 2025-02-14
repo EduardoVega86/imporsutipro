@@ -54,4 +54,17 @@ class Calculadora extends Controller
         $tarifas = $this->model->calcularGuiaDirecta($id_producto, $total, $tarifa, $_SESSION['id_plataforma'], $costo);
         echo json_encode($tarifas);
     }
+
+    public function calcularGuiaDirectaMuestra()
+    {
+        $this->isAuth(); // Verificar si el usuario está autenticado
+        $id_producto = $_POST['id_producto'];
+        $tarifa = $_POST['tarifa']; // Precio de envío
+        $costo = $_POST['costo']; // Costo del producto
+
+        // 🔥 Aquí llamamos a la nueva función en el modelo
+        $tarifas = $this->model->calcularGuiaDirectaMuestra($id_producto, $tarifa, $_SESSION['id_plataforma'], $costo);
+
+        echo json_encode($tarifas);
+    }
 }
