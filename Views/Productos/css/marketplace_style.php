@@ -886,10 +886,6 @@
         font-size: 14px;
     }
 
-    .product-type {
-        font-size: 16px;
-        margin-top: 5px;
-    }
 
     .product-pricing p {
         font-size: 18px;
