@@ -464,6 +464,7 @@ $(document).ready(function () {
 
       const urlParams_calcular = new URLSearchParams(window.location.search);
       const idProducto_calcular = urlParams_calcular.get("id_producto");
+      const muestra = urlParams_calcular.get("muestra");
 
       var monto_total_general = $("#monto_total").text().trim();
 
