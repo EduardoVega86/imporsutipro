@@ -34,49 +34,41 @@ class TiendaModel extends Query
     public function agregarDominioConSubdominioExistente($dominio, $subdominio)
     {
         // Configuración de cPanel
-        $cpanelUrl      = 'https://administracion.imporsuitpro.com:2083/';
+        $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
+
         $cpanelUsername = 'imporsuitpro';
         $cpanelPassword = 'd.)~Y=}+*!2vVrm5';
-        // El dominio principal (o el "target") sobre el cual se parcheará el alias.
-        // Normalmente es el dominio principal de la cuenta.
-        $target = 'imporsuitpro.com';
+        $rootdomain = 'imporsuitpro.com';
 
-        // Construir la URL para la llamada UAPI de DomainAliases
-        // Nota: urlencode se usa para asegurar que los parámetros se transmitan correctamente
-        $apiUrlAlias = $cpanelUrl . 'execute/DomainAliases/add_domain_alias'
-            . '?domain=' . urlencode($dominioAlias)
-            . '&target=' . urlencode($target);
+        $subdominio = str_replace(".$rootdomain", '', $subdominio);
 
-        // Ejecutar la solicitud a través del método que tengas implementado para conectar con cPanel
-        $response = $this->cpanelRequest($apiUrlAlias, $cpanelUsername, $cpanelPassword);
+        // El subdominio y su carpeta ya existen
+        $directorio = $dominio; // Carpeta ya creada con el subdominio
+        $directorio = str_replace(".com", '', $directorio);
 
-        /*
-          La respuesta UAPI generalmente tiene esta estructura:
-          {
-              "status": 1,
-              "data": { ... },
-              "errors": []
-          }
-          donde "status": 1 indica éxito.
-        */
+        // URL de la API para agregar el dominio utilizando la carpeta del subdominio
+        $apiUrlDominio = $cpanelUrl . 'json-api/cpanel?cpanel_jsonapi_apiversion=2&cpanel_jsonapi_module=AddonDomain&cpanel_jsonapi_func=addaddondomain&newdomain=' . $dominio . '&dir=' . $directorio . '&subdomain=' . $subdominio;
 
-        if (isset($response['status']) && $response['status'] == 1) {
+        // Ejecutar solicitud para agregar el dominio
+        $response = $this->cpanelRequest($apiUrlDominio, $cpanelUsername, $cpanelPassword);
+
+        // Analizar la respuesta y devolver true o false
+        if (isset($response['cpanelresult']['data'][0]['result']) && $response['cpanelresult']['data'][0]['result'] == 1) {
             $responses = array(
-                'status'  => 200,
-                'title'   => 'Petición exitosa',
-                'message' => 'Alias (dominio parcheado) agregado correctamente'
+                'status' => 200,
+                'title' => 'Peticion exitosa',
+                'message' => 'Dominio agregado correctamente'
             );
+            $this->agregarDominio($dominio, $subdominio);
         } else {
-            $error = isset($response['errors'][0]) ? $response['errors'][0] : 'Error desconocido';
             $responses = array(
-                'status'  => 500,
-                'title'   => 'Error',
-                'message' => 'Error al añadir el alias: ' . $error
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Error al añadir el dominio: ' . $response['cpanelresult']['data'][0]['reason']
             );
         }
         return $responses;
     }
-
 
     public function agregarDominio($dominio, $subdominio)
     {
