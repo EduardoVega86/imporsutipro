@@ -176,39 +176,40 @@ function enviar_cliente(id, sku, pvp, id_inventario) {
     });
 }
 
-function solicitar_muestra(id, sku, pvp, id_inventario) {
+// Función para solicitar muestra
+function solicitar_muestra(id, sku, id_inventario) {
     const formData = new FormData();
     formData.append("cantidad", 1);
-    formData.append("precio", 0); // Aquí forzamos el precio de venta en 0
+    formData.append("precio", 0); // Precio en 0 porque es muestra
     formData.append("id_producto", id);
     formData.append("sku", sku);
     formData.append("id_inventario", id_inventario);
-    formData.append("muestra", 1); // Indicamos que es muestra
-  
+    formData.append("muestra", 1); // Indicamos que es una muestra
+
     $.ajax({
-      type: "POST",
-      url: SERVERURL + "marketplace/agregarTmp",
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function (response2) {
-        response2 = JSON.parse(response2);
-  
-        if (response2.status == 500) {
-          Swal.fire({
-            icon: "error",
-            title: response2.title,
-            text: response2.message,
-          });
-        } else if (response2.status == 200) {
-          // Redireccionamos igual a "Pedidos/nuevo" pero con otro parámetro
-          window.location.href = SERVERURL + "Pedidos/nuevo?id_producto=" + id + "&sku=" + sku + "&muestra=1";
-        }
-      },
-      error: function (xhr, status, error) {
-        console.error("Error en la solicitud AJAX:", error);
-        alert("Hubo un problema al agregar la muestra");
-      },
+        type: "POST",
+        url: SERVERURL + "marketplace/agregarTmpMuestra",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response2) {
+            response2 = JSON.parse(response2);
+
+            if (response2.status == 500) {
+                Swal.fire({
+                    icon: "error",
+                    title: response2.title,
+                    text: response2.message,
+                });
+            } else if (response2.status == 200) {
+                // Redireccionamos a la pantalla de pedido con la muestra seleccionada
+                window.location.href = SERVERURL + "Pedidos/nuevo?id_producto=" + id + "&sku=" + sku + "&muestra=1";
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Error en la solicitud AJAX:", error);
+            alert("Hubo un problema al agregar la muestra");
+        },
     });
 }
   

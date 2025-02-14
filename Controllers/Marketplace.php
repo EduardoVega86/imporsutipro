@@ -75,6 +75,18 @@ class Marketplace extends Controller
         $response = $this->model->agregarTmp($id_producto, $cantidad, $precio, $_SESSION['id_plataforma'], $sku, $id_inventario);
         echo json_encode($response);
     }
+    public function agregarTmpMuestra()
+    {
+        $cantidad = $_POST['cantidad'];
+        $id_producto = $_POST['id_producto'];
+        $sku = $_POST['sku'];
+        $id_inventario = $_POST['id_inventario'];
+        $plataforma = $_SESSION['id_plataforma'];
+
+        $response = $this->model->agregarTmpMuestra($id_producto, $cantidad, $plataforma, $sku, $id_inventario);
+
+        echo json_encode($response);
+    }
 
     public function vaciarTmp()
     {

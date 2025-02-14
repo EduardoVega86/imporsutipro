@@ -7,18 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       setTimeout(function () {
         document.getElementById("loading").style.display = "none";
-        $.ajax({
-          url: SERVERURL + "shopify/generarEnlace",
-          type: "GET",
-          dataType: "json",
-          success: function (response) {
-            $("#generador_enlace").val(response.url_imporsuit);
-            document.getElementById("enlace-section").style.display = "block";
-          },
-          error: function (error) {
-            console.error("Error al obtener la lista de bodegas:", error);
-          },
-        });
+        let url =
+          "https://new.imporsuitpro.com/shopify/abandonado/" + ID_PLATAFORMA;
+
+        $("#generador_enlace").val(url);
+        document.getElementById("enlace-section").style.display = "block";
       }, 3000);
     });
 
@@ -30,11 +23,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       let intervalId = setInterval(function () {
         $.ajax({
-          url: SERVERURL + "shopify/ultimoJson",
+          url: SERVERURL + "shopify/buscarEntradaAbandonado/" + ID_PLATAFORMA,
           method: "GET",
           dataType: "json",
-          success: function (data) {
-            if (data && data.id && data.confirmed) {
+          success: function (response) {
+            if (response.status == "success") {
               document.getElementById("loading-below").style.display = "none";
               fillSelectsWithKeys(data);
               new bootstrap.Collapse(document.getElementById("collapseTwo"), {
@@ -64,19 +57,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
   function fillSelectsWithKeys(data) {
-    fillSelectWithKeys("select-nombre", data);
-    fillSelectWithKeys("select-apellido", data);
-    fillSelectWithKeys("select-principal", data);
-    fillSelectWithKeys("select-secundario", data);
-    fillSelectWithKeys("select-provincia", data);
-    fillSelectWithKeys("select-ciudad", data);
-    fillSelectWithKeys("select-codigo_postal", data);
-    fillSelectWithKeys("select-pais", data);
+    fillSelectWithKeys("select-producto", data);
     fillSelectWithKeys("select-telefono", data);
-    fillSelectWithKeys("select-email", data);
-    fillSelectWithKeys("select-total", data);
-    fillSelectWithKeys("select-descuento", data);
-    fillSelectWithKeys("select-referencia", data);
   }
 
   function fillSelectWithKeys(selectId, data) {
@@ -182,19 +164,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // List of principal select IDs
     const selectIds = [
-      "select-nombre",
-      "select-apellido",
-      "select-principal",
-      "select-secundario",
-      "select-provincia",
-      "select-ciudad",
-      "select-codigo_postal",
-      "select-pais",
+      "select-producto",
       "select-telefono",
-      "select-email",
-      "select-total",
-      "select-descuento",
-      "select-referencia",
     ];
 
     selectIds.forEach((selectId) => {
@@ -224,10 +195,10 @@ document.addEventListener("DOMContentLoaded", function () {
             title: "Guardado Correctamente",
             text: response.message,
             showConfirmButton: false,
-            timer: 2000
+            timer: 2000,
           }).then(() => {
-            window.location.href = '' + SERVERURL + 'shopify/constructor_vista';
-        });
+            window.location.href = "" + SERVERURL + "shopify/constructor_vista";
+          });
         }
       },
       error: function (error) {

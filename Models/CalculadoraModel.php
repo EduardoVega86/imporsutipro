@@ -333,6 +333,40 @@ XML;
         return $data;
     }
 
+    public function calcularGuiaDirectaMuestra($id_producto, $tarifa, $id_plataforma, $costo)
+    {
+        // Transforma a float para evitar errores en cálculos
+        $tarifa = (float) $tarifa;
+        $costo = (float) $costo;
+
+        // 🔥 Monto de Venta = Costo + Tarifa (Para que los clientes lo vean)
+        $total = $costo + $tarifa;
+
+        // Obtener costos adicionales
+        $producto = $this->select("SELECT * FROM productos WHERE id_producto = '$id_producto'");
+        $full = $this->obtenerFull($producto[0], $id_plataforma);
+        $plataforma = $producto[0]['id_plataforma'];
+
+        if ($id_plataforma == $plataforma) {
+            $costo = 0;
+        }
+
+        // 🔥 Total de Ganancia = 0 (porque es una muestra)
+        $resultante = 0;
+
+        $data = [
+            "total" => number_format($total, 2, '.', ''), // 🔥 Ahora total = costo + tarifa
+            "tarifa" => number_format($tarifa, 2, '.', ''),
+            "costo" => number_format($costo, 2, '.', ''),
+            "resultante" => number_format($resultante, 2, '.', ''), // 🔥 Ganancia en 0
+            "generar" => false, // 🔥 No se genera ganancia en muestras
+            "full" => $full
+        ];
+
+        return $data;
+    }
+
+
     public function obtenerFull($producto, $plataforma)
     {
         $sql = "SELECT * FROM inventario_bodegas WHERE id_producto = '" . $producto['id_producto'] . "' limit 1";

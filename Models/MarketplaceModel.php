@@ -323,6 +323,64 @@ WHERE
         }
         return $response;
     }
+    public function agregarTmpMuestra($id_producto, $cantidad, $plataforma, $sku, $id_inventario)
+    {
+        $precio = 0; // 🔥 Aquí forzamos el precio a 0 para la muestra
+        $timestamp = session_id();
+
+        // Verificar si ya existe el producto en la cotización temporal
+        $cantidad_tmp = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' AND id_inventario = $id_inventario");
+
+        if (empty($cantidad_tmp)) {
+            $id_inventario = $this->obtenerBodegaProducto($id_producto, $sku);
+
+            $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `sku`, `id_inventario`) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $data = [$id_producto, $cantidad, $precio, $timestamp, $plataforma, $sku, $id_inventario];
+
+            try {
+                $insertar_caracteristica = $this->insert($sql, $data);
+            } catch (Exception $e) {
+                return [
+                    'status' => 500,
+                    'title' => 'Error SQL',
+                    'message' => 'Error en la consulta SQL: ' . $e->getMessage()
+                ];
+            }
+        } else {
+            $cantidad_anterior = $cantidad_tmp[0]["cantidad_tmp"];
+            $cantidad_nueva = $cantidad_anterior + $cantidad;
+            $id_tmp = $cantidad_tmp[0]["id_tmp"];
+
+            $sql = "UPDATE `tmp_cotizacion` SET `cantidad_tmp` = ?, `precio_tmp` = ? WHERE `id_tmp` = ?";
+            $data = [$cantidad_nueva, $precio, $id_tmp];
+
+            try {
+                $insertar_caracteristica = $this->update($sql, $data);
+            } catch (Exception $e) {
+                return [
+                    'status' => 500,
+                    'title' => 'Error SQL',
+                    'message' => 'Error en la actualización SQL: ' . $e->getMessage()
+                ];
+            }
+        }
+
+        if ($insertar_caracteristica == 1) {
+            return [
+                'status' => 200,
+                'title' => 'Petición exitosa',
+                'message' => 'Muestra agregada correctamente con precio 0'
+            ];
+        } else {
+            return [
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'No se pudo insertar la muestra en la base de datos.'
+            ];
+        }
+    }
+
 
     public function obtenerBodegaProducto($id_producto, $sku)
     {
