@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Rellenar los datos en la página
 
-                document.getElementById("imagen_proveedor").textContent = producto.image;
+                document.getElementById("imagen_proveedor").innerHTML = `<img src="${SERVERURL + producto.image}" class="proveedor-logo" alt="Logo del proveedor">`;
                 document.getElementById("producto-id-inventario").textContent = producto.id_inventario;
                 document.getElementById("codigo_producto").textContent = producto.codigo_producto;
                 document.getElementById("nombre_producto").textContent = producto.nombre_producto;
