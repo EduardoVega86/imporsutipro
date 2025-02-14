@@ -3,7 +3,7 @@
 
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4">
-        <h1>Integraciones</h1>
+        <h1>Configurar Carritos Abandonado en Shopify</h1>
         <div class="accordion" id="acordion_aplicacionShopify">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
