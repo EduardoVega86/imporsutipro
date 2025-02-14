@@ -172,4 +172,10 @@ class Shopify extends Controller
         $response = $this->model->ultimoJson($_SESSION["id_plataforma"]);
         echo $response[0]["json"];
     }
+
+    public function abandonado($id_plataforma){
+        $data = file_get_contents("php://input");
+        $response = $this->model->saveAbandonedCart($id_plataforma, $data);
+        echo json_encode($response);
+    }
 }
