@@ -38,11 +38,11 @@
             <div class="product-pricing d-flex align-items-center">
                 <div class="me-3">
                     <small class="text-muted">Precio del proveedor</small>
-                    <p class="text-primary fw-bold">$<span id="precio_proveedor"></span></p>
+                    <p class="text-primary fw-bold"><span id="precio_proveedor"></span></p>
                 </div>
                 <div>
                     <small class="text-muted">Precio sugerido</small>
-                    <p class="text-success fw-bold">$<span id="precio_sugerido"></span></p>
+                    <p class="text-success fw-bold"><span id="precio_sugerido"></span></p>
                 </div>
             </div>
 
