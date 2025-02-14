@@ -26,10 +26,10 @@ document.addEventListener("DOMContentLoaded", function () {
           url: SERVERURL + "shopify/buscarEntradaAbandonado/" + ID_PLATAFORMA,
           method: "GET",
           dataType: "json",
-          success: function (data) {
-            if (data && data.id && data.confirmed) {
+          success: function (response) {
+            if (response.status == "success") {
               document.getElementById("loading-below").style.display = "none";
-
+              fillSelectsWithKeys(data);
               new bootstrap.Collapse(document.getElementById("collapseTwo"), {
                 toggle: true,
               });
@@ -55,4 +55,186 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       }, 5000);
     });
+
+  function fillSelectsWithKeys(data) {
+    fillSelectWithKeys("select-producto", data);
+    fillSelectWithKeys("select-telefono", data);
+  }
+
+  function fillSelectWithKeys(selectId, data) {
+    const select = document.getElementById(selectId);
+    if (select) {
+      select.innerHTML = '<option value="" selected>-- Seleccione --</option>';
+      for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+          const option = document.createElement("option");
+          option.value = key;
+          option.text = key;
+          select.appendChild(option);
+        }
+      }
+      $(`#${selectId}`)
+        .select2({ width: "100%" })
+        .on("change", function () {
+          const selectedKey = select.value;
+          console.log(
+            `Cambio detectado en ${selectId}, valor seleccionado: ${selectedKey}`
+          );
+          removeAllDynamicSelects(selectId);
+          if (
+            selectedKey &&
+            data[selectedKey] &&
+            typeof data[selectedKey] === "object"
+          ) {
+            createDynamicSelect(selectId, data[selectedKey]);
+          }
+        });
+    } else {
+      console.error(`El elemento con id ${selectId} no existe en el DOM.`);
+    }
+  }
+
+  function createDynamicSelect(parentSelectId, nestedData) {
+    const parentSelect = document.getElementById(parentSelectId);
+    if (!parentSelect) return;
+
+    const dynamicSelectId = `${parentSelectId}-dynamic-${Date.now()}`;
+    let dynamicSelect = document.createElement("select");
+    dynamicSelect.id = dynamicSelectId;
+    dynamicSelect.className = "form-select mt-2";
+    parentSelect.parentNode.appendChild(dynamicSelect);
+
+    dynamicSelect.innerHTML =
+      '<option value="" selected>-- Seleccione --</option>';
+    for (let key in nestedData) {
+      if (nestedData.hasOwnProperty(key)) {
+        const option = document.createElement("option");
+        option.value = key;
+        option.text = key;
+        dynamicSelect.appendChild(option);
+      }
+    }
+
+    console.log(
+      `Opciones dinámicas creadas para ${parentSelectId}:`,
+      dynamicSelect.innerHTML
+    );
+
+    $(`#${dynamicSelectId}`)
+      .select2({ width: "100%" })
+      .on("change", function () {
+        const selectedKey = dynamicSelect.value;
+        console.log(
+          `Cambio detectado en ${dynamicSelectId}, valor seleccionado: ${selectedKey}`
+        );
+        removeAllDynamicSelects(dynamicSelectId);
+        if (
+          selectedKey &&
+          nestedData[selectedKey] &&
+          typeof nestedData[selectedKey] === "object"
+        ) {
+          createDynamicSelect(dynamicSelectId, nestedData[selectedKey]);
+        }
+      });
+  }
+
+  function removeAllDynamicSelects(parentSelectId) {
+    console.log(
+      `Eliminando todos los selects dinámicos relacionados con ${parentSelectId}`
+    );
+    const parentSelect = document.getElementById(parentSelectId);
+    if (!parentSelect) return;
+
+    // Remover todos los selects dinámicos dentro del mismo contenedor
+    const dynamicSelects = parentSelect.parentNode.querySelectorAll("select");
+    dynamicSelects.forEach((select) => {
+      if (
+        select.id !== parentSelectId &&
+        select.id.startsWith(parentSelectId)
+      ) {
+        console.log(`Eliminando select dinámico: ${select.id}`);
+        $(`#${select.id}`).select2("destroy"); // Destruir Select2 antes de eliminar
+        select.parentNode.removeChild(select);
+      }
+    });
+  }
+
+  document.getElementById("send-button").addEventListener("click", function () {
+    const formData = new FormData();
+
+    // List of principal select IDs
+    const selectIds = [
+      "select-producto",
+      "select-telefono",
+    ];
+
+    selectIds.forEach((selectId) => {
+      const values = getSelectValues(selectId);
+      if (values.length > 0) {
+        formData.append(selectId.split("-")[1], values.join("/"));
+      }
+    });
+
+    $.ajax({
+      url: SERVERURL + "shopify/guardarConfiguracion",
+      method: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        response = JSON.parse(response);
+        if (response.status == 500) {
+          Swal.fire({
+            icon: "error",
+            title: "Error al guardar",
+            text: response.message,
+          });
+        } else if (response.status == 200) {
+          Swal.fire({
+            icon: "success",
+            title: "Guardado Correctamente",
+            text: response.message,
+            showConfirmButton: false,
+            timer: 2000,
+          }).then(() => {
+            window.location.href = "" + SERVERURL + "shopify/constructor_vista";
+          });
+        }
+      },
+      error: function (error) {
+        console.error("Error al enviar los datos:", error);
+      },
+    });
+  });
+
+  function getSelectValues(selectId) {
+    const values = [];
+    let currentSelectId = selectId;
+
+    while (document.getElementById(currentSelectId)) {
+      const select = document.getElementById(currentSelectId);
+      if (select && select.value) {
+        values.push(select.value);
+      }
+      // Modificar la lógica para obtener correctamente los selects dinámicos
+      const dynamicSelects = document.querySelectorAll(
+        `select[id^="${currentSelectId}-dynamic"]`
+      );
+      dynamicSelects.forEach((dynamicSelect) => {
+        if (dynamicSelect && dynamicSelect.value) {
+          values.push(dynamicSelect.value);
+        }
+      });
+      break; // Romper el bucle después de procesar el primer select principal y sus dinámicos
+    }
+
+    return values;
+  }
+
+  // Escuchar cambios en cualquier select del documento
+  document.addEventListener("change", function (event) {
+    if (event.target && event.target.nodeName === "SELECT") {
+      console.log(`Cambio detectado en select con id ${event.target.id}`);
+    }
+  });
 });
