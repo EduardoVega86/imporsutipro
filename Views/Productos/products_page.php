@@ -54,7 +54,12 @@
 
             <!-- Botones de acción -->
             <div class="product-actions mt-3 d-flex align-items-center gap-2">
-                <button class="btn bg-ffc107" id="btn_enviar_cliente">Enviar al cliente</button>
+                <button
+                    class="btn"
+                    id="btn_enviar_cliente"
+                    style="background-color: #ffc107;">
+                    Enviar al cliente
+                </button>
                 <button class="btn btn-outline-secondary">Solicitar muestra</button>
                 <button
                     class="btn btn-outline-primary d-flex align-items-center"
