@@ -210,6 +210,6 @@ function solicitar_muestra(id, sku, pvp, id_inventario) {
         alert("Hubo un problema al agregar la muestra");
       },
     });
-  }
+}
   
   
