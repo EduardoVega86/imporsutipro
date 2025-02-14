@@ -83,7 +83,13 @@ const listNuevoPedido = async () => {
 
     costo_general = 0;
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const muestra = urlParams.get("muestra");
+
+
     nuevosPedidos.forEach((nuevoPedido, index) => {
+      //Editar solo si no es un pedido de muestra
+      let priceDisabled = (muestra === "1") ? "readonly" : "";
       if (nuevosPedidos_bodega.length > 0 && nuevosPedidos_bodega[0]) {
         celular_bodega = nuevosPedidos_bodega[0].contacto;
         nombre_bodega = nuevosPedidos_bodega[0].nombre;
@@ -145,7 +151,9 @@ const listNuevoPedido = async () => {
     }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' 
     id="precio_nuevoPedido_${index}" 
     class="form-control prec" 
-    value="${precio}">
+    value="${precio}"
+    ${priceDisabled}
+  >
 </td>
 <td>
   <input 
