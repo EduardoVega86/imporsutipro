@@ -935,67 +935,53 @@ document.addEventListener("DOMContentLoaded", function () {
       $(document).ready(function () {
         $("#buscar_proveedor").on("input", function () {
           let searchValue = $(this).val().toLowerCase().trim();
+          let found = false;
           let providerToScroll = null;
-      
+
           $("#sliderProveedores .slider-chip").each(function () {
             let providerName = $(this).find(".chip-title").text().toLowerCase();
-      
+
             if (providerName.includes(searchValue)) {
-              // Si el proveedor ya está seleccionado, lo deseleccionamos
-              if ($(this).hasClass("selected")) {
-                $(this).removeClass("selected");
-                formData_filtro.delete("plataforma"); // Quitamos el filtro
-                clearAndFetchProducts(); // Recargamos sin filtro
-              } else {
-                // Resaltar solo el proveedor encontrado
-                $("#sliderProveedores .slider-chip").removeClass("selected");
-                $(this).addClass("selected");
-                formData_filtro.set("plataforma", $(this).data("provId"));
-                clearAndFetchProducts(); // Recargamos con el nuevo filtro
-      
-                // Guardamos el proveedor para hacer scroll después
-                providerToScroll = $(this);
-              }
+              // Resaltar proveedor encontrado
+              $("#sliderProveedores .slider-chip").removeClass("selected");
+              $(this).addClass("selected");
+
+              // Guardamos el proveedor para hacer scroll después
+              providerToScroll = $(this);
+              found = true;
               return false; // Salir del bucle al encontrar la coincidencia
             }
           });
-      
-          // Si el input está vacío, quitar todas las selecciones y quitar el filtro
+
+          //Si el input esa vacío quitar TODA seleccion
           if (searchValue === "") {
             $("#sliderProveedores .slider-chip").removeClass("selected");
-            formData_filtro.delete("plataforma");
-            clearAndFetchProducts();
           }
-      
+
           // Hacer scroll al proveedor encontrado
           if (providerToScroll) {
             let container = $("#sliderProveedores");
-      
-            // Obtener la posición del proveedor dentro del contenedor
-            let scrollValue =
-              container.scrollLeft() +
-              (providerToScroll.offset().left - container.offset().left) -
-              30; // Ajuste para que no quede pegado al borde
-      
-            // Animar el scroll del contenedor
+
+            // Offset absoluto (en relación al documento)
+            let containerOffsetLeft = container.offset().left;
+            let itemOffsetLeft      = providerToScroll.offset().left;
+            
+            // scrollLeft actual del contenedor
+            let currentScrollLeft = container.scrollLeft();
+            
+            // Calculamos el scroll que necesitamos para que el chip sea visible
+            // Básicamente: la posición del chip - la posición del contenedor + lo que ya estaba scrolleado.
+            let scrollValue = currentScrollLeft + (itemOffsetLeft - containerOffsetLeft);
+            
+            // Opcionalmente, ajustamos un poco para no dejarlo “pegado” al borde
+            let ajuste = 30; // Cambia 30 si lo quieres más o menos separado
+            scrollValue = scrollValue - ajuste;
+            
+            // Hacemos la animación
             container.animate({ scrollLeft: scrollValue }, 400);
           }
         });
-      
-        // Lógica para deseleccionar proveedor si se hace clic en el mismo
-        $("#sliderProveedores").on("click", ".slider-chip", function () {
-          if ($(this).hasClass("selected")) {
-            $(this).removeClass("selected");
-            formData_filtro.delete("plataforma"); // Quitamos el filtro
-            clearAndFetchProducts(); // Recargamos sin filtro
-          } else {
-            $("#sliderProveedores .slider-chip").removeClass("selected");
-            $(this).addClass("selected");
-            formData_filtro.set("plataforma", $(this).data("provId"));
-            clearAndFetchProducts();
-          }
-        });
-      })  
-    ) )
-  }
- )
+      })
+    )
+  );
+});
