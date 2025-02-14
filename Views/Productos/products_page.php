@@ -7,10 +7,12 @@
         <div class="col-md-5">
             <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
+                    <!-- Imagen principal -->
                     <div class="carousel-item active">
-                        <img src="" class="d-block w-100 product-image" alt="Imagen del producto" id="imagen_principal">
+                        <img src="" class="d-block w-100 fixed-size-img" alt="Product Image 1" id="imagen_principal">
                     </div>
                 </div>
+                <!-- Controles del carrusel -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
