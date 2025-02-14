@@ -184,6 +184,5 @@ class Shopify extends Controller
             $response = $this->model->searchAbandonedCart($id_plataforma);
             echo json_encode($response);
         });
-
-    }
+            }
 }
