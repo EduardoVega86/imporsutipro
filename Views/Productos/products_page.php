@@ -59,7 +59,7 @@
 
                 <!-- Botón de compartir -->
                 <button class="btn btn-outline-primary d-flex align-items-center" id="btn_copiar_enlace" data-bs-toggle="tooltip" data-bs-placement="top" title="Copiar enlace del producto">
-                    <i class="bx bsx-share-alt me-2"></i>
+                    <i class="bx bx-share-alt"></i>
                 </button>
             </div>
 
