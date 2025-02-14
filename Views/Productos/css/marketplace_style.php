@@ -96,6 +96,11 @@
         /* Tamaño más grande para el precio */
     }
 
+    .precio-proveedor strong {
+        font-size: 18px;
+        /* Tamaño más grande para el precio */
+    }
+
     /* Contenedor de botones */
     .card-buttons {
         display: flex;
@@ -881,10 +886,6 @@
         font-size: 14px;
     }
 
-    .product-type {
-        font-size: 16px;
-        margin-top: 5px;
-    }
 
     .product-pricing p {
         font-size: 18px;

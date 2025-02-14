@@ -31,18 +31,15 @@
         <div class="col-md-7">
             <h5 class="product-title"><strong id="nombre_producto"></strong></h5>
             <p class="product-sku">SKU: <span id="codigo_producto"></span></p>
-            <span class="badge bg-primary" id="categoria_producto">Categoría</span>
-
-            <p class="product-type">Tipo de producto: <strong>Simple</strong></p>
 
             <div class="product-pricing d-flex align-items-center">
                 <div class="me-3">
                     <small class="text-muted">Precio del proveedor</small>
-                    <p class="text-primary fw-bold">$<span id="precio_proveedor"></span></p>
+                    <p class="fw-bold"><span id="precio_proveedor"></span></p>
                 </div>
                 <div>
                     <small class="text-muted">Precio sugerido</small>
-                    <p class="text-success fw-bold">$<span id="precio_sugerido"></span></p>
+                    <p class="fw-bold"><span id="precio_sugerido"></span></p>
                 </div>
             </div>
 
