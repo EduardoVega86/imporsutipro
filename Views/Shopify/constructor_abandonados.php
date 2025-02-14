@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Shopify/css/constructor_style.php'; ?>
+<?php require_once './Views/Shopify/css/constructor_abandonados_style.php'; ?>
 
 <div class="full-screen-container">
     <div class="custom-container-fluid mt-4">
@@ -142,5 +142,5 @@
 
 </div>
 
-<script src="<?php echo SERVERURL ?>/Views/Shopify/js/constructor.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Shopify/js/constructor_abandonados.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
