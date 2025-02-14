@@ -31,7 +31,6 @@
         <div class="col-md-7">
             <h5 class="product-title"><strong id="nombre_producto"></strong></h5>
             <p class="product-sku">SKU: <span id="codigo_producto"></span></p>
-            <span class="badge bg-primary" id="categoria_producto">Categoría</span>
 
             <div class="product-pricing d-flex align-items-center">
                 <div class="me-3">
