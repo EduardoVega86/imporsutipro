@@ -12,6 +12,8 @@ require_once __DIR__ . '/../PHPMailer/Exception.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 
+require_once __DIR__ . '/../Config/App/Query.php';
+
 class GuiasModel extends Query
 {
     public function __construct()
