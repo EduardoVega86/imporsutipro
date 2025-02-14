@@ -83,6 +83,37 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         })
         .catch(error => console.error("Error al obtener el producto:", error));
+
+    /************************************************
+     * Botón de compartir - Copiar enlace al portapapeles
+     ************************************************/
+    const btnCopiarEnlace = document.getElementById("btn_copiar_enlace");
+
+    if (btnCopiarEnlace) {
+        btnCopiarEnlace.addEventListener("click", function () {
+            // Obtener la URL actual
+            const urlProducto = window.location.href;
+
+            // Copiar al portapapeles
+            navigator.clipboard.writeText(urlProducto)
+                .then(() => {
+                    // Cambiar el tooltip temporalmente para indicar que se copió
+                    btnCopiarEnlace.setAttribute("title", "Enlace copiado!");
+                    var tooltip = new bootstrap.Tooltip(btnCopiarEnlace);
+                    tooltip.show();
+
+                    // Restaurar el tooltip original después de 2 segundos
+                    setTimeout(() => {
+                        btnCopiarEnlace.setAttribute("title", "Copiar enlace del producto");
+                        tooltip.dispose(); // Eliminar el tooltip para que se pueda volver a mostrar
+                    }, 2000);
+                })
+                .catch(err => console.error("Error al copiar enlace:", err));
+        });
+
+        // Inicializar el tooltip de Bootstrap
+        new bootstrap.Tooltip(btnCopiarEnlace);
+    }
 });
 
 // Función para obtener la URL de la imagen

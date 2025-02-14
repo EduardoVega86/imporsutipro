@@ -56,6 +56,11 @@
             <div class="product-actions mt-3">
                 <button class="btn btn-warning me-2">Enviar al cliente</button>
                 <button class="btn btn-outline-secondary">Solicitar muestra</button>
+
+                <!-- Botón de compartir -->
+                <button class="btn btn-outline-primary d-flex align-items-center" id="btn_copiar_enlace" data-bs-toggle="tooltip" data-bs-placement="top" title="Copiar enlace del producto">
+                    <i class="bi bi-share-fill me-2"></i> Compartir
+                </button>
             </div>
 
             <hr>
