@@ -881,6 +881,11 @@
         font-weight: bold;
     }
 
+    .product-id-inventario {
+        color: #777;
+        font-size: 14px;
+    }
+
     .product-sku {
         color: #777;
         font-size: 14px;

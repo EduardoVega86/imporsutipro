@@ -21,20 +21,22 @@
                 </button>
             </div>
 
-            <!-- Miniaturas -->
-            <div class="carousel-thumbnails mt-2 d-flex">
-                <img src="" class="img-thumbnail mx-1 active-thumbnail" alt="Thumbnail 1" id="imagen_principalPequena">
+            <!-- Contenedor de miniaturas -->
+            <div class="carousel-thumbnails mt-2">
+                <!-- Miniatura principal -->
+                <img src="" class="img-thumbnail mx-1 active-thumbnail" alt="Thumbnail 1" data-bs-target="#productCarousel" data-bs-slide-to="0" id="imagen_principalPequena">
             </div>
         </div>
 
         <!-- Información del producto -->
         <div class="col-md-7">
+            <p class="product-id-inventario">ID: <span id="producto-id-inventario"></span></p>
             <h5 class="product-title"><strong id="nombre_producto"></strong></h5>
             <p class="product-sku">SKU: <span id="codigo_producto"></span></p>
 
             <div class="product-pricing d-flex align-items-center">
-                <div class="me-3">
-                    <small class="text-muted">Precio del proveedor</small>
+                <div class="me-3 text-gray-777">
+                    <small>Precio del proveedor</small>
                     <p class="fw-bold"><span id="precio_proveedor"></span></p>
                 </div>
                 <div>
@@ -58,8 +60,8 @@
 
             <!-- Información del proveedor -->
             <div class="provider-info d-flex align-items-center">
-                <div class="provider-avatar">
-                    <img src="https://via.placeholder.com/50" class="rounded-circle" alt="Proveedor">
+                <div class="proveedor-logo-container" id="imagen_proveedor">
+                    <img class="proveedor-logo" src="${imageSrc}" alt="Logo">
                 </div>
                 <div class="ms-3">
                     <h6 class="fw-bold" id="nombre_proveedor"></h6>

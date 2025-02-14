@@ -16,6 +16,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 const producto = data[0];
 
                 // Rellenar los datos en la página
+
+                document.getElementById("imagen_proveedor").textContent = producto.image;
+                document.getElementById("producto-id-inventario").textContent = producto.id_inventario;
                 document.getElementById("codigo_producto").textContent = producto.codigo_producto;
                 document.getElementById("nombre_producto").textContent = producto.nombre_producto;
                 document.getElementById("precio_proveedor").textContent = "$" + producto.pcp;
