@@ -335,7 +335,7 @@ WHERE
     }
     public function obtener_producto($id, $plataforma)
     {
-        $sql = "SELECT ib.*, p.*, pl.* FROM `inventario_bodegas` AS ib INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto` inner join `plataformas` pl on p.id_plataforma = pl.id_plataforma WHERE `ib`.`id_producto` = $id;";
+        $sql = "SELECT ib.*, p.*, pl.*, l.nombre_linea AS categoria FROM `inventario_bodegas` AS ib INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto` inner join `plataformas` pl on p.id_plataforma = pl.id_plataforma LEFT JOIN lineas l ON p.id_linea_producto = l.id_linea WHERE `ib`.`id_producto` = $id;";
         // echo $sql;
         $data = [$id];
         return $this->select($sql, $data);
