@@ -179,6 +179,101 @@ const listNuevoPedido = async () => {
   }
 };
 
+// function recalcular(id, idPrecio, idDescuento, idCantidad) {
+//   var button2 = document.getElementById("generarGuiaBtn");
+//   button2.disabled = true;
+
+//   const precio = parseFloat(document.getElementById(idPrecio).value);
+//   const descuento = parseFloat(document.getElementById(idDescuento).value);
+//   const cantidad = parseFloat(document.getElementById(idCantidad).value);
+
+//   const ffrm = new FormData();
+//   ffrm.append("id", id);
+//   ffrm.append("precio", precio);
+//   ffrm.append("descuento", descuento);
+//   ffrm.append("cantidad", cantidad);
+
+//   fetch("" + SERVERURL + "pedidos/actualizarTmp/" + id, {
+//     method: "POST",
+//     body: ffrm,
+//   })
+//     .then((response) => response.json())
+//     .then(async (data) => {
+//       if (data.status == 200) {
+//         toastr.success("PRODUCTO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+//           positionClass: "toast-bottom-center",
+//         });
+//       } else {
+//         toastr.error(
+//           "EL PRODUCTO NO SE ACTUALIZADO CORRECTAMENTE",
+//           "NOTIFICACIÓN",
+//           {
+//             positionClass: "toast-bottom-center",
+//           }
+//         );
+//       }
+//       // Retraso de 1 segundo antes de ejecutar initDataTableNuevoPedido
+//       await new Promise((resolve) => setTimeout(resolve, 1000));
+//       await initDataTableNuevoPedido();
+
+//       /* calcularGuiaDirecta */
+
+//       var priceSpan = $(this).find(".price-tag span");
+//       var priceValue = $("#costo_flete").val();
+
+//       const urlParams_calcular = new URLSearchParams(window.location.search);
+//       const idProducto_calcular = urlParams_calcular.get("id_producto");
+//       const muestra = urlParams_calcular.get("muestra"); // ✅ Obtener el parámetro 'muestra'
+
+//       var monto_total_general = $("#monto_total").text().trim();
+
+//       let formData = new FormData();
+//       formData.append("id_producto", idProducto_calcular);
+//       formData.append("total", monto_total_general);
+//       formData.append("tarifa", priceValue);
+//       formData.append("costo", costo_general);
+
+//         // 🔥 Verifica correctamente si se trata de una muestra
+//       let url = SERVERURL + "calculadora/calcularGuiaDirecta";
+//       if (muestra === "1") { 
+//           url = SERVERURL + "calculadora/calcularGuiaDirectaMuestra"; // 🔥 Usar el nuevo endpoint
+//       }
+
+//        $.ajax({
+//             url: url,
+//             type: "POST",
+//             data: formData,
+//             processData: false,
+//             contentType: false,
+//             dataType: "json",
+//             success: function (response) {
+//                 $("#montoVenta_infoVenta").text(response.total);
+//                 $("#costo_infoVenta").text(response.costo);
+//                 $("#precioEnvio_infoVenta").text(response.tarifa);
+//                 $("#fulfillment_infoVenta").text(response.full);
+//                 $("#total_infoVenta").text(response.resultante);
+
+//                 if (response.resultante > 0) {
+//                     if (response.generar == false) {
+//                         button2.disabled = true;
+//                         $("#alerta_valoresContra").show();
+//                     } else {
+//                         button2.disabled = false;
+//                         $("#alerta_valoresContra").hide();
+//                     }
+//                 }
+//             },
+//             error: function (jqXHR, textStatus, errorThrown) {
+//                 alert(errorThrown);
+//             },
+//         });
+//     })
+//     .catch((error) => {
+//         console.error("Error:", error);
+//         alert("Hubo un problema al actualizar el producto");
+//     });
+// }
+
 function recalcular(id, idPrecio, idDescuento, idCantidad) {
   var button2 = document.getElementById("generarGuiaBtn");
   button2.disabled = true;
@@ -193,33 +288,24 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
   ffrm.append("descuento", descuento);
   ffrm.append("cantidad", cantidad);
 
-  fetch("" + SERVERURL + "pedidos/actualizarTmp/" + id, {
-    method: "POST",
-    body: ffrm,
+  fetch(SERVERURL + "pedidos/actualizarTmp/" + id, {
+      method: "POST",
+      body: ffrm,
   })
-    .then((response) => response.json())
-    .then(async (data) => {
+  .then((response) => response.json())
+  .then(async (data) => {
       if (data.status == 200) {
-        toastr.success("PRODUCTO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+          toastr.success("PRODUCTO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+              positionClass: "toast-bottom-center",
+          });
       } else {
-        toastr.error(
-          "EL PRODUCTO NO SE ACTUALIZADO CORRECTAMENTE",
-          "NOTIFICACIÓN",
-          {
-            positionClass: "toast-bottom-center",
-          }
-        );
+          toastr.error("EL PRODUCTO NO SE ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+              positionClass: "toast-bottom-center",
+          });
       }
-      // Retraso de 1 segundo antes de ejecutar initDataTableNuevoPedido
+
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await initDataTableNuevoPedido();
-
-      /* calcularGuiaDirecta */
-
-      var priceSpan = $(this).find(".price-tag span");
-      var priceValue = $("#costo_flete").val();
 
       const urlParams_calcular = new URLSearchParams(window.location.search);
       const idProducto_calcular = urlParams_calcular.get("id_producto");
@@ -230,49 +316,50 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
       let formData = new FormData();
       formData.append("id_producto", idProducto_calcular);
       formData.append("total", monto_total_general);
-      formData.append("tarifa", priceValue);
+      formData.append("tarifa", $("#costo_flete").val());
       formData.append("costo", costo_general);
 
-        // 🔥 Verifica correctamente si se trata de una muestra
+      // 🔥 Verifica correctamente si se trata de una muestra
       let url = SERVERURL + "calculadora/calcularGuiaDirecta";
       if (muestra === "1") { 
           url = SERVERURL + "calculadora/calcularGuiaDirectaMuestra"; // 🔥 Usar el nuevo endpoint
       }
 
-       $.ajax({
-            url: url,
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: "json",
-            success: function (response) {
-                $("#montoVenta_infoVenta").text(response.total);
-                $("#costo_infoVenta").text(response.costo);
-                $("#precioEnvio_infoVenta").text(response.tarifa);
-                $("#fulfillment_infoVenta").text(response.full);
-                $("#total_infoVenta").text(response.resultante);
+      $.ajax({
+          url: url,
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          dataType: "json",
+          success: function (response) {
+              $("#montoVenta_infoVenta").text(response.total);
+              $("#costo_infoVenta").text(response.costo);
+              $("#precioEnvio_infoVenta").text(response.tarifa);
+              $("#fulfillment_infoVenta").text(response.full);
+              $("#total_infoVenta").text(response.resultante);
 
-                if (response.resultante > 0) {
-                    if (response.generar == false) {
-                        button2.disabled = true;
-                        $("#alerta_valoresContra").show();
-                    } else {
-                        button2.disabled = false;
-                        $("#alerta_valoresContra").hide();
-                    }
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown);
-            },
-        });
-    })
-    .catch((error) => {
-        console.error("Error:", error);
-        alert("Hubo un problema al actualizar el producto");
-    });
+              if (response.resultante > 0) {
+                  if (response.generar == false) {
+                      button2.disabled = true;
+                      $("#alerta_valoresContra").show();
+                  } else {
+                      button2.disabled = false;
+                      $("#alerta_valoresContra").hide();
+                  }
+              }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+              alert(errorThrown);
+          },
+      });
+  })
+  .catch((error) => {
+      console.error("Error:", error);
+      alert("Hubo un problema al actualizar el producto");
+  });
 }
+
 
 function validar_direccion() {
   // Obtener los parámetros de la URL
