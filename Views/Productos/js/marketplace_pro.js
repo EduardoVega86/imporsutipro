@@ -913,21 +913,6 @@ document.addEventListener("DOMContentLoaded", function () {
               
                 // Seleccionas el chip clicado
                 clickedProvChip.classList.add("selected");
-
-                const isSelected = clickedProvChip.classList.contains("selected");
-
-                // Deseleccionamos todos los chips antes de aplicar cambios
-                document.querySelectorAll("#sliderProveedores .slider-chip")
-                    .forEach((el) => el.classList.remove("selected"));
-        
-                if (isSelected) {
-                    // Si ya estaba seleccionado, lo quitamos y mostramos todos los productos
-                    formData_filtro.set("plataforma", "");
-                } else {
-                    // Si no estaba seleccionado, aplicamos el filtro y resaltamos el chip
-                    clickedProvChip.classList.add("selected");
-                    formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
-                }                
                 
                 // Ajusta tu filtro
                 formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
