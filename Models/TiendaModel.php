@@ -47,7 +47,7 @@ class TiendaModel extends Query
         $directorio = str_replace(".com", '', $directorio);
 
         // URL de la API para agregar el dominio utilizando la carpeta del subdominio
-        $apiUrlDominio = $cpanelUrl . 'json-api/cpanel?cpanel_jsonapi_apiversion=2&cpanel_jsonapi_module=AddonDomain&cpanel_jsonapi_func=addaddondomain&newdomain=' . $dominio . '&dir=' . $directorio . '&subdomain=' . $subdominio;
+        $apiUrlDominio = $cpanelUrl . 'json-api/cpanel?cpanel_jsonapi_apiversion=2&cpanel_jsonapi_module=Park&cpanel_jsonapi_func=park&domain=' . $dominio .'&topdomain=' . $subdominio . '&disallowdot=0' ;
 
         // Ejecutar solicitud para agregar el dominio
         $response = $this->cpanelRequest($apiUrlDominio, $cpanelUsername, $cpanelPassword);
