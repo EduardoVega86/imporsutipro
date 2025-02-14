@@ -323,6 +323,38 @@ WHERE
         }
         return $response;
     }
+    public function agregarTmpMuestra($id_producto, $cantidad, $precio, $plataforma, $sku, $id_inventario, $muestra)
+    {
+        $timestamp = session_id();
+        $cantidad_tmp = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' and id_inventario=$id_inventario");
+
+        if (empty($cantidad_tmp)) {
+            $id_inventario = $this->obtenerBodegaProducto($id_producto, $sku);
+
+            // Insertamos como muestra, diferenciándolo de las ventas normales
+            $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `sku`, `id_inventario`, `muestra`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+            $data = [$id_producto, $cantidad, $precio, $timestamp, $plataforma, $sku, $id_inventario, $muestra];
+            $insertar_caracteristica = $this->insert($sql, $data);
+        } else {
+            $cantidad_anterior = $cantidad_tmp[0]["cantidad_tmp"];
+            $cantidad_nueva = $cantidad_anterior + $cantidad;
+            $id_tmp = $cantidad_tmp[0]["id_tmp"];
+            $sql = "UPDATE `tmp_cotizacion` SET `cantidad_tmp` = ?, `muestra` = ? WHERE `id_tmp` = ?";
+            $data = [$cantidad_nueva, $muestra, $id_tmp];
+            $insertar_caracteristica = $this->update($sql, $data);
+        }
+
+        if ($insertar_caracteristica == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Muestra agregada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al agregar la muestra';
+        }
+        return $response;
+    }
 
     public function obtenerBodegaProducto($id_producto, $sku)
     {
