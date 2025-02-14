@@ -34,41 +34,57 @@ class TiendaModel extends Query
     public function agregarDominioConSubdominioExistente($dominio, $subdominio)
     {
         // Configuración de cPanel
-        $cpanelUrl = 'https://administracion.imporsuitpro.com:2083/';
-
+        $cpanelUrl      = 'https://administracion.imporsuitpro.com:2083/';
         $cpanelUsername = 'imporsuitpro';
         $cpanelPassword = 'd.)~Y=}+*!2vVrm5';
-        $rootdomain = 'imporsuitpro.com';
+        $rootdomain     = 'imporsuitpro.com';
 
+        // Ajustar el subdominio (quitar el rootdomain si está incluido)
         $subdominio = str_replace(".$rootdomain", '', $subdominio);
 
-        // El subdominio y su carpeta ya existen
-        $directorio = $dominio; // Carpeta ya creada con el subdominio
-        $directorio = str_replace(".com", '', $directorio);
+        // Se asume que el subdominio y la carpeta ya existen;
+        // en este caso, se usará el nombre del dominio como nombre de carpeta
+        $directorio = str_replace(".com", '', $dominio);
 
-        // URL de la API para agregar el dominio utilizando la carpeta del subdominio
-        $apiUrlDominio = $cpanelUrl . 'json-api/cpanel?cpanel_jsonapi_apiversion=2&cpanel_jsonapi_module=AddonDomain&cpanel_jsonapi_func=addaddondomain&newdomain=' . $dominio . '&dir=' . $directorio . '&subdomain=' . $subdominio;
+        // Construir la URL para la llamada UAPI
+        // UAPI utiliza el endpoint /execute/MODULE/FUNCTION
+        $apiUrlDominio = $cpanelUrl . 'execute/AddonDomain/addaddondomain'
+            . '?newdomain=' . urlencode($dominio)
+            . '&dir='       . urlencode($directorio)
+            . '&subdomain=' . urlencode($subdominio);
 
-        // Ejecutar solicitud para agregar el dominio
+        // Ejecutar la solicitud a través de tu método de conexión a cPanel
         $response = $this->cpanelRequest($apiUrlDominio, $cpanelUsername, $cpanelPassword);
 
-        // Analizar la respuesta y devolver true o false
-        if (isset($response['cpanelresult']['data'][0]['result']) && $response['cpanelresult']['data'][0]['result'] == 1) {
+        /*
+          La respuesta de UAPI tiene una estructura similar a:
+          {
+             "status": 1,
+             "data": { ... },
+             "errors": []
+          }
+          donde "status" vale 1 en caso de éxito y "errors" contiene mensajes de error si falló.
+        */
+        if (isset($response['status']) && $response['status'] == 1) {
             $responses = array(
-                'status' => 200,
-                'title' => 'Peticion exitosa',
+                'status'  => 200,
+                'title'   => 'Petición exitosa',
                 'message' => 'Dominio agregado correctamente'
             );
+            // Llamada a función interna, según la lógica original
             $this->agregarDominio($dominio, $subdominio);
         } else {
+            // Se extrae el error, si existe
+            $error = isset($response['errors'][0]) ? $response['errors'][0] : 'Error desconocido';
             $responses = array(
-                'status' => 500,
-                'title' => 'Error',
-                'message' => 'Error al añadir el dominio: ' . $response['cpanelresult']['data'][0]['reason']
+                'status'  => 500,
+                'title'   => 'Error',
+                'message' => 'Error al añadir el dominio: ' . $error
             );
         }
         return $responses;
     }
+
 
     public function agregarDominio($dominio, $subdominio)
     {
