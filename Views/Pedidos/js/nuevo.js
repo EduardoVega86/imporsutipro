@@ -224,7 +224,6 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
       const urlParams_calcular = new URLSearchParams(window.location.search);
       const idProducto_calcular = urlParams_calcular.get("id_producto");
       const muestra = urlParams_calcular.get("muestra"); // ✅ Obtener el parámetro 'muestra'
-      console.log(muestra,"muestra parametro");
 
       var monto_total_general = $("#monto_total").text().trim();
 
@@ -236,11 +235,9 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
 
         // 🔥 Verifica correctamente si se trata de una muestra
       let url = SERVERURL + "calculadora/calcularGuiaDirecta";
-      console.log(muestra)
       if (muestra === "1") { 
           url = SERVERURL + "calculadora/calcularGuiaDirectaMuestra"; // 🔥 Usar el nuevo endpoint
       }
-      console.log(muestra,"muestra 2");
 
 
 
@@ -476,34 +473,40 @@ $(document).ready(function () {
       formData.append("tarifa", priceValue);
       formData.append("costo", costo_general);
 
+      // 🔥 Verifica correctamente si se trata de una muestra
+      let url = SERVERURL + "calculadora/calcularGuiaDirecta";
+      if (muestra === "1") { 
+          url = SERVERURL + "calculadora/calcularGuiaDirectaMuestra"; // 🔥 Usar el nuevo endpoint
+      }
+
       $.ajax({
-        url: SERVERURL + "calculadora/calcularGuiaDirecta",
-        type: "POST", // Cambiar a POST para enviar FormData
+        url: url,
+        type: "POST",
         data: formData,
-        processData: false, // No procesar los datos
-        contentType: false, // No establecer ningún tipo de contenido
+        processData: false,
+        contentType: false,
         dataType: "json",
         success: function (response) {
-          $("#montoVenta_infoVenta").text(response.total);
-          $("#costo_infoVenta").text(response.costo);
-          $("#precioEnvio_infoVenta").text(response.tarifa);
-          $("#fulfillment_infoVenta").text(response.full);
-          $("#total_infoVenta").text(response.resultante);
-
-          if (response.resultante > 0) {
-            if (response.generar == false) {
-              button2.disabled = true;
-              $("#alerta_valoresContra").show();
-            } else {
-              button2.disabled = false;
-              $("#alerta_valoresContra").hide();
+            $("#montoVenta_infoVenta").text(response.total);
+            $("#costo_infoVenta").text(response.costo);
+            $("#precioEnvio_infoVenta").text(response.tarifa);
+            $("#fulfillment_infoVenta").text(response.full);
+            $("#total_infoVenta").text(response.resultante);
+  
+            if (response.resultante > 0) {
+                if (response.generar == false) {
+                    button2.disabled = true;
+                    $("#alerta_valoresContra").show();
+                } else {
+                    button2.disabled = false;
+                    $("#alerta_valoresContra").hide();
+                }
             }
-          }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-          alert(errorThrown);
+            alert(errorThrown);
         },
-      });
+    });
     } else {
       toastr.error("ESTA TRANSPORTADORA NO TIENE COBERTURA", "NOTIFICACIÓN", {
         positionClass: "toast-bottom-center",
