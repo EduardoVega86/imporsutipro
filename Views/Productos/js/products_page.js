@@ -13,16 +13,19 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json())
         .then(data => {
             if (data.length > 0) {
-                const producto = data[0]; // aquí tienes el objeto "producto"
+                const producto = data[0]; // Definir 'producto' correctamente
 
-                // --- Ajusta datos al DOM ---
+                // Obtener el número de teléfono del proveedor
                 let telefono = producto.whatsapp ? producto.whatsapp.replace(/\D/g, '') : "";
+
+                // Si el número comienza con 0, lo ajustamos para Ecuador (+593)
                 if (telefono.startsWith("0")) {
                     telefono = "+593" + telefono.substring(1);
                 } else if (!telefono.startsWith("+")) {
-                    telefono = "+593" + telefono;
+                    telefono = "+593" + telefono; // Si falta el código de país, lo agregamos
                 }
 
+                // Rellenar los datos en la página
                 document.getElementById("imagen_proveedor").innerHTML = `<img src="${SERVERURL + producto.image}" class="proveedor-logo" alt="Logo del proveedor">`;
                 document.getElementById("producto-id-inventario").textContent = producto.id_inventario;
                 document.getElementById("codigo_producto").textContent = producto.codigo_producto;
@@ -31,17 +34,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("precio_sugerido").textContent = "$" + producto.pvp;
                 document.getElementById("stock").textContent = producto.saldo_stock;
                 document.getElementById("nombre_proveedor").textContent = producto.contacto;
+
+                // Actualizar el enlace de WhatsApp con el número corregido
                 document.getElementById("telefono_proveedor").textContent = telefono;
                 document.getElementById("telefono_proveedor_link").href = `https://wa.me/${telefono}`;
+
                 document.getElementById("descripcion").textContent = producto.descripcion_producto;
 
+                // Cargar la imagen principal
                 let imagenUrl = obtenerURLImagen(producto.image_path, SERVERURL);
                 document.getElementById("imagen_principal").src = imagenUrl;
                 document.getElementById("imagen_principalPequena").src = imagenUrl;
 
-                // --- Carga imágenes adicionales ---
+                // Obtener imágenes adicionales
                 let formData = new FormData();
                 formData.append("id_producto", id);
+
                 fetch(SERVERURL + "Productos/listar_imagenAdicional_productos", {
                     method: "POST",
                     body: formData
@@ -69,43 +77,51 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 })
                 .catch(error => console.error("Error al obtener imágenes adicionales:", error));
-
-                // --- Aquí dentro ya puedes usar "producto" ---
-                // Variables para "Enviar al cliente"
-                const id_producto     = producto.id_producto;
-                const sku            = producto.codigo_producto;
-                const pvp            = producto.pvp;
-                const id_inventario  = producto.id_inventario;
-
-                // Asignas el evento al botón
+                const id_producto = producto.id_producto;
+                const sku         = producto.codigo_producto;
+                const pvp         = producto.pvp;
+                const id_inventario = producto.id_inventario;
+                  // Capturas el botón y le asignas el click
+            
                 const btnEnviar = document.getElementById("btn_enviar_cliente");
                 btnEnviar.addEventListener("click", function() {
+                    // Llamas a la función de arriba
                     enviar_cliente(id_producto, sku, pvp, id_inventario);
                 });
-
             } else {
                 alert("Producto no encontrado.");
             }
         })
         .catch(error => console.error("Error al obtener el producto:", error));
 
-    // Botón de compartir - Copiar enlace
+    /************************************************
+     * Botón de compartir - Copiar enlace al portapapeles
+     ************************************************/
     const btnCopiarEnlace = document.getElementById("btn_copiar_enlace");
+
     if (btnCopiarEnlace) {
         btnCopiarEnlace.addEventListener("click", function () {
+            // Obtener la URL actual
             const urlProducto = window.location.href;
+
+            // Copiar al portapapeles
             navigator.clipboard.writeText(urlProducto)
                 .then(() => {
+                    // Cambiar el tooltip temporalmente para indicar que se copió
                     btnCopiarEnlace.setAttribute("title", "Enlace copiado!");
                     var tooltip = new bootstrap.Tooltip(btnCopiarEnlace);
                     tooltip.show();
+
+                    // Restaurar el tooltip original después de 2 segundos
                     setTimeout(() => {
                         btnCopiarEnlace.setAttribute("title", "Copiar enlace del producto");
-                        tooltip.dispose();
+                        tooltip.dispose(); // Eliminar el tooltip para que se pueda volver a mostrar
                     }, 2000);
                 })
                 .catch(err => console.error("Error al copiar enlace:", err));
         });
+
+        // Inicializar el tooltip de Bootstrap
         new bootstrap.Tooltip(btnCopiarEnlace);
     }
 });
@@ -118,7 +134,7 @@ function obtenerURLImagen(imagePath, serverURL) {
     return serverURL + imagePath;
 }
 
-// Función para enviar al cliente
+// Función para enviar al cliente (la misma que usas en marketplace.js)
 function enviar_cliente(id, sku, pvp, id_inventario) {
     const formData = new FormData();
     formData.append("cantidad", 1);
@@ -126,7 +142,7 @@ function enviar_cliente(id, sku, pvp, id_inventario) {
     formData.append("id_producto", id);
     formData.append("sku", sku);
     formData.append("id_inventario", id_inventario);
-
+  
     $.ajax({
       type: "POST",
       url: SERVERURL + "marketplace/agregarTmp",
@@ -135,6 +151,7 @@ function enviar_cliente(id, sku, pvp, id_inventario) {
       contentType: false,
       success: function (response2) {
         response2 = JSON.parse(response2);
+  
         if (response2.status == 500) {
           Swal.fire({
             icon: "error",
@@ -142,6 +159,7 @@ function enviar_cliente(id, sku, pvp, id_inventario) {
             text: response2.message,
           });
         } else if (response2.status == 200) {
+          // Redirecciona a la pantalla de creación de guía
           window.location.href = SERVERURL + "Pedidos/nuevo?id_producto=" + id + "&sku=" + sku;
         }
       },
@@ -151,3 +169,4 @@ function enviar_cliente(id, sku, pvp, id_inventario) {
       },
     });
 }
+  
