@@ -53,14 +53,9 @@
             </p>
 
             <!-- Botones de acción -->
-            <div class="product-actions mt-3">
-                <!-- Botón Enviar al cliente -->
-                <button class="btn btn-warning me-2">Enviar al cliente</button>
-
-                <!-- Botón Solicitar muestra con un pequeño margen a la derecha -->
-                <button class="btn btn-outline-secondary me-2">Solicitar muestra</button>
-
-                <!-- Botón Compartir (justo a la derecha de Solicitar muestra) -->
+            <div class="product-actions mt-3 d-flex align-items-center gap-2">
+                <button class="btn btn-warning">Enviar al cliente</button>
+                <button class="btn btn-outline-secondary">Solicitar muestra</button>
                 <button
                     class="btn btn-outline-primary d-flex align-items-center"
                     id="btn_copiar_enlace"
@@ -70,6 +65,7 @@
                     <i class="bx bx-share-alt"></i>
                 </button>
             </div>
+
 
             <hr>
 
