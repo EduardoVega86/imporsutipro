@@ -77,7 +77,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 })
                 .catch(error => console.error("Error al obtener imágenes adicionales:", error));
-
+                const id_producto = producto.id_producto;
+                const sku         = producto.codigo_producto;
+                const pvp         = producto.pvp;
+                const id_inventario = producto.id_inventario;
+                  // Capturas el botón y le asignas el click
+            
+                const btnEnviar = document.getElementById("btn_enviar_cliente");
+                btnEnviar.addEventListener("click", function() {
+                    // Llamas a la función de arriba
+                    enviar_cliente(id_producto, sku, pvp, id_inventario);
+                });
             } else {
                 alert("Producto no encontrado.");
             }
@@ -114,19 +124,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Inicializar el tooltip de Bootstrap
         new bootstrap.Tooltip(btnCopiarEnlace);
     }
-
-
-    const id_producto = producto.id_producto;
-    const sku         = producto.codigo_producto;
-    const pvp         = producto.pvp;
-    const id_inventario = producto.id_inventario;
-      // Capturas el botón y le asignas el click
-
-    const btnEnviar = document.getElementById("btn_enviar_cliente");
-    btnEnviar.addEventListener("click", function() {
-        // Llamas a la función de arriba
-        enviar_cliente(id_producto, sku, pvp, id_inventario);
-    });
 });
 
 // Función para obtener la URL de la imagen
