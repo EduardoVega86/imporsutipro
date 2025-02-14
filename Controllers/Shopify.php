@@ -88,6 +88,12 @@ class Shopify extends Controller
         $this->views->render($this, "configuracion");
     }
 
+    public function constructor_abandonados()
+    {
+        $this->isAuth();
+        $this->views->render($this, "constructor_abandonados");
+    }
+
     public function generarEnlace()
     {
         $this->isAuth();
