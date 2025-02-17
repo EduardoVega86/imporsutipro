@@ -243,6 +243,10 @@ class Guias extends Controller
         }
         $response = json_decode($response, true);
         if (isset($response["id"])) {
+            if($response["id"] == 0){
+                echo json_encode(array("status" => 500, "message" => "Error al generar la guía"));
+                return;
+            }
             $response["status"] = 200;
             $this->model->aumentarMatriz();
             $response2 = $this->model->actualizarGuia($numero_factura, $response["id"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "SERVIENTREGA", 100);
