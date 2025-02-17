@@ -182,7 +182,7 @@
         padding-right: 15px;
         margin-left: auto;
         margin-right: auto;
-        background-color:rgb(202, 202, 202);
+        background-color:rgb(0, 0, 0);
         min-height: 80%;
     }
 
