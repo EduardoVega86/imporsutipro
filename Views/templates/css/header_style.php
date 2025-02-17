@@ -63,6 +63,7 @@
     }
 
     .content {
+        background-color: rgb(226, 226, 226) !important;
         margin-left: 150px;
         width: 100%;
         transition: margin-left 0.3s;
