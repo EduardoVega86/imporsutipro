@@ -300,7 +300,7 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
           $("#total_infoVenta").text(response.resultante);
 
           if (response.resultante > 0) {
-              if (response.generar == false) {
+              if (!response.generar) {
                 console.log("entro el false");
                   button2.disabled = true;
                   $("#alerta_valoresContra").show();
