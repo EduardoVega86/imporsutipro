@@ -298,7 +298,17 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
 
           const resultanteNum = parseFloat(response.resultante); // Convertir a número
 
-          if (url.includes("calcularGuiaDirecta")) {
+          if (url.includes("calcularGuiaDirectaMuestra")) {
+            if (!response.generar) {
+              console.log("Entró en el false");
+              button2.disabled = true;
+              $("#alerta_valoresContra").show();
+            } else {
+              console.log("Entró en el true");
+              button2.disabled = false;
+              $("#alerta_valoresContra").hide();
+            }
+          } else {
             if (resultanteNum > 0) {
               // Usamos la versión numérica
               if (!response.generar) {
@@ -310,16 +320,6 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
                 button2.disabled = false;
                 $("#alerta_valoresContra").hide();
               }
-            }
-          } else {
-            if (!response.generar) {
-              console.log("Entró en el false");
-              button2.disabled = true;
-              $("#alerta_valoresContra").show();
-            } else {
-              console.log("Entró en el true");
-              button2.disabled = false;
-              $("#alerta_valoresContra").hide();
             }
           }
         },
@@ -518,7 +518,17 @@ $(document).ready(function () {
 
           const resultanteNum = parseFloat(response.resultante); // Convertir a número
 
-          if (url.includes("calcularGuiaDirecta")) {
+          if (url.includes("calcularGuiaDirectaMuestra")) {
+            if (!response.generar) {
+              console.log("Entró en el false");
+              button2.disabled = true;
+              $("#alerta_valoresContra").show();
+            } else {
+              console.log("Entró en el true");
+              button2.disabled = false;
+              $("#alerta_valoresContra").hide();
+            }
+          } else {
             if (resultanteNum > 0) {
               // Usamos la versión numérica
               if (!response.generar) {
@@ -530,16 +540,6 @@ $(document).ready(function () {
                 button2.disabled = false;
                 $("#alerta_valoresContra").hide();
               }
-            }
-          } else {
-            if (!response.generar) {
-              console.log("Entró en el false");
-              button2.disabled = true;
-              $("#alerta_valoresContra").show();
-            } else {
-              console.log("Entró en el true");
-              button2.disabled = false;
-              $("#alerta_valoresContra").hide();
             }
           }
         },
