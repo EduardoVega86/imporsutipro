@@ -244,7 +244,7 @@ class Guias extends Controller
         $response = json_decode($response, true);
         if (isset($response["id"])) {
             if($response["id"] == 0){
-                echo json_encode(array("status" => 500, "message" => "Error al generar la guía"));
+                echo json_encode(array("status" => 500, "message" => "Error al generar la guía, por favor intente nuevamente"));
                 return;
             }
             $response["status"] = 200;
