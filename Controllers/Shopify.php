@@ -179,11 +179,20 @@ class Shopify extends Controller
         echo json_encode($response);
     }
 
-    public function buscarEntradaAbandonado($id_plataforma){
+    public function buscarEntradaAbandonado($id_plataforma)
+    {
         $this->catchAsync(function () use ($id_plataforma) {
-
+            // $response ya es un JSON, por ejemplo: {"campo1":"valor1", "campo2":123}
             $response = $this->model->searchAbandonedCart($id_plataforma);
-            echo json_encode($response);
+
+            // Datos adicionales a agregar
+            $extraData = '"status": "success", "code": 200';
+
+            // Se construye el JSON final colocando $response en la clave "data"
+            $finalJson = '{"data":' . $response . ', ' . $extraData . '}';
+
+            echo $finalJson;
         })();
-            }
+    }
+
 }
