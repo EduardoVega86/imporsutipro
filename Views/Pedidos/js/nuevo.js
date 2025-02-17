@@ -296,26 +296,27 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
           $("#fulfillment_infoVenta").text(response.full);
           $("#total_infoVenta").text(response.resultante);
 
-          console.log("kjsnajd: "+response.generar)
+          const generarBool = response.generar === "true"; // Convierte el string a booleano
+
           if (url.includes("calcularGuiaDirecta")) {
             if (response.resultante > 0) {
-              if (!response.generar) {
-                console.log("entro el false");
+              if (!generarBool) {
+                console.log("Entró en el false");
                 button2.disabled = true;
                 $("#alerta_valoresContra").show();
               } else {
-                console.log("entro el true");
+                console.log("Entró en el true");
                 button2.disabled = false;
                 $("#alerta_valoresContra").hide();
               }
             }
           } else {
-            if (!response.generar) {
-              console.log("entro el false");
+            if (!generarBool) {
+              console.log("Entró en el false");
               button2.disabled = true;
               $("#alerta_valoresContra").show();
             } else {
-              console.log("entro el true");
+              console.log("Entró en el true");
               button2.disabled = false;
               $("#alerta_valoresContra").hide();
             }
@@ -514,11 +515,27 @@ $(document).ready(function () {
           $("#fulfillment_infoVenta").text(response.full);
           $("#total_infoVenta").text(response.resultante);
 
-          if (response.resultante > 0) {
-            if (response.generar == false) {
+          const generarBool = response.generar === "true"; // Convierte el string a booleano
+
+          if (url.includes("calcularGuiaDirecta")) {
+            if (response.resultante > 0) {
+              if (!generarBool) {
+                console.log("Entró en el false");
+                button2.disabled = true;
+                $("#alerta_valoresContra").show();
+              } else {
+                console.log("Entró en el true");
+                button2.disabled = false;
+                $("#alerta_valoresContra").hide();
+              }
+            }
+          } else {
+            if (!generarBool) {
+              console.log("Entró en el false");
               button2.disabled = true;
               $("#alerta_valoresContra").show();
             } else {
+              console.log("Entró en el true");
               button2.disabled = false;
               $("#alerta_valoresContra").hide();
             }
