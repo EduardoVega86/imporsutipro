@@ -86,9 +86,10 @@ const listNuevoPedido = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const muestra = urlParams.get("muestra");
 
+
     nuevosPedidos.forEach((nuevoPedido, index) => {
       //Editar solo si no es un pedido de muestra
-      let priceDisabled = muestra === "1" ? "readonly" : "";
+      let priceDisabled = (muestra === "1") ? "readonly" : "";
       if (nuevosPedidos_bodega.length > 0 && nuevosPedidos_bodega[0]) {
         celular_bodega = nuevosPedidos_bodega[0].contacto;
         nombre_bodega = nuevosPedidos_bodega[0].nombre;
@@ -240,91 +241,85 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
       formData.append("tarifa", priceValue);
       formData.append("costo", costo_general);
 
-      // 🔥 Verifica correctamente si se trata de una muestra
+        // 🔥 Verifica correctamente si se trata de una muestra
       let url = SERVERURL + "calculadora/calcularGuiaDirecta";
-      if (muestra === "1") {
-        url = SERVERURL + "calculadora/calcularGuiaDirectaMuestra"; // 🔥 Usar el nuevo endpoint
+      if (muestra === "1") { 
+          url = SERVERURL + "calculadora/calcularGuiaDirectaMuestra"; // 🔥 Usar el nuevo endpoint
       }
 
-      //   $.ajax({
-      //     url: SERVERURL + "calculadora/calcularGuiaDirecta",
-      //     type: "POST", // Cambiar a POST para enviar FormData
-      //     data: formData,
-      //     processData: false, // No procesar los datos
-      //     contentType: false, // No establecer ningún tipo de contenido
-      //     dataType: "json",
-      //     success: function (response) {
-      //       $("#montoVenta_infoVenta").text(response.total);
-      //       $("#costo_infoVenta").text(response.costo);
-      //       $("#precioEnvio_infoVenta").text(response.tarifa);
-      //       $("#fulfillment_infoVenta").text(response.full);
-      //       $("#total_infoVenta").text(response.resultante);
 
-      //       calcularTarifas();
 
-      //       if (response.resultante > 0) {
-      //         if (response.generar == false) {
-      //           button2.disabled = true;
-      //           $("#alerta_valoresContra").show();
-      //         } else {
-      //           button2.disabled = false;
-      //           $("#alerta_valoresContra").hide();
-      //         }
-      //       }
-      //     },
-      //     error: function (jqXHR, textStatus, errorThrown) {
-      //       alert(errorThrown);
-      //     },
-      //   });
-      //   /* Fin calcularGuiaDirecta */
-      // })
-      // .catch((error) => {
-      //   console.error("Error:", error);
-      //   alert("Hubo un problema al actualizar el producto");
-      // });
-      $.ajax({
-        url: url,
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        success: function (response) {
+    //   $.ajax({
+    //     url: SERVERURL + "calculadora/calcularGuiaDirecta",
+    //     type: "POST", // Cambiar a POST para enviar FormData
+    //     data: formData,
+    //     processData: false, // No procesar los datos
+    //     contentType: false, // No establecer ningún tipo de contenido
+    //     dataType: "json",
+    //     success: function (response) {
+    //       $("#montoVenta_infoVenta").text(response.total);
+    //       $("#costo_infoVenta").text(response.costo);
+    //       $("#precioEnvio_infoVenta").text(response.tarifa);
+    //       $("#fulfillment_infoVenta").text(response.full);
+    //       $("#total_infoVenta").text(response.resultante);
+
+    //       calcularTarifas();
+
+    //       if (response.resultante > 0) {
+    //         if (response.generar == false) {
+    //           button2.disabled = true;
+    //           $("#alerta_valoresContra").show();
+    //         } else {
+    //           button2.disabled = false;
+    //           $("#alerta_valoresContra").hide();
+    //         }
+    //       }
+    //     },
+    //     error: function (jqXHR, textStatus, errorThrown) {
+    //       alert(errorThrown);
+    //     },
+    //   });
+    //   /* Fin calcularGuiaDirecta */
+    // })
+    // .catch((error) => {
+    //   console.error("Error:", error);
+    //   alert("Hubo un problema al actualizar el producto");
+    // });
+    $.ajax({
+      url: url,
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: "json",
+      success: function (response) {
           $("#montoVenta_infoVenta").text(response.total);
           $("#costo_infoVenta").text(response.costo);
           $("#precioEnvio_infoVenta").text(response.tarifa);
           $("#fulfillment_infoVenta").text(response.full);
           $("#total_infoVenta").text(response.resultante);
 
-          if (url.includes("calcularGuiaDirecta")) {
-            if (response.resultante > 0) {
+          if (response.resultante > 0) {
               if (response.generar == false) {
-                button2.disabled = true;
-                $("#alerta_valoresContra").show();
+                console.log("entro el false");
+                  button2.disabled = true;
+                  $("#alerta_valoresContra").show();
               } else {
-                button2.disabled = false;
-                $("#alerta_valoresContra").hide();
+                console.log("entro el true");
+                  button2.disabled = false;
+                  $("#alerta_valoresContra").hide();
               }
-            }
-          } else {
-            if (response.generar == false) {
-              button2.disabled = true;
-              $("#alerta_valoresContra").show();
-            } else {
-              button2.disabled = false;
-              $("#alerta_valoresContra").hide();
-            }
           }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
           alert(errorThrown);
-        },
-      });
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      alert("Hubo un problema al actualizar el producto");
-    });
+      },
+  });
+})
+.catch((error) => {
+  console.error("Error:", error);
+  alert("Hubo un problema al actualizar el producto");
+});
 }
 
 function validar_direccion() {
@@ -491,8 +486,8 @@ $(document).ready(function () {
 
       // 🔥 Verifica correctamente si se trata de una muestra
       let url = SERVERURL + "calculadora/calcularGuiaDirecta";
-      if (muestra === "1") {
-        url = SERVERURL + "calculadora/calcularGuiaDirectaMuestra"; // 🔥 Usar el nuevo endpoint
+      if (muestra === "1") { 
+          url = SERVERURL + "calculadora/calcularGuiaDirectaMuestra"; // 🔥 Usar el nuevo endpoint
       }
 
       $.ajax({
@@ -503,26 +498,26 @@ $(document).ready(function () {
         contentType: false,
         dataType: "json",
         success: function (response) {
-          $("#montoVenta_infoVenta").text(response.total);
-          $("#costo_infoVenta").text(response.costo);
-          $("#precioEnvio_infoVenta").text(response.tarifa);
-          $("#fulfillment_infoVenta").text(response.full);
-          $("#total_infoVenta").text(response.resultante);
-
-          if (response.resultante > 0) {
-            if (response.generar == false) {
-              button2.disabled = true;
-              $("#alerta_valoresContra").show();
-            } else {
-              button2.disabled = false;
-              $("#alerta_valoresContra").hide();
+            $("#montoVenta_infoVenta").text(response.total);
+            $("#costo_infoVenta").text(response.costo);
+            $("#precioEnvio_infoVenta").text(response.tarifa);
+            $("#fulfillment_infoVenta").text(response.full);
+            $("#total_infoVenta").text(response.resultante);
+  
+            if (response.resultante > 0) {
+                if (response.generar == false) {
+                    button2.disabled = true;
+                    $("#alerta_valoresContra").show();
+                } else {
+                    button2.disabled = false;
+                    $("#alerta_valoresContra").hide();
+                }
             }
-          }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-          alert(errorThrown);
+            alert(errorThrown);
         },
-      });
+    });
     } else {
       toastr.error("ESTA TRANSPORTADORA NO TIENE COBERTURA", "NOTIFICACIÓN", {
         positionClass: "toast-bottom-center",
