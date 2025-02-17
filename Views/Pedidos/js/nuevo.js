@@ -296,11 +296,12 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
           $("#fulfillment_infoVenta").text(response.full);
           $("#total_infoVenta").text(response.resultante);
 
-          const generarBool = response.generar === "true"; // Convierte el string a booleano
+          const resultanteNum = parseFloat(response.resultante); // Convertir a número
 
           if (url.includes("calcularGuiaDirecta")) {
-            if (response.resultante > 0) {
-              if (!generarBool) {
+            if (resultanteNum > 0) {
+              // Usamos la versión numérica
+              if (!response.generar) {
                 console.log("Entró en el false");
                 button2.disabled = true;
                 $("#alerta_valoresContra").show();
@@ -311,7 +312,7 @@ function recalcular(id, idPrecio, idDescuento, idCantidad) {
               }
             }
           } else {
-            if (!generarBool) {
+            if (!response.generar) {
               console.log("Entró en el false");
               button2.disabled = true;
               $("#alerta_valoresContra").show();
@@ -515,11 +516,12 @@ $(document).ready(function () {
           $("#fulfillment_infoVenta").text(response.full);
           $("#total_infoVenta").text(response.resultante);
 
-          const generarBool = response.generar === "true"; // Convierte el string a booleano
+          const resultanteNum = parseFloat(response.resultante); // Convertir a número
 
           if (url.includes("calcularGuiaDirecta")) {
-            if (response.resultante > 0) {
-              if (!generarBool) {
+            if (resultanteNum > 0) {
+              // Usamos la versión numérica
+              if (!response.generar) {
                 console.log("Entró en el false");
                 button2.disabled = true;
                 $("#alerta_valoresContra").show();
@@ -530,7 +532,7 @@ $(document).ready(function () {
               }
             }
           } else {
-            if (!generarBool) {
+            if (!response.generar) {
               console.log("Entró en el false");
               button2.disabled = true;
               $("#alerta_valoresContra").show();
