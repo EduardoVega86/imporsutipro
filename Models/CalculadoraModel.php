@@ -359,7 +359,7 @@ XML;
             "tarifa" => number_format($tarifa, 2, '.', ''),
             "costo" => number_format($costo, 2, '.', ''),
             "resultante" => number_format($resultante, 2, '.', ''), // 🔥 Ganancia en 0
-            "generar" => false, // 🔥 No se genera ganancia en muestras
+            "generar" => true, // 🔥 No se genera ganancia en muestras
             "full" => $full
         ];
 
