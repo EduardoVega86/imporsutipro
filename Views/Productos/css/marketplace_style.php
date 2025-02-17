@@ -22,6 +22,11 @@
         /* Hacer que la tarjeta ocupe todo el ancho de su contenedor */
     }
 
+    .custom-container-fluid {
+        background-color: rgb(226, 226, 226) !important;
+    }
+
+
     .card-custom:hover {
         transform: translateY(-10px);
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
