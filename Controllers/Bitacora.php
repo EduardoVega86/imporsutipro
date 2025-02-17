@@ -7,8 +7,12 @@ class Bitacora extends Controller
         parent::__construct();
     }
 
-    public function estados()
+    public function estados(): void
     {
+        if($_POST['guia'] == '' || $_POST['guia'] == '0'){
+            echo json_encode(['status' => 'error', 'message' => 'Faltan datos']);
+            return;
+        }
         $guia = $_POST['guia'];
         $estado = $_POST['estado'];
         $transportadora = $_POST['transportadora'];
