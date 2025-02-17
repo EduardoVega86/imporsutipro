@@ -6,7 +6,7 @@
 <?php require_once './Views/Productos/Modales/tabla_idInventario.php'; ?>
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 
-<div class="custom-container-fluid mt-4">
+<div class="custom-container-fluid">
     <div style="padding-bottom: 20px; padding-top: 20px;">
         <div class="caja p-4 shadow-sm bg-white">
 

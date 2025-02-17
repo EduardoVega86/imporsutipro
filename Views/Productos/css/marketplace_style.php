@@ -3,7 +3,7 @@
     .card-container {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
-        gap: 10px;
+        gap: 26px;
         /* Ajusta este valor para el espaciado deseado entre las tarjetas */
     }
 
