@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
               // Retardo breve para mostrar el efecto visual antes de redirigir
               setTimeout(() => {
-                window.location.href = SERVERURL + "Productos/marketplace_pro?plataforma=" + proveedor.id_plataforma;
+                window.location.href = SERVERURL + "Productos/marketplace?plataforma=" + proveedor.id_plataforma;
               }, 150);
             });
 

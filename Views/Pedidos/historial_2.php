@@ -72,7 +72,7 @@
 
         <div class="d-flex mb-3 mt-3">
             <button id="btnPedidos" class="btn btn-primary me-2 active">Pedidos</button>
-            <button id="btnAbandonados" class="btn btn-secondary me-2">Abandonados</button>
+            <!-- <button id="btnAbandonados" class="btn btn-secondary me-2">Abandonados</button> -->
             <button id="btnNo_vinculados" class="btn btn-secondary">No Vinculados</button>
         </div>
 
