@@ -25,7 +25,10 @@
     .custom-container-fluid {
         background-color: rgb(226, 226, 226) !important;
     }
-
+    
+    .content {
+        background-color: rgb(226, 226, 226) !important;
+    }
 
     .card-custom:hover {
         transform: translateY(-10px);
