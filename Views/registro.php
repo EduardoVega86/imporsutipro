@@ -57,13 +57,30 @@
                         <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Ejemplo:0999999999">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group password-toggle">
                     <label for="contrasena">Contraseña</label>
-                    <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="contrasena"
+                        name="contrasena"
+                        placeholder="Contraseña">
+                    <span
+                        class="password-toggle-icon"
+                        id="togglePassword"
+                        onclick="togglePasswordVisibility()">
+                        <i class="fa-solid fa-eye"></i>
+                    </span>
                 </div>
-                <div class="form-group">
+                <div class="form-group password-toggle">
                     <label for="repetir-contrasena">Repetir Contraseña</label>
                     <input type="password" class="form-control" id="repetir-contrasena" name="repetir-contrasena" placeholder="Repetir Contraseña">
+                    <span
+                        class="password-toggle-icon"
+                        id="togglePassword"
+                        onclick="togglePasswordVisibility()">
+                        <i class="fa-solid fa-eye"></i>
+                    </span>
                 </div>
                 <div id="password-error" style="color: red; display: none;">Las contraseñas no coinciden.</div>
                 <button type="button" class="btn btn-primary w-100" onclick="validateEmailAndPassword()">Siguiente</button>
@@ -288,6 +305,21 @@
                     text: 'Hubo un problema con el registro.'
                 });
             });
+    }
+    // Función para mostrar/ocultar la contraseña
+    function togglePasswordVisibility() {
+        const passwordField = document.getElementById('contrasena');
+        const toggleIcon = document.getElementById('togglePassword').firstElementChild;
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
     }
 </script>
 

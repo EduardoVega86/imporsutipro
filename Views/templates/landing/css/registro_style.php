@@ -118,5 +118,16 @@
         box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
     }
 
+    .password-toggle {
+        position: relative;
+    }
+
+    .password-toggle-icon {
+        position: absolute;
+        top: 65%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
     /* Fin whatsapp flotante */
 </style>
