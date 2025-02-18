@@ -129,5 +129,4 @@
         transform: translateY(-50%);
         cursor: pointer;
     }
-    /* Fin whatsapp flotante */
 </style>

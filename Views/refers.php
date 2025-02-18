@@ -46,12 +46,11 @@
                                 <option value="PA">🇵🇦 Panama (+507)</option>
                                 <option value="PY">🇵🇾 Paraguay (+595)</option>
                                 <option value="PE">🇵🇪 Peru (+51)</option>
-                                <option value="PR">🇵­🇷 Puerto Rico (+1)</option>
+                                <option value="PR">🇵🇷 Puerto Rico (+1)</option>
                                 <option value="UY">🇺🇾 Uruguay (+598)</option>
                                 <option value="VE">🇻🇪 Venezuela (+58)</option>
                                 <option value="US">🇺🇸 United States (+1)</option>
                                 <!-- Add other countries as needed -->
-                                <!-- Más opciones -->
                             </select>
                         </div>
                         <div class="form-group" style="width: 65%;">
@@ -59,13 +58,30 @@
                             <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Ejemplo:0999999999">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group password-toggle">
                         <label for="contrasena">Contraseña</label>
-                        <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="contrasena"
+                            name="contrasena"
+                            placeholder="Contraseña">
+                        <span
+                            class="password-toggle-icon"
+                            id="togglePassword"
+                            onclick="togglePasswordVisibility()">
+                            <i class="fa-solid fa-eye"></i>
+                        </span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group password-toggle">
                         <label for="repetir-contrasena">Repetir Contraseña</label>
                         <input type="password" class="form-control" id="repetir-contrasena" name="repetir-contrasena" placeholder="Repetir Contraseña">
+                        <span
+                            class="password-toggle-icon"
+                            id="togglePassword"
+                            onclick="togglePasswordVisibility()">
+                            <i class="fa-solid fa-eye"></i>
+                        </span>
                     </div>
                     <div id="password-error" style="color: red; display: none;">Las contraseñas no coinciden.</div>
                     <button type="button" class="btn btn-primary w-100" onclick="validateEmailAndPassword()">Siguiente</button>
