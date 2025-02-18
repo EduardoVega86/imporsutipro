@@ -52,6 +52,7 @@
         flex-direction: column;
         justify-content: space-between;
         overflow: hidden;
+        background-color: white !important;
         /* Para evitar que el contenido se salga */
     }
 
