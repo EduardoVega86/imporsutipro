@@ -24,6 +24,7 @@ class MarketplaceModel extends Query
                           FROM plataforma_matriz 
                           WHERE id_matriz = $id_matriz
                       )
+                      AND pr.drogshiping = 1
                 GROUP BY p.id_plataforma
                 ORDER BY cantidad_productos DESC"; // Ordena por cantidad de productos
 
