@@ -593,6 +593,7 @@ function cargarInfoTienda_inicial() {
       $("#instagram").val(response[0].instagram);
       $("#tiktok").val(response[0].tiktok);
       $("#facebook").val(response[0].facebook);
+      $("#title_page").val(response[0].title_page);
 
       $("#dominio").val(response[0].dominio);
 
@@ -1530,6 +1531,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let formData = new FormData();
     formData.append("ruc", $("#ruc").val());
+    formData.append("title_page", $("#title_page").val());
 
     formData.append("telefono_tienda", $("#whatsapp").val());
     formData.append("email_tienda", $("#email").val());

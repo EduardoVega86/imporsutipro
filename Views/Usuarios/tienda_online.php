@@ -223,6 +223,10 @@
                                         <input type="text" class="form-control cambio" id="ruc" name="ruc">
                                     </div>
                                     <div class="form-group mb-3">
+                                        <label for="title_page">Title de la pagina(opcional):</label>
+                                        <input type="text" class="form-control cambio" id="title_page" name="title_page">
+                                    </div>
+                                    <div class="form-group mb-3">
                                         <label for="telefono_tienda">Telefono:</label>
                                         <input type="text" class="form-control cambio" id="whatsapp" name="whatsapp" placeholder="Ejemplo:0999999999">
                                     </div>

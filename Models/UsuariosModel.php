@@ -1793,7 +1793,7 @@ ON
         return $responses;
     }
 
-    public function actualizar_tienda($ruc_tienda, $telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $plataforma, $facebook, $instagram, $tiktok)
+    public function actualizar_tienda($ruc_tienda, $title_page, $telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $plataforma, $facebook, $instagram, $tiktok)
     {
         $response = $this->initialResponse();
 
@@ -1804,8 +1804,8 @@ ON
         $editar_plataforma = $this->update($sql, $data);
 
         // Actualizar información en la tabla `perfil`
-        $sql = "UPDATE `perfil` SET `facebook` = ?, `instagram` = ?, `tiktok` = ?, `whatsapp` = ? WHERE `perfil`.`id_plataforma` = ?";
-        $data = [$facebook, $instagram, $tiktok, $telefono_tienda, $plataforma];
+        $sql = "UPDATE `perfil` SET `facebook` = ?, `instagram` = ?, `tiktok` = ?, `whatsapp` = ?, `title_page` = ? WHERE `perfil`.`id_plataforma` = ?";
+        $data = [$facebook, $instagram, $tiktok, $telefono_tienda, $title_page, $plataforma];
         $editar_perfil = $this->update($sql, $data);
 
         // Verificar si ambas actualizaciones fueron exitosas

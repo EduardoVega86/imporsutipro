@@ -716,6 +716,7 @@ class Usuarios extends Controller
         // $nombre_tienda=   $_POST['nombre_tienda'];
 
         $ruc_tienda =     $_POST['ruc'];
+        $title_page =     $_POST['title_page'];
         $telefono_tienda =     $_POST['telefono_tienda'];
         $email_tienda =    $_POST['email_tienda'];
         $direccion_tienda =   $_POST['direccion_tienda'];
@@ -723,7 +724,7 @@ class Usuarios extends Controller
         $facebook =    $_POST['facebook'];
         $instagram =    $_POST['instagram'];
         $tiktok =    $_POST['tiktok'];
-        $response = $this->model->actualizar_tienda($ruc_tienda, $telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $_SESSION['id_plataforma'], $facebook, $instagram, $tiktok);
+        $response = $this->model->actualizar_tienda($ruc_tienda, $title_page, $telefono_tienda, $email_tienda, $direccion_tienda, $pais_tienda, $_SESSION['id_plataforma'], $facebook, $instagram, $tiktok);
         echo json_encode($response);
     }
 

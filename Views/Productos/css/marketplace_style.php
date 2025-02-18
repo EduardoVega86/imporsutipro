@@ -25,7 +25,7 @@
     .custom-container-fluid {
         background-color: rgb(226, 226, 226) !important;
     }
-    
+
     .content {
         background-color: rgb(226, 226, 226) !important;
     }
@@ -689,7 +689,7 @@
 
     .slider-arrow-right {
         right: 3px;
-        top: 240px;
+        top: 215px;
     }
 
     .slider-arrow:hover {
