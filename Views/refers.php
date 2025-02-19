@@ -282,6 +282,22 @@
             });
     }
 
+    // Función para mostrar/ocultar la contraseña
+    function togglePasswordVisibility() {
+        const passwordField = document.getElementById('contrasena');
+        const toggleIcon = document.getElementById('togglePassword').firstElementChild;
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+
     $(document).ready(function() {
         function getQueryParam(param) {
             var urlParams = new URLSearchParams(window.location.search);
