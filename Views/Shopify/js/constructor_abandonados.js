@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     $.ajax({
-      url: SERVERURL + "shopify/guardarConfiguracion",
+      url: SERVERURL + "shopify/guardarAbandonado",
       method: "POST",
       data: formData,
       processData: false,

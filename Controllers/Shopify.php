@@ -195,4 +195,19 @@ class Shopify extends Controller
         })();
     }
 
+    public function guardarAbandonado($id_plataforma)
+    {
+        $this->catchAsync(function () use ($id_plataforma) {
+            $telefono = $_POST["telefono"];
+            $producto = $_POST["producto"];
+
+            $response = $this->model->saveAbandonedCart($id_plataforma, $telefono, $producto);
+            echo json_encode($response);
+        })();
+    }
+
+
+
+
+
 }
