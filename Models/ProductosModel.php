@@ -615,7 +615,7 @@ class ProductosModel extends Query
         // print_r($insertar_producto);
         if ($insertar_producto == 1) {
             //echo $codigo_producto;
-            $id_usuario = $_SESSION['id'];
+            $id_usuario = $_SESSION['id'] ?? 0;
             $id_inventario = $this->buscar_inventario($id_producto, $codigo_producto);
             $referencia = 'STOCK INICIAL';
             $nota = "Se agrego $stock_inicial productos(s) al inventario";
@@ -756,7 +756,7 @@ class ProductosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = $editar_producto['message'];
+            $response['message'] = "message";
         }
         return $response;
     }
