@@ -201,10 +201,11 @@ class Shopify extends Controller
             $telefono = $_POST["telefono"];
             $producto = $_POST["producto"];
 
-            $response = $this->model->saveAbandonedCart($id_plataforma, $telefono, $producto);
+            $response = $this->model->saveAbandonedCarts($id_plataforma, $telefono, $producto);
             echo json_encode($response);
         })();
     }
+
 
 
 
