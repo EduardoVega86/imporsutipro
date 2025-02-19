@@ -1581,7 +1581,7 @@ class SwaggerModel extends Query
                 $formato,
                 $drogshipin,
                 $destacado,
-                $plataforma,
+                $idPlataforma,
                 $stock_inicial,
                 $bodega,
                 $pcp,
