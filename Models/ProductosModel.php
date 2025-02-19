@@ -615,7 +615,7 @@ class ProductosModel extends Query
         // print_r($insertar_producto);
         if ($insertar_producto == 1) {
             //echo $codigo_producto;
-            $id_usuario = $_SESSION['id'] ?? null;
+            $id_usuario = $_SESSION['id'] ?? 0;
             $id_inventario = $this->buscar_inventario($id_producto, $codigo_producto);
             $referencia = 'STOCK INICIAL';
             $nota = "Se agrego $stock_inicial productos(s) al inventario";
