@@ -737,8 +737,6 @@ class ProductosModel extends Query
                 $bodega_id = 0;
             }
 
-            $bodega = $bodega[0]['id'];
-
             $sql_insert = "UPDATE inventario_bodegas SET sku = ?, id_producto = ?, id_variante = ?, bodega = ?, pcp = ?, pvp = ?, pref = ?, stock_inicial = ?, saldo_stock = ?, envio_prioritario = ? WHERE id_producto = ? AND id_plataforma = ?";
             $data_insert = [$codigo_producto, $id, 0, $bodega, $pcp, $pvp, $pref, 0, 0, $envio_prioritario, $id, $plataforma];
             $insertar_producto_ = $this->update($sql_insert, $data_insert);
