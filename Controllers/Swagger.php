@@ -53,7 +53,7 @@ class Swagger extends Controller
     /**
      * @OA\Post(
      *     path="/swagger/registro",
-     *     tags={"Usuarios"},
+     *     tags={"Acceso - Usuarios"},
      *     summary="Registro de usuarios",
      *     description="Endpoint utilizado para el registro de usuarios.",
      *     @OA\RequestBody(
@@ -132,7 +132,7 @@ class Swagger extends Controller
     /**
      * @OA\Post(
      *     path="/swagger/registro_referido",
-     *     tags={"Usuarios"},
+     *     tags={"Acceso - Usuarios"},
      *     summary="Registro de usuarios referidos",
      *     description="Endpoint utilizado para el registro de usuarios referidos.",
      *     @OA\Parameter(
@@ -230,7 +230,7 @@ class Swagger extends Controller
     /**
      * @OA\Post(
      *      path="/swagger/login",
-     *      tags={"Usuarios"},
+     *      tags={"Acceso - Usuarios"},
      *      summary="Inicio de sesión",
      *      description="Endpoint utilizado para el inicio de sesión de los usuarios.",
      *          @OA\RequestBody(
@@ -290,7 +290,7 @@ class Swagger extends Controller
     /**
      * @OA\Post(
      *      path="/swagger/validar_tiendas",
-     *      tags={"Usuarios"},
+     *      tags={"Acceso - Usuarios"},
      *      summary="Validación de tiendas",
      *      description="Endpoint utilizado para validar las tiendas existentes.",
      *          @OA\RequestBody(
@@ -363,7 +363,7 @@ class Swagger extends Controller
     /**
      * @OA\Post(
      *     path="/swagger/recuperar_contrasena",
-     *     tags={"Usuarios"},
+     *     tags={"Acceso - Usuarios"},
      *     summary="Recuperación de contraseña",
      *     description="Endpoint que permite generar un token de recuperación y enviar un correo al usuario con un enlace para restablecer la contraseña.",
      *     @OA\RequestBody(
@@ -423,7 +423,7 @@ class Swagger extends Controller
     /**
      * @OA\Post(
      *     path="/swagger/validar_token",
-     *     tags={"Usuarios"},
+     *     tags={"Acceso - Usuarios"},
      *     summary="Validación del token",
      *     description="Endpoint que permite validar el token del usuario.",
      *     @OA\RequestBody(
@@ -496,7 +496,7 @@ class Swagger extends Controller
     /**
      * @OA\Post(
      *     path="/swagger/cambiar_contrasena",
-     *     tags={"Usuarios"},
+     *     tags={"Acceso - Usuarios"},
      *     summary="Modificación de contraseña",
      *     description="Endpoint que permite cambiar la contraseña de los usuarios.",
      *     @OA\RequestBody(
@@ -562,7 +562,7 @@ class Swagger extends Controller
     /**
      * @OA\Post(
      *     path="/swagger/validar_refiere",
-     *     tags={"Usuarios"},
+     *     tags={"Acceso - Usuarios"},
      *     summary="Validación del token refiere",
      *     description="Endpoint que permite validar el token referido de las plataformas.",
      *     @OA\RequestBody(
