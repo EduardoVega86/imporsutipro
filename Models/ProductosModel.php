@@ -728,17 +728,11 @@ class ProductosModel extends Query
             // print_r($editar_producto_);
         } else {
             $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma limit 1";
-            $resultBodega = $this->select($sql_bodega);
-
-            if (!empty($resultBodega)) {
-                $bodega_id = $resultBodega[0]['id'];
-            } else {
-                // Define un valor por defecto o maneja el error según tu lógica
-                $bodega_id = 0;
-            }
+            $bodega = $this->select($sql_bodega);
+            $bodega = $bodega[0]['id'];
 
             $sql_insert = "UPDATE inventario_bodegas SET sku = ?, id_producto = ?, id_variante = ?, bodega = ?, pcp = ?, pvp = ?, pref = ?, stock_inicial = ?, saldo_stock = ?, envio_prioritario = ? WHERE id_producto = ? AND id_plataforma = ?";
-            $data_insert = [$codigo_producto, $id, 0, $bodega_id, $pcp, $pvp, $pref, 0, 0, $envio_prioritario, $id, $plataforma];
+            $data_insert = [$codigo_producto, $id, 0, $bodega, $pcp, $pvp, $pref, 0, 0, $envio_prioritario, $id, $plataforma];
             $insertar_producto_ = $this->update($sql_insert, $data_insert);
         }
 
@@ -762,7 +756,7 @@ class ProductosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al editar el producto';
+            $response['message'] = $editar_producto['message'];
         }
         return $response;
     }
