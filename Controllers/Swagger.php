@@ -3183,14 +3183,6 @@ class Swagger extends Controller
             $pref           = 0;
 
 
-
-            // Validar campos requeridos mínimos (adaptar a tu necesidad)
-            if (!$uuid || !$codigo_producto || !$nombre_producto || !$descripcion_producto || !$id_linea_producto || !$inv_producto || !$producto_variable || !$aplica_iva || !$estado_producto || !$id_imp_producto || !$pagina_web || !$formato || !$drogshipin || !$destacado || !$envio_prioritario || !$enlace_funnelish || !$stock_inicial || !$bodega || !$pcp || !$pvp) {
-                http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
-                return;
-            }
-
             $response = $this->model->agregarProducto(
                 $uuid,
                 $codigo_producto,
