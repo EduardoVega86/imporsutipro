@@ -174,9 +174,27 @@ class Shopify extends Controller
     }
 
     public function abandonado($id_plataforma){
-        $data = file_get_contents("php://input");
+        /*$data = file_get_contents("php://input");
         $response = $this->model->saveAbandonedCart($id_plataforma, $data);
-        echo json_encode($response);
+        echo json_encode($response);*/
+
+        $this->catchAsync(function () use ($id_plataforma) {
+            if(empty($id_plataforma))
+                throw new Exception("No se ha especificado una plataforma");
+            if(!$this->model->existenciaPlataformaAbandonada($id_plataforma)){
+                $this->model->saveAbandonedCart($id_plataforma, file_get_contents("php://input"));
+                echo json_encode(["message" => "Se registro la plataforma", "status"=> "success", "code" => 200]);
+                exit();
+            }
+            $data = file_get_contents("php://input");
+            $response = $this->model->procesarAbandonado($id_plataforma, $data);
+            if($response){
+                echo json_encode(["message" => "Se registro el abandonado", "status"=> "success", "code" => 200]);
+                exit();
+            }
+            echo json_encode(["message" => "No se registro el abandonado", "status"=> "error", "code" => 400]);
+
+        })();
     }
 
     public function buscarEntradaAbandonado($id_plataforma)
@@ -205,6 +223,8 @@ class Shopify extends Controller
             echo json_encode($response);
         })();
     }
+
+
 
 
 
