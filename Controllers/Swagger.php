@@ -3084,6 +3084,145 @@ class Swagger extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/swagger/agregar_producto",
+     *     tags={"Productos"},
+     *     summary="Agregar un nuevo producto",
+     *     description="Permite agregar un nuevo producto asociada a la plataforma.",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="query",
+     *         description="UUID del usuario o plataforma",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="codigo_producto", type="string", description="Codigo del producto"),
+     *                 @OA\Property(property="nombre_producto", type="string", description="Nombre del producto"),
+     *                 @OA\Property(property="descripcion_producto", type="string", description="Descripción del producto"),
+     *                 @OA\Property(property="id_linea_producto", type="integer", description="ID linea del producto"),
+     *                 @OA\Property(property="inv_producto", type="integer", description="Estado inv del producto"),
+     *                 @OA\Property(property="producto_variable", type="integer", description="Estado producto variable"),
+     *                 @OA\Property(property="aplica_iva", type="integer", description="Estado aplica IVA el producto")
+     *                 @OA\Property(property="estado_producto", type="integer", description="Estado del producto")
+     *                 @OA\Property(property="id_imp_producto", type="integer", description="Id Imp del producto")
+     *                 @OA\Property(property="pagina_web", type="integer", description="Estado de página web del producto")
+     *                 @OA\Property(property="formato", type="integer", description="Estado de formato del producto")
+     *                 @OA\Property(property="drogshipin", type="integer", description="Estado de drogshipin del producto")
+     *                 @OA\Property(property="destacado", type="integer", description="Estado destacado del producto")
+     *                 @OA\Property(property="envio_prioritario", type="integer", description="Estado de envio priotario del producto")
+     *                 @OA\Property(property="enlace_funnelish", type="string", description="Enlace funnelish del producto")
+     *                 @OA\Property(property="stock_inicial", type="integer", description="Stock inicial del producto")
+     *                 @OA\Property(property="bodega", type="integer", description="Bodega del producto")
+     *                 @OA\Property(property="pcp", type="integer", description="Pcp del producto")
+     *                 @OA\Property(property="pvp", type="integer", description="Pvp del producto")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Producto agregado con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Faltan datos requeridos"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno al agregar el producto"
+     *     )
+     * )
+     */
+    public function agregar_producto()
+    {
+        try {
+            $this->logRequest('swagger/agregar_producto', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            // Validamos que vengan datos en el cuerpo
+            if (!$data) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Datos inválidos']);
+                return;
+            }
+            // Capturar UUID desde query parameters
+            $uuid = $_GET['uuid'] ?? null;
+
+            // Extraer campos del JSON
+            $codigo_producto      = $data['codigo_producto']      ?? null;
+            $nombre_producto      = $data['nombre_producto']      ?? null;
+            $descripcion_producto = $data['descripcion_producto'] ?? null;
+            $id_linea_producto    = $data['id_linea_producto']    ?? null;
+            $inv_producto         = $data['inv_producto']         ?? null;
+            $producto_variable    = $data['producto_variable']    ?? null;
+            $aplica_iva           = $data['aplica_iva']           ?? 0;
+            $estado_producto      = $data['estado_producto']      ?? null;
+            $id_imp_producto      = $data['id_imp_producto']      ?? 12;
+            $pagina_web           = $data['pagina_web']           ?? 0;
+            $formato              = $data['formato']              ?? null;
+            $drogshipin           = $data['drogshipin']           ?? 0;
+            $destacado            = $data['destacado']            ?? 0;
+            $envio_prioritario    = $data['envio_prioritario']    ?? 0;
+            $enlace_funnelish     = $data['enlace_funnelish']     ?? "";
+            $stock_inicial        = $data['stock_inicial']        ?? 0;
+            $bodega               = $data['bodega']               ?? 0;
+            $pcp                  = $data['pcp']                  ?? 0;
+            $pvp                  = $data['pvp']                  ?? 0;
+
+            // Campos fijos o por defecto
+            $costo_producto = 0;
+            $date_added     = date("Y-m-d H:i:s");
+            $image_path     = "";
+            $pref           = 0;
+
+
+
+            // Validar campos requeridos mínimos (adaptar a tu necesidad)
+            if (!$uuid || !$codigo_producto || !$nombre_producto || !$descripcion_producto || !$id_linea_producto || !$inv_producto || !$producto_variable || !$aplica_iva || !$estado_producto || !$id_imp_producto || !$pagina_web || !$formato || !$drogshipin || !$destacado || !$envio_prioritario || !$enlace_funnelish || !$stock_inicial || !$bodega || !$pcp || !$pvp) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
+
+            $response = $this->model->agregarProducto(
+                $uuid,
+                $codigo_producto,
+                $nombre_producto,
+                $descripcion_producto,
+                $id_linea_producto,
+                $inv_producto,
+                $producto_variable,
+                $aplica_iva,
+                $estado_producto,
+                $id_imp_producto,
+                $pagina_web,
+                $formato,
+                $drogshipin,
+                $destacado,
+                $envio_prioritario,
+                $enlace_funnelish,
+                $stock_inicial,
+                $bodega,
+                $pcp,
+                $pvp,
+                $costo_producto,
+                $date_added,
+                $image_path,
+                $pref,
+            );
+            $this->handleResponse($response);
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
 
 
 
