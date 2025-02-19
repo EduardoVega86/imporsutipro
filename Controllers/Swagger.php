@@ -3089,7 +3089,7 @@ class Swagger extends Controller
      *     path="/swagger/agregar_producto",
      *     tags={"Productos"},
      *     summary="Agregar un nuevo producto",
-     *     description="Permite agregar un nuevo producto asociada a la plataforma.",
+     *     description="Permite agregar un nuevo producto asociado a la plataforma.",
      *     @OA\Parameter(
      *         name="uuid",
      *         in="query",
@@ -3110,18 +3110,18 @@ class Swagger extends Controller
      *                 @OA\Property(property="id_linea_producto", type="integer", description="ID linea del producto"),
      *                 @OA\Property(property="inv_producto", type="integer", description="Estado inv del producto"),
      *                 @OA\Property(property="producto_variable", type="integer", description="Estado producto variable"),
-     *                 @OA\Property(property="aplica_iva", type="integer", description="Estado aplica IVA el producto")
-     *                 @OA\Property(property="estado_producto", type="integer", description="Estado del producto")
-     *                 @OA\Property(property="id_imp_producto", type="integer", description="Id Imp del producto")
-     *                 @OA\Property(property="pagina_web", type="integer", description="Estado de página web del producto")
-     *                 @OA\Property(property="formato", type="integer", description="Estado de formato del producto")
-     *                 @OA\Property(property="drogshipin", type="integer", description="Estado de drogshipin del producto")
-     *                 @OA\Property(property="destacado", type="integer", description="Estado destacado del producto")
-     *                 @OA\Property(property="envio_prioritario", type="integer", description="Estado de envio priotario del producto")
-     *                 @OA\Property(property="enlace_funnelish", type="string", description="Enlace funnelish del producto")
-     *                 @OA\Property(property="stock_inicial", type="integer", description="Stock inicial del producto")
-     *                 @OA\Property(property="bodega", type="integer", description="Bodega del producto")
-     *                 @OA\Property(property="pcp", type="integer", description="Pcp del producto")
+     *                 @OA\Property(property="aplica_iva", type="integer", description="Estado aplica IVA el producto"),
+     *                 @OA\Property(property="estado_producto", type="integer", description="Estado del producto"),
+     *                 @OA\Property(property="id_imp_producto", type="integer", description="Id Imp del producto"),
+     *                 @OA\Property(property="pagina_web", type="integer", description="Estado de página web del producto"),
+     *                 @OA\Property(property="formato", type="integer", description="Estado de formato del producto"),
+     *                 @OA\Property(property="drogshipin", type="integer", description="Estado de drogshipin del producto"),
+     *                 @OA\Property(property="destacado", type="integer", description="Estado destacado del producto"),
+     *                 @OA\Property(property="envio_prioritario", type="integer", description="Estado de envio priotario del producto"),
+     *                 @OA\Property(property="enlace_funnelish", type="string", description="Enlace funnelish del producto"),
+     *                 @OA\Property(property="stock_inicial", type="integer", description="Stock inicial del producto"),
+     *                 @OA\Property(property="bodega", type="integer", description="Bodega del producto"),
+     *                 @OA\Property(property="pcp", type="integer", description="Pcp del producto"),
      *                 @OA\Property(property="pvp", type="integer", description="Pvp del producto")
      *             )
      *         )
