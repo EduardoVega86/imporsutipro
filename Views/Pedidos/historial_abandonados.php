@@ -1,8 +1,6 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Pedidos/css/historial_style.php'; ?>
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
-<?php require_once './Views/Pedidos/Modales/agregar_detalle_noDeseaPedido.php'; ?>
-<?php require_once './Views/Pedidos/Modales/agregar_detalle_observacion.php'; ?>
 
 <!-- Agregar CDN de Boxicons -->
 <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
