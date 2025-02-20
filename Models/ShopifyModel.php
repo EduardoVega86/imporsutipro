@@ -702,6 +702,7 @@ class ShopifyModel extends Query
             $cleanKey = preg_replace('/[^A-Za-z0-9_]/', '', $key); // Elimina caracteres especiales del key
             $cleaned[$cleanKey] = is_array($value) ? cleanJsonKeys($value) : $value;
         }
+
         return $cleaned;
     }
     /**
