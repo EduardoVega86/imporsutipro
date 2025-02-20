@@ -731,7 +731,7 @@ class ShopifyModel extends Query
         $sql = "REPLACE INTO configuracion_shopify_abandoned_cart (id_plataforma, telefono, producto) VALUES (?, ?, ?);
 ";
         $response = $this->insert($sql, [$id_plataforma, $telefono, $producto]);
-        if ($response == 1) {
+        if ($response > 0) {
             $responses["status"] = "200";
             $responses["message"] = "Json guardado correctamente";
         } else {
