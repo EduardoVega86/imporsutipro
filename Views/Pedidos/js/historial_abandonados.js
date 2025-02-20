@@ -48,10 +48,9 @@ const initDataTableHistorial = async () => {
 const listHistorialPedidos = async () => {
   try {
     const formData = new FormData();
-    formData.append("fecha_inicio", fecha_inicio);
-    formData.append("fecha_fin", fecha_fin);
+    formData.append("filtro", currentAPI);
 
-    const response = await fetch(`${SERVERURL}${currentAPI}`, {
+    const response = await fetch(`${SERVERURL}shopify/obtenerAbandonados/${ID_PLATAFORMA}`, {
       method: "POST",
       body: formData,
     });
@@ -250,21 +249,21 @@ const listHistorialPedidos = async () => {
 };
 
 // Manejo de botones para cambiar API y recargar la tabla
-document.getElementById("btnPedidos").addEventListener("click", () => {
-  currentAPI = "pedidos/cargarPedidos_imporsuit";
-  cambiarBotonActivo("btnPedidos");
+document.getElementById("btnContactados").addEventListener("click", () => {
+  currentAPI = "2";
+  cambiarBotonActivo("btnContactados");
   initDataTableHistorial();
 });
 
-/* document.getElementById("btnAbandonados").addEventListener("click", () => {
-  currentAPI = "pedidos/cargar_pedidos_abandonados"; // Ajusta la API correspondiente
-  cambiarBotonActivo("btnAbandonados");
+document.getElementById("btnTodos").addEventListener("click", () => {
+  currentAPI = "";
+  cambiarBotonActivo("btnTodos");
   initDataTableHistorial();
-}); */
+});
 
-document.getElementById("btnNo_vinculados").addEventListener("click", () => {
-  currentAPI = "pedidos/cargar_pedidos_sin_producto";
-  cambiarBotonActivo("btnNo_vinculados");
+document.getElementById("btnNo_Contactados").addEventListener("click", () => {
+  currentAPI = "1";
+  cambiarBotonActivo("btnNo_Contactados");
   initDataTableHistorial();
 });
 
