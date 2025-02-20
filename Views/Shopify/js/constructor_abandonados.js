@@ -27,10 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
           method: "GET",
           dataType: "json",
           success: function (response) {
-            console.log("status: "+response.status);
             if (response.status == 200) {
               document.getElementById("loading-below").style.display = "none";
-              console.log("data: "+response.data);
               fillSelectsWithKeys(response.data);
               new bootstrap.Collapse(document.getElementById("collapseTwo"), {
                 toggle: true,
