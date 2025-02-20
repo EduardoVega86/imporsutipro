@@ -74,7 +74,7 @@ class Shopify extends Controller
     public function constructor_abandonado()
     {
         $this->isAuth();
-        $this->views->render($this, "constructor_abandonado");
+        $this->views->render($this, "constructor_abandonados");
     }
 
     public function constructor_vista()
