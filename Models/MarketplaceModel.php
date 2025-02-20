@@ -263,7 +263,7 @@ WHERE
 ";
 
 
-        echo $sql;
+       // echo $sql;
         return $this->select($sql);
     }
 
