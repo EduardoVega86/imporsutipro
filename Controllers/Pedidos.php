@@ -9,7 +9,7 @@ class Pedidos extends Controller
         parent::__construct();
     }
 
-    public function index($filtro = "")
+    public function index($filtro = ""): void
     {
         if (!$this->isAuth()) {
             header("Location: " . SERVERURL . "login");
@@ -17,7 +17,7 @@ class Pedidos extends Controller
         $data = $this->model->cargarPedidosIngresados($filtro);
         $this->views->render($this, "index", $data);
     }
-    public function ingreso($filtro = "")
+    public function ingreso($filtro = ""): void
     {
         if (!$this->isAuth()) {
             header("Location: " . SERVERURL . "login");

@@ -425,6 +425,19 @@ class ShopifyModel extends Query
         }
     }
 
+    public function existenciaPlataformaAbandonada($id_plataforma)
+    {
+        $sql = "SELECT id_plataforma FROM configuracion_shopify_abandoned_cart WHERE id_plataforma = $id_plataforma";
+        $response = $this->select($sql);
+        //print_r($response);
+
+        if (!empty($response)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function generarEnlace($id_plataforma)
     {
         $sql = "SELECT id_matriz from plataformas where id_plataforma = $id_plataforma";
@@ -668,7 +681,7 @@ class ShopifyModel extends Query
         return $arreglo;
     }
 
-    public function saveAbandonedCart($id_plataforma, $data)
+    public function saveAbandonedCart($id_plataforma, $data): array
     {
         $sql = "INSERT INTO abandoned_cart_shopify (id_plataforma, json) VALUES (?,?)";
         $response = $this->insert($sql, [$id_plataforma, $data]);
@@ -709,6 +722,31 @@ class ShopifyModel extends Query
             $responses["message"] =  $response["message"];
         }
         return $responses;
+    }
+
+    public function procesarAbonado($id_plataforma, $data){
+        $data = json_decode($data, true);
+        $configuraciones = $this->obtenerConfiguracionAbadoned($id_plataforma);
+        $configuraciones = $configuraciones[0];
+        $resultados = [];
+        foreach ($configuraciones as $key => $value) {
+            $resultados[$key] = $this->obtenerData($data, $value);
+        }
+        $lineItems = "";
+
+        if (isset($data['line_items']) && is_array($data['line_items'])) {
+            foreach ($data['line_items'] as $item) {
+                $lineItems.= $item['name'] . " x" . $item['quantity'] . " ";
+            }
+        }
+
+        return $this->pedidosModel->generarCarroAbandonado($id_plataforma, $resultados["telefono"], $lineItems);
+    }
+
+    private function obtenerConfiguracionAbadoned($id_plataforma)
+    {
+        $sql = "SELECT * FROM configuracion_shopify_abandoned_cart WHERE id_plataforma = $id_plataforma";
+        return $this->select($sql);
     }
 
 

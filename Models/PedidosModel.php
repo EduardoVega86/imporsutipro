@@ -3356,4 +3356,13 @@ class PedidosModel extends Query
         $response = $this->dselect($sql, [$id_factura]);
         return $response[0]['numero_factura'];
     }
+
+    public function generarCarroAbandonado($id_plataforma, $telefono, $productos){
+        $sql = "INSERT INTO `abandonado` (`id_plataforma`, `telefono`, `producto`) VALUES (?, ?, ?)";
+        $data = [$id_plataforma, $telefono, $productos];
+        return $this->insert($sql, $data);
+
+    }
+
+
 }
