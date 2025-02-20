@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
         $.ajax({
           url: SERVERURL + "shopify/buscarEntradaAbandonado/" + ID_PLATAFORMA,
           method: "GET",
-          dataType: "json",
           success: function (response) {
             console.log("status: "+response.status);
             if (response.status == 200) {
