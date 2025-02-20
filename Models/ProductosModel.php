@@ -727,12 +727,34 @@ class ProductosModel extends Query
             $editar_producto_ = $this->update($sql, $data);
             // print_r($editar_producto_);
         } else {
-            $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma limit 1";
-            $bodega = $this->select($sql_bodega);
-            $bodega = $bodega[0]['id'];
+
+            $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma LIMIT 1";
+            $bodegaResult = $this->select($sql_bodega);
+
+            if (is_array($bodegaResult)) {
+                if (isset($bodegaResult[0])) {
+                    // Si devuelve un array de arrays
+                    $bodegaId = $bodegaResult[0]['id'];
+                } elseif (isset($bodegaResult['id'])) {
+                    // Si devuelve un array asociativo único
+                    $bodegaId = $bodegaResult['id'];
+                } else {
+                    return [
+                        'status'  => 500,
+                        'title'   => 'Error',
+                        'message' => 'No se encontró el campo id en el resultado de la consulta de bodega'
+                    ];
+                }
+            } else {
+                return [
+                    'status'  => 500,
+                    'title'   => 'Error',
+                    'message' => 'La consulta a bodega no devolvió un resultado válido'
+                ];
+            }
 
             $sql_insert = "UPDATE inventario_bodegas SET sku = ?, id_producto = ?, id_variante = ?, bodega = ?, pcp = ?, pvp = ?, pref = ?, stock_inicial = ?, saldo_stock = ?, envio_prioritario = ? WHERE id_producto = ? AND id_plataforma = ?";
-            $data_insert = [$codigo_producto, $id, 0, $bodega, $pcp, $pvp, $pref, 0, 0, $envio_prioritario, $id, $plataforma];
+            $data_insert = [$codigo_producto, $id, 0, $bodegaId, $pcp, $pvp, $pref, 0, 0, $envio_prioritario, $id, $plataforma];
             $insertar_producto_ = $this->update($sql_insert, $data_insert);
         }
 
