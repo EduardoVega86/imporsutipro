@@ -27,9 +27,9 @@ document.addEventListener("DOMContentLoaded", function () {
           method: "GET",
           dataType: "json",
           success: function (response) {
-            if (response.status == "success") {
+            if (response.status == 200) {
               document.getElementById("loading-below").style.display = "none";
-              fillSelectsWithKeys(data);
+              fillSelectsWithKeys(response.data);
               new bootstrap.Collapse(document.getElementById("collapseTwo"), {
                 toggle: true,
               });
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
               // Convertir el JSON en una cadena formateada y añadirlo al div
               document.getElementById("json-content").innerText =
-                JSON.stringify(data, null, 2);
+                JSON.stringify(response.data, null, 2);
 
               // Mostrar el div json-informacion
               document.getElementById("json-informacion").style.display =
