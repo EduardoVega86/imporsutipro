@@ -741,7 +741,7 @@ class ShopifyModel extends Query
         return $responses;
     }
 
-    public function procesarAbonado($id_plataforma, $data){
+    public function procesarAbandonado($id_plataforma, $data){
         $data = json_decode($data, true);
         $configuraciones = $this->obtenerConfiguracionAbadoned($id_plataforma);
         $configuraciones = $configuraciones[0];
