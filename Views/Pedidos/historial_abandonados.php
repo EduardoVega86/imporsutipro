@@ -12,8 +12,8 @@
         <h2 class="text-center mb-4">Historial de Abandonados</h2>
 
         <div class="d-flex mb-3 mt-3">
-            <button id="btnTodos" class="btn btn-secondary">Todos</button>
-            <button id="btnContactados" class="btn btn-primary me-2 active">Contactados</button>
+            <button id="btnTodos" class="btn btn-primary">Todos</button>
+            <button id="btnContactados" class="btn btn-secondary me-2 active">Contactados</button>
             <button id="btnNo_Contactados" class="btn btn-secondary">No Contactados</button>
         </div>
 
