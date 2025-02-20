@@ -3182,6 +3182,12 @@ class Swagger extends Controller
             $image_path     = "";
             $pref           = 0;
 
+            // Validación de campos requeridos
+            if (!$uuid || !$codigo_producto || !$nombre_producto || !$descripcion_producto || !$id_linea_producto || !$inv_producto || !$producto_variable || !$estado_producto || !$formato) {
+                http_response_code(400);
+                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
+                return;
+            }
 
             $response = $this->model->agregarProducto(
                 $uuid,
