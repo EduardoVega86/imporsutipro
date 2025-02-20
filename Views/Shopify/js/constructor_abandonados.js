@@ -163,10 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const formData = new FormData();
 
     // List of principal select IDs
-    const selectIds = [
-      "select-producto",
-      "select-telefono",
-    ];
+    const selectIds = ["select-producto", "select-telefono"];
 
     selectIds.forEach((selectId) => {
       const values = getSelectValues(selectId);
@@ -176,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     $.ajax({
-      url: SERVERURL + "shopify/guardarAbandonado",
+      url: SERVERURL + "shopify/guardarAbandonado/" + ID_PLATAFORMA,
       method: "POST",
       data: formData,
       processData: false,
