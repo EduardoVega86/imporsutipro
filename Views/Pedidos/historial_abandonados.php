@@ -22,14 +22,10 @@
             <table id="datatable_historialPedidos" class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="centered"># Orden</th>
                         <th class="centered">Fecha</th>
-                        <th class="centered">Canal de venta</th>
-                        <th class="centered">Cliente</th>
-                        <th class="centered">Destino</th>
-                        <th class="centered">Contiene</th>
-                        <th class="centered">Monto</th>
-                        <th class="centered">Estado Pedido</th>
+                        <th class="centered">Producto</th>
+                        <th class="centered">Telefono</th>
+                        <th class="centered">Contactado</th>
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
