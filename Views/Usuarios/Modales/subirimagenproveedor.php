@@ -122,4 +122,12 @@
             alert("Ha ocurrido un error al subir la imagen.");
         }
     }
+
+    //Limpiar campo de imagen al subir una nueva en otra proveedor
+    document.addEventListener("DOMContentLoaded", function() {
+        const modalSubirImagen = document.getElementById("modalSubirImagen");
+        modalSubirImagen.addEventListener("shown.bs.modal", function() {
+            document.getElementById("fileImagenProveedor").value = "";
+        });
+    });
 </script>
