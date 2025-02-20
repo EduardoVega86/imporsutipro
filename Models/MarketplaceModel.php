@@ -18,6 +18,7 @@ class MarketplaceModel extends Query
                 FROM plataformas p
                 LEFT JOIN productos pr ON p.id_plataforma = pr.id_plataforma
                 LEFT JOIN lineas l ON pr.id_linea_producto = l.id_linea
+                LEFT JOIN inventario_bodegas ib ON pr.id_producto =  ib.id_producto
                 WHERE p.proveedor = 1 
                       AND p.id_plataforma NOT IN (
                           SELECT id_plataforma 
@@ -25,6 +26,7 @@ class MarketplaceModel extends Query
                           WHERE id_matriz = $id_matriz
                       )
                       AND pr.drogshipin = 1
+                      AND ib.saldo_stock > 0
                 GROUP BY p.id_plataforma
                 ORDER BY cantidad_productos DESC"; // Ordena por cantidad de productos
 
