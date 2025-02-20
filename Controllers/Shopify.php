@@ -204,7 +204,7 @@ class Shopify extends Controller
             $response = $this->model->searchAbandonedCart($id_plataforma);
 
             // Datos adicionales a agregar
-            $extraData = '"status": "success", "code": 200';
+            $extraData = '"status": 200, "message": "Datos encontrados"';
 
             // Se construye el JSON final colocando $response en la clave "data"
             $finalJson = '{"data":' . $response . ', ' . $extraData . '}';
