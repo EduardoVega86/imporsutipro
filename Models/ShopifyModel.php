@@ -728,26 +728,26 @@ class ShopifyModel extends Query
 
     public function saveAbandonedCarts($id_plataforma, $telefono, $producto){
 
-        $sql = "INSERT INTO configuracion_shopify_abandoned_cart (id_plataforma, telefono, producto) VALUES (?,?,?)";
+        $sql = "REPLACE INTO configuracion_shopify_abandoned_cart (id_plataforma, telefono, producto) VALUES (?, ?, ?);
+";
         $response = $this->insert($sql, [$id_plataforma, $telefono, $producto]);
-        if ($response == 1) {
+        if ($response > 0) {
             $responses["status"] = "200";
             $responses["message"] = "Json guardado correctamente";
         } else {
             $responses["status"] = "500";
-            $responses["message"] =  $response["message"];
+            $responses["message"] =  $response;
         }
         return $responses;
     }
 
-    public function procesarAbonado($id_plataforma, $data){
+    public function procesarAbandonado($id_plataforma, $data){
         $data = json_decode($data, true);
         $configuraciones = $this->obtenerConfiguracionAbadoned($id_plataforma);
         $configuraciones = $configuraciones[0];
-        $resultados = [];
-        foreach ($configuraciones as $key => $value) {
-            $resultados[$key] = $this->obtenerData($data, $value);
-        }
+        $resultados = array_map(function ($value) use ($data) {
+            return $this->obtenerData($data, $value);
+        }, $configuraciones);
         $lineItems = "";
 
         if (isset($data['line_items']) && is_array($data['line_items'])) {
@@ -765,5 +765,16 @@ class ShopifyModel extends Query
         return $this->select($sql);
     }
 
+    public function getAbandonedCarts($id_plataforma, $filtro)
+    {
+        $condition = "";
+        if ($filtro == "1") {
+            $condition = " AND contactado = 0";
+        } else if ($filtro == "2") {
+            $condition = " AND contactado = 1";
+        }
+        $sql = "SELECT * FROM abandonado WHERE id_plataforma = $id_plataforma" . $condition;
+        return $this->select($sql);
+    }
 
 }

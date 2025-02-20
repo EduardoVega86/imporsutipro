@@ -60,6 +60,15 @@ class Pedidos extends Controller
         }
         $this->views->render($this, "historial_2");
     }
+
+    public function historial_abandonados($filtro = "")
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "historial_abandonados");
+    }
+
     public function anuladas($filtro = "")
     {
         if (!$this->isAuth()) {

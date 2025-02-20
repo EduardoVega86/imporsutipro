@@ -224,7 +224,14 @@ class Shopify extends Controller
         })();
     }
 
-
+    public function obtenerAbandonados($id_plataforma)
+    {
+        $this->catchAsync(function () use ($id_plataforma) {
+            $filtro = $_POST["filtro"] ?? null;
+            $response = $this->model->getAbandonedCarts($id_plataforma, $filtro);
+            echo json_encode(["status" => 200, "message" => "Datos encontrados", "data" => $response, "count" => count($response)]);
+        })();
+    }
 
 
 
