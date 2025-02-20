@@ -730,9 +730,9 @@ class ProductosModel extends Query
 
             $sql_bodega = "SELECT * FROM bodega WHERE id_plataforma = $plataforma LIMIT 1";
             $bodegaResult = $this->select($sql_bodega);
+            print_r($bodegaResult[0], true);
             if (is_array($bodegaResult)) {
                 if (isset($bodegaResult[0])) {
-                    print_r($bodegaResult[0], true);
                     // Si devuelve un array de arrays
                     $bodegaId = $bodegaResult[0]['id'];
                 } elseif (isset($bodegaResult['id'])) {
