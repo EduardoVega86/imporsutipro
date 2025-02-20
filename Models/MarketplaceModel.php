@@ -27,7 +27,7 @@ class MarketplaceModel extends Query
                       )
                       AND pr.drogshipin = 1
                       AND ib.saldo_stock > 0
-                      AND pr.privado = 0
+                      AND pr.producto_privado = 0
                 GROUP BY p.id_plataforma
                 ORDER BY cantidad_productos DESC"; // Ordena por cantidad de productos
 
