@@ -695,6 +695,15 @@ class ShopifyModel extends Query
         return $responses;
     }
 
+
+    function cleanJsonKeys($array) {
+        $cleaned = [];
+        foreach ($array as $key => $value) {
+            $cleanKey = preg_replace('/[^A-Za-z0-9_]/', '', $key); // Elimina caracteres especiales del key
+            $cleaned[$cleanKey] = is_array($value) ? cleanJsonKeys($value) : $value;
+        }
+        return $cleaned;
+    }
     /**
      * @throws Exception
      */
@@ -703,12 +712,17 @@ class ShopifyModel extends Query
         $sql = "SELECT json FROM abandoned_cart_shopify WHERE id_plataforma = $id_plataforma ORDER BY id DESC LIMIT 1;";
         $response = $this->select($sql);
         if(count($response) > 0){
-            return $response[0]["json"];
+            $jsonDecoded = json_decode($response[0]["json"], true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception("JSON inválido en la base de datos: " . json_last_error_msg());
+            }
+            $jsonDecoded = $this->cleanJsonKeys($jsonDecoded);
+            return json_encode($jsonDecoded);
         }else{
             throw new Exception("No se ha encontrado el json");
         }
-
     }
+
 
     public function saveAbandonedCarts($id_plataforma, $telefono, $producto){
 
