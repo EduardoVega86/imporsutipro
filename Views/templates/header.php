@@ -158,28 +158,34 @@
 
                 <?php if ($_SESSION['cargo'] != 5) { ?>
                     <a href="#" class="dropdown-btn" data-target="#submenu4"><i class='bx bx-cog menu-icon'></i> <span class="menu-text">Configuración</span></a>
+                    <div class="submenu" id="submenu4">
+                        <?php if ($_SESSION['cargo'] == 10 || $_SESSION['cargo'] == 20) { ?>
+                            <a href="<?php echo SERVERURL ?>usuarios/plataformas"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Plataformas Marketplace</span></a>
+                            <a href="<?php echo SERVERURL ?>usuarios/listamatriz"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
+
+                            <a href="<?php echo SERVERURL ?>usuarios/passwords"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Contraseñas</span></a>
+                            <a href="<?php echo SERVERURL ?>usuarios/actualizacionMasiva_tiendas"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Actualizacion Masiva</span></a>
+                        <?php
+                        } else {
+                        ?>
+                            <a href="<?php echo SERVERURL ?>usuarios/listado"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
+                        <?php
+                        }
+                        ?>
+                        <!--a href="#"><i class='bx bxs-user-detail menu-icon'></i> <span class="menu-text">Roles</span></a-->
+                        <a href="<?php echo SERVERURL ?>funnelish/constructor_vista"><i class="fa-solid fa-f menu-icon"></i> <span class="menu-text">Funnelish</span></a>
+                        <a href="<?php echo SERVERURL ?>integraciones"><i class="fa-solid fa-globe menu-icon"></i> <span class="menu-text">Integracio- nes</span></a>
+                    </div>
+
+                    <a href="#" class="dropdown-btn" data-target="#submenu6"><i class='fa-brands fa-shopify menu-icon'></i> <span class="menu-text">Shopify</span></a>
+                    <div class="submenu" id="submenu6">
+                        <a href="<?php echo SERVERURL ?>shopify/constructor"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Configurar Shopify</span></a>
+                        <a href="<?php echo SERVERURL ?>shopify/constructor_vista"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Datos Shopify</span></a>
+                        <a href="<?php echo SERVERURL ?>shopify/constructor_abandonados"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Configurar Abandonados</span></a>
+                        <a href="<?php echo SERVERURL ?>Pedidos/historial_abandonados"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Historial Abandonados</span></a>
+                    </div>
 
                 <?php } ?>
-                <div class="submenu" id="submenu4">
-                    <?php if ($_SESSION['cargo'] == 10 || $_SESSION['cargo'] == 20) { ?>
-                        <a href="<?php echo SERVERURL ?>usuarios/plataformas"><i class='bx bx-box menu-icon'></i> <span class="menu-text">Plataformas Marketplace</span></a>
-                        <a href="<?php echo SERVERURL ?>usuarios/listamatriz"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
-
-                        <a href="<?php echo SERVERURL ?>usuarios/passwords"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Contraseñas</span></a>
-                        <a href="<?php echo SERVERURL ?>usuarios/actualizacionMasiva_tiendas"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Actualizacion Masiva</span></a>
-                    <?php
-                    } else {
-                    ?>
-                        <a href="<?php echo SERVERURL ?>usuarios/listado"><i class='bx bx-user menu-icon'></i> <span class="menu-text">Usuarios</span></a>
-                    <?php
-                    }
-                    ?>
-                    <!--a href="#"><i class='bx bxs-user-detail menu-icon'></i> <span class="menu-text">Roles</span></a-->
-                    <a href="<?php echo SERVERURL ?>shopify/constructor"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Shopify</span></a>
-                    <a href="<?php echo SERVERURL ?>shopify/constructor_vista"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Datos Shopify</span></a>
-                    <a href="<?php echo SERVERURL ?>funnelish/constructor_vista"><i class="fa-solid fa-f menu-icon"></i> <span class="menu-text">Funnelish</span></a>
-                    <a href="<?php echo SERVERURL ?>integraciones"><i class="fa-solid fa-globe menu-icon"></i> <span class="menu-text">Integracio- nes</span></a>
-                </div>
 
                 <?php if ($_SESSION['cargo'] == 15 || $_SESSION['cargo'] == 10 || $_SESSION['cargo'] == 20) { ?>
                     <a href="<?php echo SERVERURL ?>Productos/bovedas"><i class='bx bxs-lock menu-icon'></i> <span class="menu-text">Bovedas</span></a>
