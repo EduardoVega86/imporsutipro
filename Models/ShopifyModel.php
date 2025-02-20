@@ -736,7 +736,7 @@ class ShopifyModel extends Query
             $responses["message"] = "Json guardado correctamente";
         } else {
             $responses["status"] = "500";
-            $responses["message"] =  $response["message"];
+            $responses["message"] =  $response;
         }
         return $responses;
     }
