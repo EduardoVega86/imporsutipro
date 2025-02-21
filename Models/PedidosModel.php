@@ -486,7 +486,7 @@ class PedidosModel extends Query
             }
         }
         /* echo $sql; */
-        return $this->select($sql);
+        return $this->dselect($sql, []);
     }
 
 
