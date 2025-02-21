@@ -339,32 +339,6 @@ const listGuias = async () => {
   } catch (ex) {
     alert(ex);
   }
-
-  // Al final de listGuias, después de haber recorrido el array:
-  document.getElementById("tableBody_guias").innerHTML = content;
-  // Actualizamos los contadores en las cards
-  actualizarCards(guias);
-};
-
-const actualizarCards = (guias) => {
-  // Supongamos que cada guía tiene una propiedad "estado_q" o similar 
-  // que coincide con los valores del select ("generada", "en_transito", "entregada", "novedad", "devolucion")
-  const totalGuias = guias.length;
-  const guiasGeneradas = guias.filter(guia => {
-    // Ajusta esta condición según la propiedad y los valores reales que trae la API
-    return guia.estado_q && (guia.estado_q.toLowerCase() === "generada" || guia.estado_q.toLowerCase() === "por recolectar");
-  }).length;
-  const guiasEnTransito = guias.filter(guia => guia.estado_q && guia.estado_q.toLowerCase() === "en_transito").length;
-  const guiasEntregadas = guias.filter(guia => guia.estado_q && guia.estado_q.toLowerCase() === "entregada").length;
-  const guiasNovedad = guias.filter(guia => guia.estado_q && guia.estado_q.toLowerCase() === "novedad").length;
-  const guiasDevolucion = guias.filter(guia => guia.estado_q && guia.estado_q.toLowerCase() === "devolucion").length;
-
-  document.getElementById("num_pedidos").innerText = totalGuias;
-  document.getElementById("num_generadas").innerText = guiasGeneradas;
-  document.getElementById("num_transito").innerText = guiasEnTransito;
-  document.getElementById("num_entregadas").innerText = guiasEntregadas;
-  document.getElementById("num_novedad").innerText = guiasNovedad;
-  document.getElementById("num_devolucion").innerText = guiasDevolucion;
 };
 
 function abrirModal_infoTienda(tienda) {
@@ -982,3 +956,4 @@ function validados_numero(observacion) {
     return false;
   }
 }
+
