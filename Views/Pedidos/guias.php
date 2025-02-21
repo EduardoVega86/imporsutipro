@@ -16,7 +16,7 @@
             <div class="col-6 col-md-2">
                 <div class="card shadow-sm p-2" style="border-left: 5px solid #007bff;">
                     <h6 class="text-primary">
-                        <i class="bx bx-box" style="font-size: 20px;"></i> Número de Guías
+                        <i class="bx bx-box" style="font-size: 20px;"></i> # de guías
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
                             title="Cantidad total de pedidos registrados incluida las guias ya generadas">
                         </i>
@@ -29,7 +29,7 @@
             <div class="col-6 col-md-2">
                 <div class="card shadow-sm p-2" style="border-left: 5px solid #ffc107;">
                     <h6 class="text-warning">
-                        <i class="bx bx-package" style="font-size: 20px;"></i> Guías por Recolectar
+                        <i class="bx bx-package" style="font-size: 20px;"></i> Por recolectar
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
                             title="Cantidad de guías que han sido generadas">
                         </i>
@@ -42,7 +42,7 @@
             <div class="col-6 col-md-2">
                 <div class="card shadow-sm p-2" style="border-left: 5px solid #28a745;">
                     <h6 class="text-success">
-                        <i class="bx bx-run" style="font-size: 20px;"></i> Guías en tránsito
+                        <i class="bx bx-run" style="font-size: 20px;"></i> En tránsito
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
                             title="Cantidad de guías que están en ruta o procesamiento">
                         </i>
@@ -68,7 +68,7 @@
             <div class="col-6 col-md-2">
                 <div class="card shadow-sm p-2" style="border-left: 5px solid #dc3545;">
                     <h6 class="text-danger">
-                        <i class="bx bx-error" style="font-size: 20px;"></i> Guías en novedad
+                        <i class="bx bx-error" style="font-size: 20px;"></i> Novedad
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
                             title="Guías que presentan alguna incidencia o novedad">
                         </i>
@@ -81,7 +81,7 @@
             <div class="col-6 col-md-2">
                 <div class="card shadow-sm p-2" style="border-left: 5px solid #dc3545;">
                     <h6 class="text-danger">
-                        <i class="bx bx-undo" style="font-size: 20px;"></i> Guías en devolución
+                        <i class="bx bx-undo" style="font-size: 20px;"></i> Devolución
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
                             title="Guías que han sido devueltas o están en proceso de devolución">
                         </i>
