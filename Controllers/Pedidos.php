@@ -872,7 +872,7 @@ class Pedidos extends Controller
             "data"   => $data,
             "totals" => $totals
         ];
-        echo json_encode($data);
+        echo json_encode($result);
     }
 
 
