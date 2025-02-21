@@ -55,7 +55,7 @@
             <div class="col-6 col-md-2">
                 <div class="card shadow-sm p-2" style="border-left: 5px solid #dc3545;">
                     <h6 class="text-danger">
-                        <i class="bx bx-map-pin" style="font-size: 20px;"></i> Guías en zona de entrega
+                        <i class="bx bx-map-pin" style="font-size: 20px;"></i> Zona de entrega
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
                             title="Guías que ya llegaron a la ciudad de destino o están próximas a entregar">
                         </i>
