@@ -1,4 +1,5 @@
 let formData_filtro;
+let lastLoadedProductId = null; // Último ID de producto cargado para control
 
 /************************************************
  * FUNCIONES FUERA DE DOMContentLoaded
@@ -274,6 +275,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Clear previous products
     clearProductList();
 
+    //Ocultar el botón y mensaje al filtrar
+    loadMoreButton.style.display = "none";
+    document.getElementById("no-more-products").style.display = "none";
+
     // Fetch new products after a brief delay to ensure clearing is done
     setTimeout(() => fetchProducts(true), 100);
   }
@@ -287,41 +292,58 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchProducts(reset = true) {
     if (currentFetchController) {
-      currentFetchController.abort(); // Cancel the previous request if any
+      currentFetchController.abort();
     }
-
+  
     currentFetchController = new AbortController();
     const { signal } = currentFetchController;
-
+  
     if (reset) {
-      isLoading = true; // Prevent further actions until the list is reset
+      isLoading = true;
       loadingIndicator.style.display = "block";
-      clearProductList(); // Clear the container immediately
+      clearProductList();
+      lastLoadedProductId = null; // Reiniciar el control de productos cargados
+      loadMoreButton.style.display = "none"; // Ocultar "Cargar Más" temporalmente
+      document.getElementById("no-more-products").style.display = "none"; // Ocultar mensaje
     }
-
+  
     try {
-      const response = await fetch(
-        `${SERVERURL}marketplace/obtener_productos`,
-        {
-          method: "POST",
-          body: formData_filtro,
-          signal,
-        }
-      );
+      const response = await fetch(`${SERVERURL}marketplace/obtener_productos`, {
+        method: "POST",
+        body: formData_filtro,
+        signal,
+      });
+  
       const newProducts = await response.json();
-
+  
+      // Si la API devuelve una respuesta vacía, oculta el botón y muestra el mensaje
+      if (newProducts.length === 0) {
+        loadMoreButton.style.display = "none"; 
+        document.getElementById("no-more-products").style.display = "block";
+        return;
+      }
+  
+      // Actualizar el último ID cargado para evitar duplicados
+      lastLoadedProductId = newProducts[newProducts.length - 1].id_producto;
+  
       if (reset) {
         products = newProducts;
-        currentPage = 1; // Reset the current page
+        currentPage = 1;
       } else {
         products = [...products, ...newProducts];
       }
-
-      displayProducts(
-        products,
-        currentPage,
-        reset ? initialProductsPerPage : additionalProductsPerPage
-      );
+  
+      displayProducts(products, currentPage, reset ? initialProductsPerPage : additionalProductsPerPage);
+  
+      // Oculta el botón si ya no hay más productos
+      if (newProducts.length < additionalProductsPerPage) {
+        loadMoreButton.style.display = "none";
+        document.getElementById("no-more-products").style.display = "block";
+      } else {
+        loadMoreButton.style.display = "block"; // Mostrar botón solo si hay más productos
+        document.getElementById("no-more-products").style.display = "none";
+      }
+  
     } catch (error) {
       if (error.name === "AbortError") {
         console.log("Fetch request canceled");
@@ -331,7 +353,6 @@ document.addEventListener("DOMContentLoaded", function () {
     } finally {
       isLoading = false;
       loadingIndicator.style.display = "none";
-      loadMoreButton.style.display = products.length ? "block" : "none";
     }
   }
 
@@ -741,7 +762,14 @@ document.addEventListener("DOMContentLoaded", function () {
       isLoading = true;
       loadingIndicator.style.display = "block";
       currentPage++;
-      fetchProducts(false);
+  
+      fetchProducts(false).then(() => {
+        //Si la API ya no devuelve productos, ocultar el botón
+        if (products.length % additionalProductsPerPage !== 0) {
+          loadMoreButton.style.display = "none";
+          document.getElementById("no-more-products").style.display = "block";
+        }
+      });
     }
   });
 
