@@ -329,12 +329,24 @@ const listGuias = async () => {
     document.getElementById("tableBody_guias").innerHTML = content;
     
     // Actualiza las cards con los totales enviados desde el servidor
-    document.getElementById("num_pedidos").innerText   = totals.total;
-    document.getElementById("num_guias").innerText       = totals.generada;
-    document.getElementById("num_transito").innerText    = totals.en_transito;
-    document.getElementById("num_entrega").innerText     = totals.entregada;
-    document.getElementById("num_novedad").innerText     = totals.novedad;
-    document.getElementById("num_devolucion").innerText  = totals.devolucion;
+    if(document.getElementById("num_pedidos")){
+      document.getElementById("num_pedidos").innerText   = totals.total;
+    }
+    if(document.getElementById("num_generadas")){
+      document.getElementById("num_generadas").innerText   = totals.generada;
+    }
+    if(document.getElementById("num_transito")){
+      document.getElementById("num_transito").innerText    = totals.en_transito;
+    }
+    if(document.getElementById("num_entregadas")){
+      document.getElementById("num_entregadas").innerText    = totals.entregada;
+    }
+    if(document.getElementById("num_novedad")){
+      document.getElementById("num_novedad").innerText     = totals.novedad;
+    }
+    if(document.getElementById("num_devolucion")){
+      document.getElementById("num_devolucion").innerText  = totals.devolucion;
+    }
     
   } catch (ex) {
     alert(ex);
