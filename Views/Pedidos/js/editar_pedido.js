@@ -618,8 +618,37 @@ $(document).ready(function () {
             console.error("Error al obtener la lista de bodegas:", error);
         },
     });
-})
-;
+});
+
+function resetTransportadoraSelectionSistema() {
+    // Quitar la clase 'selected' de todas las transportadoras
+    $(".transportadora").removeClass("selected");
+  
+    // Reiniciar valores de los inputs ocultos a su estado base
+    $("#costo_flete").val("");
+    $("#transportadora_selected").val("");
+  
+    // Reiniciar los textos informativos a su estado por defecto
+    $("#montoVenta_infoVenta").text("");
+    $("#costo_infoVenta").text("");
+    $("#precioEnvio_infoVenta").text("");
+    $("#fulfillment_infoVenta").text("");
+    $("#total_infoVenta").text("");
+  
+    // Deshabilitar el botón de generar guía
+    const button2 = document.getElementById("generarGuiaBtn");
+    if (button2) button2.disabled = true;
+  
+    // Ocultar alertas si están visibles
+    $("#alerta_valoresContra").hide();
+  
+    // Cerrar el modal de speed si está abierto
+    if ($("#subir_direccion_speedModal").hasClass("show")) {
+      $("#subir_direccion_speedModal").modal("hide");
+    }
+  
+    console.log("Estado reiniciado a la configuración base (Sistema 2).");
+  }
 
 function calcularTarifas() {
     var provincia = $("#provincia").val();
@@ -670,6 +699,8 @@ function calcularTarifas() {
                 $("#price_speed").text(response.speed);
 
                 $("#price_laar").text(response.laar);
+
+                resetTransportadoraSelectionSistema();
 
                 /* calculador servi */
                 let formData_ServiTarifa = new FormData();
