@@ -18,7 +18,7 @@
                 <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #007bff;">
                     <h5 class="text-primary">
                         <i class="bx bx-box" style="font-size: 24px;"></i> Número de Pedidos
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de pedidos registrados"></i>
+                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de pedidos registrados incluida las guias ya generadas"></i>
                     </h5>
                     <h3 class="font-weight-bold" id="num_pedidos">0</h3>
                 </div>
