@@ -288,61 +288,58 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchProducts(reset = true) {
     if (currentFetchController) {
-      currentFetchController.abort(); // Cancel the previous request if any
+      currentFetchController.abort();
     }
-
+  
     currentFetchController = new AbortController();
     const { signal } = currentFetchController;
-
+  
     if (reset) {
-      isLoading = true; // Prevent further actions until the list is reset
+      isLoading = true;
       loadingIndicator.style.display = "block";
-      clearProductList(); // Clear the container immediately
+      clearProductList();
       lastLoadedProductId = null; // Reiniciar el control de productos cargados
+      loadMoreButton.style.display = "none"; // Ocultar "Cargar Más" temporalmente
+      document.getElementById("no-more-products").style.display = "none"; // Ocultar mensaje
     }
-
+  
     try {
-      const response = await fetch(
-        `${SERVERURL}marketplace/obtener_productos`,
-        {
-          method: "POST",
-          body: formData_filtro,
-          signal,
-        }
-      );
+      const response = await fetch(`${SERVERURL}marketplace/obtener_productos`, {
+        method: "POST",
+        body: formData_filtro,
+        signal,
+      });
+  
       const newProducts = await response.json();
-
-      // Verificamos si la respuesta está vacía o si los productos son los mismos
-      if (newProducts.length === 0 || (lastLoadedProductId && newProducts[0].id_producto === lastLoadedProductId)) {
-        loadMoreButton.style.display = "none"; // Ocultar botón si no hay más productos
-        document.getElementById("no-more-products").style.display = "block";
+  
+      // Verificar si la nueva respuesta está vacía
+      if (newProducts.length === 0) {
+        loadMoreButton.style.display = "none"; // Asegurar que el botón desaparezca
+        document.getElementById("no-more-products").style.display = "block"; // Mostrar mensaje
         return;
       }
-
+  
       // Actualizar el último ID cargado para evitar duplicados
       lastLoadedProductId = newProducts[newProducts.length - 1].id_producto;
-
+  
       if (reset) {
         products = newProducts;
-        currentPage = 1; // Reset the current page
+        currentPage = 1;
       } else {
         products = [...products, ...newProducts];
       }
-
-      displayProducts(
-        products,
-        currentPage,
-        reset ? initialProductsPerPage : additionalProductsPerPage
-      );
-      
-      // Si no hay más productos, ocultamos el botón y mostramos el mensaje
-      if (products.length === 0 || newProducts.length < additionalProductsPerPage) {
+  
+      displayProducts(products, currentPage, reset ? initialProductsPerPage : additionalProductsPerPage);
+  
+      // ✅ Si la cantidad de productos cargados es menor al límite, oculta el botón
+      if (newProducts.length < additionalProductsPerPage) {
         loadMoreButton.style.display = "none";
         document.getElementById("no-more-products").style.display = "block";
       } else {
-        loadMoreButton.style.display = "block";
+        loadMoreButton.style.display = "block"; // Solo mostrar si hay más productos
         document.getElementById("no-more-products").style.display = "none";
       }
+  
     } catch (error) {
       if (error.name === "AbortError") {
         console.log("Fetch request canceled");
@@ -352,9 +349,8 @@ document.addEventListener("DOMContentLoaded", function () {
     } finally {
       isLoading = false;
       loadingIndicator.style.display = "none";
-      loadMoreButton.style.display = products.length ? "block" : "none";
     }
-  }
+  }  
 
   /************************************************
    * Mostrar productos en la página
