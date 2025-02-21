@@ -96,6 +96,9 @@
         <div class="contenedor-boton-mas" style="display: flex; justify-content: center; margin: 20px 0;">
             <button id="load-more" class="boton_mas">Cargar Más</button>
         </div>
+        <div id="no-more-products" style="display: none; text-align: center; padding: 10px; color: gray;">
+            No hay más productos disponibles.
+        </div>
     </div>
 </div>
 

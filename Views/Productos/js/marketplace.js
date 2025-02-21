@@ -322,6 +322,14 @@ document.addEventListener("DOMContentLoaded", function () {
         currentPage,
         reset ? initialProductsPerPage : additionalProductsPerPage
       );
+      //Si no hay más productos, ocultamos el botón y mostramos el mensaje 
+      if (newProducts.length === 0 || (reset && products.length === 0)){
+        loadMoreButton.style.display = "none";
+        document.getElementById("no-more-products").style.display = "none";
+      }else{
+        loadMoreButton.style.display = "block";
+        document.getElementById("no-more-products").style.display = "none";
+      }
     } catch (error) {
       if (error.name === "AbortError") {
         console.log("Fetch request canceled");
