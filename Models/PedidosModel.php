@@ -1685,7 +1685,6 @@ class PedidosModel extends Query
 
         $sql .= " ORDER BY numero_factura DESC;";
 
-        echo $sql;
         return $this->select($sql);
     }
 
