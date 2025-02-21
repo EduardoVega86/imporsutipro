@@ -124,10 +124,10 @@ const listGuias = async () => {
       body: formData,
     });
     
-    // Se obtiene el objeto con data y totals
+    // Ahora el JSON debe tener "data" y "totals"
     const result = await response.json();
-    const guias = result.data; // listado de guías
-    const totals = result.totals; // totales por estado
+    const guias = result.data;
+    const totals = result.totals;
 
     let content = ``;
     let impresiones = "";
@@ -191,7 +191,6 @@ const listGuias = async () => {
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
 
-      // Variable ciudad
       let ciudad = "Ciudad no especificada";
       let ciudadCompleta = guia.ciudad;
       if (ciudadCompleta) {
@@ -200,6 +199,7 @@ const listGuias = async () => {
       } else {
         console.log("La ciudad no está definida o está vacía");
       }
+
       console.log("Ciudad:", ciudad);
 
       novedad = "";
@@ -266,9 +266,7 @@ const listGuias = async () => {
         despachado = `<i class="fa-solid fa-arrow-rotate-right" style="color:red; font-size: 21px;"></i>`;
       }
       let mostrar_tienda = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${guia.plataforma}')">${plataforma}</span></td>`;
-      // Si no se desea mostrar tienda, se deja vacío
       mostrar_tienda = "";
-
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura}"></td>
@@ -290,7 +288,7 @@ const listGuias = async () => {
                     ${mostrar_tienda}
                     <td>${transporte_content}</td>
                     <td>
-                     <div style="text-align: center;">
+                      <div style="text-align: center;">
                         <div>
                           <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
                         </div>
@@ -308,7 +306,7 @@ const listGuias = async () => {
                         <div>
                           ${novedad}
                         </div>
-                     </div>
+                      </div>
                     </td>
                     <td>${despachado}</td>
                     <td>${impresiones}</td>
@@ -330,9 +328,7 @@ const listGuias = async () => {
     });
     document.getElementById("tableBody_guias").innerHTML = content;
     
-    // Actualizar las cards con los totales enviados desde el servidor
-    // Se asume que el objeto "result" tiene una propiedad "totals" con los campos:
-    // total, generada, en_transito, entregada, novedad, devolucion
+    // Actualiza las cards con los totales enviados desde el servidor
     document.getElementById("num_pedidos").innerText   = totals.total;
     document.getElementById("num_guias").innerText       = totals.generada;
     document.getElementById("num_transito").innerText    = totals.en_transito;
@@ -344,6 +340,7 @@ const listGuias = async () => {
     alert(ex);
   }
 };
+
 
 function abrirModal_infoTienda(tienda) {
   let formData = new FormData();
