@@ -808,6 +808,70 @@ class Pedidos extends Controller
         /*  $start = $_POST['start'] ?? 0;
         $length = $_POST['length'] ?? 25; */
         $data = $this->model->cargarGuiasAdministrador3($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
+
+        // Inicializamos los totales para mostrar cards en guias
+        $totals = [
+            "total"       => count($data),
+            "generada"    => 0,
+            "en_transito" => 0,
+            "entregada"   => 0,
+            "novedad"     => 0,
+            "devolucion"  => 0,
+        ];
+
+        // Recorremos cada guía y calculamos los totales
+        foreach ($data as $guia) {
+            $estado_guia = intval($guia['estado_guia_sistema']);
+            $transporte  = intval($guia['id_transporte']);
+
+            // "Generada"
+            if (($transporte == 2 && in_array($estado_guia, [100, 102, 103])) ||
+                ($transporte == 1 && in_array($estado_guia, [1, 2])) ||
+                ($transporte == 3 && in_array($estado_guia, [1, 2, 3])) ||
+                ($transporte == 4 && $estado_guia === 2)
+            ) {
+                $totals['generada']++;
+            }
+
+            // "En transito"
+            if (($transporte == 2 && $estado_guia >= 300 && $estado_guia <= 317) ||
+                ($transporte == 1 && in_array($estado_guia, [5, 11, 12, 6])) ||
+                ($transporte == 3 && in_array($estado_guia, [5, 4])) ||
+                ($transporte == 4 && $estado_guia === 3)
+            ) {
+                $totals['en_transito']++;
+            }
+
+            // "Entregada"
+            if (($transporte == 2 && $estado_guia >= 400 && $estado_guia <= 403) ||
+                ($transporte == 1 && $estado_guia === 7) ||
+                ($transporte == 3 && $estado_guia === 7)
+            ) {
+                $totals['entregada']++;
+            }
+
+            // "Novedad"
+            if (($transporte == 2 && $estado_guia >= 320 && $estado_guia <= 351) ||
+                ($transporte == 1 && $estado_guia === 14) ||
+                ($transporte == 3 && $estado_guia === 6)
+            ) {
+                $totals['novedad']++;
+            }
+
+            // "Devolución"
+            if (($transporte == 2 && $estado_guia >= 500 && $estado_guia <= 502) ||
+                ($transporte == 1 && $estado_guia === 9) ||
+                ($transporte == 4 && $estado_guia === 9) ||
+                ($transporte == 3 && in_array($estado_guia, [8, 9, 13]))
+            ) {
+                $totals['devolucion']++;
+            }
+        }
+
+        $result = [
+            "data"   => $data,
+            "totals" => $totals
+        ];
         echo json_encode($data);
     }
 
