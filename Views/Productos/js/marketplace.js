@@ -764,7 +764,7 @@ document.addEventListener("DOMContentLoaded", function () {
       currentPage++;
   
       fetchProducts(false).then(() => {
-        // ✅ Si la API ya no devuelve productos, ocultar el botón
+        //Si la API ya no devuelve productos, ocultar el botón
         if (products.length % additionalProductsPerPage !== 0) {
           loadMoreButton.style.display = "none";
           document.getElementById("no-more-products").style.display = "block";
