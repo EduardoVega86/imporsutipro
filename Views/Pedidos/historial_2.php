@@ -26,23 +26,23 @@
 
             <!-- Card 2: Valor de pedidos -->
             <div class="col-md-3">
+                <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
+                    <h5 class="text-warning">
+                        <i class="bx bx-package" style="font-size: 24px;"></i> Guías Generadas
+                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad de guías que han sido generadas"></i>
+                    </h5>
+                    <h3 class="font-weight-bold" id="num_guias">0</h3>
+                </div>
+            </div>
+
+            <!-- Card 3: Número de guías confirmadas -->
+            <div class="col-md-3">
                 <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #28a745;">
                     <h5 class="text-success">
                         <i class="bx bx-money" style="font-size: 24px;"></i> Valor de Pedidos
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Monto total de los pedidos en el sistema"></i>
                     </h5>
                     <h3 class="font-weight-bold" id="valor_pedidos">$0.00</h3>
-                </div>
-            </div>
-
-            <!-- Card 3: Número de guías confirmadas -->
-            <div class="col-md-3">
-                <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
-                    <h5 class="text-warning">
-                        <i class="bx bx-package" style="font-size: 24px;"></i> Guías Confirmadas
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad de guías que han sido confirmadas"></i>
-                    </h5>
-                    <h3 class="font-weight-bold" id="num_guias">0</h3>
                 </div>
             </div>
 
