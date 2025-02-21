@@ -1,4 +1,5 @@
 let formData_filtro;
+let lastLoadedProductId = null; // Último ID de producto cargado para control
 
 /************************************************
  * FUNCIONES FUERA DE DOMContentLoaded
@@ -297,6 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {
       isLoading = true; // Prevent further actions until the list is reset
       loadingIndicator.style.display = "block";
       clearProductList(); // Clear the container immediately
+      lastLoadedProductId = null; // Reiniciar el control de productos cargados
     }
 
     try {
@@ -310,6 +312,16 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       const newProducts = await response.json();
 
+      // Verificamos si la respuesta está vacía o si los productos son los mismos
+      if (newProducts.length === 0 || (lastLoadedProductId && newProducts[0].id_producto === lastLoadedProductId)) {
+        loadMoreButton.style.display = "none"; // Ocultar botón si no hay más productos
+        document.getElementById("no-more-products").style.display = "block";
+        return;
+      }
+
+      // Actualizar el último ID cargado para evitar duplicados
+      lastLoadedProductId = newProducts[newProducts.length - 1].id_producto;
+
       if (reset) {
         products = newProducts;
         currentPage = 1; // Reset the current page
@@ -322,11 +334,12 @@ document.addEventListener("DOMContentLoaded", function () {
         currentPage,
         reset ? initialProductsPerPage : additionalProductsPerPage
       );
-      //Si no hay más productos, ocultamos el botón y mostramos el mensaje 
-      if (newProducts.length === 0 || (reset && products.length === 0)){
+      
+      // Si no hay más productos, ocultamos el botón y mostramos el mensaje
+      if (products.length === 0 || newProducts.length < additionalProductsPerPage) {
         loadMoreButton.style.display = "none";
-        document.getElementById("no-more-products").style.display = "none";
-      }else{
+        document.getElementById("no-more-products").style.display = "block";
+      } else {
         loadMoreButton.style.display = "block";
         document.getElementById("no-more-products").style.display = "none";
       }
