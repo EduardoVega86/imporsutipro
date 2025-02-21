@@ -31,14 +31,12 @@ class WalletModel extends Query
         $sql_estado = "SELECT estado_guia FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
         $response_estado =  $this->select($sql_estado);
         $estado_ = $response_estado[0]['estado_guia'];
-
         $monto_recibir = $total_venta - $costo - $full - $precio_envio;
 
         if($estado_ == "9") $monto_recibir = -$precio_envio - $full;
 
         $sql = "UPDATE cabecera_cuenta_pagar set total_venta = ?, precio_envio = ?, full = ?, costo = ?, monto_recibir = ?, valor_pendiente = ? WHERE id_cabecera = ?";
-        $response =  $this->update($sql, array($total_venta, $precio_envio, $full, $costo, $monto_recibir, $monto_recibir, $id_cabecera));
-
+        $response1 =  $this->update($sql, array($total_venta, $precio_envio, $full, $costo, $monto_recibir, $monto_recibir, $id_cabecera));
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
         $response =  $this->select($sql);
         $numero_factura = $response[0]['numero_factura'];
@@ -46,7 +44,7 @@ class WalletModel extends Query
         $sql = "UPDATE facturas_cot set costo_flete = ? WHERE numero_factura = ?";
         $response =  $this->update($sql, array($precio_envio, $numero_factura));
 
-        if ($response == 1) {
+        if ($response1 == 1) {
             $responses["status"] = 200;
         } else if ($response == 0) {
             $responses["status"] = 201;
