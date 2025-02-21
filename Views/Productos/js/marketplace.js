@@ -275,6 +275,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Clear previous products
     clearProductList();
 
+    //Ocultar el botón y mensaje al filtrar
+    loadMoreButton.style.display = "none";
+    document.getElementById("no-more-products").style.display = "none";
+
     // Fetch new products after a brief delay to ensure clearing is done
     setTimeout(() => fetchProducts(true), 100);
   }
@@ -312,10 +316,10 @@ document.addEventListener("DOMContentLoaded", function () {
   
       const newProducts = await response.json();
   
-      // Verificar si la nueva respuesta está vacía
+      // Si la API devuelve una respuesta vacía, oculta el botón y muestra el mensaje
       if (newProducts.length === 0) {
-        loadMoreButton.style.display = "none"; // Asegurar que el botón desaparezca
-        document.getElementById("no-more-products").style.display = "block"; // Mostrar mensaje
+        loadMoreButton.style.display = "none"; 
+        document.getElementById("no-more-products").style.display = "block";
         return;
       }
   
@@ -331,12 +335,12 @@ document.addEventListener("DOMContentLoaded", function () {
   
       displayProducts(products, currentPage, reset ? initialProductsPerPage : additionalProductsPerPage);
   
-      // ✅ Si la cantidad de productos cargados es menor al límite, oculta el botón
+      // Oculta el botón si ya no hay más productos
       if (newProducts.length < additionalProductsPerPage) {
         loadMoreButton.style.display = "none";
         document.getElementById("no-more-products").style.display = "block";
       } else {
-        loadMoreButton.style.display = "block"; // Solo mostrar si hay más productos
+        loadMoreButton.style.display = "block"; // Mostrar botón solo si hay más productos
         document.getElementById("no-more-products").style.display = "none";
       }
   
@@ -350,7 +354,7 @@ document.addEventListener("DOMContentLoaded", function () {
       isLoading = false;
       loadingIndicator.style.display = "none";
     }
-  }  
+  }
 
   /************************************************
    * Mostrar productos en la página
@@ -758,7 +762,14 @@ document.addEventListener("DOMContentLoaded", function () {
       isLoading = true;
       loadingIndicator.style.display = "block";
       currentPage++;
-      fetchProducts(false);
+  
+      fetchProducts(false).then(() => {
+        // ✅ Si la API ya no devuelve productos, ocultar el botón
+        if (products.length % additionalProductsPerPage !== 0) {
+          loadMoreButton.style.display = "none";
+          document.getElementById("no-more-products").style.display = "block";
+        }
+      });
     }
   });
 
