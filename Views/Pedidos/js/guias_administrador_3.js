@@ -190,7 +190,11 @@ const listGuias = async () => {
       method: "POST",
       body: formData,
     });
-    const guias = await response.json();
+
+    // Ahora el JSON debe tener "data" y "totals"
+    const result = await response.json();
+    const guias = result.data;
+    const totals = result.totals;
 
     let content = ``;
     let impresiones = "";
@@ -357,6 +361,26 @@ const listGuias = async () => {
     });
 
     document.getElementById("tableBody_guias").innerHTML = content;
+
+    // Actualiza las cards con los totales enviados desde el servidor
+    if(document.getElementById("num_pedidos")){
+      document.getElementById("num_pedidos").innerText   = totals.total;
+    }
+    if(document.getElementById("num_generadas")){
+      document.getElementById("num_generadas").innerText   = totals.generada;
+    }
+    if(document.getElementById("num_transito")){
+      document.getElementById("num_transito").innerText    = totals.en_transito;
+    }
+    if(document.getElementById("num_entregadas")){
+      document.getElementById("num_entregadas").innerText    = totals.entregada;
+    }
+    if(document.getElementById("num_novedad")){
+      document.getElementById("num_novedad").innerText     = totals.novedad;
+    }
+    if(document.getElementById("num_devolucion")){
+      document.getElementById("num_devolucion").innerText  = totals.devolucion;
+    }
   } catch (ex) {
     alert(ex);
   }

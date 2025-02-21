@@ -9,6 +9,88 @@
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Guias</h2>
+
+        <!-- 🔹 SECCIÓN DE CARDS INFORMATIVAS 🔹 -->
+        <div class="row mb-4 text-center">
+            <!-- Card 1: Número de guias -->
+            <div class="col-6 col-md-2">
+                <div class="card shadow-sm p-2" style="border-left: 5px solid #007bff;">
+                    <h6 class="text-primary">
+                        <i class="bx bx-box" style="font-size: 20px;"></i> # de guías
+                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
+                            title="Cantidad total de pedidos registrados incluida las guias ya generadas">
+                        </i>
+                    </h6>
+                    <h4 class="font-weight-bold" id="num_pedidos">0</h4>
+                </div>
+            </div>
+
+            <!-- Card 2: Guías por Recolectar/Generadas -->
+            <div class="col-6 col-md-2">
+                <div class="card shadow-sm p-2" style="border-left: 5px solid #ffc107;">
+                    <h6 class="text-warning">
+                        <i class="bx bx-package" style="font-size: 20px;"></i> Por recolectar
+                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
+                            title="Cantidad de guías que han sido generadas">
+                        </i>
+                    </h6>
+                    <h4 class="font-weight-bold" id="num_generadas">0</h4>
+                </div>
+            </div>
+
+            <!-- Card 3: Guías en tránsito -->
+            <div class="col-6 col-md-2">
+                <div class="card shadow-sm p-2" style="border-left: 5px solid #28a745;">
+                    <h6 class="text-success">
+                        <i class="bx bx-run" style="font-size: 20px;"></i> En tránsito
+                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
+                            title="Cantidad de guías que están en ruta o procesamiento">
+                        </i>
+                    </h6>
+                    <h4 class="font-weight-bold" id="num_transito">0</h4>
+                </div>
+            </div>
+
+            <!-- Card 4: Guías en zona de entrega -->
+            <div class="col-6 col-md-2">
+                <div class="card shadow-sm p-2" style="border-left: 5px solid #dc3545;">
+                    <h6 class="text-danger">
+                        <i class="bx bx-map-pin" style="font-size: 20px;"></i> Zona de entrega
+                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
+                            title="Guías que ya llegaron a la ciudad de destino o están próximas a entregar">
+                        </i>
+                    </h6>
+                    <h4 class="font-weight-bold" id="num_entregadas">0</h4>
+                </div>
+            </div>
+
+            <!-- Card 5: Guías en novedad -->
+            <div class="col-6 col-md-2">
+                <div class="card shadow-sm p-2" style="border-left: 5px solid #dc3545;">
+                    <h6 class="text-danger">
+                        <i class="bx bx-error" style="font-size: 20px;"></i> Novedad
+                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
+                            title="Guías que presentan alguna incidencia o novedad">
+                        </i>
+                    </h6>
+                    <h4 class="font-weight-bold" id="num_novedad">0</h4>
+                </div>
+            </div>
+
+            <!-- Card 6: Guías en devolución -->
+            <div class="col-6 col-md-2">
+                <div class="card shadow-sm p-2" style="border-left: 5px solid #dc3545;">
+                    <h6 class="text-danger">
+                        <i class="bx bx-undo" style="font-size: 20px;"></i> Devolución
+                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
+                            title="Guías que han sido devueltas o están en proceso de devolución">
+                        </i>
+                    </h6>
+                    <h4 class="font-weight-bold" id="num_devolucion">0</h4>
+                </div>
+            </div>
+        </div>
+
         <div class="d-flex flex-column justify-content-between">
             <div class="primer_seccionFiltro" style="width: 100%;">
                 <div class="d-flex flex-row align-items-end filtro_fecha">
