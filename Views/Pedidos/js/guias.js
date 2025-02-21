@@ -69,22 +69,43 @@ function getFecha() {
   return fechaHoy;
 }
 
-const initDataTable = async () => {
-  if (dataTableIsInitialized) {
-    dataTable.destroy();
-  }
+//Cargando
+function showTableLoader() {
+  // Inserta siempre el HTML del spinner y luego muestra el contenedor
+  $("#tableLoader").html(
+    '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
+  ).css("display", "flex");
+}
 
+function hideTableLoader() {
+  $("#tableLoader").css("display", "none");
+}
+
+const initDataTable = async () => {
+  showTableLoader();
+
+  try{
+    if(dataTableIsInitialized){
+      dataTable.destroy();
+    }
+  
+ //Realiza solicitud para obtener los datos
   await listGuias();
 
+  //Inicializamos datatable con los nuevos datos
   dataTable = $("#datatable_guias").DataTable(dataTableOptions);
-
   dataTableIsInitialized = true;
 
-  // Handle select all checkbox
+  // Maneja el checkbox de "selleccionar todos"
   document.getElementById("selectAll").addEventListener("change", function () {
     const checkboxes = document.querySelectorAll(".selectCheckbox");
     checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
   });
+  }catch (error){
+    console.error("Error al cargar la tabla:", error)
+  }finally{
+    hideTableLoader();
+  }
 };
 
 const listGuias = async () => {
@@ -98,7 +119,7 @@ const listGuias = async () => {
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
 
-    const response = await fetch(`${SERVERURL}pedidos/obtener_guias`, {
+    const response = await fetch(`${SERVERURL}pedidos/obtener_guias_estado_guia_sistema`, {
       method: "POST",
       body: formData,
     });
@@ -243,6 +264,8 @@ const listGuias = async () => {
         despachado = `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`;
       } else if (guia.estado_factura == 1) {
         despachado = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
+      } else if (guia.estado_factura == 3) {
+        despachado = `<i class="fa-solid fa-arrow-rotate-right" style="color:red; font-size: 21px;"></i>`;
       }
       let mostrar_tienda = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${guia.plataforma}')">${plataforma}</span></td>`;
 
@@ -683,6 +706,19 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
 
 window.addEventListener("load", async () => {
   await initDataTable();
+
+  const btnAplicar = document.getElementById("btnAplicarFiltros");
+  if(btnAplicar){
+    btnAplicar.addEventListener("click", async function () {
+        let rangoFechas = $("#daterange").val();
+        if (rangoFechas){
+            let fechas = rangoFechas.split(" - ");
+            fecha_inicio = fechas[0] + " 00:00:00";
+            fecha_fin = fechas[1] + " 23:59:59";
+        }
+        await initDataTable();
+    })
+  }
 });
 
 function formatPhoneNumber(number) {
