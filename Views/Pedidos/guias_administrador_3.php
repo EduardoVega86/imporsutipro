@@ -197,7 +197,8 @@
                             <option value="">Seleccione Estado</option>
                             <option value="generada">Generada/ Por Recolectar</option>
                             <option value="en_transito">En transito / Procesamiento / En ruta</option>
-                            <option value="entregada">Entregada</option>
+                            <option value="entregada">Entregadas</option>
+                            <option value="zona_entrega">Zona de entrega</option>
                             <option value="novedad">Novedad</option>
                             <option value="devolucion">Devolución</option>
                         </select>
