@@ -384,6 +384,7 @@ const listGuias = async () => {
     if (totals.total > 0) {
       let porcentajeGeneradas = Math.round((totals.generada / totals.total) * 100);
       let porcentajeTransito = Math.round((totals.en_transito / totals.total) * 100);
+      let porcentajeEntregaZona = Math.round((totals.zona_entrega /totals.total) * 100);
       let porcentajeEntrega = Math.round((totals.entregada / totals.total) * 100);
       let porcentajeNovedad = Math.round((totals.novedad / totals.total) * 100);
   
