@@ -347,11 +347,16 @@ const listGuias = async () => {
     if(document.getElementById("num_devolucion")){
       document.getElementById("num_devolucion").innerText  = totals.devolucion;
     }
-    // Suponiendo que totals.total es el total de guías
+    // Totals.total es el total de guías
     if (totals.total > 0) {
       const porcentajeGeneradas = Math.round((totals.generada / totals.total) * 100);
       document.getElementById("progress_generadas").style.width = porcentajeGeneradas + "%";
       document.getElementById("percent_generadas").innerText = porcentajeGeneradas + "%";
+    }  
+    if (totals.total > 0) {
+      const porcentajeTransito = Math.round((totals.generada / totals.total) * 100);
+      document.getElementById("progress_transito").style.width = porcentajeTransito + "%";
+      document.getElementById("percent_transito").innerText = porcentajeTransito + "%";
     }  
   } catch (ex) {
     alert(ex);

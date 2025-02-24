@@ -54,6 +54,12 @@
                         </i>
                     </h6>
                     <h4 class="font-weight-bold" id="num_transito">0</h4>
+                    <!-- Barra de progreso -->
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 0%;" id="progress_transito"></div>
+                    </div>
+                    <!-- Porcentaje numérico -->
+                    <small class="text-muted" id="percent_transito">0%</small>
                 </div>
             </div>
 
