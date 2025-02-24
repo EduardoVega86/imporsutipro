@@ -34,6 +34,12 @@
                         </i>
                     </h6>
                     <h4 class="font-weight-bold" id="num_generadas">0</h4>
+                    <!-- Barra de progreso -->
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 0%;" id="progress_generadas"></div>
+                    </div>
+                    <!-- Porcentaje numérico -->
+                    <small class="text-muted" id="percent_generadas">0%</small>
                 </div>
             </div>
 
@@ -47,6 +53,12 @@
                         </i>
                     </h6>
                     <h4 class="font-weight-bold" id="num_transito">0</h4>
+                    <!-- Barra de progreso -->
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 0%;" id="progress_transito"></div>
+                    </div>
+                    <!-- Porcentaje numérico -->
+                    <small class="text-muted" id="percent_transito">0%</small>
                 </div>
             </div>
 
@@ -60,6 +72,12 @@
                         </i>
                     </h6>
                     <h4 class="font-weight-bold" id="num_entregadas">0</h4>
+                    <!-- Barra de progreso -->
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%;" id="progress_entrega"></div>
+                    </div>
+                    <!-- Porcentaje numérico -->
+                    <small class="text-muted" id="percent_entrega">0%</small>
                 </div>
             </div>
 
@@ -73,6 +91,12 @@
                         </i>
                     </h6>
                     <h4 class="font-weight-bold" id="num_novedad">0</h4>
+                    <!-- Barra de progreso -->
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%;" id="progress_novedad"></div>
+                    </div>
+                    <!-- Porcentaje numérico -->
+                    <small class="text-muted" id="percent_novedad">0%</small>
                 </div>
             </div>
 
@@ -86,6 +110,12 @@
                         </i>
                     </h6>
                     <h4 class="font-weight-bold" id="num_devolucion">0</h4>
+                    <!-- Barra de progreso -->
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%;" id="progress_devolucion"></div>
+                    </div>
+                    <!-- Porcentaje numérico -->
+                    <small class="text-muted" id="percent_devolucion">0%</small>
                 </div>
             </div>
         </div>

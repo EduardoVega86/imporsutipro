@@ -329,24 +329,21 @@ const listGuias = async () => {
     document.getElementById("tableBody_guias").innerHTML = content;
     
     // Actualiza las cards con los totales enviados desde el servidor
-    if(document.getElementById("num_pedidos")){
-      document.getElementById("num_pedidos").innerText   = totals.total;
-    }
-    if(document.getElementById("num_generadas")){
-      document.getElementById("num_generadas").innerText   = totals.generada;
-    }
-    if(document.getElementById("num_transito")){
-      document.getElementById("num_transito").innerText    = totals.en_transito;
-    }
-    if(document.getElementById("num_entregadas")){
-      document.getElementById("num_entregadas").innerText    = totals.entregada;
-    }
-    if(document.getElementById("num_novedad")){
-      document.getElementById("num_novedad").innerText     = totals.novedad;
-    }
-    if(document.getElementById("num_devolucion")){
-      document.getElementById("num_devolucion").innerText  = totals.devolucion;
-    }
+    const elementos = {
+      "num_pedidos": "total",
+      "num_generadas": "generada",
+      "num_transito": "en_transito",
+      "num_entregadas": "entregada",
+      "num_novedad": "novedad",
+      "num_devolucion": "devolucion"
+    };
+  
+    Object.entries(elementos).forEach(([id, key]) => {
+        let elemento = document.getElementById(id);
+        if (elemento) {
+            elemento.innerText = totals[key];
+        }
+    });
     // Totals.total es el total de guías
     if (totals.total > 0) {
       let porcentajeGeneradas = Math.round((totals.generada / totals.total) * 100);
