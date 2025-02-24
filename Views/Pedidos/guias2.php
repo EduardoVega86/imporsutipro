@@ -11,134 +11,102 @@
         <h2 class="text-center mb-4">Guias</h2>
 
         <!-- 🔹 SECCIÓN DE CARDS INFORMATIVAS 🔹 -->
-        <div class="row mb-4 text-center">
-            <!-- Card 1: Número de guias -->
-            <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #007bff;">
+        <div class="row mb-4 text-center d-flex flex-wrap align-items-stretch">
+            <!-- Card 1: Número de guías -->
+            <div class="col-6 col-md-2 d-flex">
+                <div class="card shadow-sm p-2 w-100" style="border-left: 5px solid #007bff;">
                     <h6 class="text-primary">
                         <i class="bx bx-box" style="font-size: 20px;"></i> # de guías
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
-                            title="Cantidad total de pedidos registrados incluida las guias ya generadas">
-                        </i>
                     </h6>
                     <h4 class="font-weight-bold" id="num_pedidos">0</h4>
                 </div>
             </div>
 
             <!-- Card 2: Guías por Recolectar/Generadas -->
-            <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #ffc107;">
+            <div class="col-6 col-md-2 d-flex">
+                <div class="card shadow-sm p-2 w-100" style="border-left: 5px solid #ffc107;">
                     <h6 class="text-warning">
                         <i class="bx bx-package" style="font-size: 20px;"></i> Por recolectar
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
-                            title="Cantidad de guías que han sido generadas">
-                        </i>
                     </h6>
                     <h4 class="font-weight-bold" id="num_generadas">0</h4>
-                    <!-- Barra de progreso -->
                     <div class="progress" style="height: 8px;">
                         <div class="progress-bar bg-warning" role="progressbar" style="width: 0%;" id="progress_generadas"></div>
                     </div>
-                    <!-- Porcentaje numérico -->
                     <small class="text-muted" id="percent_generadas">0%</small>
                 </div>
             </div>
 
             <!-- Card 3: Guías en tránsito -->
-            <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #28a745;">
+            <div class="col-6 col-md-2 d-flex">
+                <div class="card shadow-sm p-2 w-100" style="border-left: 5px solid #28a745;">
                     <h6 class="text-success">
                         <i class="bx bx-run" style="font-size: 20px;"></i> En tránsito
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
-                            title="Cantidad de guías que están en ruta o procesamiento">
-                        </i>
                     </h6>
                     <h4 class="font-weight-bold" id="num_transito">0</h4>
-                    <!-- Barra de progreso -->
                     <div class="progress" style="height: 8px;">
                         <div class="progress-bar bg-success" role="progressbar" style="width: 0%;" id="progress_transito"></div>
                     </div>
-                    <!-- Porcentaje numérico -->
                     <small class="text-muted" id="percent_transito">0%</small>
                 </div>
             </div>
 
             <!-- Card 4: Guías en zona de entrega -->
-            <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #dc3545;">
+            <div class="col-6 col-md-2 d-flex">
+                <div class="card shadow-sm p-2 w-100" style="border-left: 5px solid #dc3545;">
                     <h6 class="text-danger">
                         <i class="bx bx-map-pin" style="font-size: 20px;"></i> Zona de entrega
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
-                            title="Guías que se encuentran cerca del lugar de entrega ">
-                        </i>
                     </h6>
                     <h4 class="font-weight-bold" id="num_zona_entrega">0</h4>
-                    <!-- Barra de progreso -->
                     <div class="progress" style="height: 8px;">
                         <div class="progress-bar bg-danger" role="progressbar" style="width: 0%;" id="progress_zonaentrega"></div>
                     </div>
-                    <!-- Porcentaje numérico -->
                     <small class="text-muted" id="percent_zonaentrega">0%</small>
                 </div>
             </div>
 
-            <!-- Card 5: Guías en entregadas -->
-            <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #28a745;">
-                    <h6 class="text-danger">
-                        <i class="bx bx-map-pin" style="font-size: 20px;"></i> Entregadas
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
-                            title="Guías que ya fueron entregadas">
-                        </i>
+            <!-- Card 5: Guías entregadas -->
+            <div class="col-6 col-md-2 d-flex">
+                <div class="card shadow-sm p-2 w-100" style="border-left: 5px solid #28a745;">
+                    <h6 class="text-success">
+                        <i class="bx bx-check-circle" style="font-size: 20px;"></i> Entregadas
                     </h6>
                     <h4 class="font-weight-bold" id="num_entregadas">0</h4>
-                    <!-- Barra de progreso -->
                     <div class="progress" style="height: 8px;">
                         <div class="progress-bar bg-success" role="progressbar" style="width: 0%;" id="progress_entrega"></div>
                     </div>
-                    <!-- Porcentaje numérico -->
                     <small class="text-muted" id="percent_entrega">0%</small>
                 </div>
             </div>
 
             <!-- Card 6: Guías en novedad -->
-            <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #dc3545;">
+            <div class="col-6 col-md-2 d-flex">
+                <div class="card shadow-sm p-2 w-100" style="border-left: 5px solid #dc3545;">
                     <h6 class="text-danger">
                         <i class="bx bx-error" style="font-size: 20px;"></i> Novedad
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
-                            title="Guías que presentan alguna incidencia o novedad">
-                        </i>
                     </h6>
                     <h4 class="font-weight-bold" id="num_novedad">0</h4>
-                    <!-- Barra de progreso -->
                     <div class="progress" style="height: 8px;">
                         <div class="progress-bar bg-danger" role="progressbar" style="width: 0%;" id="progress_novedad"></div>
                     </div>
-                    <!-- Porcentaje numérico -->
                     <small class="text-muted" id="percent_novedad">0%</small>
                 </div>
             </div>
 
             <!-- Card 7: Guías en devolución -->
-            <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #dc3545;">
+            <div class="col-6 col-md-2 d-flex">
+                <div class="card shadow-sm p-2 w-100" style="border-left: 5px solid #dc3545;">
                     <h6 class="text-danger">
                         <i class="bx bx-undo" style="font-size: 20px;"></i> Devolución
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
-                            title="Guías que han sido devueltas o están en proceso de devolución">
-                        </i>
                     </h6>
                     <h4 class="font-weight-bold" id="num_devolucion">0</h4>
-                    <!-- Barra de progreso -->
                     <div class="progress" style="height: 8px;">
                         <div class="progress-bar bg-danger" role="progressbar" style="width: 0%;" id="progress_devolucion"></div>
                     </div>
-                    <!-- Porcentaje numérico -->
                     <small class="text-muted" id="percent_devolucion">0%</small>
                 </div>
             </div>
         </div>
+
 
         <div class="d-flex flex-column justify-content-between">
             <div class="primer_seccionFiltro" style="width: 100%;">

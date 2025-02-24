@@ -694,6 +694,7 @@ class Pedidos extends Controller
             "total"       => count($data),
             "generada"    => 0,
             "en_transito" => 0,
+            "zona_entrega" => 0,
             "entregada"   => 0,
             "novedad"     => 0,
             "devolucion"  => 0,
