@@ -11,7 +11,7 @@
         <h2 class="text-center mb-4">Guias</h2>
 
         <!-- 🔹 SECCIÓN DE CARDS INFORMATIVAS 🔹 -->
-        <div class="row mb-4 text-center">
+        <div class="row mb-4 text-center custom-cards">
             <!-- Card 1: Número de guias -->
             <div class="col-6 col-md-2">
                 <div class="card shadow-sm p-2" style="border-left: 5px solid #007bff;">

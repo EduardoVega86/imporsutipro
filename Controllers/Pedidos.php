@@ -689,15 +689,15 @@ class Pedidos extends Controller
 
         $data = $this->model->cargarGuiasEstadoGuiaSistema($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
 
-        // Inicializamos los totales para mostrar cards en guias
+        // Inicializamos los totales para mostrar cards en guías
         $totals = [
-            "total"       => count($data),
-            "generada"    => 0,
-            "en_transito" => 0,
+            "total"        => count($data),
+            "generada"     => 0,
+            "en_transito"  => 0,
             "zona_entrega" => 0,
-            "entregada"   => 0,
-            "novedad"     => 0,
-            "devolucion"  => 0,
+            "entregada"    => 0,
+            "novedad"      => 0,
+            "devolucion"   => 0,
         ];
 
         // Recorremos cada guía y calculamos los totales
@@ -714,19 +714,28 @@ class Pedidos extends Controller
                 $totals['generada']++;
             }
 
-            // "En transito"
-            if (($transporte == 2 && $estado_guia >= 300 && $estado_guia <= 317) ||
-                ($transporte == 1 && in_array($estado_guia, [5, 11, 12, 6])) ||
-                ($transporte == 3 && in_array($estado_guia, [5, 4])) ||
+            // "En tránsito"
+            if (($transporte == 2 && $estado_guia >= 300 && $estado_guia <= 317 && $estado_guia != 307) ||
+                ($transporte == 1 && in_array($estado_guia, [5, 11, 12])) ||
+                ($transporte == 3 && in_array($estado_guia, [4])) ||
                 ($transporte == 4 && $estado_guia === 3)
             ) {
                 $totals['en_transito']++;
             }
 
+            // Zona de entrega 
+            if (($transporte == 2 && $estado_guia == 307) ||
+                ($transporte == 1 && in_array($estado_guia, [6])) ||
+                ($transporte == 3 && in_array($estado_guia, [5]))
+            ) {
+                $totals['zona_entrega']++;
+            }
+
             // "Entregada"
             if (($transporte == 2 && $estado_guia >= 400 && $estado_guia <= 403) ||
                 ($transporte == 1 && $estado_guia === 7) ||
-                ($transporte == 3 && $estado_guia === 7)
+                ($transporte == 3 && $estado_guia === 7) ||
+                ($transporte == 4 && $estado_guia === 7)
             ) {
                 $totals['entregada']++;
             }
@@ -734,7 +743,8 @@ class Pedidos extends Controller
             // "Novedad"
             if (($transporte == 2 && $estado_guia >= 320 && $estado_guia <= 351) ||
                 ($transporte == 1 && $estado_guia === 14) ||
-                ($transporte == 3 && $estado_guia === 6)
+                ($transporte == 3 && $estado_guia === 6) ||
+                ($transporte == 4 && $estado_guia === 14)
             ) {
                 $totals['novedad']++;
             }
