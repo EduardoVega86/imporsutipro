@@ -349,27 +349,27 @@ const listGuias = async () => {
     }
     // Totals.total es el total de guías
     if (totals.total > 0) {
-      const porcentajeGeneradas = Math.round((totals.generada / totals.total) * 100);
+      let porcentajeGeneradas = Math.round((totals.generada / totals.total) * 100);
+      let porcentajeTransito = Math.round((totals.en_transito / totals.total) * 100);
+      let porcentajeEntrega = Math.round((totals.entregada / totals.total) * 100);
+      let porcentajeNovedad = Math.round((totals.novedad / totals.total) * 100);
+  
+      // Calculamos el último porcentaje ajustándolo para que la suma sea 100%
+      let porcentajeDevolucion = 100 - (porcentajeGeneradas + porcentajeTransito + porcentajeEntrega + porcentajeNovedad);
+  
+      // Aplicamos los valores
       document.getElementById("progress_generadas").style.width = porcentajeGeneradas + "%";
       document.getElementById("percent_generadas").innerText = porcentajeGeneradas + "%";
-    }  
-    if (totals.total > 0) {
-      const porcentajeTransito = Math.round((totals.en_transito / totals.total) * 100);
+  
       document.getElementById("progress_transito").style.width = porcentajeTransito + "%";
       document.getElementById("percent_transito").innerText = porcentajeTransito + "%";
-    }  
-    if (totals.total > 0) {
-      const porcentajeEntrega = Math.round((totals.entregada / totals.total) * 100);
+  
       document.getElementById("progress_entrega").style.width = porcentajeEntrega + "%";
       document.getElementById("percent_entrega").innerText = porcentajeEntrega + "%";
-    }  
-    if (totals.total > 0) {
-      const porcentajeNovedad = Math.round((totals.novedad / totals.total) * 100);
+  
       document.getElementById("progress_novedad").style.width = porcentajeNovedad + "%";
       document.getElementById("percent_novedad").innerText = porcentajeNovedad + "%";
-    }  
-    if (totals.total > 0) {
-      const porcentajeDevolucion = Math.round((totals.devolucion / totals.total) * 100);
+  
       document.getElementById("progress_devolucion").style.width = porcentajeDevolucion + "%";
       document.getElementById("percent_devolucion").innerText = porcentajeDevolucion + "%";
     }  
