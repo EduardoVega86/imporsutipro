@@ -461,7 +461,6 @@ document.addEventListener("DOMContentLoaded", function () {
         e.target.closest(".add-to-store-button") ||
         e.target.closest(".add-to-funnel-button") ||
         e.target.closest(".btn-import") ||
-        e.target.closest(".btn-description") ||
         e.target.closest(".card-id-container")
       ) {
         return; 
