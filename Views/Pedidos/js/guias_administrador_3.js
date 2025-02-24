@@ -367,7 +367,7 @@ const listGuias = async () => {
       "num_pedidos" : "total",
       "num_generadas" : "generada",
       "num_transito" : "en_transito",
-      "num_entregadas" : "entrada",
+      "num_entregadas" : "entregada",
       "num_novedad" : "novedad",
       "num_devolucion" : "devolucion"
     }
@@ -378,7 +378,7 @@ const listGuias = async () => {
         elemento.innerText = totals[key];
       }
     })
-    
+
     // Totals.total es el total de guías
     if (totals.total > 0) {
       let porcentajeGeneradas = Math.round((totals.generada / totals.total) * 100);
