@@ -85,8 +85,8 @@
             <!-- Card 5: Guías en entregadas -->
             <div class="col-6 col-md-2">
                 <div class="card shadow-sm p-2" style="border-left: 5px solid #28a745;">
-                    <h6 class="text-danger">
-                        <i class="bx bx-map-pin" style="font-size: 20px;"></i> Entregadas
+                    <h6 class="text-success">
+                        <i class="bx bx-check-circle" style="font-size: 20px;"></i> Entregadas
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
                             title="Guías que ya fueron entregadas">
                         </i>
