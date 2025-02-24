@@ -22,12 +22,6 @@
                         </i>
                     </h6>
                     <h4 class="font-weight-bold" id="num_pedidos">0</h4>
-                    <!-- Barra de progreso -->
-                    <div class="progress" style="height: 8px;">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 0%;" id="progress_generadas"></div>
-                    </div>
-                    <!-- Porcentaje numérico -->
-                    <small class="text-muted" id="percent_generadas">0%</small>
                 </div>
             </div>
 
@@ -41,6 +35,12 @@
                         </i>
                     </h6>
                     <h4 class="font-weight-bold" id="num_generadas">0</h4>
+                    <!-- Barra de progreso -->
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 0%;" id="progress_generadas"></div>
+                    </div>
+                    <!-- Porcentaje numérico -->
+                    <small class="text-muted" id="percent_generadas">0%</small>
                 </div>
             </div>
 
@@ -265,5 +265,5 @@
         );
     });
 </script>
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias2.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
