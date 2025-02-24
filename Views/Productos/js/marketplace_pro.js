@@ -864,20 +864,28 @@ document.addEventListener("DOMContentLoaded", function () {
               chipProv.addEventListener("click", function (e) {
                 const clickedProvChip = e.currentTarget;
               
-                // Deseleccionas cualquier otro chip
+                // Verifica si ya está seleccionado
+                const isSelected = clickedProvChip.classList.contains("selected");
+              
+                // Primero, deseleccionamos todos los chips
                 document.querySelectorAll("#sliderProveedores .slider-chip")
                   .forEach((el) => el.classList.remove("selected"));
               
-                // Seleccionas el chip clicado
-                clickedProvChip.classList.add("selected");
-                
-                // Ajusta tu filtro
-                formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
+                if (isSelected) {
+                  // Si el chip estaba seleccionado, lo deseleccionamos (no seleccionamos nada)
+                  clickedProvChip.classList.remove("selected");
+                  // Quitamos el filtro del formData
+                  formData_filtro.set("plataforma", "");
+                } else {
+                  // Si el chip NO estaba seleccionado, lo seleccionamos y aplicamos el filtro
+                  clickedProvChip.classList.add("selected");
+                  formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
+                }
               
-                // Vuelves a mostrar productos filtrados
+                // Llamamos la función para limpiar y recargar los productos con el nuevo filtro
                 clearAndFetchProducts();
               });
-              
+                         
 
               sliderProveedores.appendChild(chipProv);
             });
@@ -899,9 +907,6 @@ document.addEventListener("DOMContentLoaded", function () {
             let providerName = $(this).find(".chip-title").text().toLowerCase();
 
             if (providerName.includes(searchValue)) {
-              // Resaltar proveedor encontrado
-              $("#sliderProveedores .slider-chip").removeClass("selected");
-              $(this).addClass("selected");
 
               // Guardamos el proveedor para hacer scroll después
               providerToScroll = $(this);
