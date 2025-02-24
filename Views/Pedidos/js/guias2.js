@@ -354,7 +354,7 @@ const listGuias = async () => {
       let porcentajeNovedad = Math.round((totals.novedad / totals.total) * 100);
   
       // Calculamos el último porcentaje ajustándolo para que la suma sea 100%
-      let porcentajeDevolucion = 100 - (porcentajeGeneradas + porcentajeTransito + porcentajeEntrega + porcentajeEntregaZona +porcentajeNovedad);
+      let porcentajeDevolucion = 100 - (porcentajeGeneradas + porcentajeTransito + porcentajeEntrega + porcentajeEntregaZona + porcentajeNovedad);
   
       // Aplicamos los valores
       document.getElementById("progress_generadas").style.width = porcentajeGeneradas + "%";
