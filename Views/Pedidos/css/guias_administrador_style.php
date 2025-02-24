@@ -185,4 +185,11 @@
         z-index: 9999;
         /* Asegura que esté por encima de la tabla */
     }
+
+    @media (min-width: 768px) {
+        .custom-cards .col-md-2 {
+            flex: 0 0 auto;
+            width: 13.666667% !important;
+        }
+    }
 </style>

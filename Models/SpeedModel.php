@@ -591,6 +591,8 @@ class SpeedModel extends Query
                 $estado_guia_automatizador = 2;
             } else if ($estado_guia == 1) {
                 $estado_guia_automatizador = 4;
+            } else if ($estado_guia == 5) {
+                $estado_guia_automatizador = 5;
             } else if ($estado_guia == 2 || $estado_guia == 3) {
                 $estado_guia_automatizador = 6;
             } else if ($estado_guia == 4) {

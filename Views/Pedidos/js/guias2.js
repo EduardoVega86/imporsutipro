@@ -123,7 +123,11 @@ const listGuias = async () => {
       method: "POST",
       body: formData,
     });
-    const guias = await response.json();
+    
+    // Ahora el JSON debe tener "data" y "totals"
+    const result = await response.json();
+    const guias = result.data;
+    const totals = result.totals;
 
     let content = ``;
     let impresiones = "";
@@ -146,9 +150,7 @@ const listGuias = async () => {
       } else if (transporte == 1) {
         transporte_content =
           '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
-
         ruta_descarga = `<a class="w-100" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
-
         ruta_traking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
         funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
         estado = validar_estadoLaar(guia.estado_guia_sistema);
@@ -189,12 +191,8 @@ const listGuias = async () => {
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
 
-      // Definir la variable ciudad antes de los bloques if-else
       let ciudad = "Ciudad no especificada";
-
-      // Verificar si la ciudad es válida antes de usar split
       let ciudadCompleta = guia.ciudad;
-
       if (ciudadCompleta) {
         let ciudadArray = ciudadCompleta.split("/");
         ciudad = ciudadArray[0];
@@ -252,10 +250,10 @@ const listGuias = async () => {
       let plataforma = procesarPlataforma(guia.plataforma);
       let boton_anular = ``;
       if (guia.impreso == 0) {
-        impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
+        impresiones = `<box-icon name='printer' color="red"></box-icon>`;
         boton_anular = `<li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>`;
       } else {
-        impresiones = `<box-icon name='printer' color= "#28E418"></box-icon>`;
+        impresiones = `<box-icon name='printer' color="#28E418"></box-icon>`;
         boton_anular = ``;
       }
 
@@ -268,67 +266,60 @@ const listGuias = async () => {
         despachado = `<i class="fa-solid fa-arrow-rotate-right" style="color:red; font-size: 21px;"></i>`;
       }
       let mostrar_tienda = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${guia.plataforma}')">${plataforma}</span></td>`;
-
       mostrar_tienda = "";
-
       content += `
                 <tr>
-                    <td><input type="checkbox" class="selectCheckbox" data-id="${
-                      guia.id_factura
-                    }"></td>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura}"></td>
                     <td>
                       <div>
-                      ${ruta_descarga}
+                        ${ruta_descarga}
                       </div>
-                     </td>
+                    </td>
                     <td>
-                    <div><button onclick="ver_detalle_cot('${
-                      guia.id_factura
-                    }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
-                    <div>${guia.fecha_guia}</td></div>
+                      <div><button onclick="ver_detalle_cot('${guia.id_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
+                      <div>${guia.fecha_guia}</div>
+                    </td>
                     <td>
-                        <div><strong>${guia.nombre}</strong></div>
-                        <div>${guia.c_principal} y ${guia.c_secundaria}</div>
-                        <div>telf: ${guia.telefono}</div>
+                      <div><strong>${guia.nombre}</strong></div>
+                      <div>${guia.c_principal} y ${guia.c_secundaria}</div>
+                      <div>telf: ${guia.telefono}</div>
                     </td>
                     <td>${guia.provinciaa}-${ciudad}</td>
                     ${mostrar_tienda}
                     <td>${transporte_content}</td>
                     <td>
-                     <div style="text-align: center;">
-                     <div>
-                      <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
-                     </div>
-                     <div style="position: relative; display: inline-block;">
-                      <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
-                        <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
-                      </a>
-                      <a href="https://wa.me/${formatPhoneNumber(
-                        guia.telefono
-                      )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
-                      <i class='bx bxl-whatsapp-square' style="color: green;"></i>
-                      </a>
-                     </div>
-                     <div style="text-align: -webkit-center;">
-                     ${select_speed}
-                     </div>
-                     <div>
-                     ${novedad}
-                     </div>
-                     </div>
+                      <div style="text-align: center;">
+                        <div>
+                          <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
+                        </div>
+                        <div style="position: relative; display: inline-block;">
+                          <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
+                            <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
+                          </a>
+                          <a href="https://wa.me/${formatPhoneNumber(guia.telefono)}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;">
+                            <i class='bx bxl-whatsapp-square' style="color: green;"></i>
+                          </a>
+                        </div>
+                        <div style="text-align: -webkit-center;">
+                          ${select_speed}
+                        </div>
+                        <div>
+                          ${novedad}
+                        </div>
+                      </div>
                     </td>
                     <td>${despachado}</td>
                     <td>${impresiones}</td>
                     <td>
-                    <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        ${boton_anular}
-                        <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
-                    </ul>
-                    </div>
+                      <div class="dropdown">
+                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="fa-solid fa-gear"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          ${boton_anular}
+                          <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
+                        </ul>
+                      </div>
                     </td>
                     <td>${guia.contiene}</td>
                     <td>${guia.monto_factura}</td>
@@ -336,6 +327,54 @@ const listGuias = async () => {
                 </tr>`;
     });
     document.getElementById("tableBody_guias").innerHTML = content;
+    
+    // Actualiza las cards con los totales enviados desde el servidor
+    const elementos = {
+      "num_pedidos": "total",
+      "num_generadas": "generada",
+      "num_transito": "en_transito",
+      "num_entregadas": "entregada",
+      "num_novedad": "novedad",
+      "num_devolucion": "devolucion",
+      "num_zona_entrega": "zona_entrega"
+    };
+  
+    Object.entries(elementos).forEach(([id, key]) => {
+        let elemento = document.getElementById(id);
+        if (elemento) {
+            elemento.innerText = totals[key];
+        }
+    });
+    // Totals.total es el total de guías
+    if (totals.total > 0) {
+      let porcentajeGeneradas = Math.round((totals.generada / totals.total) * 100);
+      let porcentajeTransito = Math.round((totals.en_transito / totals.total) * 100);
+      let porcentajeEntregaZona = Math.round((totals.zona_entrega /totals.total) * 100);
+      let porcentajeEntrega = Math.round((totals.entregada / totals.total) * 100);
+      let porcentajeNovedad = Math.round((totals.novedad / totals.total) * 100);
+  
+      // Calculamos el último porcentaje ajustándolo para que la suma sea 100%
+      let porcentajeDevolucion = 100 - (porcentajeGeneradas + porcentajeTransito + porcentajeEntrega + porcentajeEntregaZona +porcentajeNovedad);
+  
+      // Aplicamos los valores
+      document.getElementById("progress_generadas").style.width = porcentajeGeneradas + "%";
+      document.getElementById("percent_generadas").innerText = porcentajeGeneradas + "%";
+  
+      document.getElementById("progress_transito").style.width = porcentajeTransito + "%";
+      document.getElementById("percent_transito").innerText = porcentajeTransito + "%";
+
+      document.getElementById("progress_zonaentrega").style.width = porcentajeEntregaZona + "%";
+      document.getElementById("percent_zonaentrega").innerText = porcentajeEntregaZona + "%";
+  
+      document.getElementById("progress_entrega").style.width = porcentajeEntrega + "%";
+      document.getElementById("percent_entrega").innerText = porcentajeEntrega + "%";
+  
+      document.getElementById("progress_novedad").style.width = porcentajeNovedad + "%";
+      document.getElementById("percent_novedad").innerText = porcentajeNovedad + "%";
+  
+      document.getElementById("progress_devolucion").style.width = porcentajeDevolucion + "%";
+      document.getElementById("percent_devolucion").innerText = porcentajeDevolucion + "%";
+    }  
   } catch (ex) {
     alert(ex);
   }
@@ -956,4 +995,3 @@ function validados_numero(observacion) {
     return false;
   }
 }
-
