@@ -369,7 +369,8 @@ const listGuias = async () => {
       "num_transito" : "en_transito",
       "num_entregadas" : "entregada",
       "num_novedad" : "novedad",
-      "num_devolucion" : "devolucion"
+      "num_devolucion" : "devolucion",
+      "num_zona_entrega": "zona_entrega"
     }
 
     Object.entries(elementos).forEach(([id, key])=>{
@@ -395,6 +396,9 @@ const listGuias = async () => {
 
       document.getElementById("progress_transito").style.width = porcentajeTransito + "%";
       document.getElementById("percent_transito").innerText = porcentajeTransito + "%";
+ 
+      document.getElementById("progress_zonaentrega").style.width = porcentajeEntregaZona + "%";
+      document.getElementById("percent_zonaentrega").innerText = porcentajeEntregaZona + "%";      
   
       document.getElementById("progress_entrega").style.width = porcentajeEntrega + "%";
       document.getElementById("percent_entrega").innerText = porcentajeEntrega + "%";
