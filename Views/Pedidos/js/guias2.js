@@ -335,7 +335,8 @@ const listGuias = async () => {
       "num_transito": "en_transito",
       "num_entregadas": "entregada",
       "num_novedad": "novedad",
-      "num_devolucion": "devolucion"
+      "num_devolucion": "devolucion",
+      "num_zona_entrega": "zona_entrega"
     };
   
     Object.entries(elementos).forEach(([id, key]) => {
@@ -348,6 +349,7 @@ const listGuias = async () => {
     if (totals.total > 0) {
       let porcentajeGeneradas = Math.round((totals.generada / totals.total) * 100);
       let porcentajeTransito = Math.round((totals.en_transito / totals.total) * 100);
+      let porcentajeEntregaZona = Math.round((totals.zona_entrega /totals.total) * 100);
       let porcentajeEntrega = Math.round((totals.entregada / totals.total) * 100);
       let porcentajeNovedad = Math.round((totals.novedad / totals.total) * 100);
   
@@ -360,6 +362,9 @@ const listGuias = async () => {
   
       document.getElementById("progress_transito").style.width = porcentajeTransito + "%";
       document.getElementById("percent_transito").innerText = porcentajeTransito + "%";
+
+      document.getElementById("progress_zonaentrega").style.width = porcentajeEntregaZona + "%";
+      document.getElementById("percent_zonaentrega").innerText = porcentajeEntregaZona + "%";
   
       document.getElementById("progress_entrega").style.width = porcentajeEntrega + "%";
       document.getElementById("percent_entrega").innerText = porcentajeEntrega + "%";
