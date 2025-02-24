@@ -394,7 +394,7 @@ const listGuias = async () => {
       // Aplicamos los valores
       document.getElementById("progress_generadas").style.width = porcentajeGeneradas + "%";
       document.getElementById("percent_generadas").innerText = porcentajeGeneradas + "%";
-  a
+      
       document.getElementById("progress_transito").style.width = porcentajeTransito + "%";
       document.getElementById("percent_transito").innerText = porcentajeTransito + "%";
   
