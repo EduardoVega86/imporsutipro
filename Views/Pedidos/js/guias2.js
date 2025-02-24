@@ -358,6 +358,21 @@ const listGuias = async () => {
       document.getElementById("progress_transito").style.width = porcentajeTransito + "%";
       document.getElementById("percent_transito").innerText = porcentajeTransito + "%";
     }  
+    if (totals.total > 0) {
+      const porcentajeEntrega = Math.round((totals.entregada / totals.total) * 100);
+      document.getElementById("progress_entrega").style.width = porcentajeEntrega + "%";
+      document.getElementById("percent_entrega").innerText = porcentajeEntrega + "%";
+    }  
+    if (totals.total > 0) {
+      const porcentajeNovedad = Math.round((totals.novedad / totals.total) * 100);
+      document.getElementById("progress_entrega").style.width = porcentajeNovedad + "%";
+      document.getElementById("percent_entrega").innerText = porcentajeNovedad + "%";
+    }  
+    if (totals.total > 0) {
+      const porcentajeDevolucion = Math.round((totals.devolucion / totals.total) * 100);
+      document.getElementById("progress_entrega").style.width = porcentajeDevolucion + "%";
+      document.getElementById("percent_entrega").innerText = porcentajeDevolucion + "%";
+    }  
   } catch (ex) {
     alert(ex);
   }
