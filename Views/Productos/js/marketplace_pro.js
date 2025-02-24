@@ -399,98 +399,132 @@ document.addEventListener("DOMContentLoaded", function () {
     return await response.json();
   }
 
+  /**
+   * Crea la tarjeta de producto y la inserta en el contenedor principal.
+   * @param {Object} product - Datos generales del producto (obtenidos al listar).
+   * @param {Object} productDetails - Datos detallados (obtenidos de la API "obtener_producto").
+   */
   function createProductCard(product, productDetails) {
     const { pcp, pvp, saldo_stock, url_imporsuit, categoria } = productDetails;
 
+    // Determinamos botones para "Enviar cliente" y "Ver ID inventario" según si es variable
     let boton_enviarCliente = ``;
     let botonId_inventario = ``;
-    
+
     if (product.producto_variable == 0) {
-        boton_enviarCliente = `
-            <button class="btn btn-import d-flex align-items-center justify-content-center w-100" onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">
-                <i class='bx bx-send me-2'></i> Enviar a cliente
-            </button>
-        `;
-        botonId_inventario = `
-            <div class="card-id-container" onclick="copyToClipboard(${product.id_inventario})">
-                <span class="card-id">ID: ${product.id_inventario}</span>
-            </div>
-        `;
+      boton_enviarCliente = `
+        <button class="btn btn-import d-flex align-items-center justify-content-center w-100" 
+                onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">
+          <i class='bx bx-send me-2'></i> Enviar a cliente
+        </button>
+      `;
+      botonId_inventario = `
+        <div class="card-id-container" onclick="copyToClipboard(${product.id_inventario})">
+          <span class="card-id">ID: ${product.id_inventario}</span>
+        </div>
+      `;
     } else if (product.producto_variable == 1) {
-        boton_enviarCliente = `
-            <button class="btn btn-import d-flex align-items-center justify-content-center w-100" onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">
-                <i class='bx bx-send me-2'></i> Enviar a cliente
-            </button>
-        `;
-        botonId_inventario = `
-            <div class="card-id-container" onclick="abrir_modal_idInventario(${product.id_producto})">
-                <span class="card-id">Ver IDs de producto variable</span>
-            </div>
-        `;
+      boton_enviarCliente = `
+        <button class="btn btn-import d-flex align-items-center justify-content-center w-100" 
+                onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">
+          <i class='bx bx-send me-2'></i> Enviar a cliente
+        </button>
+      `;
+      botonId_inventario = `
+        <div class="card-id-container" onclick="abrir_modal_idInventario(${product.id_producto})">
+          <span class="card-id">Ver IDs de producto variable</span>
+        </div>
+      `;
     }
 
-    const esFavorito = product.Es_Favorito === "1"; // Conversión a booleano
+    // Verificamos si es un producto "favorito"
+    const esFavorito = product.Es_Favorito === "1";
 
+    // Creamos el contenedor principal de la tarjeta
     const card = document.createElement("div");
-    card.className = "card-custom position-relative";
+    card.className = "card-custom position-relative card-clickable"; // clase extra para cursor pointer
 
-    // Usar la función para obtener la URL de la imagen
-    const imagePath = obtenerURLImagen(productDetails.image_path, SERVERURL);
-    let validador_imagen = 1;
-    validador_imagen = verificarImagen(imagePath);
+    // Obtenemos la URL de la imagen
+    let imagePath = obtenerURLImagen(productDetails.image_path, SERVERURL);
 
+    // Verificamos si la imagen realmente existe
+    let validador_imagen = verificarImagen(imagePath);
     if (validador_imagen == 0) {
       imagePath = SERVERURL + "public/img/broken-image.png";
     }
 
+    // Evento click general en la tarjeta (excepto en botones internos)
+    card.addEventListener("click", function (e) {
+      // Si el click fue en alguno de estos botones/elementos, no abrimos el producto
+      if (
+        e.target.closest(".btn-heart") ||
+        e.target.closest(".add-to-store-button") ||
+        e.target.closest(".add-to-funnel-button") ||
+        e.target.closest(".btn-import") ||
+        e.target.closest(".btn-description") ||
+        e.target.closest(".card-id-container")
+      ) {
+        return; 
+      }
+      // Caso contrario, abrimos la vista del producto
+      verProducto(product.id_producto);
+    });
+
+    // Construimos el contenido de la tarjeta
     card.innerHTML = `
-        <div class="image-container position-relative">
-            ${botonId_inventario}
-            <img src="${imagePath}" class="card-img-top" alt="Imagen del producto">
-             <div class="add-to-store-button ${
-               product.agregadoTienda ? "added" : ""
-             }" data-product-id="${product.id_producto}">
-               <span class="plus-icon">+</span>
-               <span class="add-to-store-text">${
-                 product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
-               }</span>
-             </div>
-             <div class="add-to-funnel-button" ${
-               product.agregadoFunnel ? "added" : ""
-             } data-funnel-id="${product.id_inventario}">
-               <span class="plus-icon">+</span>
-               <span class="add-to-funnel-text">${
-                 product.agregadoFunnel ? "Quitar de funnel" : "Añadir a funnel"
-               }</span>
-              </div>
-            <button class="btn-heart ${esFavorito ? "clicked" : ""}" onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
-                <i class="fas fa-heart"></i>
-            </button>
+      <div class="image-container position-relative">
+        ${botonId_inventario}
+        <img src="${imagePath}" class="card-img-top" alt="Imagen del producto">
+        <div class="add-to-store-button ${product.agregadoTienda ? "added" : ""}" 
+            data-product-id="${product.id_producto}">
+          <span class="plus-icon">+</span>
+          <span class="add-to-store-text">
+            ${product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"}
+          </span>
         </div>
-        <div class="card-header">
-            <span class="card-category">${product.categoria || "Sin Categoría"}</span>
-            <span class="card-stock text-success">Stock: <strong>${saldo_stock}</strong></span>
+        <div class="add-to-funnel-button ${product.agregadoFunnel ? "added" : ""}" 
+            data-funnel-id="${product.id_inventario}">
+          <span class="plus-icon">+</span>
+          <span class="add-to-funnel-text">
+            ${product.agregadoFunnel ? "Quitar de funnel" : "Añadir a funnel"}
+          </span>
         </div>
-        <div class="card-body text-center d-flex flex-column justify-content-between">
-            <div>
-                <h6 class="card-title">${product.nombre_producto}</h6>
-                <p class="card-subtitle">Proveedor: <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">${productDetails.nombre_tienda || "Proveedor desconocido"}</a></p>
-            </div>
-            <div class="card-pricing">
-                <span class="precio-proveedor">Precio proveedor: <strong>$${pcp}</strong></span>
-                <span class="precio-sugerido">Precio sugerido: <strong>$${pvp}</strong></span>
-            </div>
-            <div class="card-buttons d-flex flex-column gap-2">
-                <button class="btn btn-description d-flex align-items-center justify-content-center w-100" onclick="verProducto(${product.id_producto})">
-                    <i class='bx bx-info-circle me-2'></i> Ver producto
-                </button>
-                ${boton_enviarCliente}
-            </div>
+        <button class="btn-heart ${esFavorito ? "clicked" : ""}" 
+                onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
+          <i class="fas fa-heart"></i>
+        </button>
+      </div>
+      <div class="card-header">
+        <span class="card-category">${product.categoria || "Sin Categoría"}</span>
+        <span class="card-stock text-success">Stock: <strong>${saldo_stock}</strong></span>
+      </div>
+      <div class="card-body text-center d-flex flex-column justify-content-between">
+        <div>
+          <h6 class="card-title">${product.nombre_producto}</h6>
+          <p class="card-subtitle">
+            Proveedor: 
+            <a href="#" onclick="abrirModal_infoTienda('${url_imporsuit}')" style="font-size: 15px;">
+              ${productDetails.nombre_tienda || "Proveedor desconocido"}
+            </a>
+          </p>
         </div>
+        <div class="card-pricing">
+          <span class="precio-proveedor">Precio proveedor: <strong>$${pcp}</strong></span>
+          <span class="precio-sugerido">Precio sugerido: <strong>$${pvp}</strong></span>
+        </div>
+        <div class="card-buttons d-flex flex-column gap-2">
+          <button class="btn btn-description d-flex align-items-center justify-content-center w-100">
+            <i class='bx bx-info-circle me-2'></i> Ver producto
+          </button>
+          ${boton_enviarCliente}
+        </div>
+      </div>
     `;
 
+    // Finalmente, agregamos la tarjeta al contenedor principal
     cardContainer.appendChild(card);
-}
+  }
+
 
   function debounce(func, wait) {
     let timeout;
