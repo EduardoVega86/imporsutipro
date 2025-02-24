@@ -354,7 +354,7 @@ const listGuias = async () => {
       document.getElementById("percent_generadas").innerText = porcentajeGeneradas + "%";
     }  
     if (totals.total > 0) {
-      const porcentajeTransito = Math.round((totals.generada / totals.total) * 100);
+      const porcentajeTransito = Math.round((totals.en_transito / totals.total) * 100);
       document.getElementById("progress_transito").style.width = porcentajeTransito + "%";
       document.getElementById("percent_transito").innerText = porcentajeTransito + "%";
     }  
