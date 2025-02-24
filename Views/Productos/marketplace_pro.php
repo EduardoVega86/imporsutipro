@@ -6,7 +6,7 @@
 <?php require_once './Views/Productos/Modales/tabla_idInventario.php'; ?>
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 
-<div class="custom-container-fluid mt-4">
+<div class="custom-container-fluid">
     <div style="padding-bottom: 20px; padding-top: 20px;">
         <div class="caja p-4 shadow-sm bg-white">
 
@@ -95,6 +95,9 @@
         </div>
         <div class="contenedor-boton-mas" style="display: flex; justify-content: center; margin: 20px 0;">
             <button id="load-more" class="boton_mas">Cargar Más</button>
+        </div>
+        <div id="no-more-products" style="display: none; text-align: center; padding: 10px; color: gray;">
+            No hay más productos disponibles.
         </div>
     </div>
 </div>

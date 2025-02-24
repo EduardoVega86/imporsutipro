@@ -3,7 +3,7 @@
     .card-container {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
-        gap: 10px;
+        gap: 26px;
         /* Ajusta este valor para el espaciado deseado entre las tarjetas */
     }
 
@@ -20,6 +20,14 @@
         /* Para evitar que el contenido se salga */
         width: 100%;
         /* Hacer que la tarjeta ocupe todo el ancho de su contenedor */
+    }
+
+    .custom-container-fluid {
+        background-color: rgb(226, 226, 226) !important;
+    }
+
+    .content {
+        background-color: rgb(226, 226, 226) !important;
     }
 
     .card-custom:hover {
@@ -44,17 +52,101 @@
         flex-direction: column;
         justify-content: space-between;
         overflow: hidden;
+        background-color: white !important;
         /* Para evitar que el contenido se salga */
     }
 
-    .card-custom .btn-description,
-    .card-custom .btn-import {
-        border-radius: 50px;
-        padding: 10px 20px;
-        margin: 5px auto;
-        /* Center the buttons */
-        width: 80%;
+    /* Encabezado de la tarjeta */
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        color: #666;
+        padding: 8px 15px;
+        background-color: #f5f5f5;
+        border-bottom: 1px solid #ddd;
     }
+
+    /* Título del producto */
+    .card-title {
+        font-weight: bold;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    /* Subtítulo (Proveedor) */
+    .card-subtitle {
+        font-size: 14px;
+        color: #666;
+        text-align: center;
+    }
+
+    /* Contenedor de precios */
+    .card-pricing {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-top: 10px;
+        padding: 10px 15px;
+        background: #f8f9fa;
+        border-top: 1px solid #ddd;
+    }
+
+    /* Estilo para el texto "Precio proveedor" y "Precio sugerido" */
+    .precio-proveedor {
+        font-size: 14px;
+        /* Tamaño del texto de las etiquetas */
+        color: #666;
+        /* Solo "Precio proveedor" tendrá este color */
+    }
+
+    .precio-sugerido strong {
+        font-size: 18px;
+        /* Tamaño más grande para el precio */
+    }
+
+    .precio-proveedor strong {
+        font-size: 18px;
+        /* Tamaño más grande para el precio */
+    }
+
+    /* Contenedor de botones */
+    .card-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    /* Estilos de los botones */
+    .btn-description {
+        background-color: #00aaff;
+        color: white;
+        border-radius: 50px;
+        padding: 8px 15px;
+        width: 48%;
+        text-align: center;
+    }
+
+    .btn-import {
+        background-color: #ffc107;
+        color: white;
+        border-radius: 50px;
+        padding: 8px 15px;
+        width: 48%;
+        text-align: center;
+    }
+
+    /* Ajustes en la imagen */
+    .image-container {
+        position: relative;
+    }
+
+    .image-container img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
 
     /* Estilos para el ID del producto */
     .card-id-container {
@@ -75,19 +167,6 @@
         font-size: 14px;
         font-weight: bold;
         color: #333;
-    }
-
-
-    .btn-description {
-        background-color: #00aaff;
-        color: white;
-    }
-
-    .btn-import {
-        background-color: #ffc107;
-        color: white;
-        margin-bottom: 10px;
-        /* Añade margen inferior para espacio adicional */
     }
 
     .card-text {
@@ -453,11 +532,6 @@
 
     /* fin boton favoritos */
 
-    /* boton añadir a tienda */
-    .image-container {
-        position: relative;
-    }
-
     .add-to-store-button {
         position: absolute;
         bottom: 10px;
@@ -615,7 +689,7 @@
 
     .slider-arrow-right {
         right: 3px;
-        top: 240px;
+        top: 215px;
     }
 
     .slider-arrow:hover {
@@ -807,5 +881,51 @@
         object-fit: contain;
         border-radius: 50%;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Vista productos , en vez de modal */
+
+    .product-title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .product-id-inventario {
+        color: #777;
+        font-size: 14px;
+    }
+
+    .product-sku {
+        color: #777;
+        font-size: 14px;
+    }
+
+
+    .product-pricing p {
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .product-stock {
+        font-size: 16px;
+        color: #28a745;
+    }
+
+    .product-actions button {
+        font-size: 14px;
+    }
+
+    .provider-info {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+    }
+
+    .provider-avatar img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
     }
 </style>
