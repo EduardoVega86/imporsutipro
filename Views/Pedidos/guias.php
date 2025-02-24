@@ -104,7 +104,7 @@
             <!-- Card 6: Guías en novedad -->
             <div class="col-6 col-md-2">
                 <div class="card shadow-sm p-2" style="border-left: 5px solid #fd7e14;">
-                    <h6 style="color: #fd7e14;"> <!-- Texto en naranja -->
+                    <h6 style="color: #fd7e14;"> 
                         <i class="bx bx-error" style="font-size: 20px; color: #fd7e14;"></i> Novedad <!-- Ícono en naranja -->
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
                             title="Guías que presentan alguna incidencia o novedad">

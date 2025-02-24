@@ -103,9 +103,9 @@
 
             <!-- Card 6: Guías en novedad -->
             <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #dc3545;">
-                    <h6 class="text-danger">
-                        <i class="bx bx-error" style="font-size: 20px;"></i> Novedad
+                <div class="card shadow-sm p-2" style="border-left: 5px solid #fd7e14;">
+                    <h6 style="color: #fd7e14;">
+                        <i class="bx bx-error" style="font-size: 20px; color: #fd7e14;"></i> Novedad <!-- Ícono en naranja -->
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
                             title="Guías que presentan alguna incidencia o novedad">
                         </i>
@@ -113,7 +113,7 @@
                     <h4 class="font-weight-bold" id="num_novedad">0</h4>
                     <!-- Barra de progreso -->
                     <div class="progress" style="height: 8px;">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%;" id="progress_novedad"></div>
+                        <div class="progress-bar" role="progressbar" style="width: 0%; background-color: #fd7e14;" id="progress_novedad"></div> <!-- Barra en naranja -->
                     </div>
                     <!-- Porcentaje numérico -->
                     <small class="text-muted" id="percent_novedad">0%</small>
