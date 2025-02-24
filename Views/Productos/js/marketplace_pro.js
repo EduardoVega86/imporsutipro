@@ -907,9 +907,6 @@ document.addEventListener("DOMContentLoaded", function () {
             let providerName = $(this).find(".chip-title").text().toLowerCase();
 
             if (providerName.includes(searchValue)) {
-              // Resaltar proveedor encontrado
-              $("#sliderProveedores .slider-chip").removeClass("selected");
-              $(this).addClass("selected");
 
               // Guardamos el proveedor para hacer scroll después
               providerToScroll = $(this);
