@@ -134,6 +134,22 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="image-container">
                ${botonId_inventario}
                 <img src="${imagePath}" class="card-img-top" alt="Product Image">
+                <div class="add-to-store-button ${
+               product.agregadoTienda ? "added" : ""
+             }" data-product-id="${product.id_producto}">
+               <span class="plus-icon">+</span>
+               <span class="add-to-store-text">${
+                 product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
+               }</span>
+             </div>
+             <div class="add-to-funnel-button" ${
+               product.agregadoFunnel ? "added" : ""
+             } data-funnel-id="${product.id_inventario}">
+               <span class="plus-icon">+</span>
+               <span class="add-to-funnel-text">${
+                 product.agregadoFunnel ? "Quitar de funnel" : "Añadir a funnel"
+               }</span>
+              </div>
             </div>
             <button class="btn btn-heart ${
               esFavorito ? "clicked" : ""
