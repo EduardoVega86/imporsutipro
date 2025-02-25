@@ -204,6 +204,59 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   }
 
+  // Evento de click “global” para los botones “añadir a tienda” y “añadir a funnel”
+  cardContainer.addEventListener("click", function (event) {
+    const target = event.target;
+    if (
+      target.classList.contains("add-to-store-button") ||
+      target.closest(".add-to-store-button")
+    ) {
+      const button = target.closest(".add-to-store-button");
+      const productId = button.getAttribute("data-product-id");
+      const isAdded = button.classList.contains("added");
+      toggleAddToStore(productId, isAdded);
+    }
+    if (
+      target.classList.contains("add-to-funnel-button") ||
+      target.closest(".add-to-funnel-button")
+    ) {
+      const button = target.closest(".add-to-funnel-button");
+      const funnelId = button.getAttribute("data-funnel-id");
+      window.location.href =
+        "" + SERVERURL + "funnelish/constructor_vista/" + funnelId;
+    }
+  });
+
+  /************************************************
+   * Añadir/quitar producto a tienda
+   ************************************************/
+  function toggleAddToStore(productId, isAdded) {
+    let formData = new FormData();
+    formData.append("id_producto", productId);
+    $.ajax({
+      url: SERVERURL + "Productos/importar_productos_tienda",
+      method: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        response = JSON.parse(response);
+        if (response.status == 500) {
+          toastr.warning("" + response.message, "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+        } else if (response.status == 200) {
+          toastr.success("" + response.message, "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+        }
+      },
+      error: function (error) {
+        console.error("Error al actualizar el estado del producto:", error);
+      },
+    });
+  }
+
   fetchProducts();
 
   /* Filtros */
