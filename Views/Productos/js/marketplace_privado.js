@@ -134,6 +134,22 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="image-container">
                ${botonId_inventario}
                 <img src="${imagePath}" class="card-img-top" alt="Product Image">
+                <div class="add-to-store-button ${
+               product.agregadoTienda ? "added" : ""
+             }" data-product-id="${product.id_producto}">
+               <span class="plus-icon">+</span>
+               <span class="add-to-store-text">${
+                 product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"
+               }</span>
+             </div>
+             <div class="add-to-funnel-button" ${
+               product.agregadoFunnel ? "added" : ""
+             } data-funnel-id="${product.id_inventario}">
+               <span class="plus-icon">+</span>
+               <span class="add-to-funnel-text">${
+                 product.agregadoFunnel ? "Quitar de funnel" : "Añadir a funnel"
+               }</span>
+              </div>
             </div>
             <button class="btn btn-heart ${
               esFavorito ? "clicked" : ""
@@ -186,6 +202,59 @@ document.addEventListener("DOMContentLoaded", function () {
       clearTimeout(timeout);
       timeout = setTimeout(() => func.apply(context, args), wait);
     };
+  }
+
+  // Evento de click “global” para los botones “añadir a tienda” y “añadir a funnel”
+  cardContainer.addEventListener("click", function (event) {
+    const target = event.target;
+    if (
+      target.classList.contains("add-to-store-button") ||
+      target.closest(".add-to-store-button")
+    ) {
+      const button = target.closest(".add-to-store-button");
+      const productId = button.getAttribute("data-product-id");
+      const isAdded = button.classList.contains("added");
+      toggleAddToStore(productId, isAdded);
+    }
+    if (
+      target.classList.contains("add-to-funnel-button") ||
+      target.closest(".add-to-funnel-button")
+    ) {
+      const button = target.closest(".add-to-funnel-button");
+      const funnelId = button.getAttribute("data-funnel-id");
+      window.location.href =
+        "" + SERVERURL + "funnelish/constructor_vista/" + funnelId;
+    }
+  });
+
+  /************************************************
+   * Añadir/quitar producto a tienda
+   ************************************************/
+  function toggleAddToStore(productId, isAdded) {
+    let formData = new FormData();
+    formData.append("id_producto", productId);
+    $.ajax({
+      url: SERVERURL + "Productos/importar_productos_tienda",
+      method: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        response = JSON.parse(response);
+        if (response.status == 500) {
+          toastr.warning("" + response.message, "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+        } else if (response.status == 200) {
+          toastr.success("" + response.message, "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+        }
+      },
+      error: function (error) {
+        console.error("Error al actualizar el estado del producto:", error);
+      },
+    });
   }
 
   fetchProducts();
