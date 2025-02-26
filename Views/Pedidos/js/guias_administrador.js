@@ -4,9 +4,9 @@ let dataTableIsInitialized = false;
 const dataTableOptions = {
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
-    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar
+    { orderable: false, targets: 0 }, //ocultar para columna 0 el ordenar columna
   ],
-  order: [[1, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
+  order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 25,
   lengthMenu: [25, 50, 100, 200],
   destroy: true,
@@ -19,7 +19,7 @@ const dataTableOptions = {
       title: "Panel de Control: Usuarios",
       titleAttr: "Exportar a Excel",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
       },
       filename: "guias" + "_" + getFecha(),
       footer: true,
@@ -31,7 +31,7 @@ const dataTableOptions = {
       title: "Panel de Control: guias",
       titleAttr: "Exportar a CSV",
       exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
       },
       filename: "guias" + "_" + getFecha(),
       footer: true,
@@ -55,7 +55,6 @@ const dataTableOptions = {
   },
 };
 
-// Devuelve la fecha actual en formato YYYY-MM-DD
 function getFecha() {
   let fecha = new Date();
   let mes = fecha.getMonth() + 1;
@@ -65,45 +64,22 @@ function getFecha() {
   return fechaHoy;
 }
 
-// Muestra spinner de carga
-function showTableLoader() {
-  $("#tableLoader")
-    .html(
-      '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
-    )
-    .css("display", "flex");
-}
-
-// Oculta spinner de carga
-function hideTableLoader() {
-  $("#tableLoader").css("display", "none");
-}
-
-/**
- * Inicializa el DataTable
- */
 const initDataTable = async () => {
-  showTableLoader();
-  try {
-    if (dataTableIsInitialized) {
-      dataTable.destroy();
-    }
-
-    await listGuias();
-
-    dataTable = $("#datatable_guias").DataTable(dataTableOptions);
-    dataTableIsInitialized = true;
-
-    // Handle select all checkbox
-    document.getElementById("selectAll").addEventListener("change", function () {
-      const checkboxes = document.querySelectorAll(".selectCheckbox");
-      checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
-    });
-  } catch (error) {
-    console.error("Error al cargar la tabla", error);
-  } finally {
-    hideTableLoader();
+  if (dataTableIsInitialized) {
+    dataTable.destroy();
   }
+
+  await listGuias();
+
+  dataTable = $("#datatable_guias").DataTable(dataTableOptions);
+
+  dataTableIsInitialized = true;
+
+  // Handle select all checkbox
+  document.getElementById("selectAll").addEventListener("change", function () {
+    const checkboxes = document.querySelectorAll(".selectCheckbox");
+    checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
+  });
 };
 
 // Nueva función para recargar el DataTable manteniendo la paginación y el pageLength
@@ -116,16 +92,12 @@ const reloadDataTable = async () => {
   dataTable.page.len(currentLength).draw();
   dataTable.page(currentPage).draw(false);
   dataTableIsInitialized = true;
-
   document.getElementById("selectAll").addEventListener("change", function () {
     const checkboxes = document.querySelectorAll(".selectCheckbox");
     checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
   });
 };
 
-/**
- * Llama al backend para obtener las guías y pinta la tabla
- */
 const listGuias = async () => {
   try {
     const formData = new FormData();
@@ -144,21 +116,13 @@ const listGuias = async () => {
         body: formData,
       }
     );
+    const guias = await response.json();
 
     let content = ``;
     let impresiones = "";
     let novedad = "";
-
-    // Respuesta del fetch
-    const result = await response.json();
-    // El array real está en result.data
-    const guias = result.data;   // aquí sí es un array
-    const totals = result.totals; // objeto con los totales
-
     guias.forEach((guia, index) => {
-      const transporte = parseInt(guia.id_transporte);
-      const estadoNum  = parseInt(guia.estado_guia_sistema);
-
+      let transporte = guia.id_transporte;
       let transporte_content = "";
       let ruta_descarga = "";
       let ruta_traking = "";
@@ -166,319 +130,223 @@ const listGuias = async () => {
       let select_speed = "";
       let drogshipin = "";
       let despachado = "";
+      if (transporte == 2) {
+        transporte_content =
+          '<span style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
+        ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Servientrega/guia/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
+        ruta_traking = `https://www.servientrega.com.ec/Tracking/?guia=${guia.numero_guia}&tipo=GUIA`;
+        funcion_anular = `anular_guiaServi('${guia.numero_guia}')`;
+        estado = validar_estadoServi(guia.estado_guia_sistema);
+      } else if (transporte == 1) {
+        transporte_content =
+          '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
 
-      // 1) Determinar “content” de la columna transporte / enlaces / funciones anular / tracking
-      if (transporte === 1) {
-        // SPEED (o MerkaLogistic si usan la misma API)
-        // detecta si la guía es “MKL” o “SPDMX”
+        ruta_descarga = `<a class="w-100" href="https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
+
+        ruta_traking = `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${guia.numero_guia}`;
+        funcion_anular = `anular_guiaLaar('${guia.numero_guia}')`;
+        estado = validar_estadoLaar(guia.estado_guia_sistema);
+      } else if (transporte == 4) {
         if (guia.numero_guia.includes("MKL")) {
           transporte_content =
             '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">MerkaLogistic</span>';
-        } else if (guia.numero_guia.includes("SPDMX")) {
+        } else if (guia.numero_guia.includes("SPD")) {
           transporte_content =
             '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
-        } else {
-          transporte_content =
-            '<span style="background-color: orange; color: white; padding: 5px; border-radius: 0.3rem;">Speed sin prefijo</span>';
         }
-        ruta_descarga  = `<a class="w-100" href="https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
-        ruta_traking   = ``; // Ajusta si hay un enlace de tracking
+        ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Speed/descargar/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
+        ruta_traking = ``;
         funcion_anular = `anular_guiaSpeed('${guia.numero_guia}')`;
-      } 
-      else if (transporte === 2) {
-        // FIGGO / GO
+        estado = validar_estadoSpeed(guia.estado_guia_sistema);
+        /* select_speed = `
+                    <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${
+                      guia.numero_guia
+                    }">
+                        <option value="0" ${
+                          guia.estado_guia_sistema == 0 ? "selected" : ""
+                        }>-- Selecciona estado --</option>
+                        <option value="2" ${
+                          guia.estado_guia_sistema == 2 ? "selected" : ""
+                        }>Generado</option>
+                        <option value="3" ${
+                          guia.estado_guia_sistema == 3 ? "selected" : ""
+                        }>Transito</option>
+                        <option value="7" ${
+                          guia.estado_guia_sistema == 7 ? "selected" : ""
+                        }>Entregado</option>
+                        <option value="9" ${
+                          guia.estado_guia_sistema == 9 ? "selected" : ""
+                        }>Devuelto</option>
+                        <option value="14" ${
+                          guia.estado_guia_sistema == 14 ? "selected" : ""
+                        }>Novedad</option>
+                    </select>`; */
+      } else if (transporte == 3) {
         transporte_content =
-          '<span style="background-color: #0fcab7; color: white; padding: 5px; border-radius: 0.3rem;">GO</span>';
-        ruta_descarga  = `<a class="w-100" href="https://app.imporsuit.mx/figgo/descargar/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
-        ruta_traking   = `https://ec.gintracom.site/web/site/tracking`; 
-        funcion_anular = `anular_guiaGO('${guia.numero_guia}')`;
-      } 
-      else if (transporte === 3) {
-        // TIUI
-        transporte_content =
-          '<span style="background-color: #3fa7a9; color: white; padding: 5px; border-radius: 0.3rem;">TIUI</span>';
-        ruta_descarga  = `<a class="w-100 text-nowrap" href="https://api.tiui.app/api/guia/guiaReport/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
-        ruta_traking   = `https://tiuiamigo.tiui.mx/rastreo/${guia.numero_guia}`;
-        funcion_anular = `anular_guiaGO('${guia.numero_guia}')`; // O la que corresponda a tu API
-      } 
-      else if (transporte === 4) {
-        // UPS
-        transporte_content =
-          '<span style="background-color: #feb501; color: white; padding: 5px; border-radius: 0.3rem;">UPS</span>';
-        ruta_descarga  = `<a class="w-100 text-nowrap" href="https://app.imporsuit.mx/ups/getLabel/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
-        ruta_traking   = `https://www.ups.com/track?loc=es_MX&requester=ST/`;
-        // Para UPS, si no hay anulación implementada, podrías dejar vacía la función
-        funcion_anular = ``;
-      }
-      else {
-        // Desconocido
-        transporte_content =
-          '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Sin transporte</span>';
-      }
-
-      // 2) Validar el estado de la guía según su transportadora
-      let { span_estado, estado_guia } = { span_estado: "", estado_guia: "" };
-      if (transporte === 1) {
-        // SPEED
-        ({ span_estado, estado_guia } = validar_estadoSpeed(estadoNum));
-      } else if (transporte === 2) {
-        // FIGGO
-        ({ span_estado, estado_guia } = validar_estadoFiggo(estadoNum));
-      } else if (transporte === 3) {
-        // TIUI
-        ({ span_estado, estado_guia } = validar_estadoTiui(estadoNum));
-      } else if (transporte === 4) {
-        // UPS
-        ({ span_estado, estado_guia } = validar_estadoUps(estadoNum));
+          '<span style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
+        ruta_descarga = `<a class="w-100" href="https://guias.imporsuitpro.com/Gintracom/label/${guia.numero_guia}" target="_blank">${guia.numero_guia}</a>`;
+        ruta_traking = `https://ec.gintracom.site/web/site/tracking?guia=${guia.numero_guia}`;
+        funcion_anular = `anular_guiaGintracom('${guia.numero_guia}')`;
+        estado = validar_estadoGintracom(guia.estado_guia_sistema);
       } else {
-        // desconocido
-        span_estado = "badge-secondary";
-        estado_guia = "Estado sin identificar";
+        transporte_content =
+          '<span style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
       }
 
-      // 3) Otras lógicas de tu fila
+      var span_estado = estado.span_estado;
+      var estado_guia = estado.estado_guia;
+
       if (guia.drogshipin == 0) {
         drogshipin = "Local";
-      } else if (guia.drogshipin == 1) {
+      } else if (drogshipin == 1) {
         drogshipin = "Drogshipin";
       }
 
-      // ciudad
+      // Definir la variable ciudad antes de los bloques if-else
       let ciudad = "Ciudad no especificada";
-      if (guia.municipio) {
-        let ciudadArray = guia.municipio.split("/");
+
+      // Verificar si la ciudad es válida antes de usar split
+      let ciudadCompleta = guia.ciudad;
+
+      if (ciudadCompleta) {
+        let ciudadArray = ciudadCompleta.split("/");
         ciudad = ciudadArray[0];
+      } else {
+        console.log("La ciudad no está definida o está vacía");
       }
 
-      // Novedad
       novedad = "";
-      // Ejemplo de tu condición anterior
-      if (estadoNum === 14 && transporte === 1) {
-        // Speed con estado = 14
+      if (guia.estado_guia_sistema == 14 && transporte == 1) {
+        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+      } else if (guia.estado_guia_sistema == 6 && transporte == 3) {
+        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+      } /* else if (guia.estado_guia_sistema == 14 && transporte == 4) {
+        novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
+      } */
+      if (
+        guia.estado_guia_sistema >= 318 &&
+        guia.estado_guia_sistema <= 351 &&
+        transporte == 2
+      ) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       }
-      // etc... (agrega otras condiciones si tu lógica lo requiere)
 
-      // Plataforma
       let plataforma = procesarPlataforma(guia.plataforma);
-
-      // Impreso
       if (guia.impreso == 0) {
-        impresiones = `<box-icon name='printer' color="red"></box-icon>`;
+        impresiones = `<box-icon name='printer' color= "red"></box-icon>`;
       } else {
-        impresiones = `<box-icon name='printer' color="#28E418"></box-icon>`;
+        impresiones = `<box-icon name='printer' color= "#28E418"></box-icon>`;
       }
 
-      // Despachado
-      let iconoDespacho = "";
+      despachado = "";
       if (guia.estado_factura == 2) {
-        iconoDespacho = `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`;
+        despachado = `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>`;
       } else if (guia.estado_factura == 1) {
-        iconoDespacho = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
+        despachado = `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
       } else if (guia.estado_factura == 3) {
-        iconoDespacho = `<i class='bx bxs-truck' style="color:red; font-size: 30px;"></i>`;
+        despachado = `<i class='bx bxs-truck' style="color:red; font-size: 30px;"></i>`;
       }
 
       content += `
-        <tr>
-          <td><input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura}"></td>
-          <td>
-            <div>${ruta_descarga}</div>
-          </td>
-          <td>
-            <div>${guia.numero_factura}</div>
-            <div>${drogshipin}</div>
-          </td>
-          <td>
-            <div>
-              <button onclick="ver_detalle_cot('${guia.id_factura}')" 
-                      class="btn btn-sm btn-outline-primary">Ver detalle</button>
-            </div>
-            <div>${guia.fecha_factura}</div>
-          </td>
-          <td>
-            <div><strong>${guia.nombre}</strong></div>
-            <div>${guia.direccion} y ${guia.entre_calles}</div>
-            <div>telf: ${guia.telefono}</div>
-          </td>
-          <td>${generarDetallesProductos(guia.detalles_productos)}</td>
-          <td>
-            ${guia.estadoa} - ${ciudad}
-            <div>Colonia: ${guia.colonia}</div>
-            <div>Codigo Postal: ${guia.codigo_postal}</div>
-          </td>
-          <td>Zona ${guia.region}</td>
-          <td>
-            <div>
-              <strong>Tienda:</strong> <span class="link-like">${guia.tienda}</span>
-            </div>
-            <div>
-              <strong>Proveedor:</strong> <span class="link-like">${guia.nombre_proveedor}</span>
-            </div>
-          </td>
-          <td>${transporte_content}</td>
-          <td>
-            <div style="text-align: center;">
-              <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
-              <div style="position: relative; display: inline-block;">
-                <a href="https://wa.me/${formatPhoneNumber(
-                  guia.telefono
-                )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;">
-                  <i class='bx bxl-whatsapp-square' style="color: green;"></i>
-                </a>
-              </div>
-              <div style="text-align: -webkit-center;">
-                ${select_speed}
-              </div>
-              <div>
-                ${novedad}
-              </div>
-            </div>
-          </td>
-          <td>${impresiones}</td>
-          <td>${guia.costo_producto}</td>
-          <td>${guia.costo_flete}</td>
-          <td>${guia.monto_factura}</td>
-          <td>${iconoDespacho}</td>
-          <td>
-            <div class="dropdown">
-              <button class="btn btn-sm btn-secondary dropdown-toggle" 
-                      type="button" id="dropdownMenuButton" 
-                      data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-gear"></i>
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li>
-                  <span class="dropdown-item" style="cursor: pointer;" 
-                        onclick="${funcion_anular}">
-                    Anular
-                  </span>
-                </li>
-                <li>
-                  <span class="dropdown-item" style="cursor: pointer;">Información</span>
-                </li>
-                <li>
-                  <span class="dropdown-item" style="cursor: pointer;" 
-                        onclick='transito(${guia.id_factura})'>
-                    Tránsito
-                  </span>
-                </li>
-                <li>
-                  <span class="dropdown-item" style="cursor: pointer;" 
-                        onclick='entregar(${guia.id_factura})'>
-                    Entregado
-                  </span>
-                </li>
-                <li>
-                  <span class="dropdown-item" style="cursor: pointer;" 
-                        onclick='devolucion(${guia.id_factura})'>
-                    Devolución
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </td>
-        </tr>
-      `;
+                <tr>
+                    <td><input type="checkbox" class="selectCheckbox" data-id="${
+                      guia.id_factura
+                    }"></td>
+                    <td>
+                    <div>
+                     ${ruta_descarga}
+                    </div>
+                    <div>
+                    ${drogshipin}
+                    </div>
+                    </td>
+                    <td>
+                    <div><button onclick="ver_detalle_cot('${
+                      guia.id_factura
+                    }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
+                    <div>${guia.fecha_factura}</td></div>
+                    <td>
+                        <div><strong>${guia.nombre}</strong></div>
+                        <div>${guia.c_principal} y ${guia.c_secundaria}</div>
+                        <div>telf: ${guia.telefono}</div>
+                    </td>
+                    <td>${guia.provinciaa}-${ciudad}</td>
+                    <td>
+                      <div>
+                        <strong>Tienda:</strong> <span class="link-like" id="plataformaLink">${
+                          guia.tienda
+                        }</span>
+                      </div>
+                      <div>
+                        <strong>Proveedor:</strong> <span class="link-like" id="plataformaLink">${
+                          guia.nombre_proveedor
+                        }</span>
+                      </div>
+                    </td>
+                    <td>${transporte_content}</td>
+                    <td>
+                     <div style="text-align: center;">
+                     <div>
+                      <span class="w-100 text-nowrap ${span_estado}">${estado_guia}</span>
+                     </div>
+                     <div style="position: relative; display: inline-block;">
+                      <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
+                        <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
+                      </a>
+                      <a href="https://wa.me/${formatPhoneNumber(
+                        guia.telefono
+                      )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;" target="_blank">
+                      <i class='bx bxl-whatsapp-square' style="color: green;"></i>
+                      </a>
+                     </div>
+                     <div style="text-align: -webkit-center;">
+                     ${select_speed}
+                     </div>
+                     <div>
+                     ${novedad}
+                     </div>
+                     </div>
+                    </td>
+                    <td>${despachado}</td>
+                    <td>${impresiones}</td>
+                    <td>${guia.monto_factura}</td>
+                    <td>${guia.costo_producto}</td>
+                    <td>${guia.costo_flete}</td>
+                    <td></td>
+                    <td>${
+                      guia.monto_factura -
+                      guia.costo_producto -
+                      guia.costo_flete
+                    }</td>
+                    <td>${guia.cod == 1 ? "SI" : "NO"}</td>
+                    <td>
+                    <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='transito(${
+                          guia.id_factura
+                        })' >Transito</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='entregar(${
+                          guia.id_factura
+                        })' >Entregado</span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick='devolucion(${
+                          guia.id_factura
+                        })' >Devolución</span></li>
+                    </ul>
+                </div>
+                    </td>
+                </tr>`;
     });
-
-    // Insertamos todo el contenido armado
     document.getElementById("tableBody_guias").innerHTML = content;
-
-    // Actualiza las cards con los totales
-    const elementos = {
-      "num_pedidos" : "total",
-      "num_generadas" : "generada",
-      "num_transito" : "en_transito",
-      "num_entregadas" : "entregada",
-      "num_novedad" : "novedad",
-      "num_devolucion" : "devolucion",
-      "num_zona_entrega": "zona_entrega"
-    };
-    Object.entries(elementos).forEach(([id, key]) => {
-      let elemento = document.getElementById(id);
-      if (elemento) {
-        elemento.innerText = totals[key];
-      }
-    });
-
-    // Ajustar barras de progreso
-    if (totals.total > 0) {
-      let porcentajeGeneradas    = Math.round((totals.generada    / totals.total) * 100);
-      let porcentajeTransito     = Math.round((totals.en_transito / totals.total) * 100);
-      let porcentajeEntregaZona  = Math.round((totals.zona_entrega / totals.total) * 100);
-      let porcentajeEntrega      = Math.round((totals.entregada   / totals.total) * 100);
-      let porcentajeNovedad      = Math.round((totals.novedad     / totals.total) * 100);
-
-      let porcentajeDevolucion = 100 - (
-        porcentajeGeneradas + 
-        porcentajeTransito + 
-        porcentajeEntregaZona + 
-        porcentajeEntrega + 
-        porcentajeNovedad
-      );
-
-      document.getElementById("progress_generadas").style.width    = porcentajeGeneradas   + "%";
-      document.getElementById("percent_generadas").innerText       = porcentajeGeneradas   + "%";
-
-      document.getElementById("progress_transito").style.width     = porcentajeTransito    + "%";
-      document.getElementById("percent_transito").innerText        = porcentajeTransito    + "%";
-
-      document.getElementById("progress_zonaentrega").style.width  = porcentajeEntregaZona + "%";
-      document.getElementById("percent_zonaentrega").innerText     = porcentajeEntregaZona + "%";
-
-      document.getElementById("progress_entrega").style.width      = porcentajeEntrega     + "%";
-      document.getElementById("percent_entrega").innerText         = porcentajeEntrega     + "%";
-
-      document.getElementById("progress_novedad").style.width      = porcentajeNovedad     + "%";
-      document.getElementById("percent_novedad").innerText         = porcentajeNovedad     + "%";
-
-      document.getElementById("progress_devolucion").style.width   = porcentajeDevolucion  + "%";
-      document.getElementById("percent_devolucion").innerText      = porcentajeDevolucion  + "%";
-    } else {
-      // Si total es 0, dejamos todo en 0%
-      let progressBars = [
-        "progress_generadas",
-        "progress_transito",
-        "progress_zonaentrega",
-        "progress_entrega",
-        "progress_novedad",
-        "progress_devolucion",
-      ];
-      let percentTexts = [
-        "percent_generadas",
-        "percent_transito",
-        "percent_zonaentrega",
-        "percent_entrega",
-        "percent_novedad",
-        "percent_devolucion",
-      ];
-      progressBars.forEach((id) => {
-        document.getElementById(id).style.width = "0%";
-      });
-      percentTexts.forEach((id) => {
-        document.getElementById(id).innerText = "0%";
-      });
-    }
   } catch (ex) {
     alert(ex);
   }
 };
 
-// Genera el HTML para los productos de cada pedido (decodifica JSON)
-function generarDetallesProductos(detallesProductosJSON) {
-  let detallesProductos = JSON.parse(detallesProductosJSON);
-  let contenido = "";
-  detallesProductos.forEach((detalle) => {
-    contenido += `
-      <div><strong>SKU:</strong> ${detalle.sku}</div>
-      <div><strong>Producto:</strong> ${detalle.cantidad} x ${detalle.nombre_producto}</div>
-    `;
-  });
-  return contenido;
-}
-
-// Cambiar estado a "en tránsito"
 function transito(id_cabecera) {
   $.ajax({
     type: "POST",
@@ -502,7 +370,6 @@ function transito(id_cabecera) {
   });
 }
 
-// Cambiar estado a "entregado"
 function entregar(id_cabecera) {
   $.ajax({
     type: "POST",
@@ -526,7 +393,6 @@ function entregar(id_cabecera) {
   });
 }
 
-// Cambiar estado a "devolución"
 function devolucion(id_cabecera) {
   $.ajax({
     type: "POST",
@@ -538,7 +404,7 @@ function devolucion(id_cabecera) {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
-        toastr.success("CAMBIO REALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.success("CANBIO REALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       }
@@ -550,163 +416,10 @@ function devolucion(id_cabecera) {
   });
 }
 
-/*******************************************
- * FUNCIONES DE VALIDACIÓN DE ESTADOS
- * (coinciden con lo que el modelo usa)
- *******************************************/
-
-/**
- * SPEED: id_transporte = 1
- * Generada: [1,2]
- * En tránsito: [5,11,12]
- * Entregada: 7
- * Novedad: 14
- * Devolución: 9
- */
-function validar_estadoSpeed(estado) {
-  let span_estado = "";
-  let estado_guia = "";
-
-  if (estado === 1 || estado === 2) {
-    span_estado = "badge_purple";
-    estado_guia = "Generada";
-  } else if ([5, 11, 12].includes(estado)) {
-    span_estado = "badge_warning";
-    estado_guia = "En tránsito";
-  } else if (estado === 7) {
-    span_estado = "badge_green";
-    estado_guia = "Entregada";
-  } else if (estado === 14) {
-    span_estado = "badge_warning";
-    estado_guia = "Novedad";
-  } else if (estado === 9) {
-    span_estado = "badge_danger";
-    estado_guia = "Devolución";
-  } else {
-    span_estado = "badge_secondary";
-    estado_guia = "Desconocido (" + estado + ")";
-  }
-
-  return { span_estado, estado_guia };
-}
-
-/**
- * FIGGO/GO: id_transporte = 2
- * Generada: [100,102,103]
- * En tránsito: [300..317] excepto 307
- * Zona de entrega: estado=307
- * Entregada: [400..403]
- * Novedad: [320..351]
- * Devolución: [500..502]
- */
-function validar_estadoFiggo(estado) {
-  let span_estado = "";
-  let estado_guia = "";
-
-  if ([100, 102, 103].includes(estado)) {
-    span_estado = "badge_purple";
-    estado_guia = "Generada";
-  } else if (estado >= 300 && estado <= 317 && estado !== 307) {
-    span_estado = "badge_warning";
-    estado_guia = "En tránsito";
-  } else if (estado === 307) {
-    span_estado = "badge_warning";
-    estado_guia = "Zona de entrega";
-  } else if (estado >= 400 && estado <= 403) {
-    span_estado = "badge_green";
-    estado_guia = "Entregada";
-  } else if (estado >= 320 && estado <= 351) {
-    span_estado = "badge_warning";
-    estado_guia = "Novedad";
-  } else if (estado >= 500 && estado <= 502) {
-    span_estado = "badge_danger";
-    estado_guia = "Devolución";
-  } else {
-    span_estado = "badge_secondary";
-    estado_guia = "Desconocido (" + estado + ")";
-  }
-
-  return { span_estado, estado_guia };
-}
-
-/**
- * TIUI: id_transporte = 3
- * Generada: [1,2,3]
- * En tránsito: [4]
- * Zona de entrega: [5]
- * Entregada: [7]
- * Novedad: [6]
- * Devolución: [8,9,13]
- */
-function validar_estadoTiui(estado) {
-  let span_estado = "";
-  let estado_guia = "";
-
-  if ([1, 2, 3].includes(estado)) {
-    span_estado = "badge_purple";
-    estado_guia = "Generada";
-  } else if (estado === 4) {
-    span_estado = "badge_warning";
-    estado_guia = "En tránsito";
-  } else if (estado === 5) {
-    span_estado = "badge_warning";
-    estado_guia = "Zona de entrega";
-  } else if (estado === 7) {
-    span_estado = "badge_green";
-    estado_guia = "Entregada";
-  } else if (estado === 6) {
-    span_estado = "badge_warning";
-    estado_guia = "Novedad";
-  } else if ([8, 9, 13].includes(estado)) {
-    span_estado = "badge_danger";
-    estado_guia = "Devolución";
-  } else {
-    span_estado = "badge_secondary";
-    estado_guia = "Desconocido (" + estado + ")";
-  }
-
-  return { span_estado, estado_guia };
-}
-
-/**
- * UPS: id_transporte = 4
- * Generada: [2]
- * En tránsito: [3]
- * Entregada: [7]
- * Novedad: [14]
- * Devolución: [9]
- */
-function validar_estadoUps(estado) {
-  let span_estado = "";
-  let estado_guia = "";
-
-  if (estado === 2) {
-    span_estado = "badge_purple";
-    estado_guia = "Generada";
-  } else if (estado === 3) {
-    span_estado = "badge_warning";
-    estado_guia = "En tránsito";
-  } else if (estado === 7) {
-    span_estado = "badge_green";
-    estado_guia = "Entregada";
-  } else if (estado === 14) {
-    span_estado = "badge_warning";
-    estado_guia = "Novedad";
-  } else if (estado === 9) {
-    span_estado = "badge_danger";
-    estado_guia = "Devolución";
-  } else {
-    span_estado = "badge-secondary";
-    estado_guia = "Desconocido (" + estado + ")";
-  }
-
-  return { span_estado, estado_guia };
-}
-
-// ------------------- Eventos para "Select" (ej. cambiar estado Speed) -------------------
+// Event delegation for select change
 document.addEventListener("change", async (event) => {
   if (event.target && event.target.classList.contains("select-estado-speed")) {
-    const numeroGuia  = event.target.getAttribute("data-numero-guia");
+    const numeroGuia = event.target.getAttribute("data-numero-guia");
     const nuevoEstado = event.target.value;
     console.log(`Cambiando estado para la guía ${numeroGuia} a ${nuevoEstado}`);
     const formData = new FormData();
@@ -740,7 +453,6 @@ document.addEventListener("change", async (event) => {
   }
 });
 
-// ------------------- Funciones de anulación por transportadora -------------------
 function anular_guiaSpeed(numero_guia) {
   $.ajax({
     type: "GET",
@@ -748,49 +460,23 @@ function anular_guiaSpeed(numero_guia) {
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error("LA GUIA NO SE ANULÓ CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
         toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
         reloadDataTable();
       }
     },
     error: function (xhr, status, error) {
-      alert("Hubo un problema al anular la guía en Speed");
+      alert("Hubo un problema al anular la guia de Servientrega");
     },
   });
 }
 
-function anular_guiaGO(numero_guia) {
-  $.ajax({
-    type: "POST",
-    url: SERVERURL + "Guias/anularFiggo/" + numero_guia,
-    dataType: "json",
-    success: function (response) {
-      if (response.status == 500) {
-        toastr.error("LA IMAGEN NO SE AGREGÓ CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      } else if (response.status == 200) {
-        toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-        initDataTable();
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al anular la guía de Gintracom");
-    },
-  });
-}
-
-/**
- * Muestra datos de la tienda (llamando un modal) - si lo usas
- */
 function abrirModal_infoTienda(tienda) {
   let formData = new FormData();
   formData.append("tienda", tienda);
@@ -799,8 +485,8 @@ function abrirModal_infoTienda(tienda) {
     url: SERVERURL + "pedidos/datosPlataformas",
     type: "POST",
     data: formData,
-    processData: false,
-    contentType: false,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       response = JSON.parse(response);
       $("#nombreTienda").val(response[0].nombre_tienda);
@@ -816,9 +502,6 @@ function abrirModal_infoTienda(tienda) {
   });
 }
 
-/**
- * Ver detalle de la factura
- */
 function ver_detalle_cot(id_factura) {
   let formData = new FormData();
   formData.append("id_factura", id_factura);
@@ -827,14 +510,15 @@ function ver_detalle_cot(id_factura) {
     url: SERVERURL + "Pedidos/obtenerDetalle",
     type: "POST",
     data: formData,
-    processData: false,
-    contentType: false,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       response = JSON.parse(response);
 
+      // Mostrar los detalles principales de la primera factura
       $("#ordePara_detalleFac").text(response[0].nombre);
       $("#direccion_detalleFac").text(
-        `${response[0].direccion}, ${response[0].entre_calles}, ${response[0].colonia}`
+        `${response[0].c_principal},${response[0].c_secundaria}`
       );
       $("#telefono_detalleFac").text(response[0].telefono);
       $("#numOrden_detalleFac").text(response[0].numero_factura);
@@ -846,11 +530,13 @@ function ver_detalle_cot(id_factura) {
         $("#tipoEnvio_detalleFac").text("Sin Recaudo");
       }
 
+      // Verificar si la respuesta tiene elementos y llenar la tabla
       if (response.length > 0) {
         let tableBody = $("#tabla_body");
-        tableBody.empty();
+        tableBody.empty(); // Limpiar cualquier contenido previo
 
-        let total = 0;
+        let total = 0; // Variable para calcular el total
+
         response.forEach(function (detalle) {
           let subtotal = detalle.cantidad * detalle.precio_venta;
           let descuentoTotal = subtotal * (detalle.desc_venta / 100);
@@ -869,6 +555,7 @@ function ver_detalle_cot(id_factura) {
           tableBody.append(rowHtml);
         });
 
+        // Agregar la fila del total
         let totalRowHtml = `
           <tr class="custom-total-row">
             <td colspan="3" class="text-right">Total</td>
@@ -886,28 +573,192 @@ function ver_detalle_cot(id_factura) {
   });
 }
 
-/**
- * Extrae la subcadena de la URL de la tienda (p.e., "GO", "TIUI", etc.)
- */
 function procesarPlataforma(url) {
-  if (!url) {
-    return "La tienda ya no existe";
+  if (url == null || url == "") {
+    let respuesta_error = "La tienda ya no existe";
+    return respuesta_error;
   }
+  // Eliminar el "https://"
   let sinProtocolo = url.replace("https://", "");
+
+  // Encontrar la posición del primer punto
   let primerPunto = sinProtocolo.indexOf(".");
+
+  // Obtener la subcadena desde el inicio hasta el primer punto
   let baseNombre = sinProtocolo.substring(0, primerPunto);
+
+  // Convertir a mayúsculas
   let resultado = baseNombre.toUpperCase();
+
   return resultado;
 }
 
-// Botón para imprimir manifiestos de los items seleccionados
+function validar_estadoLaar(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 1) {
+    span_estado = "badge_purple";
+    estado_guia = "Generado";
+  } else if (estado == 2) {
+    span_estado = "badge_purple";
+    estado_guia = "Por recolectar";
+  } else if (estado == 3) {
+    span_estado = "badge_purple";
+    estado_guia = "Recolectado";
+  } else if (estado == 4) {
+    span_estado = "badge_purple";
+    estado_guia = "En bodega";
+  } else if (estado == 5) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 6) {
+    span_estado = "badge_warning";
+    estado_guia = "Zona de entrega";
+  } else if (estado == 7) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado == 8) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 11) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 12) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 14) {
+    span_estado = "badge_danger";
+    estado_guia = "Novedad";
+  } else if (estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+function validar_estadoServi(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 101) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulado";
+  } else if (estado == 100 || estado == 102 || estado == 103) {
+    span_estado = "badge_purple";
+    estado_guia = "Generado";
+  } else if (estado == 200 || estado == 201 || estado == 202) {
+    span_estado = "badge_purple";
+    estado_guia = "Recolectado";
+  } else if (estado >= 300 && estado <= 317) {
+    span_estado = "badge_warning";
+    estado_guia = "Procesamiento";
+  } else if (estado >= 400 && estado <= 403) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado >= 318 && estado <= 351) {
+    span_estado = "badge_danger";
+    estado_guia = "Novedad";
+  } else if (estado >= 500 && estado <= 502) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+function validar_estadoGintracom(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+
+  if (estado == 1) {
+    span_estado = "badge_purple";
+    estado_guia = "Generada";
+  } else if (estado == 2) {
+    span_estado = "badge_warning";
+    estado_guia = "Picking";
+  } else if (estado == 3) {
+    span_estado = "badge_warning";
+    estado_guia = "Packing";
+  } else if (estado == 4) {
+    span_estado = "badge_warning";
+    estado_guia = "En tránsito";
+  } else if (estado == 5) {
+    span_estado = "badge_warning";
+    estado_guia = "En reparto";
+  } else if (estado == 6) {
+    span_estado = "badge_purple";
+    estado_guia = "Novedad";
+  } else if (estado == 7) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado == 8) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  } else if (estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  } else if (estado == 10) {
+    span_estado = "badge_danger";
+    estado_guia = "Cancelada por transportadora";
+  } else if (estado == 11) {
+    span_estado = "badge_danger";
+    estado_guia = "Indemnización";
+  } else if (estado == 12) {
+    span_estado = "badge_danger";
+    estado_guia = "Anulada";
+  } else if (estado == 13) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+function validar_estadoSpeed(estado) {
+  var span_estado = "";
+  var estado_guia = "";
+  if (estado == 2) {
+    span_estado = "badge_purple";
+    estado_guia = "generado";
+  } else if (estado == 3) {
+    span_estado = "badge_warning";
+    estado_guia = "En transito";
+  } else if (estado == 7) {
+    span_estado = "badge_green";
+    estado_guia = "Entregado";
+  } else if (estado == 9) {
+    span_estado = "badge_danger";
+    estado_guia = "Devuelto";
+  } else if (estado == 14) {
+    span_estado = "badge_purple";
+    estado_guia = "Novedad";
+  }
+
+  return {
+    span_estado: span_estado,
+    estado_guia: estado_guia,
+  };
+}
+
+// Function to handle the click event for sending selected items
 document.getElementById("imprimir_guias").addEventListener("click", () => {
   const selectedGuias = [];
   const checkboxes = document.querySelectorAll(".selectCheckbox:checked");
+
   checkboxes.forEach((checkbox) => {
     selectedGuias.push(checkbox.getAttribute("data-id"));
   });
 
+  // Convert the selected items to JSON and log it to the console
   const selectedGuiasJson = JSON.stringify(selectedGuias);
   console.log(selectedGuiasJson);
 
@@ -916,12 +767,13 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
 
   $.ajax({
     type: "POST",
-    url: SERVERURL + "/Manifiestos/generar",
+    url: SERVERURL + "/Manifiestos/generar", // Asegúrate de que SERVERURL esté definida
     data: formData,
-    processData: false,
-    contentType: false,
+    processData: false, // Necesario para FormData
+    contentType: false, // Necesario para FormData
     dataType: "json",
     beforeSend: function () {
+      // Mostrar alerta de carga antes de realizar la solicitud AJAX
       Swal.fire({
         title: "Cargando",
         text: "Creando lista de productos",
@@ -936,12 +788,12 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
       if (response.status == 200) {
         const link = document.createElement("a");
         link.href = response.download;
-        link.download = "";
+        link.download = ""; // Puedes poner un nombre de archivo aquí si lo deseas
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
 
-        // Cerrar el Swal después de hacer clic
+        // Cerrar el Swal después de hacer clic en el enlace
         reloadDataTable();
         Swal.close();
       }
@@ -953,35 +805,34 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
   });
 });
 
-// Al cargar la ventana, se inicializa la tabla
 window.addEventListener("load", async () => {
   await initDataTable();
-  document.getElementById("btnAplicarFiltros").addEventListener("click", () => {
-    initDataTable();
-  });
 });
 
-/**
- * Ajusta número de teléfono a +52
- */
 function formatPhoneNumber(number) {
+  // Eliminar caracteres no numéricos excepto el signo +
   number = number.replace(/[^\d+]/g, "");
-  if (/^\+52/.test(number)) {
-    return number; 
-  } else if (/^52/.test(number)) {
+
+  // Verificar si el número ya tiene el código de país +593
+  if (/^\+593/.test(number)) {
+    // El número ya está correctamente formateado con +593
+    return number;
+  } else if (/^593/.test(number)) {
+    // El número tiene 593 al inicio pero le falta el +
     return "+" + number;
   } else {
+    // Si el número comienza con 0, quitarlo
     if (number.startsWith("0")) {
       number = number.substring(1);
     }
-    number = "+52" + number;
+    // Agregar el código de país +593 al inicio del número
+    number = "+593" + number;
   }
+
   return number;
 }
 
-// --------------------------------------
-// Funciones genéricas de anulación extra
-// --------------------------------------
+//anular guia
 function anular_guiaLaar(numero_guia) {
   let formData = new FormData();
   formData.append("guia", numero_guia);
@@ -990,18 +841,20 @@ function anular_guiaLaar(numero_guia) {
     url: SERVERURL + "guias/anularGuia",
     type: "POST",
     data: formData,
-    processData: false,
-    contentType: false,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       response = JSON.parse(response);
       if (response.status == 500) {
-        toastr.error("LA GUIA NO SE ANULÓ CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
         toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
+        $("#imagen_categoriaModal").modal("hide");
         reloadDataTable();
       }
     },
@@ -1012,30 +865,31 @@ function anular_guiaLaar(numero_guia) {
 }
 
 function anular_guiaServi(numero_guia) {
-  // Si en verdad usas Speed en lugar de Servientrega, podrías borrar esto.
   $.ajax({
     type: "GET",
     url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia,
     dataType: "json",
     success: function (response) {},
     error: function (xhr, status, error) {
-      // alert("Hubo un problema al anular la guia de Servientrega");
+      /* alert("Hubo un problema al anular la guia de Servientrega"); */
     },
   });
 
   $.ajax({
     type: "GET",
+    /* url: "https://guias.imporsuitpro.com/Servientrega/Anular/" + numero_guia, */
     url: SERVERURL + "Guias/anularServi_temporal/" + numero_guia,
     dataType: "json",
     success: function (response) {
       if (response.status == 500) {
-        toastr.error("LA GUIA NO SE ANULÓ CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
         toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
         reloadDataTable();
       }
     },
@@ -1055,10 +909,11 @@ function anular_guiaGintracom(numero_guia) {
         toastr.success("GUIA ANULADA CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
         $("#imagen_categoriaModal").modal("hide");
         reloadDataTable();
       } else {
-        toastr.error("LA GUIA NO SE ANULÓ CORRECTAMENTE", "NOTIFICACIÓN", {
+        toastr.error("LA GUIA NO SE ANULO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       }
@@ -1070,9 +925,8 @@ function anular_guiaGintracom(numero_guia) {
   });
 }
 
-// --------------------
-// Modal Novedades
-// --------------------
+//fin anular guia
+//modal novedades
 function gestionar_novedad(guia_novedad) {
   let transportadora = "";
   $.ajax({
@@ -1118,12 +972,10 @@ function gestionar_novedad(guia_novedad) {
       $("#gestionar_novedadModal").modal("show");
     },
     error: function (error) {
-      console.error("Error al obtener la novedad:", error);
+      console.error("Error al obtener la lista de bodegas:", error);
     },
   });
 }
-
-// Manejo de algunos selects y envío de novedades
 $(document).ready(function () {
   $("#tipo_gintracom").change(function () {
     var tipo = $("#tipo_gintracom").val();
@@ -1142,7 +994,7 @@ $(document).ready(function () {
 
 function enviar_gintraNovedad() {
   var button = document.getElementById("boton_gintra");
-  button.disabled = true;
+  button.disabled = true; // Desactivar el botón
 
   var guia = $("#numero_guia").val();
   var observacion = $("#Solucion_novedad").val();
@@ -1170,22 +1022,24 @@ function enviar_gintraNovedad() {
     url: SERVERURL + "novedades/solventarNovedadGintracom",
     type: "POST",
     data: formData,
-    processData: false,
-    contentType: false,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       response = JSON.parse(response);
       if (response.error === true) {
-        toastr.error(response.message, "NOTIFICACIÓN", {
+        toastr.error("" + response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
         button.disabled = false;
       } else if (response.error === false) {
-        toastr.success(response.message, "NOTIFICACIÓN", {
+        toastr.success("" + response.message, "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
-        initDataTableNovedades(); // o reloadDataTable(), según tu caso
+        initDataTableNovedades();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -1197,7 +1051,7 @@ function enviar_gintraNovedad() {
 
 function enviar_serviNovedad() {
   var button = document.getElementById("boton_servi");
-  button.disabled = true;
+  button.disabled = true; // Desactivar el botón
 
   var guia = $("#numero_guia").val();
   var observacion = $("#observacion_nov").val();
@@ -1212,22 +1066,24 @@ function enviar_serviNovedad() {
     url: SERVERURL + "novedades/solventarNovedadServientrega",
     type: "POST",
     data: formData,
-    processData: false,
-    contentType: false,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       response = JSON.parse(response);
       if (response.status == 500) {
-        toastr.error("Novedad no enviada correctamente", "NOTIFICACIÓN", {
+        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
         button.disabled = false;
       } else if (response.status == 200) {
-        toastr.success("Novedad enviada correctamente", "NOTIFICACIÓN", {
+        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
-        initDataTableNovedades(); 
+        initDataTableNovedades();
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -1239,14 +1095,16 @@ function enviar_serviNovedad() {
 
 function enviar_laarNovedad() {
   var button = document.getElementById("boton_laar");
-  button.disabled = true;
+  button.disabled = true; // Desactivar el botón
 
   var guia = $("#numero_guia").val();
   var id_novedad = $("#id_novedad").val();
   var ciudad = $("#ciudad_novedadesServi").val();
   var nombre_novedadesServi = $("#nombre_novedadesServi").val();
   var callePrincipal_novedadesServi = $("#callePrincipal_novedadesServi").val();
-  var calleSecundaria_novedadesServi = $("#calleSecundaria_novedadesServi").val();
+  var calleSecundaria_novedadesServi = $(
+    "#calleSecundaria_novedadesServi"
+  ).val();
   var numeracion_novedadesServi = $("#numeracion_novedadesServi").val();
   var referencia_novedadesServi = $("#referencia_novedadesServi").val();
   var telefono_novedadesServi = $("#telefono_novedadesServi").val();
@@ -1272,19 +1130,21 @@ function enviar_laarNovedad() {
     url: SERVERURL + "novedades/solventarNovedadLaar",
     type: "POST",
     data: formData,
-    processData: false,
-    contentType: false,
+    processData: false, // No procesar los datos
+    contentType: false, // No establecer ningún tipo de contenido
     success: function (response) {
       response = JSON.parse(response);
       if (response.status == 500) {
-        toastr.error("Novedad no enviada correctamente", "NOTIFICACIÓN", {
+        toastr.error("Novedad no enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
         button.disabled = false;
       } else if (response.status == 200) {
-        toastr.success("Novedad enviada correctamente", "NOTIFICACIÓN", {
+        toastr.success("Novedad enviada CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
+
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
         initDataTableNovedades();
