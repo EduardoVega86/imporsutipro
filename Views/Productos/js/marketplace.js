@@ -200,8 +200,6 @@ document.addEventListener("DOMContentLoaded", function () {
   formData_filtro.append("vendido", "0");
   formData_filtro.append("id", "")
 
-  const initialProductsPerPage = 24;
-  const additionalProductsPerPage = 24;
   let currentPage = 1;
   let products = [];
   let displayedProducts = new Set();
@@ -333,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function () {
         products = [...products, ...newProducts];
       }
   
-      displayProducts(products, currentPage, reset ? initialProductsPerPage : additionalProductsPerPage);
+      displayProducts(products, currentPag);
   
       // Oculta el botón si ya no hay más productos
       if (newProducts.length < additionalProductsPerPage) {
