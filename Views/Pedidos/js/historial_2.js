@@ -503,10 +503,6 @@ function enviar_mensaje_automatizador(
   });
 }
 
-window.addEventListener("load", async () => {
-  await initDataTableHistorial();
-});
-
 function formatPhoneNumber(number) {
   // Eliminar caracteres no numéricos excepto el signo +
   number = number.replace(/[^\d+]/g, "");
