@@ -198,6 +198,7 @@
         const formData = new FormData();
         formData.append("fecha_inicio", fecha_inicio); // Parámetro de fecha de inicio
         formData.append("fecha_fin", fecha_fin); // Parámetro de fecha de fin
+        formData.append("estado_pedido", $("#estado_pedido").val());
 
         // Realizar la solicitud AJAX
         $.ajax({

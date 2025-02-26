@@ -1733,7 +1733,7 @@ class PedidosModel extends Query
 
 
 
-    public function cargar_cards_pedidos($plataforma, $fecha_inicio, $fecha_fin)
+    public function cargar_cards_pedidos($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido)
     {
         /* numero pedidos */
         // Base de la consulta SQL
@@ -1745,8 +1745,14 @@ class PedidosModel extends Query
 
         // Agregar rango de fechas si se proporciona
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql_numero_pedidos .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin' AND no_producto = 0";
+            $sql_numero_pedidos .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
+
+        if (!empty($estado_pedido)) {
+            $sql_numero_pedidos .= " AND estado_pedido = $estado_pedido";
+        }
+
+        $sql_numero_pedidos .= " AND no_producto = 0";
 
         // Ejecutar la consulta y obtener el resultado
         $resultado_numero_pedidos = $this->select($sql_numero_pedidos);
@@ -1762,6 +1768,12 @@ class PedidosModel extends Query
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql_valor_pedidos .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin' AND no_producto = 0";
         }
+
+        if (!empty($estado_pedido)) {
+            $sql_valor_pedidos .= " AND estado_pedido = $estado_pedido";
+        }
+
+        $sql_valor_pedidos .= " AND no_producto = 0";
 
         // Ejecutar la consulta y obtener el resultado
         $resultado_valor_pedidos = $this->select($sql_valor_pedidos);
@@ -1780,6 +1792,12 @@ class PedidosModel extends Query
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql_numero_guias .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
+
+        if (!empty($estado_pedido)) {
+            $sql_numero_guias .= " AND estado_pedido = $estado_pedido";
+        }
+
+        $sql_numero_guias .= " AND no_producto = 0";
 
         // Ejecutar la consulta y obtener el resultado
         $resultado_numero_guias = $this->select($sql_numero_guias);
