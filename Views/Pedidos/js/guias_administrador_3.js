@@ -409,7 +409,31 @@ const listGuias = async () => {
   
       document.getElementById("progress_devolucion").style.width = porcentajeDevolucion + "%";
       document.getElementById("percent_devolucion").innerText = porcentajeDevolucion + "%";
-    }  
+    } else {
+      // Si total es 0 o no se encontró nada, limpia todo
+      let progressBars = [
+        "progress_generadas",
+        "progress_transito",
+        "progress_zonaentrega",
+        "progress_entrega",
+        "progress_novedad",
+        "progress_devolucion",
+      ];
+      let percentTexts = [
+        "percent_generadas",
+        "percent_transito",
+        "percent_zonaentrega",
+        "percent_entrega",
+        "percent_novedad",
+        "percent_devolucion",
+      ];
+      progressBars.forEach((id) => {
+        document.getElementById(id).style.width = "0%";
+      });
+      percentTexts.forEach((id) => {
+        document.getElementById(id).innerText = "0%";
+      });
+    }
   } catch (ex) {
     alert(ex);
   }

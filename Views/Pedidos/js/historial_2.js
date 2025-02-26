@@ -32,17 +32,24 @@ const dataTableHistorialOptions = {
 };
 
 const initDataTableHistorial = async () => {
-  if (dataTableHistorialIsInitialized) {
-    dataTableHistorial.destroy();
+  showTableLoader();
+  try {
+    if (dataTableHistorialIsInitialized) {
+      dataTableHistorial.destroy();
+    }
+
+    await listHistorialPedidos();
+
+    dataTableHistorial = $("#datatable_historialPedidos").DataTable(
+      dataTableHistorialOptions
+    );
+
+    dataTableHistorialIsInitialized = true;
+  } catch (error) {
+    console.error("Error al cargar la tabla:", error);
+  } finally {
+    hideTableLoader();
   }
-
-  await listHistorialPedidos();
-
-  dataTableHistorial = $("#datatable_historialPedidos").DataTable(
-    dataTableHistorialOptions
-  );
-
-  dataTableHistorialIsInitialized = true;
 };
 
 const listHistorialPedidos = async () => {
@@ -50,6 +57,7 @@ const listHistorialPedidos = async () => {
     const formData = new FormData();
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
+    formData.append("estado_pedido", $("#estado_pedido").val());
 
     const response = await fetch(`${SERVERURL}${currentAPI}`, {
       method: "POST",
@@ -248,6 +256,38 @@ const listHistorialPedidos = async () => {
     alert(ex);
   }
 };
+
+window.addEventListener("load", async () => {
+  await initDataTableHistorial();
+
+  const btnAplicar = document.getElementById("btnAplicarFiltros");
+  if (btnAplicar) {
+    btnAplicar.addEventListener("click", async function () {
+      let rangoFechas = $("#daterange").val();
+      if (rangoFechas) {
+        let fechas = rangoFechas.split(" - ");
+        fecha_inicio = fechas[0] + " 00:00:00";
+        fecha_fin = fechas[1] + " 23:59:59";
+      }
+      await initDataTableHistorial();
+      cargarCardsPedidos();
+    });
+  }
+});
+
+//Cargando
+function showTableLoader() {
+  // Inserta siempre el HTML del spinner y luego muestra el contenedor
+  $("#tableLoader")
+    .html(
+      '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
+    )
+    .css("display", "flex");
+}
+
+function hideTableLoader() {
+  $("#tableLoader").css("display", "none");
+}
 
 // Manejo de botones para cambiar API y recargar la tabla
 document.getElementById("btnPedidos").addEventListener("click", () => {
