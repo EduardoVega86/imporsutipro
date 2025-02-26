@@ -1793,12 +1793,6 @@ class PedidosModel extends Query
             $sql_numero_guias .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
-        if (!empty($estado_pedido)) {
-            $sql_numero_guias .= " AND estado_pedido = $estado_pedido";
-        }
-
-        $sql_numero_guias .= " AND no_producto = 0";
-
         // Ejecutar la consulta y obtener el resultado
         $resultado_numero_guias = $this->select($sql_numero_guias);
         /* numero guias */
