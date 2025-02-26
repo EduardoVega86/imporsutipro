@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Productos/css/marketplace_style.php'; ?>
+<?php require_once './Views/Productos/css/marketplacepro_style.php'; ?>
 
 <?php require_once './Views/Productos/Modales/descripcion_marketplace.php'; ?>
 <?php require_once './Views/Productos/Modales/Seleccion_productoAtributo.php'; ?>

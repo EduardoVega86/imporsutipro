@@ -928,4 +928,8 @@
         height: 50px;
         border-radius: 50%;
     }
+
+    .card-clickable {
+        cursor: pointer;
+    }
 </style>
