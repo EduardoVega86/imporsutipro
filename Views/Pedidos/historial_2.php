@@ -67,7 +67,35 @@
                     </div>
                 </div>
             </div>
+            <div class="flex-fill filtro_impresar">
+                    <div class=" d-flex flex-column justify-content-start">
+                        <label for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
+                        <div>
+                            <select name="estado_pedido" class="form-control" id="estado_pedido">
+                                <option value=""> Todas</option>
+                                <option value="1"> Pendiente </option>
+                                <option value="2"> Gestionado </option>
+                                <option value="3"> No desea </option>
+                                <option value="4"> 1ra llamada </option>
+                                <option value="5"> 2da llamada </option>
+                                <option value="6"> Observación </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+        </div>
 
+        <div style="padding-top: 20px;">
+            <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
+        </div>
+
+        <div class="table-container" style="position: relative;">
+            <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
+            <div id="tableLoader" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
         </div>
 
         <div class="d-flex mb-3 mt-3">
@@ -136,7 +164,7 @@
         });
 
         // Evento que se dispara cuando se aplica un nuevo rango de fechas
-        $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+        /* $('#daterange').on('apply.daterangepicker', function(ev, picker) {
             // Actualiza el valor del input con el rango de fechas seleccionado
             $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
 
@@ -145,7 +173,7 @@
             fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
             initDataTableHistorial();
             cargarCardsPedidos();
-        });
+        }); */
 
         // Establece los valores iniciales en el input de fechas
         $('#daterange').val(haceDosSemanas.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD'));

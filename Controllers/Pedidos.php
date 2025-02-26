@@ -585,7 +585,8 @@ class Pedidos extends Controller
     {
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
-        $data = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin);
+        $estado_pedido = $_POST['estado_pedido'] ?? "";
+        $data = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
         echo json_encode($data);
     }
 
@@ -593,7 +594,8 @@ class Pedidos extends Controller
     {
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
-        $data = $this->model->cargar_pedidos_sin_producto($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin);
+        $estado_pedido = $_POST['estado_pedido'] ?? "";
+        $data = $this->model->cargar_pedidos_sin_producto($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
         echo json_encode($data);
     }
 

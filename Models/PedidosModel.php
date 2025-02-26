@@ -1684,7 +1684,7 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function cargarPedidos_imporsuit($plataforma, $fecha_inicio, $fecha_fin)
+    public function cargarPedidos_imporsuit($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido)
     {
         $sql = "SELECT *, 
         (SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad,
@@ -1694,15 +1694,21 @@ class PedidosModel extends Query
          and id_plataforma = '$plataforma'";
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin' AND no_producto = 0";
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
+
+        if (!empty($estado_pedido)) {
+            $sql .= " AND estado_pedido = $estado_pedido";
+        }
+
+        $sql .= " AND no_producto = 0";
 
         $sql .= " ORDER BY numero_factura DESC;";
 
         return $this->select($sql);
     }
 
-    public function cargar_pedidos_sin_producto($plataforma, $fecha_inicio, $fecha_fin): array
+    public function cargar_pedidos_sin_producto($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido): array
     {
         $sql = "SELECT *, 
         (SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad,
@@ -1712,8 +1718,14 @@ class PedidosModel extends Query
          and id_plataforma = '$plataforma'";
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin' AND no_producto = 1";
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
+
+        if (!empty($estado_pedido)) {
+            $sql .= " AND estado_pedido = $estado_pedido";
+        }
+
+        $sql .= " AND no_producto = 1";
 
         $sql .= " ORDER BY numero_factura DESC;";
         return $this->select($sql);
