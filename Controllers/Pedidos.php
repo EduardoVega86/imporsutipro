@@ -612,7 +612,8 @@ class Pedidos extends Controller
     {
         $fecha_inicio = $_POST['fecha_inicio'] != "" ? $_POST['fecha_inicio'] : date('Y-m-01');
         $fecha_fin = $_POST['fecha_fin']  != "" ? $_POST['fecha_fin'] : date('Y-m-t', strtotime($fecha_inicio));
-        $data = $this->model->cargar_cards_pedidos($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin);
+        $estado_pedido = $_POST['estado_pedido'] ?? "";
+        $data = $this->model->cargar_cards_pedidos($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
         echo json_encode($data);
     }
 
