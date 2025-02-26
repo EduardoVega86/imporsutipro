@@ -1766,7 +1766,7 @@ class PedidosModel extends Query
 
         // Agregar rango de fechas si se proporciona
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql_valor_pedidos .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin' AND no_producto = 0";
+            $sql_valor_pedidos .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
         if (!empty($estado_pedido)) {
@@ -1792,12 +1792,6 @@ class PedidosModel extends Query
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql_numero_guias .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
-
-        if (!empty($estado_pedido)) {
-            $sql_numero_guias .= " AND estado_pedido = $estado_pedido";
-        }
-
-        $sql_numero_guias .= " AND no_producto = 0";
 
         // Ejecutar la consulta y obtener el resultado
         $resultado_numero_guias = $this->select($sql_numero_guias);
