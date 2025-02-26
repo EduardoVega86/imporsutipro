@@ -1766,7 +1766,7 @@ class PedidosModel extends Query
 
         // Agregar rango de fechas si se proporciona
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql_valor_pedidos .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin' AND no_producto = 0";
+            $sql_valor_pedidos .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
         if (!empty($estado_pedido)) {
