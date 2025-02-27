@@ -2,6 +2,7 @@
 require_once 'PHPMailer/PHPMailer.php';
 require_once 'PHPMailer/SMTP.php';
 require_once 'PHPMailer/Exception.php';
+require_once 'Class/Auditable.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use React\EventLoop\Factory;
@@ -10,7 +11,19 @@ use Psr\Http\Message\ResponseInterface;
 
 class WalletModel extends Query
 {
-    public function obtenerTiendas()
+    private Auditable $auditable;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        session_start();
+        $this->auditable = new Auditable($_SESSION['id'], 'Billetera');
+    }
+
+    public function obtenerTiendas(): bool|string
     {
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
@@ -19,23 +32,24 @@ class WalletModel extends Query
         return json_encode($datos_tienda);
     }
 
-    public function obtenerCabecera($id_cabecera)
+    public function obtenerCabecera($id_cabecera): array
     {
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
-    public function editar($id_cabecera, $total_venta, $precio_envio, $full, $costo)
+    public function editar($id_cabecera, $total_venta, $precio_envio, $full, $costo): array
     {
         $sql_estado = "SELECT estado_guia, visto FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
-        $response_estado =  $this->select($sql_estado);
+        $response_estado = $this->select($sql_estado);
         $estado_ = $response_estado[0]['estado_guia'];
         $visto_guia = $response_estado[0]['visto'];
 
         if ($visto_guia == 1) {
             $responses["status"] = 501;
             $responses["message"] = "No se puede editar una guía que ya ha sido abonada";
+            $this->auditable->auditar("EDITAR GUIA", "El usuario intentó editar una guía que ya ha sido abonada");
             return $responses;
         }
 
@@ -44,13 +58,13 @@ class WalletModel extends Query
         if ($estado_ == "9") $monto_recibir = -$precio_envio - $full;
 
         $sql = "UPDATE cabecera_cuenta_pagar set total_venta = ?, precio_envio = ?, full = ?, costo = ?, monto_recibir = ?, valor_pendiente = ? WHERE id_cabecera = ?";
-        $response1 =  $this->update($sql, array($total_venta, $precio_envio, $full, $costo, $monto_recibir, $monto_recibir, $id_cabecera));
+        $response1 = $this->update($sql, array($total_venta, $precio_envio, $full, $costo, $monto_recibir, $monto_recibir, $id_cabecera));
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         $numero_factura = $response[0]['numero_factura'];
 
         $sql = "UPDATE facturas_cot set costo_flete = ? WHERE numero_factura = ?";
-        $response =  $this->update($sql, array($precio_envio, $numero_factura));
+        $response = $this->update($sql, array($precio_envio, $numero_factura));
 
         if ($response1 == 1) {
             $responses["status"] = 200;
@@ -64,28 +78,51 @@ class WalletModel extends Query
         return $responses;
     }
 
-    public function eliminar($id_cabecera)
+    public function eliminar($id_cabecera): array
     {
+        $sql_guia = "SELECT guia, visto FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
+        $response_guia = $this->select($sql_guia);
+        $guia = $response_guia[0]['guia'];
+        $visto_guia = $response_guia[0]['visto'];
+
+        if ($visto_guia == 1) {
+            $responses["status"] = 501;
+            $responses["message"] = "No se puede eliminar una guía que ya ha sido abonada";
+            $this->auditable->auditar("ELIMINAR GUIA", "El usuario intentó eliminar una guía que ya ha sido abonada, GUIA: $guia");
+            return $responses;
+        }
+
         $sql = "DELETE FROM cabecera_cuenta_pagar WHERE id_cabecera = ?";
-        $response =  $this->delete($sql, array($id_cabecera));
+        $response = $this->delete($sql, array($id_cabecera));
         if ($response == 1) {
             $responses["status"] = 200;
+            $this->auditable->auditar("ELIMINAR GUIA", "El usuario eliminó una guía, GUIA: $guia");
         } else {
             $responses["status"] = 400;
             $responses["message"] = $response["message"];
+            $this->auditable->auditar("ELIMINAR GUIA", "El usuario intentó eliminar una guía, GUIA: $guia");
         }
         return $responses;
     }
 
-    public function cambiarEstado($id_cabecera, $estado)
+    public function cambiarEstado($id_cabecera, $estado): array
     {
-        $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE id_cabecera = ?";
-        $response =  $this->update($sql, array($estado, $id_cabecera));
-
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         $numero_factura = $response[0]['numero_factura'];
         $numero_guia = $response[0]['guia'];
+        $visto_guia = $response[0]['visto'];
+
+        if ($visto_guia == 1) {
+            $responses["status"] = 501;
+            $responses["message"] = "No se puede cambiar el estado de una guía que ya ha sido abonada";
+            $this->auditable->auditar("CAMBIAR ESTADO GUIA", "El usuario intentó cambiar el estado de una guía que ya ha sido abonada, GUIA: $numero_guia");
+            return $responses;
+        }
+
+        $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE id_cabecera = ?";
+        $response = $this->update($sql, array($estado, $id_cabecera));
+
         if ($estado == 7) {
 
             if (str_contains($numero_guia, 'IMP') || str_contains($numero_guia, 'MKP'))
@@ -107,20 +144,19 @@ class WalletModel extends Query
                 $estados = 8;
         }
         $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE numero_factura = ?";
-        $response =  $this->update($sql, array($estados, $numero_factura));
-
+        $response = $this->update($sql, array($estados, $numero_factura));
 
 
         if ($response == 1) {
             $responses["status"] = 200;
+            $this->auditable->auditar("CAMBIAR ESTADO GUIA", "El usuario cambió el estado de una guía, GUIA: $numero_guia");
         } else {
             $responses["status"] = 400;
             $responses["message"] = $response["message"];
+            $this->auditable->auditar("CAMBIAR ESTADO GUIA", "El usuario intentó cambiar el estado de una guía, GUIA: $numero_guia");
         }
         return $responses;
     }
-
-
 
 
     public function obtenerDatos($tienda)
@@ -278,17 +314,23 @@ class WalletModel extends Query
 
     public function abonarBilletera($id_cabecera, $valor, $usuario)
     {
+        $guia_sql = "SELECT guia, estado_guia, numero_factura, id_plataforma, costo, full FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
+        $guia_response = $this->select($guia_sql)[0];
+        $guia = $guia_response['guia'];
         if ($valor == 0) {
-            return;
+            $this->auditable->auditar("ABONAR BILLETERA", "El usuario intentó abonar 0 a la billetera, GUIA: $guia");
+            return $this->errorResponse('El valor a abonar no puede ser 0');
         }
 
         $cabecera = $this->getCabeceraCuentaPagar($id_cabecera);
         if (!$cabecera) {
+            $this->auditable->auditar("ABONAR BILLETERA", "El usuario intentó abonar a una guía inexistente.");
             return $this->errorResponse('Cabecera no encontrada');
         }
 
         $saldo = $cabecera['valor_pendiente'];
         if ($saldo == 0) {
+            $this->auditable->auditar("ABONAR BILLETERA", "El usuario intentó abonar a una guía sin saldo pendiente, GUIA: $guia");
             return $this->errorResponse('No hay saldo pendiente');
         }
 
@@ -296,12 +338,14 @@ class WalletModel extends Query
         $cod_factura = $this->esCodFactura($cabecera['numero_factura']);
 
         if ($this->shouldAbortTransaction($cabecera['estado_guia'], $valor, $cod_factura)) {
+            $this->auditable->auditar("ABONAR BILLETERA", "El usuario intentó abonar a una guía en condiciones invalidas de COD, GUIA: $guia");
             return $this->errorResponse('Condición de guía inválida para la transacción');
         }
 
         // Verificar el estado de la factura
         $isCodFactura = $this->esCodFactura($cabecera['numero_factura']);
         if ($isCodFactura && $cabecera['estado_guia'] == 7 && $valor < 0 && $isCodFactura == 1) {
+            $this->auditable->auditar("ABONAR BILLETERA", "El usuario intentó abonar una guía con COD en estado 7 y valor negativo, GUIA: $guia");
             return $this->errorResponse('La guía no permite transacciones negativas');
         }
 
@@ -317,7 +361,7 @@ class WalletModel extends Query
         if ($cabecera['estado_guia'] == 7 || $cabecera['estado_guia'] == 9) {
             $this->manejarGuiaCompleta($cabecera, $usuario, $valor);
         }
-
+        $this->auditable->auditar("ABONAR BILLETERA", "El usuario abonó a la billetera, GUIA: $guia");
         return $this->successResponse();
     }
 
@@ -441,6 +485,7 @@ class WalletModel extends Query
         // Crear una nueva cabecera para el fullfilment
         $this->crearCabeceraFull($cabecera, $id_full);
     }
+
     private function crearCabeceraFull($cabecera, $id_full)
     {
         $url_tienda = $this->obtenerEnlace($id_full);
@@ -521,34 +566,35 @@ class WalletModel extends Query
 
     private function successResponse()
     {
+
         return ["status" => 200, "message" => "Transacción exitosa"];
     }
 
     public function guiasPendientes($tienda)
     {
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and valor_pendiente > 0";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return json_encode($response);
     }
 
     public function guiasAbonadas($tienda)
     {
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and valor_pendiente = 0";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return json_encode($response);
     }
 
     public function pagar($monto, $tienda, $usuario)
     {
         $sql = "UPDATE billeteras set saldo = saldo - $monto WHERE tienda = ?";
-        $response =  $this->update($sql,  array($tienda));
+        $response = $this->update($sql, array($tienda));
 
         $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE tienda = $tienda")[0]['id_billetera'];
 
         $insert_pagos = "INSERT INTO pagos (`id_billetera`, `monto`, `fecha`, `id_responsable`) VALUES (?, ?, ?, ?)";
 
         $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `motivo`, `monto`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)";
-        $response =  $this->insert($sql, array($id_billetera, $usuario, "SALIDA", "Se pago de la billetera el monto: $monto", $monto, date("Y-m-d H:i:s")));
+        $response = $this->insert($sql, array($id_billetera, $usuario, "SALIDA", "Se pago de la billetera el monto: $monto", $monto, date("Y-m-d H:i:s")));
         $responses["status"] = 200;
         return json_encode($responses);
     }
@@ -556,14 +602,14 @@ class WalletModel extends Query
     public function saldo($tienda)
     {
         $sql = "SELECT saldo FROM billeteras WHERE tienda = $tienda";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return json_encode($response);
     }
 
     public function existeTienda($tienda)
     {
         $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$tienda'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
@@ -573,14 +619,14 @@ class WalletModel extends Query
         $url_imporsuit = $url_imporsuit[0]['url_imporsuit'];
 
         $sql = "INSERT INTO billeteras (`tienda`, `saldo`, `id_plataforma`) VALUES (?, ?, ?)";
-        $response =  $this->insert($sql, array($url_imporsuit, 0, $tienda));
+        $response = $this->insert($sql, array($url_imporsuit, 0, $tienda));
         return json_encode($response);
     }
 
     public function widget($tienda)
     {
         $sql = "SELECT ROUND((SELECT SUM(monto_recibir) from cabecera_cuenta_pagar where tienda like '%$tienda%' and visto= 1 and estado_guia = 7 and monto_recibir) ,2)as venta , ROUND(SUM(monto_recibir),2) as utilidad, (SELECT ROUND(SUM(monto_recibir),2) from cabecera_cuenta_pagar where tienda like '%$tienda%' and estado_guia =9 and visto= 1)as devoluciones FROM `cabecera_cuenta_pagar` where tienda like '%$tienda%' and visto = 1;";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return json_encode($response);
     }
 
@@ -604,7 +650,7 @@ class WalletModel extends Query
         if ($id__producto == $id__bodega) {
             $full = 0;
         } else if ($id__producto == $id_plataforma) {
-            $full =  $valor_full;
+            $full = $valor_full;
         } else {
             $full = 0;
         }
@@ -615,14 +661,14 @@ class WalletModel extends Query
     public function obtenerDatosBancarios($plataformas)
     {
         $sql = "SELECT * from datos_banco_usuarios  where id_plataforma = '$plataformas'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
     public function obtenerDatosFacturacion($plataformas)
     {
         $sql = "SELECT * from facturacion  where id_plataforma = '$plataformas'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
@@ -632,7 +678,7 @@ class WalletModel extends Query
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
         $sql = "INSERT INTO datos_banco_usuarios (`banco`, `tipo_cuenta`, `numero_cuenta`, `nombre`, `cedula`, `correo`, `telefono`, `id_plataforma`, `id_matriz`) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
-        $responses =  $this->insert($sql, array($banco, $tipo_cuenta, $numero_cuenta, $nombre, $cedula, $correo, $telefono, $plataforma, $id_matriz));
+        $responses = $this->insert($sql, array($banco, $tipo_cuenta, $numero_cuenta, $nombre, $cedula, $correo, $telefono, $plataforma, $id_matriz));
         if ($responses == 1) {
             $response["status"] = 200;
         } else {
@@ -645,7 +691,7 @@ class WalletModel extends Query
     public function eliminarDatoBancario($id_cuenta)
     {
         $sql = "DELETE FROM datos_banco_usuarios WHERE id_cuenta = ?";
-        $response =  $this->delete($sql, array($id_cuenta));
+        $response = $this->delete($sql, array($id_cuenta));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -661,7 +707,7 @@ class WalletModel extends Query
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
         $sql = "INSERT INTO facturacion (`ruc`, `razon_social`, `direccion`, `correo`, `telefono`, `id_plataforma`, `id_matriz`) VALUES (?, ?, ?, ?, ?, ?,?)";
-        $response =  $this->insert($sql, array($ruc, $razon, $direccion, $correo, $telefono, $plataforma, $id_matriz));
+        $response = $this->insert($sql, array($ruc, $razon, $direccion, $correo, $telefono, $plataforma, $id_matriz));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -674,7 +720,7 @@ class WalletModel extends Query
     public function eliminarDatoFacturacion($id_facturacion)
     {
         $sql = "DELETE FROM facturacion WHERE id_facturacion = ?";
-        $response =  $this->delete($sql, array($id_facturacion));
+        $response = $this->delete($sql, array($id_facturacion));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -696,9 +742,9 @@ class WalletModel extends Query
         $this->historialSolicitud($tipoSolicitud, $valor, $usuario, $id_cuenta, $plataforma);
 
         $sql = "INSERT INTO solicitudes_pago (`cantidad`, `id_cuenta`, `id_plataforma`, `otro`) VALUES (?, ?, ?, ?)";
-        $response =  $this->insert($sql, array($valor, $id_cuenta, $plataforma, $otro));
+        $response = $this->insert($sql, array($valor, $id_cuenta, $plataforma, $otro));
         $update = "UPDATE billeteras set solicito = 1, valor_solicitud = $valor WHERE id_plataforma = '$plataforma'";
-        $response2 =  $this->select($update);
+        $response2 = $this->select($update);
 
         if ($response == 1) {
             $responses["status"] = 200;
@@ -716,7 +762,7 @@ class WalletModel extends Query
     public function obtenerCodigoVerificacion($codigo, $plataforma)
     {
         $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$plataforma' and codigo = '$codigo'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         $fecha = date("Y-m-d H:i:s");
         if (!empty($response)) {
             $fecha_codigo = $response[0]['fecha_codigo'];
@@ -741,7 +787,7 @@ class WalletModel extends Query
         // generar codigo de verificacion de 3 digitos un guion y 3 digitos
         $codigo = rand(100, 999) . "-" . rand(100, 999);
         $sql = "UPDATE billeteras set codigo = '$codigo', fecha_codigo = now() WHERE id_plataforma = '$plataforma'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         // enviar codigo de verificacion al correo
         if ($plataforma == 3031) $plataforma = 2324;
         $correo = $this->obtenerCorreo2($plataforma);
@@ -762,7 +808,7 @@ class WalletModel extends Query
     public function obtenerCorreo2($id_plataforma)
     {
         $sql = "SELECT email from plataformas where id_plataforma = '$id_plataforma'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         $response = $response[0]['email'];
         return $response;
     }
@@ -839,12 +885,12 @@ class WalletModel extends Query
         $matriz = $this->obtenerMatriz();
         $matriz = $matriz[0]['idmatriz'];
         $sql = "INSERT INTO pagos (`valor`, `numero_documento`, `forma_pago`, `fecha`, `imagen`, `id_plataforma`) VALUES ( ?, ?, ?, ?, ?, ?)";
-        $response =  $this->insert($sql, array($valor, $documento, $forma_pago, $fecha, $imagen,  $plataforma));
+        $response = $this->insert($sql, array($valor, $documento, $forma_pago, $fecha, $imagen, $plataforma));
         if ($response == 1) {
             $responses["status"] = 200;
 
             $update = "UPDATE billeteras set solicito = 0, valor_solicitud = 0, saldo = saldo - $valor WHERE id_plataforma = '$plataforma'";
-            $response =  $this->select($update);
+            $response = $this->select($update);
         } else {
             $responses["status"] = 400;
             $responses["message"] = $response["message"];
@@ -856,12 +902,12 @@ class WalletModel extends Query
     {
         $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$tienda'";
 
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         if (!empty($response)) {
 
             $plataforma = $response[0]['id_billetera'];
             $sql = "SELECT hb.*, u.nombre_users as nombre FROM historial_billetera hb INNER join users u on u.id_users = hb.id_responsable WHERE hb.id_billetera = '$plataforma'";
-            $response =  $this->select($sql);
+            $response = $this->select($sql);
         } else {
             $response = [];
         }
@@ -871,26 +917,26 @@ class WalletModel extends Query
     public function obtenerCuentas($plataforma)
     {
         $sql = "SELECT * FROM datos_banco_usuarios WHERE id_plataforma = '$plataforma'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
     public function obtenerCorreo($id)
     {
         $sql = "SELECT correo from datos_banco_usuarios where id_plataforma = '$id'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
     public function enviarMensaje($mensaje, $correo, $cantidad)
     {
         $datos_usuario = $this->select("SELECT * FROM datos_banco_usuarios WHERE correo = '$correo'");
-        $nombre =  $datos_usuario[0]['nombre'];
-        $banco =  $datos_usuario[0]['banco'];
-        $cedula =  $datos_usuario[0]['cedula'];
-        $numero_cuenta =  $datos_usuario[0]['numero_cuenta'];
-        $tipo_cuenta =  $datos_usuario[0]['tipo_cuenta'];
-        $telefono =  $datos_usuario[0]['telefono'];
+        $nombre = $datos_usuario[0]['nombre'];
+        $banco = $datos_usuario[0]['banco'];
+        $cedula = $datos_usuario[0]['cedula'];
+        $numero_cuenta = $datos_usuario[0]['numero_cuenta'];
+        $tipo_cuenta = $datos_usuario[0]['tipo_cuenta'];
+        $telefono = $datos_usuario[0]['telefono'];
         $tienda = $datos_usuario[0]['id_plataforma'];
 
         $tienda = $this->select("SELECT * FROM plataformas WHERE id_plataforma = '$tienda'");
@@ -929,7 +975,7 @@ class WalletModel extends Query
     public function puedeSolicitar($tienda, $valor)
     {
         $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$tienda'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         $saldo = $response[0]['saldo'] ?? 0;
         if ($saldo <= 0) {
             return false;
@@ -946,11 +992,23 @@ class WalletModel extends Query
 
     public function devolucion($id)
     {
+        $sql_guia = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id";
+        $response_guia = $this->select($sql_guia);
+        $guia = $response_guia[0]['guia'];
+        $visto_guia = $response_guia[0]['visto'];
+
+        if ($visto_guia == 1) {
+            $responses["status"] = 501;
+            $responses["message"] = "No se puede cambiar el estado de una guía que ya ha sido abonada";
+            $this->auditable->auditar("CAMBIAR ESTADO GUIA", "El usuario intentó cambiar el estado de una guía que ya ha sido abonada, GUIA: $guia");
+            return $responses;
+        }
+
         $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = 9, monto_recibir=(precio_envio + full) * -1, valor_pendiente=(precio_envio + full) * -1 WHERE id_cabecera = ?;";
-        $response =  $this->update($sql, array($id));
+        $response = $this->update($sql, array($id));
 
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         $numero_factura = $response[0]['numero_factura'];
         $numero_guia = $response[0]['guia'];
 
@@ -966,7 +1024,7 @@ class WalletModel extends Query
 
 
         $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE numero_factura = ?";
-        $response =  $this->update($sql, array($estados, $numero_factura));
+        $response = $this->update($sql, array($estados, $numero_factura));
 
 
         if ($response == 1) {
@@ -979,11 +1037,23 @@ class WalletModel extends Query
 
     public function entregar($id)
     {
+        $sql_guia = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id";
+        $response_guia = $this->select($sql_guia);
+        $guia = $response_guia[0]['guia'];
+        $visto_guia = $response_guia[0]['visto'];
+
+        if ($visto_guia == 1) {
+            $responses["status"] = 501;
+            $responses["message"] = "No se puede cambiar el estado de una guía que ya ha sido abonada";
+            $this->auditable->auditar("CAMBIAR ESTADO GUIA", "El usuario intentó cambiar el estado de una guía que ya ha sido abonada, GUIA: $guia");
+            return $responses;
+        }
+
         $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = 7, monto_recibir=(total_venta - costo - precio_envio - full), valor_pendiente=(total_venta - costo - precio_envio - full)  WHERE id_cabecera = ?;";
-        $response =  $this->update($sql, array($id));
+        $response = $this->update($sql, array($id));
 
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         $numero_factura = $response[0]['numero_factura'];
         $numero_guia = $response[0]['guia'];
 
@@ -999,8 +1069,7 @@ class WalletModel extends Query
 
 
         $sql = "UPDATE facturas_cot set estado_guia_sistema = ? WHERE numero_factura = ?";
-        $response =  $this->update($sql, array($estados, $numero_factura));
-
+        $response = $this->update($sql, array($estados, $numero_factura));
 
 
         if ($response == 1) {
@@ -1015,7 +1084,7 @@ class WalletModel extends Query
     {
         //buscar la guia
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         $guia = $response[0]['guia'];
         $tipo = "";
         switch ($guia) {
@@ -1047,13 +1116,13 @@ class WalletModel extends Query
         }
 
         $sql = "UPDATE cabecera_cuenta_pagar set estado_guia = ? WHERE id_cabecera = ?";
-        $response =  $this->update($sql, array($estado, $id));
+        $response = $this->update($sql, array($estado, $id));
 
         if ($response == 1) {
             $responses["message"] = "Se ha actualizado el estado de la guia";
             $responses["status"] = 200;
         } else {
-            $responses["message"] =  $response;
+            $responses["message"] = $response;
             $responses["status"] = 400;
         }
         return $responses;
@@ -1062,7 +1131,7 @@ class WalletModel extends Query
     public function agregarOtroPago($tipo, $cuenta, $plataforma, $red)
     {
         $sql = "INSERT INTO `metodo_pagos`(`tipo`, `cuenta`, `id_plataforma`, `red`) VALUES (?, ?, ?, ?)";
-        $response =  $this->insert($sql, array($tipo, $cuenta, $plataforma, $red));
+        $response = $this->insert($sql, array($tipo, $cuenta, $plataforma, $red));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -1075,14 +1144,14 @@ class WalletModel extends Query
     public function obtenerMetodos($plataforma)
     {
         $sql = "SELECT * FROM metodo_pagos WHERE id_plataforma = '$plataforma'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
     public function eliminarMetodo($id)
     {
         $sql = "DELETE FROM metodo_pagos WHERE id_pago = ?";
-        $response =  $this->delete($sql, array($id));
+        $response = $this->delete($sql, array($id));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -1098,14 +1167,14 @@ class WalletModel extends Query
         $id_matriz = $id_matriz[0]['idmatriz'];
 
         $sql = "SELECT *, (SELECT nombre_tienda FROM plataformas WHERE id_plataforma = solicitudes_pago.id_plataforma) as nombre_tienda FROM solicitudes_pago inner join datos_banco_usuarios on solicitudes_pago.id_cuenta = datos_banco_usuarios.id_cuenta;"; // where solicitudes_pago.id_matriz = $id_matriz";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
     public function eliminarSolicitudes($id)
     {
         $sql = "DELETE FROM solicitudes_pago WHERE id_solicitud = ?";
-        $response =  $this->delete($sql, array($id));
+        $response = $this->delete($sql, array($id));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -1121,7 +1190,7 @@ class WalletModel extends Query
         $id_matriz = $id_matriz[0]['idmatriz'];
 
         $sql = "SELECT *, (SELECT nombre_tienda FROM plataformas WHERE id_plataforma = solicitudes_pago.id_plataforma) as nombre_tienda FROM solicitudes_pago inner join metodo_pagos on solicitudes_pago.id_cuenta = metodo_pagos.id_pago;";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
@@ -1131,14 +1200,14 @@ class WalletModel extends Query
         $id_matriz = $id_matriz[0]['idmatriz'];
 
         $sql = "SELECT *, (SELECT nombre_tienda FROM plataformas WHERE id_plataforma = solicitudes_pago_referidos.id_plataforma) as nombre_tienda FROM solicitudes_pago_referidos inner join metodo_pagos on solicitudes_pago_referidos.id_cuenta = metodo_pagos.id_pago;";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
     public function eliminarSolicitudes_referidos($id)
     {
         $sql = "DELETE FROM solicitudes_pago_referidos WHERE id_solicitud = ?";
-        $response =  $this->delete($sql, array($id));
+        $response = $this->delete($sql, array($id));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -1151,7 +1220,7 @@ class WalletModel extends Query
     public function verificarPago($id_solicitud)
     {
         $sql = "UPDATE solicitudes_pago set visto = 1 WHERE id_solicitud = ?";
-        $response =  $this->update($sql, array($id_solicitud));
+        $response = $this->update($sql, array($id_solicitud));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -1164,7 +1233,7 @@ class WalletModel extends Query
     public function obtenerOtroPago($id_platafor)
     {
         $sql = "SELECT * FROM metodo_pagos WHERE id_plataforma = '$id_platafor'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
@@ -1179,7 +1248,7 @@ class WalletModel extends Query
         } */
         $sql = "select * from vista_auditoria";
         //echo $sql;
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
@@ -1197,7 +1266,7 @@ class WalletModel extends Query
         (SELECT SUM(valor) FROM pagos) AS total_pagos,
         (SELECT SUM(monto) FROM historial_billetera) - (SELECT SUM(valor) FROM pagos) AS diferencia";
         echo $sql;
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
@@ -1206,10 +1275,10 @@ class WalletModel extends Query
         $response = $this->initialResponse();
         $usuario = $_SESSION['id'];
         $sql = "UPDATE facturas_cot set valida_transportadora = ? WHERE numero_guia = ?";
-        $response =  $this->update($sql, array($estado, $guia));
+        $response = $this->update($sql, array($estado, $guia));
         if ($response == 1) {
             $sql = "INSERT INTO auditoria_guia (`guia`, `usuario`) VALUES (?, ?)";
-            $response =  $this->insert($sql, array($guia, $usuario));
+            $response = $this->insert($sql, array($guia, $usuario));
             if ($response == 1) {
                 $responses["status"] = 200;
                 $responses["message"] = 'Exito';
@@ -1229,13 +1298,13 @@ class WalletModel extends Query
         $numero_factura = str_replace("-F", "", $numero_factura);
 
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE numero_factura = '$numero_factura'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         $id_plataforma = $response[0]['id_plataforma'];
         $sql = "SELECT * FROM plataformas WHERE id_plataforma = '$id_plataforma'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
 
         $sql = "select * from facturas_cot fc, detalle_fact_cot dfc, productos p where dfc.id_producto=p.id_producto and fc.id_factura=dfc.id_factura and fc.numero_factura = '$numero_factura';";
-        $response2 =  $this->select($sql);
+        $response2 = $this->select($sql);
         $response2[0]['url'] = $response[0]['nombre_tienda'];
 
         return $response2;
@@ -1271,7 +1340,7 @@ class WalletModel extends Query
     public function eliminarOtroPago($id)
     {
         $sql = "DELETE FROM solicitudes_pago WHERE id_solicitud = ?";
-        $response =  $this->delete($sql, array($id));
+        $response = $this->delete($sql, array($id));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -1284,14 +1353,14 @@ class WalletModel extends Query
     public function solicitudesReferidos()
     {
         $sql = "SELECT *, (SELECT nombre_tienda FROM plataformas WHERE id_plataforma = solicitudes_pago_referidos.id_plataforma) as nombre_tienda FROM solicitudes_pago_referidos inner join datos_banco_usuarios on solicitudes_pago_referidos.id_cuenta = datos_banco_usuarios.id_cuenta";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
     public function aprobarSolicitud($id_solicitud)
     {
         $sql = "UPDATE solicitudes_pago_referidos set visto = 1 WHERE id_solicitud = ?";
-        $response =  $this->update($sql, array($id_solicitud));
+        $response = $this->update($sql, array($id_solicitud));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -1304,7 +1373,7 @@ class WalletModel extends Query
     public function obtenerDatosTienda($id)
     {
         $sql = "SELECT * FROM plataformas WHERE id_plataforma = '$id'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
@@ -1351,7 +1420,7 @@ class WalletModel extends Query
     public function historialSolicitud($tipo, $cantidad, $usuario, $cuenta, $id_plataforma)
     {
         $sql = "INSERT INTO historial_solicitudes (`tipo`, `cantidad`, `id_plataforma`, `usuario`, `id_cuenta`) VALUES (?, ?, ?, ?, ?)";
-        $response =  $this->insert($sql, array($tipo, $cantidad, $id_plataforma, $usuario, $cuenta));
+        $response = $this->insert($sql, array($tipo, $cantidad, $id_plataforma, $usuario, $cuenta));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -1364,28 +1433,28 @@ class WalletModel extends Query
     public function obtenerHistorialSolicitudes($id_plataforma)
     {
         $sql = "SELECT * FROM historial_solicitudes WHERE id_plataforma = '$id_plataforma'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
     public function obtenerBilleteraTienda($id_plataforma)
     {
         $sql = "SELECT * FROM `billeteras` WHERE id_plataforma=$id_plataforma;";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
     public function obtenerBilleteraTienda_plataforma($id_plataforma)
     {
         $sql = "SELECT * FROM `billeteras` WHERE id_plataforma=$id_plataforma;";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         return $response;
     }
 
     public function historialSolicitudes($plataforma)
     {
         $sql = "SELECT * FROM historial_solicitudes WHERE id_plataforma = '$plataforma'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
 
         foreach ($response as $key => $value) {
             $id_cuenta = $value['id_cuenta'];
@@ -1393,12 +1462,12 @@ class WalletModel extends Query
             $usuario = $value['usuario'];
 
             $sql = "SELECT * FROM users WHERE id_users = '$usuario'";
-            $response2 =  $this->select($sql);
+            $response2 = $this->select($sql);
             $response[$key]['usuario'] = $response2[0]['nombre_users'];
 
             if ($tipo == "PRIMARIO") {
                 $sql = "SELECT * FROM datos_banco_usuarios WHERE id_cuenta = '$id_cuenta'";
-                $response2 =  $this->select($sql);
+                $response2 = $this->select($sql);
                 if (empty($response2)) {
                     $modal = "No hay datos";
                 } else {
@@ -1438,7 +1507,7 @@ class WalletModel extends Query
                 $response[$key]['modal'] = $modal;
             } else {
                 $sql = "SELECT * FROM metodo_pagos WHERE id_pago = '$id_cuenta'";
-                $response2 =  $this->select($sql);
+                $response2 = $this->select($sql);
 
                 if (empty($response2)) {
                     $modal = "No hay datos";
@@ -1473,7 +1542,7 @@ class WalletModel extends Query
                ";
                 }
 
-                $response[$key]['modal'] =  $modal;
+                $response[$key]['modal'] = $modal;
             }
         }
 
@@ -1515,11 +1584,11 @@ class WalletModel extends Query
                             AND estado_guia = 14
                         )
                     );";
-        $response_guias =  $this->select($sql);
+        $response_guias = $this->select($sql);
 
         // Consulta para obtener el saldo de la billetera
         $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$id_plataforma'";
-        $response_billeteras =  $this->select($sql);
+        $response_billeteras = $this->select($sql);
         $saldo = round($response_billeteras[0]['saldo'], 2);
 
         // Verificar si hay guías en novedad
@@ -1557,7 +1626,7 @@ class WalletModel extends Query
     public function devolucionAwallet($numero_guia)
     {
         $sql_select = "SELECT * FROM `facturas_cot` WHERE numero_guia = '$numero_guia'";
-        $response =  $this->select($sql_select);
+        $response = $this->select($sql_select);
         $id_plataforma = $response[0]['id_plataforma'];
         $id_proveedor = $response[0]['id_propietario'];
         if ($id_proveedor == $id_plataforma) {
@@ -1565,14 +1634,14 @@ class WalletModel extends Query
             $url_proveedor = NULL;
         } else {
             $sql_select = "SELECT * FROM `plataformas` WHERE id_plataforma = '$id_proveedor'";
-            $response2 =  $this->select($sql_select);
+            $response2 = $this->select($sql_select);
             $url_proveedor = $response2[0]['url_imporsuit'];
         }
 
         $cliente = $response[0]['nombre'];
         $fecha_factura = $response[0]['fecha_factura'];
         $url_tienda_sql = "SELECT * FROM plataformas WHERE id_plataforma = '$id_plataforma'";
-        $url_tienda =  $this->select($url_tienda_sql);
+        $url_tienda = $this->select($url_tienda_sql);
         $url_tienda = $url_tienda[0]['url_imporsuit'];
 
         $estado_guia = 9;
@@ -1588,7 +1657,7 @@ class WalletModel extends Query
 
         $sql_insert = "INSERT INTO `cabecera_cuenta_pagar`(`numero_factura`, `id_plataforma`, `id_proveedor`, `cliente`, `fecha`, `tienda`, `proveedor`, `estado_guia`, `total_venta`, `costo`, `precio_envio`, `monto_recibir`, `valor_pendiente`, `id_matriz`, `cod`, `guia`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-        $response =  $this->insert($sql_insert, array($numero_factura, $id_plataforma, $id_proveedor, $cliente, $fecha_factura, $url_tienda, $url_proveedor, $estado_guia, $total_venta, $costo, $precio_envio, $monto_recibir, $valor_pendiente, $id_matriz, $cod, $numero_guia));
+        $response = $this->insert($sql_insert, array($numero_factura, $id_plataforma, $id_proveedor, $cliente, $fecha_factura, $url_tienda, $url_proveedor, $estado_guia, $total_venta, $costo, $precio_envio, $monto_recibir, $valor_pendiente, $id_matriz, $cod, $numero_guia));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -1597,10 +1666,11 @@ class WalletModel extends Query
         }
         return $responses;
     }
+
     public function entregaAwallet($numero_guia)
     {
         $sql_select = "SELECT * FROM `facturas_cot` WHERE numero_guia = '$numero_guia'";
-        $response =  $this->select($sql_select);
+        $response = $this->select($sql_select);
         $id_plataforma = $response[0]['id_plataforma'];
         $id_proveedor = $response[0]['id_propietario'];
         if ($id_proveedor == $id_plataforma) {
@@ -1608,14 +1678,14 @@ class WalletModel extends Query
             $url_proveedor = NULL;
         } else {
             $sql_select = "SELECT * FROM `plataformas` WHERE id_plataforma = '$id_proveedor'";
-            $response2 =  $this->select($sql_select);
+            $response2 = $this->select($sql_select);
             $url_proveedor = $response2[0]['url_imporsuit'];
         }
 
         $cliente = $response[0]['nombre'];
         $fecha_factura = $response[0]['fecha_factura'];
         $url_tienda_sql = "SELECT * FROM plataformas WHERE id_plataforma = '$id_plataforma'";
-        $url_tienda =  $this->select($url_tienda_sql);
+        $url_tienda = $this->select($url_tienda_sql);
         $url_tienda = $url_tienda[0]['url_imporsuit'];
 
         $estado_guia = 7;
@@ -1623,7 +1693,7 @@ class WalletModel extends Query
         $costo = $response[0]["costo_producto"];
         $precio_envio = $response[0]["costo_flete"];
 
-        $monto_recibir =  $total_venta - $costo - $precio_envio;
+        $monto_recibir = $total_venta - $costo - $precio_envio;
         $valor_pendiente = $total_venta - $costo - $precio_envio;
         $id_matriz = 1;
         $cod = $response[0]["cod"];
@@ -1631,7 +1701,7 @@ class WalletModel extends Query
 
         $sql_insert = "INSERT INTO `cabecera_cuenta_pagar`(`numero_factura`, `id_plataforma`, `id_proveedor`, `cliente`, `fecha`, `tienda`, `proveedor`, `estado_guia`, `total_venta`, `costo`, `precio_envio`, `monto_recibir`, `valor_pendiente`, `id_matriz`, `cod`, `guia`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-        $response =  $this->insert($sql_insert, array($numero_factura, $id_plataforma, $id_proveedor, $cliente, $fecha_factura, $url_tienda, $url_proveedor, $estado_guia, $total_venta, $costo, $precio_envio, $monto_recibir, $valor_pendiente, $id_matriz, $cod, $numero_guia));
+        $response = $this->insert($sql_insert, array($numero_factura, $id_plataforma, $id_proveedor, $cliente, $fecha_factura, $url_tienda, $url_proveedor, $estado_guia, $total_venta, $costo, $precio_envio, $monto_recibir, $valor_pendiente, $id_matriz, $cod, $numero_guia));
         if ($response == 1) {
             $responses["status"] = 200;
         } else {
@@ -1644,7 +1714,7 @@ class WalletModel extends Query
     public function guiasAhistorial($numero_guia)
     {
         $sql = "SELECT * FROM facturas_cot WHERE numero_guia = '$numero_guia'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         $id_plataforma = $response[0]['id_plataforma'];
         $id_proveedor = $response[0]['id_propietario'];
         if ($id_proveedor == $id_plataforma) {
@@ -1663,17 +1733,17 @@ class WalletModel extends Query
     {
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE guia = '$numero_guia' AND id_plataforma = '$id_plataforma'";
         echo $sql;
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         print_r($response);
         $monto_recibir = $response[0]['monto_recibir'];
 
         $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$id_plataforma'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         $id_billetera = $response[0]['id_billetera'] ?? 0;
 
         if ($id_billetera == 0) {
             $this->crearBilletera($id_plataforma);
-            $response =  $this->select($sql);
+            $response = $this->select($sql);
             $id_billetera = $response[0]['id_billetera'];
         }
         $id_responsable = 2206;
@@ -1682,37 +1752,39 @@ class WalletModel extends Query
         $motivo = $monto_recibir > 0 ? 'Se acredito a la billetera la guia: ' . $numero_guia : 'Se desconto de la billetera la guia: ' . $numero_guia;
 
         $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `monto`, `motivo`) VALUES (?, ?, ?, ?, ?)";
-        $response =  $this->insert($sql, array($id_billetera, $id_responsable, $tipo, $monto_recibir, $motivo));
+        $response = $this->insert($sql, array($id_billetera, $id_responsable, $tipo, $monto_recibir, $motivo));
 
         print_r($response);
     }
+
     public function guiasAproveedor($guia)
     {
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE guia = '$guia'";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
 
         $sql_insert = "INSERT INTO `cabecera_cuenta_pagar`(`numero_factura`, `id_plataforma`, `cliente`, `fecha`, `tienda`, `estado_guia`, `costo`, `monto_recibir`, `id_matriz`, `cod`, `guia`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-        $response =  $this->insert($sql_insert, array($response[0]['numero_factura'] . '-P', $response[0]['id_proveedor'], $response[0]['cliente'], $response[0]['fecha'], $response[0]['proveedor'], 7, $response[0]['costo'], $response[0]['costo'], 1, $response[0]['cod'], $guia));
+        $response = $this->insert($sql_insert, array($response[0]['numero_factura'] . '-P', $response[0]['id_proveedor'], $response[0]['cliente'], $response[0]['fecha'], $response[0]['proveedor'], 7, $response[0]['costo'], $response[0]['costo'], 1, $response[0]['cod'], $guia));
         return $response;
     }
+
     public function guiasAcuadre()
     {
         $sql = "SELECT * FROM `cabecera_cuenta_pagar` WHERE guia like 'MKP%' and estado_guia = 7 and numero_factura not like '%-P' and numero_factura not like '%-F' and precio_envio != 5.99;";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
 
         foreach ($response as $key => $value) {
             $id_cabecera = $value['id_cabecera'];
             $sql = "UPDATE cabecera_cuenta_pagar set precio_envio = 5.99 , monto_recibir = total_venta - costo - 5.99 - full where id_cabecera = ?";
-            $response =  $this->update($sql, array($id_cabecera));
+            $response = $this->update($sql, array($id_cabecera));
         }
 
         $sql = "SELECT * FROM `cabecera_cuenta_pagar` WHERE guia like 'MKP%' and estado_guia = 9 and numero_factura not like '%-P' and numero_factura not like '%-F' and precio_envio != 5.99;";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
 
         foreach ($response as $key => $value) {
             $id_cabecera = $value['id_cabecera'];
             $sql = "UPDATE cabecera_cuenta_pagar set precio_envio = 5.99 , monto_recibir = - 5.99 - full where id_cabecera = ?";
-            $response =  $this->update($sql, array($id_cabecera));
+            $response = $this->update($sql, array($id_cabecera));
         }
 
         return $response;
@@ -1896,7 +1968,7 @@ class WalletModel extends Query
         $codAlmacenada = $response[0]['cod'];
         $validar = false;
         if ($codAlmacenada == $cod) {
-            $validar  = true;
+            $validar = true;
         }
 
         if ($validar) {
