@@ -43,6 +43,7 @@ class WalletModel extends Query
     {
         $sql_estado = "SELECT estado_guia, visto FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
         $response_estado = $this->select($sql_estado);
+
         $estado_ = $response_estado[0]['estado_guia'];
         $visto_guia = $response_estado[0]['visto'];
 
@@ -50,6 +51,7 @@ class WalletModel extends Query
             $responses["status"] = 501;
             $responses["message"] = "No se puede editar una guía que ya ha sido abonada";
             $this->auditable->auditar("EDITAR GUIA", "El usuario intentó editar una guía que ya ha sido abonada");
+
             return $responses;
         }
 
