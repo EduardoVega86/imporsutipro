@@ -34,7 +34,7 @@ class WalletModel extends Query
         $visto_guia = $response_estado[0]['visto'];
 
         if ($visto_guia == 1) {
-            $responses["status"] = 400;
+            $responses["status"] = 201;
             $responses["message"] = "No se puede editar una guía que ya ha sido abonada";
             return $responses;
         }
