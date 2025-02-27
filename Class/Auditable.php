@@ -38,7 +38,7 @@ class Auditable
      */
     public function mostrarTodas(string $fecha): array
     {
-        $sql = "SELECT auditables.id_auditorio, COALESCE(users.nombre_users, 'Usuario eliminado'), auditables.lugar, auditables.accion, auditables.servidor, auditables.fecha FROM auditables LEFT JOIN users ON auditables.id_users = users.id_users WHERE auditables.fecha between ? and NOW();";
+        $sql = "SELECT auditables.id_auditorio, COALESCE(users.nombre_users, 'Usuario eliminado') as 'nombre_responsable', auditables.lugar, auditables.accion, auditables.servidor, auditables.fecha FROM auditables LEFT JOIN users ON auditables.id_users = users.id_users WHERE auditables.fecha between ? and NOW();";
         return $this->query->dselect($sql, [$fecha]);
     }
 
@@ -49,7 +49,7 @@ class Auditable
      */
     public function mostrarPorAccion(string $accion, string $fecha): array
     {
-        $sql = "SELECT auditables.id_auditorio, COALESCE(users.nombre_users, 'Usuario eliminado'), auditables.lugar, auditables.accion, auditables.servidor, auditables.fecha FROM auditables LEFT JOIN users ON auditables.id_users = users.id_users WHERE auditables.accion = ? AND auditables.fecha between ? and NOW();";
+        $sql = "SELECT auditables.id_auditorio, COALESCE(users.nombre_users, 'Usuario eliminado') as 'nombre_responsable', auditables.lugar, auditables.accion, auditables.servidor, auditables.fecha FROM auditables LEFT JOIN users ON auditables.id_users = users.id_users WHERE auditables.accion = ? AND auditables.fecha between ? and NOW();";
         return $this->query->dselect($sql, [$accion, $fecha]);
     }
 

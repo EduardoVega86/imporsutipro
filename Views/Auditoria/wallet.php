@@ -12,6 +12,7 @@
                 <thead>
                     <tr>
                         <th>Id</th>
+                        <th>Fecha</th>
                         <th>Usuario</th>
                         <th>Lugar</th>
                         <th>Acción</th>
