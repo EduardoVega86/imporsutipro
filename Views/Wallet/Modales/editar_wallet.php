@@ -107,11 +107,17 @@
 
                     initDataTableFacturas();
                     $('#editar_walletModal').modal('hide');
-                }
-                else if (response.status == 201) {
+                } else if (response.status == 201) {
                     toastr.warning("NO SE REALIZO NINGUN CAMBIO", "NOTIFICACIÓN", {
                         positionClass: "toast-bottom-center",
                     });
+                } else if (response.status == 501) {
+                    toastr.error(
+                        response.message,
+                        "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        }
+                    );
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
