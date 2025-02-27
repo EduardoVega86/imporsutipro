@@ -395,6 +395,10 @@ const listFacturas = async () => {
                                 initDataTableFacturas();
                                 cargarDashboard_wallet();
                                 initDataTableHistorialPago();
+                            } else if(response.status == 501){
+                                toastr.error(response.message, {
+                                    positionClass: "toast-bottom-center",
+                                });
                             }
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
