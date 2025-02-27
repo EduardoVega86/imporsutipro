@@ -163,6 +163,136 @@ class MarketplaceModel extends Query
         return $this->select($sql);
     }
 
+    public function obtenerProductosPaginados(
+        $plataforma,
+        $nombre,
+        $linea,
+        $plataforma_filtro,
+        $min,
+        $max,
+        $favorito,
+        $vendido,
+        $id,
+        $page,
+        $limit
+    ) {
+        // Calculamos el offset
+        $offset = ($page - 1) * $limit;
+    
+        $where = '';
+        $favorito_filtro = '';
+    
+        // Filtro por id_inventario
+        if (!empty($id)) {
+            $where .= " AND ib.id_inventario = $id ";
+        } else {
+            // Filtro por nombre
+            if (!empty($nombre)) {
+                $where .= " AND p.nombre_producto LIKE '%$nombre%' ";
+            }
+        }
+    
+        // Filtro por línea/categoría
+        if (!empty($linea)) {
+            $where .= " AND p.id_linea_producto = $linea ";
+        }
+    
+        // Filtro por plataforma
+        if (!empty($plataforma_filtro)) {
+            $where .= " AND p.id_plataforma = $plataforma_filtro ";
+        }
+    
+        // Filtro precio mínimo
+        if (!empty($min)) {
+            $where .= " AND ib.pvp >= $min ";
+        }
+    
+        // Filtro precio máximo
+        if (!empty($max)) {
+            $where .= " AND ib.pvp <= $max ";
+        }
+    
+        // Filtro FAVORITO
+        // si favorito = 1 => se requiere que exista en productos_favoritos
+        if ($favorito == 1) {
+            $favorito_filtro = " AND pf.id_producto IS NOT NULL ";
+        }
+    
+        // Filtro VENDIDO
+        if ($vendido == 1) {
+            $where .= "
+                AND p.id_producto IN (
+                    SELECT df.id_producto
+                    FROM detalle_fact_cot df
+                    JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura
+                    WHERE fc.anulada = 0
+                    AND (
+                        fc.id_plataforma = $plataforma
+                        OR fc.id_propietario = $plataforma
+                    )
+                )
+            ";
+        }
+    
+        // Obtener la matriz
+        $id_matriz = $this->obtenerMatriz();
+        $id_matriz = $id_matriz[0]['idmatriz'];
+    
+        // Construimos la consulta final
+        // (Quitamos el ORDER BY RAND() y usamos un ORDER BY estable, por ejemplo por ID desc)
+        $sql = "SELECT DISTINCT 
+                    p.nombre_producto, 
+                    p.producto_variable, 
+                    ib.*, 
+                    plat.id_matriz,
+                    l.nombre_linea AS categoria,
+                    CASE WHEN pf.id_producto IS NULL THEN 0 ELSE 1 END AS Es_Favorito
+                FROM productos p
+                JOIN (
+                    SELECT 
+                        ib.id_producto, 
+                        MIN(ib.sku) AS min_sku, 
+                        ib.id_plataforma, 
+                        ib.bodega, 
+                        MIN(ib.id_inventario) AS min_id_inventario
+                    FROM inventario_bodegas ib
+                    WHERE ib.bodega != 0 
+                      AND ib.bodega != 50000
+                      AND ib.saldo_stock > 0
+                    GROUP BY 
+                        ib.id_producto, 
+                        ib.id_plataforma, 
+                        ib.bodega
+                ) ib_filtered
+                    ON p.id_producto = ib_filtered.id_producto
+                JOIN inventario_bodegas ib
+                    ON ib.id_producto = ib_filtered.id_producto
+                    AND ib.sku = ib_filtered.min_sku
+                    AND ib.id_inventario = ib_filtered.min_id_inventario
+                    AND ib.saldo_stock > 0
+                JOIN plataformas plat 
+                    ON ib.id_plataforma = plat.id_plataforma
+                LEFT JOIN productos_favoritos pf 
+                    ON pf.id_producto = p.id_producto
+                    AND pf.id_plataforma = $plataforma
+                LEFT JOIN lineas l
+                    ON p.id_linea_producto = l.id_linea
+                WHERE p.drogshipin = 1
+                  AND p.producto_privado = 0
+                  $where
+                  $favorito_filtro
+                  AND ib.id_plataforma NOT IN (
+                    SELECT id_plataforma
+                    FROM plataforma_matriz
+                    WHERE id_matriz = $id_matriz
+                  )
+                ORDER BY p.id_producto DESC
+                LIMIT $offset, $limit";
+    
+        return $this->select($sql);
+    }
+    
+
     public function obtener_productos_privados($plataforma, $nombre, $linea, $plataforma_filtro, $min, $max, $favorito)
     {
         $where = '';

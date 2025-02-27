@@ -39,6 +39,41 @@ class Marketplace extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_productos_paginados()
+    {
+        // Nota: usar ?? para evitar notices en caso de keys no enviadas
+        $nombre     = $_POST['nombre'];
+        $linea      = $_POST['linea'];
+        $plataforma = $_POST['plataforma'];
+        $min        = $_POST['min'];
+        $max        = $_POST['max'];
+        $favorito   = $_POST['favorito'];
+        $vendido    = $_POST['vendido'];
+        $id         = $_POST['id'] ?? null;
+
+        // Paginación
+        $page  = isset($_POST['page'])  ? (int)$_POST['page']  : 1;
+        $limit = isset($_POST['limit']) ? (int)$_POST['limit'] : 24;
+
+        // Llamamos al modelo pasando todos los filtros
+        $response = $this->model->obtenerProductosPaginados(
+            $_SESSION['id_plataforma'], // El "plataforma" de la sesión
+            $nombre,
+            $linea,
+            $plataforma,
+            $min,
+            $max,
+            $favorito,
+            $vendido,
+            $id,
+            $page,
+            $limit
+        );
+
+        // Devolvemos en JSON
+        echo json_encode($response);
+    }
+
     public function obtener_productos_privados()
     {
         $nombre = $_POST['nombre'];

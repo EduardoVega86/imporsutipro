@@ -78,7 +78,7 @@ const listNuevosPedidos = () => {
           let imagen = obtenerURLImagen(nuevoPedido.image_path, SERVERURL);
           return [
             `<img src="${imagen}" class="icon-button" width="50px">`,
-            nuevoPedido.id_producto,
+            nuevoPedido.id_inventario,
             nuevoPedido.nombre_producto,
             nuevoPedido.stock_inicial,
             `<input type="number" class="form-control" value="1" min="1" id="cantidad_${index}">`,

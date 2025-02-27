@@ -835,7 +835,7 @@ function agregar_nuevoPedido() {
           allowEnterKey: false, // Evita cerrar al presionar Enter
         }).then(() => {
           vaciarTmpPedidos();
-          window.location.href = "" + SERVERURL + "Pedidos";
+          window.location.href = "" + SERVERURL + "Pedidos/historial_2";
         });
       }
     },
