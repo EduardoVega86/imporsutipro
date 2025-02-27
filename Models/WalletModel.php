@@ -1088,6 +1088,15 @@ class WalletModel extends Query
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id";
         $response = $this->select($sql);
         $guia = $response[0]['guia'];
+        $visto_guia = $response[0]['visto'];
+
+        if ($visto_guia == 1) {
+            $responses["status"] = 501;
+            $responses["message"] = "No se puede cambiar el estado de una guía que ya ha sido abonada";
+            $this->auditable->auditar("CAMBIAR ESTADO GUIA", "El usuario intentó cambiar el estado de una guía que ya ha sido abonada, GUIA: $guia");
+            return $responses;
+        }
+
         $tipo = "";
         switch ($guia) {
             case str_contains($guia, 'IMP'):
