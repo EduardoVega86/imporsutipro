@@ -343,6 +343,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // Imagen principal
     let imagePath = obtenerURLImagen(productDetails.image_path, SERVERURL);
 
+    // Verificamos si la imagen realmente existe
+    let validador_imagen = verificarImagen(imagePath);
+    if (validador_imagen == 0) {
+      imagePath = SERVERURL + "public/img/broken-image.png";
+    }
+
     // Creamos el contenido
     card.innerHTML = `
       <div class="image-container position-relative">
