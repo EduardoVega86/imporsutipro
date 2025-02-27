@@ -28,12 +28,20 @@ class WalletModel extends Query
 
     public function editar($id_cabecera, $total_venta, $precio_envio, $full, $costo)
     {
-        $sql_estado = "SELECT estado_guia FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
+        $sql_estado = "SELECT estado_guia, visto FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
         $response_estado =  $this->select($sql_estado);
         $estado_ = $response_estado[0]['estado_guia'];
+        $visto_guia = $response_estado[0]['visto'];
+
+        if ($visto_guia == 1) {
+            $responses["status"] = 400;
+            $responses["message"] = "No se puede editar una guía que ya ha sido abonada";
+            return $responses;
+        }
+
         $monto_recibir = $total_venta - $costo - $full - $precio_envio;
 
-        if($estado_ == "9") $monto_recibir = -$precio_envio - $full;
+        if ($estado_ == "9") $monto_recibir = -$precio_envio - $full;
 
         $sql = "UPDATE cabecera_cuenta_pagar set total_venta = ?, precio_envio = ?, full = ?, costo = ?, monto_recibir = ?, valor_pendiente = ? WHERE id_cabecera = ?";
         $response1 =  $this->update($sql, array($total_venta, $precio_envio, $full, $costo, $monto_recibir, $monto_recibir, $id_cabecera));
