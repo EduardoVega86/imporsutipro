@@ -319,6 +319,10 @@ class WalletModel extends Query
         $guia_sql = "SELECT guia, estado_guia, numero_factura, id_plataforma, costo, full FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
         $guia_response = $this->select($guia_sql)[0];
         $guia = $guia_response['guia'];
+        if($guia == "0"){
+            $this->auditable->auditar("ABONAR BILLETERA", "El usuario intentó abonar a una guía inexistente. GUIA: $guia");
+            return $this->errorResponse('Guía no encontrada');
+        }
         if ($valor == 0) {
             $this->auditable->auditar("ABONAR BILLETERA", "El usuario intentó abonar 0 a la billetera, GUIA: $guia");
             return $this->errorResponse('El valor a abonar no puede ser 0');
