@@ -178,10 +178,10 @@ class MarketplaceModel extends Query
     ) {
         // Calculamos el offset
         $offset = ($page - 1) * $limit;
-    
+
         $where = '';
         $favorito_filtro = '';
-    
+
         // Filtro por id_inventario
         if (!empty($id)) {
             $where .= " AND ib.id_inventario = $id ";
@@ -191,33 +191,33 @@ class MarketplaceModel extends Query
                 $where .= " AND p.nombre_producto LIKE '%$nombre%' ";
             }
         }
-    
+
         // Filtro por línea/categoría
         if (!empty($linea)) {
             $where .= " AND p.id_linea_producto = $linea ";
         }
-    
+
         // Filtro por plataforma
         if (!empty($plataforma_filtro)) {
             $where .= " AND p.id_plataforma = $plataforma_filtro ";
         }
-    
+
         // Filtro precio mínimo
         if (!empty($min)) {
             $where .= " AND ib.pvp >= $min ";
         }
-    
+
         // Filtro precio máximo
         if (!empty($max)) {
             $where .= " AND ib.pvp <= $max ";
         }
-    
+
         // Filtro FAVORITO
         // si favorito = 1 => se requiere que exista en productos_favoritos
         if ($favorito == 1) {
             $favorito_filtro = " AND pf.id_producto IS NOT NULL ";
         }
-    
+
         // Filtro VENDIDO
         if ($vendido == 1) {
             $where .= "
@@ -233,11 +233,11 @@ class MarketplaceModel extends Query
                 )
             ";
         }
-    
+
         // Obtener la matriz
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
-    
+
         // Construimos la consulta final
         // (Quitamos el ORDER BY RAND() y usamos un ORDER BY estable, por ejemplo por ID desc)
         $sql = "SELECT DISTINCT 
@@ -286,12 +286,12 @@ class MarketplaceModel extends Query
                     FROM plataforma_matriz
                     WHERE id_matriz = $id_matriz
                   )
-                ORDER BY p.id_producto DESC
+                ORDER BY RAND()
                 LIMIT $offset, $limit";
-    
+
         return $this->select($sql);
     }
-    
+
 
     public function obtener_productos_privados($plataforma, $nombre, $linea, $plataforma_filtro, $min, $max, $favorito)
     {
@@ -393,7 +393,7 @@ WHERE
 ";
 
 
-       // echo $sql;
+        // echo $sql;
         return $this->select($sql);
     }
 
