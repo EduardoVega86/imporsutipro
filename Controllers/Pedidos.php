@@ -590,14 +590,21 @@ class Pedidos extends Controller
         echo json_encode($data);
     }
 
-    public function cargarPedidosPrueba_imporsuit()
+    public function cargarPedidosAnulados()
     {
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
-        $fecha_fin = $_POST['fecha_fin'] ?? "";
-        $estado_pedido = $_POST['estado_pedido'] ?? "";
-        $data = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
+        $fecha_fin    = $_POST['fecha_fin'] ?? "";
+
+        // Forzamos que la guía enviada siempre sea 0
+        $guia_enviada = 0;
+        // Y que se traigan los pedidos anulados (anulada = 1)
+        $anulada = 1;
+
+        $data = $this->model->cargarPedidosAnulados($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $guia_enviada, $anulada);
         echo json_encode($data);
     }
+
+
 
     public function cargar_pedidos_sin_producto()
     {
