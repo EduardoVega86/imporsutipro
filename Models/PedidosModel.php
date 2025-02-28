@@ -1708,6 +1708,52 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function cargarPedidosPrueba_imporsuit($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido)
+    {
+        // Construcción base de la consulta
+        $sql = "SELECT 
+                *,
+                (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
+                (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa,
+                (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma
+            FROM facturas_cot
+            WHERE id_plataforma = '$plataforma'";
+
+        // Verificamos si el usuario seleccionó "Anulados"
+        if ($estado_pedido === 'anulados') {
+            // Mostrar pedidos ANULADOS
+            $sql .= "
+            AND anulada = 1
+            AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+            -- AND no_producto = 0  (Descomenta si quieres seguir filtrando por no_producto = 0 también en anulados)
+        ";
+        } else {
+            // Mostrar pedidos NO anulados
+            $sql .= "
+            AND anulada = 0
+            AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+            AND no_producto = 0
+        ";
+
+            // Si se eligió un estado_pedido específico (1,2,3,4,5,6), se filtra
+            if (!empty($estado_pedido)) {
+                $estado_pedido = (int)$estado_pedido;
+                $sql .= " AND estado_pedido = $estado_pedido";
+            }
+        }
+
+        // Filtro de fecha
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        // Orden final
+        $sql .= " ORDER BY numero_factura DESC;";
+
+        // Retornamos la selección
+        return $this->select($sql);
+    }
+
     public function cargar_pedidos_sin_producto($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido): array
     {
         $sql = "SELECT *, 

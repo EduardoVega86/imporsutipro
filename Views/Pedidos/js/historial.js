@@ -32,17 +32,24 @@ const dataTableHistorialOptions = {
 };
 
 const initDataTableHistorial = async () => {
-  if (dataTableHistorialIsInitialized) {
-    dataTableHistorial.destroy();
+  showTableLoader();
+  try {
+    if (dataTableHistorialIsInitialized) {
+      dataTableHistorial.destroy();
+    }
+
+    await listHistorialPedidos();
+
+    dataTableHistorial = $("#datatable_historialPedidos").DataTable(
+      dataTableHistorialOptions
+    );
+
+    dataTableHistorialIsInitialized = true;
+  } catch (error) {
+    console.error("Error al cargar la tabla:", error);
+  } finally {
+    hideTableLoader();
   }
-
-  await listHistorialPedidos();
-
-  dataTableHistorial = $("#datatable_historialPedidos").DataTable(
-    dataTableHistorialOptions
-  );
-
-  dataTableHistorialIsInitialized = true;
 };
 
 const listHistorialPedidos = async () => {
@@ -50,14 +57,12 @@ const listHistorialPedidos = async () => {
     const formData = new FormData();
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
+    formData.append("estado_pedido", $("#estado_pedido").val());
 
-    const response = await fetch(
-      `${SERVERURL}pedidos/cargarPedidos_imporsuit`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch(`${SERVERURL}${currentAPI}`, {
+      method: "POST",
+      body: formData,
+    });
 
     const historialPedidos = await response.json();
 
@@ -132,15 +137,9 @@ const listHistorialPedidos = async () => {
 
       let boton_automatizador = "";
 
-      if (
-        ID_PLATAFORMA == 1251 ||
-        ID_PLATAFORMA == 1206 ||
-        ID_PLATAFORMA == 2293 ||
-        ID_PLATAFORMA == 3481 ||
-        ID_PLATAFORMA == 1166
-      ) {
-        if (historialPedido.automatizar_ws == 0){
-        boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
+      if (VALIDAR_CONFIG_CHAT) {
+        if (historialPedido.automatizar_ws == 0) {
+          boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
           ${historialPedido.id_factura},
           '${historialPedido.ciudad_cot}', // Si es string, ponlo entre comillas
           '${historialPedido.celular}', // Lo mismo aquí si es string
@@ -207,6 +206,18 @@ const listHistorialPedidos = async () => {
         factura = numero_orden_shopify;
       }
 
+      let acciones = "";
+      if (currentAPI == "pedidos/cargarPedidosPrueba_imporsuit") {
+        acciones = `
+          <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
+          <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
+          ${boton_automatizador}`;
+      } else if (currentAPI == "pedidos/cargar_pedidos_sin_producto") {
+        acciones = `
+          <button class="btn btn-sm btn-primary" onclick="boton_vista_anadir_sin_producto(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
+          ${boton_automatizador}`;
+      }
+
       content += `
                 <tr>
                     <td>${factura}</td>
@@ -236,9 +247,7 @@ const listHistorialPedidos = async () => {
                     </div>
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
-                        ${boton_automatizador}
+                        ${acciones}
                     </td>
                 </tr>`;
     });
@@ -247,6 +256,70 @@ const listHistorialPedidos = async () => {
     alert(ex);
   }
 };
+
+window.addEventListener("load", async () => {
+  await initDataTableHistorial();
+
+  const btnAplicar = document.getElementById("btnAplicarFiltros");
+  if (btnAplicar) {
+    btnAplicar.addEventListener("click", async function () {
+      let rangoFechas = $("#daterange").val();
+      if (rangoFechas) {
+        let fechas = rangoFechas.split(" - ");
+        fecha_inicio = fechas[0] + " 00:00:00";
+        fecha_fin = fechas[1] + " 23:59:59";
+      }
+      await initDataTableHistorial();
+      cargarCardsPedidos();
+    });
+  }
+});
+
+//Cargando
+function showTableLoader() {
+  // Inserta siempre el HTML del spinner y luego muestra el contenedor
+  $("#tableLoader")
+    .html(
+      '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
+    )
+    .css("display", "flex");
+}
+
+function hideTableLoader() {
+  $("#tableLoader").css("display", "none");
+}
+
+// Manejo de botones para cambiar API y recargar la tabla
+document.getElementById("btnPedidos").addEventListener("click", () => {
+  currentAPI = "pedidos/cargarPedidosPrueba_imporsuit";
+  cambiarBotonActivo("btnPedidos");
+  initDataTableHistorial();
+});
+
+/* document.getElementById("btnAbandonados").addEventListener("click", () => {
+  currentAPI = "pedidos/cargar_pedidos_abandonados"; // Ajusta la API correspondiente
+  cambiarBotonActivo("btnAbandonados");
+  initDataTableHistorial();
+}); */
+
+document.getElementById("btnNo_vinculados").addEventListener("click", () => {
+  currentAPI = "pedidos/cargar_pedidos_sin_producto";
+  cambiarBotonActivo("btnNo_vinculados");
+  initDataTableHistorial();
+});
+
+const cambiarBotonActivo = (botonID) => {
+  document.querySelectorAll(".d-flex button").forEach((btn) => {
+    btn.classList.remove("active", "btn-primary");
+    btn.classList.add("btn-secondary"); // Agregar btn-secondary a todos
+  });
+
+  const botonActivo = document.getElementById(botonID);
+  botonActivo.classList.remove("btn-secondary"); // Quitar secundario al botón activo
+  botonActivo.classList.add("btn-primary", "active"); // Agregar primario y activo
+};
+
+// Fin Manejo de botones para cambiar API y recargar la tabla
 
 // Event delegation for select change
 document.addEventListener("change", async (event) => {
@@ -354,6 +427,11 @@ function boton_editarPedido(id) {
   window.location.href = "" + SERVERURL + "Pedidos/editar/" + id;
 }
 
+function boton_vista_anadir_sin_producto(id) {
+  window.location.href =
+    "" + SERVERURL + "Pedidos/vista_anadir_sin_producto/" + id;
+}
+
 function boton_anularPedido(id_factura) {
   $.ajax({
     type: "POST",
@@ -424,10 +502,6 @@ function enviar_mensaje_automatizador(
     },
   });
 }
-
-window.addEventListener("load", async () => {
-  await initDataTableHistorial();
-});
 
 function formatPhoneNumber(number) {
   // Eliminar caracteres no numéricos excepto el signo +

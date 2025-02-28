@@ -18,7 +18,7 @@
                 <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #007bff;">
                     <h5 class="text-primary">
                         <i class="bx bx-box" style="font-size: 24px;"></i> Número de Pedidos
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de pedidos registrados"></i>
+                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de pedidos registrados incluida las guias ya generadas"></i>
                     </h5>
                     <h3 class="font-weight-bold" id="num_pedidos">0</h3>
                 </div>
@@ -26,23 +26,23 @@
 
             <!-- Card 2: Valor de pedidos -->
             <div class="col-md-3">
+                <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
+                    <h5 class="text-warning">
+                        <i class="bx bx-package" style="font-size: 24px;"></i> Guías Generadas
+                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad de guías que han sido generadas"></i>
+                    </h5>
+                    <h3 class="font-weight-bold" id="num_guias">0</h3>
+                </div>
+            </div>
+
+            <!-- Card 3: Número de guías confirmadas -->
+            <div class="col-md-3">
                 <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #28a745;">
                     <h5 class="text-success">
                         <i class="bx bx-money" style="font-size: 24px;"></i> Valor de Pedidos
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Monto total de los pedidos en el sistema"></i>
                     </h5>
                     <h3 class="font-weight-bold" id="valor_pedidos">$0.00</h3>
-                </div>
-            </div>
-
-            <!-- Card 3: Número de guías confirmadas -->
-            <div class="col-md-3">
-                <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
-                    <h5 class="text-warning">
-                        <i class="bx bx-package" style="font-size: 24px;"></i> Guías Confirmadas
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad de guías que han sido confirmadas"></i>
-                    </h5>
-                    <h3 class="font-weight-bold" id="num_guias">0</h3>
                 </div>
             </div>
 
@@ -67,7 +67,42 @@
                     </div>
                 </div>
             </div>
+            <div class="flex-fill filtro_impresar">
+                <div class=" d-flex flex-column justify-content-start">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
+                    <div>
+                        <select name="estado_pedido" class="form-control" id="estado_pedido">
+                            <option value=""> Todas</option>
+                            <option value="1"> Pendiente </option>
+                            <option value="2"> Gestionado </option>
+                            <option value="3"> No desea </option>
+                            <option value="4"> 1ra llamada </option>
+                            <option value="5"> 2da llamada </option>
+                            <option value="6"> Observación </option>
+                            <option value="anulados"> Observación </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div style="padding-top: 20px;">
+            <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
+        </div>
+
+        <div class="table-container" style="position: relative;">
+            <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
+            <div id="tableLoader" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex mb-3 mt-3">
+            <button id="btnPedidos" class="btn btn-primary me-2 active">Pedidos</button>
+            <!-- <button id="btnAbandonados" class="btn btn-secondary me-2">Abandonados</button> -->
+            <button id="btnNo_vinculados" class="btn btn-secondary">No Vinculados</button>
         </div>
 
         <!-- TABLA DE HISTORIAL DE PEDIDOS -->
@@ -95,6 +130,8 @@
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/historial.js"></script>
 
 <script>
+    // Definir la URL de la API por defecto (Pedidos)
+    let currentAPI = "pedidos/cargarPedidos_imporsuit";
     let fecha_inicio = "";
     let fecha_fin = "";
 
@@ -135,8 +172,10 @@
             // Actualizar las variables con las nuevas fechas seleccionadas
             fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
             fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
-            initDataTableHistorial();
+
+            // Llamar automáticamente a la función para actualizar los datos
             cargarCardsPedidos();
+            initDataTableHistorial(); // Asegurar que también se actualicen los datos en la tabla
         });
 
         // Establece los valores iniciales en el input de fechas
@@ -162,6 +201,7 @@
         const formData = new FormData();
         formData.append("fecha_inicio", fecha_inicio); // Parámetro de fecha de inicio
         formData.append("fecha_fin", fecha_fin); // Parámetro de fecha de fin
+        formData.append("estado_pedido", $("#estado_pedido").val());
 
         // Realizar la solicitud AJAX
         $.ajax({
@@ -188,7 +228,7 @@
                         '0%'
                     );
 
-                    $("#id_confirmacion").text("de "+data.mensaje || "");
+                    $("#id_confirmacion").text("de " + data.mensaje || "");
                 } else {
                     console.error('No se recibieron datos válidos de la API.');
                 }
