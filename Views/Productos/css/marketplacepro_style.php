@@ -799,7 +799,7 @@
     .slider-chip.selected {
         border: 2px solid #007BFF;
         color: white;
-        transform: scale(1.05);
+        transform: scale(1.0);
     }
 
     .slider-proveedores::-webkit-scrollbar {
