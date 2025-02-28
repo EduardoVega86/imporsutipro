@@ -18,13 +18,13 @@
                 <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #007bff;">
                     <h5 class="text-primary">
                         <i class="bx bx-box" style="font-size: 24px;"></i> Número de Pedidos
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de pedidos registrados incluida las guias ya generadas"></i>
+                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de pedidos registrados incluida las guías ya generadas"></i>
                     </h5>
                     <h3 class="font-weight-bold" id="num_pedidos">0</h3>
                 </div>
             </div>
 
-            <!-- Card 2: Valor de pedidos -->
+            <!-- Card 2: Guías Generadas -->
             <div class="col-md-3">
                 <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
                     <h5 class="text-warning">
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <!-- Card 3: Número de guías confirmadas -->
+            <!-- Card 3: Valor de Pedidos -->
             <div class="col-md-3">
                 <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #28a745;">
                     <h5 class="text-success">
@@ -46,17 +46,19 @@
                 </div>
             </div>
 
+            <!-- Card 4: Confirmación -->
             <div class="col-md-3">
                 <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #dc3545;">
                     <h5 class="text-danger">
-                        <i class="bx bx-check-shield" style="font-size: 24px;"></i> Confirmacion <span id="id_confirmacion"></span>
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Procentaje de guias o pedidos confirmados"></i>
+                        <i class="bx bx-check-shield" style="font-size: 24px;"></i> Confirmación <span id="id_confirmacion"></span>
+                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Porcentaje de guías o pedidos confirmados"></i>
                     </h5>
                     <h3 class="font-weight-bold" id="num_confirmaciones">0</h3>
                 </div>
             </div>
         </div>
 
+        <!-- Filtros -->
         <div class="primer_seccionFiltro" style="width: 100%;">
             <div class="d-flex flex-row align-items-end filtro_fecha">
                 <div class="flex-fill">
@@ -68,8 +70,8 @@
                 </div>
             </div>
             <div class="flex-fill filtro_impresar">
-                <div class=" d-flex flex-column justify-content-start">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
+                <div class="d-flex flex-column justify-content-start">
+                    <label for="estado_pedido" class="col-sm-2 col-form-label">Estado</label>
                     <div>
                         <select name="estado_pedido" class="form-control" id="estado_pedido">
                             <option value=""> Todas</option>
@@ -89,8 +91,8 @@
             <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
         </div>
 
+        <!-- Loader de la tabla -->
         <div class="table-container" style="position: relative;">
-            <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
             <div id="tableLoader" style="display: none;">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Cargando...</span>
@@ -98,13 +100,14 @@
             </div>
         </div>
 
+        <!-- Botones para cambiar API -->
         <div class="d-flex mb-3 mt-3">
             <button id="btnPedidos" class="btn btn-primary me-2 active">Pedidos</button>
             <button id="btnAnulados" class="btn btn-secondary me-2">Anulados</button>
             <button id="btnNo_vinculados" class="btn btn-secondary">No Vinculados</button>
         </div>
 
-        <!-- TABLA DE HISTORIAL DE PEDIDOS -->
+        <!-- Tabla de Historial de Pedidos -->
         <div class="table-responsive">
             <table id="datatable_historialPedidos" class="table table-striped">
                 <thead>
@@ -130,13 +133,13 @@
 
 <script>
     // Definir la URL de la API por defecto (Pedidos)
-    let currentAPI = "pedidos/cargarPedidosAnulados";
+    let currentAPI = "pedidos/cargarPedidos_imporsuit";
     let fecha_inicio = "";
     let fecha_fin = "";
 
     // Calcula la fecha de inicio (hace 14 días) y la fecha de fin (hoy)
     let hoy = moment();
-    let haceDosSemanas = moment().subtract(13, 'days'); // Rango de 14 días
+    let haceDosSemanas = moment().subtract(13, 'days');
 
     // Asignar las fechas a las variables al cargar la página
     fecha_inicio = haceDosSemanas.format('YYYY-MM-DD') + ' 00:00:00';
@@ -145,8 +148,8 @@
     $(function() {
         $('#daterange').daterangepicker({
             opens: 'right',
-            startDate: haceDosSemanas, // Fecha de inicio predefinida
-            endDate: hoy, // Fecha de fin predefinida
+            startDate: haceDosSemanas,
+            endDate: hoy,
             locale: {
                 format: 'YYYY-MM-DD',
                 separator: ' - ',
@@ -160,60 +163,176 @@
                 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                 firstDay: 1
             },
-            autoUpdateInput: true // Actualiza el input automáticamente
+            autoUpdateInput: true
         });
 
-        // Evento que se dispara cuando se aplica un nuevo rango de fechas
         $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-            // Actualiza el valor del input con el rango de fechas seleccionado
             $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
-
-            // Actualizar las variables con las nuevas fechas seleccionadas
             fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
             fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
 
-            // Llamar automáticamente a la función para actualizar los datos
             cargarCardsPedidos();
-            initDataTableHistorial(); // Asegurar que también se actualicen los datos en la tabla
+            initDataTableHistorial();
         });
 
-        // Establece los valores iniciales en el input de fechas
         $('#daterange').val(haceDosSemanas.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD'));
     });
 
+    // Eventos para cambiar el endpoint de la API según el botón seleccionado
+    document.getElementById("btnPedidos").addEventListener("click", () => {
+        currentAPI = "pedidos/cargarPedidos_imporsuit";
+        cambiarBotonActivo("btnPedidos");
+        initDataTableHistorial();
+    });
+
+    document.getElementById("btnAnulados").addEventListener("click", () => {
+        currentAPI = "pedidos/cargarPedidosAnulados";
+        cambiarBotonActivo("btnAnulados");
+        initDataTableHistorial();
+    });
+
+    document.getElementById("btnNo_vinculados").addEventListener("click", () => {
+        currentAPI = "pedidos/cargar_pedidos_sin_producto";
+        cambiarBotonActivo("btnNo_vinculados");
+        initDataTableHistorial();
+    });
+
+    // Función para consumir la API y listar los pedidos en la tabla
+    const listHistorialPedidos = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("fecha_inicio", fecha_inicio);
+            formData.append("fecha_fin", fecha_fin);
+            formData.append("estado_pedido", $("#estado_pedido").val());
+
+            const response = await fetch(`${SERVERURL}${currentAPI}`, {
+                method: "POST",
+                body: formData,
+            });
+
+            const historialPedidos = await response.json();
+            let content = ``;
+            historialPedidos.forEach((historialPedido) => {
+                content += `
+                    <tr>
+                        <td>${historialPedido.numero_factura}</td>
+                        <td>${historialPedido.fecha_factura}</td>
+                        <td>${historialPedido.canal_venta || ''}</td>
+                        <td>${historialPedido.nombre}</td>
+                        <td>${historialPedido.provinciaa} - ${historialPedido.ciudad}</td>
+                        <td>${historialPedido.contiene}</td>
+                        <td>$ ${historialPedido.monto_factura}</td>
+                        <td>${historialPedido.estado_pedido}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
+                            <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+            document.getElementById("tableBody_historialPedidos").innerHTML = content;
+        } catch (ex) {
+            alert(ex);
+        }
+    };
+
+    // Inicialización de DataTable para la tabla de historial
+    let dataTableHistorial;
+    let dataTableHistorialIsInitialized = false;
+
+    const dataTableHistorialOptions = {
+        columnDefs: [{
+            className: "centered",
+            targets: [0, 1, 2, 3, 4, 5, 6]
+        }, ],
+        order: [
+            [1, "desc"]
+        ],
+        pageLength: 10,
+        destroy: true,
+        responsive: true,
+        language: {
+            lengthMenu: "Mostrar _MENU_ registros por página",
+            zeroRecords: "Ningún usuario encontrado",
+            info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+            infoEmpty: "Ningún usuario encontrado",
+            infoFiltered: "(filtrados desde _MAX_ registros totales)",
+            search: "Buscar:",
+            loadingRecords: "Cargando...",
+            paginate: {
+                first: "Primero",
+                last: "Último",
+                next: "Siguiente",
+                previous: "Anterior",
+            },
+        },
+    };
+
+    const initDataTableHistorial = async () => {
+        showTableLoader();
+        try {
+            if (dataTableHistorialIsInitialized) {
+                dataTableHistorial.destroy();
+            }
+
+            await listHistorialPedidos();
+
+            dataTableHistorial = $("#datatable_historialPedidos").DataTable(dataTableHistorialOptions);
+            dataTableHistorialIsInitialized = true;
+        } catch (error) {
+            console.error("Error al cargar la tabla:", error);
+        } finally {
+            hideTableLoader();
+        }
+    };
+
+    // Funciones para mostrar y ocultar el loader de la tabla
+    function showTableLoader() {
+        $("#tableLoader")
+            .html('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>')
+            .css("display", "flex");
+    }
+
+    function hideTableLoader() {
+        $("#tableLoader").css("display", "none");
+    }
+
+    // Función para cambiar la clase activa de los botones
+    const cambiarBotonActivo = (botonID) => {
+        document.querySelectorAll(".d-flex button").forEach((btn) => {
+            btn.classList.remove("active", "btn-primary");
+            btn.classList.add("btn-secondary");
+        });
+        const botonActivo = document.getElementById(botonID);
+        botonActivo.classList.remove("btn-secondary");
+        botonActivo.classList.add("btn-primary", "active");
+    };
 
     $(document).ready(function() {
-        // Inicializa la tabla cuando cambian los selectores
-        /* $("#tienda_q,#estado_q,#transporte,#impresion,#despachos").change(function() {
-            initDataTable();
-        }); */
+        $('[data-toggle="tooltip"]').tooltip();
+        cargarCardsPedidos();
+        initDataTableHistorial();
     });
 </script>
 
 <script>
-    // Definir la función para consumir la API
+    // Función para cargar las cards de pedidos
     function cargarCardsPedidos() {
-        // URL de tu API (reemplazar con la URL real de tu backend)
         const apiUrl = SERVERURL + 'Pedidos/cargar_cards_pedidos';
-
-        // Crear el objeto FormData
         const formData = new FormData();
-        formData.append("fecha_inicio", fecha_inicio); // Parámetro de fecha de inicio
-        formData.append("fecha_fin", fecha_fin); // Parámetro de fecha de fin
+        formData.append("fecha_inicio", fecha_inicio);
+        formData.append("fecha_fin", fecha_fin);
         formData.append("estado_pedido", $("#estado_pedido").val());
 
-        // Realizar la solicitud AJAX
         $.ajax({
             url: apiUrl,
-            method: 'POST', // Enviar la solicitud como POST
-            data: formData, // Pasar el FormData
-            processData: false, // Evitar que jQuery procese los datos
-            contentType: false, // Evitar que jQuery configure el tipo de contenido
-            dataType: "json", // Indicar que la respuesta es JSON
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
             success: function(data) {
-                // Verificar si se recibieron los datos correctamente
                 if (data) {
-                    // Actualizar los valores en las tarjetas usando jQuery
                     $("#num_pedidos").text(data.total_pedidos || 0);
                     $("#valor_pedidos").text(
                         data.valor_pedidos ?
@@ -226,27 +345,16 @@
                         `${parseFloat(data.porcentaje_confirmacion).toFixed(2)}%` :
                         '0%'
                     );
-
                     $("#id_confirmacion").text("de " + data.mensaje || "");
                 } else {
                     console.error('No se recibieron datos válidos de la API.');
                 }
             },
             error: function(xhr, status, error) {
-                // Manejar errores de la solicitud
                 console.error('Error al consumir la API:', error);
             }
         });
     }
-
-    // Ejemplo de uso: ejecutar la función cuando se cargue la página
-    $(document).ready(function() {
-        // Inicializar tooltips
-        $('[data-toggle="tooltip"]').tooltip();
-
-        // Llamar a la función con valores de ejemplo (reemplazar por los reales)
-        cargarCardsPedidos(); // Llama a la API con las fechas inicial y final
-    });
 </script>
 
 <?php require_once './Views/templates/footer.php'; ?>
