@@ -130,7 +130,7 @@
 
 <script>
     // Definir la URL de la API por defecto (Pedidos)
-    let currentAPI = "pedidos/cargarPedidosPrueba_imporsuit";
+    let currentAPI = "pedidos/cargarPedidosAnulados";
     let fecha_inicio = "";
     let fecha_fin = "";
 
