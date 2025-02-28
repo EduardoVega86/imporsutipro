@@ -215,6 +215,7 @@ const listHistorialPedidos = async () => {
       } else if (currentAPI == "pedidos/cargar_pedidos_sin_producto") {
         acciones = `
           <button class="btn btn-sm btn-primary" onclick="boton_vista_anadir_sin_producto(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
+          <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
           ${boton_automatizador}`;
       }
 

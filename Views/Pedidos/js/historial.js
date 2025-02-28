@@ -207,7 +207,7 @@ const listHistorialPedidos = async () => {
       }
 
       let acciones = "";
-      if (currentAPI == "pedidos/cargarPedidosPrueba_imporsuit") {
+      if (currentAPI == "pedidos/cargarPedidos_imporsuit") {
         acciones = `
           <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
           <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
@@ -291,10 +291,17 @@ function hideTableLoader() {
 
 // Manejo de botones para cambiar API y recargar la tabla
 document.getElementById("btnPedidos").addEventListener("click", () => {
-  currentAPI = "pedidos/cargarPedidosPrueba_imporsuit";
+  currentAPI = "pedidos/cargarPedidos_imporsuit";
   cambiarBotonActivo("btnPedidos");
   initDataTableHistorial();
 });
+
+document.getElementById("btnAnulados").addEventListener("click", () => {
+  currentAPI = "pedidos/cargarPedidosAnulados"; // Nuevo endpoint para pedidos anulados
+  cambiarBotonActivo("btnAnulados");
+  initDataTableHistorial();
+});
+
 
 /* document.getElementById("btnAbandonados").addEventListener("click", () => {
   currentAPI = "pedidos/cargar_pedidos_abandonados"; // Ajusta la API correspondiente
