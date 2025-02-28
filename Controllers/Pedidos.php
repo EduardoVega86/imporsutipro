@@ -590,6 +590,15 @@ class Pedidos extends Controller
         echo json_encode($data);
     }
 
+    public function cargarPedidosPrueba_imporsuit()
+    {
+        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
+        $fecha_fin = $_POST['fecha_fin'] ?? "";
+        $estado_pedido = $_POST['estado_pedido'] ?? "";
+        $data = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
+        echo json_encode($data);
+    }
+
     public function cargar_pedidos_sin_producto()
     {
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";

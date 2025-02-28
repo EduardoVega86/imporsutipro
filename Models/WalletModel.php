@@ -5,12 +5,19 @@ require_once 'PHPMailer/Exception.php';
 require_once 'Class/Auditable.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
-use React\EventLoop\Factory;
-use React\Http\Browser;
-use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Class WalletModel
+ * @package Class
+ * @version 1.0
+ * @since 2024-06-01
+ * @author Jeimy Jara
+ */
 class WalletModel extends Query
 {
+    /**
+     * @var Auditable $auditable
+     */
     private Auditable $auditable;
 
     /**
@@ -23,6 +30,10 @@ class WalletModel extends Query
         $this->auditable = new Auditable($_SESSION['id'], 'Billetera');
     }
 
+    /**
+     * Se obtiene las tiendas
+     * @return bool|string
+     */
     public function obtenerTiendas(): bool|string
     {
         $id_matriz = $this->obtenerMatriz();
@@ -32,6 +43,10 @@ class WalletModel extends Query
         return json_encode($datos_tienda);
     }
 
+    /**
+     * Se obtiene la cabecera
+     * @return array
+     */
     public function obtenerCabecera($id_cabecera): array
     {
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
@@ -39,6 +54,15 @@ class WalletModel extends Query
         return $response;
     }
 
+    /**
+     * Se edita la cabecera
+     * @param $id_cabecera
+     * @param $total_venta
+     * @param $precio_envio
+     * @param $full
+     * @param $costo
+     * @return array
+     */
     public function editar($id_cabecera, $total_venta, $precio_envio, $full, $costo): array
     {
         $sql_estado = "SELECT estado_guia, visto FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
@@ -70,15 +94,24 @@ class WalletModel extends Query
 
         if ($response1 == 1) {
             $responses["status"] = 200;
+            $this->auditable->auditar("EDITAR GUIA", "El usuario editó una guía, GUIA: $numero_factura");
         } else if ($response == 0) {
             $responses["status"] = 201;
             $responses["message"] = "No se realizaron cambios";
+            $this->auditable->auditar("EDITAR GUIA", "El usuario intentó editar una guía, GUIA: $numero_factura");
         } else {
             $responses["status"] = 400;
             $responses["message"] = $response["message"];
+            $this->auditable->auditar("EDITAR GUIA", "El usuario intentó editar una guía, GUIA: $numero_factura");
         }
         return $responses;
     }
+
+    /**
+     * Se elimina la cabecera
+     * @param $id_cabecera
+     * @return array
+     */
 
     public function eliminar($id_cabecera): array
     {
@@ -107,6 +140,12 @@ class WalletModel extends Query
         return $responses;
     }
 
+    /**
+     * Se cambia el estado de la guía
+     * @param $id_cabecera
+     * @param $estado
+     * @return array
+     */
     public function cambiarEstado($id_cabecera, $estado): array
     {
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
@@ -161,7 +200,12 @@ class WalletModel extends Query
     }
 
 
-    public function obtenerDatos($tienda)
+    /**
+     * Se obtiene los datos generales de la tienda
+     * @param $tienda
+     * @return array
+     */
+    public function obtenerDatos($tienda): array
     {
         // Consultas SQL
         $datos_facturas_entregadas = $this->select("SELECT ROUND(SUM(monto_recibir),2) as utilidad, ROUND(SUM(total_venta),2) as ventas FROM cabecera_cuenta_pagar WHERE id_plataforma = '$tienda' and visto = 1");
@@ -198,7 +242,15 @@ class WalletModel extends Query
         return $data;
     }
 
-    public function obtenerFacturas($id_plataforma, $filtro, $estado, $transportadora)
+    /**
+     * Se obtiene los datos de las facturas
+     * @param $id_plataforma
+     * @param $filtro
+     * @param $estado
+     * @param $transportadora
+     * @return array
+     */
+    public function obtenerFacturas($id_plataforma, $filtro, $estado, $transportadora): array
     {
         // Definir la lógica común de trayecto
         $trayecto_case = "
@@ -310,16 +362,22 @@ class WalletModel extends Query
                 ccp.fecha DESC;";
         }
 
-        $response = $this->select($sql);
-        return $response;
+        return $this->select($sql);
     }
 
-    public function abonarBilletera($id_cabecera, $valor, $usuario)
+    /**
+     * Se abona a la billetera
+     * @param $id_cabecera
+     * @param $valor
+     * @param $usuario
+     * @return array
+     */
+    public function abonarBilletera($id_cabecera, $valor, $usuario): array
     {
         $guia_sql = "SELECT guia, estado_guia, numero_factura, id_plataforma, costo, full FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
         $guia_response = $this->select($guia_sql)[0];
         $guia = $guia_response['guia'];
-        if($guia == "0"){
+        if ($guia == "0") {
             $this->auditable->auditar("ABONAR BILLETERA", "El usuario intentó abonar a una guía inexistente. GUIA: $guia");
             return $this->errorResponse('Guía no encontrada');
         }
@@ -371,21 +429,38 @@ class WalletModel extends Query
         return $this->successResponse();
     }
 
-    private function getCabeceraCuentaPagar($id_cabecera)
+    /**
+     * Se todos los datos de la cabecera
+     * @param $id_cabecera
+     * @return mixed|null
+     */
+    private function getCabeceraCuentaPagar($id_cabecera): mixed
     {
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE id_cabecera = $id_cabecera";
         $response = $this->select($sql);
         return $response[0] ?? null;
     }
 
-    private function esCodFactura($numero_factura)
+    /**
+     * Se obtiene el COD de la factura
+     * @param $numero_factura
+     * @return mixed|null
+     */
+    private function esCodFactura($numero_factura): mixed
     {
         $sql = "SELECT cod FROM facturas_cot WHERE numero_factura = '$numero_factura'";
         $response = $this->select($sql);
         return $response[0]['cod'] ?? null;
     }
 
-    private function shouldAbortTransaction($estado_guia, $valor, $cod_factura)
+    /**
+     * Se aborta la transacción en caso de que no cumpla con las condiciones
+     * @param $estado_guia
+     * @param $valor
+     * @param $cod_factura
+     * @return bool
+     */
+    private function shouldAbortTransaction($estado_guia, $valor, $cod_factura): bool
     {
         // Caso 3: Si la guía está en estado 7, el valor es negativo y no tiene cod_factura o es diferente de 1, permitir.
         if ($estado_guia == 7 && $valor < 0 && $cod_factura != 1) {
@@ -403,26 +478,50 @@ class WalletModel extends Query
         return false; // No abortar en ningún otro caso
     }
 
-    private function actualizarCabecera($id_cabecera)
+    /**
+     * Se pasa a pagado la guía
+     * @param $id_cabecera
+     * @return void
+     */
+    private function actualizarCabecera($id_cabecera): void
     {
         $sql = "UPDATE cabecera_cuenta_pagar SET valor_pendiente = 0, visto = 1 WHERE id_cabecera = ?";
         $this->update($sql, [$id_cabecera]);
     }
 
-    private function actualizarBilletera($id_plataforma, $valor)
+    /**
+     * Se actualiza la billetera
+     * @param $id_plataforma
+     * @param $valor
+     * @return void
+     */
+    private function actualizarBilletera($id_plataforma, $valor): void
     {
         $sql = "UPDATE billeteras SET saldo = saldo + ? WHERE id_plataforma = ?";
         $this->update($sql, [$valor, $id_plataforma]);
     }
 
-    private function obtenerIdBilletera($id_plataforma)
+    /**
+     * Aquí se verifica si la billetera existe
+     * @param $id_plataforma
+     * @return mixed|null
+     */
+    private function obtenerIdBilletera($id_plataforma): mixed
     {
         $sql = "SELECT id_billetera FROM billeteras WHERE id_plataforma = '$id_plataforma'";
         $response = $this->select($sql);
         return $response[0]['id_billetera'] ?? null;
     }
 
-    private function registrarHistorialBilletera($id_billetera, $usuario, $valor, $guia)
+    /**
+     * Aquí se ingresa el historial de la billetera
+     * @param $id_billetera
+     * @param $usuario
+     * @param $valor
+     * @param $guia
+     * @return void
+     */
+    private function registrarHistorialBilletera($id_billetera, $usuario, $valor, $guia): void
     {
         $tipo = $valor < 0 ? 'SALIDA' : 'ENTRADA';
         $motivo = $valor < 0 ? "Se descontó de la billetera la guía: $guia" : "Se acreditó a la billetera la guía: $guia";
@@ -432,7 +531,14 @@ class WalletModel extends Query
         $this->insert($sql, [$id_billetera, $usuario, $tipo, $motivo, $valor, date("Y-m-d H:i:s")]);
     }
 
-    private function manejarGuiaCompleta($cabecera, $usuario, $valor)
+    /**
+     * Aquí se gestiona la guía completa, se verifica si el proveedor y el fullfilment tienen saldo pendiente, si es así se abona a sus billeteras
+     * @param $cabecera
+     * @param $usuario
+     * @param $valor
+     * @return void
+     */
+    private function manejarGuiaCompleta($cabecera, $usuario, $valor): void
     {
         // Abono al proveedor si corresponde
         if ($cabecera['id_proveedor'] && $cabecera['id_proveedor'] != $cabecera['id_plataforma'] && $cabecera['estado_guia'] == 7) {
@@ -445,7 +551,14 @@ class WalletModel extends Query
         }
     }
 
-    private function manejarProveedor($cabecera, $usuario, $valor)
+    /**
+     * Aquí se gestiona el proveedor, se verifica si la billetera existe, si no se crea, se registra el historial y se actualiza el saldo
+     * @param $cabecera
+     * @param $usuario
+     * @param $valor
+     * @return void
+     */
+    private function manejarProveedor($cabecera, $usuario, $valor): void
     {
         $id_proveedor = $cabecera['id_proveedor'];
 
@@ -472,7 +585,13 @@ class WalletModel extends Query
         $this->actualizarBilletera($id_proveedor, $cabecera['costo']);
     }
 
-    private function manejarFullfilment($cabecera, $usuario)
+    /**
+     * Aquí se gestiona el fullfilment, se verifica si la billetera existe, si no se crea, se registra el historial y se actualiza el saldo
+     * @param $cabecera
+     * @param $usuario
+     * @return void
+     */
+    private function manejarFullfilment($cabecera, $usuario): void
     {
         $id_full = $cabecera['id_full'];
 
@@ -492,7 +611,13 @@ class WalletModel extends Query
         $this->crearCabeceraFull($cabecera, $id_full);
     }
 
-    private function crearCabeceraFull($cabecera, $id_full)
+    /**
+     * Aquí se crea la cabecera para el fullfilment
+     * @param $cabecera
+     * @param $id_full
+     * @return void
+     */
+    private function crearCabeceraFull($cabecera, $id_full): void
     {
         $url_tienda = $this->obtenerEnlace($id_full);
         $sql = "INSERT INTO cabecera_cuenta_pagar 
@@ -515,21 +640,37 @@ class WalletModel extends Query
         ]);
     }
 
-    private function obtenerEnlace($id_plataforma)
+    /**
+     * Aquí se obtiene el enlace de la tienda
+     * @param $id_plataforma
+     * @return mixed
+     */
+    private function obtenerEnlace($id_plataforma): mixed
     {
         $sql = "SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$id_plataforma'";
         $response = $this->select($sql);
         return $response[0]['url_imporsuit'];
     }
 
-    private function existeBilletera($id_plataforma)
+    /**
+     * Aquí se verifica si la billetera existe
+     * @param $id_plataforma
+     * @return bool
+     */
+    private function existeBilletera($id_plataforma): bool
     {
         $sql = "SELECT COUNT(*) as count FROM billeteras WHERE id_plataforma = '$id_plataforma'";
         $response = $this->select($sql);
         return $response[0]['count'] > 0;
     }
 
-    private function crearCabeceraProveedor($cabecera, $id_proveedor)
+    /**
+     * Aquí se crea la cabecera para el proveedor
+     * @param $cabecera
+     * @param $id_proveedor
+     * @return void
+     */
+    private function crearCabeceraProveedor($cabecera, $id_proveedor): void
     {
         $isFulfilment = $this->buscarFull($cabecera['numero_factura'], $id_proveedor);
         $full = $isFulfilment > 0 ? $isFulfilment : 0;
@@ -559,67 +700,92 @@ class WalletModel extends Query
         }
     }
 
-    private function registrarHistorialProveedor($cabecera, $usuario, $valor)
+    /**
+     * Aquí se registra el historial del proveedor
+     * @param $cabecera
+     * @param $usuario
+     * @param $valor
+     * @return void
+     */
+    private function registrarHistorialProveedor($cabecera, $usuario, $valor): void
     {
         $id_billetera = $this->obtenerIdBilletera($cabecera['id_proveedor']);
         $this->registrarHistorialBilletera($id_billetera, $usuario, $cabecera['costo'], $cabecera['guia']);
     }
 
-    private function errorResponse($message)
+    /**
+     * Aquí tenemos la respuesta inicial o la respuesta de error
+     * @param $message
+     * @return array
+     */
+    private function errorResponse($message): array
     {
         return ["status" => 500, "message" => $message];
     }
 
-    private function successResponse()
+    /**
+     * Aquí tenemos la respuesta de éxito
+     * @return array
+     */
+    private function successResponse(): array
     {
 
         return ["status" => 200, "message" => "Transacción exitosa"];
     }
 
-    public function guiasPendientes($tienda)
+    /**
+     * Aquí se obtienen Las guias pendientes
+     * @param $tienda
+     * @return bool|string
+     */
+    public function guiasPendientes($tienda): bool|string
     {
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and valor_pendiente > 0";
         $response = $this->select($sql);
         return json_encode($response);
     }
 
-    public function guiasAbonadas($tienda)
+    /**
+     * Aquí se obtienen Las guías abonadas
+     * @param $tienda
+     * @return bool|string
+     */
+    public function guiasAbonadas($tienda): bool|string
     {
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE tienda = '$tienda' and valor_pendiente = 0";
         $response = $this->select($sql);
         return json_encode($response);
     }
 
-    public function pagar($monto, $tienda, $usuario)
-    {
-        $sql = "UPDATE billeteras set saldo = saldo - $monto WHERE tienda = ?";
-        $response = $this->update($sql, array($tienda));
-
-        $id_billetera = $this->select("SELECT id_billetera FROM billeteras WHERE tienda = $tienda")[0]['id_billetera'];
-
-        $insert_pagos = "INSERT INTO pagos (`id_billetera`, `monto`, `fecha`, `id_responsable`) VALUES (?, ?, ?, ?)";
-
-        $sql = "INSERT INTO historial_billetera (`id_billetera`, `id_responsable`, `tipo`, `motivo`, `monto`, `fecha`) VALUES (?, ?, ?, ?, ?, ?)";
-        $response = $this->insert($sql, array($id_billetera, $usuario, "SALIDA", "Se pago de la billetera el monto: $monto", $monto, date("Y-m-d H:i:s")));
-        $responses["status"] = 200;
-        return json_encode($responses);
-    }
-
-    public function saldo($tienda)
+    /**
+     * Aquí se obtiene el saldo de la billetera
+     * @param $tienda
+     * @return bool|string
+     */
+    public function saldo($tienda): bool|string
     {
         $sql = "SELECT saldo FROM billeteras WHERE tienda = $tienda";
         $response = $this->select($sql);
         return json_encode($response);
     }
 
-    public function existeTienda($tienda)
+    /**
+     * Aquí se verifica si la tienda existe
+     * @param $tienda
+     * @return array
+     */
+    public function existeTienda($tienda): array
     {
         $sql = "SELECT * FROM billeteras WHERE id_plataforma = '$tienda'";
-        $response = $this->select($sql);
-        return $response;
+        return $this->select($sql);
     }
 
-    public function crearBilletera($tienda)
+    /**
+     * Aquí se crea la billetera
+     * @param $tienda
+     * @return bool|string
+     */
+    public function crearBilletera($tienda): bool|string
     {
         $url_imporsuit = $this->select("SELECT url_imporsuit FROM plataformas WHERE id_plataforma = '$tienda'");
         $url_imporsuit = $url_imporsuit[0]['url_imporsuit'];
@@ -629,14 +795,25 @@ class WalletModel extends Query
         return json_encode($response);
     }
 
-    public function widget($tienda)
+    /**
+     * Aquí se muestra los datos de los widgets
+     * @param $tienda
+     * @return bool|string
+     */
+    public function widget($tienda): bool|string
     {
         $sql = "SELECT ROUND((SELECT SUM(monto_recibir) from cabecera_cuenta_pagar where tienda like '%$tienda%' and visto= 1 and estado_guia = 7 and monto_recibir) ,2)as venta , ROUND(SUM(monto_recibir),2) as utilidad, (SELECT ROUND(SUM(monto_recibir),2) from cabecera_cuenta_pagar where tienda like '%$tienda%' and estado_guia =9 and visto= 1)as devoluciones FROM `cabecera_cuenta_pagar` where tienda like '%$tienda%' and visto = 1;";
         $response = $this->select($sql);
         return json_encode($response);
     }
 
-    public function buscarFull($numero_factura, $id_plataforma)
+    /**
+     * Aquí se busca el full si tiene o no y sobre cuanto es
+     * @param $numero_factura
+     * @param $id_plataforma
+     * @return int|mixed
+     */
+    public function buscarFull($numero_factura, $id_plataforma): mixed
     {
         $buscar_detalle = $this->select("SELECT * FROM detalle_fact_cot WHERE numero_factura = '$numero_factura'");
         $id_inventario = $buscar_detalle[0]['id_inventario'];
@@ -663,22 +840,25 @@ class WalletModel extends Query
         return $full;
     }
 
-
-    public function obtenerDatosBancarios($plataformas)
+    /**
+     * Aquí se obtiene los datos de la tienda
+     * @param $plataformas
+     * @return array
+     */
+    public function obtenerDatosBancarios($plataformas): array
     {
         $sql = "SELECT * from datos_banco_usuarios  where id_plataforma = '$plataformas'";
-        $response = $this->select($sql);
-        return $response;
+        return $this->select($sql);
     }
 
-    public function obtenerDatosFacturacion($plataformas)
+    public function obtenerDatosFacturacion($plataformas): array
     {
         $sql = "SELECT * from facturacion  where id_plataforma = '$plataformas'";
         $response = $this->select($sql);
         return $response;
     }
 
-    public function guardarDatosBancarios($banco, $tipo_cuenta, $numero_cuenta, $nombre, $cedula, $correo, $telefono, $plataforma)
+    public function guardarDatosBancarios($banco, $tipo_cuenta, $numero_cuenta, $nombre, $cedula, $correo, $telefono, $plataforma): array
     {
         $response = $this->initialResponse();
         $id_matriz = $this->obtenerMatriz();
@@ -694,7 +874,7 @@ class WalletModel extends Query
         return $response;
     }
 
-    public function eliminarDatoBancario($id_cuenta)
+    public function eliminarDatoBancario($id_cuenta): array
     {
         $sql = "DELETE FROM datos_banco_usuarios WHERE id_cuenta = ?";
         $response = $this->delete($sql, array($id_cuenta));
@@ -708,7 +888,7 @@ class WalletModel extends Query
         return $responses;
     }
 
-    public function guardarDatosFacturacion($ruc, $razon, $direccion, $correo, $telefono, $plataforma)
+    public function guardarDatosFacturacion($ruc, $razon, $direccion, $correo, $telefono, $plataforma): array
     {
         $id_matriz = $this->obtenerMatriz();
         $id_matriz = $id_matriz[0]['idmatriz'];
@@ -821,6 +1001,7 @@ class WalletModel extends Query
 
     public function enviarCorreoVerificacion($correo, $asunto, $mensaje)
     {
+        global $smtp_debug, $smtp_host, $smtp_user, $smtp_pass;
         require_once 'PHPMailer/Mail_codigo.php';
         $mail = new PHPMailer();
         $mail->isSMTP();
@@ -934,8 +1115,12 @@ class WalletModel extends Query
         return $response;
     }
 
+    /**
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
     public function enviarMensaje($mensaje, $correo, $cantidad)
     {
+        global $smtp_debug, $smtp_host, $smtp_user, $smtp_pass, $smtp_secure, $smtp_from_name, $smtp_from, $message_body2;
         $datos_usuario = $this->select("SELECT * FROM datos_banco_usuarios WHERE correo = '$correo'");
         $nombre = $datos_usuario[0]['nombre'];
         $banco = $datos_usuario[0]['banco'];
@@ -968,11 +1153,9 @@ class WalletModel extends Query
             $mail->Body = $message_body2;
             // $this->crearSubdominio($tienda);
 
-            if ($mail->send()) {
-                //echo "Correo enviado";
-            } else {
-                //  echo "Error al enviar el correo: " . $mail->ErrorInfo;
-            }
+            $mail->send();
+            //echo "Correo enviado";
+
         } else if ($mensaje == "pago") {
             $mensaje = "Se ha realizado un pago";
         }
@@ -1002,6 +1185,14 @@ class WalletModel extends Query
         $response_guia = $this->select($sql_guia);
         $guia = $response_guia[0]['guia'];
         $visto_guia = $response_guia[0]['visto'];
+        $precio_envio = $response_guia[0]['precio_envio'];
+
+        if($precio_envio == 0){
+            $responses["status"] = 501;
+            $responses["message"] = "No se puede cambiar el estado de una guía que no tiene precio de envío";
+            $this->auditable->auditar("CAMBIAR ESTADO GUIA", "El usuario intentó cambiar el estado de una guía que no tiene precio de envío, GUIA: $guia");
+            return $responses;
+        }
 
         if ($visto_guia == 1) {
             $responses["status"] = 501;
@@ -1035,6 +1226,7 @@ class WalletModel extends Query
 
         if ($response == 1) {
             $responses["status"] = 200;
+            $this->auditable->auditar("CAMBIAR ESTADO GUIA", "El usuario cambió el estado de la guía a devolución, GUIA: $guia");
         } else {
             $responses["status"] = 200;
         }
@@ -1047,6 +1239,15 @@ class WalletModel extends Query
         $response_guia = $this->select($sql_guia);
         $guia = $response_guia[0]['guia'];
         $visto_guia = $response_guia[0]['visto'];
+
+        $precio_envio = $response_guia[0]['precio_envio'];
+
+        if($precio_envio == 0){
+            $responses["status"] = 501;
+            $responses["message"] = "No se puede cambiar el estado de una guía que no tiene precio de envío";
+            $this->auditable->auditar("CAMBIAR ESTADO GUIA", "El usuario intentó cambiar el estado de una guía que no tiene precio de envío, GUIA: $guia");
+            return $responses;
+        }
 
         if ($visto_guia == 1) {
             $responses["status"] = 501;
@@ -1093,6 +1294,14 @@ class WalletModel extends Query
         $response = $this->select($sql);
         $guia = $response[0]['guia'];
         $visto_guia = $response[0]['visto'];
+        $precio_envio = $response[0]['precio_envio'];
+
+        if($precio_envio == 0){
+            $responses["status"] = 501;
+            $responses["message"] = "No se puede cambiar el estado de una guía que no tiene precio de envío";
+            $this->auditable->auditar("CAMBIAR ESTADO GUIA", "El usuario intentó cambiar el estado de una guía que no tiene precio de envío, GUIA: $guia");
+            return $responses;
+        }
 
         if ($visto_guia == 1) {
             $responses["status"] = 501;
@@ -1782,7 +1991,7 @@ class WalletModel extends Query
         return $response;
     }
 
-    public function guiasAcuadre()
+    public function guiasAcuadre(): array|int
     {
         $sql = "SELECT * FROM `cabecera_cuenta_pagar` WHERE guia like 'MKP%' and estado_guia = 7 and numero_factura not like '%-P' and numero_factura not like '%-F' and precio_envio != 5.99;";
         $response = $this->select($sql);
@@ -1805,9 +2014,11 @@ class WalletModel extends Query
         return $response;
     }
 
-
-    // Procesos de PAGO AUTOMATICO NO COLOCAR CODIGO AQUI NI MODIFICAR ABSOLUTAMENTE NADA
-    public function pagar_laar()
+    /**
+     * Procesos de PAGO AUTOMATICO NO COLOCAR CODIGÓ AQUÍ NI MODIFICAR ABSOLUTAMENTE NADA
+     * @return array
+     */
+    public function pagar_laar(): array
     {
         $guias = $this->obtenerTodasLasGuias();
 
@@ -1833,7 +2044,11 @@ class WalletModel extends Query
         ];
     }
 
-    public function obtenerTodasLasGuias()
+    /**
+     * Función para obtener todas las guías
+     * @return array
+     */
+    public function obtenerTodasLasGuias(): array
     {
         $sql = "SELECT * FROM cabecera_cuenta_pagar WHERE estado_guia IN (7, 9) AND visto = 0 AND (guia LIKE 'IMP%' OR guia LIKE 'MKP%') and id_plataforma not in (1160,1190);";
         $response = $this->select($sql);
@@ -1844,7 +2059,13 @@ class WalletModel extends Query
         return $guias;
     }
 
-    public function verificar_envio($numero_guia, $peso)
+    /**
+     * Se verifica el peso de las guías
+     * @param $numero_guia
+     * @param $peso
+     * @return array[]
+     */
+    public function verificar_envio($numero_guia, $peso): array
     {
         // Buscar en facturas_cot
         $sql = "SELECT * FROM facturas_cot WHERE numero_guia = '$numero_guia'";
@@ -1886,8 +2107,12 @@ class WalletModel extends Query
         return [$guias_con_exito, $guias_con_fallo];
     }
 
-    // Función para obtener el precio por trayecto
-    public function obtenerPrecioPorTrayecto($trayecto)
+    /**
+     * Función para obtener el precio por trayecto
+     * @param $trayecto
+     * @return float|int
+     */
+    public function obtenerPrecioPorTrayecto($trayecto): float|int
     {
         $precios = [
             'TP' => 0.86,
@@ -1897,11 +2122,17 @@ class WalletModel extends Query
             'TO' => 1.15,
             'GAL' => 2.88
         ];
-        return isset($precios[$trayecto]) ? $precios[$trayecto] : 0;
+        return $precios[$trayecto] ?? 0;
     }
 
-    // Función para obtener valor de cobertura
-    public function obtenerValorCobertura($trayecto, $id_transporte, $ciudad_cot)
+    /**
+     * Función para obtener valor de cobertura
+     * @param $trayecto
+     * @param $id_transporte
+     * @param $ciudad_cot
+     * @return float|int
+     */
+    public function obtenerValorCobertura($trayecto, $id_transporte, $ciudad_cot): float|int
     {
         $valor_cobertura = 0;
         if ($id_transporte == 1) {
@@ -1922,8 +2153,16 @@ class WalletModel extends Query
         return $valor_cobertura;
     }
 
-    // Función para calcular el precio total del envío
-    public function calcularPrecioEnvio($id_transporte, $cod, $monto_factura, $valor_cobertura, $numero_guia)
+    /**
+     * Función para calcular el precio total del envío
+     * @param $id_transporte
+     * @param $cod
+     * @param $monto_factura
+     * @param $valor_cobertura
+     * @param $numero_guia
+     * @return float
+     */
+    public function calcularPrecioEnvio($id_transporte, $cod, $monto_factura, $valor_cobertura, $numero_guia): float
     {
         if ($cod == 1 && str_contains($numero_guia, 'IMP')) {
             return round($monto_factura * 0.03 + $valor_cobertura, 2);
@@ -1936,8 +2175,12 @@ class WalletModel extends Query
         }
     }
 
-    // Función para obtener pesos de forma concurrente
-    public function obtenerPesosConcurrencia($guias)
+    /**
+     * Función para obtener pesos de forma concurrente
+     * @param $guias
+     * @return array
+     */
+    public function obtenerPesosConcurrencia($guias): array
     {
         $mh = curl_multi_init();
         $curl_array = [];
@@ -1954,7 +2197,7 @@ class WalletModel extends Query
             $curl_array[$guia] = $curl;
         }
 
-        $running = null;
+        $running = 0;
         do {
             curl_multi_exec($mh, $running);
             curl_multi_select($mh);
@@ -1969,14 +2212,24 @@ class WalletModel extends Query
         return $results;
     }
 
-    // Modificar verdaderoPeso para usar la concurrencia
-    public function verdaderoPeso($guias)
+    /**
+     * Función para obtener el peso verdadero de las guías
+     * @param $guias
+     * @return array
+     */
+    public function verdaderoPeso($guias): array
     {
         return $this->obtenerPesosConcurrencia($guias);
     }
 
-    // Validar si la guias es con o sin recaudo
-    public function validarRecaudo($numero_guia, $cod, $guias)
+    /**
+     * Función para validar recaudo
+     * @param $numero_guia
+     * @param $cod
+     * @param $guias
+     * @return void
+     */
+    public function validarRecaudo($numero_guia, $cod, $guias): void
     {
         $sql = "SELECT * FROM facturas_cot WHERE numero_guia = '$numero_guia'";
         $response = $this->select($sql);
@@ -1986,12 +2239,20 @@ class WalletModel extends Query
             $validar = true;
         }
 
-        if ($validar) {
-            /*  $total_venta =  */
-        }
+        /*   if ($validar) {
+                 $total_venta =
+           }*/
     }
 
-    public function guias_reporte($mes, $dia, $rango, $id_plataforma)
+    /**
+     * Función para obtener las guías de un reporte
+     * @param $mes
+     * @param $dia
+     * @param $rango
+     * @param $id_plataforma
+     * @return array
+     */
+    public function guias_reporte($mes, $dia, $rango, $id_plataforma): array
     {
         $visto = 0;
         if ($rango != 0) {
@@ -2014,14 +2275,25 @@ class WalletModel extends Query
         return $response;
     }
 
-    public function obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search, $page)
+    /**
+     * Función para obtener las cabeceras de las guías
+     * @param $limit
+     * @param $offset
+     * @param $transportadora
+     * @param $estado
+     * @param $fecha
+     * @param $search
+     * @param $page
+     * @return array
+     */
+    public function obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search, $page): array
     {
         /*   $visto = 0; */
         $conditions = [];
         $params = [];
 
-        if ($search != "") {
-        }
+        /* if ($search != "") {
+         }*/
         // Filtro por transportadora y estado
         if ($transportadora == 1) { // Transportadora IMP
             $conditions[] = "ccp.guia LIKE 'IMP%'";
@@ -2151,7 +2423,7 @@ class WalletModel extends Query
                 $whereClause 
                 GROUP BY ccp.id_cabecera, cc.ciudad, cc.provincia, fc.plataforma_importa, fc.telefono
                 ORDER BY ccp.id_cabecera DESC
-                LIMIT $limit OFFSET $offset";
+                `LIMIT` $limit OFFSET $offset";
 
         $sqlcount = "SELECT COUNT(DISTINCT ccp.id_cabecera) as total 
        FROM cabecera_cuenta_pagar ccp
