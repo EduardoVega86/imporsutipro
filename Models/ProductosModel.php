@@ -25,14 +25,23 @@ class ProductosModel extends Query
 
     public function obtenerProductosTodos()
     {
-        $sql = "SELECT id_producto, nombre_producto FROM `productos`";
+        $sql = "
+            SELECT DISTINCT p.id_producto, p.nombre_producto
+            FROM productos p
+            JOIN inventario_bodegas ib ON p.id_producto = ib.id_producto
+            WHERE ib.saldo_stock > 0 
+              AND ib.bodega NOT IN (0, 50000)
+        ";
+
         $response = $this->select($sql);
+
         return [
             'status'  => 200,
             'message' => 'Productos obtenidos exitosamente',
             'data'    => $response
         ];
     }
+
 
 
     // public function obtenerBovedas()

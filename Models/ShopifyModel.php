@@ -9,7 +9,7 @@ class ShopifyModel extends Query
         $this->pedidosModel = new PedidosModel();
     }
 
-    public function productoPlataforma($id_plataforma, $data)
+    public function productoPlataforma($id_plataforma, $data): bool
     {
         $data = json_decode($data, true);
         if (isset($data['line_items']) && is_array($data['line_items'])) {
@@ -45,7 +45,7 @@ class ShopifyModel extends Query
         return $response[0]['cantidad'];
     }
 
-    public function gestionarRequestSinProducto($plataforma, $data)
+    public function gestionarRequestSinProducto($plataforma, $data): void
     {
         $data = json_decode($data, true);
         $order_number = $data['order_number'];
@@ -166,7 +166,8 @@ class ShopifyModel extends Query
 
         // Recorre los items y verifica las condiciones necesarias
         foreach ($lineItems as $item) {
-            if (empty($item['sku'])) {
+            // si esta vacio o si el sku no esta conformado por solo numeros
+            if (empty($item['sku']) || !is_numeric($item['sku'])) {
                 // Si solo hay un ítem y no tiene SKU, detiene el proceso
                 if (count($lineItems) == 1) {
                     die("Proceso detenido: el único ítem no tiene SKU.");
@@ -252,7 +253,7 @@ class ShopifyModel extends Query
         if ($continua == 0) {
             $continua = 1;
         }
-        echo "ADICION DE DESCUENTO" . ":::::::::::::";
+        echo "ADICIÓN DE DESCUENTO" . ":::::::::::::";
         if (count($productosSinSku) > 0) {
             foreach ($productosSinSku as &$productoSinSku) {
                 // sacar cantidad de productos con sku
