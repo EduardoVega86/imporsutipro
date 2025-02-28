@@ -44,8 +44,15 @@ function getFecha() {
  *
  */
 const optionsDataTable = {
+    columnDefs: [
+        {
+            className: "centered",
+            targets: [0, 1, 2, 3, 4]
+        },
+    ],
     dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
-    order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
+
+    order: [[1, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
     pageLength: 10,
     destroy: true,
     responsive: true,
@@ -97,16 +104,16 @@ const optionsDataTable = {
  * @returns {Promise<void>}
  */
 const initDataTable = async () => {
-   try{
-       if(dataTableIsInit){
-           dataTable.destroy();
-       }
-       dataTable = await $("#dataTable").DataTable(optionsDataTable);
-       dataTableIsInit = true;
-
-   } catch (e) {
-       console.error(e);
-   }
+    try {
+        if (dataTableIsInit) {
+            dataTable.destroy();
+        }
+        await listAuditables();
+        dataTable = await $("#walletDatatable").DataTable(optionsDataTable);
+        dataTableIsInit = true;
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 const listAuditables = async () => {
@@ -118,18 +125,36 @@ const listAuditables = async () => {
             },
         });
         const data = await response.json();
+        let content = "";
         if (data.status === 200) {
             const auditables = data.data;
-            let html = "";
-            auditables.forEach((audit) => {
-                html += `<option value="${audit.id}">${audit.nombre}</option>`;
-            });
-            $("#selectAuditables").html(html);
+            for (let i = 0; i < auditables.length; i++) {
+                const auditable = auditables[i];
+                content += `
+                    <tr>
+                        <td>${auditable.id_auditorio}</td>
+                        <td>${auditable.fecha}</td>
+                        <td>${auditable.nombre_responsable}</td>
+                        <td>${auditable.lugar}</td>
+                        <td>${auditable.accion}</td>
+                        <td>${auditable.servidor}</td>
+                        
+                    </tr>
+                `;
+            }
+
+        } else {
+            content += `
+                <tr>
+                    <td colspan="6" class="text-center">No hay registros</td>
+                </tr>
+            `;
         }
+        $("#walletDatas").html(content);
     } catch (e) {
         console.error(e);
     }
 }
-document.addEventListener("DOMContentLoaded", () =>{
-
+window.addEventListener("load", async () => {
+    await initDataTable()
 });

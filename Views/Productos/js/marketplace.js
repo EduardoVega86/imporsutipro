@@ -1,6 +1,6 @@
 let formData_filtro;
 let currentPage = 1;           // Página actual
-const pageSize = 24;          // Cantidad de productos por página
+const pageSize = 35;          // Cantidad de productos por página
 let isLoading = false;        // Para evitar clicks múltiples
 let products = [];            // Acumularemos aquí todos los productos que se han ido cargando
 

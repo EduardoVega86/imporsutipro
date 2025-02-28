@@ -53,7 +53,7 @@ class Marketplace extends Controller
 
         // Paginación
         $page  = isset($_POST['page'])  ? (int)$_POST['page']  : 1;
-        $limit = isset($_POST['limit']) ? (int)$_POST['limit'] : 24;
+        $limit = isset($_POST['limit']) ? (int)$_POST['limit'] : 35;
 
         // Llamamos al modelo pasando todos los filtros
         $response = $this->model->obtenerProductosPaginados(
