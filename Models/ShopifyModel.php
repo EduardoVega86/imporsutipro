@@ -9,7 +9,7 @@ class ShopifyModel extends Query
         $this->pedidosModel = new PedidosModel();
     }
 
-    public function productoPlataforma($id_plataforma, $data)
+    public function productoPlataforma($id_plataforma, $data): bool
     {
         $data = json_decode($data, true);
         if (isset($data['line_items']) && is_array($data['line_items'])) {
@@ -45,7 +45,7 @@ class ShopifyModel extends Query
         return $response[0]['cantidad'];
     }
 
-    public function gestionarRequestSinProducto($plataforma, $data)
+    public function gestionarRequestSinProducto($plataforma, $data): void
     {
         $data = json_decode($data, true);
         $order_number = $data['order_number'];
@@ -253,7 +253,7 @@ class ShopifyModel extends Query
         if ($continua == 0) {
             $continua = 1;
         }
-        echo "ADICION DE DESCUENTO" . ":::::::::::::";
+        echo "ADICIÓN DE DESCUENTO" . ":::::::::::::";
         if (count($productosSinSku) > 0) {
             foreach ($productosSinSku as &$productoSinSku) {
                 // sacar cantidad de productos con sku
