@@ -98,11 +98,16 @@
             </div>
         </div>
 
-        <div class="d-flex mb-3 mt-3">
-            <button id="btnPedidos" class="btn btn-primary me-2 active">Pedidos</button>
-            <button id="btnAnulados" class="btn btn-secondary me-2">Anulados</button>
-            <button id="btnNo_vinculados" class="btn btn-secondary">No Vinculados</button>
-        </div>
+        <?php if ($_SESSION['id_plataforma'] != 3280) {
+        ?>
+            <div class="d-flex mb-3 mt-3">
+                <button id="btnPedidos" class="btn btn-primary me-2 active">Pedidos</button>
+                <button id="btnAnulados" class="btn btn-secondary me-2">Anulados</button>
+                <button id="btnNo_vinculados" class="btn btn-secondary">No Vinculados</button>
+            </div>
+        <?php
+        }
+        ?>
 
         <!-- TABLA DE HISTORIAL DE PEDIDOS -->
         <div class="table-responsive">
