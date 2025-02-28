@@ -166,7 +166,8 @@ class ShopifyModel extends Query
 
         // Recorre los items y verifica las condiciones necesarias
         foreach ($lineItems as $item) {
-            if (empty($item['sku'])) {
+            // si esta vacio o si el sku no esta conformado por solo numeros
+            if (empty($item['sku']) || !is_numeric($item['sku'])) {
                 // Si solo hay un ítem y no tiene SKU, detiene el proceso
                 if (count($lineItems) == 1) {
                     die("Proceso detenido: el único ítem no tiene SKU.");
