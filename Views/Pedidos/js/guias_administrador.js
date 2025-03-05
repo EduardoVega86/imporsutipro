@@ -47,25 +47,43 @@ $(function() {
 
 // Configuración del DataTable
 const dataTableOptions = {
+  // Definición de columnas
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
     { orderable: false, targets: 0 }, // Evitar ordenar por la columna de checkboxes
   ],
-  order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
+
+  // Orden inicial de la tabla
+  order: [[2, "desc"]], // ordena por la columna índice 2 en orden descendente
+
+  // Configuración de paginación
   pageLength: 25,
   lengthMenu: [25, 50, 100, 200],
+
+  // Destruir la tabla anterior al volver a inicializarla
   destroy: true,
   responsive: true,
+
+  // Personaliza la barra superior/inferior: lBf -> "Longitud", "Botones", "filtro"
+  // t -> la tabla
+  // ip -> "info" y "paginación"
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+
+  // Botones de exportación
   buttons: [
     {
       extend: "excelHtml5",
       text: 'Excel <i class="fa-solid fa-file-excel"></i>',
       title: "Guias Exportadas",
-      // Estos son los índices de columnas a exportar; omite las que no quieras
+      filename: "guias_" + getFecha(),
+      footer: true,
+      className: "btn-excel",
+
       exportOptions: {
+        // Indica qué columnas exportar (índices dentro de la tabla)
         columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-        // Este formato nos permite sobreescribir los títulos de las columnas
+
+        // Para personalizar el texto de los encabezados en Excel
         format: {
           header: function (data, columnIdx) {
             switch (columnIdx) {
@@ -83,38 +101,41 @@ const dataTableOptions = {
               case 12: return 'COSTO FLETE';
               case 13: return 'FULFILLMENT';
               case 14: return 'RECAUDO';
-              default: return data;  // Para las demás, deja el texto por defecto
+              default: return data; // Texto original de la tabla
             }
-          }
-        }
+          },
+        },
       },
-      // Para cambiar anchos y/o estilos, usa `customize`
+
+      // Para ajustar estilos o anchos en la hoja de Excel
       customize: function (xlsx) {
         let sheet = xlsx.xl.worksheets['sheet1.xml'];
-  
-        // 1) Ajustar ancho de todas las columnas exportadas a 20 
-        //    (puedes hacerlo individualmente, según el índice)
-        $('cols col', sheet).each(function (index, col) {
-          $(col).attr('width', 20);
+
+        // Ajustar ancho de todas las columnas exportadas
+        $('cols col', sheet).each(function () {
+          $(this).attr('width', 20);
         });
-  
-        // 2) (Opcional) Si deseas aplicar negrita a la primera fila (encabezados)
-        //    buscas la fila <row r="1"> y aplicas estilo
-        //    DataTables añade los <row> y <c> en XML.
-        //    Ejemplo de añadir “bold”:
-        $('row c[r^="A1"], row c[r^="B1"], row c[r^="C1"], ...', sheet).attr('s', '2');
-        //    (donde 's="2"' depende de la plantilla interna de estilos de DataTables).
-  
-        // 3) (Opcional) También puedes modificar el “nombre” de la pestaña:
+
+        // Cambiar el nombre de la pestaña (la primera)
         xlsx.xl.workbook.xml
           .getElementsByTagName('sheet')[0]
-          .setAttribute('name', 'GuiasExportadas'); 
+          .setAttribute('name', 'Guias');
       },
-      filename: "guias_" + getFecha(),  // Reutilizando tu función getFecha()
+    },
+    {
+      extend: "csvHtml5",
+      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
+      title: "Guias CSV",
+      filename: "guias_" + getFecha(),
       footer: true,
-      className: "btn-excel",
-    }
-  ],  
+      className: "btn-csv",
+      exportOptions: {
+        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      },
+    },
+  ],
+
+  // Textos en español para la interfaz
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
@@ -131,6 +152,7 @@ const dataTableOptions = {
     },
   },
 };
+
 
 /**
  * Devuelve una cadena con la fecha actual en formato YYYY-MM-DD
