@@ -2,6 +2,20 @@
 
 
 session_start();
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
+use PhpOffice\PhpSpreadsheet\Chart\Chart;
+use PhpOffice\PhpSpreadsheet\Chart\DataSeries;
+use PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues;
+use PhpOffice\PhpSpreadsheet\Chart\Legend;
+use PhpOffice\PhpSpreadsheet\Chart\PlotArea;
+use PhpOffice\PhpSpreadsheet\Chart\Title;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+
+
 class Pedidos extends Controller
 {
     public function __construct()
@@ -823,8 +837,556 @@ class Pedidos extends Controller
         /*  $start = $_POST['start'] ?? 0;
         $length = $_POST['length'] ?? 25; */
         $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
-        echo json_encode($data);
+
+        // Inicializamos los totales para mostrar cards en guias
+        $totals = [
+            "total"       => count($data),
+            "generada"    => 0,
+            "en_transito" => 0,
+            "zona_entrega" => 0,
+            "entregada"   => 0,
+            "novedad"     => 0,
+            "devolucion"  => 0,
+        ];
+
+        // Recorremos cada guía y calculamos los totales
+        foreach ($data as $guia) {
+            $estado_guia = intval($guia['estado_guia_sistema']);
+            $transporte  = intval($guia['id_transporte']);
+
+            // "Generada"
+            if (($transporte == 2 && in_array($estado_guia, [100, 102, 103])) ||
+                ($transporte == 1 && in_array($estado_guia, [1, 2])) ||
+                ($transporte == 3 && in_array($estado_guia, [1, 2, 3])) ||
+                ($transporte == 4 && $estado_guia === 2)
+            ) {
+                $totals['generada']++;
+            }
+
+            // "En tránsito"
+            if (($transporte == 2 && $estado_guia >= 300 && $estado_guia <= 317 && $estado_guia != 307) ||
+                ($transporte == 1 && in_array($estado_guia, [5, 11, 12])) ||
+                ($transporte == 3 && in_array($estado_guia, [4])) ||
+                ($transporte == 4 && $estado_guia === 3)
+            ) {
+                $totals['en_transito']++;
+            }
+
+            // Zona de entrega 
+            if (($transporte == 2 && $estado_guia == 307) ||
+                ($transporte == 1 && in_array($estado_guia, [6])) ||
+                ($transporte == 3 && in_array($estado_guia, [5]))
+            ) {
+                $totals['zona_entrega']++;
+            }
+
+            // "Entregada"
+            if (($transporte == 2 && $estado_guia >= 400 && $estado_guia <= 403) ||
+                ($transporte == 1 && $estado_guia === 7) ||
+                ($transporte == 3 && $estado_guia === 7) ||
+                ($transporte == 4 && $estado_guia === 7)
+            ) {
+                $totals['entregada']++;
+            }
+
+            // "Novedad"
+            if (($transporte == 2 && $estado_guia >= 320 && $estado_guia <= 351) ||
+                ($transporte == 1 && $estado_guia === 14) ||
+                ($transporte == 3 && $estado_guia === 6) ||
+                ($transporte == 4 && $estado_guia === 14)
+            ) {
+                $totals['novedad']++;
+            }
+
+            // "Devolución"
+            if (($transporte == 2 && $estado_guia >= 500 && $estado_guia <= 502) ||
+                ($transporte == 1 && $estado_guia === 9) ||
+                ($transporte == 4 && $estado_guia === 9) ||
+                ($transporte == 3 && in_array($estado_guia, [8, 9, 13]))
+            ) {
+                $totals['devolucion']++;
+            }
+        }
+
+        $result = [
+            "data"   => $data,
+            "totals" => $totals
+        ];
+        echo json_encode($result);
     }
+
+    public function exportarGuias()
+    {
+        // Recibimos por POST (tu JS usa fetch con FormData)
+        $fecha_inicio   = $_POST['fecha_inicio']   ?? "";
+        $fecha_fin      = $_POST['fecha_fin']      ?? "";
+        $transportadora = $_POST['transportadora'] ?? "";
+        $estado         = $_POST['estado']         ?? "";
+        $drogshipin     = $_POST['drogshipin']     ?? "";
+        $impreso        = $_POST['impreso']        ?? "";
+        $despachos      = $_POST['despachos']      ?? "";
+        $formato        = $_POST['formato']        ?? "excel";
+
+        // Obtenemos las guías
+        $data = $this->model->cargarGuiasAdministrador(
+            $fecha_inicio,
+            $fecha_fin,
+            $transportadora,
+            $estado,
+            $impreso,
+            $drogshipin,
+            $despachos
+        );
+
+        // ==================================================================================
+        //  A) PRIMERO calculamos los totales por estado (para el gráfico de % de estados)
+        // ==================================================================================
+        $counts = [
+            'generada'      => 0,
+            'en_transito'   => 0,
+            'zona_entrega'  => 0,
+            'entregada'     => 0,
+            'novedad'       => 0,
+            'devolucion'    => 0,
+        ];
+
+        foreach ($data as $guia) {
+            $estado_guia = intval($guia['estado_guia_sistema']);
+            $transporte  = intval($guia['id_transporte']);
+
+            // "Generada"
+            if (
+                ($transporte == 2 && in_array($estado_guia, [100, 102, 103])) ||
+                ($transporte == 1 && in_array($estado_guia, [1, 2])) ||
+                ($transporte == 3 && in_array($estado_guia, [1, 2, 3])) ||
+                ($transporte == 4 && $estado_guia === 2)
+            ) {
+                $counts['generada']++;
+            }
+
+            // "En tránsito"
+            if (
+                ($transporte == 2 && $estado_guia >= 300 && $estado_guia <= 317 && $estado_guia != 307) ||
+                ($transporte == 1 && in_array($estado_guia, [5, 11, 12])) ||
+                ($transporte == 3 && in_array($estado_guia, [4])) ||
+                ($transporte == 4 && $estado_guia === 3)
+            ) {
+                $counts['en_transito']++;
+            }
+
+            // "Zona de entrega"
+            if (
+                ($transporte == 2 && $estado_guia == 307) ||
+                ($transporte == 1 && in_array($estado_guia, [6])) ||
+                ($transporte == 3 && in_array($estado_guia, [5]))
+            ) {
+                $counts['zona_entrega']++;
+            }
+
+            // "Entregada"
+            if (
+                ($transporte == 2 && $estado_guia >= 400 && $estado_guia <= 403) ||
+                ($transporte == 1 && $estado_guia === 7) ||
+                ($transporte == 3 && $estado_guia === 7) ||
+                ($transporte == 4 && $estado_guia === 7)
+            ) {
+                $counts['entregada']++;
+            }
+
+            // "Novedad"
+            if (
+                ($transporte == 2 && $estado_guia >= 320 && $estado_guia <= 351) ||
+                ($transporte == 1 && $estado_guia === 14) ||
+                ($transporte == 3 && $estado_guia === 6) ||
+                ($transporte == 4 && $estado_guia === 14)
+            ) {
+                $counts['novedad']++;
+            }
+
+            // "Devolución"
+            if (
+                ($transporte == 2 && $estado_guia >= 500 && $estado_guia <= 502) ||
+                ($transporte == 1 && $estado_guia === 9) ||
+                ($transporte == 4 && $estado_guia === 9) ||
+                ($transporte == 3 && in_array($estado_guia, [8, 9, 13]))
+            ) {
+                $counts['devolucion']++;
+            }
+        }
+
+        $total = count($data);
+
+        // ==================================================================================
+        //  B) Construcción del Spreadsheet
+        // ==================================================================================
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // ----------------------------------------------------------------------------------
+        // 1) TÍTULO en A1:P1 (sin color verde, usaremos un naranja "FF7043")
+        // ----------------------------------------------------------------------------------
+        $sheet->mergeCells('A1:P1');
+        $sheet->setCellValue('A1', 'REPORTE DE GUÍAS - ' . date('Y-m-d'));
+
+        $sheet->getStyle('A1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'size' => 16,
+                'color' => ['rgb' => 'FFFFFF']
+            ],
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'FF7043'] // un naranja
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ]
+        ]);
+
+        // ----------------------------------------------------------------------------------
+        // 2) Encabezados en la fila 3
+        // ----------------------------------------------------------------------------------
+        $sheet->setCellValue('A3', '# Guia');
+        $sheet->setCellValue('B3', 'Fecha Factura');
+        $sheet->setCellValue('C3', 'Cliente');
+        $sheet->setCellValue('D3', 'Teléfono');
+        $sheet->setCellValue('E3', 'Dirección');
+        $sheet->setCellValue('F3', 'Destino');
+        $sheet->setCellValue('G3', 'Transportadora');
+        $sheet->setCellValue('H3', 'Estado');
+        $sheet->setCellValue('I3', 'Despachado');
+        $sheet->setCellValue('J3', 'Impreso');
+        $sheet->setCellValue('K3', 'Venta Total');
+        $sheet->setCellValue('L3', 'Costo Producto');
+        $sheet->setCellValue('M3', 'Costo Flete');
+        $sheet->setCellValue('N3', 'Fulfillment');
+        $sheet->setCellValue('O3', 'Monto a Recibir');
+        $sheet->setCellValue('P3', 'Recaudo');
+
+        // Estilo de encabezados
+        $sheet->getStyle('A3:P3')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => 'FFFFFF'],
+            ],
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '2196F3'], // azul
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ]
+        ]);
+
+        // Ajustar ancho automático y luego haremos un override en col E
+        foreach (range('A', 'P') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // ----------------------------------------------------------------------------------
+        // 3) Llenar filas: A partir de la fila 4
+        // ----------------------------------------------------------------------------------
+        $fila = 4;
+        foreach ($data as $guia) {
+            $sheet->setCellValue("A{$fila}", $guia['numero_guia']);
+            $sheet->setCellValue("B{$fila}", $guia['fecha_factura']);
+            $sheet->setCellValue("C{$fila}", $guia['nombre']);
+            $sheet->setCellValue("D{$fila}", $guia['telefono']);
+
+            // Direccion => max 20 chars
+            $direccionCompleta = $guia['c_principal'] . ' ' . $guia['c_secundaria'];
+            if (!empty($guia['referencia'])) {
+                $direccionCompleta .= ' (Ref: ' . $guia['referencia'] . ')';
+            }
+            // Truncamos a 20 chars
+            if (strlen($direccionCompleta) > 20) {
+                $direccion = substr($direccionCompleta, 0, 20) . '...';
+            } else {
+                $direccion = $direccionCompleta;
+            }
+            $sheet->setCellValue("E{$fila}", $direccion);
+
+            $destino = $guia['provinciaa'] . ' - ' . $guia['ciudad'];
+            $sheet->setCellValue("F{$fila}", $destino);
+
+            $sheet->setCellValue("G{$fila}", $guia['transporte']);
+
+            // Traducir estado
+            $estadoGuia = $this->traducirEstado($guia['id_transporte'], $guia['estado_guia_sistema']);
+            $sheet->setCellValue("H{$fila}", $estadoGuia);
+
+            // Despachado
+            $despachado = "";
+            if ($guia['estado_factura'] == 1) $despachado = "No despachado";
+            if ($guia['estado_factura'] == 2) $despachado = "Despachado";
+            if ($guia['estado_factura'] == 3) $despachado = "Devuelto";
+            $sheet->setCellValue("I{$fila}", $despachado);
+
+            // Impreso => SI / NO
+            $sheet->setCellValue("J{$fila}", ($guia['impreso'] == 1 ? 'SI' : 'NO'));
+
+            // Venta total
+            $sheet->setCellValue("K{$fila}", $guia['monto_factura']);
+            // Costo Producto
+            $sheet->setCellValue("L{$fila}", $guia['costo_producto']);
+            // Costo Flete
+            $sheet->setCellValue("M{$fila}", $guia['costo_flete']);
+
+            // Fulfillment => vacío
+            $sheet->setCellValue("N{$fila}", "");
+
+            // Monto a Recibir
+            $montoRecibir = $guia['monto_factura'] - $guia['costo_producto'] - $guia['costo_flete'];
+            $sheet->setCellValue("O{$fila}", $montoRecibir);
+
+            // Recaudo => SI / NO
+            $sheet->setCellValue("P{$fila}", ($guia['cod'] == 1 ? 'SI' : 'NO'));
+
+            $fila++;
+        }
+
+        // ----------------------------------------------------------------------------------
+        // 4) Alineamos casi todo al centro MENOS la col E (Dirección)
+        // ----------------------------------------------------------------------------------
+        // Rango de datos: fila 3..(fila-1), col A..P
+        $ultimaFila = $fila - 1; // la última con datos
+        if ($ultimaFila >= 3) {
+            // Centramos todo
+            $sheet->getStyle("A3:P{$ultimaFila}")
+                ->getAlignment()
+                ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            // Luego col E la ponemos a la izquierda
+            $sheet->getStyle("E4:E{$ultimaFila}")
+                ->getAlignment()
+                ->setHorizontal(Alignment::HORIZONTAL_LEFT);
+        }
+
+        // ----------------------------------------------------------------------------------
+        // 5) Hacemos la tabla auxiliar en la parte derecha para el diagrama de % de estados
+        //    Digamos en col R (Estado) y col S (Porcentaje)
+        // ----------------------------------------------------------------------------------
+        $sheet->setCellValue("R3", "Estado");
+        $sheet->setCellValue("S3", "Porcentaje");
+        // Ajustar ancho manual
+        $sheet->getColumnDimension('R')->setWidth(14);
+        $sheet->getColumnDimension('S')->setWidth(14);
+
+        // Estados: generada, en_transito, zona_entrega, entregada, novedad, devolucion
+        $labelsEstados  = ["Generada", "En tránsito", "Zona entrega", "Entregada", "Novedad", "Devolución"];
+        $keysEstados    = ["generada", "en_transito", "zona_entrega", "entregada", "novedad", "devolucion"];
+
+        $rowAux = 4;  // inicia la tabla en R4
+        foreach ($keysEstados as $i => $k) {
+            $sheet->setCellValue("R{$rowAux}", $labelsEstados[$i]);
+            $porcentaje = 0;
+            if ($total > 0) {
+                $porcentaje = round(($counts[$k] / $total) * 100, 2);
+            }
+            $sheet->setCellValue("S{$rowAux}", $porcentaje);
+            $rowAux++;
+        }
+        // Podríamos estilizar esa mini tabla si deseas
+
+        // ----------------------------------------------------------------------------------
+        // 6) Creamos el diagrama de barras: eje X => R4..R9, valores => S4..S9
+        // ----------------------------------------------------------------------------------
+        // Suponiendo 6 filas (1 por estado)
+        $numEstados = 6;
+        $startData  = 4;
+        $endData    = 4 + $numEstados - 1; // 9
+
+        // 6.1) Etiquetas (names) => "Porcentaje"
+        $labels = [
+            new DataSeriesValues('String', $sheet->getTitle() . '!S3', null, 1),
+        ];
+        // 6.2) Categorías => R4..R9 (Estados)
+        $categories = [
+            new DataSeriesValues('String', $sheet->getTitle() . "!R{$startData}:R{$endData}", null, $numEstados),
+        ];
+        // 6.3) Valores => S4..S9
+        $values = [
+            new DataSeriesValues('Number', $sheet->getTitle() . "!S{$startData}:S{$endData}", null, $numEstados),
+        ];
+
+        // 6.4) Definimos la serie (un solo “grupo” de barras)
+        $series = new DataSeries(
+            DataSeries::TYPE_BARCHART,
+            DataSeries::GROUPING_CLUSTERED,
+            range(0, count($values) - 1),  // ejes
+            $labels,
+            $categories,
+            $values
+        );
+        $series->setPlotDirection(DataSeries::DIRECTION_COL);
+
+        // 6.5) PlotArea, leyenda, títulos
+        $plotArea = new PlotArea(null, [$series]);
+        $legend   = new Legend(Legend::POSITION_RIGHT, null, false);
+        $title    = new Title('% de Estados de Guías');
+        $yAxisLab = new Title('Porcentaje %');
+
+        $chart = new Chart('chart_estados', $title, $legend, $plotArea, true, 0, null, $yAxisLab);
+
+        // 6.6) Ubicarlo en la hoja (por ejemplo debajo de la tabla de datos)
+        // Tomamos la fila donde terminamos la data principal
+        $posChartTop = $ultimaFila + 2;
+        $chart->setTopLeftPosition("A{$posChartTop}");
+        $chart->setBottomRightPosition("H" . ($posChartTop + 15));
+
+        // 6.7) Insertamos el chart
+        $sheet->addChart($chart);
+
+        // ----------------------------------------------------------------------------------
+        // 7) Finalmente, generamos el archivo (csv o xlsx)
+        // ----------------------------------------------------------------------------------
+        if ($formato === 'csv') {
+            $writer = new Csv($spreadsheet);
+            $filename = 'guias_' . date('Y-m-d') . '.csv';
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+
+            // En CSV no se incrustan gráficos
+            $writer->save('php://output');
+            exit;
+        } else {
+            // XLSX con gráficos => setIncludeCharts(true)
+            $writer = new Xlsx($spreadsheet);
+            $writer->setIncludeCharts(true);
+
+            $filename = 'guias_' . date('Y-m-d') . '.xlsx';
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+
+            $writer->save('php://output');
+            exit;
+        }
+    }
+
+    /**
+     * Retorna la descripción de estado de la guía en texto, 
+     * basado en la transportadora (idTransporte) y el estado_guia_sistema.
+     */
+    private function traducirEstado($idTransporte, $estado)
+    {
+        // Convertimos a int por si viene como string
+        $estado = (int) $estado;
+
+        switch ($idTransporte) {
+            case 1: // LAAR
+                // Basado en tu "validar_estadoLaar"
+                switch ($estado) {
+                    case 1:
+                        return "Generado";
+                    case 2:
+                        return "Por recolectar";
+                    case 3:
+                        return "Recolectado";
+                    case 4:
+                        return "En bodega";
+                    case 5:
+                        return "En tránsito";
+                    case 6:
+                        return "Zona de entrega";
+                    case 7:
+                        return "Entregado";
+                    case 8:
+                        return "Anulado";
+                    case 9:
+                        return "Devuelto";
+                    case 11:
+                        return "En tránsito";
+                    case 12:
+                        return "En tránsito";
+                    case 14:
+                        return "Novedad";
+                    default:
+                        return "Estado LAAR desconocido";
+                }
+
+            case 2: // SERVIENTREGA
+                // Basado en tu "validar_estadoServi"
+                //   100,102,103 => Generado
+                //   200,201,202 => Recolectado
+                //   300..317 => Procesamiento
+                //   400..403 => Entregado
+                //   318..351 => Novedad
+                //   500..502 => Devuelto
+                //   101 => Anulado
+                if ($estado == 101) {
+                    return "Anulado";
+                } elseif (in_array($estado, [100, 102, 103])) {
+                    return "Generado";
+                } elseif (in_array($estado, [200, 201, 202])) {
+                    return "Recolectado";
+                } elseif ($estado >= 300 && $estado <= 317) {
+                    return "Procesamiento";
+                } elseif ($estado >= 400 && $estado <= 403) {
+                    return "Entregado";
+                } elseif ($estado >= 318 && $estado <= 351) {
+                    return "Novedad";
+                } elseif ($estado >= 500 && $estado <= 502) {
+                    return "Devuelto";
+                } else {
+                    return "Estado Servientrega desconocido";
+                }
+
+            case 3: // GINTRACOM
+                // Basado en tu "validar_estadoGintracom"
+                switch ($estado) {
+                    case 1:
+                        return "Generada";
+                    case 2:
+                        return "Picking";
+                    case 3:
+                        return "Packing";
+                    case 4:
+                        return "En tránsito";
+                    case 5:
+                        return "En reparto";
+                    case 6:
+                        return "Novedad";
+                    case 7:
+                        return "Entregado";
+                    case 8:
+                        return "Devuelto";
+                    case 9:
+                        return "Devuelto";
+                    case 10:
+                        return "Cancelada por transportadora";
+                    case 11:
+                        return "Indemnización";
+                    case 12:
+                        return "Anulada";
+                    case 13:
+                        return "Devuelto";
+                    default:
+                        return "Estado GINTRACOM desconocido";
+                }
+
+            case 4: // SPEED / MerkaLogistic
+                // Basado en tu "validar_estadoSpeed"
+                switch ($estado) {
+                    case 2:
+                        return "Generado";
+                    case 3:
+                        return "En tránsito";
+                    case 7:
+                        return "Entregado";
+                    case 9:
+                        return "Devuelto";
+                    case 14:
+                        return "Novedad";
+                    default:
+                        return "Estado SPEED desconocido";
+                }
+
+            default:
+                return "Transportadora no identificada";
+        }
+    }
+
 
 
     /// sebastian
