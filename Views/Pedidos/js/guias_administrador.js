@@ -57,32 +57,6 @@ const dataTableOptions = {
   destroy: true,
   responsive: true,
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
-  buttons: [
-    {
-      extend: "excelHtml5",
-      text: 'Excel <i class="fa-solid fa-file-excel"></i>',
-      title: "Panel de Control: Usuarios",
-      titleAttr: "Exportar a Excel",
-      exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-      },
-      filename: "guias" + "_" + getFecha(),
-      footer: true,
-      className: "btn-excel",
-    },
-    {
-      extend: "csvHtml5",
-      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
-      title: "Panel de Control: guias",
-      titleAttr: "Exportar a CSV",
-      exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-      },
-      filename: "guias" + "_" + getFecha(),
-      footer: true,
-      className: "btn-csv",
-    },
-  ],
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
@@ -1232,6 +1206,33 @@ function enviar_laarNovedad() {
   });
 }
 
+document.getElementById("btnExportExcel").addEventListener("click", () => {
+  const url = `${SERVERURL}pedidos/exportarGuias?fecha_inicio=${fecha_inicio}
+    &fecha_fin=${fecha_fin}
+    &transportadora=${$("#transporte").val()}
+    &estado=${$("#estado_q").val()}
+    &drogshipin=${$("#tienda_q").val()}
+    &impreso=${$("#impresion").val()}
+    &despachos=${$("#despachos").val()}
+    &formato=excel`;
+
+  // Abre la descarga:
+  window.location.href = url;
+});
+
+document.getElementById("btnExportCsv").addEventListener("click", () => {
+  const url = `${SERVERURL}pedidos/exportarGuias?fecha_inicio=${fecha_inicio}
+    &fecha_fin=${fecha_fin}
+    &transportadora=${$("#transporte").val()}
+    &estado=${$("#estado_q").val()}
+    &drogshipin=${$("#tienda_q").val()}
+    &impreso=${$("#impresion").val()}
+    &despachos=${$("#despachos").val()}
+    &formato=csv`;
+
+  // Abre la descarga:
+  window.location.href = url;
+});
 
 //Cargamos la tabla cuando el DOM esté listo (si quieres tener datos por defecto).
 

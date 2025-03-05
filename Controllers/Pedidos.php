@@ -2,6 +2,11 @@
 
 
 session_start();
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
+
 class Pedidos extends Controller
 {
     public function __construct()
@@ -900,6 +905,246 @@ class Pedidos extends Controller
         ];
         echo json_encode($result);
     }
+
+    public function exportarGuias()
+    {
+        // Capturamos los parámetros por GET (o POST, ajusta a tu gusto):
+        $fecha_inicio   = $_GET['fecha_inicio']   ?? "";
+        $fecha_fin      = $_GET['fecha_fin']      ?? "";
+        $transportadora = $_GET['transportadora'] ?? "";
+        $estado         = $_GET['estado']         ?? "";
+        $drogshipin     = $_GET['drogshipin']     ?? "";
+        $impreso        = $_GET['impreso']        ?? "";
+        $despachos      = $_GET['despachos']      ?? "";
+        // Formato del archivo (excel o csv)
+        $formato        = $_GET['formato']        ?? "excel";
+
+        // Obtenemos los datos
+        $data = $this->model->cargarGuiasAdministrador(
+            $fecha_inicio,
+            $fecha_fin,
+            $transportadora,
+            $estado,
+            $impreso,
+            $drogshipin,
+            $despachos
+        );
+
+        // Instanciamos Spreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet       = $spreadsheet->getActiveSheet();
+
+        // Encabezados en la fila 1
+        $sheet->setCellValue('A1', '# Guia');
+        $sheet->setCellValue('B1', 'Fecha Factura');
+        $sheet->setCellValue('C1', 'Cliente');
+        $sheet->setCellValue('D1', 'Destino');
+        $sheet->setCellValue('E1', 'Transportadora');
+        $sheet->setCellValue('F1', 'Estado');
+        $sheet->setCellValue('G1', 'Despachado');
+        $sheet->setCellValue('H1', 'Impreso');
+        $sheet->setCellValue('I1', 'Venta Total');
+        $sheet->setCellValue('J1', 'Costo Producto');
+        $sheet->setCellValue('K1', 'Costo Flete');
+        $sheet->setCellValue('L1', 'Fulfillment');
+        $sheet->setCellValue('M1', 'Monto a Recibir');
+        $sheet->setCellValue('N1', 'Recaudo');
+
+        // Ajustar ancho automático (opcional)
+        foreach (range('A', 'N') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // Escribimos los datos, comenzando en fila 2
+        $fila = 2;
+        foreach ($data as $guia) {
+            $sheet->setCellValue("A{$fila}", $guia['numero_guia']);
+            $sheet->setCellValue("B{$fila}", $guia['fecha_factura']);
+            $sheet->setCellValue("C{$fila}", $guia['nombre']);
+            $sheet->setCellValue("D{$fila}", $guia['provinciaa'] . ' - ' . $guia['ciudad']);
+            $sheet->setCellValue("E{$fila}", $guia['transporte']);
+
+            // Usamos una función para traducir el estado de la guia a texto :
+            $estadoGuia = $this->traducirEstado($guia['id_transporte'], $guia['estado_guia_sistema']);
+            $sheet->setCellValue("F{$fila}", $estadoGuia);
+
+            // Despachado: 
+            // 1 => "No despachado", 2 => "Despachado", 3 => "Devuelto"
+            $despachado = "";
+            if ($guia['estado_factura'] == 1) $despachado = "No despachado";
+            if ($guia['estado_factura'] == 2) $despachado = "Despachado";
+            if ($guia['estado_factura'] == 3) $despachado = "Devuelto";
+            $sheet->setCellValue("G{$fila}", $despachado);
+
+            // Impreso
+            $sheet->setCellValue("H{$fila}", ($guia['impreso'] == 1 ? 'SI' : 'NO'));
+
+            // Montos
+            $sheet->setCellValue("I{$fila}", $guia['monto_factura']);
+            $sheet->setCellValue("J{$fila}", $guia['costo_producto']);
+            $sheet->setCellValue("K{$fila}", $guia['costo_flete']);
+
+            // Fulfillment (ejemplo: la diferencia)
+            $fulfillment = $guia['monto_factura'] - $guia['costo_producto'] - $guia['costo_flete'];
+            $sheet->setCellValue("L{$fila}", $fulfillment);
+
+            // Monto a recibir (a veces es igual al fulfillment, ajusta según tu lógica)
+            $sheet->setCellValue("M{$fila}", $fulfillment);
+
+            // Recaudo
+            $sheet->setCellValue("N{$fila}", $guia['cod'] == 1 ? 'SI' : 'NO');
+
+            $fila++;
+        }
+
+        // Finalmente, generamos el archivo según $formato
+        if ($formato === 'csv') {
+            $writer   = new Csv($spreadsheet);
+            $filename = 'guias_' . date('Y-m-d') . '.csv';
+
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+
+            $writer->save('php://output');
+            exit;
+        } else {
+            // Por defecto, Excel
+            $writer   = new Xlsx($spreadsheet);
+            $filename = 'guias_' . date('Y-m-d') . '.xlsx';
+
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+
+            $writer->save('php://output');
+            exit;
+        }
+    }
+
+    /**
+     * Retorna la descripción de estado de la guía en texto, 
+     * basado en la transportadora (idTransporte) y el estado_guia_sistema.
+     */
+    private function traducirEstado($idTransporte, $estado)
+    {
+        // Convertimos a int por si viene como string
+        $estado = (int) $estado;
+
+        switch ($idTransporte) {
+            case 1: // LAAR
+                // Basado en tu "validar_estadoLaar"
+                switch ($estado) {
+                    case 1:
+                        return "Generado";
+                    case 2:
+                        return "Por recolectar";
+                    case 3:
+                        return "Recolectado";
+                    case 4:
+                        return "En bodega";
+                    case 5:
+                        return "En tránsito";
+                    case 6:
+                        return "Zona de entrega";
+                    case 7:
+                        return "Entregado";
+                    case 8:
+                        return "Anulado";
+                    case 9:
+                        return "Devuelto";
+                    case 11:
+                        return "En tránsito";
+                    case 12:
+                        return "En tránsito";
+                    case 14:
+                        return "Novedad";
+                    default:
+                        return "Estado LAAR desconocido";
+                }
+
+            case 2: // SERVIENTREGA
+                // Basado en tu "validar_estadoServi"
+                //   100,102,103 => Generado
+                //   200,201,202 => Recolectado
+                //   300..317 => Procesamiento
+                //   400..403 => Entregado
+                //   318..351 => Novedad
+                //   500..502 => Devuelto
+                //   101 => Anulado
+                if ($estado == 101) {
+                    return "Anulado";
+                } elseif (in_array($estado, [100, 102, 103])) {
+                    return "Generado";
+                } elseif (in_array($estado, [200, 201, 202])) {
+                    return "Recolectado";
+                } elseif ($estado >= 300 && $estado <= 317) {
+                    return "Procesamiento";
+                } elseif ($estado >= 400 && $estado <= 403) {
+                    return "Entregado";
+                } elseif ($estado >= 318 && $estado <= 351) {
+                    return "Novedad";
+                } elseif ($estado >= 500 && $estado <= 502) {
+                    return "Devuelto";
+                } else {
+                    return "Estado Servientrega desconocido";
+                }
+
+            case 3: // GINTRACOM
+                // Basado en tu "validar_estadoGintracom"
+                switch ($estado) {
+                    case 1:
+                        return "Generada";
+                    case 2:
+                        return "Picking";
+                    case 3:
+                        return "Packing";
+                    case 4:
+                        return "En tránsito";
+                    case 5:
+                        return "En reparto";
+                    case 6:
+                        return "Novedad";
+                    case 7:
+                        return "Entregado";
+                    case 8:
+                        return "Devuelto";
+                    case 9:
+                        return "Devuelto";
+                    case 10:
+                        return "Cancelada por transportadora";
+                    case 11:
+                        return "Indemnización";
+                    case 12:
+                        return "Anulada";
+                    case 13:
+                        return "Devuelto";
+                    default:
+                        return "Estado GINTRACOM desconocido";
+                }
+
+            case 4: // SPEED / MerkaLogistic
+                // Basado en tu "validar_estadoSpeed"
+                switch ($estado) {
+                    case 2:
+                        return "Generado";
+                    case 3:
+                        return "En tránsito";
+                    case 7:
+                        return "Entregado";
+                    case 9:
+                        return "Devuelto";
+                    case 14:
+                        return "Novedad";
+                    default:
+                        return "Estado SPEED desconocido";
+                }
+
+            default:
+                return "Transportadora no identificada";
+        }
+    }
+
 
 
     /// sebastian

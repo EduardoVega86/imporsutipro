@@ -140,6 +140,9 @@
             </div>
         </div>
 
+        <button id="btnExportExcel" class="btn btn-success">Exportar a Excel</button>
+        <button id="btnExportCsv" class="btn btn-info">Exportar a CSV</button>
+
         <div class="d-flex flex-column justify-content-between">
             <div class="primer_seccionFiltro" style="width: 100%;">
                 <div class="d-flex flex-row align-items-end filtro_fecha">
