@@ -908,16 +908,15 @@ class Pedidos extends Controller
 
     public function exportarGuias()
     {
-        // Capturamos los parámetros por GET (o POST, ajusta a tu gusto):
-        $fecha_inicio   = $_GET['fecha_inicio']   ?? "";
-        $fecha_fin      = $_GET['fecha_fin']      ?? "";
-        $transportadora = $_GET['transportadora'] ?? "";
-        $estado         = $_GET['estado']         ?? "";
-        $drogshipin     = $_GET['drogshipin']     ?? "";
-        $impreso        = $_GET['impreso']        ?? "";
-        $despachos      = $_GET['despachos']      ?? "";
+        $fecha_inicio   = $_POST['fecha_inicio']   ?? "";
+        $fecha_fin      = $_POST['fecha_fin']      ?? "";
+        $transportadora = $_POST['transportadora'] ?? "";
+        $estado         = $_POST['estado']         ?? "";
+        $drogshipin     = $_POST['drogshipin']     ?? "";
+        $impreso        = $_POST['impreso']        ?? "";
+        $despachos      = $_POST['despachos']      ?? "";
         // Formato del archivo (excel o csv)
-        $formato        = $_GET['formato']        ?? "excel";
+        $formato        = $_POST['formato']        ?? "excel";
 
         // Obtenemos los datos
         $data = $this->model->cargarGuiasAdministrador(
