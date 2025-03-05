@@ -47,95 +47,42 @@ $(function() {
 
 // Configuración del DataTable
 const dataTableOptions = {
-  // Definición de columnas
   columnDefs: [
     { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
     { orderable: false, targets: 0 }, // Evitar ordenar por la columna de checkboxes
   ],
-
-  // Orden inicial de la tabla
-  order: [[2, "desc"]], // ordena por la columna índice 2 en orden descendente
-
-  // Configuración de paginación
+  order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 25,
   lengthMenu: [25, 50, 100, 200],
-
-  // Destruir la tabla anterior al volver a inicializarla
   destroy: true,
   responsive: true,
-
-  // Personaliza la barra superior/inferior: lBf -> "Longitud", "Botones", "filtro"
-  // t -> la tabla
-  // ip -> "info" y "paginación"
   dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
-
-  // Botones de exportación
   buttons: [
     {
       extend: "excelHtml5",
       text: 'Excel <i class="fa-solid fa-file-excel"></i>',
-      title: "Guias Exportadas",
-      filename: "guias_" + getFecha(),
+      title: "Panel de Control: Usuarios",
+      titleAttr: "Exportar a Excel",
+      exportOptions: {
+        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      },
+      filename: "guias" + "_" + getFecha(),
       footer: true,
       className: "btn-excel",
-
-      exportOptions: {
-        // Indica qué columnas exportar (índices dentro de la tabla)
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-
-        // Para personalizar el texto de los encabezados en Excel
-        format: {
-          header: function (data, columnIdx) {
-            switch (columnIdx) {
-              case 1: return 'NÚMERO GUÍA';
-              case 2: return 'DETALLE';
-              case 3: return 'CLIENTE';
-              case 4: return 'DESTINO';
-              case 5: return 'ENTIDADES';
-              case 6: return 'TRANSPORTADORA';
-              case 7: return 'ESTADO';
-              case 8: return 'DESPACHADO';
-              case 9: return 'IMPRESO';
-              case 10: return 'VENTA TOTAL';
-              case 11: return 'COSTO PRODUCTO';
-              case 12: return 'COSTO FLETE';
-              case 13: return 'FULFILLMENT';
-              case 14: return 'RECAUDO';
-              default: return data; // Texto original de la tabla
-            }
-          },
-        },
-      },
-
-      // Para ajustar estilos o anchos en la hoja de Excel
-      customize: function (xlsx) {
-        let sheet = xlsx.xl.worksheets['sheet1.xml'];
-
-        // Ajustar ancho de todas las columnas exportadas
-        $('cols col', sheet).each(function () {
-          $(this).attr('width', 20);
-        });
-
-        // Cambiar el nombre de la pestaña (la primera)
-        xlsx.xl.workbook.xml
-          .getElementsByTagName('sheet')[0]
-          .setAttribute('name', 'Guias');
-      },
     },
     {
       extend: "csvHtml5",
       text: 'CSV <i class="fa-solid fa-file-csv"></i>',
-      title: "Guias CSV",
-      filename: "guias_" + getFecha(),
-      footer: true,
-      className: "btn-csv",
+      title: "Panel de Control: guias",
+      titleAttr: "Exportar a CSV",
       exportOptions: {
         columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
       },
+      filename: "guias" + "_" + getFecha(),
+      footer: true,
+      className: "btn-csv",
     },
   ],
-
-  // Textos en español para la interfaz
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
@@ -152,7 +99,6 @@ const dataTableOptions = {
     },
   },
 };
-
 
 /**
  * Devuelve una cadena con la fecha actual en formato YYYY-MM-DD
