@@ -1206,33 +1206,69 @@ function enviar_laarNovedad() {
   });
 }
 
-document.getElementById("btnExportExcel").addEventListener("click", () => {
-  const url = `${SERVERURL}pedidos/exportarGuias?fecha_inicio=${fecha_inicio}
-    &fecha_fin=${fecha_fin}
-    &transportadora=${$("#transporte").val()}
-    &estado=${$("#estado_q").val()}
-    &drogshipin=${$("#tienda_q").val()}
-    &impreso=${$("#impresion").val()}
-    &despachos=${$("#despachos").val()}
-    &formato=excel`;
+document.getElementById("btnExportExcel").addEventListener("click", async () => {
+  // Creamos un FormData con todos los parámetros
+  const formData = new FormData();
+  formData.append("fecha_inicio", fecha_inicio);
+  formData.append("fecha_fin", fecha_fin);
+  formData.append("transportadora", $("#transporte").val());
+  formData.append("estado", $("#estado_q").val());
+  formData.append("drogshipin", $("#tienda_q").val());
+  formData.append("impreso", $("#impresion").val());
+  formData.append("despachos", $("#despachos").val());
+  formData.append("formato", "excel"); // 'excel' o 'csv'
 
-  // Abre la descarga:
-  window.location.href = url;
+  // Hacemos fetch en POST
+  const response = await fetch(`${SERVERURL}pedidos/exportarGuias`, {
+    method: "POST",
+    body: formData
+  });
+
+  // Esperamos Blob u ArrayBuffer
+  const blob = await response.blob();
+  // Forzamos descarga manual
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "mi_archivo.xlsx"; // o .csv
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
 });
 
-document.getElementById("btnExportCsv").addEventListener("click", () => {
-  const url = `${SERVERURL}pedidos/exportarGuias?fecha_inicio=${fecha_inicio}
-    &fecha_fin=${fecha_fin}
-    &transportadora=${$("#transporte").val()}
-    &estado=${$("#estado_q").val()}
-    &drogshipin=${$("#tienda_q").val()}
-    &impreso=${$("#impresion").val()}
-    &despachos=${$("#despachos").val()}
-    &formato=csv`;
 
-  // Abre la descarga:
-  window.location.href = url;
+document.getElementById("btnExportCsv").addEventListener("click", async () => {
+  // Creamos un FormData con todos los parámetros
+  const formData = new FormData();
+  formData.append("fecha_inicio", fecha_inicio);
+  formData.append("fecha_fin", fecha_fin);
+  formData.append("transportadora", $("#transporte").val());
+  formData.append("estado", $("#estado_q").val());
+  formData.append("drogshipin", $("#tienda_q").val());
+  formData.append("impreso", $("#impresion").val());
+  formData.append("despachos", $("#despachos").val());
+  formData.append("formato", "csv"); // 'excel' o 'csv'
+
+  // Hacemos fetch en POST
+  const response = await fetch(`${SERVERURL}pedidos/exportarGuias`, {
+    method: "POST",
+    body: formData
+  });
+
+  // Esperamos Blob u ArrayBuffer
+  const blob = await response.blob();
+  // Forzamos descarga manual
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "mi_archivo.csv"; // o .csv
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
 });
+
 
 //Cargamos la tabla cuando el DOM esté listo (si quieres tener datos por defecto).
 
