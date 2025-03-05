@@ -427,9 +427,10 @@ class PedidosModel extends Query
                 $sql .= " AND estado_factura = '$despachos'";
             }
         }
-        /* echo $sql; */
+        echo $sql;
         return $this->dselect($sql, []);
     }
+
     public function obtener_guias_admin_no_progresivo()
     {
         $response = $this->select("SELECT * FROM facturas_cot;");
