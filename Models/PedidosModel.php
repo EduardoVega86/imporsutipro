@@ -427,8 +427,9 @@ class PedidosModel extends Query
                 $sql .= " AND estado_factura = '$despachos'";
             }
         }
-        echo $sql;
+
         return $this->dselect($sql, []);
+        echo $sql;
     }
 
     public function obtener_guias_admin_no_progresivo()
