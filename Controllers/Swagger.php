@@ -3332,22 +3332,6 @@ class Swagger extends Controller
             $image_path     = "";
             $pref           = 0;
 
-            // Reemplaza la condición actual por algo que cheque si es `=== null`
-            if (
-                $uuid === null ||
-                $codigo_producto === null ||
-                $nombre_producto === null ||
-                $descripcion_producto === null ||
-                $id_linea_producto === null ||
-                $inv_producto === null ||
-                $producto_variable === null ||
-                $estado_producto === null ||
-                $formato === null
-            ) {
-                http_response_code(400);
-                echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
-                return;
-            }
 
             $response = $this->model->editarProducto(
                 $uuid,
