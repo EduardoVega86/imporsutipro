@@ -959,7 +959,7 @@ class Pedidos extends Controller
         $fila = 2;
         foreach ($data as $guia) {
             $sheet->setCellValue("A{$fila}", $guia['numero_guia']);
-            $sheet->setCellValue("B{$fila}", $guia['fecha_factura']);
+            $sheet->setCellValue("B{$fila}", $guia['fecha_guia']);
             $sheet->setCellValue("C{$fila}", $guia['nombre']);
             $sheet->setCellValue("D{$fila}", $guia['provinciaa'] . ' - ' . $guia['ciudad']);
             $sheet->setCellValue("E{$fila}", $guia['transporte']);
