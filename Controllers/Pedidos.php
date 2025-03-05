@@ -6,6 +6,15 @@ session_start();
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
+use PhpOffice\PhpSpreadsheet\Chart\Chart;
+use PhpOffice\PhpSpreadsheet\Chart\DataSeries;
+use PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues;
+use PhpOffice\PhpSpreadsheet\Chart\Legend;
+use PhpOffice\PhpSpreadsheet\Chart\PlotArea;
+use PhpOffice\PhpSpreadsheet\Chart\Title;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class Pedidos extends Controller
 {
@@ -908,6 +917,7 @@ class Pedidos extends Controller
 
     public function exportarGuias()
     {
+        // Recibimos por POST (ya que en JS usamos fetch POST + FormData)
         $fecha_inicio   = $_POST['fecha_inicio']   ?? "";
         $fecha_fin      = $_POST['fecha_fin']      ?? "";
         $transportadora = $_POST['transportadora'] ?? "";
@@ -915,10 +925,9 @@ class Pedidos extends Controller
         $drogshipin     = $_POST['drogshipin']     ?? "";
         $impreso        = $_POST['impreso']        ?? "";
         $despachos      = $_POST['despachos']      ?? "";
-        // Formato del archivo (excel o csv)
         $formato        = $_POST['formato']        ?? "excel";
 
-        // Obtenemos los datos
+        // Obtenemos los datos con tu modelo
         $data = $this->model->cargarGuiasAdministrador(
             $fecha_inicio,
             $fecha_fin,
@@ -929,76 +938,186 @@ class Pedidos extends Controller
             $despachos
         );
 
-        // Instanciamos Spreadsheet
+        // Creamos el Spreadsheet y obtenemos la hoja activa
         $spreadsheet = new Spreadsheet();
-        $sheet       = $spreadsheet->getActiveSheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-        // Encabezados en la fila 1
-        $sheet->setCellValue('A1', '# Guia');
-        $sheet->setCellValue('B1', 'Fecha Factura');
-        $sheet->setCellValue('C1', 'Cliente');
-        $sheet->setCellValue('D1', 'Destino');
-        $sheet->setCellValue('E1', 'Transportadora');
-        $sheet->setCellValue('F1', 'Estado');
-        $sheet->setCellValue('G1', 'Despachado');
-        $sheet->setCellValue('H1', 'Impreso');
-        $sheet->setCellValue('I1', 'Venta Total');
-        $sheet->setCellValue('J1', 'Costo Producto');
-        $sheet->setCellValue('K1', 'Costo Flete');
-        $sheet->setCellValue('L1', 'Fulfillment');
-        $sheet->setCellValue('M1', 'Monto a Recibir');
-        $sheet->setCellValue('N1', 'Recaudo');
+        // --------------------------------------------------------------------------------
+        // 1) Título global de reporte en la fila 1 (merging celdas A1:P1)
+        // --------------------------------------------------------------------------------
+        $sheet->mergeCells('A1:P1');
+        $sheet->setCellValue('A1', 'REPORTE DE GUÍAS - ' . date('Y-m-d'));
 
-        // Ajustar ancho automático (opcional)
-        foreach (range('A', 'N') as $col) {
+        // Damos estilo al título
+        $sheet->getStyle('A1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'size' => 16,
+                'color' => ['rgb' => 'FFFFFF'],
+            ],
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '4CAF50'], // Verde
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ],
+        ]);
+
+        // --------------------------------------------------------------------------------
+        // 2) Encabezados de columnas en la fila 3
+        // --------------------------------------------------------------------------------
+        $sheet->setCellValue('A3', '# Guia');
+        $sheet->setCellValue('B3', 'Fecha Factura');
+        $sheet->setCellValue('C3', 'Cliente');
+        $sheet->setCellValue('D3', 'Teléfono');
+        $sheet->setCellValue('E3', 'Dirección');
+        $sheet->setCellValue('F3', 'Destino');
+        $sheet->setCellValue('G3', 'Transportadora');
+        $sheet->setCellValue('H3', 'Estado');
+        $sheet->setCellValue('I3', 'Despachado');
+        $sheet->setCellValue('J3', 'Impreso');
+        $sheet->setCellValue('K3', 'Venta Total');
+        $sheet->setCellValue('L3', 'Costo Producto');
+        $sheet->setCellValue('M3', 'Costo Flete');
+        $sheet->setCellValue('N3', 'Fulfillment');
+        $sheet->setCellValue('O3', 'Monto a Recibir');
+        $sheet->setCellValue('P3', 'Recaudo');
+
+        // Estilo a la fila de encabezados
+        $headerStyle = [
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => 'FFFFFF'],
+            ],
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '2196F3'], // Azul
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ],
+        ];
+        $sheet->getStyle('A3:P3')->applyFromArray($headerStyle);
+
+        // Ajustar ancho automático
+        foreach (range('A', 'P') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
-        // Escribimos los datos, comenzando en fila 2
-        $fila = 2;
+        // --------------------------------------------------------------------------------
+        // 3) Llenamos las filas de datos desde la fila 4 en adelante
+        // --------------------------------------------------------------------------------
+        $fila = 4;
         foreach ($data as $guia) {
             $sheet->setCellValue("A{$fila}", $guia['numero_guia']);
-            $sheet->setCellValue("B{$fila}", $guia['fecha_guia']);
-            $sheet->setCellValue("C{$fila}", $guia['nombre']);
-            $sheet->setCellValue("D{$fila}", $guia['provinciaa'] . ' - ' . $guia['ciudad']);
-            $sheet->setCellValue("E{$fila}", $guia['transporte']);
+            // Usamos fecha_factura (o fecha_guia) según tus datos
+            $sheet->setCellValue("B{$fila}", $guia['fecha_factura']);
 
-            // Usamos una función para traducir el estado de la guia a texto :
+            $sheet->setCellValue("C{$fila}", $guia['nombre']);   // Cliente
+            $sheet->setCellValue("D{$fila}", $guia['telefono']); // Teléfono
+
+            // Dirección (calle principal, secundaria y ref)
+            $direccion = $guia['c_principal'] . ' ' . $guia['c_secundaria'];
+            if (!empty($guia['referencia'])) {
+                $direccion .= ' - REF: ' . $guia['referencia'];
+            }
+            $sheet->setCellValue("E{$fila}", $direccion);
+
+            // Destino (provinciaa - ciudad)
+            $destino = $guia['provinciaa'] . ' - ' . $guia['ciudad'];
+            $sheet->setCellValue("F{$fila}", $destino);
+
+            $sheet->setCellValue("G{$fila}", $guia['transporte']);
+
+            // Traducir estado (id_transporte, estado_guia_sistema)
             $estadoGuia = $this->traducirEstado($guia['id_transporte'], $guia['estado_guia_sistema']);
-            $sheet->setCellValue("F{$fila}", $estadoGuia);
+            $sheet->setCellValue("H{$fila}", $estadoGuia);
 
-            // Despachado: 
-            // 1 => "No despachado", 2 => "Despachado", 3 => "Devuelto"
+            // Despachado
             $despachado = "";
             if ($guia['estado_factura'] == 1) $despachado = "No despachado";
             if ($guia['estado_factura'] == 2) $despachado = "Despachado";
             if ($guia['estado_factura'] == 3) $despachado = "Devuelto";
-            $sheet->setCellValue("G{$fila}", $despachado);
+            $sheet->setCellValue("I{$fila}", $despachado);
 
-            // Impreso
-            $sheet->setCellValue("H{$fila}", ($guia['impreso'] == 1 ? 'SI' : 'NO'));
+            // Impreso => "SI" / "NO"
+            $sheet->setCellValue("J{$fila}", ($guia['impreso'] == 1 ? 'SI' : 'NO'));
 
-            // Montos
-            $sheet->setCellValue("I{$fila}", $guia['monto_factura']);
-            $sheet->setCellValue("J{$fila}", $guia['costo_producto']);
-            $sheet->setCellValue("K{$fila}", $guia['costo_flete']);
+            // Venta Total
+            $sheet->setCellValue("K{$fila}", $guia['monto_factura']);
+            // Costo producto
+            $sheet->setCellValue("L{$fila}", $guia['costo_producto']);
+            // Costo flete
+            $sheet->setCellValue("M{$fila}", $guia['costo_flete']);
 
-            // Fulfillment (ejemplo: la diferencia)
-            $fulfillment = $guia['monto_factura'] - $guia['costo_producto'] - $guia['costo_flete'];
-            $sheet->setCellValue("L{$fila}", $fulfillment);
+            // Fulfillment => vacío (según lo que pediste)
+            $sheet->setCellValue("N{$fila}", "");
 
-            // Monto a recibir (a veces es igual al fulfillment, ajusta según tu lógica)
-            $sheet->setCellValue("M{$fila}", $fulfillment);
+            // Monto a Recibir = (monto_factura - costo_producto - costo_flete), por ejemplo
+            $montoRecibir = $guia['monto_factura'] - $guia['costo_producto'] - $guia['costo_flete'];
+            $sheet->setCellValue("O{$fila}", $montoRecibir);
 
-            // Recaudo
-            $sheet->setCellValue("N{$fila}", $guia['cod'] == 1 ? 'SI' : 'NO');
+            // Recaudo => "SI" / "NO" con base en 'cod'
+            $sheet->setCellValue("P{$fila}", ($guia['cod'] == 1 ? 'SI' : 'NO'));
 
             $fila++;
         }
 
-        // Finalmente, generamos el archivo según $formato
+        // --------------------------------------------------------------------------------
+        // 4) (OPCIONAL) Generar un pequeño gráfico de barras 
+        //    comparando la "Venta Total" (col K) por fila
+        // --------------------------------------------------------------------------------
+        $numFilas = count($data);
+        if ($numFilas > 0) {
+            $startDataRow = 4;       // primera fila de datos
+            $endDataRow   = 3 + $numFilas; // última fila de datos
+            // Etiquetas (names) => col K3 => "Venta Total"
+            $labels = [
+                new DataSeriesValues('String', $sheet->getTitle() . '!K3', null, 1),
+            ];
+            // Categorías => col A4..A(endDataRow) => #Guia
+            $categories = [
+                new DataSeriesValues('String', $sheet->getTitle() . "!A{$startDataRow}:A{$endDataRow}", null, $numFilas),
+            ];
+            // Valores => col K4..K(endDataRow)
+            $values = [
+                new DataSeriesValues('Number', $sheet->getTitle() . "!K{$startDataRow}:K{$endDataRow}", null, $numFilas),
+            ];
+
+            // Creamos la serie
+            $series = new DataSeries(
+                DataSeries::TYPE_BARCHART,
+                DataSeries::GROUPING_CLUSTERED,
+                range(0, count($values) - 1),
+                $labels,
+                $categories,
+                $values
+            );
+            $series->setPlotDirection(DataSeries::DIRECTION_COL);
+
+            // Plot area, leyenda, títulos
+            $plotArea = new PlotArea(null, [$series]);
+            $legend   = new Legend(Legend::POSITION_RIGHT, null, false);
+            $title    = new Title('Comparativo de Venta Total');
+            $yAxisLab = new Title('Valor en $');
+
+            // Creamos el Chart
+            $chart = new Chart('chart_ventas', $title, $legend, $plotArea, true, 0, null, $yAxisLab);
+            // Posición del chart en la hoja
+            $chart->setTopLeftPosition('A' . ($endDataRow + 2));      // A unas filas debajo
+            $chart->setBottomRightPosition('H' . ($endDataRow + 16)); // Ancho y alto
+
+            // Añadimos el chart a la hoja
+            $sheet->addChart($chart);
+        }
+
+        // --------------------------------------------------------------------------------
+        // 5) Generamos el archivo según formato = 'csv' o 'excel'
+        // --------------------------------------------------------------------------------
         if ($formato === 'csv') {
-            $writer   = new Csv($spreadsheet);
+            // CSV no soporta gráficos
+            $writer = new Csv($spreadsheet);
             $filename = 'guias_' . date('Y-m-d') . '.csv';
 
             header('Content-Type: text/csv');
@@ -1008,8 +1127,10 @@ class Pedidos extends Controller
             $writer->save('php://output');
             exit;
         } else {
-            // Por defecto, Excel
-            $writer   = new Xlsx($spreadsheet);
+            // XLSX con gráficos => setIncludeCharts(true)
+            $writer = new Xlsx($spreadsheet);
+            $writer->setIncludeCharts(true);
+
             $filename = 'guias_' . date('Y-m-d') . '.xlsx';
 
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

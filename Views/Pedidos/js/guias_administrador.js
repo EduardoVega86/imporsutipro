@@ -56,7 +56,7 @@ const dataTableOptions = {
   lengthMenu: [25, 50, 100, 200],
   destroy: true,
   responsive: true,
-  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
+  dom: '<"d-flex w-full justify-content-between"lf><t><"d-flex justify-content-between"ip>',
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
