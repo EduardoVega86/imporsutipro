@@ -61,28 +61,60 @@ const dataTableOptions = {
     {
       extend: "excelHtml5",
       text: 'Excel <i class="fa-solid fa-file-excel"></i>',
-      title: "Panel de Control: Usuarios",
-      titleAttr: "Exportar a Excel",
+      title: "Guias Exportadas",
+      // Estos son los índices de columnas a exportar; omite las que no quieras
       exportOptions: {
         columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+        // Este formato nos permite sobreescribir los títulos de las columnas
+        format: {
+          header: function (data, columnIdx) {
+            switch (columnIdx) {
+              case 1: return 'NÚMERO GUÍA';
+              case 2: return 'DETALLE';
+              case 3: return 'CLIENTE';
+              case 4: return 'DESTINO';
+              case 5: return 'ENTIDADES';
+              case 6: return 'TRANSPORTADORA';
+              case 7: return 'ESTADO';
+              case 8: return 'DESPACHADO';
+              case 9: return 'IMPRESO';
+              case 10: return 'VENTA TOTAL';
+              case 11: return 'COSTO PRODUCTO';
+              case 12: return 'COSTO FLETE';
+              case 13: return 'FULFILLMENT';
+              case 14: return 'RECAUDO';
+              default: return data;  // Para las demás, deja el texto por defecto
+            }
+          }
+        }
       },
-      filename: "guias" + "_" + getFecha(),
+      // Para cambiar anchos y/o estilos, usa `customize`
+      customize: function (xlsx) {
+        let sheet = xlsx.xl.worksheets['sheet1.xml'];
+  
+        // 1) Ajustar ancho de todas las columnas exportadas a 20 
+        //    (puedes hacerlo individualmente, según el índice)
+        $('cols col', sheet).each(function (index, col) {
+          $(col).attr('width', 20);
+        });
+  
+        // 2) (Opcional) Si deseas aplicar negrita a la primera fila (encabezados)
+        //    buscas la fila <row r="1"> y aplicas estilo
+        //    DataTables añade los <row> y <c> en XML.
+        //    Ejemplo de añadir “bold”:
+        $('row c[r^="A1"], row c[r^="B1"], row c[r^="C1"], ...', sheet).attr('s', '2');
+        //    (donde 's="2"' depende de la plantilla interna de estilos de DataTables).
+  
+        // 3) (Opcional) También puedes modificar el “nombre” de la pestaña:
+        xlsx.xl.workbook.xml
+          .getElementsByTagName('sheet')[0]
+          .setAttribute('name', 'GuiasExportadas'); 
+      },
+      filename: "guias_" + getFecha(),  // Reutilizando tu función getFecha()
       footer: true,
       className: "btn-excel",
-    },
-    {
-      extend: "csvHtml5",
-      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
-      title: "Panel de Control: guias",
-      titleAttr: "Exportar a CSV",
-      exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-      },
-      filename: "guias" + "_" + getFecha(),
-      footer: true,
-      className: "btn-csv",
-    },
-  ],
+    }
+  ],  
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
