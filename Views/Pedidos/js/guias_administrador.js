@@ -186,7 +186,7 @@ const listGuias = async () => {
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
 
-    const response = await fetch(`${SERVERURL}pedidos/obtener_guiasAdministrador3`, {
+    const response = await fetch(`${SERVERURL}pedidos/obtener_guiasAdministrador`, {
       method: "POST",
       body: formData,
     });
