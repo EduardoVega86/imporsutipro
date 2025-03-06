@@ -1240,16 +1240,6 @@ class Pedidos extends Controller
         );
         $series->setPlotDirection(DataSeries::DIRECTION_COL);
 
-        // COLORES DISTINTOS A CADA BARRA
-        $series->setPointFillColors([
-            'FF0000', // Generada
-            '00FF00', // En tránsito
-            '0000FF', // Zona entrega
-            'FFFF00', // Entregada
-            'FF00FF', // Novedad
-            '00FFFF', // Devolución
-        ]);
-
         $plotArea = new PlotArea(null, [$series]);
         $legend   = new Legend(Legend::POSITION_RIGHT, null, false);
         $title    = new Title('% de Estados de Guías');
