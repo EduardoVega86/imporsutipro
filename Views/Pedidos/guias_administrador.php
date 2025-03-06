@@ -219,6 +219,8 @@
             </div>
         </div>
 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
         <div style="padding-top: 20px;">
             <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
             <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
