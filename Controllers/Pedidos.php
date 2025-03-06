@@ -1023,20 +1023,20 @@ class Pedidos extends Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         // ----------------------------------------------------------------------------------
-        // 1) TÍTULO en A1:P1 (sin color verde, usaremos un naranja "FF7043")
+        // 1) TÍTULO en A1:P1 
         // ----------------------------------------------------------------------------------
         $sheet->mergeCells('A1:P1');
-        $sheet->setCellValue('A1', 'REPORTE DE GUÍAS - ' . date('Y-m-d'));
+        $sheet->setCellValue('A1', 'REPORTE DE GUÍAS ADMINISTRADOR');
 
         $sheet->getStyle('A1')->applyFromArray([
             'font' => [
                 'bold' => true,
-                'size' => 16,
+                'size' => 18,
                 'color' => ['rgb' => 'FFFFFF']
             ],
             'fill' => [
                 'fillType' => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => 'FF7043'] // un naranja
+                'startColor' => ['rgb' => '#0d1566']
             ],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -1067,11 +1067,12 @@ class Pedidos extends Controller
         $sheet->getStyle('A3:P3')->applyFromArray([
             'font' => [
                 'bold' => true,
+                'size' => 14,
                 'color' => ['rgb' => 'FFFFFF'],
             ],
             'fill' => [
                 'fillType' => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '2196F3'], // azul
+                'startColor' => ['rgb' => '0d1566'],
             ],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -1162,33 +1163,7 @@ class Pedidos extends Controller
         }
 
         // ----------------------------------------------------------------------------------
-        // 5) Hacemos la tabla auxiliar en la parte derecha para el diagrama de % de estados
-        //    Digamos en col R (Estado) y col S (Porcentaje)
-        // ----------------------------------------------------------------------------------
-        $sheet->setCellValue("R3", "Estado");
-        $sheet->setCellValue("S3", "Porcentaje");
-        // Ajustar ancho manual
-        $sheet->getColumnDimension('R')->setWidth(14);
-        $sheet->getColumnDimension('S')->setWidth(14);
-
-        // Estados: generada, en_transito, zona_entrega, entregada, novedad, devolucion
-        $labelsEstados  = ["Generada", "En tránsito", "Zona entrega", "Entregada", "Novedad", "Devolución"];
-        $keysEstados    = ["generada", "en_transito", "zona_entrega", "entregada", "novedad", "devolucion"];
-
-        $rowAux = 4;  // inicia la tabla en R4
-        foreach ($keysEstados as $i => $k) {
-            $sheet->setCellValue("R{$rowAux}", $labelsEstados[$i]);
-            $porcentaje = 0;
-            if ($total > 0) {
-                $porcentaje = round(($counts[$k] / $total) * 100, 2);
-            }
-            $sheet->setCellValue("S{$rowAux}", $porcentaje);
-            $rowAux++;
-        }
-        // Podríamos estilizar esa mini tabla si deseas
-
-        // ----------------------------------------------------------------------------------
-        // 6) Creamos el diagrama de barras: eje X => R4..R9, valores => S4..S9
+        // 5) Creamos el diagrama de barras: eje X => R4..R9, valores => S4..S9
         // ----------------------------------------------------------------------------------
         // Suponiendo 6 filas (1 por estado)
         $numEstados = 6;
@@ -1230,8 +1205,8 @@ class Pedidos extends Controller
         // 6.6) Ubicarlo en la hoja (por ejemplo debajo de la tabla de datos)
         // Tomamos la fila donde terminamos la data principal
         $posChartTop = $ultimaFila + 2;
-        $chart->setTopLeftPosition("A{$posChartTop}");
-        $chart->setBottomRightPosition("H" . ($posChartTop + 15));
+        $chart->setTopLeftPosition("D{$posChartTop}");
+        $chart->setBottomRightPosition("J" . ($posChartTop + 15));
 
         // 6.7) Insertamos el chart
         $sheet->addChart($chart);
