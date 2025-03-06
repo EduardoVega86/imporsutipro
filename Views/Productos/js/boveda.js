@@ -76,9 +76,19 @@ const listBovedas = async () => {
                       <td><a href="${boveda.duplicar_funnel}" target="_blank" class="link-primary">Duplicar Funnel</a></td>
                       <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
                       <td><span class="">${boveda.fecha_create_at}</span></td>
+                      <?php echo if($_SESSION['cargo'] == 20){ ?>
+                      
                       <td>
                           <button class="btn btn-primary btn-sm btn-edit" onclick="abrirModalEditar(${boveda.id_boveda})">Editar</button>
                       </td>
+                        <?php }else{ ?>
+                        <td>
+                        ---
+                        </td>                   
+                        
+  <?php } ?>  
+                        
+                        
                   </tr>
               `;
           });
