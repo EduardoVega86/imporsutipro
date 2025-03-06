@@ -2432,6 +2432,18 @@ class PedidosModel extends Query
         return $response;
     }
 
+    public function buscar_id_recibe($telefono, $plataforma)
+    {
+        $sql_telefono_configuracion = "SELECT id FROM clientes_chat_center WHERE celular_cliente = $telefono AND id_plataforma = $plataforma";
+        $id_telefono_sql = $this->select($sql_telefono_configuracion);
+
+        if (empty($id_telefono_sql)) {
+            return ["id_recibe" => null];
+        }
+
+        return ["id_recibe" => $id_telefono_sql[0]['id']];
+    }
+
     public function obtener_etiquetas($id_plataforma)
     {
         $sql = "SELECT * FROM `etiquetas_chat_center` WHERE id_plataforma = $id_plataforma;";
