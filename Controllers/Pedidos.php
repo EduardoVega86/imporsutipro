@@ -354,6 +354,7 @@ class Pedidos extends Controller
         $provincia = $_POST['provincia'];
         $referencia = $_POST['referencia'];
         $observacion    = $_POST['observacion'];
+        $nombre_responsable = $_POST['nombre_responsable'] ?? "";
         $guia_enviada = 0;
         $transporte = $_POST['transporte'];
         $identificacion = $_POST['identificacion'] ?? "";
@@ -403,7 +404,7 @@ class Pedidos extends Controller
         $comentario = $_POST['comentario'] ?? "";
         $id_transporte = $_POST['id_transporte'] ?? 0;
         $id_bodega = $_POST['id_propietario']; //CODIGO DE LA BODEGA
-        $response = $this->model->nuevo_pedido($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $dueño_id, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia, $id_bodega);
+        $response = $this->model->nuevo_pedido($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $dueño_id, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia, $id_bodega, $nombre_responsable);
 
         echo json_encode($response);
     }
