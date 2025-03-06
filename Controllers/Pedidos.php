@@ -1022,7 +1022,7 @@ class Pedidos extends Controller
 
         // --- Encabezado Título en A1:P1 ---
         $sheet->mergeCells('A1:P1');
-        $sheet->setCellValue('A1', 'REPORTE DE GUÍAS (VISTA NORMAL)');
+        $sheet->setCellValue('A1', 'REPORTE DE GUÍAS');
         $sheet->getStyle('A1')->applyFromArray([
             'font' => [
                 'bold' => true,
@@ -1244,7 +1244,7 @@ class Pedidos extends Controller
 
         $plotArea = new PlotArea(null, [$series]);
         $legend   = new Legend(Legend::POSITION_RIGHT, null, false);
-        $title    = new Title('% de Estados (Vista Normal)');
+        $title    = new Title('% de Estados');
         $yAxisLab = new Title('Porcentaje (%)');
 
         $chart = new Chart('chart_estados', $title, $legend, $plotArea, true, 0, null, $yAxisLab);
