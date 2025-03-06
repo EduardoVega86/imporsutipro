@@ -921,7 +921,6 @@ class Pedidos extends Controller
     public function exportarGuiasVistaNormal()
     {
         // 1) Recogemos los parámetros POST
-        // (Tal como tu JS hace un POST con FormData)
         $fecha_inicio   = $_POST['fecha_inicio']   ?? "";
         $fecha_fin      = $_POST['fecha_fin']      ?? "";
         $transportadora = $_POST['transportadora'] ?? "";
@@ -931,9 +930,11 @@ class Pedidos extends Controller
         $despachos      = $_POST['despachos']      ?? "";
         $formato        = $_POST['formato']        ?? "excel";
 
-        // 2) Obtenemos las guías usando el modelo "vista normal"
-        //    Asumiendo que $_SESSION['id_plataforma'] es tu actual id
-        $id_plataforma = $_SESSION['id_plataforma'] ?? 0; // ajusta según necesites
+        $id_plataforma = $_SESSION['id_plataforma'];
+
+        // ================================================================
+        // 2) Consulta principal de GUÍAS
+        // ================================================================
         $data = $this->model->cargarGuiasEstadoGuiaSistema(
             $id_plataforma,
             $fecha_inicio,
@@ -946,7 +947,6 @@ class Pedidos extends Controller
         );
 
         // 3) Calculamos los “counts” (estados) basados en la misma lógica
-        //    que tu “obtener_guias_estado_guia_sistema”
         $counts = [
             'generada'      => 0,
             'en_transito'   => 0,
@@ -1015,8 +1015,7 @@ class Pedidos extends Controller
         }
         $total = count($data);
 
-        // 4) Construimos el Spreadsheet (igual que en tu exportarGuias anterior)
-
+        // 4) Construimos el Spreadsheet
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
@@ -1075,7 +1074,7 @@ class Pedidos extends Controller
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
-        // 5) Rellenar la data
+        // 5) Rellenar la data de GUÍAS
         $fila = 4;
         foreach ($data as $guia) {
             $sheet->setCellValue("A{$fila}", $guia['numero_guia']);
@@ -1099,6 +1098,7 @@ class Pedidos extends Controller
 
             $sheet->setCellValue("G{$fila}", $guia['transporte']);
 
+            // Estado traducido
             $estadoGuia = $this->traducirEstado($guia['id_transporte'], $guia['estado_guia_sistema']);
             $sheet->setCellValue("H{$fila}", $estadoGuia);
 
@@ -1156,9 +1156,7 @@ class Pedidos extends Controller
         }
 
         // 6) Mini tabla + forzar 100% + diagrama de barras
-        //    (exactamente igual que en tu ejemplo "exportarGuias" anterior)
-        //    Repetimos la lógica
-
+        // (igual que en tu ejemplo original)
         // Cabecera minitabla
         $miniTableStart = 3; // fila 3
         $sheet->setCellValue("R{$miniTableStart}", "Estado");
@@ -1258,7 +1256,233 @@ class Pedidos extends Controller
         $chart->setBottomRightPosition("J" . ($posChartTop + 15));
         $sheet->addChart($chart);
 
-        // 7) Exportar
+        // ================================================================
+        // NUEVO BLOQUE: consultamos PEDIDOS PENDIENTES (SIN GUÍA) Y ANULADOS
+        // ================================================================
+
+        // Consultar pedidos pendientes
+        // (Puedes meter un $_POST['estado_pedido'] si lo deseas; aquí va vacío o “0”)
+        $pedidos = $this->model->cargarPedidos_imporsuit($id_plataforma, $fecha_inicio, $fecha_fin, "");
+
+        // Consultar pedidos anulados
+        $pedidosAnulados = $this->model->cargarPedidosAnulados($id_plataforma, $fecha_inicio, $fecha_fin, 0, 1);
+
+        // ================================================================
+        // 7) Agregamos la SEGUNDA TABLA: PEDIDOS PENDIENTES
+        // ================================================================
+        $fila = $posChartTop + 18; // Movemos por debajo de la gráfica; ajústalo a tu gusto
+        if ($fila < ($ultimaFila + 5)) {
+            $fila = $ultimaFila + 5;
+        }
+
+        // Encabezado general (A:fila -> P:fila)
+        $sheet->mergeCells("A{$fila}:P{$fila}");
+        $sheet->setCellValue("A{$fila}", 'PEDIDOS PENDIENTES (SIN GUÍA)');
+        $sheet->getStyle("A{$fila}")->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'size' => 16,
+                'color' => ['rgb' => 'FFFFFF']
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '5A178B']  // color de fondo distinto
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ]
+        ]);
+
+        $fila += 2; // Dejamos una línea de espacio
+        // Encabezados
+        $sheet->setCellValue("A{$fila}", '# Pedido');
+        $sheet->setCellValue("B{$fila}", 'Fecha Factura');
+        $sheet->setCellValue("C{$fila}", 'Cliente');
+        $sheet->setCellValue("D{$fila}", 'Teléfono');
+        $sheet->setCellValue("E{$fila}", 'Dirección');
+        $sheet->setCellValue("F{$fila}", 'Destino');
+        $sheet->setCellValue("G{$fila}", 'Plataforma');
+        $sheet->setCellValue("H{$fila}", 'Estado Pedido');
+        $sheet->setCellValue("I{$fila}", 'Monto Factura');
+        $sheet->setCellValue("J{$fila}", 'Costo Producto');
+        // etc, si deseas más columnas...
+        // Hasta la "P" si quieres. O si prefieres menos, ajusta.
+
+        $sheet->getStyle("A{$fila}:P{$fila}")->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'size' => 14,
+                'color' => ['rgb' => 'FFFFFF']
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '5A178B']
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ]
+        ]);
+
+        $filaPedidosInicio = $fila; // guardamos para bordes
+        $fila++;
+
+        // Llenado de datos de pedidos
+        foreach ($pedidos as $p) {
+            $sheet->setCellValue("A{$fila}", $p['numero_factura']);
+            $sheet->setCellValue("B{$fila}", $p['fecha_factura']);
+            $sheet->setCellValue("C{$fila}", $p['nombre']);
+            $sheet->setCellValue("D{$fila}", $p['telefono']);
+
+            // Dirección
+            $dire = $p['c_principal'] . ' ' . $p['c_secundaria'];
+            if (strlen($dire) > 20) {
+                $dire = substr($dire, 0, 20) . '...';
+            }
+            $sheet->setCellValue("E{$fila}", $dire);
+
+            // Destino
+            $destino = $p['provinciaa'] . ' - ' . $p['ciudad'];
+            $sheet->setCellValue("F{$fila}", $destino);
+
+            // Plataforma
+            // (Viene en `$p['plataforma']`, que es la url_imporsuit)
+            $sheet->setCellValue("G{$fila}", $p['plataforma']);
+
+            // Estado pedido
+            // (Si lo manejas como entero, quizás pones algo descriptivo)
+            $est = (isset($p['estado_pedido'])) ? $p['estado_pedido'] : '';
+            $sheet->setCellValue("H{$fila}", $est);
+
+            // Monto y costo
+            $sheet->setCellValue("I{$fila}", $p['monto_factura']);
+            $sheet->setCellValue("J{$fila}", $p['costo_producto']);
+
+            $fila++;
+        }
+        $ultimaFilaPedidos = $fila - 1;
+
+        // Aplicar estilos de borde y centrado
+        if ($ultimaFilaPedidos >= $filaPedidosInicio) {
+            $sheet->getStyle("A{$filaPedidosInicio}:P{$ultimaFilaPedidos}")
+                ->applyFromArray([
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => Border::BORDER_THIN,
+                            'color' => ['rgb' => '000000']
+                        ]
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                    ]
+                ]);
+            // Para columna E, dirección a la izquierda
+            $sheet->getStyle("E" . ($filaPedidosInicio + 1) . ":E{$ultimaFilaPedidos}")
+                ->getAlignment()
+                ->setHorizontal(Alignment::HORIZONTAL_LEFT);
+        }
+
+        // ================================================================
+        // 8) Agregamos la TERCERA TABLA: PEDIDOS ANULADOS
+        // ================================================================
+        $fila += 2; // dejamos un par de filas de espacio
+        $sheet->mergeCells("A{$fila}:P{$fila}");
+        $sheet->setCellValue("A{$fila}", 'PEDIDOS ANULADOS (SIN GUÍA)');
+        $sheet->getStyle("A{$fila}")->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'size' => 16,
+                'color' => ['rgb' => 'FFFFFF']
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'D11A2A'] // color distinto
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ]
+        ]);
+
+        $fila += 2;
+        // Encabezados
+        $sheet->setCellValue("A{$fila}", '# Pedido');
+        $sheet->setCellValue("B{$fila}", 'Fecha Factura');
+        $sheet->setCellValue("C{$fila}", 'Cliente');
+        $sheet->setCellValue("D{$fila}", 'Teléfono');
+        $sheet->setCellValue("E{$fila}", 'Dirección');
+        $sheet->setCellValue("F{$fila}", 'Destino');
+        $sheet->setCellValue("G{$fila}", 'Plataforma');
+        $sheet->setCellValue("H{$fila}", 'Estado');
+        $sheet->setCellValue("I{$fila}", 'Monto Factura');
+        $sheet->setCellValue("J{$fila}", 'Costo Producto');
+        // etc...
+
+        $sheet->getStyle("A{$fila}:P{$fila}")->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'size' => 14,
+                'color' => ['rgb' => 'FFFFFF']
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'D11A2A']
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ]
+        ]);
+
+        $filaAnuladosInicio = $fila;
+        $fila++;
+
+        // Llenado de datos
+        foreach ($pedidosAnulados as $pa) {
+            $sheet->setCellValue("A{$fila}", $pa['numero_factura']);
+            $sheet->setCellValue("B{$fila}", $pa['fecha_factura']);
+            $sheet->setCellValue("C{$fila}", $pa['nombre']);
+            $sheet->setCellValue("D{$fila}", $pa['telefono']);
+
+            // dirección
+            $direA = $pa['c_principal'] . ' ' . $pa['c_secundaria'];
+            if (strlen($direA) > 20) {
+                $direA = substr($direA, 0, 20) . '...';
+            }
+            $sheet->setCellValue("E{$fila}", $direA);
+
+            $destinoA = $pa['provinciaa'] . ' - ' . $pa['ciudad'];
+            $sheet->setCellValue("F{$fila}", $destinoA);
+
+            $sheet->setCellValue("G{$fila}", $pa['plataforma']);
+            $sheet->setCellValue("H{$fila}", 'ANULADO'); // lo forzamos
+            $sheet->setCellValue("I{$fila}", $pa['monto_factura']);
+            $sheet->setCellValue("J{$fila}", $pa['costo_producto']);
+
+            $fila++;
+        }
+        $ultimaFilaAnulados = $fila - 1;
+
+        // Estilos
+        if ($ultimaFilaAnulados >= $filaAnuladosInicio) {
+            $sheet->getStyle("A{$filaAnuladosInicio}:P{$ultimaFilaAnulados}")
+                ->applyFromArray([
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => Border::BORDER_THIN,
+                            'color' => ['rgb' => '000000']
+                        ]
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                    ]
+                ]);
+            // Para columna E, dirección a la izquierda
+            $sheet->getStyle("E" . ($filaAnuladosInicio + 1) . ":E{$ultimaFilaAnulados}")
+                ->getAlignment()
+                ->setHorizontal(Alignment::HORIZONTAL_LEFT);
+        }
+
+        // ================================================================
+        // 9) Exportar según formato
+        // ================================================================
         if ($formato === 'csv') {
             $writer = new Csv($spreadsheet);
             $filename = 'guias_vistanormal_' . date('Y-m-d') . '.csv';
@@ -1283,6 +1507,7 @@ class Pedidos extends Controller
             exit;
         }
     }
+
 
     public function exportarGuias()
     {
