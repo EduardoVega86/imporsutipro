@@ -206,7 +206,7 @@ class PedidosModel extends Query
                                 OR (estado_guia_sistema in (7) and id_transporte=4))";
                     break;
                 case 'novedad':
-                    $sql .= " AND ((estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 318 AND 351 and id_transporte=2)
                                 OR (estado_guia_sistema in (14) and id_transporte=1)
                                 OR (estado_guia_sistema in (6) and id_transporte=3)
                                 OR (estado_guia_sistema in (14) and id_transporte=4))";

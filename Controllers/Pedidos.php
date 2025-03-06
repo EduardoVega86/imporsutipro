@@ -778,7 +778,7 @@ class Pedidos extends Controller
             }
 
             // "Novedad"
-            if (($transporte == 2 && $estado_guia >= 320 && $estado_guia <= 351) ||
+            if (($transporte == 2 && $estado_guia >= 318 && $estado_guia <= 351) ||
                 ($transporte == 1 && $estado_guia === 14) ||
                 ($transporte == 3 && $estado_guia === 6) ||
                 ($transporte == 4 && $estado_guia === 14)
