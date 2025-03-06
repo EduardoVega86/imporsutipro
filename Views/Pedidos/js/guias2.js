@@ -780,6 +780,7 @@ document
     formData.append("fecha_fin", fecha_fin);
     formData.append("transportadora", $("#transporte").val());
     formData.append("estado", $("#estado_q").val());
+    formData.append("estado_pedido", $("#estado_pedido").val() || "");
     formData.append("drogshipin", $("#tienda_q").val());
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
@@ -811,6 +812,7 @@ document.getElementById("btnExportCsv").addEventListener("click", async () => {
   formData.append("fecha_fin", fecha_fin);
   formData.append("transportadora", $("#transporte").val());
   formData.append("estado", $("#estado_q").val());
+  formData.append("estado_pedido", $("#estado_pedido").val() || "");
   formData.append("drogshipin", $("#tienda_q").val());
   formData.append("impreso", $("#impresion").val());
   formData.append("despachos", $("#despachos").val());

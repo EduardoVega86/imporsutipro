@@ -1261,8 +1261,8 @@ class Pedidos extends Controller
         // ================================================================
 
         // Consultar pedidos pendientes
-        // (Puedes meter un $_POST['estado_pedido'] si lo deseas; aquí va vacío o “0”)
-        $pedidos = $this->model->cargarPedidos_imporsuit($id_plataforma, $fecha_inicio, $fecha_fin, "");
+        $estado_pedido   = $_POST['estado_pedido']   ?? "";
+        $pedidos = $this->model->cargarPedidos_imporsuit($id_plataforma, $fecha_inicio, $fecha_fin, $estado_pedido);
 
         // Consultar pedidos anulados
         $pedidosAnulados = $this->model->cargarPedidosAnulados($id_plataforma, $fecha_inicio, $fecha_fin, 0, 1);
