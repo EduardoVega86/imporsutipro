@@ -206,7 +206,7 @@ class PedidosModel extends Query
                                 OR (estado_guia_sistema in (7) and id_transporte=4))";
                     break;
                 case 'novedad':
-                    $sql .= " AND ((estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 318 AND 351 and id_transporte=2)
                                 OR (estado_guia_sistema in (14) and id_transporte=1)
                                 OR (estado_guia_sistema in (6) and id_transporte=3)
                                 OR (estado_guia_sistema in (14) and id_transporte=4))";
@@ -975,7 +975,7 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function nuevo_pedido($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $id_producto_venta, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia, $id_bodega)
+    public function nuevo_pedido($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $id_producto_venta, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia, $id_bodega, $nombre_responsable)
     {
         $tmp = session_id();
         $response = $this->initialResponse();
@@ -997,9 +997,9 @@ class PedidosModel extends Query
             plataforma_importa, cod, estado_guia_sistema, impreso, facturada, 
             anulada, identificacionO, nombreO, ciudadO, provinciaO, provincia,
             direccionO, referenciaO, numeroCasaO, valor_seguro, no_piezas, tipo_servicio, 
-            peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO, id_bodega
+            peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO, id_bodega, nombre_responsable
         ) VALUES (
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
         )";
 
         $data = array(
@@ -1047,7 +1047,8 @@ class PedidosModel extends Query
             $comentario,
             $id_transporte,
             $celularO,
-            $id_bodega
+            $id_bodega,
+            $nombre_responsable
         );
 
         if (substr_count($sql, '?') !== count($data)) {

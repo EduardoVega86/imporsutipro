@@ -267,6 +267,13 @@ const listGuias = async () => {
       }
       let mostrar_tienda = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${guia.plataforma}')">${plataforma}</span></td>`;
       mostrar_tienda = "";
+
+      let responsable = "";
+
+      if (guia.nombre_responsable) {
+        responsable = `<strong>Responsable: </strong>${guia.nombre_responsable}`;
+      }
+
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura}"></td>
@@ -274,6 +281,7 @@ const listGuias = async () => {
                       <div>
                         ${ruta_descarga}
                       </div>
+                      <div>${responsable}</div>
                     </td>
                     <td>
                       <div><button onclick="ver_detalle_cot('${guia.id_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>

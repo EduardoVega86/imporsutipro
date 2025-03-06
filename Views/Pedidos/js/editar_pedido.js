@@ -442,6 +442,7 @@ $(document).ready(function () {
             $("#calle_secundaria").val(response[0].c_secundaria);
             $("#referencia").val(response[0].referencia);
             $("#observacion").val(response[0].observacion);
+            $("#nombre_responsable").val(response[0].nombre_responsable);
 
             if(response[0].provincia != null && response[0].provincia !== ""){
                 console.log(typeof response[0].provincia + " " + response[0].provincia)
@@ -837,6 +838,7 @@ function generar_guia() {
     formData.append("provincia", $("#provincia").val());
     formData.append("identificacion", 0);
     formData.append("observacion", $("#observacion").val());
+    formData.append("nombre_responsable", $("#nombre_responsable").val());
     formData.append("transporte", 0);
     formData.append("celular", $("#telefono").val()); // Asegúrate de obtener el valor correcto
     formData.append("id_producto_venta", id_producto_venta);
