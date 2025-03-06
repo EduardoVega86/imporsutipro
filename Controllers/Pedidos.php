@@ -1762,6 +1762,16 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function buscar_id_recibe()
+    {
+        header('Content-Type: application/json'); // Asegura que la respuesta sea JSON
+        $telefono = $_POST['telefono'];
+        $plataforma = $_POST['plataforma'];
+
+        $response = $this->model->buscar_id_recibe($telefono, $plataforma);
+        echo json_encode($response);
+    }
+
     public function obtener_etiquetas()
     {
         // Verificar si existe la sesión de id_plataforma
