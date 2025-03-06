@@ -274,6 +274,7 @@ const listGuias = async () => {
                       <div>
                         ${ruta_descarga}
                       </div>
+                      <div><strong>Responsable: </strong>${guia.nombre_responsable}</div>
                     </td>
                     <td>
                       <div><button onclick="ver_detalle_cot('${guia.id_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>

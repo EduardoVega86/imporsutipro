@@ -135,7 +135,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     </div>
                     <div class="mb-3">
                         <label for="nombre_responsable" class="form-label">Nombre responsable</label>
-                        <input type="text" class="form-control" id="nombre_responsable" placeholder="Nombre del responsable">
+                        <input type="text" class="form-control" id="nombre_responsable" placeholder="Nombre del responsable (Opcional)">
                     </div>
                     <div class="alert alert-warning" role="alert" id="alerta_devoluciones" style="display: none;">
                         El cliente registra 1 o más devoluciones en nuestro sistema.
