@@ -61,6 +61,7 @@ class Guias extends Controller
         $costo_producto = $_POST['total_venta'];
         $tipo_cobro = 0;
         $comentario = $_POST['observacion'];
+        $nombre_responsable = $_POST['nombre_responsable'] ?? "";
         $fecha = date("Y-m-d");
         $extras = "";
 
@@ -104,7 +105,7 @@ class Guias extends Controller
             if (strpos($datos["guia"], "MKP") === 0) {
                 $costoflete = 5.99;
             }
-            $this->model->actualizarGuia($numero_factura, $datos["guia"], $nombreDestino, $ciudad_D, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $calle_principal, $calle_secundaria, $contiene, $provincia, $costoflete, "LAAR", 2);
+            $this->model->actualizarGuia($numero_factura, $datos["guia"], $nombreDestino, $ciudad_D, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $calle_principal, $calle_secundaria, $contiene, $provincia, $costoflete, "LAAR", 2, $nombre_responsable);
 
             $datos["status"] = "200";
             $this->model->asignarWallet($numero_factura, $datos["guia"], $fecha, $nombreDestino, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
@@ -214,6 +215,7 @@ class Guias extends Controller
         $costo_producto = $_POST['total_venta'];
         $tipo_cobro = 0;
         $comentario = $_POST['observacion'];
+        $nombre_responsable = $_POST['nombre_responsable'] ?? "";
         $fecha = date("Y-m-d");
         $extras = "";
         $numero_factura = $_POST['numero_factura'];
@@ -249,7 +251,7 @@ class Guias extends Controller
             }
             $response["status"] = 200;
             $this->model->aumentarMatriz();
-            $response2 = $this->model->actualizarGuia($numero_factura, $response["id"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "SERVIENTREGA", 100);
+            $response2 = $this->model->actualizarGuia($numero_factura, $response["id"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "SERVIENTREGA", 100, $nombre_responsable);
             $this->model->asignarWallet($numero_factura, $response["id"], $fecha, $nombreDestino, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
             $this->model->descargarGuia($response["id"]);
         }
@@ -297,6 +299,7 @@ class Guias extends Controller
         $costo_producto = $_POST['total_venta'];
         $tipo_cobro = 0;
         $comentario = $_POST['observacion'];
+        $nombre_responsable = $_POST['nombre_responsable'] ?? "";
         $fecha = date("Y-m-d");
         $extras = "";
         $numero_factura = $_POST['numero_factura'];
@@ -315,7 +318,7 @@ class Guias extends Controller
         if (isset($response["guia"])) {
             $response["status"] = 200;
             $this->model->aumentarMatriz();
-            $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "GINTRACOM", 1);
+            $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "GINTRACOM", 1, $nombre_responsable);
             $this->model->asignarWallet($numero_factura, $response["guia"], $fecha, $nombreDestino, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
         }
 
@@ -352,6 +355,8 @@ class Guias extends Controller
 
         $observacion = $_POST['observacion'];
 
+        $nombre_responsable = $_POST['nombre_responsable'] ?? "";
+
         $monto_factura = $_POST['total_venta'];
 
         $url_google_speed_pedido = $_POST['url_google_speed_pedido'] ?? "";
@@ -375,7 +380,7 @@ class Guias extends Controller
             $response["status"] = 200;
             $this->model->aumentarMatriz();
             $flete_envio = $ciudad == 599 ? 5.5 : 6.5;
-            $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombre, $ciudad, $direccion, $telefono, $celular, $referencia, $recaudo, $monto_factura, $observacion, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $flete_envio, "SPEED", 2, $url_google_speed_pedido);
+            $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombre, $ciudad, $direccion, $telefono, $celular, $referencia, $recaudo, $monto_factura, $observacion, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $flete_envio, "SPEED", 2, $nombre_responsable, $url_google_speed_pedido);
             $this->model->asignarWallet($numero_factura, $response["guia"], $fecha, $nombre, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], 1, $monto_factura, $recaudo, $flete_envio);
         } else {
             echo "error" . $response;

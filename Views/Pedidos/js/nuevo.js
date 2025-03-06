@@ -779,6 +779,7 @@ function agregar_nuevoPedido() {
   formData.append("provincia", $("#provincia").val());
   formData.append("identificacion", 0);
   formData.append("observacion", $("#observacion").val());
+  formData.append("nombre_responsable", $("#nombre_responsable").val());
   formData.append("transporte", 0);
   formData.append("celular", $("#telefono").val()); // Asegúrate de obtener el valor correcto
   formData.append("id_producto_venta", id_producto_venta);
@@ -879,6 +880,7 @@ function generar_guia() {
   formData.append("provincia", $("#provincia").val());
   formData.append("identificacion", 0);
   formData.append("observacion", $("#observacion").val());
+  formData.append("nombre_responsable", $("#nombre_responsable").val());
   formData.append("transporte", 0);
   formData.append("celular", $("#telefono").val()); // Asegúrate de obtener el valor correcto
   formData.append("id_producto_venta", id_producto_venta);
