@@ -12,9 +12,11 @@ use PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues;
 use PhpOffice\PhpSpreadsheet\Chart\Legend;
 use PhpOffice\PhpSpreadsheet\Chart\PlotArea;
 use PhpOffice\PhpSpreadsheet\Chart\Title;
+
+// Para estilos de borde, relleno, alineación
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
-
+use PhpOffice\PhpSpreadsheet\Style\Border;
 
 class Pedidos extends Controller
 {
@@ -917,7 +919,6 @@ class Pedidos extends Controller
 
     public function exportarGuias()
     {
-        // Recibimos por POST (tu JS usa fetch con FormData)
         $fecha_inicio   = $_POST['fecha_inicio']   ?? "";
         $fecha_fin      = $_POST['fecha_fin']      ?? "";
         $transportadora = $_POST['transportadora'] ?? "";
@@ -927,7 +928,7 @@ class Pedidos extends Controller
         $despachos      = $_POST['despachos']      ?? "";
         $formato        = $_POST['formato']        ?? "excel";
 
-        // Obtenemos las guías
+        // Obtenemos los datos
         $data = $this->model->cargarGuiasAdministrador(
             $fecha_inicio,
             $fecha_fin,
@@ -938,9 +939,7 @@ class Pedidos extends Controller
             $despachos
         );
 
-        // ==================================================================================
-        //  A) PRIMERO calculamos los totales por estado (para el gráfico de % de estados)
-        // ==================================================================================
+        // A) Contamos los estados (para la mini-tabla y el diagrama)
         $counts = [
             'generada'      => 0,
             'en_transito'   => 0,
@@ -949,12 +948,11 @@ class Pedidos extends Controller
             'novedad'       => 0,
             'devolucion'    => 0,
         ];
-
         foreach ($data as $guia) {
             $estado_guia = intval($guia['estado_guia_sistema']);
             $transporte  = intval($guia['id_transporte']);
 
-            // "Generada"
+            // Generada
             if (
                 ($transporte == 2 && in_array($estado_guia, [100, 102, 103])) ||
                 ($transporte == 1 && in_array($estado_guia, [1, 2])) ||
@@ -963,8 +961,7 @@ class Pedidos extends Controller
             ) {
                 $counts['generada']++;
             }
-
-            // "En tránsito"
+            // En tránsito
             if (
                 ($transporte == 2 && $estado_guia >= 300 && $estado_guia <= 317 && $estado_guia != 307) ||
                 ($transporte == 1 && in_array($estado_guia, [5, 11, 12])) ||
@@ -973,8 +970,7 @@ class Pedidos extends Controller
             ) {
                 $counts['en_transito']++;
             }
-
-            // "Zona de entrega"
+            // Zona entrega
             if (
                 ($transporte == 2 && $estado_guia == 307) ||
                 ($transporte == 1 && in_array($estado_guia, [6])) ||
@@ -982,8 +978,7 @@ class Pedidos extends Controller
             ) {
                 $counts['zona_entrega']++;
             }
-
-            // "Entregada"
+            // Entregada
             if (
                 ($transporte == 2 && $estado_guia >= 400 && $estado_guia <= 403) ||
                 ($transporte == 1 && $estado_guia === 7) ||
@@ -992,8 +987,7 @@ class Pedidos extends Controller
             ) {
                 $counts['entregada']++;
             }
-
-            // "Novedad"
+            // Novedad
             if (
                 ($transporte == 2 && $estado_guia >= 320 && $estado_guia <= 351) ||
                 ($transporte == 1 && $estado_guia === 14) ||
@@ -1002,8 +996,7 @@ class Pedidos extends Controller
             ) {
                 $counts['novedad']++;
             }
-
-            // "Devolución"
+            // Devolución
             if (
                 ($transporte == 2 && $estado_guia >= 500 && $estado_guia <= 502) ||
                 ($transporte == 1 && $estado_guia === 9) ||
@@ -1013,21 +1006,16 @@ class Pedidos extends Controller
                 $counts['devolucion']++;
             }
         }
-
         $total = count($data);
 
-        // ==================================================================================
-        //  B) Construcción del Spreadsheet
-        // ==================================================================================
+        // B) Creamos el Spreadsheet
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        // ----------------------------------------------------------------------------------
-        // 1) TÍTULO en A1:P1 
-        // ----------------------------------------------------------------------------------
+        // 1) Título en A1:P1
         $sheet->mergeCells('A1:P1');
         $sheet->setCellValue('A1', 'REPORTE DE GUÍAS ADMINISTRADOR');
-
+        // Estilo del título
         $sheet->getStyle('A1')->applyFromArray([
             'font' => [
                 'bold' => true,
@@ -1036,16 +1024,15 @@ class Pedidos extends Controller
             ],
             'fill' => [
                 'fillType' => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '#0d1566']
+                // color de fondo
+                'startColor' => ['rgb' => '0D1566']
             ],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
             ]
         ]);
 
-        // ----------------------------------------------------------------------------------
         // 2) Encabezados en la fila 3
-        // ----------------------------------------------------------------------------------
         $sheet->setCellValue('A3', '# Guia');
         $sheet->setCellValue('B3', 'Fecha Factura');
         $sheet->setCellValue('C3', 'Cliente');
@@ -1063,30 +1050,28 @@ class Pedidos extends Controller
         $sheet->setCellValue('O3', 'Monto a Recibir');
         $sheet->setCellValue('P3', 'Recaudo');
 
-        // Estilo de encabezados
+        // Estilo encabezados
         $sheet->getStyle('A3:P3')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
-                'color' => ['rgb' => 'FFFFFF'],
+                'color' => ['rgb' => 'FFFFFF']
             ],
             'fill' => [
                 'fillType' => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '0d1566'],
+                'startColor' => ['rgb' => '0D1566'],
             ],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
             ]
         ]);
 
-        // Ajustar ancho automático y luego haremos un override en col E
+        // Ajustamos ancho automático
         foreach (range('A', 'P') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
-        // ----------------------------------------------------------------------------------
-        // 3) Llenar filas: A partir de la fila 4
-        // ----------------------------------------------------------------------------------
+        // 3) Llenar filas desde la fila 4
         $fila = 4;
         foreach ($data as $guia) {
             $sheet->setCellValue("A{$fila}", $guia['numero_guia']);
@@ -1094,12 +1079,11 @@ class Pedidos extends Controller
             $sheet->setCellValue("C{$fila}", $guia['nombre']);
             $sheet->setCellValue("D{$fila}", $guia['telefono']);
 
-            // Direccion => max 20 chars
+            // Direccion => max 20 caracteres
             $direccionCompleta = $guia['c_principal'] . ' ' . $guia['c_secundaria'];
             if (!empty($guia['referencia'])) {
                 $direccionCompleta .= ' (Ref: ' . $guia['referencia'] . ')';
             }
-            // Truncamos a 20 chars
             if (strlen($direccionCompleta) > 20) {
                 $direccion = substr($direccionCompleta, 0, 20) . '...';
             } else {
@@ -1107,12 +1091,13 @@ class Pedidos extends Controller
             }
             $sheet->setCellValue("E{$fila}", $direccion);
 
+            // Destino
             $destino = $guia['provinciaa'] . ' - ' . $guia['ciudad'];
             $sheet->setCellValue("F{$fila}", $destino);
 
             $sheet->setCellValue("G{$fila}", $guia['transporte']);
 
-            // Traducir estado
+            // Estado
             $estadoGuia = $this->traducirEstado($guia['id_transporte'], $guia['estado_guia_sistema']);
             $sheet->setCellValue("H{$fila}", $estadoGuia);
 
@@ -1123,7 +1108,7 @@ class Pedidos extends Controller
             if ($guia['estado_factura'] == 3) $despachado = "Devuelto";
             $sheet->setCellValue("I{$fila}", $despachado);
 
-            // Impreso => SI / NO
+            // Impreso
             $sheet->setCellValue("J{$fila}", ($guia['impreso'] == 1 ? 'SI' : 'NO'));
 
             // Venta total
@@ -1133,103 +1118,158 @@ class Pedidos extends Controller
             // Costo Flete
             $sheet->setCellValue("M{$fila}", $guia['costo_flete']);
 
-            // Fulfillment => vacío
+            // Fulfillment en blanco
             $sheet->setCellValue("N{$fila}", "");
 
             // Monto a Recibir
             $montoRecibir = $guia['monto_factura'] - $guia['costo_producto'] - $guia['costo_flete'];
             $sheet->setCellValue("O{$fila}", $montoRecibir);
 
-            // Recaudo => SI / NO
+            // Recaudo
             $sheet->setCellValue("P{$fila}", ($guia['cod'] == 1 ? 'SI' : 'NO'));
 
             $fila++;
         }
 
-        // ----------------------------------------------------------------------------------
-        // 4) Alineamos casi todo al centro MENOS la col E (Dirección)
-        // ----------------------------------------------------------------------------------
-        // Rango de datos: fila 3..(fila-1), col A..P
-        $ultimaFila = $fila - 1; // la última con datos
+        $ultimaFila = $fila - 1;
+
+        // 4) Alineamos al centro (excepto col E)
         if ($ultimaFila >= 3) {
-            // Centramos todo
+            // centramos A3:P(ultimaFila)
             $sheet->getStyle("A3:P{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            // Luego col E la ponemos a la izquierda
+
+            // col E => izquierda
             $sheet->getStyle("E4:E{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
-        // ----------------------------------------------------------------------------------
-        // 5) Creamos el diagrama de barras: eje X => R4..R9, valores => S4..S9
-        // ----------------------------------------------------------------------------------
-        // Suponiendo 6 filas (1 por estado)
-        $numEstados = 6;
-        $startData  = 4;
-        $endData    = 4 + $numEstados - 1; // 9
+        // 4.5) Agregamos bordes a la tabla principal
+        if ($ultimaFila >= 3) {
+            $sheet->getStyle("A3:P{$ultimaFila}")->applyFromArray([
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => Border::BORDER_THIN,
+                        'color' => ['rgb' => '000000']
+                    ]
+                ]
+            ]);
+        }
 
-        // 6.1) Etiquetas (names) => "Porcentaje"
+        // 5) Mini-tabla de porcentajes en R3:S(???)
+        //    6 estados => Generada, En tránsito, Zona de entrega, Entregada, Novedad, Devolución
+        $miniTableStart = 3; // fila 3 para el encabezado
+        $sheet->setCellValue("R{$miniTableStart}", "Estado");
+        $sheet->setCellValue("S{$miniTableStart}", "Porcentaje");
+        // Color de fondo
+        $sheet->getStyle("R{$miniTableStart}:S{$miniTableStart}")->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => 'FFFFFF'],
+            ],
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '0D1566'],
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ]
+        ]);
+        $sheet->getColumnDimension('R')->setAutoSize(true);
+        $sheet->getColumnDimension('S')->setAutoSize(true);
+
+        $labelsEstados  = ["Generada", "En tránsito", "Zona entrega", "Entregada", "Novedad", "Devolución"];
+        $keysEstados    = ["generada", "en_transito", "zona_entrega", "entregada", "novedad", "devolucion"];
+
+        $rowAux = $miniTableStart + 1; // 4
+        foreach ($keysEstados as $i => $k) {
+            $sheet->setCellValue("R{$rowAux}", $labelsEstados[$i]);
+            if ($total > 0) {
+                $porcentaje = round(($counts[$k] / $total) * 100, 2);
+            } else {
+                $porcentaje = 0;
+            }
+            $sheet->setCellValue("S{$rowAux}", $porcentaje);
+            $rowAux++;
+        }
+        $lastAux = $rowAux - 1; // fila final del mini-table
+
+        // Bordes para la mini tabla
+        $sheet->getStyle("R{$miniTableStart}:S{$lastAux}")->applyFromArray([
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000']
+                ]
+            ]
+        ]);
+
+        // 6) Diagrama de barras con los % de la mini-tabla
+        //    Eje X => R4..R9, Eje Y => S4..S9
+        $numEstados = 6;
+        $startData  = $miniTableStart + 1; // 4
+        $endData    = $startData + $numEstados - 1; // 4 + 6 - 1 = 9
+
+        // Etiquetas (names) => "Porcentaje"
         $labels = [
-            new DataSeriesValues('String', $sheet->getTitle() . '!S3', null, 1),
+            new DataSeriesValues('String', $sheet->getTitle() . '!S' . $miniTableStart, null, 1), // S3
         ];
-        // 6.2) Categorías => R4..R9 (Estados)
+        // Categorías => R4..R9
         $categories = [
             new DataSeriesValues('String', $sheet->getTitle() . "!R{$startData}:R{$endData}", null, $numEstados),
         ];
-        // 6.3) Valores => S4..S9
+        // Valores => S4..S9
         $values = [
             new DataSeriesValues('Number', $sheet->getTitle() . "!S{$startData}:S{$endData}", null, $numEstados),
         ];
 
-        // 6.4) Definimos la serie (un solo “grupo” de barras)
         $series = new DataSeries(
             DataSeries::TYPE_BARCHART,
             DataSeries::GROUPING_CLUSTERED,
-            range(0, count($values) - 1),  // ejes
+            range(0, count($values) - 1),
             $labels,
             $categories,
             $values
         );
         $series->setPlotDirection(DataSeries::DIRECTION_COL);
 
-        // 6.5) PlotArea, leyenda, títulos
         $plotArea = new PlotArea(null, [$series]);
         $legend   = new Legend(Legend::POSITION_RIGHT, null, false);
         $title    = new Title('% de Estados de Guías');
-        $yAxisLab = new Title('Porcentaje %');
+        $yAxisLab = new Title('Porcentaje (%)');
 
         $chart = new Chart('chart_estados', $title, $legend, $plotArea, true, 0, null, $yAxisLab);
 
-        // 6.6) Ubicarlo en la hoja (por ejemplo debajo de la tabla de datos)
-        // Tomamos la fila donde terminamos la data principal
+        // Lo ubicamos (p.ej. debajo de la data principal, col D..J)
         $posChartTop = $ultimaFila + 2;
+        if ($posChartTop < 10) {
+            $posChartTop = 10; // para no solaparse si hay muy pocas filas
+        }
         $chart->setTopLeftPosition("D{$posChartTop}");
         $chart->setBottomRightPosition("J" . ($posChartTop + 15));
 
-        // 6.7) Insertamos el chart
         $sheet->addChart($chart);
 
-        // ----------------------------------------------------------------------------------
-        // 7) Finalmente, generamos el archivo (csv o xlsx)
-        // ----------------------------------------------------------------------------------
+        // 7) Generamos archivo
         if ($formato === 'csv') {
             $writer = new Csv($spreadsheet);
             $filename = 'guias_' . date('Y-m-d') . '.csv';
+
             header('Content-Type: text/csv');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
             header('Cache-Control: max-age=0');
 
-            // En CSV no se incrustan gráficos
+            // CSV no soporta charts
             $writer->save('php://output');
             exit;
         } else {
-            // XLSX con gráficos => setIncludeCharts(true)
             $writer = new Xlsx($spreadsheet);
             $writer->setIncludeCharts(true);
 
             $filename = 'guias_' . date('Y-m-d') . '.xlsx';
+
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
             header('Cache-Control: max-age=0');
