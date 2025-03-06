@@ -140,9 +140,6 @@
             </div>
         </div>
 
-        <button id="btnExportExcel" class="btn btn-success">Exportar a Excel</button>
-        <button id="btnExportCsv" class="btn btn-info">Exportar a CSV</button>
-
         <div class="d-flex flex-column justify-content-between">
             <div class="primer_seccionFiltro" style="width: 100%;">
                 <div class="d-flex flex-row align-items-end filtro_fecha">
@@ -223,8 +220,17 @@
         </div>
         <div style="padding-top: 20px;">
             <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
-            <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
+            <button id="imprimir_guias" class="btn btn-success">Generar Impresión</button>
+
+            <button id="btnExportExcel" class="btn btn-success">
+                <i class="bi bi-file-earmark-excel-fill"></i> Exportar a Excel
+            </button>
+
+            <button id="btnExportCsv" class="btn btn-info">
+                <i class="bi bi-file-earmark-text"></i> Exportar a CSV
+            </button>
         </div>
+
 
         <div class="table-container" style="position: relative;">
             <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
