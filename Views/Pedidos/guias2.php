@@ -220,9 +220,21 @@
                 </div>
             </div>
         </div>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
         <div style="padding-top: 20px;">
             <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
             <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
+            <!-- Botón Excel -->
+            <button id="btnExportExcel" class="btn btn-success">
+                <i class="bi bi-file-earmark-excel-fill"></i>
+            </button>
+
+            <!-- Botón CSV -->
+            <button id="btnExportCsv" class="btn btn-info">
+                <i class="bi bi-file-earmark-text"></i>
+            </button>
         </div>
 
         <div class="table-container" style="position: relative;">
