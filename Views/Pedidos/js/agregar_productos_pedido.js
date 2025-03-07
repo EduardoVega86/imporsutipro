@@ -62,7 +62,7 @@ const listNuevosPedidos = () => {
     processData: false,
     contentType: false,
     success: function (response) {
-      console.log("Respuesta del servidor:", response);
+      /* console.log("Respuesta del servidor:", response); */
 
       let nuevosPedidos = response;
       if (typeof response === "string") {

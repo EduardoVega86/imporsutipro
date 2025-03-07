@@ -118,7 +118,7 @@ const listNuevoPedido = async () => {
 
       lista_productos.push({
         id_inventario: nuevoPedido.id_inventario,
-        cantidad: nuevoPedido.cantidad_tm,
+        cantidad: nuevoPedido.cantidad_tmp,
       });
 
       precio_costo = parseFloat(nuevoPedido.precio_tmp);
