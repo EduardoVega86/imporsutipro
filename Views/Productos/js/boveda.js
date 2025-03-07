@@ -77,7 +77,7 @@ const listBovedas = async () => {
                       <td><a href="${boveda.videos}" target="_blank" class="link-primary">Ver Video</a></td>
                       <td><span class="">${boveda.fecha_create_at}</span></td>                      
                       <td class="cargo">
-                          <button class="btn btn-primary btn-sm btn-edit" onclick="abrirModalEditar(${boveda.id_boveda})">Editar</button>
+                          <button class="btn cargo btn-primary btn-sm btn-edit" onclick="abrirModalEditar(${boveda.id_boveda})">Editar</button>
                       </td>
                                                
                         
