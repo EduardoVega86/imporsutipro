@@ -1115,9 +1115,9 @@ $local_path = "public/repositorio/guias/guia_$guia.pdf";
                     $stock = $this->select($sql_id);
                     $stock_inventario = $stock[0]['saldo_stock'];
                     $saldo_stock = $stock_inventario - $tmp['cantidad'];
-                    $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
+                   /* $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
                     $data = [$saldo_stock, $id_inventario];
-                    $actualizar_stock = $this->update($sql_update, $data);
+                    $actualizar_stock = $this->update($sql_update, $data);*/
                     
                     $historial_data = array(
                         $id_usuario,
@@ -1315,7 +1315,7 @@ $result = $this->insert($detalle_sql_historial, $data);
                     $stock_inventario = $stock[0]['saldo_stock'];
                     $saldo_stock = $stock_inventario - $cantidad;
                     
-                    $sql_update = "UPDATE inventario_bodegas 
+                /*    $sql_update = "UPDATE inventario_bodegas
                SET saldo_stock = :saldo_stock 
                WHERE id_inventario = :id_inventario";
 
@@ -1324,7 +1324,7 @@ $data = [
     ':id_inventario' => $id_inventario
 ];
 
-$result = $this->update($sql_update, $data);
+$result = $this->update($sql_update, $data);*/
 
                     //$data = [$saldo_stock, $id_inventario];
                     //echo 'enta';
@@ -1446,9 +1446,9 @@ $result = $this->insert($detalle_sql_historial, $data);
                     $stock = $this->select($sql_id);
                     $stock_inventario = $stock[0]['saldo_stock'];
                     $saldo_stock = $stock_inventario + $tmp['cantidad'];
-                    $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
+                   /* $sql_update = "update inventario_bodegas set saldo_stock=? where id_inventario=?";
                     $data = [$saldo_stock, $id_inventario];
-                    $actualizar_stock = $this->update($sql_update, $data);
+                    $actualizar_stock = $this->update($sql_update, $data);*/
                     
                     $historial_data = array(
                         $id_usuario,
