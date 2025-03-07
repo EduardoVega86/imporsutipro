@@ -771,6 +771,72 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
   });
 });
 
+document
+  .getElementById("btnExportExcel")
+  .addEventListener("click", async () => {
+    // Creamos un FormData con todos los parámetros
+    const formData = new FormData();
+    formData.append("fecha_inicio", fecha_inicio);
+    formData.append("fecha_fin", fecha_fin);
+    formData.append("transportadora", $("#transporte").val());
+    formData.append("estado", $("#estado_q").val());
+    formData.append("estado_pedido", $("#estado_pedido").val() || "");
+    formData.append("drogshipin", $("#tienda_q").val());
+    formData.append("impreso", $("#impresion").val());
+    formData.append("despachos", $("#despachos").val());
+    formData.append("formato", "excel"); // 'excel' o 'csv'
+
+    // Hacemos fetch en POST
+    const response = await fetch(`${SERVERURL}pedidos/exportarGuiasVistaNormal`, {
+      method: "POST",
+      body: formData,
+    });
+
+    // Esperamos Blob u ArrayBuffer
+    const blob = await response.blob();
+    // Forzamos descarga manual
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "guias.xlsx"; // o .csv
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  });
+
+document.getElementById("btnExportCsv").addEventListener("click", async () => {
+  // Creamos un FormData con todos los parámetros
+  const formData = new FormData();
+  formData.append("fecha_inicio", fecha_inicio);
+  formData.append("fecha_fin", fecha_fin);
+  formData.append("transportadora", $("#transporte").val());
+  formData.append("estado", $("#estado_q").val());
+  formData.append("estado_pedido", $("#estado_pedido").val() || "");
+  formData.append("drogshipin", $("#tienda_q").val());
+  formData.append("impreso", $("#impresion").val());
+  formData.append("despachos", $("#despachos").val());
+  formData.append("formato", "csv"); // 'excel' o 'csv'
+
+  // Hacemos fetch en POST
+  const response = await fetch(`${SERVERURL}pedidos/exportarGuiasVistaNormal`, {
+    method: "POST",
+    body: formData,
+  });
+
+  // Esperamos Blob u ArrayBuffer
+  const blob = await response.blob();
+  // Forzamos descarga manual
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "guias.csv"; // o .csv
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+});
+
 window.addEventListener("load", async () => {
   await initDataTable();
 

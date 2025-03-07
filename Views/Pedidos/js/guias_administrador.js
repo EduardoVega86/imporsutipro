@@ -1299,7 +1299,7 @@ document
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "mi_archivo.xlsx"; // o .csv
+    a.download = "guias_administrador.xlsx"; // o .csv
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -1330,7 +1330,7 @@ document.getElementById("btnExportCsv").addEventListener("click", async () => {
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "mi_archivo.csv"; // o .csv
+  a.download = "guias_administrador.csv"; // o .csv
   document.body.appendChild(a);
   a.click();
   a.remove();
