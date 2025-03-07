@@ -387,6 +387,16 @@ function enviar_gintraNovedad() {
     fecha = $("#datepicker").val();
   }
 
+  // Verificar si la fecha está vacía
+  if (!fecha) {
+    Swal.fire({
+      icon: "warning",
+      title: "Fecha requerida",
+      text: "Por favor, selecciona una fecha antes de continuar.",
+    });
+    return; // Detener la ejecución si falta la fecha
+  }
+
   let formData = new FormData();
   formData.append("guia", guia);
   formData.append("observacion", observacion);
@@ -415,7 +425,6 @@ function enviar_gintraNovedad() {
         $("#gestionar_novedadModal").modal("hide");
         button.disabled = false;
         initDataTableNovedades();
-        /* initDataTableNovedadesGestionadas(); */
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(errorThrown);

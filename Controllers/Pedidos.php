@@ -1359,7 +1359,7 @@ class Pedidos extends Controller
 
         // Aplicar estilos de borde y centrado
         if ($ultimaFilaPedidos >= $filaPedidosInicio) {
-            $sheet->getStyle("A{$filaPedidosInicio}:P{$ultimaFilaPedidos}")
+            $sheet->getStyle("A{$filaPedidosInicio}:J{$ultimaFilaPedidos}")
                 ->applyFromArray([
                     'borders' => [
                         'allBorders' => [
@@ -1381,8 +1381,8 @@ class Pedidos extends Controller
         // 8) Agregamos la TERCERA TABLA: PEDIDOS ANULADOS
         // ================================================================
         $fila += 2; // dejamos un par de filas de espacio
-        $sheet->mergeCells("A{$fila}:P{$fila}");
-        $sheet->setCellValue("A{$fila}", 'PEDIDOS ANULADOS (SIN GUÍA)');
+        $sheet->mergeCells("A{$fila}:J{$fila}");
+        $sheet->setCellValue("A{$fila}", 'REPORTE DEL HISTORIAL DE PEDIDOS (ANULADOS)');
         $sheet->getStyle("A{$fila}")->applyFromArray([
             'font' => [
                 'bold' => true,
@@ -1412,7 +1412,7 @@ class Pedidos extends Controller
         $sheet->setCellValue("J{$fila}", 'Costo Producto');
         // etc...
 
-        $sheet->getStyle("A{$fila}:P{$fila}")->applyFromArray([
+        $sheet->getStyle("A{$fila}:J{$fila}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1447,7 +1447,7 @@ class Pedidos extends Controller
             $destinoA = $pa['provinciaa'] . ' - ' . $pa['ciudad'];
             $sheet->setCellValue("F{$fila}", $destinoA);
 
-            $sheet->setCellValue("G{$fila}", $pa['plataforma']);
+            $sheet->setCellValue("G{$fila}", $pa['plataforma_importa']);
             $sheet->setCellValue("H{$fila}", 'ANULADO'); // lo forzamos
             $sheet->setCellValue("I{$fila}", $pa['monto_factura']);
             $sheet->setCellValue("J{$fila}", $pa['costo_producto']);
@@ -1458,7 +1458,7 @@ class Pedidos extends Controller
 
         // Estilos
         if ($ultimaFilaAnulados >= $filaAnuladosInicio) {
-            $sheet->getStyle("A{$filaAnuladosInicio}:P{$ultimaFilaAnulados}")
+            $sheet->getStyle("A{$filaAnuladosInicio}:J{$ultimaFilaAnulados}")
                 ->applyFromArray([
                     'borders' => [
                         'allBorders' => [
