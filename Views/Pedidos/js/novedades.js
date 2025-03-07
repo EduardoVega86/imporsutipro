@@ -213,29 +213,29 @@ function gestionar_novedad(guia_novedad) {
 function resetModalInputs(modalId) {
   // Selecciona el modal por su ID
   const modal = document.querySelector(`#${modalId}`);
-
+  
   if (modal) {
-    // Selecciona todos los inputs y los limpia
-    const inputs = modal.querySelectorAll("input");
-    inputs.forEach((input) => {
-      input.value = "";
-    });
+      // Selecciona todos los inputs y los limpia
+      const inputs = modal.querySelectorAll('input');
+      inputs.forEach(input => {
+          input.value = '';
+      });
 
-    // Selecciona todos los select y los reinicia al valor predeterminado
-    const selects = modal.querySelectorAll("select");
-    selects.forEach((select) => {
-      select.selectedIndex = 0; // Reinicia al primer option
-    });
+      // Selecciona todos los select y los reinicia al valor predeterminado
+      const selects = modal.querySelectorAll('select');
+      selects.forEach(select => {
+          select.selectedIndex = 0; // Reinicia al primer option
+      });
 
-    // Oculta las secciones opcionales que estén configuradas con "display: none"
-    const optionalSections = modal.querySelectorAll('[style*="display"]');
-    optionalSections.forEach((section) => {
-      section.style.display = "none";
-    });
+      // Oculta las secciones opcionales que estén configuradas con "display: none"
+      const optionalSections = modal.querySelectorAll('[style*="display"]');
+      optionalSections.forEach(section => {
+          section.style.display = 'none';
+      });
 
-    console.log("Modal inputs and selects reset successfully.");
+      console.log('Modal inputs and selects reset successfully.');
   } else {
-    console.error("Modal not found!");
+      console.error('Modal not found!');
   }
 }
 
@@ -308,16 +308,6 @@ function enviar_gintraNovedad() {
     fecha = $("#datepicker").val();
   }
 
-  // Verificar si la fecha está vacía
-  if (!fecha) {
-    Swal.fire({
-      icon: "warning",
-      title: "Fecha requerida",
-      text: "Por favor, selecciona una fecha antes de continuar.",
-    });
-    return; // Detener la ejecución si falta la fecha
-  }
-
   let formData = new FormData();
   formData.append("guia", guia);
   formData.append("observacion", observacion);
@@ -332,7 +322,7 @@ function enviar_gintraNovedad() {
   }
 
   if (validador) {
-    /* $.ajax({
+    $.ajax({
       url: SERVERURL + "novedades/solventarNovedadGintracom",
       type: "POST",
       data: formData,
@@ -361,7 +351,7 @@ function enviar_gintraNovedad() {
         alert(errorThrown);
         button.disabled = false;
       },
-    }); */
+    });
   } else {
     toastr.error(
       "Necesitas registrar un numero de telefono en la novedad",
