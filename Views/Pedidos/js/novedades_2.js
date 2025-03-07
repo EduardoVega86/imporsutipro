@@ -411,7 +411,7 @@ function enviar_gintraNovedad() {
   }
 
   if (validador) {
-    /* $.ajax({
+    $.ajax({
       url: SERVERURL + "novedades/solventarNovedadGintracom",
       type: "POST",
       data: formData,
@@ -430,7 +430,7 @@ function enviar_gintraNovedad() {
         alert(errorThrown);
         button.disabled = false;
       },
-    }); */
+    });
   } else {
     toastr.error(
       "Necesitas registrar un numero de telefono en la novedad",
