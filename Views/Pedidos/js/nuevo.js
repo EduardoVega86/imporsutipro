@@ -182,8 +182,6 @@ const listNuevoPedido = async () => {
                 </tr>`;
     });
 
-    console.log(lista_productos);
-
     document.getElementById("monto_total").innerHTML = total.toFixed(2);
     document.getElementById("tableBody_nuevoPedido").innerHTML = content;
 
