@@ -171,7 +171,7 @@
                             <select class="form-select" id="tipo_gintracom">
                                 <option selected value="">-- Selecciona --</option>
                                 <option value="ofrecer">Volver a ofrecer al cliente</option>
-                                <option value="rechazar">Direccion Incorrecta</option>
+                                <option value="rechazar">Efectuar devolución</option>
                                 <option value="recaudo">Ajustar recaudo</option>
                             </select>
                         </div>
