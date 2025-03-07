@@ -188,7 +188,7 @@
                 <?php } ?>
 
                 <?php if ($_SESSION['cargo'] == 15 || $_SESSION['cargo'] == 10 || $_SESSION['cargo'] == 20) { ?>
-                    <a href="<?php echo SERVERURL ?>Productos/bovedas"><i class='bx bxs-lock menu-icon'></i> <span class="menu-text">Bovedas</span></a>
+                    <a href="<?php echo SERVERURL ?>Productos/bovedas"><i class='bx bxs-lock menu-icon'></i> <span class="menu-text">Productos ganadores</span></a>
                 <?php
                 }
                 ?>
