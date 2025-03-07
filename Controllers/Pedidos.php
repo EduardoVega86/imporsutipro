@@ -1396,7 +1396,7 @@ class Pedidos extends Controller
             ],
             'fill' => [
                 'fillType'   => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '#0D3B05']  // color de fondo distinto
+                'startColor' => ['rgb' => '0D3B05']  // color de fondo distinto
             ],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
