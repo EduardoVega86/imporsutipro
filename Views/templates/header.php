@@ -121,7 +121,7 @@
                     <?php
                     } else {
                     ?>
-                        <a href="<?php echo SERVERURL ?>pedidos/guias"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
+                        <a href="<?php echo SERVERURL ?>pedidos/guias2"><i class='bx bx-archive menu-icon'></i> <span class="menu-text">Guías</span></a>
                         <a href="<?php echo SERVERURL ?>pedidos/anuladas"><i class='bx bx-x menu-icon'></i> <span class="menu-text">Anulados</span></a>
 
                         <?php if ($_SESSION['id_plataforma'] == 1166) { ?>

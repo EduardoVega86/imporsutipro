@@ -1264,11 +1264,14 @@ class Pedidos extends Controller
         $estado_pedido   = $_POST['estado_pedido']   ?? "";
         $pedidos = $this->model->cargarPedidos_imporsuit($id_plataforma, $fecha_inicio, $fecha_fin, $estado_pedido);
 
+        //Consultar pedidos no vinculados
+        $pedidosNoVinculados = $this->model->cargar_pedidos_sin_producto($id_plataforma, $fecha_inicio, $fecha_fin, $estado_pedido);
+
         // Consultar pedidos anulados
         $pedidosAnulados = $this->model->cargarPedidosAnulados($id_plataforma, $fecha_inicio, $fecha_fin, 0, 1);
 
         // ================================================================
-        // 7) Agregamos la SEGUNDA TABLA: PEDIDOS PENDIENTES
+        // 7) Agregamos la PRIMER SEGUNDA TABLA: PEDIDOS PENDIENTES
         // ================================================================
         $fila = $posChartTop + 18; // Movemos por debajo de la gráfica; ajústalo a tu gusto
         if ($fila < ($ultimaFila + 5)) {
@@ -1352,6 +1355,113 @@ class Pedidos extends Controller
             // Monto y costo
             $sheet->setCellValue("I{$fila}", $p['monto_factura']);
             $sheet->setCellValue("J{$fila}", $p['costo_producto']);
+
+            $fila++;
+        }
+        $ultimaFilaPedidos = $fila - 1;
+
+        // Aplicar estilos de borde y centrado
+        if ($ultimaFilaPedidos >= $filaPedidosInicio) {
+            $sheet->getStyle("A{$filaPedidosInicio}:J{$ultimaFilaPedidos}")
+                ->applyFromArray([
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => Border::BORDER_THIN,
+                            'color' => ['rgb' => '000000']
+                        ]
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                    ]
+                ]);
+            // Para columna E, dirección a la izquierda
+            $sheet->getStyle("E" . ($filaPedidosInicio + 1) . ":E{$ultimaFilaPedidos}")
+                ->getAlignment()
+                ->setHorizontal(Alignment::HORIZONTAL_LEFT);
+        }
+
+        // ================================================================
+        // 7) Agregamos la SEGUNDA TABLA: PEDIDOS NO VINCULADOS
+        // ================================================================
+        $fila += 2; // dejamos un par de filas de espacio
+
+        // Encabezado general (A:fila -> J:fila)
+        $sheet->mergeCells("A{$fila}:J{$fila}");
+        $sheet->setCellValue("A{$fila}", 'REPORTE DEL HISTORIAL DE PEDIDOS (NO VINCULADOS)');
+        $sheet->getStyle("A{$fila}")->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'size' => 16,
+                'color' => ['rgb' => 'FFFFFF']
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '0D3B05']  // color de fondo distinto
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ]
+        ]);
+
+        $fila += 2; // Dejamos una línea de espacio
+        // Encabezados
+        $sheet->setCellValue("A{$fila}", '# Orden');
+        $sheet->setCellValue("B{$fila}", 'Fecha');
+        $sheet->setCellValue("C{$fila}", 'Cliente');
+        $sheet->setCellValue("D{$fila}", 'Teléfono');
+        $sheet->setCellValue("E{$fila}", 'Dirección');
+        $sheet->setCellValue("F{$fila}", 'Destino');
+        $sheet->setCellValue("G{$fila}", 'Canal de venta');
+        $sheet->setCellValue("H{$fila}", 'Estado Pedido');
+        $sheet->setCellValue("I{$fila}", 'Monto Factura');
+        $sheet->setCellValue("J{$fila}", 'Costo Producto');
+
+        $sheet->getStyle("A{$fila}:J{$fila}")->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'size' => 14,
+                'color' => ['rgb' => 'FFFFFF']
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '0D3B05']
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ]
+        ]);
+
+        $filaPedidosInicio = $fila; // guardamos para bordes
+        $fila++;
+
+        // Llenado de datos de pedidos
+        foreach ($pedidosNoVinculados as $pe) {
+            $sheet->setCellValue("A{$fila}", $pe['numero_factura']);
+            $sheet->setCellValue("B{$fila}", $pe['fecha_factura']);
+            $sheet->setCellValue("C{$fila}", $pe['nombre']);
+            $sheet->setCellValue("D{$fila}", $pe['telefono']);
+
+            // Dirección
+            $dire = $pe['c_principal'] . ' ' . $pe['c_secundaria'];
+            if (strlen($dire) > 20) {
+                $dire = substr($dire, 0, 20) . '...';
+            }
+            $sheet->setCellValue("E{$fila}", $dire);
+
+            // Destino
+            $destino = $pe['provinciaa'] . ' - ' . $pe['ciudad'];
+            $sheet->setCellValue("F{$fila}", $destino);
+
+            // Plataforma
+            $sheet->setCellValue("G{$fila}", $pe['plataforma_importa']);
+
+            // Estado pedido
+            $est = $this->traducirEstadoPedido($pe['estado_pedido']);
+            $sheet->setCellValue("H{$fila}", $est);
+
+            // Monto y costo
+            $sheet->setCellValue("I{$fila}", $pe['monto_factura']);
+            $sheet->setCellValue("J{$fila}", $pe['costo_producto']);
 
             $fila++;
         }
