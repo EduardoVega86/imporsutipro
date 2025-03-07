@@ -57,6 +57,7 @@ var contiene = "";
 var contieneGintracom = "";
 var costo_producto = 0;
 var costo_general = 0;
+var lista_productos = [];
 
 const listNuevoPedido = async () => {
   try {
@@ -114,6 +115,11 @@ const listNuevoPedido = async () => {
 
       contiene += ` ${nuevoPedido.cantidad_tmp} x ${nuevoPedido.nombre_producto} ${variedad}`;
       contieneGintracom += ` ${nuevoPedido.nombre_producto} ${variedad} X${nuevoPedido.cantidad_tmp} `;
+
+      lista_productos.push({
+        id_inventario: nuevoPedido.id_inventario,
+        cantidad: nuevoPedido.cantidad_tm,
+      });
 
       precio_costo = parseFloat(nuevoPedido.precio_tmp);
 
@@ -174,6 +180,8 @@ const listNuevoPedido = async () => {
                     </td>
                 </tr>`;
     });
+
+    console.log(lista_productos);
 
     document.getElementById("monto_total").innerHTML = total.toFixed(2);
     document.getElementById("tableBody_nuevoPedido").innerHTML = content;
