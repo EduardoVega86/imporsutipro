@@ -90,9 +90,9 @@ const listBovedas = async () => {
             let btnEdit = document.querySelectorAll(".cargo");
             //recorrer los botones
             btnEdit.forEach((btn) => {
-                 if(CARGO !== 20){
+                 if(CARGO !== 20 && CARGO !== 10){
                     //si el cargo es diferente de 20 se oculta el boton
-                    btn.style.display = "none";
+                    btn.innerHTML="---";
                  }
             });
 
