@@ -120,7 +120,7 @@ const listNuevoPedido = async () => {
         id_inventario: nuevoPedido.id_inventario,
         cantidad: nuevoPedido.cantidad_tmp,
       });
-      
+
 
       precio_costo = parseFloat(nuevoPedido.precio_tmp);
 
@@ -911,6 +911,7 @@ function generar_guia() {
   } else {
     formData.append("contiene", contiene);
   }
+  formData.append("productos", lista_productos);
   formData.append("costo_flete", $("#costo_flete").val());
   formData.append("costo_producto", costo_producto);
   formData.append("comentario", "Enviado por x");
