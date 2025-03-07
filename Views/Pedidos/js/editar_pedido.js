@@ -865,6 +865,7 @@ function generar_guia() {
   } else {
     formData.append("contiene", contiene);
   }
+  formData.append("productos", lista_productos);
   formData.append("costo_flete", $("#costo_flete").val());
   formData.append("costo_producto", costo_producto);
   formData.append("comentario", "Enviado por x");
