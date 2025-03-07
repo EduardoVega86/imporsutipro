@@ -1275,9 +1275,9 @@ class Pedidos extends Controller
             $fila = $ultimaFila + 5;
         }
 
-        // Encabezado general (A:fila -> P:fila)
-        $sheet->mergeCells("A{$fila}:P{$fila}");
-        $sheet->setCellValue("A{$fila}", 'PEDIDOS PENDIENTES (SIN GUÍA)');
+        // Encabezado general (A:fila -> J:fila)
+        $sheet->mergeCells("A{$fila}:J{$fila}");
+        $sheet->setCellValue("A{$fila}", 'REPORTE DEL HISTORIAL DE PEDIDOS (PENDIENTES)');
         $sheet->getStyle("A{$fila}")->applyFromArray([
             'font' => [
                 'bold' => true,
@@ -1295,20 +1295,18 @@ class Pedidos extends Controller
 
         $fila += 2; // Dejamos una línea de espacio
         // Encabezados
-        $sheet->setCellValue("A{$fila}", '# Pedido');
-        $sheet->setCellValue("B{$fila}", 'Fecha Factura');
+        $sheet->setCellValue("A{$fila}", '# Orden');
+        $sheet->setCellValue("B{$fila}", 'Fecha');
         $sheet->setCellValue("C{$fila}", 'Cliente');
         $sheet->setCellValue("D{$fila}", 'Teléfono');
         $sheet->setCellValue("E{$fila}", 'Dirección');
         $sheet->setCellValue("F{$fila}", 'Destino');
-        $sheet->setCellValue("G{$fila}", 'Plataforma');
+        $sheet->setCellValue("G{$fila}", 'Canal de venta');
         $sheet->setCellValue("H{$fila}", 'Estado Pedido');
         $sheet->setCellValue("I{$fila}", 'Monto Factura');
         $sheet->setCellValue("J{$fila}", 'Costo Producto');
-        // etc, si deseas más columnas...
-        // Hasta la "P" si quieres. O si prefieres menos, ajusta.
 
-        $sheet->getStyle("A{$fila}:P{$fila}")->applyFromArray([
+        $sheet->getStyle("A{$fila}:J{$fila}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1345,12 +1343,10 @@ class Pedidos extends Controller
             $sheet->setCellValue("F{$fila}", $destino);
 
             // Plataforma
-            // (Viene en `$p['plataforma']`, que es la url_imporsuit)
-            $sheet->setCellValue("G{$fila}", $p['plataforma']);
+            $sheet->setCellValue("G{$fila}", $p['plataforma_importa']);
 
             // Estado pedido
-            // (Si lo manejas como entero, quizás pones algo descriptivo)
-            $est = (isset($p['estado_pedido'])) ? $p['estado_pedido'] : '';
+            $est = $this->traducirEstadoPedido($p['estado_pedido']);
             $sheet->setCellValue("H{$fila}", $est);
 
             // Monto y costo
@@ -1878,6 +1874,25 @@ class Pedidos extends Controller
             exit;
         }
     }
+
+    /**
+     * Retorna la descripción de estado del pedido en texto, .
+     */
+    private function traducirEstadoPedido($estado)
+    {
+        $estados = [
+            1 => "Pendiente",
+            2 => "Gestionado",
+            3 => "No desea",
+            4 => "1ra llamada",
+            5 => "2da llamada",
+            6 => "Observación"
+        ];
+
+        return $estados[$estado] ?? "Estado desconocido";
+    }
+
+
 
     /**
      * Retorna la descripción de estado de la guía en texto, 

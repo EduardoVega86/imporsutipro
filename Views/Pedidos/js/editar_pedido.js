@@ -539,6 +539,7 @@ $(document).ready(function () {
             priceValue !== "--" &&
             priceValue !== "" &&
             priceValue !== "0" &&
+            priceValue !== "0.00" &&
             priceValue !== "Proximamente" &&
             priceValue !== "Mantenimiento"
         ) {
