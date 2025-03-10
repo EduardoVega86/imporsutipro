@@ -226,8 +226,6 @@
         <div style="padding-top: 20px;">
             <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
             <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
-        </div>
-        <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="btnObtenerReporte" data-bs-toggle="dropdown" aria-expanded="false">
                 Obtener reporte
             </button>
