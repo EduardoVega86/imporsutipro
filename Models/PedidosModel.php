@@ -3510,6 +3510,7 @@ class PedidosModel extends Query
         $id_configuracion = $id_configuracion[0]['id'];
 
         $id_productos = $this->obtenerInventarios($sku_productos, $id_plataforma);
+        $telefono_automatizador = $this->formatearTelefono($telefono);
 
         if (!empty($id_configuracion)) {
 
@@ -3521,7 +3522,7 @@ class PedidosModel extends Query
                 "nombre" => "",
                 "direccion" => "",
                 "email" => "",
-                "celular" => $telefono,
+                "celular" => $telefono_automatizador,
                 "contenido" => $productos,
                 "costo" => "",
                 "ciudad" => "",
@@ -3538,7 +3539,7 @@ class PedidosModel extends Query
                     "nombre" => "",
                     "direccion" => "",
                     "email" => "",
-                    "celular" => $telefono,
+                    "celular" => $telefono_automatizador,
                     "order_id" => "",
                     "contenido" => $productos,
                     "costo" => "",
