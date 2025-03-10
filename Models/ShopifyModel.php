@@ -14,10 +14,10 @@ class ShopifyModel extends Query
         $data = json_decode($data, true);
         if (isset($data['line_items']) && is_array($data['line_items'])) {
             foreach ($data['line_items'] as $item) {
-                if($item['sku'] == null || $item['sku'] == ""){
+                if ($item['sku'] == null || $item['sku'] == "") {
                     return false;
                 }
-                $sql = "SELECT * FROM shopify_tienda WHERE id_plataforma = $id_plataforma and id_inventario =" . $item['sku'] ;
+                $sql = "SELECT * FROM shopify_tienda WHERE id_plataforma = $id_plataforma and id_inventario =" . $item['sku'];
                 $response = $this->select($sql);
 
                 if (count($response) == 0) {
@@ -580,7 +580,7 @@ class ShopifyModel extends Query
             $provincia = "SANTO DOMINGO";
         } else if ($provincia == "ZAMORA CHINCHIPE") {
             $provincia = "ZAMORA";
-        }else if ($provincia == "STA ELENA") {
+        } else if ($provincia == "STA ELENA") {
             $provincia = "SANTA ELENA";
         }
         $provincia = $this->obtenerProvincia($provincia);
@@ -601,7 +601,7 @@ class ShopifyModel extends Query
         $costo_producto = 0;
         $productos = [];
         $total_line_items = 0;
-        $costo =0;
+        $costo = 0;
         $total_units = 0;
         $productoTexto = $this->procesarProductosSinVinculo($lineItems, $productos);
         $total_venta = 0;
@@ -616,7 +616,7 @@ class ShopifyModel extends Query
         $contiene = $this->remove_emoji($contiene);
         $observacion .= " Numero de orden: " . $order_number;
         // Aquí se pueden continuar los procesos necesarios para la orden
-        $datos_cliente =[
+        $datos_cliente = [
             'nombre_cliente' => $nombre_cliente,
             'telefono_cliente' => $telefono_cliente,
             'calle_principal' => $calle_principal,
@@ -664,12 +664,11 @@ class ShopifyModel extends Query
             'telefono' => $telefono_cliente,
         ];
 
-         $this->pedidosModel->nuevo_pedido_sin_producto($datos_cliente, $productoTexto);
-
-
+        $this->pedidosModel->nuevo_pedido_sin_producto($datos_cliente, $productoTexto);
     }
-    private function procesarProductosSinVinculo($productos, $arreglo) :array{
-        foreach ($productos as $producto){
+    private function procesarProductosSinVinculo($productos, $arreglo): array
+    {
+        foreach ($productos as $producto) {
             $arreglo[] = [
                 'id_inventario' => null,
                 'nombre' => $producto['name'],
@@ -677,7 +676,6 @@ class ShopifyModel extends Query
                 'precio' => $producto['price'],
                 'total' => $producto['price'] * $producto['quantity']
             ];
-
         }
         return $arreglo;
     }
@@ -714,20 +712,21 @@ class ShopifyModel extends Query
     {
         $sql = "SELECT json FROM abandoned_cart_shopify WHERE id_plataforma = $id_plataforma ORDER BY id DESC LIMIT 1;";
         $response = $this->select($sql);
-        if(count($response) > 0){
+        if (count($response) > 0) {
             $jsonDecoded = json_decode($response[0]["json"], true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new Exception("JSON inválido en la base de datos: " . json_last_error_msg());
             }
             $jsonDecoded = $this->cleanJsonKeys($jsonDecoded);
             return json_encode($jsonDecoded);
-        }else{
+        } else {
             throw new Exception("No se ha encontrado el json");
         }
     }
 
 
-    public function saveAbandonedCarts($id_plataforma, $telefono, $producto){
+    public function saveAbandonedCarts($id_plataforma, $telefono, $producto)
+    {
 
         $sql = "REPLACE INTO configuracion_shopify_abandoned_cart (id_plataforma, telefono, producto) VALUES (?, ?, ?);
 ";
@@ -742,7 +741,8 @@ class ShopifyModel extends Query
         return $responses;
     }
 
-    public function procesarAbandonado($id_plataforma, $data){
+    public function procesarAbandonado($id_plataforma, $data)
+    {
         $data = json_decode($data, true);
         $configuraciones = $this->obtenerConfiguracionAbadoned($id_plataforma);
         $configuraciones = $configuraciones[0];
@@ -750,14 +750,17 @@ class ShopifyModel extends Query
             return $this->obtenerData($data, $value);
         }, $configuraciones);
         $lineItems = "";
+        $sku_productos = []; // Inicializamos el array vacío
 
         if (isset($data['line_items']) && is_array($data['line_items'])) {
             foreach ($data['line_items'] as $item) {
-                $lineItems.= $item['name'] . " x" . $item['quantity'] . " ";
+                $lineItems .= $item['name'] . " x" . $item['quantity'] . " ";
+                $sku_productos[] = $item['sku'];
             }
         }
 
-        return $this->pedidosModel->generarCarroAbandonado($id_plataforma, $resultados["telefono"], $lineItems);
+
+        return $this->pedidosModel->generarCarroAbandonado($id_plataforma, $resultados["telefono"], $lineItems, $sku_productos);
     }
 
     private function obtenerConfiguracionAbadoned($id_plataforma)
@@ -777,5 +780,4 @@ class ShopifyModel extends Query
         $sql = "SELECT * FROM abandonado WHERE id_plataforma = $id_plataforma" . $condition;
         return $this->select($sql);
     }
-
 }

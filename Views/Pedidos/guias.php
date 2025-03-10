@@ -8,8 +8,6 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Guias</h2>
-
         <!-- 🔹 SECCIÓN DE CARDS INFORMATIVAS 🔹 -->
         <div class="row mb-4 text-center custom-cards">
             <!-- Card 1: Número de guias -->
@@ -104,7 +102,7 @@
             <!-- Card 6: Guías en novedad -->
             <div class="col-6 col-md-2">
                 <div class="card shadow-sm p-2" style="border-left: 5px solid #fd7e14;">
-                    <h6 style="color: #fd7e14;"> 
+                    <h6 style="color: #fd7e14;">
                         <i class="bx bx-error" style="font-size: 20px; color: #fd7e14;"></i> Novedad <!-- Ícono en naranja -->
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
                             title="Guías que presentan alguna incidencia o novedad">
@@ -220,9 +218,19 @@
                 </div>
             </div>
         </div>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
         <div style="padding-top: 20px;">
             <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
             <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
+            <button class="btn btn-primary dropdown-toggle" type="button" id="btnObtenerReporte" data-bs-toggle="dropdown" aria-expanded="false">
+                Obtener Reporte
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="btnObtenerReporte">
+                <li><a class="dropdown-item" href="#" id="downloadExcelOption">Excel</a></li>
+                <li><a class="dropdown-item" href="#" id="downloadCsvOption">CSV</a></li>
+            </ul>
         </div>
 
         <div class="table-container" style="position: relative;">
@@ -251,6 +259,7 @@
                         <th class="centered">Transportadora</th>
                         <th class="centered">Estado</th>
                         <th class="centered">Despachado</th>
+                        <th class="centered">Acreditado</th>
                         <th class="centered">Impreso</th>
                         <th class="centered">Acciones</th>
                         <th class="centered">Contiene</th>

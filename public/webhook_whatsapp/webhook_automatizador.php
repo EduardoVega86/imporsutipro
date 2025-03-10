@@ -28,9 +28,9 @@ $user_id = isset($data['user_id']) ? (int)$data['user_id'] : 0;
 
 function getAutomatizador($conn, $id_configuracion, $value_blocks_type, $data)
 {
-    $id_automatizador = $json_output = $productos = $categorias = $status = $novedad = $provincia = $ciudad = "";
+    $id_automatizador = $json_output = $productos = $abandonados = $status = $novedad = $provincia = $ciudad = "";
     $stmt = $conn->prepare("
-        SELECT a.id, a.json_output, d.productos, d.categorias, d.status, d.novedad, d.provincia, d.ciudad
+        SELECT a.id, a.json_output, d.productos, d.abandonados, d.status, d.novedad, d.provincia, d.ciudad
         FROM automatizadores a
         JOIN disparadores d ON a.id = d.id_automatizador
         WHERE a.id_configuracion = ? AND d.tipo = ?
@@ -46,13 +46,13 @@ function getAutomatizador($conn, $id_configuracion, $value_blocks_type, $data)
     }
     $stmt->bind_param('is', $id_configuracion, $value_blocks_type);
     $stmt->execute();
-    $stmt->bind_result($id_automatizador, $json_output, $productos, $categorias, $status, $novedad, $provincia, $ciudad);
+    $stmt->bind_result($id_automatizador, $json_output, $productos, $abandonados, $status, $novedad, $provincia, $ciudad);
 
     $selected_automatizador = null;
 
     while ($stmt->fetch()) {
         $productos_arr = json_decode($productos, true) ?? [];
-        $categorias_arr = json_decode($categorias, true) ?? [];
+        $abandonados_arr = json_decode($abandonados, true) ?? [];
         $status_arr = json_decode($status, true) ?? [];
         $novedad_arr = json_decode($novedad, true) ?? [];
         $provincia_arr = json_decode($provincia, true) ?? [];
@@ -62,7 +62,7 @@ function getAutomatizador($conn, $id_configuracion, $value_blocks_type, $data)
             (in_array("0", $productos_arr)) || // Si productos_arr contiene "0", entra directamente
             (
                 (empty($productos_arr) || !empty(array_intersect($data['productos'], $productos_arr))) &&
-                (empty($categorias_arr) || in_array("0", $categorias_arr) || !empty(array_intersect($data['categorias'], $categorias_arr))) &&
+                (empty($abandonados_arr) || in_array("0", $abandonados_arr) || !empty(array_intersect($data['abandonados'], $abandonados_arr))) &&
                 (empty($status_arr) || in_array("0", $status_arr) || !empty(array_intersect($data['status'], $status_arr))) &&
                 (empty($novedad_arr) || in_array("0", $novedad_arr) || !empty(array_intersect($data['novedad'], $novedad_arr))) &&
                 (empty($provincia_arr) || in_array("0", $provincia_arr) || !empty(array_intersect($data['provincia'], $provincia_arr))) &&
@@ -124,13 +124,13 @@ function getBlocksInfo($conn, $id_automatizador, $block_id)
 
     // Obtener información del bloque desde las tablas disparadores, acciones y condiciones
     $query = "
-        SELECT id, block_id, 'disparadores' AS table_name, id, block_id, id_automatizador, tipo, productos, categorias, status, novedad, provincia, ciudad, created_at, updated_at, NULL as id_condicion, NULL as id_disparador, NULL as id_accion, NULL as id_whatsapp_message_template, NULL as asunto, NULL as mensaje, NULL as opciones, NULL as tiempo_envio, NULL as unidad_envio, NULL as tiempo_reenvio, NULL as unidad_reenvio, NULL as reenvios, NULL as cambiar_status, NULL as texto
+        SELECT id, block_id, 'disparadores' AS table_name, id, block_id, id_automatizador, tipo, productos, abandonados, status, novedad, provincia, ciudad, created_at, updated_at, NULL as id_condicion, NULL as id_disparador, NULL as id_accion, NULL as id_whatsapp_message_template, NULL as asunto, NULL as mensaje, NULL as opciones, NULL as tiempo_envio, NULL as unidad_envio, NULL as tiempo_reenvio, NULL as unidad_reenvio, NULL as reenvios, NULL as cambiar_status, NULL as texto
         FROM disparadores WHERE id_automatizador = ? AND block_id = ?
         UNION ALL
-        SELECT id, block_id, 'acciones' AS table_name, id, block_id, id_automatizador, tipo, NULL as productos, NULL as categorias, NULL as status, NULL as novedad, NULL as provincia, NULL as ciudad, created_at, updated_at, id_condicion, id_disparador, id_accion, id_whatsapp_message_template, asunto, mensaje, opciones, tiempo_envio, unidad_envio, tiempo_reenvio, unidad_reenvio, reenvios, cambiar_status, NULL as texto
+        SELECT id, block_id, 'acciones' AS table_name, id, block_id, id_automatizador, tipo, NULL as productos, NULL as abandonados, NULL as status, NULL as novedad, NULL as provincia, NULL as ciudad, created_at, updated_at, id_condicion, id_disparador, id_accion, id_whatsapp_message_template, asunto, mensaje, opciones, tiempo_envio, unidad_envio, tiempo_reenvio, unidad_reenvio, reenvios, cambiar_status, NULL as texto
         FROM acciones WHERE id_automatizador = ? AND block_id = ?
         UNION ALL
-        SELECT id, block_id, 'condiciones' AS table_name, id, block_id, id_automatizador, 10 as tipo, NULL as productos, NULL as categorias, NULL as status, NULL as novedad, NULL as provincia, NULL as ciudad, created_at, updated_at, id_accion, id_condicion, id_disparador, NULL as id_whatsapp_message_template, NULL as asunto, NULL as mensaje, NULL as opciones, NULL as tiempo_envio, NULL as unidad_envio, NULL as tiempo_reenvio, NULL as unidad_reenvio, NULL as reenvios, NULL as cambiar_status, texto
+        SELECT id, block_id, 'condiciones' AS table_name, id, block_id, id_automatizador, 10 as tipo, NULL as productos, NULL as abandonados, NULL as status, NULL as novedad, NULL as provincia, NULL as ciudad, created_at, updated_at, id_accion, id_condicion, id_disparador, NULL as id_whatsapp_message_template, NULL as asunto, NULL as mensaje, NULL as opciones, NULL as tiempo_envio, NULL as unidad_envio, NULL as tiempo_reenvio, NULL as unidad_reenvio, NULL as reenvios, NULL as cambiar_status, texto
         FROM condiciones WHERE id_automatizador = ? AND block_id = ?
     ";
     $stmt = $conn->prepare($query);
