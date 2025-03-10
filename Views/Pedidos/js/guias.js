@@ -16,33 +16,7 @@ const dataTableOptions = {
   pageLength: 10,
   destroy: true,
   responsive: true,
-  dom: '<"d-flex w-full justify-content-between"lBf><t><"d-flex justify-content-between"ip>',
-  buttons: [
-    {
-      extend: "excelHtml5",
-      text: 'Excel <i class="fa-solid fa-file-excel"></i>',
-      title: "Panel de Control: Usuarios",
-      titleAttr: "Exportar a Excel",
-      exportOptions: {
-        columns: [1, 2, 4, 5, 6, 7, 8, 11, 12],
-      },
-      filename: "Productos" + "_" + getFecha(),
-      footer: true,
-      className: "btn-excel",
-    },
-    {
-      extend: "csvHtml5",
-      text: 'CSV <i class="fa-solid fa-file-csv"></i>',
-      title: "Panel de Control: Productos",
-      titleAttr: "Exportar a CSV",
-      exportOptions: {
-        columns: [1, 2, 3, 4, 5, 6, 7, 8],
-      },
-      filename: "Productos" + "_" + getFecha(),
-      footer: true,
-      className: "btn-csv",
-    },
-  ],
+  dom: '<"d-flex w-full justify-content-between"lf><t><"d-flex justify-content-between"ip>',
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
@@ -267,13 +241,6 @@ const listGuias = async () => {
       }
       let mostrar_tienda = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${guia.plataforma}')">${plataforma}</span></td>`;
       mostrar_tienda = "";
-
-      let responsable = "";
-
-      if (guia.nombre_responsable) {
-        responsable = `<strong>Responsable: </strong>${guia.nombre_responsable}`;
-      }
-
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura}"></td>
@@ -281,7 +248,6 @@ const listGuias = async () => {
                       <div>
                         ${ruta_descarga}
                       </div>
-                      <div>${responsable}</div>
                     </td>
                     <td>
                       <div><button onclick="ver_detalle_cot('${guia.id_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
@@ -355,35 +321,65 @@ const listGuias = async () => {
     });
     // Totals.total es el total de guías
     if (totals.total > 0) {
-      let porcentajeGeneradas = Math.round((totals.generada / totals.total) * 100);
-      let porcentajeTransito = Math.round((totals.en_transito / totals.total) * 100);
-      let porcentajeEntregaZona = Math.round((totals.zona_entrega /totals.total) * 100);
-      let porcentajeEntrega = Math.round((totals.entregada / totals.total) * 100);
-      let porcentajeNovedad = Math.round((totals.novedad / totals.total) * 100);
-  
-      // Calculamos el último porcentaje ajustándolo para que la suma sea 100%
-      let porcentajeDevolucion = 100 - (porcentajeGeneradas + porcentajeTransito + porcentajeEntrega + porcentajeEntregaZona + porcentajeNovedad);
-  
-      // Aplicamos los valores
+      // 1) Calculamos valores en decimales (sin redondear)
+      let valGeneradas    = (totals.generada      / totals.total) * 100;
+      let valTransito     = (totals.en_transito   / totals.total) * 100;
+      let valEntregaZona  = (totals.zona_entrega  / totals.total) * 100;
+      let valEntrega      = (totals.entregada     / totals.total) * 100;
+      let valNovedad      = (totals.novedad       / totals.total) * 100;
+      let valDevolucion   = (totals.devolucion    / totals.total) * 100;
+    
+      // 2) Sumamos para ver qué falta o sobra
+      let sum = valGeneradas + valTransito + valEntregaZona + valEntrega + valNovedad + valDevolucion;
+      let diff = 100 - sum; // puede ser positivo o negativo
+    
+      // 3) Metemos en un array
+      let arr = [valGeneradas, valTransito, valEntregaZona, valEntrega, valNovedad, valDevolucion];
+    
+      // 4) Encontramos el que tenga el mayor valor
+      let maxIndex = 0;
+      let maxVal = arr[0];
+      for (let i = 1; i < arr.length; i++) {
+        if (arr[i] > maxVal) {
+          maxVal = arr[i];
+          maxIndex = i;
+        }
+      }
+    
+      // 5) Ajustamos la diferencia en el mayor
+      arr[maxIndex] += diff;
+    
+      // 6) Finalmente, redondeamos
+      arr = arr.map(v => Math.round(v));
+    
+      // Desempaquetamos de nuevo:
+      let porcentajeGeneradas    = arr[0];
+      let porcentajeTransito     = arr[1];
+      let porcentajeEntregaZona  = arr[2];
+      let porcentajeEntrega      = arr[3];
+      let porcentajeNovedad      = arr[4];
+      let porcentajeDevolucion   = arr[5];
+    
+      // 7) Asignamos a las barras
       document.getElementById("progress_generadas").style.width = porcentajeGeneradas + "%";
-      document.getElementById("percent_generadas").innerText = porcentajeGeneradas + "%";
-  
-      document.getElementById("progress_transito").style.width = porcentajeTransito + "%";
-      document.getElementById("percent_transito").innerText = porcentajeTransito + "%";
-
+      document.getElementById("percent_generadas").innerText    = porcentajeGeneradas + "%";
+    
+      document.getElementById("progress_transito").style.width  = porcentajeTransito + "%";
+      document.getElementById("percent_transito").innerText     = porcentajeTransito + "%";
+    
       document.getElementById("progress_zonaentrega").style.width = porcentajeEntregaZona + "%";
-      document.getElementById("percent_zonaentrega").innerText = porcentajeEntregaZona + "%";
-  
-      document.getElementById("progress_entrega").style.width = porcentajeEntrega + "%";
-      document.getElementById("percent_entrega").innerText = porcentajeEntrega + "%";
-  
-      document.getElementById("progress_novedad").style.width = porcentajeNovedad + "%";
-      document.getElementById("percent_novedad").innerText = porcentajeNovedad + "%";
-  
+      document.getElementById("percent_zonaentrega").innerText    = porcentajeEntregaZona + "%";
+    
+      document.getElementById("progress_entrega").style.width    = porcentajeEntrega + "%";
+      document.getElementById("percent_entrega").innerText       = porcentajeEntrega + "%";
+    
+      document.getElementById("progress_novedad").style.width    = porcentajeNovedad + "%";
+      document.getElementById("percent_novedad").innerText       = porcentajeNovedad + "%";
+    
       document.getElementById("progress_devolucion").style.width = porcentajeDevolucion + "%";
-      document.getElementById("percent_devolucion").innerText = porcentajeDevolucion + "%";
+      document.getElementById("percent_devolucion").innerText    = porcentajeDevolucion + "%";
     } else {
-      //Si total es 0 o no se encontró nada, limpia todo
+      // Si totals.total == 0 => limpiar todas las barras
       let progressBars = [
         "progress_generadas",
         "progress_transito",
@@ -406,7 +402,7 @@ const listGuias = async () => {
       percentTexts.forEach((id) => {
         document.getElementById(id).innerText = "0%";
       });
-    }
+    }    
   } catch (ex) {
     alert(ex);
   }
@@ -773,6 +769,46 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
       alert("Hubo un problema al imprimir manifiesto");
     },
   });
+});
+
+// Función común para descargar el reporte según el formato y extensión
+async function descargarReporte(formato, extension) {
+  const formData = new FormData();
+  formData.append("fecha_inicio", fecha_inicio);
+  formData.append("fecha_fin", fecha_fin);
+  formData.append("transportadora", $("#transporte").val());
+  formData.append("estado", $("#estado_q").val());
+  formData.append("estado_pedido", $("#estado_pedido").val() || "");
+  formData.append("drogshipin", $("#tienda_q").val());
+  formData.append("impreso", $("#impresion").val());
+  formData.append("despachos", $("#despachos").val());
+  formData.append("formato", formato); // 'excel' o 'csv'
+
+  const response = await fetch(`${SERVERURL}pedidos/exportarGuiasVistaNormal`, {
+    method: "POST",
+    body: formData,
+  });
+
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `guias.${extension}`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+}
+
+// Asignar eventos a las opciones del dropdown
+document.getElementById("downloadExcelOption").addEventListener("click", async (e) => {
+  e.preventDefault(); // Evita la acción predeterminada del enlace
+  await descargarReporte("excel", "xlsx");
+});
+
+document.getElementById("downloadCsvOption").addEventListener("click", async (e) => {
+  e.preventDefault();
+  await descargarReporte("csv", "csv");
 });
 
 window.addEventListener("load", async () => {
