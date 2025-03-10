@@ -1028,7 +1028,7 @@ class Pedidos extends Controller
         // ================================================================
         // 2) Consulta principal de GUÍAS
         // ================================================================
-        $data = $this->model->cargarGuiasEstadoGuiaSistema(
+        $data = $this->model->cargarGuias(
             $id_plataforma,
             $fecha_inicio,
             $fecha_fin,
