@@ -218,21 +218,16 @@
                 </div>
             </div>
         </div>
-
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
         <div style="padding-top: 20px;">
             <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
             <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
-            <!-- Botón Excel -->
-            <button id="btnExportExcel" class="btn btn-success">
-                <i class="bi bi-file-earmark-excel-fill"></i>
+            <button class="btn btn-primary dropdown-toggle" type="button" id="btnObtenerReporte" data-bs-toggle="dropdown" aria-expanded="false">
+                Obtener Reporte
             </button>
-
-            <!-- Botón CSV -->
-            <button id="btnExportCsv" class="btn btn-info">
-                <i class="bi bi-file-earmark-text"></i>
-            </button>
+            <ul class="dropdown-menu" aria-labelledby="btnObtenerReporte">
+                <li><a class="dropdown-item" href="#" id="downloadExcelOption">Excel</a></li>
+                <li><a class="dropdown-item" href="#" id="downloadCsvOption">CSV</a></li>
+            </ul>
         </div>
 
         <div class="table-container" style="position: relative;">
@@ -257,6 +252,7 @@
                         <th class="centered">Transportadora</th>
                         <th class="centered">Estado</th>
                         <th class="centered">Despachado</th>
+                        <th class="centered">Acreditado</th>
                         <th class="centered">Impreso</th>
                         <th class="centered">Venta total</th>
                         <th class="centered">Costo producto</th>
@@ -270,7 +266,6 @@
                 <tbody id="tableBody_guias"></tbody>
             </table>
         </div>
-    </div>
 
-    <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias_administrador.js"></script>
-    <?php require_once './Views/templates/footer.php'; ?>
+        <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias_administrador.js"></script>
+        <?php require_once './Views/templates/footer.php'; ?>

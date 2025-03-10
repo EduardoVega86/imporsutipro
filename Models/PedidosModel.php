@@ -373,88 +373,92 @@ class PedidosModel extends Query
 
     public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
     {
-        $sql = "SELECT * FROM vista_guias_administrador ";
+        $sql = "SELECT 
+                    vga.*, 
+                    ccp.visto AS pagado  -- ⚡ Campo para saber si ya fue pagado (1 = Sí, 0 = No)
+                FROM 
+                    vista_guias_administrador vga
+                LEFT JOIN 
+                    cabecera_cuenta_pagar ccp ON ccp.numero_factura = vga.numero_factura";
 
+        $filtros = [];
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " WHERE fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $filtros[] = "fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
         if (!empty($transportadora)) {
-            $sql .= " AND transporte = '$transportadora'";
+            $filtros[] = "transporte = '$transportadora'";
         }
 
         if (!empty($estado)) {
             switch ($estado) {
                 case 'generada':
-                    $sql .= " AND ((estado_guia_sistema in (100,102,103) and id_transporte=2)
-                                OR (estado_guia_sistema in (1,2) and id_transporte=1)
-                                OR (estado_guia_sistema in (1,2,3) and id_transporte=3)
-                                OR (estado_guia_sistema in (2) and id_transporte=4))";
+                    $filtros[] = "((estado_guia_sistema IN (100,102,103) AND id_transporte=2)
+                                OR (estado_guia_sistema IN (1,2) AND id_transporte=1)
+                                OR (estado_guia_sistema IN (1,2,3) AND id_transporte=3)
+                                OR (estado_guia_sistema IN (2) AND id_transporte=4))";
                     break;
                 case 'en_transito':
-                    $sql .= " AND ((estado_guia_sistema BETWEEN 300 AND 317 and estado_guia_sistema != 307 and id_transporte=2)
-                                OR (estado_guia_sistema in (5,11,12) and id_transporte=1)
-                                OR (estado_guia_sistema in (4) and id_transporte=3)
-                                OR (estado_guia_sistema in (3) and id_transporte=4))";
+                    $filtros[] = "((estado_guia_sistema BETWEEN 300 AND 317 AND estado_guia_sistema != 307 AND id_transporte=2)
+                                OR (estado_guia_sistema IN (5,11,12) AND id_transporte=1)
+                                OR (estado_guia_sistema IN (4) AND id_transporte=3)
+                                OR (estado_guia_sistema IN (3) AND id_transporte=4))";
                     break;
                 case 'zona_entrega':
-                    $sql .= " AND ((estado_guia_sistema = 307 and id_transporte=2)
-                                OR (estado_guia_sistema in (6) and id_transporte=1)
-                                OR (estado_guia_sistema in (5) and id_transporte=3))";
+                    $filtros[] = "((estado_guia_sistema = 307 AND id_transporte=2)
+                                OR (estado_guia_sistema IN (6) AND id_transporte=1)
+                                OR (estado_guia_sistema IN (5) AND id_transporte=3))";
                     break;
                 case 'entregada':
-                    $sql .= " AND ((estado_guia_sistema BETWEEN 400 AND 403 and id_transporte=2)
-                                OR (estado_guia_sistema in (7) and id_transporte=1)
-                                OR (estado_guia_sistema in (7) and id_transporte=3)
-                                OR (estado_guia_sistema in (7) and id_transporte=4))";
+                    $filtros[] = "((estado_guia_sistema BETWEEN 400 AND 403 AND id_transporte=2)
+                                OR (estado_guia_sistema IN (7) AND id_transporte=1)
+                                OR (estado_guia_sistema IN (7) AND id_transporte=3)
+                                OR (estado_guia_sistema IN (7) AND id_transporte=4))";
                     break;
                 case 'novedad':
-                    $sql .= " AND ((estado_guia_sistema BETWEEN 318 AND 351 and id_transporte=2)
-                                OR (estado_guia_sistema in (14) and id_transporte=1)
-                                OR (estado_guia_sistema in (6) and id_transporte=3)
-                                OR (estado_guia_sistema in (14) and id_transporte=4))";
+                    $filtros[] = "((estado_guia_sistema BETWEEN 320 AND 351 AND id_transporte=2)
+                                OR (estado_guia_sistema IN (14) AND id_transporte=1)
+                                OR (estado_guia_sistema IN (6) AND id_transporte=3)
+                                OR (estado_guia_sistema IN (14) AND id_transporte=4))";
                     break;
                 case 'devolucion':
-                    $sql .= " AND ((estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
-                                OR (estado_guia_sistema in (9) and id_transporte=1)
-                                OR (estado_guia_sistema in (9) and id_transporte=4)
-                                OR (estado_guia_sistema in (8,9,13) and id_transporte=3))";
+                    $filtros[] = "((estado_guia_sistema BETWEEN 500 AND 502 AND id_transporte=2)
+                                OR (estado_guia_sistema IN (9) AND id_transporte=1)
+                                OR (estado_guia_sistema IN (9) AND id_transporte=4)
+                                OR (estado_guia_sistema IN (8,9,13) AND id_transporte=3))";
                     break;
             }
         }
 
         if ($drogshipin == 0 || $drogshipin == 1) {
-            $sql .= " AND drogshipin = $drogshipin";
+            $filtros[] = "drogshipin = $drogshipin";
         }
 
         if ($impreso == 0 || $impreso == 1) {
-            $sql .= " AND impreso = $impreso";
+            $filtros[] = "impreso = $impreso";
         }
 
-        // Filtro por despachos (1: No despachado, 2: Despachado, 3: Devuelto)
-        // AHORA añadimos la lógica especial si despachos == 4 (Devolucion - En Bodega)
         if ($despachos !== null && $despachos !== '') {
             if ($despachos == 4) {
-                // Fuerza estado “devolución” + estado_factura 1 ó 2
-                // (equivalente a “no despachados” o “despachados”)
-                $sql .= " AND (
-                            (
+                $filtros[] = "(
                                 (estado_guia_sistema BETWEEN 500 AND 502 AND id_transporte=2)
-                                OR (estado_guia_sistema in (9) AND id_transporte=1)
-                                OR (estado_guia_sistema in (9) AND id_transporte=4)
-                                OR (estado_guia_sistema in (8,9,13) AND id_transporte=3)
-                            )
-                            AND (estado_factura IN (1,2))
-                        )";
-            } else if ($despachos == 1 || $despachos == 2 || $despachos == 3) {
-                $sql .= " AND estado_factura = '$despachos'";
+                                OR (estado_guia_sistema IN (9) AND id_transporte=1)
+                                OR (estado_guia_sistema IN (9) AND id_transporte=4)
+                                OR (estado_guia_sistema IN (8,9,13) AND id_transporte=3)
+                            ) AND (estado_factura IN (1,2))";
+            } else if (in_array($despachos, [1, 2, 3])) {
+                $filtros[] = "estado_factura = '$despachos'";
             }
         }
 
+        if (!empty($filtros)) {
+            $sql .= " WHERE " . implode(" AND ", $filtros);
+        }
+
         return $this->dselect($sql, []);
-        echo $sql;
     }
+
 
     public function obtener_guias_admin_no_progresivo()
     {
@@ -1809,7 +1813,7 @@ class PedidosModel extends Query
     public function cargar_cards_pedidos($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido)
     {
         /* numero pedidos */
-        // Base de la consulta SQL
+        // Base de la consulta SQL justo y necesarui
         $sql_numero_pedidos = "SELECT COUNT(*) AS total_pedidos 
         FROM facturas_cot 
         WHERE anulada = 0 
@@ -1866,7 +1870,6 @@ class PedidosModel extends Query
             $sql_numero_guias .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
-        echo $sql_numero_guias;
         // Ejecutar la consulta y obtener el resultado
         $resultado_numero_guias = $this->select($sql_numero_guias);
         /* numero guias */

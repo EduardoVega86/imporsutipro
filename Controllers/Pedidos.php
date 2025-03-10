@@ -932,6 +932,7 @@ class Pedidos extends Controller
 
         // Recorremos cada guía y calculamos los totales
         foreach ($data as $guia) {
+            $guia['pagado'] = ($guia['pagado'] == 1) ? 'Pagado' : 'Pendiente';
             $estado_guia = intval($guia['estado_guia_sistema']);
             $transporte  = intval($guia['id_transporte']);
 
@@ -971,7 +972,7 @@ class Pedidos extends Controller
             }
 
             // "Novedad"
-            if (($transporte == 2 && $estado_guia >= 320 && $estado_guia <= 351) ||
+            if (($transporte == 2 && $estado_guia >= 318 && $estado_guia <= 351) ||
                 ($transporte == 1 && $estado_guia === 14) ||
                 ($transporte == 3 && $estado_guia === 6) ||
                 ($transporte == 4 && $estado_guia === 14)
