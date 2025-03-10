@@ -243,8 +243,8 @@ const listGuias = async () => {
       mostrar_tienda = "";
 
       let acreditado = guia.pagado === "1" 
-          ? `<span class="bg-success">Acreditado</span>` 
-          : `<span class="bg-danger">Pendiente</span>`;
+          ? `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>` 
+          : `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura}"></td>
