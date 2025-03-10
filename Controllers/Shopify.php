@@ -101,9 +101,6 @@ class Shopify extends Controller
         echo json_encode($data);
     }
 
-
-
-
     public function obtenerPlataforma()
     {
         $data = $this->model->obtenerPlataforma($_SESSION["id_plataforma"]);
@@ -189,7 +186,7 @@ class Shopify extends Controller
             $data = file_get_contents("php://input");
             $response = $this->model->procesarAbandonado($id_plataforma, $data);
             if($response){
-                echo json_encode(["message" => "Se registro el abandonado", "status"=> "success", "code" => 200]);
+                echo json_encode(["message" => "Se registro el abandonado", "status"=> "success", "code" => 200, "data" => $response]);
                 exit();
             }
             echo json_encode(["message" => "No se registro el abandonado", "status"=> "error", "code" => 400]);
