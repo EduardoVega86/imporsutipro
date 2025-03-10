@@ -1089,6 +1089,7 @@ class Pedidos extends Controller
             ) {
                 $counts['devolucion']++;
             }
+            $guia['pagado'] = ($guia['pagado'] == 1) ? 'Pagado' : 'Pendiente';
         }
         $total = count($data);
 
@@ -1131,8 +1132,9 @@ class Pedidos extends Controller
         $sheet->setCellValue('N3', 'Fulfillment');
         $sheet->setCellValue('O3', 'Monto a Recibir');
         $sheet->setCellValue('P3', 'Recaudo');
+        $sheet->setCellValue('Q3', 'Por acreditar');
 
-        $sheet->getStyle('A3:P3')->applyFromArray([
+        $sheet->getStyle('A3:Q3')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1147,7 +1149,7 @@ class Pedidos extends Controller
             ]
         ]);
 
-        foreach (range('A', 'P') as $col) {
+        foreach (range('A', 'Q') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
@@ -1204,6 +1206,9 @@ class Pedidos extends Controller
             // Recaudo => SI/NO
             $sheet->setCellValue("P{$fila}", ($guia['cod'] == 1 ? 'SI' : 'NO'));
 
+            // Recaudo => SI/Pendiente
+            $sheet->setCellValue("Q{$fila}", ($guia['pagado'] == 1 ? 'ACREDITADA' : 'PENDIENTE'));
+
             $fila++;
         }
         $ultimaFila = $fila - 1;
@@ -1222,7 +1227,7 @@ class Pedidos extends Controller
 
         // Bordes
         if ($ultimaFila >= 3) {
-            $sheet->getStyle("A3:P{$ultimaFila}")->applyFromArray([
+            $sheet->getStyle("A3:Q{$ultimaFila}")->applyFromArray([
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => Border::BORDER_THIN,
