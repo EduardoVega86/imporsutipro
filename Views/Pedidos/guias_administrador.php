@@ -252,6 +252,7 @@
                         <th class="centered">Transportadora</th>
                         <th class="centered">Estado</th>
                         <th class="centered">Despachado</th>
+                        <th class="centered">Acreditado</th>
                         <th class="centered">Impreso</th>
                         <th class="centered">Venta total</th>
                         <th class="centered">Costo producto</th>
