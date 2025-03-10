@@ -1057,7 +1057,7 @@ class Pedidos extends Controller
                 ($transporte == 2 && in_array($estado_guia, [100, 102, 103])) ||
                 ($transporte == 1 && in_array($estado_guia, [1, 2])) ||
                 ($transporte == 3 && in_array($estado_guia, [1, 2, 3])) ||
-                ($transporte == 4 && $estado_guia === 2)
+                ($transporte == 4 && $estado_guia == 2)
             ) {
                 $counts['generada']++;
             }
@@ -1066,7 +1066,7 @@ class Pedidos extends Controller
                 ($transporte == 2 && $estado_guia >= 300 && $estado_guia <= 317 && $estado_guia != 307) ||
                 ($transporte == 1 && in_array($estado_guia, [5, 11, 12])) ||
                 ($transporte == 3 && in_array($estado_guia, [4])) ||
-                ($transporte == 4 && $estado_guia === 3)
+                ($transporte == 4 && $estado_guia == 3)
             ) {
                 $counts['en_transito']++;
             }
@@ -1081,26 +1081,26 @@ class Pedidos extends Controller
             // Entregada
             if (
                 ($transporte == 2 && $estado_guia >= 400 && $estado_guia <= 403) ||
-                ($transporte == 1 && $estado_guia === 7) ||
-                ($transporte == 3 && $estado_guia === 7) ||
-                ($transporte == 4 && $estado_guia === 7)
+                ($transporte == 1 && $estado_guia == 7) ||
+                ($transporte == 3 && $estado_guia == 7) ||
+                ($transporte == 4 && $estado_guia == 7)
             ) {
                 $counts['entregada']++;
             }
             // Novedad
             if (
                 ($transporte == 2 && $estado_guia >= 318 && $estado_guia <= 351) ||
-                ($transporte == 1 && $estado_guia === 14) ||
-                ($transporte == 3 && $estado_guia === 6) ||
-                ($transporte == 4 && $estado_guia === 14)
+                ($transporte == 1 && $estado_guia == 14) ||
+                ($transporte == 3 && $estado_guia == 6) ||
+                ($transporte == 4 && $estado_guia == 14)
             ) {
                 $counts['novedad']++;
             }
             // Devolución
             if (
                 ($transporte == 2 && $estado_guia >= 500 && $estado_guia <= 502) ||
-                ($transporte == 1 && $estado_guia === 9) ||
-                ($transporte == 4 && $estado_guia === 9) ||
+                ($transporte == 1 && $estado_guia == 9) ||
+                ($transporte == 4 && $estado_guia == 9) ||
                 ($transporte == 3 && in_array($estado_guia, [8, 9, 13]))
             ) {
                 $counts['devolucion']++;
