@@ -54,7 +54,8 @@ class PedidosModel extends Query
         b.direccion AS direccion_bodega,
         n.solucionada, 
         n.terminado, 
-        n.estado_novedad
+        n.estado_novedad,
+        ccp.visto AS pagado
         FROM 
             facturas_cot fc
         LEFT JOIN 
@@ -67,6 +68,8 @@ class PedidosModel extends Query
             bodega b ON b.id = fc.id_bodega
         LEFT JOIN 
             novedades n ON n.guia_novedad = fc.numero_guia
+        LEFT JOIN 
+            cabecera_cuenta_pagar ccp ON ccp.numero_factura = fc.numero_factura
         WHERE 
             TRIM(fc.numero_guia) <> '' 
             AND fc.numero_guia IS NOT NULL 
@@ -92,20 +95,27 @@ class PedidosModel extends Query
                                 OR (estado_guia_sistema in (2) and id_transporte=4))";
                     break;
                 case 'en_transito':
-                    $sql .= " AND ((estado_guia_sistema BETWEEN 300 AND 317 and id_transporte=2)
-                                OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
-                                OR (estado_guia_sistema in (5,4) and id_transporte=3)
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 300 AND 317 and estado_guia_sistema != 307 and id_transporte=2)
+                                OR (estado_guia_sistema in (5,11,12) and id_transporte=1)
+                                OR (estado_guia_sistema in (4) and id_transporte=3)
                                 OR (estado_guia_sistema in (3) and id_transporte=4))";
+                    break;
+                case 'zona_entrega':
+                    $sql .= " AND ((estado_guia_sistema = 307 and id_transporte=2)
+                                OR (estado_guia_sistema in (6) and id_transporte=1)
+                                OR (estado_guia_sistema in (5) and id_transporte=3))";
                     break;
                 case 'entregada':
                     $sql .= " AND ((estado_guia_sistema BETWEEN 400 AND 403 and id_transporte=2)
                                 OR (estado_guia_sistema in (7) and id_transporte=1)
-                                OR (estado_guia_sistema in (7) and id_transporte=3))";
+                                OR (estado_guia_sistema in (7) and id_transporte=3)
+                                OR (estado_guia_sistema in (7) and id_transporte=4))";
                     break;
                 case 'novedad':
-                    $sql .= " AND ((estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 318 AND 351 and id_transporte=2)
                                 OR (estado_guia_sistema in (14) and id_transporte=1)
-                                OR (estado_guia_sistema in (6) and id_transporte=3))";
+                                OR (estado_guia_sistema in (6) and id_transporte=3)
+                                OR (estado_guia_sistema in (14) and id_transporte=4))";
                     break;
                 case 'devolucion':
                     $sql .= " AND ((estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
@@ -126,8 +136,22 @@ class PedidosModel extends Query
             }
         }
 
+        // Filtro por despachos (1: No despachado, 2: Despachado, 3: Devuelto)
+        // AHORA añadimos la lógica especial si despachos == 4 (Devolucion - En Bodega)
         if ($despachos !== null && $despachos !== '') {
-            if ($despachos == 1 || $despachos == 2 || $despachos == 3) {
+            if ($despachos == 4) {
+                // Fuerza estado “devolución” + estado_factura 1 ó 2
+                // (equivalente a “no despachados” o “despachados”)
+                $sql .= " AND (
+                            (
+                                (estado_guia_sistema BETWEEN 500 AND 502 AND id_transporte=2)
+                                OR (estado_guia_sistema in (9) AND id_transporte=1)
+                                OR (estado_guia_sistema in (9) AND id_transporte=4)
+                                OR (estado_guia_sistema in (8,9,13) AND id_transporte=3)
+                            )
+                            AND (estado_factura IN (1,2))
+                        )";
+            } else if ($despachos == 1 || $despachos == 2 || $despachos == 3) {
                 $sql .= " AND estado_factura = '$despachos'";
             }
         }
@@ -1842,6 +1866,7 @@ class PedidosModel extends Query
             $sql_numero_guias .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
+        echo $sql_numero_guias;
         // Ejecutar la consulta y obtener el resultado
         $resultado_numero_guias = $this->select($sql_numero_guias);
         /* numero guias */
@@ -3457,10 +3482,97 @@ class PedidosModel extends Query
         return $response[0]['numero_factura'];
     }
 
-    public function generarCarroAbandonado($id_plataforma, $telefono, $productos)
+    public function obtenerInventarios($sku_productos, $id_plataforma)
+    {
+        $id_inventarios = []; // Inicializamos el array vacío
+
+        foreach ($sku_productos as $sku) {
+            $resultado = $this->select("SELECT id_inventario FROM inventario_bodegas WHERE sku = '$sku' AND id_plataforma = $id_plataforma");
+
+            // Verificamos si hay resultados y acumulamos los ID en el array
+            if (!empty($resultado)) {
+                foreach ($resultado as $row) {
+                    $id_inventarios[] = $row['id_inventario'];
+                }
+            }
+        }
+
+        return $id_inventarios; // Devolvemos el array con los id_inventario
+    }
+
+    public function generarCarroAbandonado($id_plataforma, $telefono, $productos, $sku_productos)
     {
         $sql = "INSERT INTO `abandonado` (`id_plataforma`, `telefono`, `producto`) VALUES (?, ?, ?)";
         $data = [$id_plataforma, $telefono, $productos];
+
+        /* automatizador */
+        $id_configuracion = $this->select("SELECT id FROM configuraciones WHERE id_plataforma = $id_plataforma");
+        $id_configuracion = $id_configuracion[0]['id'];
+
+        $id_productos = $this->obtenerInventarios($sku_productos, $id_plataforma);
+
+        if (!empty($id_configuracion)) {
+
+            $data = [
+                "id_configuracion" => $id_configuracion,
+                "value_blocks_type" => "2",
+                "user_id" => "1",
+                "order_id" => "",
+                "nombre" => "",
+                "direccion" => "",
+                "email" => "",
+                "celular" => $telefono,
+                "contenido" => $productos,
+                "costo" => "",
+                "ciudad" => "",
+                "tracking" => "",
+                "transportadora" => "",
+                "numero_guia" => "",
+                "productos" => $id_productos ?? [],
+                "categorias" => [""],
+                "status" => [""],
+                "novedad" => [""],
+                "provincia" => [""],
+                "ciudad" => [""],
+                "user_info" => [
+                    "nombre" => "",
+                    "direccion" => "",
+                    "email" => "",
+                    "celular" => $telefono,
+                    "order_id" => "",
+                    "contenido" => $productos,
+                    "costo" => "",
+                    "ciudad" => "",
+                    "tracking" => "",
+                    "transportadora" => "",
+                    "numero_guia" => ""
+                ]
+            ];
+
+
+            $response_api = $this->enviar_a_api($data);
+
+
+            if (!$response_api['success']) {
+
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
+            } else {
+
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = "Pedido creado correctamente y datos enviados";
+                $response['data'] = $data;
+                $response['respuesta_curl'] = $response_api['response'];
+            }
+        } else {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = "Pedido creado correctamente";
+        }
+        /* automatizador */
+
         return $this->insert($sql, $data);
     }
 }

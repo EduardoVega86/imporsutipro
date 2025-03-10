@@ -1,6 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-ini_set('display_errors', '1');
 
 // Cargar autoload de Composer
 require_once 'vendor/autoload.php';
@@ -29,7 +30,7 @@ if ($rute == "registro") {
     $rute = "Home/login";
 } else if ($rute == "recovery") {
     $rute = "Acceso/recovery";
-} else if (strpos($rute, "refers") === 0) {
+} else if (str_starts_with($rute, "refers")) {
     $rute = str_replace("refers", "Home/refers", $rute);
 }
 $array = explode('/', $rute);

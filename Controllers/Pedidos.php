@@ -13,6 +13,7 @@ use PhpOffice\PhpSpreadsheet\Chart\Legend;
 use PhpOffice\PhpSpreadsheet\Chart\PlotArea;
 use PhpOffice\PhpSpreadsheet\Chart\Title;
 
+
 // Para estilos de borde, relleno, alineación
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
@@ -712,7 +713,84 @@ class Pedidos extends Controller
         $despachos = $_POST['despachos'] ?? "";
 
         $data = $this->model->cargarGuias($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
-        echo json_encode($data);
+
+        // Inicializamos los totales para mostrar cards en guías
+        $totals = [
+            "total"        => count($data),
+            "generada"     => 0,
+            "en_transito"  => 0,
+            "zona_entrega" => 0,
+            "entregada"    => 0,
+            "novedad"      => 0,
+            "devolucion"   => 0,
+        ];
+
+        // Recorremos cada guía y calculamos los totales
+        foreach ($data as $guia) {
+            $estado_guia = intval($guia['estado_guia_sistema']);
+            $transporte  = intval($guia['id_transporte']);
+
+            // "Generada"
+            if (($transporte == 2 && in_array($estado_guia, [100, 102, 103])) ||
+                ($transporte == 1 && in_array($estado_guia, [1, 2])) ||
+                ($transporte == 3 && in_array($estado_guia, [1, 2, 3])) ||
+                ($transporte == 4 && $estado_guia === 2)
+            ) {
+                $totals['generada']++;
+            }
+
+            // "En tránsito"
+            if (($transporte == 2 && $estado_guia >= 300 && $estado_guia <= 317 && $estado_guia != 307) ||
+                ($transporte == 1 && in_array($estado_guia, [5, 11, 12])) ||
+                ($transporte == 3 && in_array($estado_guia, [4])) ||
+                ($transporte == 4 && $estado_guia === 3)
+            ) {
+                $totals['en_transito']++;
+            }
+
+            // Zona de entrega 
+            if (($transporte == 2 && $estado_guia == 307) ||
+                ($transporte == 1 && in_array($estado_guia, [6])) ||
+                ($transporte == 3 && in_array($estado_guia, [5]))
+            ) {
+                $totals['zona_entrega']++;
+            }
+
+            // "Entregada"
+            if (($transporte == 2 && $estado_guia >= 400 && $estado_guia <= 403) ||
+                ($transporte == 1 && $estado_guia === 7) ||
+                ($transporte == 3 && $estado_guia === 7) ||
+                ($transporte == 4 && $estado_guia === 7)
+            ) {
+                $totals['entregada']++;
+            }
+
+            // "Novedad"
+            if (($transporte == 2 && $estado_guia >= 318 && $estado_guia <= 351) ||
+                ($transporte == 1 && $estado_guia === 14) ||
+                ($transporte == 3 && $estado_guia === 6) ||
+                ($transporte == 4 && $estado_guia === 14)
+            ) {
+                $totals['novedad']++;
+            }
+
+            // "Devolución"
+            if (($transporte == 2 && $estado_guia >= 500 && $estado_guia <= 502) ||
+                ($transporte == 1 && $estado_guia === 9) ||
+                ($transporte == 4 && $estado_guia === 9) ||
+                ($transporte == 3 && in_array($estado_guia, [8, 9, 13]))
+            ) {
+                $totals['devolucion']++;
+            }
+            $guia['pagado'] = ($guia['pagado'] == 1) ? 'Pagado' : 'Pendiente';
+        }
+
+        $result = [
+            "data"   => $data,
+            "totals" => $totals
+        ];
+
+        echo json_encode($result);
     }
 
     public function obtener_guias_estado_guia_sistema()
@@ -918,6 +996,21 @@ class Pedidos extends Controller
         echo json_encode($result);
     }
 
+    /**
+     * Exporta las guías en un archivo Excel o CSV con un reporte detallado.
+     *
+     * Este método recibe parámetros a través de una solicitud POST para filtrar guías 
+     * según la plataforma, fecha, transportadora, estado, entre otros. Luego, genera 
+     * un archivo Excel con los datos obtenidos, incluyendo un resumen de estados 
+     * y estadísticas gráficas.
+     *
+     * @return void
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception En caso de errores con la manipulación de la hoja de cálculo.
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception En caso de errores al generar el archivo.
+     *
+     * @api
+     */
     public function exportarGuiasVistaNormal()
     {
         // 1) Recogemos los parámetros POST
@@ -964,7 +1057,7 @@ class Pedidos extends Controller
                 ($transporte == 2 && in_array($estado_guia, [100, 102, 103])) ||
                 ($transporte == 1 && in_array($estado_guia, [1, 2])) ||
                 ($transporte == 3 && in_array($estado_guia, [1, 2, 3])) ||
-                ($transporte == 4 && $estado_guia === 2)
+                ($transporte == 4 && $estado_guia == 2)
             ) {
                 $counts['generada']++;
             }
@@ -973,7 +1066,7 @@ class Pedidos extends Controller
                 ($transporte == 2 && $estado_guia >= 300 && $estado_guia <= 317 && $estado_guia != 307) ||
                 ($transporte == 1 && in_array($estado_guia, [5, 11, 12])) ||
                 ($transporte == 3 && in_array($estado_guia, [4])) ||
-                ($transporte == 4 && $estado_guia === 3)
+                ($transporte == 4 && $estado_guia == 3)
             ) {
                 $counts['en_transito']++;
             }
@@ -988,30 +1081,31 @@ class Pedidos extends Controller
             // Entregada
             if (
                 ($transporte == 2 && $estado_guia >= 400 && $estado_guia <= 403) ||
-                ($transporte == 1 && $estado_guia === 7) ||
-                ($transporte == 3 && $estado_guia === 7) ||
-                ($transporte == 4 && $estado_guia === 7)
+                ($transporte == 1 && $estado_guia == 7) ||
+                ($transporte == 3 && $estado_guia == 7) ||
+                ($transporte == 4 && $estado_guia == 7)
             ) {
                 $counts['entregada']++;
             }
             // Novedad
             if (
                 ($transporte == 2 && $estado_guia >= 318 && $estado_guia <= 351) ||
-                ($transporte == 1 && $estado_guia === 14) ||
-                ($transporte == 3 && $estado_guia === 6) ||
-                ($transporte == 4 && $estado_guia === 14)
+                ($transporte == 1 && $estado_guia == 14) ||
+                ($transporte == 3 && $estado_guia == 6) ||
+                ($transporte == 4 && $estado_guia == 14)
             ) {
                 $counts['novedad']++;
             }
             // Devolución
             if (
                 ($transporte == 2 && $estado_guia >= 500 && $estado_guia <= 502) ||
-                ($transporte == 1 && $estado_guia === 9) ||
-                ($transporte == 4 && $estado_guia === 9) ||
+                ($transporte == 1 && $estado_guia == 9) ||
+                ($transporte == 4 && $estado_guia == 9) ||
                 ($transporte == 3 && in_array($estado_guia, [8, 9, 13]))
             ) {
                 $counts['devolucion']++;
             }
+            $guia['pagado'] = ($guia['pagado'] == 1) ? 'Pagado' : 'Pendiente';
         }
         $total = count($data);
 
@@ -1020,7 +1114,7 @@ class Pedidos extends Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         // --- Encabezado Título en A1:P1 ---
-        $sheet->mergeCells('A1:P1');
+        $sheet->mergeCells('A1:Q1');
         $sheet->setCellValue('A1', 'REPORTE DE GUÍAS');
         $sheet->getStyle('A1')->applyFromArray([
             'font' => [
@@ -1054,8 +1148,9 @@ class Pedidos extends Controller
         $sheet->setCellValue('N3', 'Fulfillment');
         $sheet->setCellValue('O3', 'Monto a Recibir');
         $sheet->setCellValue('P3', 'Recaudo');
+        $sheet->setCellValue('Q3', 'Por acreditar');
 
-        $sheet->getStyle('A3:P3')->applyFromArray([
+        $sheet->getStyle('A3:Q3')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1070,7 +1165,7 @@ class Pedidos extends Controller
             ]
         ]);
 
-        foreach (range('A', 'P') as $col) {
+        foreach (range('A', 'Q') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
@@ -1127,6 +1222,9 @@ class Pedidos extends Controller
             // Recaudo => SI/NO
             $sheet->setCellValue("P{$fila}", ($guia['cod'] == 1 ? 'SI' : 'NO'));
 
+            // Recaudo => SI/Pendiente
+            $sheet->setCellValue("Q{$fila}", (intval($guia['pagado']) == 1 ? 'ACREDITADA' : $guia['pagado']));
+
             $fila++;
         }
         $ultimaFila = $fila - 1;
@@ -1134,7 +1232,7 @@ class Pedidos extends Controller
         // Estilos de alineación
         if ($ultimaFila >= 3) {
             // centrado general
-            $sheet->getStyle("A3:P{$ultimaFila}")
+            $sheet->getStyle("A3:Q{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_CENTER);
             // dirección a la izquierda
@@ -1145,7 +1243,7 @@ class Pedidos extends Controller
 
         // Bordes
         if ($ultimaFila >= 3) {
-            $sheet->getStyle("A3:P{$ultimaFila}")->applyFromArray([
+            $sheet->getStyle("A3:Q{$ultimaFila}")->applyFromArray([
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => Border::BORDER_THIN,
@@ -1156,12 +1254,11 @@ class Pedidos extends Controller
         }
 
         // 6) Mini tabla + forzar 100% + diagrama de barras
-        // (igual que en tu ejemplo original)
         // Cabecera minitabla
         $miniTableStart = 3; // fila 3
-        $sheet->setCellValue("R{$miniTableStart}", "Estado");
-        $sheet->setCellValue("S{$miniTableStart}", "Porcentaje");
-        $sheet->getStyle("R{$miniTableStart}:S{$miniTableStart}")->applyFromArray([
+        $sheet->setCellValue("S{$miniTableStart}", "Estado");
+        $sheet->setCellValue("T{$miniTableStart}", "Porcentaje");
+        $sheet->getStyle("S{$miniTableStart}:T{$miniTableStart}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'color' => ['rgb' => 'FFFFFF'],
@@ -1174,8 +1271,8 @@ class Pedidos extends Controller
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
             ]
         ]);
-        $sheet->getColumnDimension('R')->setAutoSize(true);
         $sheet->getColumnDimension('S')->setAutoSize(true);
+        $sheet->getColumnDimension('T')->setAutoSize(true);
 
         $labelsEstados = ["Generada", "En tránsito", "Zona entrega", "Entregada", "Novedad", "Devolución"];
         $keysEstados   = ["generada", "en_transito", "zona_entrega", "entregada", "novedad", "devolucion"];
@@ -1199,14 +1296,14 @@ class Pedidos extends Controller
         // Pegamos en la minitabla
         $rowAux = $miniTableStart + 1;
         foreach ($keysEstados as $i => $k) {
-            $sheet->setCellValue("R{$rowAux}", $labelsEstados[$i]);
-            $sheet->setCellValue("S{$rowAux}", round($porcentajesRaw[$k], 2));
+            $sheet->setCellValue("S{$rowAux}", $labelsEstados[$i]);
+            $sheet->setCellValue("T{$rowAux}", round($porcentajesRaw[$k], 2));
             $rowAux++;
         }
         $lastAux = $rowAux - 1;
 
         // Bordes minitabla
-        $sheet->getStyle("R{$miniTableStart}:S{$lastAux}")->applyFromArray([
+        $sheet->getStyle("S{$miniTableStart}:T{$lastAux}")->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -1215,19 +1312,21 @@ class Pedidos extends Controller
             ]
         ]);
 
+
+
         // Diagrama
         $numEstados = 6;
         $startData  = $miniTableStart + 1; //4
         $endData    = $startData + $numEstados - 1; //9
 
         $labels = [
-            new DataSeriesValues('String', $sheet->getTitle() . '!S' . $miniTableStart, null, 1),
+            new DataSeriesValues('String', $sheet->getTitle() . '!T' . $miniTableStart, null, 1),
         ];
         $categories = [
-            new DataSeriesValues('String', $sheet->getTitle() . "!R{$startData}:R{$endData}", null, $numEstados),
+            new DataSeriesValues('String', $sheet->getTitle() . "!S{$startData}:S{$endData}", null, $numEstados),
         ];
         $values = [
-            new DataSeriesValues('Number', $sheet->getTitle() . "!S{$startData}:S{$endData}", null, $numEstados),
+            new DataSeriesValues('Number', $sheet->getTitle() . "!T{$startData}:T{$endData}", null, $numEstados),
         ];
 
         $series = new DataSeries(
@@ -1255,6 +1354,7 @@ class Pedidos extends Controller
         $chart->setTopLeftPosition("D{$posChartTop}");
         $chart->setBottomRightPosition("J" . ($posChartTop + 15));
         $sheet->addChart($chart);
+        // Aplicar formato de porcentaje a la columna T
 
         // ================================================================
         // NUEVO BLOQUE: consultamos PEDIDOS PENDIENTES (SIN GUÍA) Y ANULADOS
