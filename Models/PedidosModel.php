@@ -1870,7 +1870,6 @@ class PedidosModel extends Query
             $sql_numero_guias .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
-        echo $sql_numero_guias;
         // Ejecutar la consulta y obtener el resultado
         $resultado_numero_guias = $this->select($sql_numero_guias);
         /* numero guias */
