@@ -1223,7 +1223,7 @@ class Pedidos extends Controller
             $sheet->setCellValue("P{$fila}", ($guia['cod'] == 1 ? 'SI' : 'NO'));
 
             // Recaudo => SI/Pendiente
-            $sheet->setCellValue("Q{$fila}", (intval($guia['pagado']) == 1 ? 'ACREDITADA' : $guia['pagado']));
+            $sheet->setCellValue("Q{$fila}", ($guia['pagado'] == 1 ? 'SI' : 'NO'));
 
             $fila++;
         }
