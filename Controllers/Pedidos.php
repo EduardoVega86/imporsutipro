@@ -996,6 +996,21 @@ class Pedidos extends Controller
         echo json_encode($result);
     }
 
+    /**
+     * Exporta las guías en un archivo Excel o CSV con un reporte detallado.
+     *
+     * Este método recibe parámetros a través de una solicitud POST para filtrar guías 
+     * según la plataforma, fecha, transportadora, estado, entre otros. Luego, genera 
+     * un archivo Excel con los datos obtenidos, incluyendo un resumen de estados 
+     * y estadísticas gráficas.
+     *
+     * @return void
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception En caso de errores con la manipulación de la hoja de cálculo.
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception En caso de errores al generar el archivo.
+     *
+     * @api
+     */
     public function exportarGuiasVistaNormal()
     {
         // 1) Recogemos los parámetros POST
