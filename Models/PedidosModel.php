@@ -1813,7 +1813,7 @@ class PedidosModel extends Query
     public function cargar_cards_pedidos($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido)
     {
         /* numero pedidos */
-        // Base de la consulta SQL
+        // Base de la consulta SQL justo y necesarui
         $sql_numero_pedidos = "SELECT COUNT(*) AS total_pedidos 
         FROM facturas_cot 
         WHERE anulada = 0 
