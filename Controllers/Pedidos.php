@@ -12,7 +12,6 @@ use PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues;
 use PhpOffice\PhpSpreadsheet\Chart\Legend;
 use PhpOffice\PhpSpreadsheet\Chart\PlotArea;
 use PhpOffice\PhpSpreadsheet\Chart\Title;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 
 // Para estilos de borde, relleno, alineación
@@ -1341,10 +1340,6 @@ class Pedidos extends Controller
         $chart->setBottomRightPosition("J" . ($posChartTop + 15));
         $sheet->addChart($chart);
         // Aplicar formato de porcentaje a la columna T
-
-        $sheet->getStyle("T{$startData}:T{$endData}")
-            ->getNumberFormat()
-            ->setFormatCode(NumberFormat::FORMAT_PERCENTAGE_00);
 
         // ================================================================
         // NUEVO BLOQUE: consultamos PEDIDOS PENDIENTES (SIN GUÍA) Y ANULADOS
