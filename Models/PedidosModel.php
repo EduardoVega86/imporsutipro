@@ -3482,10 +3482,97 @@ class PedidosModel extends Query
         return $response[0]['numero_factura'];
     }
 
-    public function generarCarroAbandonado($id_plataforma, $telefono, $productos)
+    public function obtenerInventarios($sku_productos, $id_plataforma)
+    {
+        $id_inventarios = []; // Inicializamos el array vacío
+
+        foreach ($sku_productos as $sku) {
+            $resultado = $this->select("SELECT id_inventario FROM inventario_bodegas WHERE sku = '$sku' AND id_plataforma = $id_plataforma");
+
+            // Verificamos si hay resultados y acumulamos los ID en el array
+            if (!empty($resultado)) {
+                foreach ($resultado as $row) {
+                    $id_inventarios[] = $row['id_inventario'];
+                }
+            }
+        }
+
+        return $id_inventarios; // Devolvemos el array con los id_inventario
+    }
+
+    public function generarCarroAbandonado($id_plataforma, $telefono, $productos, $sku_productos)
     {
         $sql = "INSERT INTO `abandonado` (`id_plataforma`, `telefono`, `producto`) VALUES (?, ?, ?)";
         $data = [$id_plataforma, $telefono, $productos];
+
+        /* automatizador */
+        $id_configuracion = $this->select("SELECT id FROM configuraciones WHERE id_plataforma = $id_plataforma");
+        $id_configuracion = $id_configuracion[0]['id'];
+
+        $id_productos = $this->obtenerInventarios($sku_productos, $id_plataforma);
+
+        if (!empty($id_configuracion)) {
+
+            $data = [
+                "id_configuracion" => $id_configuracion,
+                "value_blocks_type" => "2",
+                "user_id" => "1",
+                "order_id" => "",
+                "nombre" => "",
+                "direccion" => "",
+                "email" => "",
+                "celular" => $telefono,
+                "contenido" => $productos,
+                "costo" => "",
+                "ciudad" => "",
+                "tracking" => "",
+                "transportadora" => "",
+                "numero_guia" => "",
+                "productos" => $id_productos ?? [],
+                "categorias" => [""],
+                "status" => [""],
+                "novedad" => [""],
+                "provincia" => [""],
+                "ciudad" => [""],
+                "user_info" => [
+                    "nombre" => "",
+                    "direccion" => "",
+                    "email" => "",
+                    "celular" => $telefono,
+                    "order_id" => "",
+                    "contenido" => $productos,
+                    "costo" => "",
+                    "ciudad" => "",
+                    "tracking" => "",
+                    "transportadora" => "",
+                    "numero_guia" => ""
+                ]
+            ];
+
+
+            $response_api = $this->enviar_a_api($data);
+
+
+            if (!$response_api['success']) {
+
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
+            } else {
+
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = "Pedido creado correctamente y datos enviados";
+                $response['data'] = $data;
+                $response['respuesta_curl'] = $response_api['response'];
+            }
+        } else {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = "Pedido creado correctamente";
+        }
+        /* automatizador */
+
         return $this->insert($sql, $data);
     }
 }
