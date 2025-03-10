@@ -1028,7 +1028,7 @@ class Pedidos extends Controller
         // ================================================================
         // 2) Consulta principal de GUÍAS
         // ================================================================
-        $data = $this->model->cargarGuiasEstadoGuiaSistema(
+        $data = $this->model->cargarGuias(
             $id_plataforma,
             $fecha_inicio,
             $fecha_fin,
@@ -1223,7 +1223,7 @@ class Pedidos extends Controller
             $sheet->setCellValue("P{$fila}", ($guia['cod'] == 1 ? 'SI' : 'NO'));
 
             // Recaudo => SI/Pendiente
-            $sheet->setCellValue("Q{$fila}", (intval($guia['pagado']) == 1 ? 'ACREDITADA' : $guia['pagado']));
+            $sheet->setCellValue("Q{$fila}", ($guia['pagado'] == 1 ? 'ACREDITADO' : 'PENDIENTE'));
 
             $fila++;
         }
