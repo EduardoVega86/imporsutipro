@@ -258,8 +258,8 @@
                         <!-- <th class="centered">Tienda</th> -->
                         <th class="centered">Transportadora</th>
                         <th class="centered">Estado</th>
-                        <!-- <th class="centered">Acreditado</th> -->
                         <th class="centered">Despachado</th>
+                        <th class="centered">Acreditado</th>
                         <th class="centered">Impreso</th>
                         <th class="centered">Acciones</th>
                         <th class="centered">Contiene</th>

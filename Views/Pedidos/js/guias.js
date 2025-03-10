@@ -5,12 +5,11 @@ const dataTableOptions = {
   columnDefs: [
     {
       className: "centered",
-      targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
     },
     { orderable: false, targets: 0 }, // Asegúrate de que esta sea la columna correcta
     { visible: false, targets: 11 },
     { visible: false, targets: 12 },
-    /* { visible: false, targets: 13 }, // Asegúrate de que esta sea la columna correcta */
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
@@ -166,11 +165,6 @@ const listGuias = async () => {
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
 
-      // Mostrar si la guía fue pagada o no (campo "pagado")
-      let estadoPago = guia.pagado === "Pagado"
-      ? `<span class="badge bg-success">Pagado</span>` 
-      : `<span class="badge bg-danger">Pendiente</span>`;
-    
       let ciudad = "Ciudad no especificada";
       let ciudadCompleta = guia.ciudad;
       if (ciudadCompleta) {
@@ -247,6 +241,10 @@ const listGuias = async () => {
       }
       let mostrar_tienda = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${guia.plataforma}')">${plataforma}</span></td>`;
       mostrar_tienda = "";
+
+      let acreditado = guia.pagado === "1" 
+          ? `<span class="badge bg-success">Acreditado</span>` 
+          : `<span class="badge bg-danger">Pendiente</span>`;
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura}"></td>
@@ -289,6 +287,7 @@ const listGuias = async () => {
                       </div>
                     </td>
                     <td>${despachado}</td>
+                    <td>${acreditado}</td>
                     <td>${impresiones}</td>
                     <td>
                       <div class="dropdown">
