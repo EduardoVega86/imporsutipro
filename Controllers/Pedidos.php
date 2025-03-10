@@ -1238,12 +1238,11 @@ class Pedidos extends Controller
         }
 
         // 6) Mini tabla + forzar 100% + diagrama de barras
-        // (igual que en tu ejemplo original)
         // Cabecera minitabla
         $miniTableStart = 3; // fila 3
         $sheet->setCellValue("S{$miniTableStart}", "Estado");
         $sheet->setCellValue("T{$miniTableStart}", "Porcentaje");
-        $sheet->getStyle("S{$miniTableStart}:S{$miniTableStart}")->applyFromArray([
+        $sheet->getStyle("S{$miniTableStart}:T{$miniTableStart}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'color' => ['rgb' => 'FFFFFF'],
@@ -1288,7 +1287,7 @@ class Pedidos extends Controller
         $lastAux = $rowAux - 1;
 
         // Bordes minitabla
-        $sheet->getStyle("S{$miniTableStart}:S{$lastAux}")->applyFromArray([
+        $sheet->getStyle("S{$miniTableStart}:T{$lastAux}")->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -1296,6 +1295,8 @@ class Pedidos extends Controller
                 ]
             ]
         ]);
+
+
 
         // Diagrama
         $numEstados = 6;
@@ -1337,6 +1338,11 @@ class Pedidos extends Controller
         $chart->setTopLeftPosition("D{$posChartTop}");
         $chart->setBottomRightPosition("J" . ($posChartTop + 15));
         $sheet->addChart($chart);
+        // Aplicar formato de porcentaje a la columna T
+
+        $sheet->getStyle("T{$startData}:T{$endData}")
+            ->getNumberFormat()
+            ->setFormatCode(NumberFormat::FORMAT_PERCENTAGE_00);
 
         // ================================================================
         // NUEVO BLOQUE: consultamos PEDIDOS PENDIENTES (SIN GUÍA) Y ANULADOS
