@@ -15,6 +15,12 @@ class GuiasModel extends Query
         parent::__construct();
     }
 
+    public function disminuirStock($id_inventario, $cantidad)
+    {
+        $sql = "UPDATE inventario_bodegas SET saldo_stock = saldo_stock - $cantidad WHERE id_inventario = $id_inventario";
+        return $this->update($sql);
+    }
+
     public function buscarStock($numero_factura)
     {
         $sql = "SELECT * FROM detalle_fact_cot WHERE  numero_factura = '$numero_factura'";

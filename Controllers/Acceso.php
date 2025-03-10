@@ -5,17 +5,17 @@ use FontLib\Table\Type\head;
 class Acceso extends Controller
 {
     ///Vistas
-    public function index()
+    public function index(): void
     {
         $this->views->render($this, "index");
     }
-    public function recovery()
+    public function recovery(): void
     {
         $this->views->render($this, "recovery");
     }
 
     ///Funciones
-    public function login()
+    public function login(): void
     {
         $data = json_decode(file_get_contents("php://input"), true);
 

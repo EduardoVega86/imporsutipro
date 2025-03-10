@@ -10,6 +10,10 @@ class Guias extends Controller
             header("Location: /dashboard");
         } */
     }
+
+
+
+
     /// funciones
 
     public function buscarStock($numero_factura)
