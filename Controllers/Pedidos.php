@@ -1099,7 +1099,7 @@ class Pedidos extends Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         // --- Encabezado Título en A1:P1 ---
-        $sheet->mergeCells('A1:P1');
+        $sheet->mergeCells('A1:Q1');
         $sheet->setCellValue('A1', 'REPORTE DE GUÍAS');
         $sheet->getStyle('A1')->applyFromArray([
             'font' => [
