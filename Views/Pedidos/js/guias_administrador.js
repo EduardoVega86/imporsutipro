@@ -145,7 +145,7 @@ const reloadDataTable = async () => {
     checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
   });
 };
-
+//continuar 
 /**
  * Obtiene las guías del servidor con los filtros actuales y rellena la tabla
  */
