@@ -712,7 +712,84 @@ class Pedidos extends Controller
         $despachos = $_POST['despachos'] ?? "";
 
         $data = $this->model->cargarGuias($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
-        echo json_encode($data);
+
+        // Inicializamos los totales para mostrar cards en guías
+        $totals = [
+            "total"        => count($data),
+            "generada"     => 0,
+            "en_transito"  => 0,
+            "zona_entrega" => 0,
+            "entregada"    => 0,
+            "novedad"      => 0,
+            "devolucion"   => 0,
+        ];
+
+        // Recorremos cada guía y calculamos los totales
+        foreach ($data as $guia) {
+            $estado_guia = intval($guia['estado_guia_sistema']);
+            $transporte  = intval($guia['id_transporte']);
+
+            // "Generada"
+            if (($transporte == 2 && in_array($estado_guia, [100, 102, 103])) ||
+                ($transporte == 1 && in_array($estado_guia, [1, 2])) ||
+                ($transporte == 3 && in_array($estado_guia, [1, 2, 3])) ||
+                ($transporte == 4 && $estado_guia === 2)
+            ) {
+                $totals['generada']++;
+            }
+
+            // "En tránsito"
+            if (($transporte == 2 && $estado_guia >= 300 && $estado_guia <= 317 && $estado_guia != 307) ||
+                ($transporte == 1 && in_array($estado_guia, [5, 11, 12])) ||
+                ($transporte == 3 && in_array($estado_guia, [4])) ||
+                ($transporte == 4 && $estado_guia === 3)
+            ) {
+                $totals['en_transito']++;
+            }
+
+            // Zona de entrega 
+            if (($transporte == 2 && $estado_guia == 307) ||
+                ($transporte == 1 && in_array($estado_guia, [6])) ||
+                ($transporte == 3 && in_array($estado_guia, [5]))
+            ) {
+                $totals['zona_entrega']++;
+            }
+
+            // "Entregada"
+            if (($transporte == 2 && $estado_guia >= 400 && $estado_guia <= 403) ||
+                ($transporte == 1 && $estado_guia === 7) ||
+                ($transporte == 3 && $estado_guia === 7) ||
+                ($transporte == 4 && $estado_guia === 7)
+            ) {
+                $totals['entregada']++;
+            }
+
+            // "Novedad"
+            if (($transporte == 2 && $estado_guia >= 318 && $estado_guia <= 351) ||
+                ($transporte == 1 && $estado_guia === 14) ||
+                ($transporte == 3 && $estado_guia === 6) ||
+                ($transporte == 4 && $estado_guia === 14)
+            ) {
+                $totals['novedad']++;
+            }
+
+            // "Devolución"
+            if (($transporte == 2 && $estado_guia >= 500 && $estado_guia <= 502) ||
+                ($transporte == 1 && $estado_guia === 9) ||
+                ($transporte == 4 && $estado_guia === 9) ||
+                ($transporte == 3 && in_array($estado_guia, [8, 9, 13]))
+            ) {
+                $totals['devolucion']++;
+            }
+            $guia['pagado'] = ($guia['pagado'] == 1) ? 'Pagado' : 'Pendiente';
+        }
+
+        $result = [
+            "data"   => $data,
+            "totals" => $totals
+        ];
+
+        echo json_encode($result);
     }
 
     public function obtener_guias_estado_guia_sistema()

@@ -93,7 +93,7 @@ const listGuias = async () => {
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
 
-    const response = await fetch(`${SERVERURL}pedidos/obtener_guias_estado_guia_sistema`, {
+    const response = await fetch(`${SERVERURL}pedidos/obtener_guias`, {
       method: "POST",
       body: formData,
     });
@@ -106,6 +106,7 @@ const listGuias = async () => {
     let content = ``;
     let impresiones = "";
     let novedad = "";
+
     guias.forEach((guia, index) => {
       let transporte = guia.id_transporte;
       let transporte_content = "";
@@ -165,6 +166,11 @@ const listGuias = async () => {
       var span_estado = estado.span_estado;
       var estado_guia = estado.estado_guia;
 
+      // Mostrar si la guía fue pagada o no (campo "pagado")
+      let estadoPago = guia.pagado === "Pagado"
+      ? `<span class="badge bg-success">Pagado</span>` 
+      : `<span class="badge bg-danger">Pendiente</span>`;
+    
       let ciudad = "Ciudad no especificada";
       let ciudadCompleta = guia.ciudad;
       if (ciudadCompleta) {
@@ -284,6 +290,7 @@ const listGuias = async () => {
                     </td>
                     <td>${despachado}</td>
                     <td>${impresiones}</td>
+                    <td>${estadoPago}</td>
                     <td>
                       <div class="dropdown">
                         <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">

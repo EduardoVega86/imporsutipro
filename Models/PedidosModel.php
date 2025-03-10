@@ -54,7 +54,8 @@ class PedidosModel extends Query
         b.direccion AS direccion_bodega,
         n.solucionada, 
         n.terminado, 
-        n.estado_novedad
+        n.estado_novedad,
+        ccp.visto AS pagado
         FROM 
             facturas_cot fc
         LEFT JOIN 
@@ -67,6 +68,8 @@ class PedidosModel extends Query
             bodega b ON b.id = fc.id_bodega
         LEFT JOIN 
             novedades n ON n.guia_novedad = fc.numero_guia
+        LEFT JOIN 
+            cabecera_cuenta_pagar ccp ON ccp.numero_factura = fc.numero_factura
         WHERE 
             TRIM(fc.numero_guia) <> '' 
             AND fc.numero_guia IS NOT NULL 
@@ -92,20 +95,27 @@ class PedidosModel extends Query
                                 OR (estado_guia_sistema in (2) and id_transporte=4))";
                     break;
                 case 'en_transito':
-                    $sql .= " AND ((estado_guia_sistema BETWEEN 300 AND 317 and id_transporte=2)
-                                OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
-                                OR (estado_guia_sistema in (5,4) and id_transporte=3)
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 300 AND 317 and estado_guia_sistema != 307 and id_transporte=2)
+                                OR (estado_guia_sistema in (5,11,12) and id_transporte=1)
+                                OR (estado_guia_sistema in (4) and id_transporte=3)
                                 OR (estado_guia_sistema in (3) and id_transporte=4))";
+                    break;
+                case 'zona_entrega':
+                    $sql .= " AND ((estado_guia_sistema = 307 and id_transporte=2)
+                                OR (estado_guia_sistema in (6) and id_transporte=1)
+                                OR (estado_guia_sistema in (5) and id_transporte=3))";
                     break;
                 case 'entregada':
                     $sql .= " AND ((estado_guia_sistema BETWEEN 400 AND 403 and id_transporte=2)
                                 OR (estado_guia_sistema in (7) and id_transporte=1)
-                                OR (estado_guia_sistema in (7) and id_transporte=3))";
+                                OR (estado_guia_sistema in (7) and id_transporte=3)
+                                OR (estado_guia_sistema in (7) and id_transporte=4))";
                     break;
                 case 'novedad':
-                    $sql .= " AND ((estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 318 AND 351 and id_transporte=2)
                                 OR (estado_guia_sistema in (14) and id_transporte=1)
-                                OR (estado_guia_sistema in (6) and id_transporte=3))";
+                                OR (estado_guia_sistema in (6) and id_transporte=3)
+                                OR (estado_guia_sistema in (14) and id_transporte=4))";
                     break;
                 case 'devolucion':
                     $sql .= " AND ((estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
@@ -126,8 +136,22 @@ class PedidosModel extends Query
             }
         }
 
+        // Filtro por despachos (1: No despachado, 2: Despachado, 3: Devuelto)
+        // AHORA añadimos la lógica especial si despachos == 4 (Devolucion - En Bodega)
         if ($despachos !== null && $despachos !== '') {
-            if ($despachos == 1 || $despachos == 2 || $despachos == 3) {
+            if ($despachos == 4) {
+                // Fuerza estado “devolución” + estado_factura 1 ó 2
+                // (equivalente a “no despachados” o “despachados”)
+                $sql .= " AND (
+                            (
+                                (estado_guia_sistema BETWEEN 500 AND 502 AND id_transporte=2)
+                                OR (estado_guia_sistema in (9) AND id_transporte=1)
+                                OR (estado_guia_sistema in (9) AND id_transporte=4)
+                                OR (estado_guia_sistema in (8,9,13) AND id_transporte=3)
+                            )
+                            AND (estado_factura IN (1,2))
+                        )";
+            } else if ($despachos == 1 || $despachos == 2 || $despachos == 3) {
                 $sql .= " AND estado_factura = '$despachos'";
             }
         }
