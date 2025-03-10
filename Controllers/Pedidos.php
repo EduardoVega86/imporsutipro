@@ -1216,7 +1216,7 @@ class Pedidos extends Controller
         // Estilos de alineación
         if ($ultimaFila >= 3) {
             // centrado general
-            $sheet->getStyle("A3:P{$ultimaFila}")
+            $sheet->getStyle("A3:Q{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_CENTER);
             // dirección a la izquierda
@@ -1241,9 +1241,9 @@ class Pedidos extends Controller
         // (igual que en tu ejemplo original)
         // Cabecera minitabla
         $miniTableStart = 3; // fila 3
-        $sheet->setCellValue("R{$miniTableStart}", "Estado");
-        $sheet->setCellValue("S{$miniTableStart}", "Porcentaje");
-        $sheet->getStyle("R{$miniTableStart}:S{$miniTableStart}")->applyFromArray([
+        $sheet->setCellValue("S{$miniTableStart}", "Estado");
+        $sheet->setCellValue("T{$miniTableStart}", "Porcentaje");
+        $sheet->getStyle("S{$miniTableStart}:S{$miniTableStart}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'color' => ['rgb' => 'FFFFFF'],
@@ -1256,8 +1256,8 @@ class Pedidos extends Controller
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
             ]
         ]);
-        $sheet->getColumnDimension('R')->setAutoSize(true);
         $sheet->getColumnDimension('S')->setAutoSize(true);
+        $sheet->getColumnDimension('T')->setAutoSize(true);
 
         $labelsEstados = ["Generada", "En tránsito", "Zona entrega", "Entregada", "Novedad", "Devolución"];
         $keysEstados   = ["generada", "en_transito", "zona_entrega", "entregada", "novedad", "devolucion"];
@@ -1281,14 +1281,14 @@ class Pedidos extends Controller
         // Pegamos en la minitabla
         $rowAux = $miniTableStart + 1;
         foreach ($keysEstados as $i => $k) {
-            $sheet->setCellValue("R{$rowAux}", $labelsEstados[$i]);
-            $sheet->setCellValue("S{$rowAux}", round($porcentajesRaw[$k], 2));
+            $sheet->setCellValue("S{$rowAux}", $labelsEstados[$i]);
+            $sheet->setCellValue("T{$rowAux}", round($porcentajesRaw[$k], 2));
             $rowAux++;
         }
         $lastAux = $rowAux - 1;
 
         // Bordes minitabla
-        $sheet->getStyle("R{$miniTableStart}:S{$lastAux}")->applyFromArray([
+        $sheet->getStyle("S{$miniTableStart}:S{$lastAux}")->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -1303,13 +1303,13 @@ class Pedidos extends Controller
         $endData    = $startData + $numEstados - 1; //9
 
         $labels = [
-            new DataSeriesValues('String', $sheet->getTitle() . '!S' . $miniTableStart, null, 1),
+            new DataSeriesValues('String', $sheet->getTitle() . '!T' . $miniTableStart, null, 1),
         ];
         $categories = [
-            new DataSeriesValues('String', $sheet->getTitle() . "!R{$startData}:R{$endData}", null, $numEstados),
+            new DataSeriesValues('String', $sheet->getTitle() . "!S{$startData}:S{$endData}", null, $numEstados),
         ];
         $values = [
-            new DataSeriesValues('Number', $sheet->getTitle() . "!S{$startData}:S{$endData}", null, $numEstados),
+            new DataSeriesValues('Number', $sheet->getTitle() . "!T{$startData}:T{$endData}", null, $numEstados),
         ];
 
         $series = new DataSeries(
