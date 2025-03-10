@@ -12,6 +12,8 @@ use PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues;
 use PhpOffice\PhpSpreadsheet\Chart\Legend;
 use PhpOffice\PhpSpreadsheet\Chart\PlotArea;
 use PhpOffice\PhpSpreadsheet\Chart\Title;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+
 
 // Para estilos de borde, relleno, alineación
 use PhpOffice\PhpSpreadsheet\Style\Fill;
