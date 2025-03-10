@@ -5,50 +5,40 @@ let fecha_fin = "";
 
 // Configurar rango inicial
 let hoy = moment();
-let haceUnaSemana = moment().subtract(6, "days");
-fecha_inicio = haceUnaSemana.format("YYYY-MM-DD") + " 00:00:00";
-fecha_fin = hoy.format("YYYY-MM-DD") + " 23:59:59";
+let haceUnaSemana = moment().subtract(6, 'days');
+fecha_inicio = haceUnaSemana.format('YYYY-MM-DD') + ' 00:00:00';
+fecha_fin = hoy.format('YYYY-MM-DD') + ' 23:59:59';
 
 // Configurar daterangepicker al cargar la página
-$(function () {
-  $("#daterange").daterangepicker({
-    opens: "right",
+$(function() {
+  $('#daterange').daterangepicker({
+    opens: 'right',
     startDate: haceUnaSemana,
     endDate: hoy,
     locale: {
-      format: "YYYY-MM-DD",
-      separator: " - ",
-      applyLabel: "Aplicar",
-      cancelLabel: "Cancelar",
-      fromLabel: "Desde",
-      toLabel: "Hasta",
-      customRangeLabel: "Personalizado",
-      weekLabel: "S",
-      daysOfWeek: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+      format: 'YYYY-MM-DD',               
+      separator: ' - ',
+      applyLabel: 'Aplicar',
+      cancelLabel: 'Cancelar',
+      fromLabel: 'Desde',
+      toLabel: 'Hasta',
+      customRangeLabel: 'Personalizado',
+      weekLabel: 'S',
+      daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
       monthNames: [
-        "Enero",
-        "Febrero",
-        "Marzo",
-        "Abril",
-        "Mayo",
-        "Junio",
-        "Julio",
-        "Agosto",
-        "Septiembre",
-        "Octubre",
-        "Noviembre",
-        "Diciembre",
+        'Enero','Febrero','Marzo','Abril','Mayo','Junio',
+        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
       ],
-      firstDay: 1,
+      firstDay: 1
     },
-    autoUpdateInput: true,
+    autoUpdateInput: true
   });
 
   // Este evento se disparará cuando cambie el rango:
-  $("#daterange").on("apply.daterangepicker", function (ev, picker) {
-    fecha_inicio = picker.startDate.format("YYYY-MM-DD") + " 00:00:00";
-    fecha_fin = picker.endDate.format("YYYY-MM-DD") + " 23:59:59";
-    initDataTable();
+  $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+    fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
+    fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
+    initDataTable(); 
   });
 });
 
@@ -58,7 +48,7 @@ $(function () {
 // Configuración del DataTable
 const dataTableOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
+    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
     { orderable: false, targets: 0 }, // Evitar ordenar por la columna de checkboxes
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
@@ -99,22 +89,21 @@ function getFecha() {
 //Cargando
 function showTableLoader() {
   // Inserta siempre el HTML del spinner y luego muestra el contenedor
-  $("#tableLoader")
-    .html(
-      '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
-    )
-    .css("display", "flex");
+  $("#tableLoader").html(
+    '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
+  ).css("display", "flex");
 }
 
 function hideTableLoader() {
   $("#tableLoader").css("display", "none");
 }
 
+
 /**
  * Inicializa o recarga el DataTable
  */
 const initDataTable = async () => {
-  showTableLoader();
+  showTableLoader(); 
   try {
     if (dataTableIsInitialized) {
       dataTable.destroy();
@@ -128,12 +117,10 @@ const initDataTable = async () => {
     dataTableIsInitialized = true;
 
     // Maneja el checkbox de "Seleccionar todos"
-    document
-      .getElementById("selectAll")
-      .addEventListener("change", function () {
-        const checkboxes = document.querySelectorAll(".selectCheckbox");
-        checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
-      });
+    document.getElementById("selectAll").addEventListener("change", function () {
+      const checkboxes = document.querySelectorAll(".selectCheckbox");
+      checkboxes.forEach((checkbox) => (checkbox.checked = this.checked));
+    });
   } catch (error) {
     console.error("Error al cargar la tabla:", error);
   } finally {
@@ -173,13 +160,10 @@ const listGuias = async () => {
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
 
-    const response = await fetch(
-      `${SERVERURL}pedidos/obtener_guiasAdministrador`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch(`${SERVERURL}pedidos/obtener_guias_administrador`, {
+      method: "POST",
+      body: formData,
+    });
 
     // Ahora el JSON debe tener "data" y "totals"
     const result = await response.json();
@@ -241,12 +225,6 @@ const listGuias = async () => {
         drogshipin = "Drogshipin";
       }
 
-      let responsable = "";
-
-      if (guia.nombre_responsable) {
-        responsable = `<strong>Responsable: </strong>${guia.nombre_responsable}`;
-      }
-
       let ciudad = "Ciudad no especificada";
       let ciudadCompleta = guia.ciudad;
       if (ciudadCompleta) {
@@ -259,7 +237,7 @@ const listGuias = async () => {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
       } else if (guia.estado_guia_sistema == 6 && transporte == 3) {
         novedad = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${guia.numero_guia}')">Gestionar novedad</button>`;
-      }
+      } 
       if (
         guia.estado_guia_sistema >= 318 &&
         guia.estado_guia_sistema <= 351 &&
@@ -284,20 +262,18 @@ const listGuias = async () => {
         despachado = `<i class="fa-solid fa-arrow-rotate-right" style="color:red; font-size: 21px;"></i>`;
       }
 
+      let acreditado = guia.pagado === "1" 
+      ? `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>` 
+      : `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
       content += `
         <tr>
-          <td><input type="checkbox" class="selectCheckbox" data-id="${
-            guia.id_factura
-          }"></td>
+          <td><input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura}"></td>
           <td>
             <div>${ruta_descarga}</div>
             <div>${drogshipin}</div>
-            <div>${responsable}</div>
           </td>
           <td>
-            <div><button onclick="ver_detalle_cot('${
-              guia.id_factura
-            }')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
+            <div><button onclick="ver_detalle_cot('${guia.id_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
             <div>${guia.fecha_factura}</div>
           </td>
           <td>
@@ -308,14 +284,10 @@ const listGuias = async () => {
           <td>${guia.provinciaa}-${ciudad}</td>
           <td>
             <div>
-              <strong>Tienda:</strong> <span class="link-like" id="plataformaLink">${
-                guia.tienda
-              }</span>
+              <strong>Tienda:</strong> <span class="link-like" id="plataformaLink">${guia.tienda}</span>
             </div>
             <div>
-              <strong>Proveedor:</strong> <span class="link-like" id="plataformaLink">${
-                guia.nombre_proveedor
-              }</span>
+              <strong>Proveedor:</strong> <span class="link-like" id="plataformaLink">${guia.nombre_proveedor}</span>
             </div>
           </td>
           <td>${transporte_content}</td>
@@ -328,9 +300,7 @@ const listGuias = async () => {
                 <a href="${ruta_traking}" target="_blank" style="vertical-align: middle;">
                   <img src="https://new.imporsuitpro.com/public/img/tracking.png" width="40px" id="buscar_traking" alt="buscar_traking">
                 </a>
-                <a href="https://wa.me/${formatPhoneNumber(
-                  guia.telefono
-                )}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;">
+                <a href="https://wa.me/${formatPhoneNumber(guia.telefono)}" target="_blank" style="font-size: 45px; vertical-align: middle; margin-left: 10px;">
                   <i class='bx bxl-whatsapp-square' style="color: green;"></i>
                 </a>
               </div>
@@ -341,6 +311,7 @@ const listGuias = async () => {
             </div>
           </td>
           <td>${despachado}</td>
+          <td>${acreditado}</td>
           <td>${impresiones}</td>
           <td>${guia.monto_factura}</td>
           <td>${guia.costo_producto}</td>
@@ -358,15 +329,9 @@ const listGuias = async () => {
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><span class="dropdown-item" style="cursor: pointer;" onclick="${funcion_anular}">Anular</span></li>
                 <li><span class="dropdown-item" style="cursor: pointer;">Información</span></li>
-                <li><span class="dropdown-item" style="cursor: pointer;" onclick='transito(${
-                  guia.id_factura
-                })'>Transito</span></li>
-                <li><span class="dropdown-item" style="cursor: pointer;" onclick='entregar(${
-                  guia.id_factura
-                })'>Entregado</span></li>
-                <li><span class="dropdown-item" style="cursor: pointer;" onclick='devolucion(${
-                  guia.id_factura
-                })'>Devolución</span></li>
+                <li><span class="dropdown-item" style="cursor: pointer;" onclick='transito(${guia.id_factura})'>Transito</span></li>
+                <li><span class="dropdown-item" style="cursor: pointer;" onclick='entregar(${guia.id_factura})'>Entregado</span></li>
+                <li><span class="dropdown-item" style="cursor: pointer;" onclick='devolucion(${guia.id_factura})'>Devolución</span></li>
               </ul>
             </div>
           </td>
@@ -377,77 +342,51 @@ const listGuias = async () => {
 
     // Actualiza las cards con los totales enviados desde el servidor
     const elementos = {
-      num_pedidos: "total",
-      num_generadas: "generada",
-      num_transito: "en_transito",
-      num_entregadas: "entregada",
-      num_novedad: "novedad",
-      num_devolucion: "devolucion",
-      num_zona_entrega: "zona_entrega",
-    };
+      "num_pedidos" : "total",
+      "num_generadas" : "generada",
+      "num_transito" : "en_transito",
+      "num_entregadas" : "entregada",
+      "num_novedad" : "novedad",
+      "num_devolucion" : "devolucion",
+      "num_zona_entrega": "zona_entrega"
+    }
 
-    Object.entries(elementos).forEach(([id, key]) => {
+    Object.entries(elementos).forEach(([id, key])=>{
       let elemento = document.getElementById(id);
-      if (elemento) {
+      if(elemento){
         elemento.innerText = totals[key];
       }
-    });
+    })
 
     // Totals.total es el total de guías
     if (totals.total > 0) {
-      let porcentajeGeneradas = Math.round(
-        (totals.generada / totals.total) * 100
-      );
-      let porcentajeTransito = Math.round(
-        (totals.en_transito / totals.total) * 100
-      );
-      let porcentajeEntregaZona = Math.round(
-        (totals.zona_entrega / totals.total) * 100
-      );
-      let porcentajeEntrega = Math.round(
-        (totals.entregada / totals.total) * 100
-      );
+      let porcentajeGeneradas = Math.round((totals.generada / totals.total) * 100);
+      let porcentajeTransito = Math.round((totals.en_transito / totals.total) * 100);
+      let porcentajeEntregaZona = Math.round((totals.zona_entrega /totals.total) * 100);
+      let porcentajeEntrega = Math.round((totals.entregada / totals.total) * 100);
       let porcentajeNovedad = Math.round((totals.novedad / totals.total) * 100);
-
+  
       // Calculamos el último porcentaje ajustándolo para que la suma sea 100%
-      let porcentajeDevolucion =
-        100 -
-        (porcentajeGeneradas +
-          porcentajeTransito +
-          porcentajeEntrega +
-          porcentajeEntregaZona +
-          porcentajeNovedad);
-
+      let porcentajeDevolucion = 100 - (porcentajeGeneradas + porcentajeTransito + porcentajeEntrega + porcentajeEntregaZona + porcentajeNovedad);
+  
       // Aplicamos los valores
-      document.getElementById("progress_generadas").style.width =
-        porcentajeGeneradas + "%";
-      document.getElementById("percent_generadas").innerText =
-        porcentajeGeneradas + "%";
+      document.getElementById("progress_generadas").style.width = porcentajeGeneradas + "%";
+      document.getElementById("percent_generadas").innerText = porcentajeGeneradas + "%";
 
-      document.getElementById("progress_transito").style.width =
-        porcentajeTransito + "%";
-      document.getElementById("percent_transito").innerText =
-        porcentajeTransito + "%";
-
-      document.getElementById("progress_zonaentrega").style.width =
-        porcentajeEntregaZona + "%";
-      document.getElementById("percent_zonaentrega").innerText =
-        porcentajeEntregaZona + "%";
-
-      document.getElementById("progress_entrega").style.width =
-        porcentajeEntrega + "%";
-      document.getElementById("percent_entrega").innerText =
-        porcentajeEntrega + "%";
-
-      document.getElementById("progress_novedad").style.width =
-        porcentajeNovedad + "%";
-      document.getElementById("percent_novedad").innerText =
-        porcentajeNovedad + "%";
-
-      document.getElementById("progress_devolucion").style.width =
-        porcentajeDevolucion + "%";
-      document.getElementById("percent_devolucion").innerText =
-        porcentajeDevolucion + "%";
+      document.getElementById("progress_transito").style.width = porcentajeTransito + "%";
+      document.getElementById("percent_transito").innerText = porcentajeTransito + "%";
+ 
+      document.getElementById("progress_zonaentrega").style.width = porcentajeEntregaZona + "%";
+      document.getElementById("percent_zonaentrega").innerText = porcentajeEntregaZona + "%";      
+  
+      document.getElementById("progress_entrega").style.width = porcentajeEntrega + "%";
+      document.getElementById("percent_entrega").innerText = porcentajeEntrega + "%";
+  
+      document.getElementById("progress_novedad").style.width = porcentajeNovedad + "%";
+      document.getElementById("percent_novedad").innerText = porcentajeNovedad + "%";
+  
+      document.getElementById("progress_devolucion").style.width = porcentajeDevolucion + "%";
+      document.getElementById("percent_devolucion").innerText = porcentajeDevolucion + "%";
     } else {
       // Si total es 0 o no se encontró nada, limpia todo
       let progressBars = [
@@ -1220,9 +1159,7 @@ function enviar_laarNovedad() {
   var ciudad = $("#ciudad_novedadesServi").val();
   var nombre_novedadesServi = $("#nombre_novedadesServi").val();
   var callePrincipal_novedadesServi = $("#callePrincipal_novedadesServi").val();
-  var calleSecundaria_novedadesServi = $(
-    "#calleSecundaria_novedadesServi"
-  ).val();
+  var calleSecundaria_novedadesServi = $("#calleSecundaria_novedadesServi").val();
   var numeracion_novedadesServi = $("#numeracion_novedadesServi").val();
   var referencia_novedadesServi = $("#referencia_novedadesServi").val();
   var telefono_novedadesServi = $("#telefono_novedadesServi").val();
@@ -1273,68 +1210,44 @@ function enviar_laarNovedad() {
   });
 }
 
-document
-  .getElementById("btnExportExcel")
-  .addEventListener("click", async () => {
-    // Creamos un FormData con todos los parámetros
-    const formData = new FormData();
-    formData.append("fecha_inicio", fecha_inicio);
-    formData.append("fecha_fin", fecha_fin);
-    formData.append("transportadora", $("#transporte").val());
-    formData.append("estado", $("#estado_q").val());
-    formData.append("drogshipin", $("#tienda_q").val());
-    formData.append("impreso", $("#impresion").val());
-    formData.append("despachos", $("#despachos").val());
-    formData.append("formato", "excel"); // 'excel' o 'csv'
-
-    // Hacemos fetch en POST
-    const response = await fetch(`${SERVERURL}pedidos/exportarGuias`, {
-      method: "POST",
-      body: formData,
-    });
-
-    // Esperamos Blob u ArrayBuffer
-    const blob = await response.blob();
-    // Forzamos descarga manual
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "guias_administrador.xlsx"; // o .csv
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
-  });
-
-document.getElementById("btnExportCsv").addEventListener("click", async () => {
-  // Creamos un FormData con todos los parámetros
+// Función común para descargar el reporte según el formato y extensión
+async function descargarReporte(formato, extension) {
   const formData = new FormData();
   formData.append("fecha_inicio", fecha_inicio);
   formData.append("fecha_fin", fecha_fin);
   formData.append("transportadora", $("#transporte").val());
   formData.append("estado", $("#estado_q").val());
+  formData.append("estado_pedido", $("#estado_pedido").val() || "");
   formData.append("drogshipin", $("#tienda_q").val());
   formData.append("impreso", $("#impresion").val());
   formData.append("despachos", $("#despachos").val());
-  formData.append("formato", "csv"); // 'excel' o 'csv'
+  formData.append("formato", formato); // 'excel' o 'csv'
 
-  // Hacemos fetch en POST
   const response = await fetch(`${SERVERURL}pedidos/exportarGuias`, {
     method: "POST",
     body: formData,
   });
 
-  // Esperamos Blob u ArrayBuffer
   const blob = await response.blob();
-  // Forzamos descarga manual
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "guias_administrador.csv"; // o .csv
+  a.download = `guias.${extension}`;
   document.body.appendChild(a);
   a.click();
   a.remove();
   window.URL.revokeObjectURL(url);
+}
+
+// Asignar eventos a las opciones del dropdown
+document.getElementById("downloadExcelOption").addEventListener("click", async (e) => {
+  e.preventDefault(); // Evita la acción predeterminada del enlace
+  await descargarReporte("excel", "xlsx");
+});
+
+document.getElementById("downloadCsvOption").addEventListener("click", async (e) => {
+  e.preventDefault();
+  await descargarReporte("csv", "csv");
 });
 
 //Cargamos la tabla cuando el DOM esté listo (si quieres tener datos por defecto).
