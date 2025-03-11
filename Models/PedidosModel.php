@@ -375,11 +375,38 @@ class PedidosModel extends Query
     {
         $sql = "SELECT 
                     vga.*, 
-                    ccp.visto AS pagado  -- ⚡ Campo para saber si ya fue pagado (1 = Sí, 0 = No)
+                    ccp.visto AS pagado,
+    
+                    -- Relación con ciudad_cotizacion para obtener los trayectos
+                    ccz.trayecto_laar, 
+                    ccz.trayecto_servientrega, 
+                    ccz.trayecto_gintracom,
+    
+                    -- Costo según la transportadora
+                    COALESCE(cl.costo, cs.costo, cg.costo, 0) AS costo,
+    
+                    -- Cálculo de utilidad
+                    CASE 
+                        WHEN vga.id_transporte = 4 THEN 1  -- Speed: ganancia fija de $1
+                        ELSE COALESCE(vga.costo_flete - COALESCE(cl.costo, cs.costo, cg.costo, 0), 0)
+                    END AS utilidad
+    
                 FROM 
                     vista_guias_administrador vga
                 LEFT JOIN 
-                    cabecera_cuenta_pagar ccp ON ccp.numero_factura = vga.numero_factura";
+                    cabecera_cuenta_pagar ccp ON ccp.numero_factura = vga.numero_factura
+    
+                -- Relación con ciudad_cotizacion para obtener los trayectos correctos
+                LEFT JOIN ciudad_cotizacion ccz ON vga.ciudad_cot = ccz.id_cotizacion
+    
+                -- JOIN para LAAR
+                LEFT JOIN cobertura_laar cl ON vga.id_transporte = 1 AND cl.tipo_cobertura = ccz.trayecto_laar
+    
+                -- JOIN para SERVIENTREGA
+                LEFT JOIN cobertura_servientrega cs ON vga.id_transporte = 2 AND cs.tipo_cobertura = ccz.trayecto_servientrega
+    
+                -- JOIN para GINTRACOM
+                LEFT JOIN cobertura_gintracom cg ON vga.id_transporte = 3 AND cg.trayecto = ccz.trayecto_gintracom";
 
         $filtros = [];
 
@@ -458,6 +485,8 @@ class PedidosModel extends Query
 
         return $this->dselect($sql, []);
     }
+
+
 
 
     public function obtener_guias_admin_no_progresivo()
