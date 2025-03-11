@@ -4,6 +4,8 @@ const pageSize = 35;          // Cantidad de productos por página
 let isLoading = false;        // Para evitar clicks múltiples
 let products = [];            // Acumularemos aquí todos los productos que se han ido cargando
 
+let currentAPI = "marketplace/obtener_productos_paginados";
+
 /************************************************
  * FUNCIONES FUERA DE DOMContentLoaded
  * (para poder llamarlas con onclick, etc.)
@@ -241,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
     formData_filtro.set("limit", pageSize);
 
     try {
-      const response = await fetch(SERVERURL + "marketplace/obtener_productos_paginados", {
+      const response = await fetch(SERVERURL + currentAPI, {
         method: "POST",
         body: formData_filtro,
       });
@@ -651,6 +653,15 @@ document.addEventListener("DOMContentLoaded", function () {
     formData_filtro.set("vendido", estado);
     fetchProducts(true);
   });
+
+  // Switch de privados
+  $("#privadosSwitch").change(function () {
+    let estado = $(this).is(":checked") ? 1 : 0;
+
+    currentAPI = estado === 1 ? "marketplace/obtener_productos_privados" : "marketplace/obtener_productos_paginados";
+
+    fetchProducts(true);
+});
 
   /************************************************
    * BOTÓN "CARGAR MÁS"
