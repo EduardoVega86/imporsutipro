@@ -375,11 +375,27 @@ class PedidosModel extends Query
     {
         $sql = "SELECT 
                     vga.*, 
-                    ccp.visto AS pagado  -- ⚡ Campo para saber si ya fue pagado (1 = Sí, 0 = No)
+                    ccp.visto AS pagado,
+                    COALESCE(cobertura.costo, 0) AS costo,
+                    CASE 
+                        WHEN vga.id_transporte = 4 THEN 1  -- Speed: ganancia fija de $1
+                        ELSE COALESCE(vga.costo_flete - cobertura.costo, 0) 
+                    END AS utilidad
                 FROM 
                     vista_guias_administrador vga
                 LEFT JOIN 
-                    cabecera_cuenta_pagar ccp ON ccp.numero_factura = vga.numero_factura";
+                    cabecera_cuenta_pagar ccp ON ccp.numero_factura = vga.numero_factura
+                LEFT JOIN (
+                    SELECT 'laar' AS transportadora, tipo_cobertura AS trayecto, costo FROM cobertura_laar
+                    UNION ALL
+                    SELECT 'servientrega', tipo_cobertura, costo FROM cobertura_servientrega
+                    UNION ALL
+                    SELECT 'gintracom', trayecto, costo FROM cobertura_gintracom
+                ) AS cobertura 
+                ON vga.transporte = cobertura.transportadora 
+                AND (vga.transporte = 'laar' AND cobertura.trayecto = vga.ciudad_cot 
+                     OR vga.transporte = 'servientrega' AND cobertura.trayecto = vga.ciudad_cot
+                     OR vga.transporte = 'gintracom' AND cobertura.trayecto = vga.ciudad_cot)";
 
         $filtros = [];
 
