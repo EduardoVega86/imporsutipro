@@ -48,7 +48,7 @@ $(function() {
 // Configuración del DataTable
 const dataTableOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] },
     { orderable: false, targets: 0 }, // Evitar ordenar por la columna de checkboxes
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
@@ -316,6 +316,7 @@ const listGuias = async () => {
           <td>${guia.monto_factura}</td>
           <td>${guia.costo_producto}</td>
           <td>${guia.costo_flete}</td>
+          <td>${guia.utilidad}</td>
           <td></td>
           <td>${
             guia.monto_factura - guia.costo_producto - guia.costo_flete
