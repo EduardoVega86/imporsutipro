@@ -375,27 +375,23 @@ class PedidosModel extends Query
     {
         $sql = "SELECT 
                     vga.*, 
-                    ccp.visto AS pagado,
-                    COALESCE(cobertura.costo, 0) AS costo,
+                    ccp.visto AS pagado  -- ⚡ Campo para saber si ya fue pagado (1 = Sí, 0 = No)
                     CASE 
-                        WHEN vga.id_transporte = 4 THEN 1  -- Speed: ganancia fija de $1
-                        ELSE COALESCE(vga.costo_flete - cobertura.costo, 0) 
-                    END AS utilidad
+                        WHEN vga.transporte = 'laar' THEN (SELECT costo FROM cobertura_laar WHERE tipo_cobertura = vga.trayecto_laar LIMIT 1)
+                        WHEN vga.transporte = 'servientrega' THEN (SELECT costo FROM cobertura_servientrega WHERE tipo_cobertura = vga.trayecto_servientrega LIMIT 1)
+                        WHEN vga.transporte = 'gintracom' THEN (SELECT costo FROM cobertura_gintracom WHERE trayecto = vga.trayecto_gintracom LIMIT 1)
+                        ELSE 0
+                    END AS costo,
+                    CASE 
+                        WHEN vga.transporte = 'laar' THEN vga.precio - (SELECT costo FROM cobertura_laar WHERE tipo_cobertura = vga.trayecto_laar LIMIT 1)
+                        WHEN vga.transporte = 'servientrega' THEN vga.precio - (SELECT costo FROM cobertura_servientrega WHERE tipo_cobertura = vga.trayecto_servientrega LIMIT 1)
+                        WHEN vga.transporte = 'gintracom' THEN vga.precio - (SELECT costo FROM cobertura_gintracom WHERE trayecto = vga.trayecto_gintracom LIMIT 1)
+                        ELSE 0
+                    END AS utilidad                    
                 FROM 
                     vista_guias_administrador vga
                 LEFT JOIN 
-                    cabecera_cuenta_pagar ccp ON ccp.numero_factura = vga.numero_factura
-                LEFT JOIN (
-                    SELECT 'laar' AS transportadora, tipo_cobertura AS trayecto, costo FROM cobertura_laar
-                    UNION ALL
-                    SELECT 'servientrega', tipo_cobertura, costo FROM cobertura_servientrega
-                    UNION ALL
-                    SELECT 'gintracom', trayecto, costo FROM cobertura_gintracom
-                ) AS cobertura 
-                ON vga.transporte = cobertura.transportadora 
-                AND (vga.transporte = 'laar' AND cobertura.trayecto = vga.ciudad_cot 
-                     OR vga.transporte = 'servientrega' AND cobertura.trayecto = vga.ciudad_cot
-                     OR vga.transporte = 'gintracom' AND cobertura.trayecto = vga.ciudad_cot)";
+                    cabecera_cuenta_pagar ccp ON ccp.numero_factura = vga.numero_factura";
 
         $filtros = [];
 
