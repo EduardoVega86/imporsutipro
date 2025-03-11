@@ -1970,10 +1970,10 @@ class Pedidos extends Controller
         // 4) Mini tabla + Forzar suma 100% + Diagrama de barras
         // =========================================================
         $miniTableStart = 3; // fila 3
-        $sheet->setCellValue("S{$miniTableStart}", "Estado");
-        $sheet->setCellValue("T{$miniTableStart}", "Porcentaje");
+        $sheet->setCellValue("T{$miniTableStart}", "Estado");
+        $sheet->setCellValue("U{$miniTableStart}", "Porcentaje");
         // Estilo encabezado minitabla
-        $sheet->getStyle("S{$miniTableStart}:T{$miniTableStart}")->applyFromArray([
+        $sheet->getStyle("T{$miniTableStart}:U{$miniTableStart}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'color' => ['rgb' => 'FFFFFF'],
@@ -1986,8 +1986,8 @@ class Pedidos extends Controller
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
             ]
         ]);
-        $sheet->getColumnDimension('S')->setAutoSize(true);
         $sheet->getColumnDimension('T')->setAutoSize(true);
+        $sheet->getColumnDimension('U')->setAutoSize(true);
 
         // Preparar array para estados
         $labelsEstados = ["Generada", "En tránsito", "Zona entrega", "Entregada", "Novedad", "Devolución"];
@@ -2013,15 +2013,15 @@ class Pedidos extends Controller
         // 4.3) Volvemos a iterar para "pegar" en la hoja (redondeando c/2 decimales)
         $rowAux = $miniTableStart + 1; // fila 4
         foreach ($keysEstados as $i => $k) {
-            $sheet->setCellValue("S{$rowAux}", $labelsEstados[$i]);
+            $sheet->setCellValue("T{$rowAux}", $labelsEstados[$i]);
             $porcentajeFinal = round($porcentajesRaw[$k], 2);
-            $sheet->setCellValue("T{$rowAux}", $porcentajeFinal);
+            $sheet->setCellValue("U{$rowAux}", $porcentajeFinal);
             $rowAux++;
         }
         $lastAux = $rowAux - 1;
 
         // Bordes mini tabla
-        $sheet->getStyle("S{$miniTableStart}:T{$lastAux}")->applyFromArray([
+        $sheet->getStyle("T{$miniTableStart}:U{$lastAux}")->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -2035,13 +2035,13 @@ class Pedidos extends Controller
         $startData  = $miniTableStart + 1; // 4
         $endData    = $startData + $numEstados - 1; // 9
         $labels = [
-            new DataSeriesValues('String', $sheet->getTitle() . '!T' . $miniTableStart, null, 1), // S3 => "Porcentaje"
+            new DataSeriesValues('String', $sheet->getTitle() . '!U' . $miniTableStart, null, 1), // S3 => "Porcentaje"
         ];
         $categories = [
-            new DataSeriesValues('String', $sheet->getTitle() . "!S{$startData}:S{$endData}", null, $numEstados),
+            new DataSeriesValues('String', $sheet->getTitle() . "!T{$startData}:T{$endData}", null, $numEstados),
         ];
         $values = [
-            new DataSeriesValues('Number', $sheet->getTitle() . "!T{$startData}:T{$endData}", null, $numEstados),
+            new DataSeriesValues('Number', $sheet->getTitle() . "!U{$startData}:U{$endData}", null, $numEstados),
         ];
 
         $series = new DataSeries(
