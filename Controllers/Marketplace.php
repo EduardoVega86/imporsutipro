@@ -76,16 +76,37 @@ class Marketplace extends Controller
 
     public function obtener_productos_privados()
     {
-        $nombre = $_POST['nombre'];
-        $linea = $_POST['linea'];
+        // Recibimos los parámetros desde POST
+        $nombre     = $_POST['nombre'];
+        $linea      = $_POST['linea'];
         $plataforma = $_POST['plataforma'];
-        $min = $_POST['min'];
-        $max = $_POST['max'];
-        $favorito = $_POST['favorito'];
+        $min        = $_POST['min'];
+        $max        = $_POST['max'];
+        $favorito   = $_POST['favorito'];
+        $id         = $_POST['id'] ?? null;
 
-        $response = $this->model->obtener_productos_privados($_SESSION['id_plataforma'], $nombre, $linea, $plataforma, $min, $max, $favorito);
+        // Paginación
+        $page  = isset($_POST['page'])  ? (int)$_POST['page']  : 1;
+        $limit = isset($_POST['limit']) ? (int)$_POST['limit'] : 35;
+
+        // Llamamos al modelo con los parámetros
+        $response = $this->model->obtener_productos_privados(
+            $_SESSION['id_plataforma'], // Plataforma desde sesión
+            $nombre,
+            $linea,
+            $plataforma,
+            $min,
+            $max,
+            $favorito,
+            $id,
+            $page,
+            $limit
+        );
+
+        // Devolvemos el resultado en formato JSON
         echo json_encode($response);
     }
+
 
     public function obtener_producto($id)
     {
