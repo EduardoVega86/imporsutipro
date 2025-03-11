@@ -1818,7 +1818,7 @@ class Pedidos extends Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         // 1) Título en A1:P1
-        $sheet->mergeCells('A1:Q1');
+        $sheet->mergeCells('A1:R1');
         $sheet->setCellValue('A1', 'REPORTE DE GUÍAS ADMINISTRADOR');
         $sheet->getStyle('A1')->applyFromArray([
             'font' => [
@@ -1849,12 +1849,14 @@ class Pedidos extends Controller
         $sheet->setCellValue('K3', 'Venta Total');
         $sheet->setCellValue('L3', 'Costo Producto');
         $sheet->setCellValue('M3', 'Costo Flete');
-        $sheet->setCellValue('N3', 'Fulfillment');
-        $sheet->setCellValue('O3', 'Monto a Recibir');
-        $sheet->setCellValue('P3', 'Recaudo');
-        $sheet->setCellValue('Q3', 'Por acreditar');
+        $sheet->setCellValue('N3', 'Utilidad'); // <-- Añadimos esta columna
+        $sheet->setCellValue('O3', 'Fulfillment');
+        $sheet->setCellValue('P3', 'Monto a Recibir');
+        $sheet->setCellValue('Q3', 'Recaudo');
+        $sheet->setCellValue('R3', 'Por acreditar');
 
-        $sheet->getStyle('A3:Q3')->applyFromArray([
+        // Aplicar estilos a los encabezados
+        $sheet->getStyle('A3:R3')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1869,7 +1871,7 @@ class Pedidos extends Controller
             ]
         ]);
 
-        foreach (range('A', 'Q') as $col) {
+        foreach (range('A', 'R') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
@@ -1911,33 +1913,42 @@ class Pedidos extends Controller
 
             // Impreso
             $sheet->setCellValue("J{$fila}", ($guia['impreso'] == 1 ? 'SI' : 'NO'));
+
             // Venta total
             $sheet->setCellValue("K{$fila}", $guia['monto_factura']);
+
             // Costo Producto
             $sheet->setCellValue("L{$fila}", $guia['costo_producto']);
+
             // Costo Flete
             $sheet->setCellValue("M{$fila}", $guia['costo_flete']);
+
+            // Utilidad 
+            $sheet->setCellValue("N{$fila}", $guia['utilidad']);
+
             // Fulfillment => vacío
-            $sheet->setCellValue("N{$fila}", "");
+            $sheet->setCellValue("O{$fila}", "");
+
             // Monto a recibir
             $montoRecibir = $guia['monto_factura'] - $guia['costo_producto'] - $guia['costo_flete'];
-            $sheet->setCellValue("O{$fila}", $montoRecibir);
+            $sheet->setCellValue("P{$fila}", $montoRecibir);
+
             // Recaudo => SI/NO
-            $sheet->setCellValue("P{$fila}", ($guia['cod'] == 1 ? 'SI' : 'NO'));
+            $sheet->setCellValue("Q{$fila}", ($guia['cod'] == 1 ? 'SI' : 'NO'));
+
             // Por acreditar => ACREDITADO/PENDIENTE
-            $sheet->setCellValue("Q{$fila}", ($guia['pagado'] == 1 ? 'ACREDITADO' : 'PENDIENTE'));
+            $sheet->setCellValue("R{$fila}", ($guia['pagado'] == 1 ? 'ACREDITADO' : 'PENDIENTE'));
 
             $fila++;
         }
         $ultimaFila = $fila - 1;
 
-        // Alinear
+        // Alinear contenido de la tabla principal
         if ($ultimaFila >= 3) {
-            // centrado general
-            $sheet->getStyle("A3:Q{$ultimaFila}")
+            $sheet->getStyle("A3:R{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            // dirección a la izquierda
+            // Dirección alineada a la izquierda
             $sheet->getStyle("E4:E{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
@@ -1945,7 +1956,7 @@ class Pedidos extends Controller
 
         // Bordes a la tabla principal
         if ($ultimaFila >= 3) {
-            $sheet->getStyle("A3:Q{$ultimaFila}")->applyFromArray([
+            $sheet->getStyle("A3:R{$ultimaFila}")->applyFromArray([
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => Border::BORDER_THIN,
