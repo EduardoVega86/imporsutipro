@@ -789,7 +789,7 @@ async function descargarReporte(formato, extension) {
   formData.append("despachos", $("#despachos").val());
   formData.append("formato", formato); // 'excel' o 'csv'
 
-  const response = await fetch(`${SERVERURL}pedidos/exportarGuiasVistaNormal`, {
+  const response = await fetch(`${SERVERURL}pedidos/exportarGuias`, {
     method: "POST",
     body: formData,
   });

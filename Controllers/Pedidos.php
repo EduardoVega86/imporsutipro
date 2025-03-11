@@ -1012,7 +1012,7 @@ class Pedidos extends Controller
      *
      * @api
      */
-    public function exportarGuiasVistaNormal()
+    public function exportarGuias()
     {
         // 1) Recogemos los parámetros POST
         $fecha_inicio   = $_POST['fecha_inicio']   ?? "";
@@ -1223,7 +1223,7 @@ class Pedidos extends Controller
             // Recaudo => SI/NO
             $sheet->setCellValue("P{$fila}", ($guia['cod'] == 1 ? 'SI' : 'NO'));
 
-            // Recaudo => SI/Pendiente
+            // Por acreditar => ACREDITADO/PENDIENTE
             $sheet->setCellValue("Q{$fila}", ($guia['pagado'] == 1 ? 'ACREDITADO' : 'PENDIENTE'));
 
             $fila++;
@@ -1716,7 +1716,7 @@ class Pedidos extends Controller
     }
 
 
-    public function exportarGuias()
+    public function exportarGuiasAdministrador()
     {
         $fecha_inicio   = $_POST['fecha_inicio']   ?? "";
         $fecha_fin      = $_POST['fecha_fin']      ?? "";
@@ -1807,6 +1807,7 @@ class Pedidos extends Controller
             ) {
                 $counts['devolucion']++;
             }
+            $guia['pagado'] = ($guia['pagado'] == 1) ? 'Pagado' : 'Pendiente';
         }
         $total = count($data);
 
@@ -1817,7 +1818,7 @@ class Pedidos extends Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         // 1) Título en A1:P1
-        $sheet->mergeCells('A1:P1');
+        $sheet->mergeCells('A1:Q1');
         $sheet->setCellValue('A1', 'REPORTE DE GUÍAS ADMINISTRADOR');
         $sheet->getStyle('A1')->applyFromArray([
             'font' => [
@@ -1851,8 +1852,9 @@ class Pedidos extends Controller
         $sheet->setCellValue('N3', 'Fulfillment');
         $sheet->setCellValue('O3', 'Monto a Recibir');
         $sheet->setCellValue('P3', 'Recaudo');
+        $sheet->setCellValue('Q3', 'Por acreditar');
 
-        $sheet->getStyle('A3:P3')->applyFromArray([
+        $sheet->getStyle('A3:Q3')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1867,7 +1869,7 @@ class Pedidos extends Controller
             ]
         ]);
 
-        foreach (range('A', 'P') as $col) {
+        foreach (range('A', 'Q') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
@@ -1922,6 +1924,8 @@ class Pedidos extends Controller
             $sheet->setCellValue("O{$fila}", $montoRecibir);
             // Recaudo => SI/NO
             $sheet->setCellValue("P{$fila}", ($guia['cod'] == 1 ? 'SI' : 'NO'));
+            // Por acreditar => ACREDITADO/PENDIENTE
+            $sheet->setCellValue("Q{$fila}", ($guia['pagado'] == 1 ? 'ACREDITADO' : 'PENDIENTE'));
 
             $fila++;
         }
@@ -1930,7 +1934,7 @@ class Pedidos extends Controller
         // Alinear
         if ($ultimaFila >= 3) {
             // centrado general
-            $sheet->getStyle("A3:P{$ultimaFila}")
+            $sheet->getStyle("A3:Q{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_CENTER);
             // dirección a la izquierda
@@ -1941,7 +1945,7 @@ class Pedidos extends Controller
 
         // Bordes a la tabla principal
         if ($ultimaFila >= 3) {
-            $sheet->getStyle("A3:P{$ultimaFila}")->applyFromArray([
+            $sheet->getStyle("A3:Q{$ultimaFila}")->applyFromArray([
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => Border::BORDER_THIN,
@@ -1955,10 +1959,10 @@ class Pedidos extends Controller
         // 4) Mini tabla + Forzar suma 100% + Diagrama de barras
         // =========================================================
         $miniTableStart = 3; // fila 3
-        $sheet->setCellValue("R{$miniTableStart}", "Estado");
-        $sheet->setCellValue("S{$miniTableStart}", "Porcentaje");
+        $sheet->setCellValue("S{$miniTableStart}", "Estado");
+        $sheet->setCellValue("T{$miniTableStart}", "Porcentaje");
         // Estilo encabezado minitabla
-        $sheet->getStyle("R{$miniTableStart}:S{$miniTableStart}")->applyFromArray([
+        $sheet->getStyle("S{$miniTableStart}:T{$miniTableStart}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'color' => ['rgb' => 'FFFFFF'],
@@ -1971,8 +1975,8 @@ class Pedidos extends Controller
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
             ]
         ]);
-        $sheet->getColumnDimension('R')->setAutoSize(true);
         $sheet->getColumnDimension('S')->setAutoSize(true);
+        $sheet->getColumnDimension('T')->setAutoSize(true);
 
         // Preparar array para estados
         $labelsEstados = ["Generada", "En tránsito", "Zona entrega", "Entregada", "Novedad", "Devolución"];
@@ -1998,15 +2002,15 @@ class Pedidos extends Controller
         // 4.3) Volvemos a iterar para "pegar" en la hoja (redondeando c/2 decimales)
         $rowAux = $miniTableStart + 1; // fila 4
         foreach ($keysEstados as $i => $k) {
-            $sheet->setCellValue("R{$rowAux}", $labelsEstados[$i]);
+            $sheet->setCellValue("S{$rowAux}", $labelsEstados[$i]);
             $porcentajeFinal = round($porcentajesRaw[$k], 2);
-            $sheet->setCellValue("S{$rowAux}", $porcentajeFinal);
+            $sheet->setCellValue("T{$rowAux}", $porcentajeFinal);
             $rowAux++;
         }
         $lastAux = $rowAux - 1;
 
         // Bordes mini tabla
-        $sheet->getStyle("R{$miniTableStart}:S{$lastAux}")->applyFromArray([
+        $sheet->getStyle("S{$miniTableStart}:T{$lastAux}")->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -2020,13 +2024,13 @@ class Pedidos extends Controller
         $startData  = $miniTableStart + 1; // 4
         $endData    = $startData + $numEstados - 1; // 9
         $labels = [
-            new DataSeriesValues('String', $sheet->getTitle() . '!S' . $miniTableStart, null, 1), // S3 => "Porcentaje"
+            new DataSeriesValues('String', $sheet->getTitle() . '!T' . $miniTableStart, null, 1), // S3 => "Porcentaje"
         ];
         $categories = [
-            new DataSeriesValues('String', $sheet->getTitle() . "!R{$startData}:R{$endData}", null, $numEstados),
+            new DataSeriesValues('String', $sheet->getTitle() . "!S{$startData}:S{$endData}", null, $numEstados),
         ];
         $values = [
-            new DataSeriesValues('Number', $sheet->getTitle() . "!S{$startData}:S{$endData}", null, $numEstados),
+            new DataSeriesValues('Number', $sheet->getTitle() . "!T{$startData}:T{$endData}", null, $numEstados),
         ];
 
         $series = new DataSeries(
