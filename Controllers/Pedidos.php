@@ -1849,7 +1849,7 @@ class Pedidos extends Controller
         $sheet->setCellValue('K3', 'Venta Total');
         $sheet->setCellValue('L3', 'Costo Producto');
         $sheet->setCellValue('M3', 'Costo Flete');
-        $sheet->setCellValue('N3', 'Utilidad'); // <-- Añadimos esta columna
+        $sheet->setCellValue('N3', 'Utilidad Flete'); // <-- Añadimos esta columna
         $sheet->setCellValue('O3', 'Fulfillment');
         $sheet->setCellValue('P3', 'Monto a Recibir');
         $sheet->setCellValue('Q3', 'Recaudo');
