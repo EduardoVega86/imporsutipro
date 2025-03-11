@@ -375,23 +375,30 @@ class PedidosModel extends Query
     {
         $sql = "SELECT 
                     vga.*, 
-                    ccp.visto AS pagado  -- ⚡ Campo para saber si ya fue pagado (1 = Sí, 0 = No)
+                    ccp.visto AS pagado,
+    
+                    -- Costo según la transportadora
+                    COALESCE(cl.costo, cs.costo, cg.costo, 0) AS costo,
+    
+                    -- Cálculo de utilidad
                     CASE 
-                        WHEN vga.transporte = 'laar' THEN (SELECT costo FROM cobertura_laar WHERE tipo_cobertura = vga.trayecto_laar LIMIT 1)
-                        WHEN vga.transporte = 'servientrega' THEN (SELECT costo FROM cobertura_servientrega WHERE tipo_cobertura = vga.trayecto_servientrega LIMIT 1)
-                        WHEN vga.transporte = 'gintracom' THEN (SELECT costo FROM cobertura_gintracom WHERE trayecto = vga.trayecto_gintracom LIMIT 1)
-                        ELSE 0
-                    END AS costo,
-                    CASE 
-                        WHEN vga.transporte = 'laar' THEN vga.precio - (SELECT costo FROM cobertura_laar WHERE tipo_cobertura = vga.trayecto_laar LIMIT 1)
-                        WHEN vga.transporte = 'servientrega' THEN vga.precio - (SELECT costo FROM cobertura_servientrega WHERE tipo_cobertura = vga.trayecto_servientrega LIMIT 1)
-                        WHEN vga.transporte = 'gintracom' THEN vga.precio - (SELECT costo FROM cobertura_gintracom WHERE trayecto = vga.trayecto_gintracom LIMIT 1)
-                        ELSE 0
-                    END AS utilidad                    
+                        WHEN vga.id_transporte = 4 THEN 1  -- Speed: ganancia fija de $1
+                        ELSE COALESCE(vga.costo_flete - COALESCE(cl.costo, cs.costo, cg.costo, 0), 0)
+                    END AS utilidad
+    
                 FROM 
                     vista_guias_administrador vga
                 LEFT JOIN 
-                    cabecera_cuenta_pagar ccp ON ccp.numero_factura = vga.numero_factura";
+                    cabecera_cuenta_pagar ccp ON ccp.numero_factura = vga.numero_factura
+    
+                -- JOIN para LAAR
+                LEFT JOIN cobertura_laar cl ON vga.id_transporte = 1 AND cl.tipo_cobertura = vga.ciudad_cot
+    
+                -- JOIN para SERVIENTREGA
+                LEFT JOIN cobertura_servientrega cs ON vga.id_transporte = 2 AND cs.tipo_cobertura = vga.ciudad_cot
+    
+                -- JOIN para GINTRACOM
+                LEFT JOIN cobertura_gintracom cg ON vga.id_transporte = 3 AND cg.trayecto = vga.ciudad_cot";
 
         $filtros = [];
 
@@ -470,6 +477,7 @@ class PedidosModel extends Query
 
         return $this->dselect($sql, []);
     }
+
 
 
     public function obtener_guias_admin_no_progresivo()
