@@ -377,6 +377,11 @@ class PedidosModel extends Query
                     vga.*, 
                     ccp.visto AS pagado,
     
+                    -- Relación con ciudad_cotizacion para obtener los trayectos
+                    ccz.trayecto_laar, 
+                    ccz.trayecto_servientrega, 
+                    ccz.trayecto_gintracom,
+    
                     -- Costo según la transportadora
                     COALESCE(cl.costo, cs.costo, cg.costo, 0) AS costo,
     
@@ -391,14 +396,17 @@ class PedidosModel extends Query
                 LEFT JOIN 
                     cabecera_cuenta_pagar ccp ON ccp.numero_factura = vga.numero_factura
     
+                -- Relación con ciudad_cotizacion para obtener los trayectos correctos
+                LEFT JOIN ciudad_cotizacion ccz ON vga.ciudad_cot = ccz.id_cotizacion
+    
                 -- JOIN para LAAR
-                LEFT JOIN cobertura_laar cl ON vga.id_transporte = 1 AND cl.tipo_cobertura = vga.ciudad_cot
+                LEFT JOIN cobertura_laar cl ON vga.id_transporte = 1 AND cl.tipo_cobertura = ccz.trayecto_laar
     
                 -- JOIN para SERVIENTREGA
-                LEFT JOIN cobertura_servientrega cs ON vga.id_transporte = 2 AND cs.tipo_cobertura = vga.ciudad_cot
+                LEFT JOIN cobertura_servientrega cs ON vga.id_transporte = 2 AND cs.tipo_cobertura = ccz.trayecto_servientrega
     
                 -- JOIN para GINTRACOM
-                LEFT JOIN cobertura_gintracom cg ON vga.id_transporte = 3 AND cg.trayecto = vga.ciudad_cot";
+                LEFT JOIN cobertura_gintracom cg ON vga.id_transporte = 3 AND cg.trayecto = ccz.trayecto_gintracom";
 
         $filtros = [];
 
@@ -477,6 +485,7 @@ class PedidosModel extends Query
 
         return $this->dselect($sql, []);
     }
+
 
 
 
