@@ -1650,9 +1650,22 @@ class Pedidos extends Controller
         // ================================================================
         // 8) Exportar según formato
         // ================================================================
+        // Preparamos un filename base
+        $fechaInicioCorta = !empty($fecha_inicio) ? date('Y-m-d', strtotime($fecha_inicio)) : "";
+        $fechaFinCorta    = !empty($fecha_fin)    ? date('Y-m-d', strtotime($fecha_fin))    : "";
+
+        if ($fechaInicioCorta && $fechaFinCorta) {
+            $filename = "guias_{$fechaInicioCorta}_al_{$fechaFinCorta}";
+        } elseif ($fechaInicioCorta) {
+            $filename = "guias_{$fechaInicioCorta}";
+        } else {
+            $filename = "guias_" . date('Y-m-d');
+        }
+
+        // Formato
         if ($formato === 'csv') {
             $writer = new Csv($spreadsheet);
-            $filename = "guias_{$fecha_inicio}_al_{$fecha_fin}.csv";
+            $filename .= '.csv';
 
             header('Content-Type: text/csv');
             header("Content-Disposition: attachment;filename=\"{$filename}\"");
@@ -1663,8 +1676,7 @@ class Pedidos extends Controller
         } else {
             $writer = new Xlsx($spreadsheet);
             $writer->setIncludeCharts(true);
-            $filename = "guias_{$fecha_inicio}_al_{$fecha_fin}.xlsx";
-
+            $filename .= '.xlsx';
 
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header("Content-Disposition: attachment; filename=\"{$filename}\"");
