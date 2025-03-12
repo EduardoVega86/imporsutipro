@@ -1023,6 +1023,10 @@ class Pedidos extends Controller
         $impreso        = $_POST['impreso']        ?? "";
         $despachos      = $_POST['despachos']      ?? "";
         $formato        = $_POST['formato']        ?? "excel";
+
+        // Formato de fechas en nombre de archivo 
+        $filename = "guias_{$fecha_inicio}_al_{$fecha_fin}.xlsx";
+
         // Para pedidos:
         $estado_pedido  = $_POST['estado_pedido']  ?? "";
 
@@ -2035,22 +2039,22 @@ class Pedidos extends Controller
         // =========================================================
         if ($formato === 'csv') {
             $writer = new Csv($spreadsheet);
-            $filename = 'guias_' . date('Y-m-d') . '.csv';
+            $filename = "guias_{$fecha_inicio}_al_{$fecha_fin}.csv";
 
             header('Content-Type: text/csv');
-            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header("Content-Disposition: attachment;filename=\"{$filename}\"");
             header('Cache-Control: max-age=0');
 
             $writer->save('php://output');
             exit;
         } else {
-            // Excel con charts
             $writer = new Xlsx($spreadsheet);
             $writer->setIncludeCharts(true);
-            $filename = 'guias_' . date('Y-m-d') . '.xlsx';
+            $filename = "guias_{$fecha_inicio}_al_{$fecha_fin}.xlsx";
+            // Ejemplo: "guias_2023-02-01_al_2023-02-10.xlsx"
 
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            header("Content-Disposition: attachment; filename=\"{$filename}\"");
             header('Cache-Control: max-age=0');
 
             $writer->save('php://output');
