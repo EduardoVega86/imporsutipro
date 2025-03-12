@@ -1650,42 +1650,41 @@ class Pedidos extends Controller
         // ================================================================
         // 8) Exportar según formato
         // ================================================================
-        // Preparamos un filename base
-        // Justo antes de exportar:
-        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
-        $fecha_fin    = $_POST['fecha_fin']    ?? "";
-
+        // 1) "Limpiamos" las fechas para armar el nombre:
         $fechaInicioCorta = !empty($fecha_inicio) ? date('Y-m-d', strtotime($fecha_inicio)) : "";
         $fechaFinCorta    = !empty($fecha_fin)    ? date('Y-m-d', strtotime($fecha_fin))    : "";
 
         if ($fechaInicioCorta && $fechaFinCorta) {
-            $filename = "guias_{$fechaInicioCorta}_al_{$fechaFinCorta}";
+            $filenameBase = "guias_{$fechaInicioCorta}_al_{$fechaFinCorta}";
         } elseif ($fechaInicioCorta) {
-            $filename = "guias_{$fechaInicioCorta}";
+            $filenameBase = "guias_{$fechaInicioCorta}";
         } else {
-            $filename = "guias_" . date('Y-m-d');
+            $filenameBase = "guias_" . date('Y-m-d');
         }
 
-        // Formato
+        // 2) Según formato:
         if ($formato === 'csv') {
             $writer = new Csv($spreadsheet);
-            $filename .= '.csv';
+            $filenameFinal = $filenameBase . ".csv";
 
-            var_dump($fecha_inicio, $fecha_fin, $fechaInicioCorta, $fechaFinCorta, $filename);
-            exit;
+            // Cabeceras:
             header('Content-Type: text/csv');
-            header("Content-Disposition: attachment;filename=\"{$filename}\"");
+            // Aquí pasamos el nombre dinámico:
+            header("Content-Disposition: attachment; filename=\"{$filenameFinal}\"");
             header('Cache-Control: max-age=0');
 
             $writer->save('php://output');
             exit;
         } else {
+            // Asumimos "excel" 
             $writer = new Xlsx($spreadsheet);
             $writer->setIncludeCharts(true);
-            $filename .= '.xlsx';
 
+            $filenameFinal = $filenameBase . ".xlsx";
+
+            // Cabeceras:
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header("Content-Disposition: attachment; filename=\"{$filename}\"");
+            header("Content-Disposition: attachment; filename=\"{$filenameFinal}\"");
             header('Cache-Control: max-age=0');
 
             $writer->save('php://output');
