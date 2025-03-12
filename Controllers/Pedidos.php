@@ -1651,24 +1651,23 @@ class Pedidos extends Controller
         // 8) Exportar según formato
         // ================================================================
         if ($formato === 'csv') {
-            // NOTA: CSV solo exporta la hoja activa y no incluye gráficos
             $writer = new Csv($spreadsheet);
-            $filename = 'guias_vistanormal_' . date('Y-m-d') . '.csv';
+            $filename = "guias_{$fecha_inicio}_al_{$fecha_fin}.csv";
 
             header('Content-Type: text/csv');
-            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header("Content-Disposition: attachment;filename=\"{$filename}\"");
             header('Cache-Control: max-age=0');
 
             $writer->save('php://output');
             exit;
         } else {
             $writer = new Xlsx($spreadsheet);
-            // Para incluir gráficos en XLSX
             $writer->setIncludeCharts(true);
-            $filename = 'guias_vistanormal_' . date('Y-m-d') . '.xlsx';
+            $filename = "guias_{$fecha_inicio}_al_{$fecha_fin}.xlsx";
+
 
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            header("Content-Disposition: attachment; filename=\"{$filename}\"");
             header('Cache-Control: max-age=0');
 
             $writer->save('php://output');
