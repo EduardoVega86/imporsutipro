@@ -785,7 +785,7 @@ async function descargarReporte(formato) {
   formData.append("fecha_fin", fecha_fin);         // "2025-03-12 23:59:59"
   formData.append("transportadora", document.getElementById("transporte").value);
   formData.append("estado",         document.getElementById("estado_q").value);
-  formData.append("estado_pedido",  document.getElementById("estado_pedido").value || "");
+  formData.append("estado_pedido",  document.getElementById("estado_pedido").value);
   formData.append("drogshipin",     document.getElementById("tienda_q").value);
   formData.append("impreso",        document.getElementById("impresion").value);
   formData.append("despachos",      document.getElementById("despachos").value);
