@@ -1410,6 +1410,11 @@ class Pedidos extends Controller
             ]
         ]);
 
+        foreach (range('A', 'J') as $col) {
+            $sheetPendientes->getColumnDimension($col)->setAutoSize(true);
+        }
+
+
         $fila += 2;
         // Cabecera columnas
         $sheetPendientes->setCellValue("A{$fila}", '# Orden');
@@ -1514,6 +1519,10 @@ class Pedidos extends Controller
             ]
         ]);
 
+        foreach (range('A', 'J') as $col) {
+            $sheetNoVinc->getColumnDimension($col)->setAutoSize(true);
+        }
+
         $fila += 2;
         // Encabezados
         $sheetNoVinc->setCellValue("A{$fila}", '# Orden');
@@ -1614,6 +1623,11 @@ class Pedidos extends Controller
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
             ]
         ]);
+
+        // Para la hoja de ANULADOS
+        foreach (range('A', 'J') as $col) {
+            $sheetAnulados->getColumnDimension($col)->setAutoSize(true);
+        }
 
         $fila += 2;
         // Encabezados
