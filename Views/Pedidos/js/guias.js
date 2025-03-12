@@ -836,17 +836,6 @@ document.getElementById("downloadCsvOption").addEventListener("click", (e) => {
   descargarReporte("csv");
 });
 
-// Asignar eventos a las opciones del dropdown
-document.getElementById("downloadExcelOption").addEventListener("click", async (e) => {
-  e.preventDefault(); // Evita la acción predeterminada del enlace
-  await descargarReporte("excel", "xlsx");
-});
-
-document.getElementById("downloadCsvOption").addEventListener("click", async (e) => {
-  e.preventDefault();
-  await descargarReporte("csv", "csv");
-});
-
 
 window.addEventListener("load", async () => {
   await initDataTable();
