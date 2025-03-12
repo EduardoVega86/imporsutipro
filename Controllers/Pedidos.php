@@ -1023,6 +1023,7 @@ class Pedidos extends Controller
         $impreso        = $_POST['impreso']        ?? "";
         $despachos      = $_POST['despachos']      ?? "";
         $formato        = $_POST['formato']        ?? "excel";
+
         // Para pedidos:
         $estado_pedido  = $_POST['estado_pedido']  ?? "";
 
@@ -1242,10 +1243,6 @@ class Pedidos extends Controller
         if ($ultimaFila >= 3) {
             // centrado general
             $sheetGuias->getStyle("A3:Q{$ultimaFila}")
-                ->getAlignment()
-                ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            // dirección a la izquierda
-            $sheetGuias->getStyle("E4:E{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
@@ -1543,13 +1540,9 @@ class Pedidos extends Controller
                         ]
                     ],
                     'alignment' => [
-                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'horizontal' => Alignment::HORIZONTAL_LEFT,
                     ]
                 ]);
-            // Para la dirección, alineado a la izquierda
-            $sheetPendientes->getStyle("E" . ($filaCabecera + 1) . ":E{$ultimaFila}")
-                ->getAlignment()
-                ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
         // -------------------------------------------------------
@@ -1649,36 +1642,37 @@ class Pedidos extends Controller
                         ]
                     ],
                     'alignment' => [
-                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'horizontal' => Alignment::HORIZONTAL_LEFT,
                     ]
                 ]);
-            $sheetNoVinc->getStyle("E" . ($filaPedidosInicio + 1) . ":E{$ultimaFilaPedidos}")
-                ->getAlignment()
-                ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
         // ================================================================
         // 8) Exportar según formato
         // ================================================================
-        if ($formato === 'csv') {
-            // NOTA: CSV solo exporta la hoja activa y no incluye gráficos
-            $writer = new Csv($spreadsheet);
-            $filename = 'guias_vistanormal_' . date('Y-m-d') . '.csv';
 
-            header('Content-Type: text/csv');
-            header('Content-Disposition: attachment;filename="' . $filename . '"');
+        // 2) Según formato:
+        if ($formato == 'csv') {
+            // Generar un CSV
+            $writer = new Csv($spreadsheet);
+            // Opciones del CSV
+            $writer->setDelimiter(',');
+            $writer->setEnclosure('"');
+            $writer->setSheetIndex(0);
+
+            // Encabezados HTTP para forzar descarga
+            header('Content-Type: text/csv; charset=UTF-8');
+            header('Content-Disposition: attachment;filename="guias.csv"');
             header('Cache-Control: max-age=0');
 
             $writer->save('php://output');
             exit;
         } else {
+            // Generar un Excel (XLSX)
             $writer = new Xlsx($spreadsheet);
-            // Para incluir gráficos en XLSX
-            $writer->setIncludeCharts(true);
-            $filename = 'guias_vistanormal_' . date('Y-m-d') . '.xlsx';
 
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            header('Content-Disposition: attachment;filename="guias.xlsx"');
             header('Cache-Control: max-age=0');
 
             $writer->save('php://output');
@@ -1919,10 +1913,6 @@ class Pedidos extends Controller
         if ($ultimaFila >= 3) {
             $sheet->getStyle("A3:R{$ultimaFila}")
                 ->getAlignment()
-                ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            // Dirección alineada a la izquierda
-            $sheet->getStyle("E4:E{$ultimaFila}")
-                ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
@@ -2050,22 +2040,22 @@ class Pedidos extends Controller
         // =========================================================
         if ($formato === 'csv') {
             $writer = new Csv($spreadsheet);
-            $filename = 'guias_' . date('Y-m-d') . '.csv';
+            $filename = "guias_{$fecha_inicio}_al_{$fecha_fin}.csv";
 
             header('Content-Type: text/csv');
-            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header("Content-Disposition: attachment;filename=\"{$filename}\"");
             header('Cache-Control: max-age=0');
 
             $writer->save('php://output');
             exit;
         } else {
-            // Excel con charts
             $writer = new Xlsx($spreadsheet);
             $writer->setIncludeCharts(true);
-            $filename = 'guias_' . date('Y-m-d') . '.xlsx';
+            $filename = "guias_{$fecha_inicio}_al_{$fecha_fin}.xlsx";
+            // Ejemplo: "guias_2023-02-01_al_2023-02-10.xlsx"
 
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            header("Content-Disposition: attachment; filename=\"{$filename}\"");
             header('Cache-Control: max-age=0');
 
             $writer->save('php://output');

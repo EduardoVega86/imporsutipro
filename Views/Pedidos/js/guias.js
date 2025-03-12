@@ -798,7 +798,7 @@ async function descargarReporte(formato, extension) {
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `guias.${extension}`;
+  a.download = (formato === 'csv') ? 'guias.csv' : 'guias.xlsx';
   document.body.appendChild(a);
   a.click();
   a.remove();
