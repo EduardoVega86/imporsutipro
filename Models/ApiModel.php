@@ -166,8 +166,8 @@ class ApiModel extends Query
             $response['status'] = 200;
             $response['message'] = 'Registro exitoso';
 
-            // $response2 = $this->registro_imporsuit($correo, $nombre, $tienda, $telefono, $pais, $contrasena);
-            $response["log_imporsuit"] = $response;
+            $response2 = $this->registro_imporsuit($correo, $nombre, $tienda, $telefono, $pais, $contrasena);
+            $response["log_imporsuit"] = $response2;
             return $response;
         } catch (Exception $e) {
             $this->rollBack();
