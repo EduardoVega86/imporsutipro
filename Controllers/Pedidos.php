@@ -1651,6 +1651,10 @@ class Pedidos extends Controller
         // 8) Exportar según formato
         // ================================================================
         // Preparamos un filename base
+        // Justo antes de exportar:
+        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
+        $fecha_fin    = $_POST['fecha_fin']    ?? "";
+
         $fechaInicioCorta = !empty($fecha_inicio) ? date('Y-m-d', strtotime($fecha_inicio)) : "";
         $fechaFinCorta    = !empty($fecha_fin)    ? date('Y-m-d', strtotime($fecha_fin))    : "";
 
