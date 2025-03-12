@@ -776,9 +776,6 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
   });
 });
 
-// Variables globales o que obtenemos del formulario:
-let fecha_inicio = "2025-03-06 00:00:00";
-let fecha_fin    = "2025-03-12 23:59:59";
 
 // Función común para descargar el reporte según el formato y extensión
 async function descargarReporte(formato) {
