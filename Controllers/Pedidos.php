@@ -1652,7 +1652,7 @@ class Pedidos extends Controller
         // ================================================================
 
         // 2) Según formato:
-        if ($formato === 'csv') {
+        if ($formato == 'csv') {
             // Generar un CSV
             $writer = new Csv($spreadsheet);
             // Opciones del CSV
