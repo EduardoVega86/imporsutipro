@@ -1024,9 +1024,6 @@ class Pedidos extends Controller
         $despachos      = $_POST['despachos']      ?? "";
         $formato        = $_POST['formato']        ?? "excel";
 
-        // Formato de fechas en nombre de archivo 
-        $filename = "guias_{$fecha_inicio}_al_{$fecha_fin}.xlsx";
-
         // Para pedidos:
         $estado_pedido  = $_POST['estado_pedido']  ?? "";
 
