@@ -1662,7 +1662,6 @@ class Pedidos extends Controller
 
             // Encabezados HTTP para forzar descarga
             header('Content-Type: text/csv; charset=UTF-8');
-            header('Content-Disposition: attachment;filename="guias.csv"');
             header('Cache-Control: max-age=0');
 
             $writer->save('php://output');
@@ -1672,7 +1671,6 @@ class Pedidos extends Controller
             $writer = new Xlsx($spreadsheet);
 
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="guias.xlsx"');
             header('Cache-Control: max-age=0');
 
             $writer->save('php://output');
