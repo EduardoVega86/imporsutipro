@@ -1919,10 +1919,6 @@ class Pedidos extends Controller
         if ($ultimaFila >= 3) {
             $sheet->getStyle("A3:R{$ultimaFila}")
                 ->getAlignment()
-                ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            // Dirección alineada a la izquierda
-            $sheet->getStyle("E4:E{$ultimaFila}")
-                ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
