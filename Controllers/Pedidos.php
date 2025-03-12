@@ -1243,10 +1243,6 @@ class Pedidos extends Controller
             // centrado general
             $sheetGuias->getStyle("A3:Q{$ultimaFila}")
                 ->getAlignment()
-                ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            // dirección a la izquierda
-            $sheetGuias->getStyle("E4:E{$ultimaFila}")
-                ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
@@ -1543,13 +1539,9 @@ class Pedidos extends Controller
                         ]
                     ],
                     'alignment' => [
-                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'horizontal' => Alignment::HORIZONTAL_LEFT,
                     ]
                 ]);
-            // Para la dirección, alineado a la izquierda
-            $sheetPendientes->getStyle("E" . ($filaCabecera + 1) . ":E{$ultimaFila}")
-                ->getAlignment()
-                ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
         // -------------------------------------------------------
@@ -1649,12 +1641,9 @@ class Pedidos extends Controller
                         ]
                     ],
                     'alignment' => [
-                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'horizontal' => Alignment::HORIZONTAL_LEFT,
                     ]
                 ]);
-            $sheetNoVinc->getStyle("E" . ($filaPedidosInicio + 1) . ":E{$ultimaFilaPedidos}")
-                ->getAlignment()
-                ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
         // ================================================================
