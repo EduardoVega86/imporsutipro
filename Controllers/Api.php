@@ -12,7 +12,7 @@ class Api extends Controller
         $this->views->render($this, 'index');
     }
 
-    public function registro()
+    public function registro_ecommerce()
     {
         try {
             $this->logRequest('api/registro', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
@@ -47,7 +47,7 @@ class Api extends Controller
             echo json_encode(['status' => 500, 'message' => 'Error interno del servidor', 'error' => $e->getMessage()]);
         }
     }
-    public function registro_ecommerce()
+    public function registro_importaciones()
     {
         try {
             $this->logRequest('api/registro', $_SERVER['REQUEST_METHOD'], file_get_contents('php://input'));
