@@ -1023,6 +1023,8 @@ class Pedidos extends Controller
         $impreso        = $_POST['impreso']        ?? "";
         $despachos      = $_POST['despachos']      ?? "";
         $formato        = $_POST['formato']        ?? "excel";
+        // Para pedidos:
+        $estado_pedido  = $_POST['estado_pedido']  ?? "";
 
         $id_plataforma = $_SESSION['id_plataforma'];
 
@@ -1049,7 +1051,7 @@ class Pedidos extends Controller
             'novedad'       => 0,
             'devolucion'    => 0,
         ];
-        foreach ($data as $guia) {
+        foreach ($data as $idx => $guia) {
             $estado_guia = intval($guia['estado_guia_sistema']);
             $transporte  = intval($guia['id_transporte']);
 
@@ -1106,18 +1108,24 @@ class Pedidos extends Controller
             ) {
                 $counts['devolucion']++;
             }
-            $guia['pagado'] = ($guia['pagado'] == 1) ? 'Pagado' : 'Pendiente';
+
+            // Ajuste local de 'pagado' sólo para la impresión
+            $data[$idx]['pagado'] = ($guia['pagado'] == 1) ? 'Pagado' : 'Pendiente';
         }
         $total = count($data);
 
-        // 4) Construimos el Spreadsheet
+        // ================================================================
+        // 4) Construimos el Spreadsheet y la PRIMERA HOJA (GUÍAS)
+        // ================================================================
         $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
+        // Obtenemos la primera hoja (por defecto)
+        $sheetGuias = $spreadsheet->getActiveSheet();
+        $sheetGuias->setTitle('GUÍAS');
 
-        // --- Encabezado Título en A1:P1 ---
-        $sheet->mergeCells('A1:Q1');
-        $sheet->setCellValue('A1', 'REPORTE DE GUÍAS');
-        $sheet->getStyle('A1')->applyFromArray([
+        // --- Encabezado Título en A1:Q1 ---
+        $sheetGuias->mergeCells('A1:Q1');
+        $sheetGuias->setCellValue('A1', 'REPORTE DE GUÍAS');
+        $sheetGuias->getStyle('A1')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 18,
@@ -1133,25 +1141,25 @@ class Pedidos extends Controller
         ]);
 
         // --- Encabezados en la fila 3 ---
-        $sheet->setCellValue('A3', '# Guia');
-        $sheet->setCellValue('B3', 'Fecha Factura');
-        $sheet->setCellValue('C3', 'Cliente');
-        $sheet->setCellValue('D3', 'Teléfono');
-        $sheet->setCellValue('E3', 'Dirección');
-        $sheet->setCellValue('F3', 'Destino');
-        $sheet->setCellValue('G3', 'Transportadora');
-        $sheet->setCellValue('H3', 'Estado');
-        $sheet->setCellValue('I3', 'Despachado');
-        $sheet->setCellValue('J3', 'Impreso');
-        $sheet->setCellValue('K3', 'Venta Total');
-        $sheet->setCellValue('L3', 'Costo Producto');
-        $sheet->setCellValue('M3', 'Costo Flete');
-        $sheet->setCellValue('N3', 'Fulfillment');
-        $sheet->setCellValue('O3', 'Monto a Recibir');
-        $sheet->setCellValue('P3', 'Recaudo');
-        $sheet->setCellValue('Q3', 'Por acreditar');
+        $sheetGuias->setCellValue('A3', '# Guia');
+        $sheetGuias->setCellValue('B3', 'Fecha Factura');
+        $sheetGuias->setCellValue('C3', 'Cliente');
+        $sheetGuias->setCellValue('D3', 'Teléfono');
+        $sheetGuias->setCellValue('E3', 'Dirección');
+        $sheetGuias->setCellValue('F3', 'Destino');
+        $sheetGuias->setCellValue('G3', 'Transportadora');
+        $sheetGuias->setCellValue('H3', 'Estado');
+        $sheetGuias->setCellValue('I3', 'Despachado');
+        $sheetGuias->setCellValue('J3', 'Impreso');
+        $sheetGuias->setCellValue('K3', 'Venta Total');
+        $sheetGuias->setCellValue('L3', 'Costo Producto');
+        $sheetGuias->setCellValue('M3', 'Costo Flete');
+        $sheetGuias->setCellValue('N3', 'Fulfillment');
+        $sheetGuias->setCellValue('O3', 'Monto a Recibir');
+        $sheetGuias->setCellValue('P3', 'Recaudo');
+        $sheetGuias->setCellValue('Q3', 'Por acreditar');
 
-        $sheet->getStyle('A3:Q3')->applyFromArray([
+        $sheetGuias->getStyle('A3:Q3')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1167,16 +1175,16 @@ class Pedidos extends Controller
         ]);
 
         foreach (range('A', 'Q') as $col) {
-            $sheet->getColumnDimension($col)->setAutoSize(true);
+            $sheetGuias->getColumnDimension($col)->setAutoSize(true);
         }
 
         // 5) Rellenar la data de GUÍAS
         $fila = 4;
         foreach ($data as $guia) {
-            $sheet->setCellValue("A{$fila}", $guia['numero_guia']);
-            $sheet->setCellValue("B{$fila}", $guia['fecha_factura']);
-            $sheet->setCellValue("C{$fila}", $guia['nombre']);
-            $sheet->setCellValue("D{$fila}", $guia['telefono']);
+            $sheetGuias->setCellValue("A{$fila}", $guia['numero_guia']);
+            $sheetGuias->setCellValue("B{$fila}", $guia['fecha_factura']);
+            $sheetGuias->setCellValue("C{$fila}", $guia['nombre']);
+            $sheetGuias->setCellValue("D{$fila}", $guia['telefono']);
 
             // Truncar dirección a 20 chars
             $direccionCompleta = $guia['c_principal'] . ' ' . $guia['c_secundaria'];
@@ -1186,45 +1194,45 @@ class Pedidos extends Controller
             if (strlen($direccionCompleta) > 20) {
                 $direccionCompleta = substr($direccionCompleta, 0, 20) . '...';
             }
-            $sheet->setCellValue("E{$fila}", $direccionCompleta);
+            $sheetGuias->setCellValue("E{$fila}", $direccionCompleta);
 
             // Destino
             $destino = $guia['provinciaa'] . ' - ' . $guia['ciudad'];
-            $sheet->setCellValue("F{$fila}", $destino);
+            $sheetGuias->setCellValue("F{$fila}", $destino);
 
-            $sheet->setCellValue("G{$fila}", $guia['transporte']);
+            $sheetGuias->setCellValue("G{$fila}", $guia['transporte']);
 
-            // Estado traducido
+            // Estado traducido (función personalizada)
             $estadoGuia = $this->traducirEstado($guia['id_transporte'], $guia['estado_guia_sistema']);
-            $sheet->setCellValue("H{$fila}", $estadoGuia);
+            $sheetGuias->setCellValue("H{$fila}", $estadoGuia);
 
             // Despachado
             $despachado = "";
             if ($guia['estado_factura'] == 1) $despachado = "No despachado";
             if ($guia['estado_factura'] == 2) $despachado = "Despachado";
             if ($guia['estado_factura'] == 3) $despachado = "Devuelto";
-            $sheet->setCellValue("I{$fila}", $despachado);
+            $sheetGuias->setCellValue("I{$fila}", $despachado);
 
             // Impreso
-            $sheet->setCellValue("J{$fila}", ($guia['impreso'] == 1 ? 'SI' : 'NO'));
+            $sheetGuias->setCellValue("J{$fila}", ($guia['impreso'] == 1 ? 'SI' : 'NO'));
 
             // Venta total
-            $sheet->setCellValue("K{$fila}", $guia['monto_factura']);
+            $sheetGuias->setCellValue("K{$fila}", $guia['monto_factura']);
             // Costo Producto
-            $sheet->setCellValue("L{$fila}", $guia['costo_producto']);
+            $sheetGuias->setCellValue("L{$fila}", $guia['costo_producto']);
             // Costo Flete
-            $sheet->setCellValue("M{$fila}", $guia['costo_flete']);
+            $sheetGuias->setCellValue("M{$fila}", $guia['costo_flete']);
             // Fulfillment => vacío
-            $sheet->setCellValue("N{$fila}", "");
+            $sheetGuias->setCellValue("N{$fila}", "");
             // Monto a recibir
             $montoRecibir = $guia['monto_factura'] - $guia['costo_producto'] - $guia['costo_flete'];
-            $sheet->setCellValue("O{$fila}", $montoRecibir);
+            $sheetGuias->setCellValue("O{$fila}", $montoRecibir);
 
             // Recaudo => SI/NO
-            $sheet->setCellValue("P{$fila}", ($guia['cod'] == 1 ? 'SI' : 'NO'));
+            $sheetGuias->setCellValue("P{$fila}", ($guia['cod'] == 1 ? 'SI' : 'NO'));
 
             // Por acreditar => ACREDITADO/PENDIENTE
-            $sheet->setCellValue("Q{$fila}", ($guia['pagado'] == 1 ? 'ACREDITADO' : 'PENDIENTE'));
+            $sheetGuias->setCellValue("Q{$fila}", ($guia['pagado'] == 'Pagado' ? 'ACREDITADO' : 'PENDIENTE'));
 
             $fila++;
         }
@@ -1233,18 +1241,18 @@ class Pedidos extends Controller
         // Estilos de alineación
         if ($ultimaFila >= 3) {
             // centrado general
-            $sheet->getStyle("A3:Q{$ultimaFila}")
+            $sheetGuias->getStyle("A3:Q{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_CENTER);
             // dirección a la izquierda
-            $sheet->getStyle("E4:E{$ultimaFila}")
+            $sheetGuias->getStyle("E4:E{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
         // Bordes
         if ($ultimaFila >= 3) {
-            $sheet->getStyle("A3:Q{$ultimaFila}")->applyFromArray([
+            $sheetGuias->getStyle("A3:Q{$ultimaFila}")->applyFromArray([
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => Border::BORDER_THIN,
@@ -1254,12 +1262,12 @@ class Pedidos extends Controller
             ]);
         }
 
-        // 6) Mini tabla + forzar 100% + diagrama de barras
+        // 6) Mini tabla + diagrama de barras en la HOJA de GUÍAS
         // Cabecera minitabla
-        $miniTableStart = 3; // fila 3
-        $sheet->setCellValue("S{$miniTableStart}", "Estado");
-        $sheet->setCellValue("T{$miniTableStart}", "Porcentaje");
-        $sheet->getStyle("S{$miniTableStart}:T{$miniTableStart}")->applyFromArray([
+        $miniTableStart = 3;
+        $sheetGuias->setCellValue("S{$miniTableStart}", "Estado");
+        $sheetGuias->setCellValue("T{$miniTableStart}", "Porcentaje");
+        $sheetGuias->getStyle("S{$miniTableStart}:T{$miniTableStart}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'color' => ['rgb' => 'FFFFFF'],
@@ -1272,20 +1280,16 @@ class Pedidos extends Controller
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
             ]
         ]);
-        $sheet->getColumnDimension('S')->setAutoSize(true);
-        $sheet->getColumnDimension('T')->setAutoSize(true);
+        $sheetGuias->getColumnDimension('S')->setAutoSize(true);
+        $sheetGuias->getColumnDimension('T')->setAutoSize(true);
 
         $labelsEstados = ["Generada", "En tránsito", "Zona entrega", "Entregada", "Novedad", "Devolución"];
         $keysEstados   = ["generada", "en_transito", "zona_entrega", "entregada", "novedad", "devolucion"];
 
-        // Porcentajes crudos
+        // Porcentajes
         $porcentajesRaw = [];
         foreach ($keysEstados as $k) {
-            if ($total > 0) {
-                $porcentajesRaw[$k] = ($counts[$k] / $total) * 100;
-            } else {
-                $porcentajesRaw[$k] = 0;
-            }
+            $porcentajesRaw[$k] = ($total > 0) ? (($counts[$k] / $total) * 100) : 0;
         }
         $sumRaw = array_sum($porcentajesRaw);
         $dif    = 100 - $sumRaw;
@@ -1297,14 +1301,14 @@ class Pedidos extends Controller
         // Pegamos en la minitabla
         $rowAux = $miniTableStart + 1;
         foreach ($keysEstados as $i => $k) {
-            $sheet->setCellValue("S{$rowAux}", $labelsEstados[$i]);
-            $sheet->setCellValue("T{$rowAux}", round($porcentajesRaw[$k], 2));
+            $sheetGuias->setCellValue("S{$rowAux}", $labelsEstados[$i]);
+            $sheetGuias->setCellValue("T{$rowAux}", round($porcentajesRaw[$k], 2));
             $rowAux++;
         }
         $lastAux = $rowAux - 1;
 
         // Bordes minitabla
-        $sheet->getStyle("S{$miniTableStart}:T{$lastAux}")->applyFromArray([
+        $sheetGuias->getStyle("S{$miniTableStart}:T{$lastAux}")->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -1313,21 +1317,19 @@ class Pedidos extends Controller
             ]
         ]);
 
-
-
-        // Diagrama
+        // Diagrama de barras
         $numEstados = 6;
-        $startData  = $miniTableStart + 1; //4
-        $endData    = $startData + $numEstados - 1; //9
+        $startData  = $miniTableStart + 1; // 4
+        $endData    = $startData + $numEstados - 1; // 9
 
         $labels = [
-            new DataSeriesValues('String', $sheet->getTitle() . '!T' . $miniTableStart, null, 1),
+            new DataSeriesValues('String', $sheetGuias->getTitle() . '!T' . $miniTableStart, null, 1),
         ];
         $categories = [
-            new DataSeriesValues('String', $sheet->getTitle() . "!S{$startData}:S{$endData}", null, $numEstados),
+            new DataSeriesValues('String', $sheetGuias->getTitle() . "!S{$startData}:S{$endData}", null, $numEstados),
         ];
         $values = [
-            new DataSeriesValues('Number', $sheet->getTitle() . "!T{$startData}:T{$endData}", null, $numEstados),
+            new DataSeriesValues('Number', $sheetGuias->getTitle() . "!T{$startData}:T{$endData}", null, $numEstados),
         ];
 
         $series = new DataSeries(
@@ -1354,35 +1356,46 @@ class Pedidos extends Controller
         }
         $chart->setTopLeftPosition("D{$posChartTop}");
         $chart->setBottomRightPosition("J" . ($posChartTop + 15));
-        $sheet->addChart($chart);
-        // Aplicar formato de porcentaje a la columna T
+
+        $sheetGuias->addChart($chart);
 
         // ================================================================
-        // NUEVO BLOQUE: consultamos PEDIDOS PENDIENTES (SIN GUÍA) Y ANULADOS
+        // 7) Consultamos PEDIDOS y creamos HOJAS PARA CADA REPORTE
         // ================================================================
 
-        // Consultar pedidos pendientes
-        $estado_pedido   = $_POST['estado_pedido']   ?? "";
-        $pedidos = $this->model->cargarPedidos_imporsuit($id_plataforma, $fecha_inicio, $fecha_fin, $estado_pedido);
+        // A) Pedidos pendientes
+        $pedidos = $this->model->cargarPedidos_imporsuit(
+            $id_plataforma,
+            $fecha_inicio,
+            $fecha_fin,
+            $estado_pedido
+        );
+        // B) Pedidos no vinculados
+        $pedidosNoVinculados = $this->model->cargar_pedidos_sin_producto(
+            $id_plataforma,
+            $fecha_inicio,
+            $fecha_fin,
+            $estado_pedido
+        );
+        // C) Pedidos anulados
+        $pedidosAnulados = $this->model->cargarPedidosAnulados(
+            $id_plataforma,
+            $fecha_inicio,
+            $fecha_fin,
+            0,
+            1
+        );
 
-        //Consultar pedidos no vinculados
-        $pedidosNoVinculados = $this->model->cargar_pedidos_sin_producto($id_plataforma, $fecha_inicio, $fecha_fin, $estado_pedido);
+        // -------------------------------------------------------
+        // HOJA 2: PEDIDOS PENDIENTES
+        // -------------------------------------------------------
+        $sheetPendientes = $spreadsheet->createSheet();
+        $sheetPendientes->setTitle('PENDIENTES');
 
-        // Consultar pedidos anulados
-        $pedidosAnulados = $this->model->cargarPedidosAnulados($id_plataforma, $fecha_inicio, $fecha_fin, 0, 1);
-
-        // ================================================================
-        // 7) Agregamos la PRIMER SEGUNDA TABLA: PEDIDOS PENDIENTES
-        // ================================================================
-        $fila = $posChartTop + 18; // Movemos por debajo de la gráfica; ajústalo a tu gusto
-        if ($fila < ($ultimaFila + 5)) {
-            $fila = $ultimaFila + 5;
-        }
-
-        // Encabezado general (A:fila -> J:fila)
-        $sheet->mergeCells("A{$fila}:J{$fila}");
-        $sheet->setCellValue("A{$fila}", 'REPORTE DEL HISTORIAL DE PEDIDOS (PENDIENTES)');
-        $sheet->getStyle("A{$fila}")->applyFromArray([
+        $fila = 1;
+        $sheetPendientes->mergeCells("A{$fila}:J{$fila}");
+        $sheetPendientes->setCellValue("A{$fila}", 'REPORTE PEDIDOS PENDIENTES');
+        $sheetPendientes->getStyle("A{$fila}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 16,
@@ -1390,27 +1403,27 @@ class Pedidos extends Controller
             ],
             'fill' => [
                 'fillType'   => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '5A178B']  // color de fondo distinto
+                'startColor' => ['rgb' => '5A178B']
             ],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
             ]
         ]);
 
-        $fila += 2; // Dejamos una línea de espacio
-        // Encabezados
-        $sheet->setCellValue("A{$fila}", '# Orden');
-        $sheet->setCellValue("B{$fila}", 'Fecha');
-        $sheet->setCellValue("C{$fila}", 'Cliente');
-        $sheet->setCellValue("D{$fila}", 'Teléfono');
-        $sheet->setCellValue("E{$fila}", 'Dirección');
-        $sheet->setCellValue("F{$fila}", 'Destino');
-        $sheet->setCellValue("G{$fila}", 'Canal de venta');
-        $sheet->setCellValue("H{$fila}", 'Estado Pedido');
-        $sheet->setCellValue("I{$fila}", 'Monto Factura');
-        $sheet->setCellValue("J{$fila}", 'Costo Producto');
+        $fila += 2;
+        // Cabecera columnas
+        $sheetPendientes->setCellValue("A{$fila}", '# Orden');
+        $sheetPendientes->setCellValue("B{$fila}", 'Fecha');
+        $sheetPendientes->setCellValue("C{$fila}", 'Cliente');
+        $sheetPendientes->setCellValue("D{$fila}", 'Teléfono');
+        $sheetPendientes->setCellValue("E{$fila}", 'Dirección');
+        $sheetPendientes->setCellValue("F{$fila}", 'Destino');
+        $sheetPendientes->setCellValue("G{$fila}", 'Canal de venta');
+        $sheetPendientes->setCellValue("H{$fila}", 'Estado Pedido');
+        $sheetPendientes->setCellValue("I{$fila}", 'Monto Factura');
+        $sheetPendientes->setCellValue("J{$fila}", 'Costo Producto');
 
-        $sheet->getStyle("A{$fila}:J{$fila}")->applyFromArray([
+        $sheetPendientes->getStyle("A{$fila}:J{$fila}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1425,45 +1438,41 @@ class Pedidos extends Controller
             ]
         ]);
 
-        $filaPedidosInicio = $fila; // guardamos para bordes
+        $filaPedidosInicio = $fila;
         $fila++;
 
-        // Llenado de datos de pedidos
+        // Llenado de datos
         foreach ($pedidos as $p) {
-            $sheet->setCellValue("A{$fila}", $p['numero_factura']);
-            $sheet->setCellValue("B{$fila}", $p['fecha_factura']);
-            $sheet->setCellValue("C{$fila}", $p['nombre']);
-            $sheet->setCellValue("D{$fila}", $p['telefono']);
+            $sheetPendientes->setCellValue("A{$fila}", $p['numero_factura']);
+            $sheetPendientes->setCellValue("B{$fila}", $p['fecha_factura']);
+            $sheetPendientes->setCellValue("C{$fila}", $p['nombre']);
+            $sheetPendientes->setCellValue("D{$fila}", $p['telefono']);
 
-            // Dirección
+            // Dirección con truncado
             $dire = $p['c_principal'] . ' ' . $p['c_secundaria'];
             if (strlen($dire) > 20) {
                 $dire = substr($dire, 0, 20) . '...';
             }
-            $sheet->setCellValue("E{$fila}", $dire);
+            $sheetPendientes->setCellValue("E{$fila}", $dire);
 
-            // Destino
             $destino = $p['provinciaa'] . ' - ' . $p['ciudad'];
-            $sheet->setCellValue("F{$fila}", $destino);
+            $sheetPendientes->setCellValue("F{$fila}", $destino);
 
-            // Plataforma
-            $sheet->setCellValue("G{$fila}", $p['plataforma_importa']);
+            $sheetPendientes->setCellValue("G{$fila}", $p['plataforma_importa']);
+            // Estado pedido (función personalizada)
+            $estadoPed = $this->traducirEstadoPedido($p['estado_pedido']);
+            $sheetPendientes->setCellValue("H{$fila}", $estadoPed);
 
-            // Estado pedido
-            $est = $this->traducirEstadoPedido($p['estado_pedido']);
-            $sheet->setCellValue("H{$fila}", $est);
-
-            // Monto y costo
-            $sheet->setCellValue("I{$fila}", $p['monto_factura']);
-            $sheet->setCellValue("J{$fila}", $p['costo_producto']);
+            $sheetPendientes->setCellValue("I{$fila}", $p['monto_factura']);
+            $sheetPendientes->setCellValue("J{$fila}", $p['costo_producto']);
 
             $fila++;
         }
         $ultimaFilaPedidos = $fila - 1;
 
-        // Aplicar estilos de borde y centrado
+        // Bordes y alineación
         if ($ultimaFilaPedidos >= $filaPedidosInicio) {
-            $sheet->getStyle("A{$filaPedidosInicio}:J{$ultimaFilaPedidos}")
+            $sheetPendientes->getStyle("A{$filaPedidosInicio}:J{$ultimaFilaPedidos}")
                 ->applyFromArray([
                     'borders' => [
                         'allBorders' => [
@@ -1475,21 +1484,22 @@ class Pedidos extends Controller
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
                     ]
                 ]);
-            // Para columna E, dirección a la izquierda
-            $sheet->getStyle("E" . ($filaPedidosInicio + 1) . ":E{$ultimaFilaPedidos}")
+            // Para dirección a la izquierda
+            $sheetPendientes->getStyle("E" . ($filaPedidosInicio + 1) . ":E{$ultimaFilaPedidos}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
-        // ================================================================
-        // 7) Agregamos la SEGUNDA TABLA: PEDIDOS NO VINCULADOS
-        // ================================================================
-        $fila += 2; // dejamos un par de filas de espacio
+        // -------------------------------------------------------
+        // HOJA 3: PEDIDOS NO VINCULADOS
+        // -------------------------------------------------------
+        $sheetNoVinc = $spreadsheet->createSheet();
+        $sheetNoVinc->setTitle('NO VINCULADOS');
 
-        // Encabezado general (A:fila -> J:fila)
-        $sheet->mergeCells("A{$fila}:J{$fila}");
-        $sheet->setCellValue("A{$fila}", 'REPORTE DEL HISTORIAL DE PEDIDOS (NO VINCULADOS)');
-        $sheet->getStyle("A{$fila}")->applyFromArray([
+        $fila = 1;
+        $sheetNoVinc->mergeCells("A{$fila}:J{$fila}");
+        $sheetNoVinc->setCellValue("A{$fila}", 'REPORTE PEDIDOS (NO VINCULADOS)');
+        $sheetNoVinc->getStyle("A{$fila}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 16,
@@ -1497,27 +1507,27 @@ class Pedidos extends Controller
             ],
             'fill' => [
                 'fillType'   => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '0D3B05']  // color de fondo distinto
+                'startColor' => ['rgb' => '0D3B05']
             ],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
             ]
         ]);
 
-        $fila += 2; // Dejamos una línea de espacio
+        $fila += 2;
         // Encabezados
-        $sheet->setCellValue("A{$fila}", '# Orden');
-        $sheet->setCellValue("B{$fila}", 'Fecha');
-        $sheet->setCellValue("C{$fila}", 'Cliente');
-        $sheet->setCellValue("D{$fila}", 'Teléfono');
-        $sheet->setCellValue("E{$fila}", 'Dirección');
-        $sheet->setCellValue("F{$fila}", 'Destino');
-        $sheet->setCellValue("G{$fila}", 'Canal de venta');
-        $sheet->setCellValue("H{$fila}", 'Estado Pedido');
-        $sheet->setCellValue("I{$fila}", 'Monto Factura');
-        $sheet->setCellValue("J{$fila}", 'Costo Producto');
+        $sheetNoVinc->setCellValue("A{$fila}", '# Orden');
+        $sheetNoVinc->setCellValue("B{$fila}", 'Fecha');
+        $sheetNoVinc->setCellValue("C{$fila}", 'Cliente');
+        $sheetNoVinc->setCellValue("D{$fila}", 'Teléfono');
+        $sheetNoVinc->setCellValue("E{$fila}", 'Dirección');
+        $sheetNoVinc->setCellValue("F{$fila}", 'Destino');
+        $sheetNoVinc->setCellValue("G{$fila}", 'Canal de venta');
+        $sheetNoVinc->setCellValue("H{$fila}", 'Estado Pedido');
+        $sheetNoVinc->setCellValue("I{$fila}", 'Monto Factura');
+        $sheetNoVinc->setCellValue("J{$fila}", 'Costo Producto');
 
-        $sheet->getStyle("A{$fila}:J{$fila}")->applyFromArray([
+        $sheetNoVinc->getStyle("A{$fila}:J{$fila}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1532,45 +1542,39 @@ class Pedidos extends Controller
             ]
         ]);
 
-        $filaPedidosInicio = $fila; // guardamos para bordes
+        $filaPedidosInicio = $fila;
         $fila++;
 
-        // Llenado de datos de pedidos
+        // Llenado
         foreach ($pedidosNoVinculados as $pe) {
-            $sheet->setCellValue("A{$fila}", $pe['numero_factura']);
-            $sheet->setCellValue("B{$fila}", $pe['fecha_factura']);
-            $sheet->setCellValue("C{$fila}", $pe['nombre']);
-            $sheet->setCellValue("D{$fila}", $pe['telefono']);
+            $sheetNoVinc->setCellValue("A{$fila}", $pe['numero_factura']);
+            $sheetNoVinc->setCellValue("B{$fila}", $pe['fecha_factura']);
+            $sheetNoVinc->setCellValue("C{$fila}", $pe['nombre']);
+            $sheetNoVinc->setCellValue("D{$fila}", $pe['telefono']);
 
-            // Dirección
-            $dire = $pe['c_principal'] . ' ' . $pe['c_secundaria'];
-            if (strlen($dire) > 20) {
-                $dire = substr($dire, 0, 20) . '...';
+            $direNV = $pe['c_principal'] . ' ' . $pe['c_secundaria'];
+            if (strlen($direNV) > 20) {
+                $direNV = substr($direNV, 0, 20) . '...';
             }
-            $sheet->setCellValue("E{$fila}", $dire);
+            $sheetNoVinc->setCellValue("E{$fila}", $direNV);
 
-            // Destino
-            $destino = $pe['provinciaa'] . ' - ' . $pe['ciudad'];
-            $sheet->setCellValue("F{$fila}", $destino);
+            $destNV = $pe['provinciaa'] . ' - ' . $pe['ciudad'];
+            $sheetNoVinc->setCellValue("F{$fila}", $destNV);
 
-            // Plataforma
-            $sheet->setCellValue("G{$fila}", $pe['plataforma_importa']);
+            $sheetNoVinc->setCellValue("G{$fila}", $pe['plataforma_importa']);
 
-            // Estado pedido
-            $est = $this->traducirEstadoPedido($pe['estado_pedido']);
-            $sheet->setCellValue("H{$fila}", $est);
+            $estNV = $this->traducirEstadoPedido($pe['estado_pedido']);
+            $sheetNoVinc->setCellValue("H{$fila}", $estNV);
 
-            // Monto y costo
-            $sheet->setCellValue("I{$fila}", $pe['monto_factura']);
-            $sheet->setCellValue("J{$fila}", $pe['costo_producto']);
+            $sheetNoVinc->setCellValue("I{$fila}", $pe['monto_factura']);
+            $sheetNoVinc->setCellValue("J{$fila}", $pe['costo_producto']);
 
             $fila++;
         }
         $ultimaFilaPedidos = $fila - 1;
 
-        // Aplicar estilos de borde y centrado
         if ($ultimaFilaPedidos >= $filaPedidosInicio) {
-            $sheet->getStyle("A{$filaPedidosInicio}:J{$ultimaFilaPedidos}")
+            $sheetNoVinc->getStyle("A{$filaPedidosInicio}:J{$ultimaFilaPedidos}")
                 ->applyFromArray([
                     'borders' => [
                         'allBorders' => [
@@ -1582,19 +1586,21 @@ class Pedidos extends Controller
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
                     ]
                 ]);
-            // Para columna E, dirección a la izquierda
-            $sheet->getStyle("E" . ($filaPedidosInicio + 1) . ":E{$ultimaFilaPedidos}")
+            $sheetNoVinc->getStyle("E" . ($filaPedidosInicio + 1) . ":E{$ultimaFilaPedidos}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
-        // ================================================================
-        // 8) Agregamos la TERCERA TABLA: PEDIDOS ANULADOS
-        // ================================================================
-        $fila += 2; // dejamos un par de filas de espacio
-        $sheet->mergeCells("A{$fila}:J{$fila}");
-        $sheet->setCellValue("A{$fila}", 'REPORTE DEL HISTORIAL DE PEDIDOS (ANULADOS)');
-        $sheet->getStyle("A{$fila}")->applyFromArray([
+        // -------------------------------------------------------
+        // HOJA 4: PEDIDOS ANULADOS
+        // -------------------------------------------------------
+        $sheetAnulados = $spreadsheet->createSheet();
+        $sheetAnulados->setTitle('ANULADOS');
+
+        $fila = 1;
+        $sheetAnulados->mergeCells("A{$fila}:J{$fila}");
+        $sheetAnulados->setCellValue("A{$fila}", 'REPORTE PEDIDOS (ANULADOS)');
+        $sheetAnulados->getStyle("A{$fila}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 16,
@@ -1602,7 +1608,7 @@ class Pedidos extends Controller
             ],
             'fill' => [
                 'fillType'   => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => 'D11A2A'] // color distinto
+                'startColor' => ['rgb' => 'D11A2A']
             ],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -1611,19 +1617,18 @@ class Pedidos extends Controller
 
         $fila += 2;
         // Encabezados
-        $sheet->setCellValue("A{$fila}", '# Pedido');
-        $sheet->setCellValue("B{$fila}", 'Fecha Factura');
-        $sheet->setCellValue("C{$fila}", 'Cliente');
-        $sheet->setCellValue("D{$fila}", 'Teléfono');
-        $sheet->setCellValue("E{$fila}", 'Dirección');
-        $sheet->setCellValue("F{$fila}", 'Destino');
-        $sheet->setCellValue("G{$fila}", 'Plataforma');
-        $sheet->setCellValue("H{$fila}", 'Estado');
-        $sheet->setCellValue("I{$fila}", 'Monto Factura');
-        $sheet->setCellValue("J{$fila}", 'Costo Producto');
-        // etc...
+        $sheetAnulados->setCellValue("A{$fila}", '# Pedido');
+        $sheetAnulados->setCellValue("B{$fila}", 'Fecha Factura');
+        $sheetAnulados->setCellValue("C{$fila}", 'Cliente');
+        $sheetAnulados->setCellValue("D{$fila}", 'Teléfono');
+        $sheetAnulados->setCellValue("E{$fila}", 'Dirección');
+        $sheetAnulados->setCellValue("F{$fila}", 'Destino');
+        $sheetAnulados->setCellValue("G{$fila}", 'Plataforma');
+        $sheetAnulados->setCellValue("H{$fila}", 'Estado');
+        $sheetAnulados->setCellValue("I{$fila}", 'Monto Factura');
+        $sheetAnulados->setCellValue("J{$fila}", 'Costo Producto');
 
-        $sheet->getStyle("A{$fila}:J{$fila}")->applyFromArray([
+        $sheetAnulados->getStyle("A{$fila}:J{$fila}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1641,35 +1646,32 @@ class Pedidos extends Controller
         $filaAnuladosInicio = $fila;
         $fila++;
 
-        // Llenado de datos
+        // Llenado
         foreach ($pedidosAnulados as $pa) {
-            $sheet->setCellValue("A{$fila}", $pa['numero_factura']);
-            $sheet->setCellValue("B{$fila}", $pa['fecha_factura']);
-            $sheet->setCellValue("C{$fila}", $pa['nombre']);
-            $sheet->setCellValue("D{$fila}", $pa['telefono']);
+            $sheetAnulados->setCellValue("A{$fila}", $pa['numero_factura']);
+            $sheetAnulados->setCellValue("B{$fila}", $pa['fecha_factura']);
+            $sheetAnulados->setCellValue("C{$fila}", $pa['nombre']);
+            $sheetAnulados->setCellValue("D{$fila}", $pa['telefono']);
 
-            // dirección
             $direA = $pa['c_principal'] . ' ' . $pa['c_secundaria'];
             if (strlen($direA) > 20) {
                 $direA = substr($direA, 0, 20) . '...';
             }
-            $sheet->setCellValue("E{$fila}", $direA);
+            $sheetAnulados->setCellValue("E{$fila}", $direA);
 
             $destinoA = $pa['provinciaa'] . ' - ' . $pa['ciudad'];
-            $sheet->setCellValue("F{$fila}", $destinoA);
+            $sheetAnulados->setCellValue("F{$fila}", $destinoA);
 
-            $sheet->setCellValue("G{$fila}", $pa['plataforma_importa']);
-            $sheet->setCellValue("H{$fila}", 'ANULADO'); // lo forzamos
-            $sheet->setCellValue("I{$fila}", $pa['monto_factura']);
-            $sheet->setCellValue("J{$fila}", $pa['costo_producto']);
+            $sheetAnulados->setCellValue("G{$fila}", $pa['plataforma_importa']);
+            $sheetAnulados->setCellValue("H{$fila}", 'ANULADO');  // forzado
+            $sheetAnulados->setCellValue("I{$fila}", $pa['monto_factura']);
+            $sheetAnulados->setCellValue("J{$fila}", $pa['costo_producto']);
 
             $fila++;
         }
         $ultimaFilaAnulados = $fila - 1;
-
-        // Estilos
         if ($ultimaFilaAnulados >= $filaAnuladosInicio) {
-            $sheet->getStyle("A{$filaAnuladosInicio}:J{$ultimaFilaAnulados}")
+            $sheetAnulados->getStyle("A{$filaAnuladosInicio}:J{$ultimaFilaAnulados}")
                 ->applyFromArray([
                     'borders' => [
                         'allBorders' => [
@@ -1681,16 +1683,16 @@ class Pedidos extends Controller
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
                     ]
                 ]);
-            // Para columna E, dirección a la izquierda
-            $sheet->getStyle("E" . ($filaAnuladosInicio + 1) . ":E{$ultimaFilaAnulados}")
+            $sheetAnulados->getStyle("E" . ($filaAnuladosInicio + 1) . ":E{$ultimaFilaAnulados}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
         // ================================================================
-        // 9) Exportar según formato
+        // 8) Exportar según formato
         // ================================================================
         if ($formato === 'csv') {
+            // NOTA: CSV solo exporta la hoja activa y no incluye gráficos
             $writer = new Csv($spreadsheet);
             $filename = 'guias_vistanormal_' . date('Y-m-d') . '.csv';
 
@@ -1698,11 +1700,11 @@ class Pedidos extends Controller
             header('Content-Disposition: attachment;filename="' . $filename . '"');
             header('Cache-Control: max-age=0');
 
-            // Los gráficos no se incluyen en CSV.
             $writer->save('php://output');
             exit;
         } else {
             $writer = new Xlsx($spreadsheet);
+            // Para incluir gráficos en XLSX
             $writer->setIncludeCharts(true);
             $filename = 'guias_vistanormal_' . date('Y-m-d') . '.xlsx';
 
@@ -1714,6 +1716,7 @@ class Pedidos extends Controller
             exit;
         }
     }
+
 
 
     public function exportarGuiasAdministrador()
