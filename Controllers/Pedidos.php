@@ -1386,15 +1386,18 @@ class Pedidos extends Controller
             1
         );
 
-        // -------------------------------------------------------
-        // HOJA 2: PEDIDOS PENDIENTES
-        // -------------------------------------------------------
+        // =======================================================================
+        // HOJA 2: PEDIDOS PENDIENTES (Y AQUÍ TAMBIÉN MOSTRAREMOS ANULADOS EN ROJO)
+        // =======================================================================
+
+        // Creamos la hoja de PENDIENTES
         $sheetPendientes = $spreadsheet->createSheet();
         $sheetPendientes->setTitle('PENDIENTES');
 
+        // Encabezado grande
         $fila = 1;
-        $sheetPendientes->mergeCells("A{$fila}:J{$fila}");
-        $sheetPendientes->setCellValue("A{$fila}", 'REPORTE PEDIDOS PENDIENTES');
+        $sheetPendientes->mergeCells("A{$fila}:K{$fila}");
+        $sheetPendientes->setCellValue("A{$fila}", 'REPORTE PEDIDOS PENDIENTES + ANULADOS');
         $sheetPendientes->getStyle("A{$fila}")->applyFromArray([
             'font' => [
                 'bold' => true,
@@ -1410,25 +1413,23 @@ class Pedidos extends Controller
             ]
         ]);
 
-        foreach (range('A', 'J') as $col) {
-            $sheetPendientes->getColumnDimension($col)->setAutoSize(true);
-        }
+        $fila += 2;  // dejamos un espacio
 
-
-        $fila += 2;
-        // Cabecera columnas
+        // Encabezados de columna (usamos 11 columnas, A..K) para incluir “Estado (Pendiente/Anulado)”
         $sheetPendientes->setCellValue("A{$fila}", '# Orden');
         $sheetPendientes->setCellValue("B{$fila}", 'Fecha');
         $sheetPendientes->setCellValue("C{$fila}", 'Cliente');
         $sheetPendientes->setCellValue("D{$fila}", 'Teléfono');
         $sheetPendientes->setCellValue("E{$fila}", 'Dirección');
         $sheetPendientes->setCellValue("F{$fila}", 'Destino');
-        $sheetPendientes->setCellValue("G{$fila}", 'Canal de venta');
+        $sheetPendientes->setCellValue("G{$fila}", 'Canal venta');
         $sheetPendientes->setCellValue("H{$fila}", 'Estado Pedido');
         $sheetPendientes->setCellValue("I{$fila}", 'Monto Factura');
         $sheetPendientes->setCellValue("J{$fila}", 'Costo Producto');
+        $sheetPendientes->setCellValue("K{$fila}", 'Estado Final');
+        // (Esta "K" la usaremos para diferenciar “PENDIENTE” o “ANULADO” si quieres)
 
-        $sheetPendientes->getStyle("A{$fila}:J{$fila}")->applyFromArray([
+        $sheetPendientes->getStyle("A{$fila}:K{$fila}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1443,17 +1444,24 @@ class Pedidos extends Controller
             ]
         ]);
 
-        $filaPedidosInicio = $fila;
+        // Ajustar ancho automático
+        foreach (range('A', 'K') as $col) {
+            $sheetPendientes->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        $filaCabecera = $fila;
         $fila++;
 
-        // Llenado de datos
+        // -----------------------------------------------------------------------------
+        // 1) Agregamos la DATA DE PEDIDOS PENDIENTES en el color normal (sin rojo)
+        // -----------------------------------------------------------------------------
         foreach ($pedidos as $p) {
             $sheetPendientes->setCellValue("A{$fila}", $p['numero_factura']);
             $sheetPendientes->setCellValue("B{$fila}", $p['fecha_factura']);
             $sheetPendientes->setCellValue("C{$fila}", $p['nombre']);
             $sheetPendientes->setCellValue("D{$fila}", $p['telefono']);
 
-            // Dirección con truncado
+            // Dirección truncada
             $dire = $p['c_principal'] . ' ' . $p['c_secundaria'];
             if (strlen($dire) > 20) {
                 $dire = substr($dire, 0, 20) . '...';
@@ -1464,20 +1472,69 @@ class Pedidos extends Controller
             $sheetPendientes->setCellValue("F{$fila}", $destino);
 
             $sheetPendientes->setCellValue("G{$fila}", $p['plataforma_importa']);
-            // Estado pedido (función personalizada)
-            $estadoPed = $this->traducirEstadoPedido($p['estado_pedido']);
-            $sheetPendientes->setCellValue("H{$fila}", $estadoPed);
+
+            // Estado pedido (tu función traducirEstadoPedido)
+            $estadoPedido = $this->traducirEstadoPedido($p['estado_pedido']);
+            $sheetPendientes->setCellValue("H{$fila}", $estadoPedido);
 
             $sheetPendientes->setCellValue("I{$fila}", $p['monto_factura']);
             $sheetPendientes->setCellValue("J{$fila}", $p['costo_producto']);
 
+            // Columna K - “PENDIENTE” 
+            $sheetPendientes->setCellValue("K{$fila}", 'PENDIENTE');
+
             $fila++;
         }
-        $ultimaFilaPedidos = $fila - 1;
 
-        // Bordes y alineación
-        if ($ultimaFilaPedidos >= $filaPedidosInicio) {
-            $sheetPendientes->getStyle("A{$filaPedidosInicio}:J{$ultimaFilaPedidos}")
+        // -----------------------------------------------------------------------------
+        // 2) Agregamos la DATA DE PEDIDOS ANULADOS, pero pintamos la fila en rojo
+        // -----------------------------------------------------------------------------
+        foreach ($pedidosAnulados as $pa) {
+            $sheetPendientes->setCellValue("A{$fila}", $pa['numero_factura']);
+            $sheetPendientes->setCellValue("B{$fila}", $pa['fecha_factura']);
+            $sheetPendientes->setCellValue("C{$fila}", $pa['nombre']);
+            $sheetPendientes->setCellValue("D{$fila}", $pa['telefono']);
+
+            // Dirección truncada
+            $direA = $pa['c_principal'] . ' ' . $pa['c_secundaria'];
+            if (strlen($direA) > 20) {
+                $direA = substr($direA, 0, 20) . '...';
+            }
+            $sheetPendientes->setCellValue("E{$fila}", $direA);
+
+            $destinoA = $pa['provinciaa'] . ' - ' . $pa['ciudad'];
+            $sheetPendientes->setCellValue("F{$fila}", $destinoA);
+
+            $sheetPendientes->setCellValue("G{$fila}", $pa['plataforma_importa']);
+
+            // Puedes forzar “ANULADO” en H o en K, o usar algo como $this->traducirEstadoPedido($pa['estado_pedido'])
+            $sheetPendientes->setCellValue("H{$fila}", 'ANULADO');
+
+            $sheetPendientes->setCellValue("I{$fila}", $pa['monto_factura']);
+            $sheetPendientes->setCellValue("J{$fila}", $pa['costo_producto']);
+
+            // Columna K - “ANULADO”
+            $sheetPendientes->setCellValue("K{$fila}", 'ANULADO');
+
+            // Ahora, pintamos toda la fila de rojo claro:
+            $sheetPendientes->getStyle("A{$fila}:K{$fila}")
+                ->applyFromArray([
+                    'fill' => [
+                        'fillType'   => Fill::FILL_SOLID,
+                        'startColor' => ['rgb' => 'FFC0CB'] // Ejemplo rosa claro 
+                        // puedes poner 'FF9999' para un rojo más fuerte, etc.
+                    ],
+                ]);
+
+            $fila++;
+        }
+
+        // -----------------------------------------------------------------------------
+        // 3) Agregamos bordes a TODO el rango (incluyendo pendientes y anulados)
+        // -----------------------------------------------------------------------------
+        $ultimaFila = $fila - 1;
+        if ($ultimaFila >= $filaCabecera) {
+            $sheetPendientes->getStyle("A{$filaCabecera}:K{$ultimaFila}")
                 ->applyFromArray([
                     'borders' => [
                         'allBorders' => [
@@ -1489,8 +1546,8 @@ class Pedidos extends Controller
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
                     ]
                 ]);
-            // Para dirección a la izquierda
-            $sheetPendientes->getStyle("E" . ($filaPedidosInicio + 1) . ":E{$ultimaFilaPedidos}")
+            // Para la dirección, alineado a la izquierda
+            $sheetPendientes->getStyle("E" . ($filaCabecera + 1) . ":E{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
@@ -1596,108 +1653,6 @@ class Pedidos extends Controller
                     ]
                 ]);
             $sheetNoVinc->getStyle("E" . ($filaPedidosInicio + 1) . ":E{$ultimaFilaPedidos}")
-                ->getAlignment()
-                ->setHorizontal(Alignment::HORIZONTAL_LEFT);
-        }
-
-        // -------------------------------------------------------
-        // HOJA 4: PEDIDOS ANULADOS
-        // -------------------------------------------------------
-        $sheetAnulados = $spreadsheet->createSheet();
-        $sheetAnulados->setTitle('ANULADOS');
-
-        $fila = 1;
-        $sheetAnulados->mergeCells("A{$fila}:J{$fila}");
-        $sheetAnulados->setCellValue("A{$fila}", 'REPORTE PEDIDOS (ANULADOS)');
-        $sheetAnulados->getStyle("A{$fila}")->applyFromArray([
-            'font' => [
-                'bold' => true,
-                'size' => 16,
-                'color' => ['rgb' => 'FFFFFF']
-            ],
-            'fill' => [
-                'fillType'   => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => 'D11A2A']
-            ],
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_CENTER,
-            ]
-        ]);
-
-        // Para la hoja de ANULADOS
-        foreach (range('A', 'J') as $col) {
-            $sheetAnulados->getColumnDimension($col)->setAutoSize(true);
-        }
-
-        $fila += 2;
-        // Encabezados
-        $sheetAnulados->setCellValue("A{$fila}", '# Pedido');
-        $sheetAnulados->setCellValue("B{$fila}", 'Fecha Factura');
-        $sheetAnulados->setCellValue("C{$fila}", 'Cliente');
-        $sheetAnulados->setCellValue("D{$fila}", 'Teléfono');
-        $sheetAnulados->setCellValue("E{$fila}", 'Dirección');
-        $sheetAnulados->setCellValue("F{$fila}", 'Destino');
-        $sheetAnulados->setCellValue("G{$fila}", 'Plataforma');
-        $sheetAnulados->setCellValue("H{$fila}", 'Estado');
-        $sheetAnulados->setCellValue("I{$fila}", 'Monto Factura');
-        $sheetAnulados->setCellValue("J{$fila}", 'Costo Producto');
-
-        $sheetAnulados->getStyle("A{$fila}:J{$fila}")->applyFromArray([
-            'font' => [
-                'bold' => true,
-                'size' => 14,
-                'color' => ['rgb' => 'FFFFFF']
-            ],
-            'fill' => [
-                'fillType'   => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => 'D11A2A']
-            ],
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_CENTER,
-            ]
-        ]);
-
-        $filaAnuladosInicio = $fila;
-        $fila++;
-
-        // Llenado
-        foreach ($pedidosAnulados as $pa) {
-            $sheetAnulados->setCellValue("A{$fila}", $pa['numero_factura']);
-            $sheetAnulados->setCellValue("B{$fila}", $pa['fecha_factura']);
-            $sheetAnulados->setCellValue("C{$fila}", $pa['nombre']);
-            $sheetAnulados->setCellValue("D{$fila}", $pa['telefono']);
-
-            $direA = $pa['c_principal'] . ' ' . $pa['c_secundaria'];
-            if (strlen($direA) > 20) {
-                $direA = substr($direA, 0, 20) . '...';
-            }
-            $sheetAnulados->setCellValue("E{$fila}", $direA);
-
-            $destinoA = $pa['provinciaa'] . ' - ' . $pa['ciudad'];
-            $sheetAnulados->setCellValue("F{$fila}", $destinoA);
-
-            $sheetAnulados->setCellValue("G{$fila}", $pa['plataforma_importa']);
-            $sheetAnulados->setCellValue("H{$fila}", 'ANULADO');  // forzado
-            $sheetAnulados->setCellValue("I{$fila}", $pa['monto_factura']);
-            $sheetAnulados->setCellValue("J{$fila}", $pa['costo_producto']);
-
-            $fila++;
-        }
-        $ultimaFilaAnulados = $fila - 1;
-        if ($ultimaFilaAnulados >= $filaAnuladosInicio) {
-            $sheetAnulados->getStyle("A{$filaAnuladosInicio}:J{$ultimaFilaAnulados}")
-                ->applyFromArray([
-                    'borders' => [
-                        'allBorders' => [
-                            'borderStyle' => Border::BORDER_THIN,
-                            'color' => ['rgb' => '000000']
-                        ]
-                    ],
-                    'alignment' => [
-                        'horizontal' => Alignment::HORIZONTAL_CENTER,
-                    ]
-                ]);
-            $sheetAnulados->getStyle("E" . ($filaAnuladosInicio + 1) . ":E{$ultimaFilaAnulados}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
