@@ -204,8 +204,7 @@
                         </select>
                     </div>
                 </div>
-                <div type="text" id="estado_pedido">
-                </div>
+
                 <div style="width: 100%;">
                     <label for="inputPassword3" class="col-sm-2 col-form-label">Transportadora</label>
                     <div>

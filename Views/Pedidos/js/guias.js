@@ -776,64 +776,44 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
   });
 });
 
-
 // Función común para descargar el reporte según el formato y extensión
-async function descargarReporte(formato) {
-  // 1) Armamos FormData con todos los campos
+async function descargarReporte(formato, extension) {
   const formData = new FormData();
-  formData.append("fecha_inicio", fecha_inicio);   // "2025-03-06 00:00:00"
-  formData.append("fecha_fin", fecha_fin);         // "2025-03-12 23:59:59"
-  formData.append("transportadora", document.getElementById("transporte").value);
-  formData.append("estado",         document.getElementById("estado_q").value);
-  formData.append("estado_pedido",  document.getElementById("estado_pedido").value);
-  formData.append("drogshipin",     document.getElementById("tienda_q").value);
-  formData.append("impreso",        document.getElementById("impresion").value);
-  formData.append("despachos",      document.getElementById("despachos").value);
-  formData.append("formato",        formato); // "excel" o "csv"
+  formData.append("fecha_inicio", fecha_inicio);
+  formData.append("fecha_fin", fecha_fin);
+  formData.append("transportadora", $("#transporte").val());
+  formData.append("estado", $("#estado_q").val());
+  formData.append("estado_pedido", $("#estado_pedido").val() || "");
+  formData.append("drogshipin", $("#tienda_q").val());
+  formData.append("impreso", $("#impresion").val());
+  formData.append("despachos", $("#despachos").val());
+  formData.append("formato", formato); // 'excel' o 'csv'
 
-  // 2) Hacemos fetch POST
   const response = await fetch(`${SERVERURL}pedidos/exportarGuias`, {
     method: "POST",
     body: formData,
   });
 
-  // 3) Extraemos el nombre de archivo que envió el servidor
-  //    (ver cabecera 'Content-Disposition: attachment; filename="..."' )
-  let filename = "reporte.xlsx"; // Fallback por si no hay cabecera
-  const contentDisposition = response.headers.get("Content-Disposition");
-  if (contentDisposition) {
-    // Buscar filename="algo"
-    const match = contentDisposition.match(/filename=\"(.+)\"/);
-    if (match && match[1]) {
-      filename = match[1];
-    }
-  }
-
-  // 4) Descargamos el blob y creamos un link <a>
   const blob = await response.blob();
   const url = window.URL.createObjectURL(blob);
-  
   const a = document.createElement("a");
   a.href = url;
-  // Asignamos el nombre extraído del servidor
-  a.download = filename;
-
-  // 5) Forzar descarga
+  a.download = `guias.${extension}`;
   document.body.appendChild(a);
   a.click();
   a.remove();
   window.URL.revokeObjectURL(url);
 }
 
-//botones que invocan "descargarReporte('excel')" o "descargarReporte('csv')"
-document.getElementById("downloadExcelOption").addEventListener("click", (e) => {
-  e.preventDefault();
-  descargarReporte("excel");
+// Asignar eventos a las opciones del dropdown
+document.getElementById("downloadExcelOption").addEventListener("click", async (e) => {
+  e.preventDefault(); // Evita la acción predeterminada del enlace
+  await descargarReporte("excel", "xlsx");
 });
 
-document.getElementById("downloadCsvOption").addEventListener("click", (e) => {
+document.getElementById("downloadCsvOption").addEventListener("click", async (e) => {
   e.preventDefault();
-  descargarReporte("csv");
+  await descargarReporte("csv", "csv");
 });
 
 

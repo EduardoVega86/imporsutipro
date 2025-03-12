@@ -1650,41 +1650,29 @@ class Pedidos extends Controller
         // ================================================================
         // 8) Exportar según formato
         // ================================================================
-        // 1) "Limpiamos" las fechas para armar el nombre:
-        $fechaInicioCorta = !empty($fecha_inicio) ? date('Y-m-d', strtotime($fecha_inicio)) : "";
-        $fechaFinCorta    = !empty($fecha_fin)    ? date('Y-m-d', strtotime($fecha_fin))    : "";
-
-        if ($fechaInicioCorta && $fechaFinCorta) {
-            $filenameBase = "guias_{$fechaInicioCorta}_al_{$fechaFinCorta}";
-        } elseif ($fechaInicioCorta) {
-            $filenameBase = "guias_{$fechaInicioCorta}";
-        } else {
-            $filenameBase = "guias_" . date('Y-m-d');
-        }
 
         // 2) Según formato:
         if ($formato === 'csv') {
+            // Generar un CSV
             $writer = new Csv($spreadsheet);
-            $filenameFinal = $filenameBase . ".csv";
+            // Opciones del CSV
+            $writer->setDelimiter(',');
+            $writer->setEnclosure('"');
+            $writer->setSheetIndex(0);
 
-            // Cabeceras:
-            header('Content-Type: text/csv');
-            // Aquí pasamos el nombre dinámico:
-            header("Content-Disposition: attachment; filename=\"{$filenameFinal}\"");
+            // Encabezados HTTP para forzar descarga
+            header('Content-Type: text/csv; charset=UTF-8');
+            header('Content-Disposition: attachment;filename="guias.csv"');
             header('Cache-Control: max-age=0');
 
             $writer->save('php://output');
             exit;
         } else {
-            // Asumimos "excel" 
+            // Generar un Excel (XLSX)
             $writer = new Xlsx($spreadsheet);
-            $writer->setIncludeCharts(true);
 
-            $filenameFinal = $filenameBase . ".xlsx";
-
-            // Cabeceras:
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header("Content-Disposition: attachment; filename=\"{$filenameFinal}\"");
+            header('Content-Disposition: attachment;filename="guias.xlsx"');
             header('Cache-Control: max-age=0');
 
             $writer->save('php://output');
