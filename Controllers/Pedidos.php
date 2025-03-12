@@ -1671,6 +1671,8 @@ class Pedidos extends Controller
             $writer = new Csv($spreadsheet);
             $filename .= '.csv';
 
+            var_dump($fecha_inicio, $fecha_fin, $fechaInicioCorta, $fechaFinCorta, $filename);
+            exit;
             header('Content-Type: text/csv');
             header("Content-Disposition: attachment;filename=\"{$filename}\"");
             header('Cache-Control: max-age=0');
