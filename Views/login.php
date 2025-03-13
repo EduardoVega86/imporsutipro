@@ -58,7 +58,7 @@
             .then(data => {
                 // Manejo de la respuesta del fetch de login
                 console.log('Success:', data);
-                if (data.status === 401) {
+                if (data.status === 500) {
                     Swal.fire({
                         icon: 'error',
                         title: data.title,

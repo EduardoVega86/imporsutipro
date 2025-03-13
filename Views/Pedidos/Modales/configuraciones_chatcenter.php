@@ -66,7 +66,7 @@
 
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('id_template_whatsapp', $('#template_whatsapp').val());
+            formData.append('id_template_whatsapp', $('#select_templates').val());
 
 
             // Realiza la solicitud AJAX

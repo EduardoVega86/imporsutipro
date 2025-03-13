@@ -385,12 +385,28 @@ class PedidosModel extends Query
                     -- Costo según la transportadora
                     COALESCE(cl.costo, cs.costo, cg.costo, 0) AS costo,
     
-                    -- Cálculo de utilidad
+                    -- Cálculo de utilidad con COD
                     CASE 
-                        WHEN vga.id_transporte = 4 THEN 1  -- Speed: ganancia fija de $1
-                        ELSE COALESCE(vga.costo_flete - COALESCE(cl.costo, cs.costo, cg.costo, 0), 0)
-                    END AS utilidad
-    
+                        WHEN vga.id_transporte = 4 THEN 
+                            1  -- Speed: ganancia fija de $1
+                        WHEN vga.id_transporte = 1 THEN 
+                            vga.costo_flete - (
+                                COALESCE(cl.costo, 0) 
+                                + (vga.monto_factura * 0.02)
+                            )  -- LAAR = 2%
+                        WHEN vga.id_transporte = 2 THEN 
+                            vga.costo_flete - (
+                                COALESCE(cs.costo, 0) 
+                                + (vga.monto_factura * 0.03)
+                            )  -- Servientrega = 3%
+                        WHEN vga.id_transporte = 3 THEN 
+                            vga.costo_flete - (
+                                COALESCE(cg.costo, 0) 
+                                + (vga.monto_factura * 0.015)
+                            )  -- Gintracom = 1.5%
+                        ELSE 
+                            0
+                    END AS utilidad    
                 FROM 
                     vista_guias_administrador vga
                 LEFT JOIN 
