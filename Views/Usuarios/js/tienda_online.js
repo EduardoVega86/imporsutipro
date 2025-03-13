@@ -1825,8 +1825,6 @@ function guardar_promocion_plantilla2() {
 }
 
 function guardar_dominio() {
-  var button = document.getElementById("agregar_dominio");
-  button.disabled = true; // Desactivar el botón
 
   // Crea un objeto FormData
   var formData = new FormData();
@@ -1851,7 +1849,7 @@ function guardar_dominio() {
         toastr.success("USUARIO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-        
+
       }
     },
     error: function (error) {
