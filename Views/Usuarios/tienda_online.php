@@ -829,11 +829,11 @@
 
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingFive">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
                     DOMINIO
                 </button>
             </h2>
-            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <button class="btn btn-success" id="agregar_dominio" onclick="guardar_dominio()"></i>Guardar cambios</button>
                     <div class="row mb-3">
