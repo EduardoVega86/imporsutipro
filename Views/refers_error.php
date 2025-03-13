@@ -6,7 +6,7 @@
 </div>
 <div class="d-flex flex-column" style="padding: 20px;">
     <div class="imagen_logo">
-        <img src="<?php echo LOGIN_IMAGE; ?>" alt="IMORSUIT" width="300px" height="150px">
+        <img src="<?php echo LOGIN_IMAGE; ?>" alt="IMPORSUIT" width="300px" height="150px">
     </div>
     <div class="container">
         <div id="token_valido" class="hidden" style="text-align-last: center;">

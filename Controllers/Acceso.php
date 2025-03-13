@@ -1,68 +1,119 @@
 <?php
 
-use FontLib\Table\Type\head;
-
+/**
+ * Controlador de Acceso
+ *
+ * Este controlador administra el proceso de autenticación de usuarios.
+ * Se encarga de validar credenciales, gestionar el inicio de sesión y redirigir
+ * a los usuarios a las secciones correspondientes según sus permisos.
+ *
+ * @category   Controller
+ * @package    Controllers\Acceso
+ * @version    1.1-2025-03-10
+ * @since      2025-03-10
+ * @author     Jeimy Jara
+ * @copyright  Imporcomex
+ */
 class Acceso extends Controller
 {
-    ///Vistas
+    /**
+     * Vista principal de la pagina
+     * @return void
+     */
     public function index(): void
     {
         $this->views->render($this, "index");
     }
+
+    /**
+     * Renderiza la vista de recuperación de contraseña
+     * @return void
+     */
     public function recovery(): void
     {
         $this->views->render($this, "recovery");
     }
 
-    ///Funciones
+    /**
+     * Gestiona el inicio de sesión de los usuarios
+     * @return void
+     */
     public function login(): void
     {
-        $data = json_decode(file_get_contents("php://input"), true);
-
-        $correo = $data['correo'];
-        $contrasena = $data['contrasena'];
-        $response = $this->model->login($correo, $contrasena);
-
-        echo json_encode($response);
+        $this->catchAsync(function () {
+            $data = $this->jsonData();
+            if (empty($data)) {
+                throw new Exception("No se han enviado datos");
+            }
+            $correo = $data['correo'] ?? null;
+            $contrasena = $data['contrasena'] ?? null;
+            if (empty($correo) || empty($contrasena)) {
+                throw new Exception("Correo y contraseña son requeridos");
+            }
+            $response = $this->model->login2($correo, $contrasena);
+            echo json_encode($response);
+        })();
     }
-    public function registro()
+
+    /**
+     * Registra un nuevo usuario
+     * @return void
+     */
+    public function registro(): void
     {
-        $data = json_decode(file_get_contents("php://input"), true);
-        //print_r($data);
-        $nombre = $data['nombre'];
-        $correo = $data['correo'];
-        $pais = $data['pais'];
-        $telefono = $data['telefono'];
-        $contrasena = $data['contrasena'];
-        $tienda = $data['tienda'];
-
-        $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
-
-        echo json_encode($response);
+        $this->catchAsync(function () {
+            $data = $this->jsonData();
+            if(empty($data)){
+                throw new Exception("No se han enviado datos");
+            }
+            $nombre = $data['nombre'];
+            $correo = $data['correo'];
+            $pais = $data['pais'];
+            $telefono = $data['telefono'];
+            $contrasena = $data['contrasena'];
+            $tienda = $data['tienda'];
+            $response = $this->model->registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda);
+            echo json_encode($response);
+        })();
     }
 
-    public function bienvenida()
+    /**
+     * Renderiza la vista de bienvenida
+     * @return void
+     */
+    public function bienvenida(): void
     {
         $this->model->bienvenida();
     }
 
-    public function referido_token($id)
+    /**
+     * Registra un nuevo usuario referido
+     * @param int $id
+     * @return void
+     */
+    public function referido_token($id): void
     {
-        $data = json_decode(file_get_contents("php://input"), true);
-        //print_r($data);
-        $nombre = $data['nombre'];
-        $correo = $data['correo'];
-        $pais = $data['pais'];
-        $telefono = $data['telefono'];
-        $contrasena = $data['contrasena'];
-        $tienda = $data['tienda'];
+        $this->catchAsync(function () use ($id) {
 
-        $response = $this->model->registro_referido($nombre, $correo, $pais, $telefono, $contrasena, $tienda, $id);
+            $data = $this->jsonData();
+            $nombre = $data['nombre'];
+            $correo = $data['correo'];
+            $pais = $data['pais'];
+            $telefono = $data['telefono'];
+            $contrasena = $data['contrasena'];
+            $tienda = $data['tienda'];
 
-        echo json_encode($response);
+            $response = $this->model->registro_referido($nombre, $correo, $pais, $telefono, $contrasena, $tienda, $id);
+
+            echo json_encode($response);
+        })();
     }
 
-    public function logout()
+    /**
+     * Cierra la sesión del usuario
+     * @return void
+     */
+    public function logout(): void
     {
         session_start();
 
@@ -72,56 +123,106 @@ class Acceso extends Controller
         header("Location:  " . SERVERURL . "login");
     }
 
-    public function validar_tiendas()
+    /**
+     * Valida si el ya existe el nombre de la tienda
+     * @return void
+     */
+    public function validar_tiendas(): void
     {
-        $tienda = file_get_contents("php://input");
-        $tienda = json_decode($tienda, true);
-        $exists = $this->model->validarTiendas($tienda['tienda']);
-        echo json_encode($exists);
+        $this->catchAsync(function () {
+            $tienda = $this->jsonData();
+            if (empty($tienda)) {
+                throw new Exception("No se han enviado datos");
+            }
+            if (empty($tienda['tienda'])) {
+                throw new Exception("Nombre de tienda es requerido");
+            }
+            $exists = $this->model->validarTiendas($tienda['tienda']);
+            echo json_encode($exists);
+        })();
     }
 
-    public function recuperar_contrasena()
+    /**
+     * Enviá un correo con un token para recuperar la contraseña
+     * @return void
+     */
+    public function recuperar_contrasena(): void
     {
-        $correo = $_POST['correo'];
-
-
-        $response = $this->model->recuperar_contrasena($correo);
-        echo json_encode($response);
+        $this->catchAsync(function () {
+            $data = $this->jsonData();
+            $correo = $data['correo'] ?? null;
+            if (empty($correo)) {
+                throw new Exception("Correo es requerido");
+            }
+            if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+                throw new Exception("Correo no válido");
+            }
+            $response = $this->model->recuperar_contrasena($correo);
+            echo json_encode($response);
+        })();
     }
 
-    public function validarToken()
+    /**
+     * Envía el correo de bienvenida
+     * @return void
+     */
+    public function enviar_bienvenida(): void
     {
-        $token = $_POST['token'];
-        $response = $this->model->validarToken($token);
-        echo json_encode($response);
+        $this->catchAsync(function () {
+            $data = $this->jsonData();
+            $correo = $data['correo'] ?? null;
+            if (empty($correo)) {
+                throw new Exception("Correo es requerido");
+            }
+            if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+                throw new Exception("Correo no válido");
+            }
+            $response = $this->model->bienvenida($correo);
+            echo json_encode($response);
+        })();
     }
 
-    public function cambiarContrasena()
+    /**
+     * Válida el token para recuperar la contraseña
+     * @return void
+     */
+    public function validarToken(): void
     {
-        $token = $_POST['token'];
-        $contrasena = $_POST['contrasena'];
-        $response = $this->model->cambiarContrasena($token, $contrasena);
-        echo json_encode($response);
+        $this->catchAsync(function () {
+            $token = $this->jsonData();
+            if (empty($token)) {
+                throw new Exception("No se han enviado datos");
+            }
+            if (empty($token['token'])) {
+                throw new Exception("Token es requerido");
+            }
+            $response = $this->model->validarToken($token['token']);
+            echo json_encode($response);
+        })();
     }
 
-    public function validarRefiere()
+    /**
+     * Cambia la contraseña del usuario
+     * @return void
+     */
+    public function cambiarContrasena(): void
     {
-        $id_referido = $_POST['id_referido'];
-        $response = $this->model->validarRefiere($id_referido);
-        echo json_encode($response);
+        $this->catchAsync(function () {
+            $data = $this->jsonData();
+            if (empty($data)) {
+                throw new Exception("No se han enviado datos");
+            }
+            $token = $data['token'] ?? null;
+            $contrasena = $data['contrasena'] ?? null;
+            if (empty($token) || empty($contrasena)) {
+                throw new Exception("Token y contraseña son requeridos");
+            }
+            $response = $this->model->cambiarContrasena($token, $contrasena);
+            echo json_encode($response);
+        })();
     }
 
-    public function guardaUltimoPunto()
-    {
-        session_start();
-        $url = $_POST['url'];
-
-        $response = $this->model->guardaUltimoPunto($url, $_SESSION['id']);
-
-        echo json_encode($response);
-    }
-
-    public function jwt($token)
+    public function jwt($token): void
     {
         //separar token mediante: -||-
         $token = explode("-||-", $token);
@@ -139,7 +240,7 @@ class Acceso extends Controller
         echo json_encode($response);
     }
 
-    public function jwt_home($token)
+    public function jwt_home($token): void
     {
         //separar token mediante: -||-
         $token = explode("-||-", $token);

@@ -6,20 +6,19 @@ error_reporting(E_ALL);
 // Cargar autoload de Composer
 require_once 'vendor/autoload.php';
 
-// Cargar configuración de la aplicación
-require_once 'Config/Config.php';
+// Ruta al directorio raíz
+$rootPath = __DIR__;
 
 // Inicializar Dotenv para cargar las variables del archivo .env
 use Dotenv\Dotenv;
-
-// Ruta al directorio raíz
-$rootPath = __DIR__;
 try {
     $dotenv = Dotenv::createImmutable($rootPath);
     $dotenv->load();
 } catch (Exception $e) {
     die('Error al cargar las variables de entorno: ' . $e->getMessage());
 }
+// Cargar configuración de la aplicación
+require_once 'Config/Config.php';
 
 
 // Parsear la URL

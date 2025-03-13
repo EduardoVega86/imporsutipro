@@ -3,7 +3,7 @@
 
 <div class="d-flex flex-column" style="width: 700px;">
     <div class="imagen_logo">
-        <img src="<?php echo LOGIN_IMAGE; ?>" alt="IMORSUIT" width="300px" height="150px">
+        <img src="<?php echo LOGIN_IMAGE; ?>" alt="IMPORSUIT" width="300px" height="150px">
     </div>
     <div class="container">
         <div class="header">
@@ -58,7 +58,7 @@
             .then(data => {
                 // Manejo de la respuesta del fetch de login
                 console.log('Success:', data);
-                if (data.status == 401) {
+                if (data.status === 401) {
                     Swal.fire({
                         icon: 'error',
                         title: data.title,
@@ -79,8 +79,8 @@
                         } */
                         const MATRIZ = <?php echo MATRIZ; ?>;
                         let cargo = data.cargo
-                        if (cargo != 35) {
-                            if (MATRIZ == 1) {
+                        if (cargo !== 35) {
+                            if (MATRIZ === 1) {
                                 window.location.href = '<?php echo SERVERURL ?>dashboard/home';
                             } else {
                                 window.location.href = '<?php echo SERVERURL ?>dashboard';

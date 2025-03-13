@@ -68,6 +68,20 @@ class Controller {
         };
     }
 
+    public function jsonData():array {
+        return json_decode(file_get_contents('php://input'), true) ?? [];
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function dataVerifier(string $nombre, $variable): void
+    {
+        if(empty($variable)){
+            throw new Exception("No se envio el dato: " . $nombre);
+        }
+    }
+
     public function loadModel(): void
     {
         $model = get_class($this) . "Model";

@@ -1,22 +1,9 @@
 <?php
-const HOST = '3.233.119.65';
-const USER = "imporsuit_system";
-const PASSWORD = "imporsuit_system";
-const DB = "imporsuitpro_new";
-const CHARSET = "utf8mb4";
-
-if ($_SERVER['HTTP_HOST'] == 'localhost') {
-    define('ENVIRONMENT', 'development');
-} else {
-    define('ENVIRONMENT', 'production');
-}
-if (ENVIRONMENT == 'development') {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-    define("SERVERURL", "http://localhost/imporsutipro/");
-} else {
-}
+Define("HOST", $_ENV["DB_HOST"]);
+Define("USER", $_ENV["DB_USER"]);
+Define("PASSWORD", $_ENV["DB_PASS"]);
+Define("DB", $_ENV["DB_NAME"]);
+Define("CHARSET", $_ENV["DB_CHARSET"]);
 
 $url_actual = "https://" . $_SERVER['HTTP_HOST'] . "/";
 $mysqli = new mysqli(HOST, USER, PASSWORD, DB);
@@ -43,7 +30,11 @@ $id_matriz = $matriz['idmatriz'];
 $color_fondo = $matriz['color_fondo_login'];
 define("MATRIZ", $id_matriz);
 $url_matriz = $matriz['url_matriz'];
-if (ENVIRONMENT == "production") {
+if ($_SERVER['HTTP_HOST'] == 'localhost') {
+    define('ENVIRONMENT', 'development');
+    define("SERVERURL", $_ENV["SERVERLOCAL"]);
+} else {
+    define('ENVIRONMENT', 'production');
     define("SERVERURL", $url_matriz);
 }
 
@@ -59,7 +50,7 @@ $color_letra_hover = $matriz['color_letra_hover'];
 $banner_inicio = $matriz['banner_inicio'];
 $dominio = $matriz['dominio'];
 $login_image = $matriz['login_image'];
-$color_boton_login  = $matriz['color_boton_login'];
+$color_boton_login = $matriz['color_boton_login'];
 $color_hover_login = $matriz['color_hover_login'];
 $color_favorito = $matriz['color_favorito'];
 $transportadora_imagen = $matriz['transportadora_imagen'];
