@@ -37,7 +37,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary" id="guardar_testimonio">Guardar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -55,8 +55,6 @@
 
         // Evento para reiniciar el formulario cuando se cierre el modal
         $('#configuraciones_chatcenterModal').on('hidden.bs.modal', function() {
-            var button = document.getElementById('guardar_testimonio');
-            button.disabled = false; // Desactivar el botón
             resetForm();
         });
 
@@ -66,18 +64,14 @@
         $('#configuraciones_chatcenter_form').submit(function(event) {
             event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
-            var button = document.getElementById('guardar_testimonio');
-            button.disabled = true; // Desactivar el botón
-
             // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('atajo', $('#atajo').val());
-            formData.append('plantilla', $('#plantilla').val());
+            formData.append('id_template_whatsapp', $('#template_whatsapp').val());
 
 
             // Realiza la solicitud AJAX
             $.ajax({
-                url: '' + SERVERURL + 'Usuarios/agregarPlantilla',
+                url: '' + SERVERURL + 'Usuarios/editar_configuracion',
                 type: 'POST',
                 data: formData,
                 processData: false,
