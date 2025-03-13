@@ -8,7 +8,6 @@
 <?php require_once './Views/Usuarios/Modales/agregar_horizontal.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_horizontal.php'; ?>
 <?php require_once './Views/Usuarios/Modales/editar_icono.php'; ?>
-<?php require_once './Views/Usuarios/Modales/agregar_dominio.php'; ?>
 <?php require_once './Views/Usuarios/Modales/agregar_profesional.php'; ?>
 <style>
     /* Estilos para el botón de descarga */
@@ -153,11 +152,6 @@
         <input type="hidden" id="plantilla_selected" name="plantilla_selected">
     </div>
     <!-- Fin selector de plantilla -->
-    <div class="justify-content-between align-items-center mb-3">
-        <div class="d-flex">
-            <button class="btn btn-success" onclick="abrir_agregar_dominio()"><i class="fas fa-plus"></i> Agregar Dominio Propio</button>
-        </div>
-    </div>
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
@@ -828,6 +822,32 @@
                             </thead>
                             <tbody id="tableBody_testimonios"></tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFive">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                    DOMINIO
+                </button>
+            </h2>
+            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <button class="btn btn-success" id="agregar_dominio" onclick="guardar_dominio()"></i>Guardar cambios</button>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="dominio" class="form-label">Dominio:</label>
+                            <input type="text" class="form-control" id="dominio" placeholder="Dominio">
+                        </div>
+                        <div class="col">
+                            <label for="subdominio" class="form-label">Subdominio:</label>
+                            <input type="subdominio" class="form-control" id="subdominio" placeholder="Subdominio" disabled>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>Atención:</strong> Por favor, asegúrate de crear un registro DNS de tipo A, con el nombre '@', que apunte a la dirección IP 3.233.119.65, antes de proceder con los siguientes pasos.
                     </div>
                 </div>
             </div>

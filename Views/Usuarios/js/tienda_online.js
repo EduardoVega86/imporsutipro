@@ -1823,3 +1823,38 @@ function guardar_promocion_plantilla2() {
     },
   });
 }
+
+function guardar_dominio() {
+
+  // Crea un objeto FormData
+  var formData = new FormData();
+  formData.append("dominio", $("#dominio").val());
+  formData.append("subdominio", $("#subdominio").val());
+
+  // Realiza la solicitud AJAX
+  $.ajax({
+    url: SERVERURL + "tienda/anadir_dominio",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      response = JSON.parse(response);
+      // Mostrar alerta de éxito
+      if (response.status == 500) {
+        toastr.error("EL USUARIO NO SE AGREGRO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("USUARIO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+
+      }
+    },
+    error: function (error) {
+      alert("Hubo un error al editar el producto");
+      console.log(error);
+    },
+  });
+}
