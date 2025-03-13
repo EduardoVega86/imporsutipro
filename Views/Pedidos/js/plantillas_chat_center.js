@@ -268,15 +268,20 @@ const cargar_select_templates = async () => {
       throw new Error("La respuesta de la API no es un array válido");
     }
 
-    // Limpiar y llenar el select
-    const select = document.getElementById("select_templates");
-    select.innerHTML = '<option value="">Selecciona un template</option>';
+    // Obtener y limpiar el select
+    const select = $("#select_templates");
+    select.empty().append('<option value="">Selecciona un template</option>');
 
+    // Agregar las opciones
     data.forEach((template) => {
-      const option = document.createElement("option");
-      option.value = template.id_template;
-      option.textContent = template.nombre;
-      select.appendChild(option);
+      select.append(new Option(template.nombre, template.id_template));
+    });
+
+    // Aplicar Select2
+    select.select2({
+      placeholder: "Selecciona un template",
+      allowClear: true,
+      width: "100%",
     });
   } catch (error) {
     console.error("Error al cargar los templates:", error);

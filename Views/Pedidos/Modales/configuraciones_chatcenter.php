@@ -27,9 +27,9 @@
             <div class="modal-body">
                 <form id="configuraciones_chatcenter_form" enctype="multipart/form-data">
                     <div class="row mb-3">
-                        <div class="col-md-12">
+                        <div class="d-flex flex-row">
                             <label for="template_whatsapp" class="form-label">Plantilla de respuesta al generar guia:</label>
-                            <select id="select_templates">
+                            <select id="select_templates" style="width: 100%;">
                                 <option value="">Cargando...</option>
                             </select>
                         </div>
