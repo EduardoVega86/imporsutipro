@@ -282,7 +282,7 @@ const cargar_select_templates = async () => {
       placeholder: "Selecciona un template",
       allowClear: true,
       width: "100%",
-      dropdownParent: $("#modalConfiguraciones"), // Asegúrate de que sea el ID de tu modal
+      dropdownParent: $("#configuraciones_chatcenterModal"),
     });
   } catch (error) {
     console.error("Error al cargar los templates:", error);
