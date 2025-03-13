@@ -1,8 +1,8 @@
 let formData_filtro;
-let currentPage = 1;           // Página actual
-const pageSize = 35;          // Cantidad de productos por página
-let isLoading = false;        // Para evitar clicks múltiples
-let products = [];            // Acumularemos aquí todos los productos que se han ido cargando
+let currentPage = 1; // Página actual
+const pageSize = 35; // Cantidad de productos por página
+let isLoading = false; // Para evitar clicks múltiples
+let products = []; // Acumularemos aquí todos los productos que se han ido cargando
 
 let currentAPI = "marketplace/obtener_productos_paginados";
 
@@ -356,14 +356,18 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="image-container position-relative">
         ${botonId_inventario}
         <img src="${imagePath}" class="card-img-top" alt="Imagen del producto">
-        <div class="add-to-store-button ${product.agregadoTienda ? "added" : ""}" 
+        <div class="add-to-store-button ${
+          product.agregadoTienda ? "added" : ""
+        }" 
             data-product-id="${product.id_producto}">
           <span class="plus-icon">+</span>
           <span class="add-to-store-text">
             ${product.agregadoTienda ? "Quitar de tienda" : "Añadir a tienda"}
           </span>
         </div>
-        <div class="add-to-funnel-button ${product.agregadoFunnel ? "added" : ""}" 
+        <div class="add-to-funnel-button ${
+          product.agregadoFunnel ? "added" : ""
+        }" 
             data-funnel-id="${product.id_inventario}">
           <span class="plus-icon">+</span>
           <span class="add-to-funnel-text">
@@ -371,12 +375,16 @@ document.addEventListener("DOMContentLoaded", function () {
           </span>
         </div>
         <button class="btn-heart ${esFavorito ? "clicked" : ""}" 
-                onclick="handleHeartClick(${product.id_producto}, ${esFavorito})">
+                onclick="handleHeartClick(${
+                  product.id_producto
+                }, ${esFavorito})">
           <i class="fas fa-heart"></i>
         </button>
       </div>
       <div class="card-header">
-        <span class="card-category">${product.categoria || "Sin Categoría"}</span>
+        <span class="card-category">${
+          product.categoria || "Sin Categoría"
+        }</span>
         <span class="card-stock text-success">Stock: <strong>${saldo_stock}</strong></span>
       </div>
       <div class="card-body text-center d-flex flex-column justify-content-between">
@@ -496,15 +504,17 @@ document.addEventListener("DOMContentLoaded", function () {
   /************************************************
    * Botón para mostrar/ocultar input de búsqueda proveedor
    ************************************************/
-  document.getElementById("toggleSearch").addEventListener("click", function () {
-    const input = document.getElementById("buscar_proveedor");
-    if (input.style.display === "none") {
-      input.style.display = "block";
-      input.focus();
-    } else {
-      input.style.display = "none";
-    }
-  });
+  document
+    .getElementById("toggleSearch")
+    .addEventListener("click", function () {
+      const input = document.getElementById("buscar_proveedor");
+      if (input.style.display === "none") {
+        input.style.display = "block";
+        input.focus();
+      } else {
+        input.style.display = "none";
+      }
+    });
 
   /************************************************
    * PREPARAMOS SLIDER DE PRECIO (noUiSlider)
@@ -654,15 +664,6 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchProducts(true);
   });
 
-  // Switch de privados
-  $("#privadosSwitch").change(function () {
-    let estado = $(this).is(":checked") ? 1 : 0;
-
-    currentAPI = estado === 1 ? "marketplace/obtener_productos_privados" : "marketplace/obtener_productos_paginados";
-
-    fetchProducts(true);
-});
-
   /************************************************
    * BOTÓN "CARGAR MÁS"
    ************************************************/
@@ -678,27 +679,30 @@ document.addEventListener("DOMContentLoaded", function () {
   /************************************************
    * Eventos de click global (para Añadir a Tienda / Funnel)
    ************************************************/
-  document.getElementById("card-container").addEventListener("click", (event) => {
-    const target = event.target;
-    if (
-      target.classList.contains("add-to-store-button") ||
-      target.closest(".add-to-store-button")
-    ) {
-      const button = target.closest(".add-to-store-button");
-      const productId = button.getAttribute("data-product-id");
-      const isAdded = button.classList.contains("added");
-      toggleAddToStore(productId, isAdded);
-    }
-    if (
-      target.classList.contains("add-to-funnel-button") ||
-      target.closest(".add-to-funnel-button")
-    ) {
-      const button = target.closest(".add-to-funnel-button");
-      const funnelId = button.getAttribute("data-funnel-id");
-      // Redirección a tu funnel
-      window.location.href = SERVERURL + "funnelish/constructor_vista/" + funnelId;
-    }
-  });
+  document
+    .getElementById("card-container")
+    .addEventListener("click", (event) => {
+      const target = event.target;
+      if (
+        target.classList.contains("add-to-store-button") ||
+        target.closest(".add-to-store-button")
+      ) {
+        const button = target.closest(".add-to-store-button");
+        const productId = button.getAttribute("data-product-id");
+        const isAdded = button.classList.contains("added");
+        toggleAddToStore(productId, isAdded);
+      }
+      if (
+        target.classList.contains("add-to-funnel-button") ||
+        target.closest(".add-to-funnel-button")
+      ) {
+        const button = target.closest(".add-to-funnel-button");
+        const funnelId = button.getAttribute("data-funnel-id");
+        // Redirección a tu funnel
+        window.location.href =
+          SERVERURL + "funnelish/constructor_vista/" + funnelId;
+      }
+    });
 
   /*****************************************************
    * Cargar chips de categorías y proveedores (dinámicos)
@@ -831,7 +835,8 @@ document.addEventListener("DOMContentLoaded", function () {
       let containerOffsetLeft = container.offset().left;
       let itemOffsetLeft = providerToScroll.offset().left;
       let currentScrollLeft = container.scrollLeft();
-      let scrollValue = currentScrollLeft + (itemOffsetLeft - containerOffsetLeft) - 30;
+      let scrollValue =
+        currentScrollLeft + (itemOffsetLeft - containerOffsetLeft) - 30;
       container.animate({ scrollLeft: scrollValue }, 400);
     }
   });
