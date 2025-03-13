@@ -6,9 +6,6 @@ let products = [];            // Acumularemos aquí todos los productos que se h
 
 let currentAPI = "marketplace/obtener_productos_paginados";
 
-// << ADAPTACIÓN AbortController para evitar problemas de busqueda al cambiar de filtros rapidamente >>
-let currentFetchController = null;
-
 /************************************************
  * FUNCIONES FUERA DE DOMContentLoaded
  * (para poder llamarlas con onclick, etc.)
@@ -226,15 +223,9 @@ document.addEventListener("DOMContentLoaded", function () {
   /************************************************
    * FUNCIÓN PRINCIPAL DE PAGINACIÓN
    ************************************************/
-  // << ADAPTACIÓN AbortController >>
   async function fetchProducts(reset = false) {
-    // Si hay una petición anterior corriendo, la abortamos
-    if (currentFetchController) {
-      currentFetchController.abort();
-    }
-    // Creamos un nuevo AbortController para esta petición
-    currentFetchController = new AbortController();
-    const { signal } = currentFetchController;
+    // Si hay un fetch pendiente, lo cancelamos (opcional, si usas AbortController)
+    // Ejemplo: currentFetchController?.abort();
 
     if (reset) {
       // Reiniciamos estados
@@ -255,7 +246,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch(SERVERURL + currentAPI, {
         method: "POST",
         body: formData_filtro,
-        signal // << ADAPTACIÓN AbortController >>
       });
       const newProducts = await response.json();
 
@@ -282,13 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("no-more-products").style.display = "none";
       }
     } catch (error) {
-      // << ADAPTACIÓN AbortController >>
-      if (error.name === "AbortError") {
-        // Petición anterior cancelada
-        console.log("Petición anterior abortada.");
-      } else {
-        console.error("Error al obtener los productos:", error);
-      }
+      console.error("Error al obtener los productos:", error);
     } finally {
       isLoading = false;
       loadingIndicator.style.display = "none";
@@ -674,13 +658,10 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#privadosSwitch").change(function () {
     let estado = $(this).is(":checked") ? 1 : 0;
 
-    currentAPI =
-      estado === 1
-        ? "marketplace/obtener_productos_privados"
-        : "marketplace/obtener_productos_paginados";
+    currentAPI = estado === 1 ? "marketplace/obtener_productos_privados" : "marketplace/obtener_productos_paginados";
 
     fetchProducts(true);
-  });
+});
 
   /************************************************
    * BOTÓN "CARGAR MÁS"
@@ -697,29 +678,27 @@ document.addEventListener("DOMContentLoaded", function () {
   /************************************************
    * Eventos de click global (para Añadir a Tienda / Funnel)
    ************************************************/
-  document
-    .getElementById("card-container")
-    .addEventListener("click", (event) => {
-      const target = event.target;
-      if (
-        target.classList.contains("add-to-store-button") ||
-        target.closest(".add-to-store-button")
-      ) {
-        const button = target.closest(".add-to-store-button");
-        const productId = button.getAttribute("data-product-id");
-        const isAdded = button.classList.contains("added");
-        toggleAddToStore(productId, isAdded);
-      }
-      if (
-        target.classList.contains("add-to-funnel-button") ||
-        target.closest(".add-to-funnel-button")
-      ) {
-        const button = target.closest(".add-to-funnel-button");
-        const funnelId = button.getAttribute("data-funnel-id");
-        // Redirección a tu funnel
-        window.location.href = SERVERURL + "funnelish/constructor_vista/" + funnelId;
-      }
-    });
+  document.getElementById("card-container").addEventListener("click", (event) => {
+    const target = event.target;
+    if (
+      target.classList.contains("add-to-store-button") ||
+      target.closest(".add-to-store-button")
+    ) {
+      const button = target.closest(".add-to-store-button");
+      const productId = button.getAttribute("data-product-id");
+      const isAdded = button.classList.contains("added");
+      toggleAddToStore(productId, isAdded);
+    }
+    if (
+      target.classList.contains("add-to-funnel-button") ||
+      target.closest(".add-to-funnel-button")
+    ) {
+      const button = target.closest(".add-to-funnel-button");
+      const funnelId = button.getAttribute("data-funnel-id");
+      // Redirección a tu funnel
+      window.location.href = SERVERURL + "funnelish/constructor_vista/" + funnelId;
+    }
+  });
 
   /*****************************************************
    * Cargar chips de categorías y proveedores (dinámicos)
