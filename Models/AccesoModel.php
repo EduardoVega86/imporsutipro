@@ -455,4 +455,6 @@ class AccesoModel extends Query
 
         return $response;
     }
+
+
 }

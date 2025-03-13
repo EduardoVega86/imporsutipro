@@ -5,6 +5,7 @@ ini_set('display_errors', '1');
 require_once 'PHPMailer/PHPMailer.php';
 require_once 'PHPMailer/SMTP.php';
 require_once 'PHPMailer/Exception.php';
+require_once 'Class/Inventario.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -14,6 +15,8 @@ class GuiasModel extends Query
     {
         parent::__construct();
     }
+
+
 
     public function disminuirStock($id_inventario, $cantidad)
     {
@@ -874,5 +877,26 @@ class GuiasModel extends Query
         $sql = "SELECT id_factura FROM facturas_cot WHERE numero_factura = ?";
         $response = $this->select($sql, array($numero_factura));
         return $response[0]['id_factura'];
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function disminuirInventario($productos, $id_plataforma): void
+    {
+        try {
+        throw new Exception('Error al disminuir el inventario');
+        $inventarios = new Inventario($this->getConnection(), $id_plataforma);
+
+        foreach ($productos as $producto) {
+            $id_inventario = $producto['id_inventario'];
+            $cantidad = $producto['cantidad'];
+
+            $inventarios->disminuirInventario($id_inventario, $cantidad);
+        }
+        echo json_encode(['status' => 200, 'message' => 'Inventario actualizado correctamente']);
+        } catch (Exception $e) {
+            echo json_encode(['status' => 500, 'message' => $e->getMessage()]);
+        }
     }
 }
