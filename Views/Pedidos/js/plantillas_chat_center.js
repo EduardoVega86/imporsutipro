@@ -277,11 +277,12 @@ const cargar_select_templates = async () => {
       select.append(new Option(template.nombre, template.id_template));
     });
 
-    // Aplicar Select2
+    // Aplicar Select2 con dropdown dentro del modal
     select.select2({
       placeholder: "Selecciona un template",
       allowClear: true,
       width: "100%",
+      dropdownParent: $("#modalConfiguraciones"), // Asegúrate de que sea el ID de tu modal
     });
   } catch (error) {
     console.error("Error al cargar los templates:", error);
