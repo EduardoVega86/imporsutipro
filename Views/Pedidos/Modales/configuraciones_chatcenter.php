@@ -93,7 +93,6 @@
 
                         $('#configuraciones_chatcenterModal').modal('hide');
                         resetForm();
-                        initDataTableObtenerUsuariosPlataforma();
                     }
                 },
                 error: function(error) {
