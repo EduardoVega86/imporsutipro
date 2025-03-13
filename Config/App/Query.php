@@ -1,14 +1,17 @@
 <?php
 class Query extends Conexion
 {
-    private $pdo, $connection, $sql;
+    private $pdo, $connection, $sql, $response;
     public function __construct()
     {
         $this->pdo = new Conexion();
         $this->connection = $this->pdo->connect();
+        $this->response = $this->initialResponse();
     }
+
+
     // select  * from plataformas where id_plataforma = $id_plataforma;
-    public function select($sql)
+    public function select($sql): array
     {
         try {
             $this->sql = $sql;
@@ -21,20 +24,13 @@ class Query extends Conexion
         }
     }
 
-
-
-    //$data = [$id_plataforma];
-    // select  * from plataformas where id_plataforma = ?;
-    // $response = $this->model->dselect($sql, $data);
-    public function dselect($sql, $data)
+    public function dselect($sql, $data): array
     {
         try {
             $this->sql = $sql;
             $query = $this->connection->prepare($this->sql);
             $query->execute($data);
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-
-            return $result;
+            return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return $this->handleError($e->getMessage(), $e->getCode());
         }
@@ -46,88 +42,84 @@ class Query extends Conexion
             $this->sql = $sql;
             $query = $this->connection->prepare($this->sql);
             $query->execute($data);
-
-            // Obtener el número de filas afectadas directamente
-            $rowCount = $query->rowCount();
-
-            // Retornar el conteo de filas en lugar de reasignar $result
-            return $rowCount;
+            return $query->rowCount();
         } catch (PDOException $e) {
             return $this->handleError($e->getMessage(), $e->getCode());
         }
     }
 
     // Devuelve numeros de filas afectadas
-    public function insert($sql, $data)
+
+    /**
+     * @throws Exception
+     */
+    public function insert($sql, $data): array|int
     {
         try {
             $this->sql = $sql;
             $query = $this->connection->prepare($this->sql);
             $query->execute($data);
-            $result = $query->rowCount();
-
-            // Depuración adicional
-            error_log("Consulta ejecutada con éxito: " . $sql);
-            error_log("Datos utilizados: " . print_r($data, true));
-
-            return $result;
+            return $query->rowCount();
         } catch (PDOException $e) {
-            error_log("Error en la consulta: " . $e->getMessage());
-            error_log("Código del error: " . $e->getCode());
-            return $this->handleError($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), $e->getCode());
         }
     }
 
 
-    public function simple_insert($sql)
+    /**
+     * @throws Exception
+     */
+    public function simple_insert($sql): array|int
     {
         try {
             $this->sql = $sql;
             $query = $this->connection->prepare($this->sql);
             $query->execute();
-            $result = $query->rowCount();
-            return $result;
+            return $query->rowCount();
         } catch (PDOException $e) {
-            return $this->handleError($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), $e->getCode());
         }
     }
 
-    public function update($sql, $data)
+    /**
+     * @throws Exception
+     */
+    public function update($sql, $data): int
     {
         try {
             $this->sql = $sql;
             $query = $this->connection->prepare($this->sql);
             $query->execute($data);
-            $result = $query->rowCount();
-            return $result;
+            return $query->rowCount();
         } catch (PDOException $e) {
-            return $this->handleError($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), $e->getCode());
         }
     }
 
-    public function delete($sql, $data)
+    public function delete($sql, $data): int
     {
         try {
             $this->sql = $sql;
             $query = $this->connection->prepare($this->sql);
             $query->execute($data);
-            $result = $query->rowCount();
-            return $result;
+            return $query->rowCount();
         } catch (PDOException $e) {
-            return $this->handleError($e->getMessage(), $e->getCode());
+           throw new Exception($e->getMessage(), $e->getCode());
         }
     }
 
-    public function simple_delete($sql)
+    /**
+     * @throws Exception
+     */
+    public function simple_delete($sql): int
     {
         try {
             $this->sql = $sql;
             $query = $this->connection->prepare($this->sql);
             $query->execute();
-            $result = $query->rowCount();
-            return $result;
+            return $query->rowCount();
         } catch (PDOException $e) {
-            return $this->handleError($e->getMessage(), $e->getCode());
+           throw new Exception($e->getMessage(), $e->getCode());
         }
     }
     public function close()
@@ -135,7 +127,7 @@ class Query extends Conexion
         $this->pdo->close();
     }
 
-    public function initialResponse()
+    public function initialResponse(): array
     {
         return [
             'status' => 500,
@@ -145,29 +137,9 @@ class Query extends Conexion
         ];
     }
 
-    public function auditor($information)
-    {
-        try {
-            $ip = $this->obtenerIpUsuario();
-            $sql = "INSERT INTO auditoria (id_usuario, fecha, hora, informacion, ip) VALUES (:id_usuario, :fecha, :hora, :informacion, :ip)";
-            $data = [
-                'id_usuario' => $information['id_usuario'],
-                'fecha' => $information['fecha'],
-                'hora' => $information['hora'],
-                'informacion' => $information['informacion'],
-                'ip' => $ip
-            ];
-            $result = $this->insert($sql, $data);
-            return $result;
-        } catch (PDOException $e) {
-            return $this->handleError($e->getMessage(), $e->getCode());
-        }
-    }
-
-    private function handleError($message, $code = 0)
+    private function handleError($message, $code = 0): array
     {
         //si se genera un error de SQLException agarrar el codigo de error y el mensaje
-
         return [
             'status' => 'error',
             'message' => $message,
@@ -195,12 +167,11 @@ class Query extends Conexion
         } else {
             $ip = 'UNKNOWN';
         }
-
         return $ip;
     }
 
 
-    public function obtenerMatriz()
+    public function obtenerMatriz(): array
     {
         $host = SERVERURL;
         // quitar el https://
@@ -212,22 +183,22 @@ class Query extends Conexion
         return $this->select($sql);
     }
 
-    public function beginTransaction()
+    public function beginTransaction(): void
     {
         $this->connection->beginTransaction();
     }
 
-    public function commit()
+    public function commit(): void
     {
         $this->connection->commit();
     }
 
-    public function rollBack()
+    public function rollBack(): void
     {
         $this->connection->rollBack();
     }
 
-    public function lastInsertId()
+    public function lastInsertId(): bool|string
     {
         return $this->connection->lastInsertId();
     }
@@ -237,12 +208,12 @@ class Query extends Conexion
         return $this->sql;
     }
 
-    public function setSql($sql)
+    public function setSql($sql): void
     {
         $this->sql = $sql;
     }
 
-    public function getError()
+    public function getError(): array
     {
         return $this->connection->errorInfo();
     }
@@ -252,14 +223,24 @@ class Query extends Conexion
         return $this->connection->errorCode();
     }
 
-    public function getErrorInfo()
+    public function getErrorInfo(): array
     {
         return $this->connection->errorInfo();
     }
 
     // Devuelve la conexión
-    public function getConnection()
+    public function getConnection(): PDO
     {
         return $this->connection;
     }
+
+    /**
+     * @return array
+     */
+    public function &getResponse(): array
+    {
+        return $this->response;
+    }
+
+
 }

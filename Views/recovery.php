@@ -3,7 +3,7 @@
 
 <div class="d-flex flex-column" style="width: 700px;">
     <div class="imagen_logo">
-        <img src="<?php echo LOGIN_IMAGE; ?>" alt="IMORSUIT" width="300px" height="150px">
+        <img src="<?php echo LOGIN_IMAGE; ?>" alt="IMPORSUIT" width="300px" height="150px">
     </div>
     <div class="container">
         <div class="header">
@@ -30,26 +30,27 @@
 <script>
     $(document).ready(function() {
         $('#sendEmailButton').click(function() {
-            var email = $('#email').val();
+            var correo = $('#email').val();
 
-            let formData = new FormData();
-            formData.append("correo", email);
+            let data = JSON.stringify({
+                correo: correo
+            });
 
             $.ajax({
                 url: SERVERURL + 'acceso/recuperar_contrasena',
                 type: 'POST',
-                data: formData,
-                processData: false, // No procesar los datos
-                contentType: false, // No establecer ningún tipo de contenido
+                data: data,
+                contentType: 'application/json',
+                dataType: 'json',
+
                 success: function(response) {
-                    response = JSON.parse(response);
-                    if (response.status == 500) {
+                    if (response.status === 500) {
                         Swal.fire({
                             icon: 'error',
                             title: response.title,
                             text: response.message
                         });
-                    } else if (response.status == 200) {
+                    } else if (response.status === 200) {
                         Swal.fire({
                             icon: 'success',
                             title: response.title,

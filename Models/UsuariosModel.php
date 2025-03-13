@@ -1240,6 +1240,73 @@ ON
         return $response;
     }
 
+    public function editar_configuracion($id_template_whatsapp, $plataforma)
+    {
+        // codigo para editar categoria
+        $response = $this->initialResponse();
+
+        $sql = "UPDATE configuraciones SET template_generar_guia = ? WHERE id_plataforma = ? ";
+        $data = [$id_template_whatsapp, $plataforma];
+        $editar_configuracion = $this->update($sql, $data);
+        //print_r($editar_configuracion);
+        if ($editar_configuracion == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Configuracion editada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al editar la Configuracion';
+        }
+        return $response;
+    }
+
+    public function obtener_templates_whatsapp($id_plataforma)
+    {
+
+        $sql = "SELECT id_whatsapp, token FROM configuraciones WHERE id_plataforma = $id_plataforma";
+
+        $select_configuraciones = $this->select($sql);
+        $token = $select_configuraciones[0]['token'];
+        $whatsappBusinessAccountId = $select_configuraciones[0]['id_whatsapp'];
+
+        $url = "https://graph.facebook.com/v20.0/$whatsappBusinessAccountId/message_templates";
+
+        $headers = [
+            "Authorization: Bearer $token",
+            "Content-Type: application/json"
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($http_status !== 200) {
+            return ["error" => "Error en la solicitud", "status" => $http_status, "response" => $result];
+        }
+
+        $data = json_decode($result, true);
+
+        if (!isset($data['data'])) {
+            return ["error" => "Respuesta inesperada de la API", "response" => $data];
+        }
+
+        // Filtrar solo los campos id_template y nombre para llenar un <select>
+        $templates = array_map(function ($template) {
+            return [
+                "id_template" => $template['id'] ?? null,
+                "nombre" => $template['name'] ?? null
+            ];
+        }, $data['data']);
+
+        return $templates;
+    }
+
     public function eliminarHorizontal($id, $plataforma)
     {
         // codigo para eliminar categoria

@@ -1,0 +1,26 @@
+tree 151e4f56a4e9403e3b243429811432606beddfc2
+parent 9c76c8929a3f866286e5bb17b1b908b1f45c4546
+parent a3baf0c4172488f88ed97595bab87512a587b267
+author Desarrollo2Imporfactory <163022083+Desarrollo2Imporfactory@users.noreply.github.com> 1729197232 -0500
+committer GitHub <noreply@github.com> 1729197232 -0500
+gpgsig -----BEGIN PGP SIGNATURE-----
+ 
+ wsFcBAABCAAQBQJnEXSwCRC1aQ7uu5UhlAAAPQAQAE6yMcdsvoR7+nqB2dss9gcm
+ CGzZTuDh6idY4V/NHUjtqU5tW2G/lC5wulgFkZpujZoNpRMOjHd32dWB14u2YrxW
+ ELOle+6ip5XQvyx0QJBkRXFzUc7G4dB3ikhMIjSUeAJkyImih3SKv9Hq3MhQvOGD
+ j0xzZey8iYX5XtDisv9Shc2laTqvn/iOnYvPLznnQsMjERAV8yKMWsw3oG7PIyZF
+ INtwchoDCzycXn2HXg5jN8CK0N9XRLzCg56+CXblLK6hDqrkfXQvxBEnvq8aVsvV
+ pi01b16vESAf3FtJCYb0pLxEXE2Jy/78WpBUYHz/jHONuFkrSgyYYb/2oqoWKmMV
+ A6JMPyekrZ27Z8iPPnTJlQffjrmEoLN+G7yMJ9HwMvFZVSnZzX6o3q6ZPHhxFAWC
+ C9TyH/RHCKxl2KhElP2tWd6omnoaGiVuQjgqgQsarXRRSurEbcZFk4bKKnBFRtB2
+ 8XwoVAB3dPOtO8mpipDeX05D/k8OknxF43n5FwwBcvjptUwWeQmxaiYWWq7wO0a9
+ /q2nBQcTPNzm2Rc1+j/k2DDd+9+e5D5y15k8Iok9tusg/A2kN4ZUwi4B9yD32AKx
+ 95/v2fC5Co3gSfSK5X18xoO+Lci+lYrHq3Inl5yPcaKY6L3FNAeGZhrZW6g0vtn/
+ xwWseJ/coL0UwYTpml9i
+ =1mv3
+ -----END PGP SIGNATURE-----
+ 
+
+Merge pull request #791 from EduardoVega86/desarrollo
+
+agregar_index

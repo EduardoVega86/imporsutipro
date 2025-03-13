@@ -41,14 +41,19 @@ const initDataTableObtenerUsuariosPlataforma = async () => {
 
 const listObtenerUsuariosPlataforma = async () => {
   try {
-    const response = await fetch(SERVERURL + "usuarios/obtener_plantillas_plataforma");
+    const response = await fetch(
+      SERVERURL + "usuarios/obtener_plantillas_plataforma"
+    );
     const obtenerUsuariosPlataforma = await response.json();
 
     let content = ``;
     let usuarioPrincipalId = null; // Guardar el ID del usuario principal
 
     // Buscar si hay un usuario con principal === 1
-    usuarioPrincipalId = obtenerUsuariosPlataforma.find(usuario => parseInt(usuario.principal) === 1)?.id_template || null;
+    usuarioPrincipalId =
+      obtenerUsuariosPlataforma.find(
+        (usuario) => parseInt(usuario.principal) === 1
+      )?.id_template || null;
 
     obtenerUsuariosPlataforma.forEach((usuario) => {
       let editar = `<button class="btn btn-sm btn-primary" onclick="abrir_editar_usuario(${usuario.id_template})">
@@ -60,7 +65,11 @@ const listObtenerUsuariosPlataforma = async () => {
 
       // Lógica del checkbox
       let isChecked = parseInt(usuario.principal) === 1 ? "checked" : "";
-      let isDisabled = usuarioPrincipalId !== null && usuario.id_template !== usuarioPrincipalId ? "disabled" : "";
+      let isDisabled =
+        usuarioPrincipalId !== null &&
+        usuario.id_template !== usuarioPrincipalId
+          ? "disabled"
+          : "";
 
       // Si no hay usuario principal, todos los checkboxes deben estar habilitados
       if (usuarioPrincipalId === null) {
@@ -85,7 +94,8 @@ const listObtenerUsuariosPlataforma = async () => {
                 </tr>`;
     });
 
-    document.getElementById("tableBody_obtener_usuarios_plataforma").innerHTML = content;
+    document.getElementById("tableBody_obtener_usuarios_plataforma").innerHTML =
+      content;
   } catch (ex) {
     alert("Error: " + ex);
   }
@@ -236,7 +246,48 @@ function abrir_editar_motorizado(id_usuario) {
 
 window.addEventListener("load", async () => {
   await initDataTableObtenerUsuariosPlataforma();
+
+  await cargar_select_templates();
 });
+
+const cargar_select_templates = async () => {
+  const url = SERVERURL + "Usuarios/obtener_templates_whatsapp";
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error en la solicitud: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error("La respuesta de la API no es un array válido");
+    }
+
+    // Obtener y limpiar el select
+    const select = $("#select_templates");
+    select.empty().append('<option value="">Selecciona un template</option>');
+
+    // Agregar las opciones
+    data.forEach((template) => {
+      select.append(new Option(template.nombre, template.id_template));
+    });
+
+    // Aplicar Select2 con dropdown dentro del modal
+    select.select2({
+      placeholder: "Selecciona un template",
+      allowClear: true,
+      width: "100%",
+      dropdownParent: $("#configuraciones_chatcenterModal"),
+    });
+  } catch (error) {
+    console.error("Error al cargar los templates:", error);
+  }
+};
 
 function formatPhoneNumber(number) {
   // Eliminar caracteres no numéricos excepto el signo +

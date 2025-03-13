@@ -2269,7 +2269,7 @@ class PHPMailer
                 } catch (Exception $exc) {
                     $lastexception = $exc;
                     $this->edebug($exc->getMessage());
-                    //We must have connected, but then failed TLS or Auth, so close connection nicely
+                    //We must have connected, but then failed TLS or RegisterUser, so close connection nicely
                     $this->smtp->quit();
                 }
             }

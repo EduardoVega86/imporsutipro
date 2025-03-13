@@ -565,6 +565,21 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+    public function editar_configuracion()
+    {
+        $id_template_whatsapp = $_POST['id_template_whatsapp'];
+
+        $response = $this->model->editar_configuracion($id_template_whatsapp, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function obtener_templates_whatsapp()
+    {
+
+        $response = $this->model->obtener_templates_whatsapp($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function obtener_horizontalTienda()
     {
         $response = $this->model->obtener_horizontalTienda($_SESSION['id_plataforma']);
