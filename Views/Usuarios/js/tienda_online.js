@@ -1851,10 +1851,7 @@ function guardar_dominio() {
         toastr.success("USUARIO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
-        $("#agregar_dominioModal").modal("hide");
-        resetForm();
-        initDataTableObtenerUsuariosPlataforma();
+        
       }
     },
     error: function (error) {
