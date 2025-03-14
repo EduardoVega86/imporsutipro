@@ -373,19 +373,19 @@
     document.getElementById("formularioDatos").addEventListener("submit", function(event) {
         event.preventDefault();
 
-        const formData = new FormData(this);
+        const data = JSON.stringify(Object.fromEntries(new FormData(event.target)));
 
         const url = '<?php echo SERVERURL; ?>Productos/agregarBodega'; // Asegúrate de definir SERVERURL en tu backend PHP
 
         fetch(url, {
                 method: 'POST',
-                body: formData
+                body: data
             })
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
                 // Mostrar alerta de éxito
-                if (data.status == 500) {
+                if (data.status === 500) {
                     Swal.fire({
                         icon: 'error',
                         title: data.title,

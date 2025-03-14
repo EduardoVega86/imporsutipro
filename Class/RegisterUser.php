@@ -99,8 +99,8 @@ class RegisterUser
      */
     public function register_plataforma($matriz, $telefono, $tienda, $pais, $referido): void
     {
-        $sql = "INSERT INTO plataformas (id_matriz, contacto, whatsapp, fecha_actualza, fecha_ingreso, id_plan, url_imporsuit, carpeta_servidor, email, referido, token_referido, refiere, pais) 
-                    VALUES (:id_matriz, :contacto, :whatsapp, :fecha_ac, :fecha_in, :id_plan, :url_imp, :carpeta, :email, :referido, :url_referido, :refiere, :pais)";
+        $sql = "INSERT INTO plataformas (id_matriz, nombre_tienda,contacto, whatsapp, fecha_actualza, fecha_ingreso, id_plan, url_imporsuit, carpeta_servidor, email, referido, token_referido, refiere, pais) 
+                    VALUES (:id_matriz, :nombre_tienda, :contacto, :whatsapp, :fecha_ac, :fecha_in, :id_plan, :url_imp, :carpeta, :email, :referido, :url_referido, :refiere, :pais)";
 
         $stmt = $this->pdo->prepare($sql);
 
@@ -115,9 +115,10 @@ class RegisterUser
             'carpeta' => '/public_html/' . $tienda,
             'email' => $this->correo,
             'referido' => 0,
-            'url_referido' => $tienda,
+            'url_referido' => "",
             'refiere' => $referido == 0 ? null : $referido,
-            'pais' => $pais
+            'pais' => $pais,
+            'nombre_tienda' => $tienda
         ]);
         $this->id_plataforma = $this->pdo->lastInsertId();
     }

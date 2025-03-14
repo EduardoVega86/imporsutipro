@@ -9,21 +9,24 @@ class Query extends Conexion
         $this->response = $this->initialResponse();
     }
 
-
-    // select  * from plataformas where id_plataforma = $id_plataforma;
+    /**
+     * @throws Exception
+     */
     public function select($sql): array
     {
         try {
             $this->sql = $sql;
             $query = $this->connection->prepare($this->sql);
             $query->execute();
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            return $result;
+            return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             throw new Exception($e->getMessage(), $e->getCode());
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function dselect($sql, $data): array
     {
         try {
@@ -36,6 +39,10 @@ class Query extends Conexion
         }
     }
     // Devuelve numeros de filas afectadas
+
+    /**
+     * @throws Exception
+     */
     public function simple_select($sql, $data)
     {
         try {
@@ -44,11 +51,11 @@ class Query extends Conexion
             $query->execute($data);
             return $query->rowCount();
         } catch (PDOException $e) {
-            return $this->handleError($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), $e->getCode());
         }
     }
 
-    // Devuelve numeros de filas afectadas
+    // Devuelve números de filas afectadas
 
     /**
      * @throws Exception
@@ -64,7 +71,6 @@ class Query extends Conexion
             throw new Exception($e->getMessage(), $e->getCode());
         }
     }
-
 
     /**
      * @throws Exception

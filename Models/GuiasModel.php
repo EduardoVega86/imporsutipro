@@ -17,7 +17,6 @@ class GuiasModel extends Query
     }
 
 
-
     public function disminuirStock($id_inventario, $cantidad)
     {
         $sql = "UPDATE inventario_bodegas SET saldo_stock = saldo_stock - $cantidad WHERE id_inventario = $id_inventario";
@@ -225,7 +224,7 @@ class GuiasModel extends Query
                 break;
         }
         $fecha_guia = date("Y-m-d H:i:s");
-        $sql =  "UPDATE `facturas_cot` SET `id_usuario`=?,`monto_factura`=?,`nombre`=?,`telefono`=?,`provincia`=?,`c_principal`=?,`ciudad_cot`=?,`c_secundaria`=?,`referencia`=?,`observacion`=?,`guia_enviada`=1,`transporte`='$transp',`celular`=?,`estado_guia_sistema`=$estado_guia,`numero_guia`=?,`cod`=?,`contiene`=?,`comentario`=?,`id_transporte`='$id_transporte', `costo_flete` =$costo_flete, `fecha_guia` = '$fecha_guia', `googlemaps` = '$url_google_maps', `nombre_responsable` = '$nombre_responsable'
+        $sql = "UPDATE `facturas_cot` SET `id_usuario`=?,`monto_factura`=?,`nombre`=?,`telefono`=?,`provincia`=?,`c_principal`=?,`ciudad_cot`=?,`c_secundaria`=?,`referencia`=?,`observacion`=?,`guia_enviada`=1,`transporte`='$transp',`celular`=?,`estado_guia_sistema`=$estado_guia,`numero_guia`=?,`cod`=?,`contiene`=?,`comentario`=?,`id_transporte`='$id_transporte', `costo_flete` =$costo_flete, `fecha_guia` = '$fecha_guia', `googlemaps` = '$url_google_maps', `nombre_responsable` = '$nombre_responsable'
          WHERE `numero_factura`=?";
         $data = array($usuario, $costo_producto, $nombreDestino, $telefonoDestino, $provincia, $calle_principal, $ciudadDestino, $calle_secundaria, $referenciaDestino, $comentario, $celularDestino, $guia, $cod, $contiene, $comentario, $numero_factura);
         $response = $this->insert($sql, $data);
@@ -251,11 +250,13 @@ class GuiasModel extends Query
 
     public function asignarWallet($numero_factura, $guia, $fecha, $nombreDestino, $id_plataforma, $estado, $costo_producto, $cod, $precio_envio)
     {
+        if($guia == "0"|| $guia == null){
+            return;
+        }
         $buscar_detalle = "SELECT * FROM detalle_fact_cot WHERE numero_factura = '$numero_factura'";
         $respueta_detalle = $this->select($buscar_detalle);
         $id_inventario = $respueta_detalle[0]['id_inventario'];
         $cantidad = $respueta_detalle[0]['cantidad'];
-
 
 
         $buscar_inventario = "SELECT * FROM inventario_bodegas WHERE id_inventario = '$id_inventario'";
@@ -448,9 +449,9 @@ class GuiasModel extends Query
             "ID_CIUDAD_ORIGEN" => $ciudadOrigen,
             "ID_CIUDAD_DESTINO" => $ciudadDestino,
             "ID_DESTINATARIO_NE_CL" => "",
-            "RAZON_SOCIAL_DESTI_NE" =>  $razon_zocial_destinatario,
+            "RAZON_SOCIAL_DESTI_NE" => $razon_zocial_destinatario,
             "NOMBRE_DESTINATARIO_NE" => $nombreDestino,
-            "APELLIDO_DESTINATAR_NE" =>    "",
+            "APELLIDO_DESTINATAR_NE" => "",
             "SECTOR_DESTINAT_NE" => "",
             "TELEFONO1_DESTINAT_NE" => $telefonoDestino,
             "TELEFONO2_DESTINAT_NE" => "",
@@ -459,7 +460,7 @@ class GuiasModel extends Query
             "ID_REMITENTE_CL" => "",
             "RAZON_SOCIAL_REMITE" => $razon_social_remitente,
             "NOMBRE_REMITENTE" => "$vendedor",
-            "APELLIDO_REMITE" =>    "",
+            "APELLIDO_REMITE" => "",
             "DIRECCION1_REMITE" => "$direccionOrigen",
             "SECTOR_REMITE" => "",
             "TELEFONO1_REMITE" => $telf,
@@ -539,9 +540,9 @@ class GuiasModel extends Query
             "id_ciudad_origen" => $ciudadOrigen,
             "id_ciudad_destino" => $ciudadDestino,
             "id_destinatario_ne_cl" => "",
-            "razon_social_desti_ne" =>  $razon_zocial_destinatario,
+            "razon_social_desti_ne" => $razon_zocial_destinatario,
             "nombre_destinatario_ne" => $nombreDestino,
-            "apellido_destinatar_ne" =>   "",
+            "apellido_destinatar_ne" => "",
             "direccion1_destinat_ne" => $direccionDestino . " - Referencia: " . $referenciaDestino,
             "sector_destinat_ne" => "",
             "telefono1_destinat_ne" => $telefonoDestino,
@@ -550,7 +551,7 @@ class GuiasModel extends Query
             "id_remitente_cl" => "",
             "razon_social_remite" => $razon_social_remitente,
             "nombre_remitente" => $vendedor,
-            "apellido_remite" =>   "",
+            "apellido_remite" => "",
             "direccion1_remite" => $direccionOrigen,
             "sector_remite" => "",
             "telefono1_remite" => $telf,
@@ -791,6 +792,7 @@ class GuiasModel extends Query
 
         return $response;
     }
+
     public function aumentarMatriz()
     {
         $this->update("UPDATE matriz set guia_generadas = guia_generadas + 1 WHERE idmatriz = ?", array(MATRIZ));
@@ -861,7 +863,7 @@ class GuiasModel extends Query
             $result = curl_exec($ch);
             $result = json_decode($result, true);
             $peso = $result['pesoKilos'];
-            $xd =    $this->update("UPDATE cabecera_cuenta_pagar set peso = ? where guia = ?", array($peso, $value['guia']));
+            $xd = $this->update("UPDATE cabecera_cuenta_pagar set peso = ? where guia = ?", array($peso, $value['guia']));
 
             print_r($xd);
 
@@ -885,18 +887,16 @@ class GuiasModel extends Query
     public function disminuirInventario($productos, $id_plataforma): void
     {
         try {
-        throw new Exception('Error al disminuir el inventario');
-        $inventarios = new Inventario($this->getConnection(), $id_plataforma);
+            $inventarios = new Inventario($this->getConnection(), $id_plataforma);
 
-        foreach ($productos as $producto) {
-            $id_inventario = $producto['id_inventario'];
-            $cantidad = $producto['cantidad'];
+            foreach ($productos as $producto) {
+                $id_inventario = $producto['id_inventario'];
+                $cantidad = $producto['cantidad'];
 
-            $inventarios->disminuirInventario($id_inventario, $cantidad);
-        }
-        echo json_encode(['status' => 200, 'message' => 'Inventario actualizado correctamente']);
+                $inventarios->disminuirInventario($id_inventario, $cantidad);
+            }
         } catch (Exception $e) {
-            echo json_encode(['status' => 500, 'message' => $e->getMessage()]);
+            throw new Exception($e->getMessage());
         }
     }
 }
