@@ -580,6 +580,15 @@ class Usuarios extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_template_transportadora()
+    {
+        $transportadora = $_POST['transportadora']; // laar, servientrega, gintracom, speed
+        $id_plataforma = $_POST['id_plataforma'];
+
+        $response = $this->model->obtener_template_transportadora($transportadora, $id_plataforma);
+        echo json_encode($response);
+    }
+
 
     public function obtener_templates_whatsapp()
     {
