@@ -3644,4 +3644,24 @@ class PedidosModel extends Query
 
         return $this->insert($sql, $data);
     }
+
+    public function obtener_template_transportadora($transportadora, $id_plataforma)
+    {
+        $sql = "SELECT template_generar_guia FROM configuraciones WHERE id_plataforma = $id_plataforma";
+        $resultado = $this->select($sql);
+
+        if (!$resultado) {
+            return ["error" => "No se encontró configuración para la plataforma"];
+        }
+
+        // Decodificar JSON almacenado en la base de datos
+        $templates = json_decode($resultado[0]['template_generar_guia'], true);
+
+        // Verificar si la transportadora existe en el JSON
+        if (!isset($templates[$transportadora])) {
+            return ["error" => "Transportadora no encontrada"];
+        }
+
+        return ["transportadora" => $transportadora, "template" => $templates[$transportadora]];
+    }
 }
