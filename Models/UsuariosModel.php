@@ -1273,7 +1273,7 @@ ON
         // Decodificar JSON almacenado en la base de datos
         $templates = json_decode($resultado['template_generar_guia'], true);
 
-        print_r($templates);
+        echo $templates;
 
         // Verificar si la transportadora existe en el JSON
         if (!isset($templates[$transportadora])) {
