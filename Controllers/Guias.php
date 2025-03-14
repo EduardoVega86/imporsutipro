@@ -258,7 +258,7 @@ class Guias extends Controller
             }
             $response["status"] = 200;
             $this->model->aumentarMatriz();
-            $this->model->disminuirInventario(json_decode($_POST['productos'], true), $_SESSION["id_plataforma"]);
+            $this->model->disminuirInventario(json_decode($_POST['productos'], true), $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"]);
 
             $response2 = $this->model->actualizarGuia($numero_factura, $response["id"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "SERVIENTREGA", 100, $nombre_responsable);
             $this->model->asignarWallet($numero_factura, $response["id"], $fecha, $nombreDestino, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
@@ -327,7 +327,7 @@ class Guias extends Controller
         if (isset($response["guia"])) {
             $response["status"] = 200;
             $this->model->aumentarMatriz();
-            $this->model->disminuirInventario(json_decode($_POST['productos'], true), $_SESSION["id_plataforma"]);
+            $this->model->disminuirInventario(json_decode($_POST['productos'], true), $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"]);
 
             $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "GINTRACOM", 1, $nombre_responsable);
             $this->model->asignarWallet($numero_factura, $response["guia"], $fecha, $nombreDestino, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
