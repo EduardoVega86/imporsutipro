@@ -3661,13 +3661,8 @@ class PedidosModel extends Query
         }
 
         // Decodificar JSON almacenado en la base de datos
-        $templates = json_decode($resultado[0]['template_generar_guia'], true);
+        $templates = $resultado[0]['template_generar_guia'];
 
-        // Verificar si la transportadora existe en el JSON
-        if (!isset($templates[$transportadora])) {
-            return ["error" => "Transportadora no encontrada"];
-        }
-
-        return ["transportadora" => $transportadora, "template" => $templates[$transportadora]];
+        return ["template" => $templates];
     }
 }
