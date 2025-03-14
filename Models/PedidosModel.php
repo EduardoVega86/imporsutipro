@@ -55,8 +55,8 @@ class PedidosModel extends Query
         n.solucionada, 
         n.terminado, 
         n.estado_novedad,
-        ccp.visto AS pagado
-        
+        ccp.visto AS pagado,
+
         (SELECT GROUP_CONCAT(dfc.sku SEPARATOR ', ')
          FROM detalle_fact_cot dfc
          WHERE dfc.numero_factura = fc.numero_factura
