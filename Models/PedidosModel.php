@@ -56,6 +56,13 @@ class PedidosModel extends Query
         n.terminado, 
         n.estado_novedad,
         ccp.visto AS pagado
+        
+        -- Aquí usamos un sub-SELECT con GROUP_CONCAT para tomar todos los SKU de la misma factura:
+        (SELECT GROUP_CONCAT(dfc.sku SEPARATOR ', ')
+         FROM detalle_fact_cot dfc
+         WHERE dfc.numero_factura = fc.numero_factura
+        ) AS sku_list
+        
         FROM 
             facturas_cot fc
         LEFT JOIN 
