@@ -269,20 +269,36 @@ const cargar_select_templates = async () => {
     }
 
     // Obtener y limpiar el select
-    const select = $("#select_templates");
-    select.empty().append('<option value="">Selecciona un template</option>');
+    const selects = [
+      $("#select_templates_laar"),
+      $("#select_templates_servi"),
+      $("#select_templates_gintra"),
+      $("#select_templates_speed"),
+    ];
 
-    // Agregar las opciones
-    data.forEach((template) => {
-      select.append(new Option(template.nombre, template.id_template));
+    // Limpiar y agregar opción "Selecciona un template"
+    selects.forEach((select) => {
+      select.empty().append('<option value="">Selecciona un template</option>');
     });
 
-    // Aplicar Select2 con dropdown dentro del modal
-    select.select2({
-      placeholder: "Selecciona un template",
-      allowClear: true,
-      width: "100%",
-      dropdownParent: $("#configuraciones_chatcenterModal"),
+    // Agregar opciones dinámicamente
+    data.forEach((template) => {
+      selects.forEach((select) => {
+        select.append(new Option(template.nombre, template.nombre));
+      });
+    });
+
+    // Aplicar Select2 asegurando la opción vacía
+    selects.forEach((select) => {
+      select
+        .select2({
+          placeholder: "Selecciona un template",
+          allowClear: true, // Permite limpiar la selección
+          width: "100%",
+          dropdownParent: $("#configuraciones_chatcenterModal"),
+        })
+        .val("")
+        .trigger("change"); // Asegurar que la opción vacía sea la predeterminada
     });
   } catch (error) {
     console.error("Error al cargar los templates:", error);

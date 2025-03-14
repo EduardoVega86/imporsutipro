@@ -1240,25 +1240,45 @@ ON
         return $response;
     }
 
-    public function editar_configuracion($id_template_whatsapp, $plataforma)
+    public function editar_configuracion($json_templates, $plataforma)
     {
-        // codigo para editar categoria
         $response = $this->initialResponse();
 
-        $sql = "UPDATE configuraciones SET template_generar_guia = ? WHERE id_plataforma = ? ";
-        $data = [$id_template_whatsapp, $plataforma];
+        $sql = "UPDATE configuraciones SET template_generar_guia = ? WHERE id_plataforma = ?";
+        $data = [$json_templates, $plataforma];
         $editar_configuracion = $this->update($sql, $data);
-        //print_r($editar_configuracion);
+
         if ($editar_configuracion == 1) {
             $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Configuracion editada correctamente';
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Configuración editada correctamente';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al editar la Configuracion';
+            $response['message'] = 'Error al editar la configuración';
         }
+
         return $response;
+    }
+
+    public function obtener_template_transportadora($transportadora, $id_plataforma)
+    {
+        $sql = "SELECT template_generar_guia FROM configuraciones WHERE id_plataforma = $id_plataforma";
+        $resultado = $this->select($sql);
+
+        if (!$resultado) {
+            return ["error" => "No se encontró configuración para la plataforma"];
+        }
+
+        // Decodificar JSON almacenado en la base de datos
+        $templates = json_decode($resultado['template_generar_guia'], true);
+
+        // Verificar si la transportadora existe en el JSON
+        if (!isset($templates[$transportadora])) {
+            return ["error" => "Transportadora no encontrada"];
+        }
+
+        return ["transportadora" => $transportadora, "template" => $templates[$transportadora]];
     }
 
     public function obtener_templates_whatsapp($id_plataforma)
