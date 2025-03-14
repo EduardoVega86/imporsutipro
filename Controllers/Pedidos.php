@@ -2925,4 +2925,32 @@ class Pedidos extends Controller
         header("Location: " . $urlPersonalizada);
         exit();
     }
+
+    public function tracking_guia($guia)
+    {
+        // Verificar si la guía tiene un valor válido
+        if (empty($guia)) {
+            die("Error: No se proporcionó una guía válida.");
+        }
+
+        // Determinar la URL de tracking según el prefijo de la guía
+        if (strpos($guia, "IMP") !== false || strpos($guia, "MKP") !== false) {
+            $urlPersonalizada = "https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=" . urlencode($guia); // LAAR
+        } elseif (strpos($guia, "I") === 0) {
+            $urlPersonalizada = "https://ec.gintracom.site/web/site/tracking?guia=" . urlencode($guia); // GINTRACOM
+        } elseif (strpos($guia, "SPD") === 0) {
+            $urlPersonalizada = ""; // SPEED (No tiene URL de tracking)
+        } else {
+            $urlPersonalizada = "https://www.servientrega.com.ec/Tracking/?guia=" . urlencode($guia) . "&tipo=GUIA"; // SERVIENTREGA
+        }
+
+        // Si no hay URL de tracking, mostrar mensaje
+        if (empty($urlPersonalizada)) {
+            die("No hay tracking disponible para esta guía.");
+        }
+
+        // Redirigir automáticamente a la URL de tracking
+        header("Location: " . $urlPersonalizada);
+        exit();
+    }
 }
