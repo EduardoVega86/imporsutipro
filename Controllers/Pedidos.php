@@ -1126,7 +1126,7 @@ class Pedidos extends Controller
         $sheetGuias->setTitle('GUÍAS');
 
         // --- Encabezado Título en A1:Q1 ---
-        $sheetGuias->mergeCells('A1:Q1');
+        $sheetGuias->mergeCells('A1:S1');
         $sheetGuias->setCellValue('A1', 'REPORTE DE GUÍAS');
         $sheetGuias->getStyle('A1')->applyFromArray([
             'font' => [
@@ -1161,8 +1161,10 @@ class Pedidos extends Controller
         $sheetGuias->setCellValue('O3', 'Monto a Recibir');
         $sheetGuias->setCellValue('P3', 'Recaudo');
         $sheetGuias->setCellValue('Q3', 'Por acreditar');
+        $sheetGuias->setCellValue('R3', 'Sku');
+        $sheetGuias->setCellValue('S3', 'Contiene');
 
-        $sheetGuias->getStyle('A3:Q3')->applyFromArray([
+        $sheetGuias->getStyle('A3:S3')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1177,7 +1179,7 @@ class Pedidos extends Controller
             ]
         ]);
 
-        foreach (range('A', 'Q') as $col) {
+        foreach (range('A', 'S') as $col) {
             $sheetGuias->getColumnDimension($col)->setAutoSize(true);
         }
 
@@ -1237,6 +1239,12 @@ class Pedidos extends Controller
             // Por acreditar => ACREDITADO/PENDIENTE
             $sheetGuias->setCellValue("Q{$fila}", ($guia['pagado'] == 'Pagado' ? 'ACREDITADO' : 'PENDIENTE'));
 
+            // SKU 
+            $sheetGuias->setCellValue("R{$fila}", $guia['sku_list']); // Costo Flete
+
+            //Contiene
+            $sheetGuias->setCellValue("S{$fila}", $guia['contiene']);
+
             $fila++;
         }
         $ultimaFila = $fila - 1;
@@ -1244,14 +1252,14 @@ class Pedidos extends Controller
         // Estilos de alineación
         if ($ultimaFila >= 3) {
             // centrado general
-            $sheetGuias->getStyle("A3:Q{$ultimaFila}")
+            $sheetGuias->getStyle("A3:S{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
         // Bordes
         if ($ultimaFila >= 3) {
-            $sheetGuias->getStyle("A3:Q{$ultimaFila}")->applyFromArray([
+            $sheetGuias->getStyle("A3:S{$ultimaFila}")->applyFromArray([
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => Border::BORDER_THIN,
@@ -1264,9 +1272,9 @@ class Pedidos extends Controller
         // 6) Mini tabla + diagrama de barras en la HOJA de GUÍAS
         // Cabecera minitabla
         $miniTableStart = 3;
-        $sheetGuias->setCellValue("S{$miniTableStart}", "Estado");
-        $sheetGuias->setCellValue("T{$miniTableStart}", "Porcentaje");
-        $sheetGuias->getStyle("S{$miniTableStart}:T{$miniTableStart}")->applyFromArray([
+        $sheetGuias->setCellValue("V{$miniTableStart}", "Estado");
+        $sheetGuias->setCellValue("W{$miniTableStart}", "Porcentaje");
+        $sheetGuias->getStyle("V{$miniTableStart}:W{$miniTableStart}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'color' => ['rgb' => 'FFFFFF'],
@@ -1279,8 +1287,8 @@ class Pedidos extends Controller
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
             ]
         ]);
-        $sheetGuias->getColumnDimension('S')->setAutoSize(true);
-        $sheetGuias->getColumnDimension('T')->setAutoSize(true);
+        $sheetGuias->getColumnDimension('V')->setAutoSize(true);
+        $sheetGuias->getColumnDimension('W')->setAutoSize(true);
 
         $labelsEstados = ["Generada", "En tránsito", "Zona entrega", "Entregada", "Novedad", "Devolución"];
         $keysEstados   = ["generada", "en_transito", "zona_entrega", "entregada", "novedad", "devolucion"];
@@ -1300,14 +1308,14 @@ class Pedidos extends Controller
         // Pegamos en la minitabla
         $rowAux = $miniTableStart + 1;
         foreach ($keysEstados as $i => $k) {
-            $sheetGuias->setCellValue("S{$rowAux}", $labelsEstados[$i]);
-            $sheetGuias->setCellValue("T{$rowAux}", round($porcentajesRaw[$k], 2));
+            $sheetGuias->setCellValue("V{$rowAux}", $labelsEstados[$i]);
+            $sheetGuias->setCellValue("W{$rowAux}", round($porcentajesRaw[$k], 2));
             $rowAux++;
         }
         $lastAux = $rowAux - 1;
 
         // Bordes minitabla
-        $sheetGuias->getStyle("S{$miniTableStart}:T{$lastAux}")->applyFromArray([
+        $sheetGuias->getStyle("V{$miniTableStart}:W{$lastAux}")->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -1322,13 +1330,13 @@ class Pedidos extends Controller
         $endData    = $startData + $numEstados - 1; // 9
 
         $labels = [
-            new DataSeriesValues('String', $sheetGuias->getTitle() . '!T' . $miniTableStart, null, 1),
+            new DataSeriesValues('String', $sheetGuias->getTitle() . '!W' . $miniTableStart, null, 1),
         ];
         $categories = [
-            new DataSeriesValues('String', $sheetGuias->getTitle() . "!S{$startData}:S{$endData}", null, $numEstados),
+            new DataSeriesValues('String', $sheetGuias->getTitle() . "!V{$startData}:V{$endData}", null, $numEstados),
         ];
         $values = [
-            new DataSeriesValues('Number', $sheetGuias->getTitle() . "!T{$startData}:T{$endData}", null, $numEstados),
+            new DataSeriesValues('Number', $sheetGuias->getTitle() . "!W{$startData}:W{$endData}", null, $numEstados),
         ];
 
         $series = new DataSeries(
