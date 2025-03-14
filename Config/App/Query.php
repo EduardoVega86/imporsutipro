@@ -20,7 +20,7 @@ class Query extends Conexion
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } catch (PDOException $e) {
-            return $this->handleError($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), $e->getCode());
         }
     }
 
@@ -32,7 +32,7 @@ class Query extends Conexion
             $query->execute($data);
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            return $this->handleError($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), $e->getCode());
         }
     }
     // Devuelve numeros de filas afectadas
@@ -104,7 +104,7 @@ class Query extends Conexion
             $query->execute($data);
             return $query->rowCount();
         } catch (PDOException $e) {
-           throw new Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), $e->getCode());
         }
     }
 
@@ -119,7 +119,7 @@ class Query extends Conexion
             $query->execute();
             return $query->rowCount();
         } catch (PDOException $e) {
-           throw new Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), $e->getCode());
         }
     }
     public function close()
@@ -241,6 +241,4 @@ class Query extends Conexion
     {
         return $this->response;
     }
-
-
 }
