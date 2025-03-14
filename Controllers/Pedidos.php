@@ -2902,4 +2902,27 @@ class Pedidos extends Controller
         $response = $this->model->obtener_template_transportadora($transportadora, $id_plataforma);
         echo json_encode($response);
     }
+
+    public function imprimir_guia($guia)
+    {
+        // Verificar si la guía tiene un valor válido
+        if (empty($guia)) {
+            die("Error: No se proporcionó una guía válida.");
+        }
+
+        // Determinar la URL de descarga según el prefijo de la guía
+        if (strpos($guia, "IMP") !== false || strpos($guia, "MKP") !== false) {
+            $urlPersonalizada = "https://api.laarcourier.com:9727/guias/pdfs/DescargarV2?guia=" . urlencode($guia); // LAAR
+        } elseif (strpos($guia, "I") === 0) {
+            $urlPersonalizada = "https://guias.imporsuitpro.com/Gintracom/label/" . urlencode($guia); // GINTRACOM
+        } elseif (strpos($guia, "SPD") === 0) {
+            $urlPersonalizada = "https://guias.imporsuitpro.com/Speed/descargar/" . urlencode($guia); // SPEED
+        } else {
+            $urlPersonalizada = "https://guias.imporsuitpro.com/Servientrega/guia/" . urlencode($guia); // SERVIENTREGA
+        }
+
+        // Redirigir automáticamente a la URL de descarga
+        header("Location: " . $urlPersonalizada);
+        exit();
+    }
 }
