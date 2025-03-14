@@ -110,7 +110,7 @@ class Guias extends Controller
                     $costoflete = 5.99;
                 }
                 $this->model->actualizarGuia($numero_factura, $datos["guia"], $nombreDestino, $ciudad_D, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $calle_principal, $calle_secundaria, $contiene, $provincia, $costoflete, "LAAR", 2, $nombre_responsable);
-                $this->model->disminuirInventario(json_decode($_POST['productos'], true), $_SESSION["id_plataforma"]);
+                $this->model->disminuirInventario(json_decode($_POST['productos'], true), $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"]);
 
                 $datos["status"] = "200";
                 $this->model->asignarWallet($numero_factura, $datos["guia"], $fecha, $nombreDestino, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
