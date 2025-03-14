@@ -1263,32 +1263,21 @@ ON
 
     public function obtener_template_transportadora($transportadora, $id_plataforma)
     {
-        $sql = "SELECT template_generar_guia FROM configuraciones WHERE id_plataforma = ?";
-        $data = [$id_plataforma];
-
-        $resultado = $this->select($sql, $data);
+        $sql = "SELECT template_generar_guia FROM configuraciones WHERE id_plataforma = $id_plataforma";
+        $resultado = $this->select($sql);
 
         if (!$resultado) {
             return ["error" => "No se encontró configuración para la plataforma"];
         }
 
-        // Depurar: Ver qué trae la base de datos
-        error_log("JSON en BD: " . $resultado['template_generar_guia']);
-
         // Decodificar JSON almacenado en la base de datos
         $templates = json_decode($resultado['template_generar_guia'], true);
 
-        // Depurar: Ver qué tiene el JSON decodificado
-        error_log("JSON decodificado: " . print_r($templates, true));
-
-        // Verificar si se pudo decodificar correctamente
-        if (!is_array($templates)) {
-            return ["error" => "Error al decodificar JSON"];
-        }
+        print_r($templates);
 
         // Verificar si la transportadora existe en el JSON
         if (!isset($templates[$transportadora])) {
-            return ["error" => "Transportadora no encontrada", "transportadora" => $transportadora, "json" => $templates];
+            return ["error" => "Transportadora no encontrada"];
         }
 
         return ["transportadora" => $transportadora, "template" => $templates[$transportadora]];
