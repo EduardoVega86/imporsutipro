@@ -671,7 +671,7 @@ function calcularTarifas() {
   ) {
     var button2 = document.getElementById("generarGuiaBtn");
 
-    if (recaudo == 2) {
+    if (recaudo === 2) {
       if ($("#precio_wallet").text() < 20) {
         button2.disabled = true;
         $("#alerta_sin_recaudo").show();
@@ -817,16 +817,16 @@ function generar_guia() {
   // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
   let transportadora_selected = $("#transportadora_selected").val();
-  if (transportadora_selected == "servientrega") {
+  if (transportadora_selected === "servientrega") {
     transportadora_selected = 2;
   }
-  if (transportadora_selected == "laar") {
+  if (transportadora_selected === "laar") {
     transportadora_selected = 1;
   }
-  if (transportadora_selected == "speed") {
+  if (transportadora_selected === "speed") {
     transportadora_selected = 4;
   }
-  if (transportadora_selected == "gintracom") {
+  if (transportadora_selected === "gintracom") {
     transportadora_selected = 3;
   }
 
@@ -877,13 +877,13 @@ function generar_guia() {
   );
 
   // Realiza la solicitud AJAX
-  if (transportadora_selected == 1) {
+  if (transportadora_selected === 1) {
     generar_guiaTransportadora = "generarLaar";
-  } else if (transportadora_selected == 2) {
+  } else if (transportadora_selected === 2) {
     generar_guiaTransportadora = "generarServientrega";
-  } else if (transportadora_selected == 3) {
+  } else if (transportadora_selected === 3) {
     generar_guiaTransportadora = "generarGintracom";
-  } else if (transportadora_selected == 4) {
+  } else if (transportadora_selected === 4) {
     generar_guiaTransportadora = "generarSpeed";
   }
 
@@ -902,7 +902,7 @@ function generar_guia() {
 
   formData.append("numero_factura", numero_factura);
 
-  if (transportadora_selected == 2) {
+  if (transportadora_selected === 2) {
     formData.append("flete", $("#flete").val());
     formData.append("seguro", $("#seguro").val());
     formData.append("comision", $("#comision").val());
@@ -917,9 +917,9 @@ function generar_guia() {
     processData: false,
     contentType: false,
     success: function (response) {
-      response = JSON.parse(response);
 
-      if (response.status == 500) {
+
+      if (response.status === 500) {
         Swal.fire({
           icon: "error",
           title:
@@ -941,7 +941,7 @@ function generar_guia() {
           allowEnterKey: false, // Evita cerrar al presionar Enter
           showConfirmButton: false,
         });
-      } else if (response.status == 200) {
+      } else if (response.status === 200) {
         Swal.fire({
           icon: "success",
           title: "Creacion de guia Completada",

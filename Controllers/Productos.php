@@ -6,8 +6,15 @@ require 'vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
+/**
+ * Controlador de productos
+ */
 class Productos extends Controller
 {
+    /**
+     * Constructor
+     * Verifica que el usuario esté autenticado
+     */
     public function __construct()
     {
         parent::__construct();
@@ -20,136 +27,238 @@ class Productos extends Controller
         } */
     }
 
-    ///Vistas
-    public function index()
+    /**}
+     * Renderiza la vista principal de productos
+     * @return void
+     */
+    public function index(): void
     {
         $this->views->render($this, "index");
     }
 
-    public function bodegas()
+    /**
+     * Renderiza la vista de bodegas
+     * @return void
+     */
+    public function bodegas(): void
     {
         $this->views->render($this, "bodegas");
     }
 
-    public function agregar_bodegas()
+    /**
+     * Renderiza la vista de agregar bodegas
+     * @return void
+     */
+    public function agregar_bodegas(): void
     {
         $this->views->render($this, "agregar_bodegas");
     }
 
-    public function editar_bodegas()
+    /**
+     * Renderiza la vista de editar bodegas
+     * @return void
+     */
+    public function editar_bodegas(): void
     {
         $this->views->render($this, "editar_bodega");
     }
 
-    public function locales()
+    /**
+     * Renderiza la vista de productos de la tienda
+     * @return void
+     */
+    public function locales(): void
     {
         $data = $this->model->cargarLocales();
         $this->views->render($this, "locales", $data);
     }
 
-    public function categorias()
+    /**
+     * Renderiza la vista de categorias
+     * @return void
+     */
+    public function categorias(): void
     {
         $this->views->render($this, "categorias");
     }
 
-    public function verbodegas()
+    /**
+     * Renderiza la vista para ver bodegas
+     * @return void
+     */
+    public function verbodegas(): void
     {
         $this->views->render($this, "bodegas");
     }
 
-    public function marketplace()
+    /**
+     * Renderiza la vista de marketplace
+     * @return void
+     */
+    public function marketplace(): void
     {
         $this->views->render($this, "marketplace");
     }
 
-    public function marketplace_pro()
+    /**
+     * Renderiza la vista de marketplace pro
+     * @return void
+     */
+    public function marketplace_pro(): void
     {
         $this->views->render($this, "marketplace_pro");
     }
 
-    public function proveedores_pro()
+    /**
+     * Renderiza la vista de proveedores pro
+     * @return void
+     */
+    public function proveedores_pro(): void
     {
         $this->views->render($this, "proveedores_pro");
     }
 
-    public function marketplace_privado()
+    /**
+     * Renderiza la vista de marketplace privado
+     * @return void
+     */
+    public function marketplace_privado(): void
     {
         $this->views->render($this, "marketplace_privado");
     }
 
-    public function inventario()
+    /**
+     * Renderiza la vista de inventario
+     * @return void
+     */
+    public function inventario(): void
     {
         $this->views->render($this, "inventario");
     }
 
-    public function gestion_privados()
+    /**
+     * Renderiza la vista de gestión de productos privados
+     * @return void
+     */
+    public function gestion_privados(): void
     {
         $this->views->render($this, "gestion_privados");
     }
 
-    public function inventario_bodega()
+    /**
+     * Renderiza la vista de inventario de bodega
+     * @return void
+     */
+    public function inventario_bodega(): void
     {
         $this->views->render($this, "inventario_bodega");
     }
 
-    public function importacion_masiva()
+    /**
+     * Renderiza la vista de importación masiva
+     * @return void
+     */
+    public function importacion_masiva(): void
     {
         $this->views->render($this, "importacion_masiva");
     }
 
-    public function productos_tienda()
+    /**
+     * Renderiza la vista de productos de la tienda
+     * @return void
+     */
+    public function productos_tienda(): void
     {
         $this->views->render($this, "productos_tienda");
     }
 
-    public function combos()
+    /**
+     * Renderiza la vista de combos
+     * @return void
+     */
+    public function combos(): void
     {
         $this->views->render($this, "combos");
     }
 
-    public function ofertas()
+    /**
+     * Renderiza la vista de ofertas
+     * @return void
+     */
+    public function ofertas(): void
     {
         $this->views->render($this, "ofertas");
     }
 
-    public function productos_2()
+    /**
+     * Renderiza la vista de productos
+     * @return void
+     */
+    public function productos_2(): void
     {
         $this->views->render($this, "productos2");
     }
 
-    public function landing($id)
+    /**
+     * Renderiza la vista de landing
+     * @param $id
+     * @return void
+     */
+    public function landing($id): void
     {
         $existe_producto = $this->model->verificarProducto($id);
 
         $this->views->render($this, "landing", $existe_producto);
     }
 
-    public function landing_tienda($id)
+    /**
+     * @param $id
+     * @return void
+     */
+    public function landing_tienda($id): void
     {
         $existe_producto = $this->model->verificarProductoTienda($id);
 
         $this->views->render($this, "landing_tienda", $existe_producto);
     }
 
-    public function bovedas()
+    /**
+     * Renderiza la vista de bovedas
+     * @return void
+     */
+    public function bovedas(): void
     {
         $this->views->render($this, "bovedas");
     }
 
-    public function products_page()
+    /**
+     * Renderiza la vista de productos de la tienda
+     * @return void
+     */
+    public function products_page(): void
     {
         $this->views->render($this, "products_page");
     }
 
     ///Funciones
 
-    public function obtener_productos()
+    /**
+     * Obtiene los productos de la tienda
+     * @return void
+     */
+    public function obtener_productos(): void
     {
-        $response = $this->model->obtener_productos($_SESSION['id_plataforma']);
-        echo json_encode($response);
+        $this->catchAsync(function () {
+            $response = $this->model->obtener_productos($_SESSION['id_plataforma']);
+            echo json_encode($response);
+        })();
     }
 
-    public function obtener_productos_todos()
+    /**
+     * Obtiene todos los productos
+     * @return void
+     */
+    public function obtener_productos_todos(): void
     {
         $response = $this->model->obtenerProductosTodos();
         echo json_encode($response);
@@ -373,23 +482,39 @@ class Productos extends Controller
         echo json_encode($response);
     }
 
-    /// Funciones de bodegas
 
-    public function agregarBodega()
+    /**
+     * Endpoint para agregar una bodega
+     * @return void
+     */
+    public function agregarBodega(): void
     {
-        $nombre = $_POST['nombre'];
-        $direccion = $_POST['direccion_completa'];
-        $telefono = $_POST['telefono'];
-        $ciudad = $_POST['ciudad_entrega'];
-        $provincia = $_POST['provincia'];
-        $contacto = $_POST['nombre_contacto'];
-        $telefono_contacto = $telefono;
-        $numerocasa = $_POST['numero_casa'];
-        $referencia = $_POST['referencia'];
-        $longitud = $_POST['longitud'];
-        $latitud = $_POST['latitud'];
-        $response = $this->model->agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $_SESSION['id_plataforma'], $longitud, $latitud);
-        echo json_encode($response);
+        $this->catchAsync(function () {
+            $data = $this->jsonData();
+            if (empty($data)) {
+                throw new Exception("No se han enviado datos");
+            }
+            $this->dataVerifier('nombre', $data['nombre']);
+            $this->dataVerifier('direccion_completa', $data['direccion_completa']);
+            $this->dataVerifier('telefono', $data['telefono']);
+            $this->dataVerifier('ciudad_entrega', $data['ciudad_entrega']);
+            $this->dataVerifier('provincia', $data['provincia']);
+            $this->dataVerifier('nombre_contacto', $data['nombre_contacto']);
+            $this->dataVerifier('referencia', $data['referencia']);
+            $nombre = $data['nombre'];
+            $direccion = $data['direccion_completa'];
+            $telefono = $data['telefono'];
+            $ciudad = $data['ciudad_entrega'];
+            $provincia = $data['provincia'];
+            $contacto = $data['nombre_contacto'];
+            $telefono_contacto = $telefono;
+            $numerocasa = $data['numero_casa'] ?? '';
+            $referencia = $data['referencia'];
+            $longitud = $data['longitud'];
+            $latitud = $data['latitud'];
+            $response = $this->model->agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $_SESSION['id_plataforma'], $longitud, $latitud);
+            echo json_encode($response);
+        })();
     }
 
     public function obtenerBodega($id)

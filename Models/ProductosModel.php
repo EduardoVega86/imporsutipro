@@ -1,17 +1,32 @@
 <?php
 require_once 'Class/ImageUploader.php';
+require_once 'Class/Inventario.php';
 
-use Google\Service\Docs\Response;
-
+/**
+ * Clase para manejar los productos
+ */
 class ProductosModel extends Query
 {
+    private Inventario $inventarioManager;
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         parent::__construct();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        $this->inventarioManager = new Inventario($this->getConnection(), $_SESSION["id_plataforma"]);
     }
 
-    ///productos
 
+    /**
+     * @param $plataforma
+     * @return array
+     * @throws Exception
+     */
     public function obtener_productos($plataforma)
     {
         $sql = "SELECT ib.*, p.*
@@ -19,11 +34,20 @@ class ProductosModel extends Query
         INNER JOIN `productos` AS p ON p.`id_producto` = ib.`id_producto`
         WHERE ib.`id_plataforma` = $plataforma AND p.eliminado = 0
         GROUP BY p.`id_producto`, ib.`id_plataforma`, ib.`bodega`;";
+        $data = $this->select($sql);
 
-        return $this->select($sql);
+        $this->getResponse()["status"] = 200;
+        $this->getResponse()["message"] = "Productos obtenidos exitosamente";
+        $this->getResponse()["data"] = $data;
+        return $this->getResponse();
+
     }
 
-    public function obtenerProductosTodos()
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function obtenerProductosTodos(): array
     {
         $sql = "
             SELECT DISTINCT p.id_producto, p.nombre_producto
@@ -34,24 +58,11 @@ class ProductosModel extends Query
         ";
 
         $response = $this->select($sql);
-
-        return [
-            'status'  => 200,
-            'message' => 'Productos obtenidos exitosamente',
-            'data'    => $response
-        ];
+        $this->getResponse()["status"] = 200;
+        $this->getResponse()["message"] = "Productos obtenidos exitosamente";
+        $this->getResponse()["data"] = $response;
+        return $this->getResponse();
     }
-
-
-
-    // public function obtenerBovedas()
-    // {
-    //     $sql = "SELECT * FROM bovedas";
-
-    //     return $this->select($sql);
-    // }
-
-    //Inner join que obtiene el nombre de id plataforma y id_linea de forma correcta para mostrar en tabla bovedas
 
     public function obtenerBovedas()
     {
@@ -106,9 +117,9 @@ class ProductosModel extends Query
 
         $response = $this->select($sql);
         return [
-            'status'  => 200,
+            'status' => 200,
             'message' => 'Bóvedas obtenidas exitosamente',
-            'data'    => $response
+            'data' => $response
         ];
     }
 
@@ -177,13 +188,19 @@ class ProductosModel extends Query
     }
 
 
-
+    /**
+     * @throws Exception
+     */
     public function obtener_productos_boveda($id_plataforma)
     {
         $sql = "SELECT *
                 FROM productos
                 WHERE id_plataforma = '$id_plataforma'";
-        return $this->select($sql);
+        $data = $this->select($sql);
+        $this->getResponse()["status"] = 200;
+        $this->getResponse()["message"] = "Productos obtenidos exitosamente";
+        $this->getResponse()["data"] = $data;
+        return $this->getResponse();
     }
 
     //Funcion para ser accedida desde Swagger Model
@@ -192,7 +209,6 @@ class ProductosModel extends Query
         $sql = "SELECT * FROM bovedas WHERE id_plataforma = '$id_plataforma'";
         return $this->select($sql);
     }
-
 
 
     public function obtenerProveedores()
@@ -520,8 +536,6 @@ class ProductosModel extends Query
     }
 
 
-
-
     public function importar_productos_shopify($id_producto, $plataforma)
     {
         $response = $this->initialResponse();
@@ -629,7 +643,7 @@ class ProductosModel extends Query
             $referencia = 'STOCK INICIAL';
             $nota = "Se agrego $stock_inicial productos(s) al inventario";
             $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $data = [$id_usuario, $id_inventario, $plataforma, $codigo_producto,  $nota, $referencia, $stock_inicial, 1, $bodega, $id_producto, $stock_inicial];
+            $data = [$id_usuario, $id_inventario, $plataforma, $codigo_producto, $nota, $referencia, $stock_inicial, 1, $bodega, $id_producto, $stock_inicial];
             $insertar_historial = $this->insert($sql, $data);
             //$response['data']=
             // print_r($insertar_historial);
@@ -669,7 +683,7 @@ class ProductosModel extends Query
             . "`pvp_tienda`=?,`id_categoria_tienda`=?,"
             . "`pref_tienda`=? , `funnelish`=?, `funnelish_url`=? WHERE id_producto_tienda=?";
         // echo $sql;
-        $data = [$nombre, $pvp_tienda, $id_categoria,  $pref, $aplica_funnelish, $funnelish, $id_producto_tienda];
+        $data = [$nombre, $pvp_tienda, $id_categoria, $pref, $aplica_funnelish, $funnelish, $id_producto_tienda];
         //  print_r($data);
         $editar_producto = $this->update($sql, $data);
         $pref = $pref ?? 0;
@@ -706,7 +720,6 @@ class ProductosModel extends Query
                 $editar_producto = $this->update($sql, $data);
             }
         }
-
 
 
         return $response;
@@ -748,15 +761,15 @@ class ProductosModel extends Query
                     $bodegaId = $bodegaResult['id'];
                 } else {
                     return [
-                        'status'  => 500,
-                        'title'   => 'Error',
+                        'status' => 500,
+                        'title' => 'Error',
                         'message' => 'No se encontró el campo id en el resultado de la consulta de bodega'
                     ];
                 }
             } else {
                 return [
-                    'status'  => 500,
-                    'title'   => 'Error',
+                    'status' => 500,
+                    'title' => 'Error',
                     'message' => 'La consulta a bodega no devolvió un resultado válido'
                 ];
             }
@@ -1217,7 +1230,7 @@ class ProductosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] =  $insertar_categoria['message'];
+            $response['message'] = $insertar_categoria['message'];
         }
         return $response;
     }
@@ -1247,7 +1260,7 @@ class ProductosModel extends Query
         $response = $this->initialResponse();
 
         $sql = "UPDATE lineas SET nombre_linea = ?, descripcion_linea = ?, estado_linea = ?, date_added = ?, online = ?, tipo = ?, padre = ?, orden = ? WHERE id_linea = ? AND id_plataforma = ?";
-        $data = [$nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online,  $tipo, $padre, $orden, $id, $plataforma];
+        $data = [$nombre_linea, $descripcion_linea, $estado_linea, $date_added, $online, $tipo, $padre, $orden, $id, $plataforma];
         $editar_categoria = $this->update($sql, $data);
         if ($editar_categoria == 1) {
             $response['status'] = 200;
@@ -1363,24 +1376,29 @@ class ProductosModel extends Query
 
     ///bodegas
 
-    public function agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $plataforma, $longitud, $latitud)
+    /**
+     * @param $nombre
+     * @param $direccion
+     * @param $telefono
+     * @param $ciudad
+     * @param $provincia
+     * @param $contacto
+     * @param $telefono_contacto
+     * @param $numerocasa
+     * @param $referencia
+     * @param $plataforma
+     * @param $longitud
+     * @param $latitud
+     * @return array
+     * @throws Exception
+     */
+    public function agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $plataforma, $longitud, $latitud): array
     {
-        // codigo para agregar categoria
-        $response = $this->initialResponse();
-
-        $sql = "INSERT INTO `bodega` (`nombre`,`id_empresa`,`longitud`,`latitud`,`direccion`,`num_casa`,`referencia`,`responsable`,`contacto`,`localidad`,`provincia`,`id_plataforma`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data = [$nombre, $plataforma, $longitud, $latitud, $direccion, $numerocasa, $referencia, $contacto, $telefono_contacto, $ciudad, $provincia, $plataforma];
-        $insertar_categoria = $this->insert($sql, $data);
-        if ($insertar_categoria == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Categoria agregada correctamente';
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = $insertar_categoria['message'];
-        }
-        return $response;
+        $this->inventarioManager->registrarBodega($nombre, $contacto, $telefono_contacto, $ciudad, $provincia, $direccion, $referencia, $plataforma, $numerocasa, $longitud, $latitud);
+        $this->getResponse()["status"] = 200;
+        $this->getResponse()["title"] = "Peticion exitosa";
+        $this->getResponse()["message"] = "Bodega agregada correctamente";
+        return $this->getResponse();
     }
 
     public function obtenerBodega($id, $plataforma)
@@ -1429,8 +1447,6 @@ class ProductosModel extends Query
         }
         return $response;
     }
-
-
 
 
     public function listarBodegas($plataforma)
@@ -1545,7 +1561,7 @@ class ProductosModel extends Query
             $id_inventario = $this->buscar_inventario($id_producto, $sku);
             $nota = "Se agrego $cantidad productos(s) al inventario";
             $sql = "INSERT INTO `historial_productos` (`id_users`, `id_inventario`, `id_plataforma`, `sku`, `nota_historial`, `referencia_historial`, `cantidad_historial`, `tipo_historial`, `id_bodega`, `id_producto`, `saldo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $data = [$id_usuario, $id_inventario, $plataforma, $sku,  $nota, $referencia, $cantidad, 1, $bodega, $id_producto, $stock];
+            $data = [$id_usuario, $id_inventario, $plataforma, $sku, $nota, $referencia, $cantidad, 1, $bodega, $id_producto, $stock];
             $insertar_historial = $this->insert($sql, $data);
 
             if ($insertar_historial == 1) {
@@ -1657,7 +1673,6 @@ class ProductosModel extends Query
         ELSE 0 END DESC, sku DESC LIMIT 1;";
 
 
-
         $id_producto = $this->select($sql);
         $codigo_producto = $id_producto[0]['sku'];
 
@@ -1710,10 +1725,11 @@ class ProductosModel extends Query
         }
         return $response;
     }
+
     public function verificarProducto($id)
     {
         $sql = "SELECT * FROM `productos` WHERE id_producto = $id";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         if (empty($response)) {
             return 0;
         } else {
@@ -1726,7 +1742,7 @@ class ProductosModel extends Query
 
         $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id";
         // echo $sql;
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         if (empty($response)) {
             return 0;
         } else {
@@ -1737,7 +1753,7 @@ class ProductosModel extends Query
     public function existeLanding($id)
     {
         $sql = "SELECT * FROM `landing` WHERE id_producto = $id";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         if (empty($response)) {
             return 0;
         } else {
@@ -1749,18 +1765,19 @@ class ProductosModel extends Query
     {
 
         $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
         if (empty($response)) {
             return 0;
         } else {
             return 1;
         }
     }
+
     public function existeLandingTienda2($id)
     {
 
         $sql = "SELECT * FROM `productos_tienda` WHERE id_producto_tienda = $id and landing_propia=1";
-        $response =  $this->select($sql);
+        $response = $this->select($sql);
 
         if (empty($response)) {
             return 0;
@@ -1813,6 +1830,11 @@ class ProductosModel extends Query
         return $response;
     }
 
+    /**
+     * @param $plataforma
+     * @return array
+     * @throws Exception
+     */
     public function obtener_productosPrivados_tienda($plataforma)
     {
         $sql = "SELECT * FROM `productos` WHERE producto_privado=1 AND id_plataforma=$plataforma;";
@@ -2096,6 +2118,7 @@ class ProductosModel extends Query
         }
         return $response;
     }
+
     /* fin oferta */
 
     public function obtener_productos_bodegas_propias($id_plataforma)
@@ -2119,7 +2142,7 @@ class ProductosModel extends Query
     public function obtener_productos_privados_bsp($id_plataforma)
     {
         $sql = "SELECT id_producto FROM producto_privado WHERE id_plataforma = $id_plataforma;";
-        $data =  $this->select($sql);
+        $data = $this->select($sql);
 
         $productos = array();
 
