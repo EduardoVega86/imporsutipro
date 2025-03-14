@@ -276,7 +276,7 @@ const cargar_select_templates = async () => {
       $("#select_templates_speed"),
     ];
 
-    // Limpiar y agregar opción vacía manualmente
+    // Limpiar y agregar opción "Selecciona un template"
     selects.forEach((select) => {
       select.empty().append('<option value="">Selecciona un template</option>');
     });
@@ -288,20 +288,17 @@ const cargar_select_templates = async () => {
       });
     });
 
-    // Aplicar Select2 y forzar opción vacía
+    // Aplicar Select2 asegurando la opción vacía
     selects.forEach((select) => {
-      select.select2({
-        allowClear: true, // Permite limpiar selección
-        width: "100%",
-        dropdownParent: $("#configuraciones_chatcenterModal"),
-        placeholder: "Selecciona un template", // Agregamos el placeholder
-      });
-
-      // Forzar la opción vacía como predeterminada después de inicializar Select2
-      select.prepend(
-        '<option value="" selected>Selecciona un template</option>'
-      );
-      select.val("").trigger("change");
+      select
+        .select2({
+          placeholder: "Selecciona un template",
+          allowClear: true, // Permite limpiar la selección
+          width: "100%",
+          dropdownParent: $("#configuraciones_chatcenterModal"),
+        })
+        .val("")
+        .trigger("change"); // Asegurar que la opción vacía sea la predeterminada
     });
   } catch (error) {
     console.error("Error al cargar los templates:", error);
