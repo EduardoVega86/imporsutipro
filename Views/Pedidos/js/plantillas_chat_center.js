@@ -269,53 +269,36 @@ const cargar_select_templates = async () => {
     }
 
     // Obtener y limpiar el select
-    const select_laar = $("#select_templates_laar");
-    select_laar.empty().append('<option value="">Selecciona un template</option>');
+    const selects = [
+      $("#select_templates_laar"),
+      $("#select_templates_servi"),
+      $("#select_templates_gintra"),
+      $("#select_templates_speed"),
+    ];
 
-    const select_servi = $("#select_templates_servi");
-    select_servi.empty().append('<option value="">Selecciona un template</option>');
+    // Limpiar y agregar opción "Selecciona un template"
+    selects.forEach((select) => {
+      select.empty().append('<option value="">Selecciona un template</option>');
+    });
 
-    const select_gintra = $("#select_templates_gintra");
-    select_gintra.empty().append('<option value="">Selecciona un template</option>');
-
-    const select_speed = $("#select_templates_speed");
-    select_speed.empty().append('<option value="">Selecciona un template</option>');
-
-    // Agregar las opciones
+    // Agregar opciones dinámicamente
     data.forEach((template) => {
-      select_laar.append(new Option(template.nombre, template.nombre));
-      select_servi.append(new Option(template.nombre, template.nombre));
-      select_gintra.append(new Option(template.nombre, template.nombre));
-      select_speed.append(new Option(template.nombre, template.nombre));
+      selects.forEach((select) => {
+        select.append(new Option(template.nombre, template.nombre));
+      });
     });
 
-    // Aplicar Select2 con dropdown dentro del modal
-    select_laar.select2({
-      placeholder: "Selecciona un template",
-      allowClear: true,
-      width: "100%",
-      dropdownParent: $("#configuraciones_chatcenterModal"),
-    });
-
-    select_servi.select2({
-      placeholder: "Selecciona un template",
-      allowClear: true,
-      width: "100%",
-      dropdownParent: $("#configuraciones_chatcenterModal"),
-    });
-
-    select_gintra.select2({
-      placeholder: "Selecciona un template",
-      allowClear: true,
-      width: "100%",
-      dropdownParent: $("#configuraciones_chatcenterModal"),
-    });
-
-    select_speed.select2({
-      placeholder: "Selecciona un template",
-      allowClear: true,
-      width: "100%",
-      dropdownParent: $("#configuraciones_chatcenterModal"),
+    // Aplicar Select2 asegurando la opción vacía
+    selects.forEach((select) => {
+      select
+        .select2({
+          placeholder: "Selecciona un template",
+          allowClear: true, // Permite limpiar la selección
+          width: "100%",
+          dropdownParent: $("#configuraciones_chatcenterModal"),
+        })
+        .val("")
+        .trigger("change"); // Asegurar que la opción vacía sea la predeterminada
     });
   } catch (error) {
     console.error("Error al cargar los templates:", error);
