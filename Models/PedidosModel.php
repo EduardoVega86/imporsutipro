@@ -374,55 +374,75 @@ class PedidosModel extends Query
     public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
     {
         $sql = "SELECT 
-                    vga.*, 
-                    ccp.visto AS pagado,
-    
-                    -- Relación con ciudad_cotizacion para obtener los trayectos
-                    ccz.trayecto_laar, 
-                    ccz.trayecto_servientrega, 
-                    ccz.trayecto_gintracom,
-    
-                    -- Costo según la transportadora
-                    COALESCE(cl.costo, cs.costo, cg.costo, 0) AS costo,
-    
-                    -- Cálculo de utilidad con COD
-                    CASE 
-                        WHEN vga.id_transporte = 4 THEN 
-                            1  -- Speed: ganancia fija de $1
-                        WHEN vga.id_transporte = 1 THEN 
-                            vga.costo_flete - (
-                                COALESCE(cl.costo, 0) 
-                                + (vga.monto_factura * 0.02)
-                            )  -- LAAR = 2%
-                        WHEN vga.id_transporte = 2 THEN 
-                            vga.costo_flete - (
-                                COALESCE(cs.costo, 0) 
-                                + (vga.monto_factura * 0.03)
-                            )  -- Servientrega = 3%
-                        WHEN vga.id_transporte = 3 THEN 
-                            vga.costo_flete - (
-                                COALESCE(cg.costo, 0) 
-                                + (vga.monto_factura * 0.015)
-                            )  -- Gintracom = 1.5%
-                        ELSE 
-                            0
-                    END AS utilidad    
-                FROM 
-                    vista_guias_administrador vga
-                LEFT JOIN 
-                    cabecera_cuenta_pagar ccp ON ccp.numero_factura = vga.numero_factura
-    
-                -- Relación con ciudad_cotizacion para obtener los trayectos correctos
-                LEFT JOIN ciudad_cotizacion ccz ON vga.ciudad_cot = ccz.id_cotizacion
-    
-                -- JOIN para LAAR
-                LEFT JOIN cobertura_laar cl ON vga.id_transporte = 1 AND cl.tipo_cobertura = ccz.trayecto_laar
-    
-                -- JOIN para SERVIENTREGA
-                LEFT JOIN cobertura_servientrega cs ON vga.id_transporte = 2 AND cs.tipo_cobertura = ccz.trayecto_servientrega
-    
-                -- JOIN para GINTRACOM
-                LEFT JOIN cobertura_gintracom cg ON vga.id_transporte = 3 AND cg.trayecto = ccz.trayecto_gintracom";
+                vga.*,
+                ccp.visto AS pagado,
+
+                -- Relación con ciudad_cotizacion
+                ccz.trayecto_laar, 
+                ccz.trayecto_servientrega, 
+                ccz.trayecto_gintracom,
+
+                -- Costo según la transportadora
+                COALESCE(cl.costo, cs.costo, cg.costo, 0) AS costo,
+
+                CASE
+                    WHEN vga.id_transporte = 4 THEN 
+                        1  -- Speed: ganancia fija de $1
+
+                    WHEN fc.cod = 1 THEN
+                        CASE 
+                            WHEN vga.id_transporte = 1 THEN
+                                vga.costo_flete - (
+                                    COALESCE(cl.costo, 0) 
+                                    + (vga.monto_factura * 0.02)
+                                ) 
+                            WHEN vga.id_transporte = 2 THEN
+                                vga.costo_flete - (
+                                    COALESCE(cs.costo, 0) 
+                                    + (vga.monto_factura * 0.03)
+                                )
+                            WHEN vga.id_transporte = 3 THEN
+                                vga.costo_flete - (
+                                    COALESCE(cg.costo, 0) 
+                                    + (vga.monto_factura * 0.015)
+                                )
+                            ELSE
+                                0
+                        END
+
+                    ELSE
+                        CASE 
+                            WHEN vga.id_transporte = 1 THEN
+                                vga.costo_flete - COALESCE(cl.costo, 0)
+                            WHEN vga.id_transporte = 2 THEN
+                                vga.costo_flete - COALESCE(cs.costo, 0)
+                            WHEN vga.id_transporte = 3 THEN
+                                vga.costo_flete - COALESCE(cg.costo, 0)
+                            ELSE
+                                0
+                        END
+                END AS utilidad
+
+            FROM vista_guias_administrador vga
+            LEFT JOIN cabecera_cuenta_pagar ccp 
+                ON ccp.numero_factura = vga.numero_factura
+            LEFT JOIN facturas_cot fc
+                ON fc.numero_factura = vga.numero_factura  
+            LEFT JOIN ciudad_cotizacion ccz
+                ON vga.ciudad_cot = ccz.id_cotizacion
+            -- Lógica para LAAR
+            LEFT JOIN cobertura_laar cl 
+                ON vga.id_transporte = 1 
+               AND cl.tipo_cobertura = ccz.trayecto_laar
+            -- Servientrega
+            LEFT JOIN cobertura_servientrega cs 
+                ON vga.id_transporte = 2 
+               AND cs.tipo_cobertura = ccz.trayecto_servientrega
+            -- Gintracom
+            LEFT JOIN cobertura_gintracom cg 
+                ON vga.id_transporte = 3 
+               AND cg.trayecto = ccz.trayecto_gintracom
+            ";
 
         $filtros = [];
 
