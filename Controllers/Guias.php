@@ -188,152 +188,158 @@ class Guias extends Controller
 
     public function generarServientrega()
     {
-        $this->isAuth();
+        $this->catchAsync(function () {
 
-        $nombreOrigen = $_POST['nombreO'];
-        $ciudadOrigen = $_POST['ciudadO'];
-        $ciudad = $_POST['ciudad'];
-        $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "codigo_ciudad_servientrega")[0]['codigo_ciudad_servientrega'];
+            $this->isAuth();
 
-
-        $direccionOrigen = $_POST['direccionO'];
-        $telefonoOrigen = $_POST['celularO'];
-        $referenciaOrigen = $_POST['referenciaO'];
-        $celularOrigen = $telefonoOrigen;
-        $nombreDestino = $_POST['nombre'];
-        $ciudadDestino = $_POST['ciudad'];
-
-        $ciudadDestino = $this->model->obtenerNombre($ciudadDestino, "codigo_ciudad_servientrega")[0]['codigo_ciudad_servientrega'];
-
-        $provincia = $_POST['provincia'];
-        $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
-        $telefonoDestino = $_POST['telefono'];
-        $celularDestino = $telefonoDestino;
-        $referenciaDestino = $_POST['referencia'];
-        $postal = "";
-        $identificacion = "";
-        $contiene = $_POST['contiene'];
-        $peso = 2;
-        $valor_seguro = 0;
-        $valor_declarado = 0;
-        $tamanio = 2;
-        $cod = $_POST['recaudo'];
-        $costoflete = $_POST['costo_flete'] ?? 0;
-        $costo_producto = $_POST['total_venta'];
-        $tipo_cobro = 0;
-        $comentario = $_POST['observacion'];
-        $nombre_responsable = $_POST['nombre_responsable'] ?? "";
-        $fecha = date("Y-m-d");
-        $extras = "";
-        $numero_factura = $_POST['numero_factura'];
-        if ($this->buscarStock($numero_factura)["status"] == 501) {
-            echo json_encode(array("status" => 501, "message" => "No contamos con stock de el/los productos para generar la guía"));
-            return;
-        }
+            $nombreOrigen = $_POST['nombreO'];
+            $ciudadOrigen = $_POST['ciudadO'];
+            $ciudad = $_POST['ciudad'];
+            $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "codigo_ciudad_servientrega")[0]['codigo_ciudad_servientrega'];
 
 
-        $flete = $_POST['flete'];
-        $seguro = $_POST['seguro'];
+            $direccionOrigen = $_POST['direccionO'];
+            $telefonoOrigen = $_POST['celularO'];
+            $referenciaOrigen = $_POST['referenciaO'];
+            $celularOrigen = $telefonoOrigen;
+            $nombreDestino = $_POST['nombre'];
+            $ciudadDestino = $_POST['ciudad'];
 
-        $comision = $_POST['comision'];
-        $otros = $_POST['otros'];
-        $impuestos = $_POST['impuestos'];
+            $ciudadDestino = $this->model->obtenerNombre($ciudadDestino, "codigo_ciudad_servientrega")[0]['codigo_ciudad_servientrega'];
 
-        $id_transporte = $_POST['id_transporte'] ?? 2;
-
-        $vendedor = $this->model->obtenerVendedor($_SESSION["id_plataforma"] ?? $_POST["id_plataforma"])['nombre_tienda'];
-        $vendedor = strtoupper($vendedor);
-        $telf_vendedor = $this->model->obtenerVendedor($_SESSION["id_plataforma"] ?? $_POST["id_plataforma"])['whatsapp'];
-
-        if ($cod == 1) {
-            $response = $this->model->generarServientrega($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos, $vendedor, $telf_vendedor);
-        } else {
-            $response = $this->model->generarServientregaSinRecaudo($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos, $vendedor, $telf_vendedor);
-        }
-        $response = json_decode($response, true);
-        if (isset($response["id"])) {
-            if ($response["id"] == 0) {
-                echo json_encode(array("status" => 500, "message" => "Error al generar la guía, por favor intente nuevamente"));
+            $provincia = $_POST['provincia'];
+            $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
+            $telefonoDestino = $_POST['telefono'];
+            $celularDestino = $telefonoDestino;
+            $referenciaDestino = $_POST['referencia'];
+            $postal = "";
+            $identificacion = "";
+            $contiene = $_POST['contiene'];
+            $peso = 2;
+            $valor_seguro = 0;
+            $valor_declarado = 0;
+            $tamanio = 2;
+            $cod = $_POST['recaudo'];
+            $costoflete = $_POST['costo_flete'] ?? 0;
+            $costo_producto = $_POST['total_venta'];
+            $tipo_cobro = 0;
+            $comentario = $_POST['observacion'];
+            $nombre_responsable = $_POST['nombre_responsable'] ?? "";
+            $fecha = date("Y-m-d");
+            $extras = "";
+            $numero_factura = $_POST['numero_factura'];
+            if ($this->buscarStock($numero_factura)["status"] == 501) {
+                echo json_encode(array("status" => 501, "message" => "No contamos con stock de el/los productos para generar la guía"));
                 return;
             }
-            $response["status"] = 200;
-            $this->model->aumentarMatriz();
-            $this->model->disminuirInventario(json_decode($_POST['productos'], true), $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"]);
 
-            $response2 = $this->model->actualizarGuia($numero_factura, $response["id"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "SERVIENTREGA", 100, $nombre_responsable);
-            $this->model->asignarWallet($numero_factura, $response["id"], $fecha, $nombreDestino, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
-            $this->model->descargarGuia($response["id"]);
-        }
-        echo json_encode($response);
+
+            $flete = $_POST['flete'];
+            $seguro = $_POST['seguro'];
+
+            $comision = $_POST['comision'];
+            $otros = $_POST['otros'];
+            $impuestos = $_POST['impuestos'];
+
+            $id_transporte = $_POST['id_transporte'] ?? 2;
+
+            $vendedor = $this->model->obtenerVendedor($_SESSION["id_plataforma"] ?? $_POST["id_plataforma"])['nombre_tienda'];
+            $vendedor = strtoupper($vendedor);
+            $telf_vendedor = $this->model->obtenerVendedor($_SESSION["id_plataforma"] ?? $_POST["id_plataforma"])['whatsapp'];
+
+            if ($cod == 1) {
+                $response = $this->model->generarServientrega($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos, $vendedor, $telf_vendedor);
+            } else {
+                $response = $this->model->generarServientregaSinRecaudo($nombreOrigen, $ciudadOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $flete, $seguro, $comision, $otros, $impuestos, $vendedor, $telf_vendedor);
+            }
+            $response = json_decode($response, true);
+            if (isset($response["id"])) {
+                if ($response["id"] == 0) {
+                    echo json_encode(array("status" => 500, "message" => "Error al generar la guía, por favor intente nuevamente"));
+                    return;
+                }
+                $response["status"] = 200;
+                $this->model->aumentarMatriz();
+                $this->model->disminuirInventario(json_decode($_POST['productos'], true), $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"]);
+
+                $response2 = $this->model->actualizarGuia($numero_factura, $response["id"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "SERVIENTREGA", 100, $nombre_responsable);
+                $this->model->asignarWallet($numero_factura, $response["id"], $fecha, $nombreDestino, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
+                $this->model->descargarGuia($response["id"]);
+            }
+            echo json_encode($response);
+        })();
     }
 
     public function generarGintracom()
     {
-        $this->isAuth();
+        $this->catchAsync(function () {
 
-        $procedencia = $_POST['procedencia'] ?? 2;
+            $this->isAuth();
+
+            $procedencia = $_POST['procedencia'] ?? 2;
 
 
-        $nombreOrigen = $_POST['nombreO'];
-        $ciudadOrigen = $_POST['ciudadO'];
-        $provinciaOrigen = $_POST['provinciaO'];
+            $nombreOrigen = $_POST['nombreO'];
+            $ciudadOrigen = $_POST['ciudadO'];
+            $provinciaOrigen = $_POST['provinciaO'];
 
-        $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
-        $provinciaOrigen = $this->model->obtenerNombre($provinciaOrigen, "codigo_provincia_gintracom")[0]['codigo_provincia_gintracom'];
+            $ciudadOrigen = $this->model->obtenerNombre($ciudadOrigen, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
+            $provinciaOrigen = $this->model->obtenerNombre($provinciaOrigen, "codigo_provincia_gintracom")[0]['codigo_provincia_gintracom'];
 
-        $direccionOrigen = $_POST['direccionO'];
-        $telefonoOrigen = $_POST['celularO'];
-        $referenciaOrigen = $_POST['referenciaO'];
-        $celularOrigen = $telefonoOrigen;
-        $nombreDestino = $_POST['nombre'];
-        $ciudadDestino = $_POST['ciudad'];
+            $direccionOrigen = $_POST['direccionO'];
+            $telefonoOrigen = $_POST['celularO'];
+            $referenciaOrigen = $_POST['referenciaO'];
+            $celularOrigen = $telefonoOrigen;
+            $nombreDestino = $_POST['nombre'];
+            $ciudadDestino = $_POST['ciudad'];
 
-        $ciudad = $_POST['ciudad'];
-        $ciudadDestino = $this->model->obtenerNombre($ciudadDestino, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
-        $provincia = $_POST['provincia'];
-        $provinciaDestino = $this->model->obtenerNombre($provincia, "codigo_provincia_gintracom")[0]['codigo_provincia_gintracom'];
-        $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
-        $telefonoDestino = $_POST['telefono'];
-        $celularDestino = $telefonoDestino;
-        $referenciaDestino = $_POST['referencia'];
-        $postal = "";
-        $identificacion = "";
-        $contiene = $_POST['contiene'];
-        $peso = 2;
-        $valor_seguro = 0;
-        $valor_declarado = 0;
-        $tamanio = 2;
-        $cod = $_POST['recaudo'];
-        $costoflete = $_POST['costo_flete'] ?? 0;
-        $costo_producto = $_POST['total_venta'];
-        $tipo_cobro = 0;
-        $comentario = $_POST['observacion'];
-        $nombre_responsable = $_POST['nombre_responsable'] ?? "";
-        $fecha = date("Y-m-d");
-        $extras = "";
-        $numero_factura = $_POST['numero_factura'];
-        if ($this->buscarStock($numero_factura)["status"] == 501) {
-            echo json_encode(array("status" => 501, "message" => "No contamos con stock de el/los productos para generar la guía"));
-            return;
-        }
-        $monto_factura = $_POST['total_venta'];
+            $ciudad = $_POST['ciudad'];
+            $ciudadDestino = $this->model->obtenerNombre($ciudadDestino, "codigo_ciudad_gintracom")[0]['codigo_ciudad_gintracom'];
+            $provincia = $_POST['provincia'];
+            $provinciaDestino = $this->model->obtenerNombre($provincia, "codigo_provincia_gintracom")[0]['codigo_provincia_gintracom'];
+            $direccionDestino = $_POST['calle_principal'] . " y " . $_POST['calle_secundaria'];
+            $telefonoDestino = $_POST['telefono'];
+            $celularDestino = $telefonoDestino;
+            $referenciaDestino = $_POST['referencia'];
+            $postal = "";
+            $identificacion = "";
+            $contiene = $_POST['contiene'];
+            $peso = 2;
+            $valor_seguro = 0;
+            $valor_declarado = 0;
+            $tamanio = 2;
+            $cod = $_POST['recaudo'];
+            $costoflete = $_POST['costo_flete'] ?? 0;
+            $costo_producto = $_POST['total_venta'];
+            $tipo_cobro = 0;
+            $comentario = $_POST['observacion'];
+            $nombre_responsable = $_POST['nombre_responsable'] ?? "";
+            $fecha = date("Y-m-d");
+            $extras = "";
+            $numero_factura = $_POST['numero_factura'];
+            if ($this->buscarStock($numero_factura)["status"] == 501) {
+                echo json_encode(array("status" => 501, "message" => "No contamos con stock de el/los productos para generar la guía"));
+                return;
+            }
+            $monto_factura = $_POST['total_venta'];
 
-        $vendedor = $this->model->obtenerVendedor($_SESSION["id_plataforma"] ?? $_POST["id_plataforma"])['nombre_tienda'];
-        $vendedor = strtoupper($vendedor);
-        $telf_vendedor = $this->model->obtenerVendedor($_SESSION["id_plataforma"] ?? $_POST["id_plataforma"])['whatsapp'];
+            $vendedor = $this->model->obtenerVendedor($_SESSION["id_plataforma"] ?? $_POST["id_plataforma"])['nombre_tienda'];
+            $vendedor = strtoupper($vendedor);
+            $telf_vendedor = $this->model->obtenerVendedor($_SESSION["id_plataforma"] ?? $_POST["id_plataforma"])['whatsapp'];
 
-        $response = $this->model->generarGintracom($nombreOrigen, $ciudadOrigen, $provinciaOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $provinciaDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $numero_factura, $monto_factura, $vendedor, $telf_vendedor);
-        $response = json_decode($response, true);
-        if (isset($response["guia"])) {
-            $response["status"] = 200;
-            $this->model->aumentarMatriz();
-            $this->model->disminuirInventario(json_decode($_POST['productos'], true), $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"]);
+            $response = $this->model->generarGintracom($nombreOrigen, $ciudadOrigen, $provinciaOrigen, $direccionOrigen, $telefonoOrigen, $referenciaOrigen, $celularOrigen, $nombreDestino, $ciudadDestino, $provinciaDestino, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $postal, $identificacion, $contiene, $peso, $valor_seguro, $valor_declarado, $tamanio, $cod, $costoflete, $costo_producto, $tipo_cobro, $comentario, $fecha, $extras, $numero_factura, $monto_factura, $vendedor, $telf_vendedor);
+            $response = json_decode($response, true);
+            if (isset($response["guia"])) {
+                $response["status"] = 200;
+                $this->model->aumentarMatriz();
+                $this->model->disminuirInventario(json_decode($_POST['productos'], true), $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"]);
 
-            $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "GINTRACOM", 1, $nombre_responsable);
-            $this->model->asignarWallet($numero_factura, $response["guia"], $fecha, $nombreDestino, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
-        }
+                $response2 = $this->model->actualizarGuia($numero_factura, $response["guia"], $nombreDestino, $ciudad, $direccionDestino, $telefonoDestino, $celularDestino, $referenciaDestino, $cod, $costo_producto, $comentario, $_SESSION["id"] ?? $_POST["id"], $_POST['calle_principal'], $_POST['calle_secundaria'], $contiene, $provincia, $costoflete, "GINTRACOM", 1, $nombre_responsable);
+                $this->model->asignarWallet($numero_factura, $response["guia"], $fecha, $nombreDestino, $_SESSION["id_plataforma"] ?? $_POST["id_plataforma"], 1, $costo_producto, $cod, $costoflete);
+            }
 
-        echo json_encode($response);
+            echo json_encode($response);
+        })();
     }
 
     public function generarSpeed()
