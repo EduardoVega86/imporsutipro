@@ -929,7 +929,7 @@ class Pedidos extends Controller
             "novedad"     => 0,
             "devolucion"  => 0,
         ];
-
+        print_r($data);
         // Recorremos cada guía y calculamos los totales
         foreach ($data as $guia) {
             throw new Exception('Hubo un error' . $data);
