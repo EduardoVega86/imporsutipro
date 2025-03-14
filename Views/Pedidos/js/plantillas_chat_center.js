@@ -275,10 +275,10 @@ const cargar_select_templates = async () => {
     const select_servi = $("#select_templates_servi");
     select_servi.empty().append('<option value="">Selecciona un template</option>');
 
-    const select_gintra = $("#select_templates_servi");
+    const select_gintra = $("#select_templates_gintra");
     select_gintra.empty().append('<option value="">Selecciona un template</option>');
 
-    const select_speed = $("#select_templates_servi");
+    const select_speed = $("#select_templates_speed");
     select_speed.empty().append('<option value="">Selecciona un template</option>');
 
     // Agregar las opciones
