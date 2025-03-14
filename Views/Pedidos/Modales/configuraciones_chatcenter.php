@@ -29,31 +29,7 @@
                     <div class="row mb-3">
                         <div class="d-flex flex-column">
                             <label for="template_whatsapp" class="form-label">Plantilla de respuesta Laar:</label>
-                            <select id="select_templates_laar" style="width: 100%;">
-                                <option value="">Cargando...</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="d-flex flex-column">
-                            <label for="template_whatsapp" class="form-label">Plantilla de respuesta Servientrega:</label>
-                            <select id="select_templates_servi" style="width: 100%;">
-                                <option value="">Cargando...</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="d-flex flex-column">
-                            <label for="template_whatsapp" class="form-label">Plantilla de respuesta Gintracom:</label>
-                            <select id="select_templates_gintra" style="width: 100%;">
-                                <option value="">Cargando...</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="d-flex flex-column">
-                            <label for="template_whatsapp" class="form-label">Plantilla de respuesta Speed:</label>
-                            <select id="select_templates_speed" style="width: 100%;">
+                            <select id="select_templates" style="width: 100%;">
                                 <option value="">Cargando...</option>
                             </select>
                         </div>
@@ -89,10 +65,7 @@
             event.preventDefault(); // Evita el envío tradicional
 
             var formData = new FormData();
-            formData.append('id_template_laar', $('#select_templates_laar').val() || "");
-            formData.append('id_template_servi', $('#select_templates_servi').val() || "");
-            formData.append('id_template_gintra', $('#select_templates_gintra').val() || "");
-            formData.append('id_template_speed', $('#select_templates_speed').val() || "");
+            formData.append('id_template_whatsapp', $('#select_templates').val() || "");
 
             $.ajax({
                 url: SERVERURL + 'Usuarios/editar_configuracion',

@@ -270,10 +270,7 @@ const cargar_select_templates = async () => {
 
     // Obtener y limpiar el select
     const selects = [
-      $("#select_templates_laar"),
-      $("#select_templates_servi"),
-      $("#select_templates_gintra"),
-      $("#select_templates_speed"),
+      $("#select_templates"),
     ];
 
     // Limpiar y agregar opción "Selecciona un template"
