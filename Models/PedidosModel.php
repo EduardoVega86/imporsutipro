@@ -447,7 +447,7 @@ class PedidosModel extends Query
         $filtros = [];
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $filtros[] = "fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $filtros[] = "fc.fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
         if (!empty($transportadora)) {
