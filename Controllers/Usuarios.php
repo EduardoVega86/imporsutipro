@@ -567,11 +567,19 @@ class Usuarios extends Controller
 
     public function editar_configuracion()
     {
-        $id_template_whatsapp = $_POST['id_template_whatsapp'];
+        $data = [
+            'laar' => $_POST['id_template_laar'] ?? '',
+            'servientrega' => $_POST['id_template_servi'] ?? '',
+            'gintracom' => $_POST['id_template_gintra'] ?? '',
+            'speed' => $_POST['id_template_speed'] ?? ''
+        ];
 
-        $response = $this->model->editar_configuracion($id_template_whatsapp, $_SESSION['id_plataforma']);
+        $json_templates = json_encode($data); // Convertir array a JSON
+
+        $response = $this->model->editar_configuracion($json_templates, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
+
 
     public function obtener_templates_whatsapp()
     {

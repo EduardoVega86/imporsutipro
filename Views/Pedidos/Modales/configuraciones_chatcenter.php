@@ -21,15 +21,39 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="agregar_testimonioModalLabel"><i class="fas fa-edit"></i> Configuraciones</h5>
+                <h5 class="modal-title" id="agregar_testimonioModalLabel"><i class="fas fa-edit"></i> Configuraciones generar guias</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="configuraciones_chatcenter_form" enctype="multipart/form-data">
                     <div class="row mb-3">
                         <div class="d-flex flex-column">
-                            <label for="template_whatsapp" class="form-label">Plantilla de respuesta al generar guia:</label>
-                            <select id="select_templates" style="width: 100%;">
+                            <label for="template_whatsapp" class="form-label">Plantilla de respuesta Laar:</label>
+                            <select id="select_templates_laar" style="width: 100%;">
+                                <option value="">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="d-flex flex-column">
+                            <label for="template_whatsapp" class="form-label">Plantilla de respuesta Servientrega:</label>
+                            <select id="select_templates_servi" style="width: 100%;">
+                                <option value="">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="d-flex flex-column">
+                            <label for="template_whatsapp" class="form-label">Plantilla de respuesta Gintracom:</label>
+                            <select id="select_templates_gintra" style="width: 100%;">
+                                <option value="">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="d-flex flex-column">
+                            <label for="template_whatsapp" class="form-label">Plantilla de respuesta Speed:</label>
+                            <select id="select_templates_speed" style="width: 100%;">
                                 <option value="">Cargando...</option>
                             </select>
                         </div>
@@ -62,32 +86,29 @@
 
 
         $('#configuraciones_chatcenter_form').submit(function(event) {
-            event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+            event.preventDefault(); // Evita el envío tradicional
 
-            // Crea un objeto FormData
             var formData = new FormData();
-            formData.append('id_template_whatsapp', $('#select_templates').val());
+            formData.append('id_template_laar', $('#select_templates_laar').val() || "");
+            formData.append('id_template_servi', $('#select_templates_servi').val() || "");
+            formData.append('id_template_gintra', $('#select_templates_gintra').val() || "");
+            formData.append('id_template_speed', $('#select_templates_speed').val() || "");
 
-
-            // Realiza la solicitud AJAX
             $.ajax({
-                url: '' + SERVERURL + 'Usuarios/editar_configuracion',
+                url: SERVERURL + 'Usuarios/editar_configuracion',
                 type: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function(response) {
                     response = JSON.parse(response);
-                    // Mostrar alerta de éxito
+
                     if (response.status == 500) {
-                        toastr.error(
-                            "EL PRODUCTO NO SE AGREGRO CORRECTAMENTE",
-                            "NOTIFICACIÓN", {
-                                positionClass: "toast-bottom-center"
-                            }
-                        );
+                        toastr.error("Error al editar la configuración", "NOTIFICACIÓN", {
+                            positionClass: "toast-bottom-center"
+                        });
                     } else if (response.status == 200) {
-                        toastr.success("PRODUCTO AGREGADO CORRECTAMENTE", "NOTIFICACIÓN", {
+                        toastr.success("Configuración editada correctamente", "NOTIFICACIÓN", {
                             positionClass: "toast-bottom-center",
                         });
 
@@ -96,7 +117,7 @@
                     }
                 },
                 error: function(error) {
-                    alert('Hubo un error al agregar el producto');
+                    alert('Hubo un error al editar la configuración');
                     console.log(error);
                 }
             });

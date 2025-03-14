@@ -1240,24 +1240,24 @@ ON
         return $response;
     }
 
-    public function editar_configuracion($id_template_whatsapp, $plataforma)
+    public function editar_configuracion($json_templates, $plataforma)
     {
-        // codigo para editar categoria
         $response = $this->initialResponse();
 
-        $sql = "UPDATE configuraciones SET template_generar_guia = ? WHERE id_plataforma = ? ";
-        $data = [$id_template_whatsapp, $plataforma];
+        $sql = "UPDATE configuraciones SET template_generar_guia = ? WHERE id_plataforma = ?";
+        $data = [$json_templates, $plataforma];
         $editar_configuracion = $this->update($sql, $data);
-        //print_r($editar_configuracion);
+
         if ($editar_configuracion == 1) {
             $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Configuracion editada correctamente';
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Configuración editada correctamente';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al editar la Configuracion';
+            $response['message'] = 'Error al editar la configuración';
         }
+
         return $response;
     }
 
