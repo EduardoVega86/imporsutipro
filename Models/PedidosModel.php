@@ -3651,7 +3651,7 @@ class PedidosModel extends Query
         return $this->insert($sql, $data);
     }
 
-    public function obtener_template_transportadora($transportadora, $id_plataforma)
+    public function obtener_template_transportadora($id_plataforma)
     {
         $sql = "SELECT template_generar_guia FROM configuraciones WHERE id_plataforma = $id_plataforma";
         $resultado = $this->select($sql);
