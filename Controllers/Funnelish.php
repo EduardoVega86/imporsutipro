@@ -31,28 +31,31 @@ class Funnelish extends Controller
     } */
     public function index($id_plataforma)
     {
-        if (empty($id_plataforma)) {
-            die("Error: No se ha especificado una plataforma");
-        }
-        $datas = explode("-||-", $id_plataforma);
-        $id_plataforma = $datas[0];
-        $id_registro = $datas[1];
-        $data = file_get_contents("php://input");
-        $this->log($data, $id_plataforma, $id_registro);
+        $this->catchAsync(function () use ($id_plataforma) {
 
-        if ($this->model->existenciaPlataforma($id_plataforma)) {
-
-            $valido = $this->model->productoPlataforma($id_plataforma, $data, $id_registro);
-            print_r($valido);
-            if ($valido) {
-                $this->model->gestionarRequest($id_plataforma, $data);
-            } else {
-                echo "Producto no registrado";
+            if (empty($id_plataforma)) {
+                throw new Exception("Error: No se ha especificado una plataforma");
             }
-        } else {
+            $datas = explode("-||-", $id_plataforma);
+            $id_plataforma = $datas[0];
+            $id_registro = $datas[1];
 
-            echo "Plataforma no registrada";
-        }
+
+            $data = file_get_contents("php://input");
+            $this->log($data, $id_plataforma, $id_registro);
+
+            if ($this->model->existenciaPlataforma($id_plataforma)) {
+                $valido = $this->model->productoPlataforma($id_plataforma, $data, $id_registro);
+                if ($valido) {
+                    $this->model->gestionarRequest($id_plataforma, $data);
+                } else {
+                    throw new Exception("Producto no registrado");
+                }
+            } else {
+
+                throw new Exception("Plataforma no registrada");
+            }
+        })();
     }
 
     public function productos()

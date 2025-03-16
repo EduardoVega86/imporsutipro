@@ -22,7 +22,6 @@ class FunnelishModel extends Query
 
     public function existenciaPlataforma($id_plataforma)
     {
-        echo $id_plataforma . "-";
         $sql = "SELECT * FROM productos_funnel WHERE id_plataforma = ?";
         $response = $this->simple_select($sql, [$id_plataforma]);
         print_r($response);
@@ -48,7 +47,7 @@ class FunnelishModel extends Query
             $sql = "SELECT id_producto FROM productos_funnel WHERE id_funnel = ? AND id_plataforma = ?";
             foreach ($data["products"] as $product) {
 
-                $response = $this->simple_select($sql, [$product["id"], $id_plataforma, $id_registro]);
+                $response = $this->simple_select($sql, [$product["id"], $id_plataforma]);
                 if ($response > 0) {
                     return true;
                 }
@@ -76,6 +75,7 @@ class FunnelishModel extends Query
     {
         $nombre = $json["first_name"] . " " . $json["last_name"];
         $telefono = str_replace("+", "", $json["phone"]);
+
         // detectar un "y", "," o "&" en la dirección para separarla en dos
         // Definir los separadores que deseas considerar
         $direccion = $json["shipping_address"];
