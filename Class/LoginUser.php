@@ -20,6 +20,25 @@ class LoginUser
     private int $id_users;
     private string $nombre_tienda;
     private string $nombre_users;
+    private bool $validar_config_chat;
+
+    /**
+     * @return bool
+     */
+    public function isValidarConfigChat(): bool
+    {
+        return $this->validar_config_chat;
+    }
+
+    /**
+     * @param bool $validar_config_chat
+     * @return LoginUser
+     */
+    public function setValidarConfigChat(bool $validar_config_chat): LoginUser
+    {
+        $this->validar_config_chat = $validar_config_chat;
+        return $this;
+    }
 
     /**
      * LoginUser constructor.
@@ -102,7 +121,8 @@ class LoginUser
             'nombre_users' => $this->nombre_users,
             'id_plataforma' => $this->id_plataforma,
             'nombre_tienda' => $this->nombre_tienda,
-            'email_users' => $this->email_users
+            'email_users' => $this->email_users,
+            'validar_config_chat' => $this->validar_config_chat
         ];
     }
 

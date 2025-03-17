@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="<?php echo FAVICON; ?>">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -265,8 +266,59 @@
         <script>
             const SERVERURL = "<?php echo SERVERURL; ?>";
             const MARCA = "<?php echo MARCA; ?>";
-            const CARGO = <?php echo $_SESSION['cargo']; ?>;
-            const ID_PLATAFORMA = <?php echo $_SESSION['id_plataforma']; ?>;
+            const CARGO = decodeJWT(localStorage.getItem('token')).data.cargo;
+            const ID_PLATAFORMA =  decodeJWT(localStorage.getItem('token')).data.id_plataforma;
             const MATRIZ = <?php echo MATRIZ; ?>;
-            const VALIDAR_CONFIG_CHAT = <?php echo json_encode(!empty($_SESSION['validar_config_chat'])); ?>;
+            const VALIDAR_CONFIG_CHAT = decodeJWT(localStorage.getItem('token')).data.validar_config_chat;
+            const axiosConfig = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': localStorage.getItem('token') ? 'Bearer ' + localStorage.getItem('token') : ''
+                }
+            };
+            const impAxios = axios.create(axiosConfig);
+
+            function cerrar_sesion() {
+                localStorage.removeItem('token');
+                window.location.href = SERVERURL + 'login';
+            }
+
+            function decodeJWT(token) {
+                try {
+                    const base64Url = token.split('.')[1]; // Extraer payload
+                    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Reemplazar caracteres URL-safe
+                    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
+                        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+                    ).join(''));
+                    return JSON.parse(jsonPayload);
+                } catch (e) {
+                    console.error("Error decodificando el JWT:", e);
+                    return null;
+                }
+            }
+
+            function isJWTExpired(token) {
+                const decoded = decodeJWT(token);
+                if (!decoded || !decoded.exp) return true; // Si el token no tiene exp, lo consideramos inválido
+
+                const now = Math.floor(Date.now() / 1000);
+                return decoded.exp < now;
+            }
+
+            function checkSession() {
+                const token = localStorage.getItem("token"); // O de donde lo guardes
+                if (!token || isJWTExpired(token)) {
+                    Swal.fire({
+                        title: 'Sesión expirada',
+                        text: 'Por favor, inicia sesión nuevamente',
+                        icon: 'warning',
+                        confirmButtonText: 'Aceptar'
+                    }).then(() => {
+                        cerrar_sesion();
+                    });
+                }
+            }
+
+            setInterval(checkSession, 60000);
+
         </script>

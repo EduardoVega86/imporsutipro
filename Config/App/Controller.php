@@ -1,16 +1,24 @@
 <?php
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
 require_once 'Class/Logger.php';
-class Controller {
+
+class Controller
+{
     protected $model;
     protected Logger $logger;
     protected Views $views;
+    protected mixed $secret_key;
+    protected $user_data;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->views = new Views();
         $this->loadModel();
         $this->logger = new Logger(); // Instancia del logger
-
+        $this->secret_key = $_ENV["JWT_SECRET"];
         // Registrar manejadores globales de errores y excepciones
         set_error_handler([$this, 'handleError']);
         set_exception_handler([$this, 'handleException']);
@@ -25,21 +33,55 @@ class Controller {
         // Aquí puedes decidir si mostrar o no el error al usuario
     }
 
-    // Maneja excepciones no capturadas
+    /**
+     * Se encarga de validar el token JWT y devolver los datos decodificados
+     * @return void
+     * @throws Exception
+     */
+    private function validateJWT(): void
+    {
+        $headers = getallheaders();
+        if (!isset($headers['Authorization'])) {
+            throw new Exception("No has iniciado sesión", 401);
+        }
+
+        $authHeader = $headers['Authorization'];
+        if (!preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+            throw new Exception("Formato de token inválido", 401);
+        }
+
+        $jwt = $matches[1];
+
+        try {
+            $decoded = JWT::decode($jwt, new Key($this->secret_key, 'HS256'));
+            $this->user_data = (array)$decoded->data;
+        } catch (Exception $e) {
+            throw new Exception("Token inválido o expirado", 401);
+        }
+    }
+
+    /**
+     * Maneja excepciones
+     * @param $exception
+     * @return void
+     */
     public function handleException($exception): void
     {
         $message = "Exception: " . $exception->getMessage() . " in " . $exception->getFile() . " on line " . $exception->getLine();
         $this->logger->log($message, 'EXCEPTION');
         http_response_code(500);
         echo json_encode([
-            "status"  => 500,
-            "title"   => "Error",
+            "status" => 500,
+            "title" => "Error",
             "message" => "Internal Server Error"
         ]);
         exit();
     }
 
-    // Maneja errores fatales en el shutdown
+    /**
+     * Se encarga de loguear errores en el shutdown
+     * @return void
+     */
     public function handleShutdown(): void
     {
         $error = error_get_last();
@@ -49,39 +91,80 @@ class Controller {
         }
     }
 
-    // Ejemplo de método catchAsync modificado para loggear excepciones
-    function catchAsync($fn): Closure {
+
+    /**
+     * Este método se encarga de capturar excepciones en funciones asíncronas
+     * @param $fn
+     * @return Closure
+     */
+    function catchAsync($fn): Closure
+    {
         header('Content-Type: application/json');
-        return function() use ($fn) {
+        return function () use ($fn) {
             try {
                 $fn();
             } catch (Exception $e) {
                 $this->logger->log("Exception caught in catchAsync: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine(), 'EXCEPTION');
                 echo json_encode([
-                    "status"  => 500,
-                    "title"   => "Error",
+                    "status" => $e->getCode() !== 0 ? $e->getCode() : 500,
+                    "title" => "Error",
                     "message" => $e->getMessage(),
-                    "count"   => 0,
-                    "data"    => []
+                    "count" => 0,
+                    "data" => []
                 ]);
             }
         };
     }
 
-    public function jsonData():array {
+    /**
+     * Este método se encarga de capturar excepciones en funciones que requieren JWT
+     * @param $fn
+     * @return Closure
+     */
+    function catchJWT($fn): Closure
+    {
+        header('Content-Type: application/json');
+        return function () use ($fn) {
+            try {
+                $this->validateJWT();
+                $fn();
+            } catch (Exception $e) {
+                $this->logger->log("Exception caught in catchJWT: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine(), 'EXCEPTION');
+                echo json_encode([
+                    "status" => $e->getCode() ?? 500,
+                    "title" => "Error",
+                    "message" => $e->getMessage(),
+                    "count" => 0,
+                    "data" => []
+                ]);
+            }
+        };
+    }
+
+    /**
+     * Se encarga de devolver los datos json ya decodificados del body
+     * @return array
+     */
+    public function jsonData(): array
+    {
         return json_decode(file_get_contents('php://input'), true) ?? [];
     }
 
     /**
+     * Se encarga de verificar si un dato no es nulo
      * @throws Exception
      */
     public function dataVerifier(string $nombre, $variable): void
     {
-        if(empty($variable)){
+        if (empty($variable)) {
             throw new Exception("No se envio el dato: " . $nombre);
         }
     }
 
+    /**
+     * Se encarga de cargar el modelo correspondiente al controlador
+     * @return void
+     */
     public function loadModel(): void
     {
         $model = get_class($this) . "Model";
@@ -92,59 +175,15 @@ class Controller {
         }
     }
 
-    public function generateSesion($data): void
-    {
-        $_SESSION['id'] = $data['id'];
-        $_SESSION['plataforma'] = $data['idPlataforma'];
-    }
-
-    public function userTime(): void
-    {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        $session_duration = 3600; // 1 hora
-        if (isset($_SESSION['login_time'])) {
-            $session_life = time() - $_SESSION['login_time'];
-            if ($session_life > $session_duration) {
-                session_unset();
-                session_destroy();
-                header("Location: /index.php");
-                exit();
-            }
-        } else {
-            header("Location: /index.php");
-            exit();
-        }
-    }
-
+    /**
+     * Se encarga de verificar si el usuario está autenticado
+     * @return bool
+     */
     public function isAuth(): bool
     {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
         return isset($_SESSION["user"]);
-    }
-
-    public function hasPermission($permission): bool
-    {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        if (isset($_SESSION["cargo"])) {
-            if ($_SESSION["cargo"] === "1" || $_SESSION["cargo"] === $permission) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function logouts(): bool
-    {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        session_destroy();
-        return true;
     }
 }
