@@ -7,9 +7,12 @@ class Wallet extends Controller
     {
         // si se busca el controlador y el metodo guias_reporte saltar la validacion de sesion
 
-        if (!$this->isAuth())
-            header("Location:  " . SERVERURL . "login");
         parent::__construct();
+        if (!$this->isAuth()) {
+
+            header("Location:  " . SERVERURL . "login");
+            exit;
+        }
     }
 
     ///vistas

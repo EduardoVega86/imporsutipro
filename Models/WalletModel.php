@@ -27,6 +27,10 @@ class WalletModel extends Query
     {
         parent::__construct();
         session_start();
+        if(!isset($_SESSION['id'])) {
+            header('Location: '. SERVERURL . 'login');
+            exit;
+        }
         $this->auditable = new Auditable($_SESSION['id'], 'Billetera');
     }
 
