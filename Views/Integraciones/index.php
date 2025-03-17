@@ -48,16 +48,16 @@
             <div class="card-custom">
                 <img src="<?php echo SERVERURL; ?>/public/img/facebook.png" alt="Facebook Logo">
                 <h5 class="card-title">Shopify</h5>
-                <p class="card-text">Manten actualizadas tus campañas con nuestra api.</p>
-                <input type="hidden" id="conectado_facebook" name="conectado_facebook">
+                <p class="card-text">Realiza la conexion de tu cuenta de shopify con nuestro sistema Imporsuit.</p>
+                <!-- <input type="hidden" id="conectado_facebook" name="conectado_facebook">
                 <div id="conectarFacebook" style="display: none;">
                     <p class="status connected">Conectado</p>
                 </div>
                 <div id="desconectarFacebook" style="display: none;">
                     <p class="status disconnected">Desconectado</p>
-                </div>
+                </div> -->
 
-                <button class="btn btn-primary" onclick="abrirmodal_facebook()">Conectar</button>
+                <button class="btn btn-primary" onclick="redireccionar_shopify()">Conectar</button>
             </div>
         </div>
     </div>
@@ -67,16 +67,16 @@
             <div class="card-custom">
                 <img src="<?php echo SERVERURL; ?>/public/img/facebook.png" alt="Facebook Logo">
                 <h5 class="card-title">Funnelish</h5>
-                <p class="card-text">Manten actualizadas tus campañas con nuestra api.</p>
-                <input type="hidden" id="conectado_facebook" name="conectado_facebook">
+                <p class="card-text">Realiza la conexion de tu cuenta de funnelish con nuestro sistema Imporsuit.</p>
+                <!-- <input type="hidden" id="conectado_facebook" name="conectado_facebook">
                 <div id="conectarFacebook" style="display: none;">
                     <p class="status connected">Conectado</p>
                 </div>
                 <div id="desconectarFacebook" style="display: none;">
                     <p class="status disconnected">Desconectado</p>
-                </div>
+                </div> -->
 
-                <button class="btn btn-primary" onclick="abrirmodal_facebook()">Conectar</button>
+                <button class="btn btn-primary" onclick="redireccionar_funnelish()">Conectar</button>
             </div>
         </div>
 
