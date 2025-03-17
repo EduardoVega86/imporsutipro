@@ -59,7 +59,7 @@ function getAutomatizador($conn, $id_configuracion, $value_blocks_type, $data)
         $ciudad_arr = json_decode($ciudad, true) ?? [];
 
         if (
-            (in_array("0", $productos_arr)) || // Si productos_arr contiene "0", entra directamente
+            (in_array("0", $productos_arr) || in_array("0", $abandonados_arr)) || // Si productos_arr o abandonados_arr contiene "0", entra directamente
             (
                 (empty($productos_arr) || !empty(array_intersect($data['productos'], $productos_arr))) &&
                 (empty($abandonados_arr) || in_array("0", $abandonados_arr) || !empty(array_intersect($data['abandonados'], $abandonados_arr))) &&
