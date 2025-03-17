@@ -727,9 +727,12 @@ function validar_estadoServi(estado) {
   } else if (estado == 200 || estado == 201 || estado == 202) {
     span_estado = "badge_purple";
     estado_guia = "Recolectado";
-  } else if (estado >= 300 && estado <= 317) {
+  } else if (estado >= 300 && estado <= 316) {
     span_estado = "badge_warning";
     estado_guia = "Procesamiento";
+  } else if (estado == 317){
+    span_estado = "badge_warning";
+    estado_guia = "Retirar en agencia";
   } else if (estado >= 400 && estado <= 403) {
     span_estado = "badge_green";
     estado_guia = "Entregado";

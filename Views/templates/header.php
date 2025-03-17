@@ -188,7 +188,7 @@
                 <?php } ?>
 
                 <?php if ($_SESSION['cargo'] == 15 || $_SESSION['cargo'] == 10 || $_SESSION['cargo'] == 20) { ?>
-                    <a href="<?php echo SERVERURL ?>Productos/bovedas"><i class='bx bxs-lock menu-icon'></i> <span class="menu-text">P. Winners</span></a>
+                    <a href="<?php echo SERVERURL ?>Productos/bovedas"><i class='bx bxs-lock menu-icon'></i> <span class="menu-text">Productos Ganadores</span></a>
                 <?php
                 }
                 ?>
@@ -267,7 +267,7 @@
             const SERVERURL = "<?php echo SERVERURL; ?>";
             const MARCA = "<?php echo MARCA; ?>";
             const CARGO = decodeJWT(localStorage.getItem('token')).data.cargo;
-            const ID_PLATAFORMA =  decodeJWT(localStorage.getItem('token')).data.id_plataforma;
+            const ID_PLATAFORMA = decodeJWT(localStorage.getItem('token')).data.id_plataforma;
             const MATRIZ = <?php echo MATRIZ; ?>;
             const VALIDAR_CONFIG_CHAT = decodeJWT(localStorage.getItem('token')).data.validar_config_chat;
             const axiosConfig = {
@@ -320,5 +320,4 @@
             }
 
             setInterval(checkSession, 60000);
-
         </script>
