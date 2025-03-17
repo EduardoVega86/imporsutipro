@@ -12,7 +12,6 @@ use Egulias\EmailValidator\Validation\DNSCheckValidation;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use PHPMailer\PHPMailer\PHPMailer;
-use Random\RandomException;
 
 
 /**
@@ -25,6 +24,8 @@ class AccesoModel extends Query
 {
     private mixed $jwt_secret;
     private mixed $jwt_expire;
+    private JWT $jwt;
+    private Key $key;
 
     /**
      * AccesoModel constructor.
@@ -36,6 +37,8 @@ class AccesoModel extends Query
         parent::__construct();
         $this->jwt_secret = $_ENV['JWT_SECRET'];
         $this->jwt_expire = $_ENV['JWT_EXPIRE'];
+        $this->jwt = new JWT();
+        $this->key = new Key($this->jwt_secret, 'HS256');
     }
 
     /**
@@ -43,7 +46,7 @@ class AccesoModel extends Query
      *
      * @param array $userData Datos del usuario autenticado.
      * @return string Token JWT generado.
-     * @throws Exception Si falla la generación del token.
+     * @throws Exception Sí falla la generación del token.
      */
     private function generaJWT(array $userData): string
     {
@@ -69,10 +72,12 @@ class AccesoModel extends Query
                     'nombre' => $userData['nombre_users'] ?? '',
                     'cargo' => $userData['cargo_users'] ?? '',
                     'correo' => $userData['email_users'],
+                    'id_plataforma' => $userData['id_plataforma'],
+                    'validar_config_chat' => $userData['validar_config_chat']
                 ]
             ];
 
-            return JWT::encode($payload, $this->jwt_secret, 'HS256');
+            return $this->jwt->encode($payload, $this->jwt_secret, 'HS256');
         } catch (Exception $e) {
             throw new Exception("Error al generar el token de autenticación: " . $e->getMessage());
         }
@@ -175,7 +180,7 @@ class AccesoModel extends Query
 
     /**
      * Genera un UUID versión 4
-     * @throws RandomException
+     * @throws \Random\RandomException
      */
     private function generaUUIDv4(): string
     {
@@ -193,13 +198,13 @@ class AccesoModel extends Query
      * @param $usuario
      * @param $password
      * @return array
-     * @throws RandomException
      * @throws Exception
      */
     public function login2($usuario, $password): array
     {
         $auth = new LoginUser($this->getConnection(), $usuario, $password);
         $auth->login();
+        $auth->setValidarConfigChat($this->validar_configuracion($auth->getIdPlataforma()));
         // 1. Si llegamos aquí, todo está correcto: generamos el JWT
         $jwt = $this->generaJWT($auth->getUserData());
 
@@ -241,6 +246,7 @@ class AccesoModel extends Query
     /**
      * @param $id_plataforma
      * @return bool
+     * @throws Exception
      */
     public function validar_configuracion($id_plataforma): bool
     {
@@ -264,14 +270,13 @@ class AccesoModel extends Query
     public function getUserByUUID($uuid): array
     {
         $sql = "SELECT * FROM users WHERE uuid = '$uuid'";
-        $result = $this->select($sql);
-
-        return $result;
+        return $this->select($sql);
     }
 
     /**
      * @param $id_user
      * @return array
+     * @throws Exception
      */
     public function getPlatformByUserId($id_user): array
     {
@@ -284,6 +289,7 @@ class AccesoModel extends Query
     /**
      * @param $correo
      * @return array
+     * @throws Exception
      */
     public function recovery($correo): array
     {
@@ -411,7 +417,7 @@ class AccesoModel extends Query
     {
         try {
             // Decodificar el token usando el algoritmo 'HS256'
-            $decoded = JWT::decode($token, new Key($this->jwt_secret, 'HS256'));
+            $decoded = $this->jwt->decode($token, $this->key);
 
             // Iniciar sesión si aún no está iniciada
             if (session_status() === PHP_SESSION_NONE) {
