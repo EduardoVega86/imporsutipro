@@ -1240,7 +1240,7 @@ class Pedidos extends Controller
             $sheetGuias->setCellValue("Q{$fila}", ($guia['pagado'] == 'Pagado' ? 'ACREDITADO' : 'PENDIENTE'));
 
             // SKU 
-            $sheetGuias->setCellValue("R{$fila}", $guia['sku_list']); // Costo Flete
+            $sheetGuias->setCellValue("R{$fila}", $guia['sku_list']); 
 
             //Contiene
             $sheetGuias->setCellValue("S{$fila}", $guia['contiene']);
