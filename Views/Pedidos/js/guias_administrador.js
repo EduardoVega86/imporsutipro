@@ -731,7 +731,7 @@ function validar_estadoServi(estado) {
     span_estado = "badge_warning";
     estado_guia = "Procesamiento";
   } else if (estado == 317){
-    span_estado = "badge_green";
+    span_estado = "badge_warning";
     estado_guia = "Retirar en agencia";
   } else if (estado >= 400 && estado <= 403) {
     span_estado = "badge_green";
