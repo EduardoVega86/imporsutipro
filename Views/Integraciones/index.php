@@ -46,7 +46,7 @@
         <!-- Shopify -->
         <div class="col-md-4">
             <div class="card-custom">
-                <img src="<?php echo SERVERURL; ?>/public/img/facebook.png" alt="Facebook Logo">
+                <img src="<?php echo SERVERURL; ?>public/img/logo_shopify.png" alt="Shopify Logo">
                 <h5 class="card-title">Shopify</h5>
                 <p class="card-text">Realiza la conexion de tu cuenta de shopify con nuestro sistema Imporsuit.</p>
                 <!-- <input type="hidden" id="conectado_facebook" name="conectado_facebook">
@@ -65,7 +65,7 @@
         <!-- Funnelish -->
         <div class="col-md-4">
             <div class="card-custom">
-                <img src="<?php echo SERVERURL; ?>/public/img/facebook.png" alt="Facebook Logo">
+                <img src="<?php echo SERVERURL; ?>public/img/logo_fuinnelish.png" alt="Funnelish Logo">
                 <h5 class="card-title">Funnelish</h5>
                 <p class="card-text">Realiza la conexion de tu cuenta de funnelish con nuestro sistema Imporsuit.</p>
                 <!-- <input type="hidden" id="conectado_facebook" name="conectado_facebook">
