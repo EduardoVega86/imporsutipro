@@ -1,16 +1,17 @@
 <?php
 require 'vendor/autoload.php';
+
 class Wallet extends Controller
 {
     public function __construct()
     {
-        parent::__construct();
         // si se busca el controlador y el metodo guias_reporte saltar la validacion de sesion
-        if ($_SERVER['REQUEST_URI'] == '/wallet/guias_reporte') {
-        } else
+
         if (!$this->isAuth())
             header("Location:  " . SERVERURL . "login");
+        parent::__construct();
     }
+
     ///vistas
 
     public function index()
@@ -25,6 +26,7 @@ class Wallet extends Controller
     {
         $this->views->render($this, "masivo");
     }
+
     public function masivo2()
     {
         $this->views->render($this, "masivo2");
@@ -112,7 +114,7 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-    public  function  eliminar($id)
+    public function eliminar($id)
     {
         $response = $this->model->eliminar($id);
         echo json_encode($response);
@@ -204,7 +206,7 @@ class Wallet extends Controller
         $nombre = $_POST['nombre'];
         $cedula = $_POST['cedula'];
         $correo = $_POST['correo'];
-        $telefono    = $_POST['telefono'];
+        $telefono = $_POST['telefono'];
 
         $datos = $this->model->guardarDatosBancarios($banco, $tipo_cuenta, $numero_cuenta, $nombre, $cedula, $correo, $telefono, $_SESSION["id_plataforma"]);;
         echo json_encode($datos);
@@ -318,7 +320,7 @@ class Wallet extends Controller
 
     public function obtenerHistorial()
     {
-        $tienda     = $_POST['tienda'];
+        $tienda = $_POST['tienda'];
         $response = $this->model->obtenerHistorial($tienda);
         echo json_encode($response);
     }
@@ -496,7 +498,7 @@ class Wallet extends Controller
                 }
 
 
-                $guardarArchivoResponse =  $this->model->guardarArchivo($fileTmpPath, $fileName, $transportadora);
+                $guardarArchivoResponse = $this->model->guardarArchivo($fileTmpPath, $fileName, $transportadora);
 
                 if ($guardarArchivoResponse['status'] === 200) {
                     // El archivo se guardó correctamente, puedes continuar con la importación de datos
@@ -543,7 +545,7 @@ class Wallet extends Controller
 
     public function solicitudesReferidos()
     {
-        $response =  $this->model->solicitudesReferidos();
+        $response = $this->model->solicitudesReferidos();
         echo json_encode($response);
     }
 
@@ -616,7 +618,7 @@ class Wallet extends Controller
     // Procesos de PAGO AUTOMATICO NO COLOCAR CODIGO AQUI NI MODIFICAR ABSOLUTAMENTE NADA
     public function pagar_laar()
     {
-        $response =  $this->model->pagar_laar();
+        $response = $this->model->pagar_laar();
         echo json_encode($response);
     }
 
