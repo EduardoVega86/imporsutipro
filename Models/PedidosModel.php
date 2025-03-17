@@ -3588,7 +3588,7 @@ class PedidosModel extends Query
 
         if (!empty($id_configuracion)) {
 
-            $data = [
+            $data2 = [
                 "id_configuracion" => $id_configuracion,
                 "value_blocks_type" => "2",
                 "user_id" => "1",
@@ -3625,7 +3625,7 @@ class PedidosModel extends Query
             ];
 
 
-            $response_api = $this->enviar_a_api($data);
+            $response_api = $this->enviar_a_api($data2);
 
 
             if (!$response_api['success']) {
