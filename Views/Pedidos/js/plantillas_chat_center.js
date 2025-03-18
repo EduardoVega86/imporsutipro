@@ -295,6 +295,46 @@ const cargar_select_templates = async () => {
         .val("")
         .trigger("change"); // Asegurar que la opción vacía sea la predeterminada
     });
+
+    // Obtener la plantilla seleccionada y asignarla al select
+    $.ajax({
+      url: SERVERURL + "Usuarios/obtener_plantilla_select",
+      type: "GET",
+      dataType: "json", // Asegura que la respuesta sea un objeto JSON
+      success: function (response) {
+        console.log("Respuesta del servidor:", response);
+
+        if (
+          !response ||
+          response.length === 0 ||
+          !response[0].template_generar_guia
+        ) {
+          console.warn("No hay plantilla guardada o el formato es incorrecto.");
+          return;
+        }
+
+        // Si el valor es un JSON, convertirlo a objeto
+        let templateGenerarGuia = response[0].template_generar_guia;
+        if (typeof templateGenerarGuia === "string") {
+          try {
+            templateGenerarGuia = JSON.parse(templateGenerarGuia);
+          } catch (error) {
+            console.error("Error al parsear JSON de la plantilla:", error);
+            return;
+          }
+        }
+
+        // Si el valor es un string simple, asignarlo directamente
+        $("#select_templates").val(templateGenerarGuia).trigger("change");
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error(
+          "Error al obtener la plantilla:",
+          textStatus,
+          errorThrown
+        );
+      },
+    });
   } catch (error) {
     console.error("Error al cargar los templates:", error);
   }
@@ -321,18 +361,4 @@ function formatPhoneNumber(number) {
   }
 
   return number;
-}
-
-function abrir_modal_configuraciones() {
-  $.ajax({
-    url: SERVERURL + "Usuarios/obtener_plantilla_select",
-    type: "GET",
-    success: function (response) {
-      $("#select_templates").val(response[0].template_generar_guia).change();
-      $("#configuraciones_chatcenterModal").modal("show");
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(errorThrown);
-    },
-  });
 }
