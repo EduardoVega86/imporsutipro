@@ -302,7 +302,6 @@ const cargar_select_templates = async () => {
       type: "GET",
       dataType: "json", // Asegura que la respuesta sea un objeto JSON
       success: function (response) {
-        console.log("Respuesta del servidor:", response);
 
         if (
           !response ||
@@ -313,22 +312,8 @@ const cargar_select_templates = async () => {
           return;
         }
 
-        // Si el valor es un JSON (inicia con { o [), entonces parsearlo, sino usarlo tal cual
-        if (
-          typeof templateGenerarGuia === "string" &&
-          (templateGenerarGuia.startsWith("{") ||
-            templateGenerarGuia.startsWith("["))
-        ) {
-          try {
-            templateGenerarGuia = JSON.parse(templateGenerarGuia);
-          } catch (error) {
-            console.error("Error al parsear JSON de la plantilla:", error);
-            return;
-          }
-        }
-
         // Asignar directamente el valor al select
-        $("#select_templates").val(templateGenerarGuia).trigger("change");
+        $("#select_templates").val(response[0].template_generar_guia).trigger("change");
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.error(
