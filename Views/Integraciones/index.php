@@ -45,22 +45,17 @@
 
         <!-- Shopify -->
         <div class="col-md-4">
-            <div class="card-custom">
-                <img src="<?php echo SERVERURL; ?>public/img/logo_shopify.png" alt="Shopify Logo">
+            <div class="card-custom p-4 text-center shadow-lg rounded">
+                <img src="<?php echo SERVERURL; ?>public/img/logo_shopify.png" alt="Shopify Logo" class="img-fluid mb-3" style="max-width: 100px;">
                 <h5 class="card-title">Shopify</h5>
-                <p class="card-text">Realiza la conexion de tu cuenta de shopify con nuestro sistema Imporsuit.</p>
-                <!-- <input type="hidden" id="conectado_facebook" name="conectado_facebook">
-                <div id="conectarFacebook" style="display: none;">
-                    <p class="status connected">Conectado</p>
-                </div>
-                <div id="desconectarFacebook" style="display: none;">
-                    <p class="status disconnected">Desconectado</p>
-                </div> -->
+                <p class="card-text">Realiza la conexión de tu cuenta de Shopify con nuestro sistema Imporsuit.</p>
 
-                <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'shopify/constructor'">Conectar</button>
-                <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'shopify/constructor_vista'">Productos conectados</button>
-                <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'shopify/constructor_abandonados'">Conectar abandonados</button>
-                <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'Pedidos/historial_abandonados'">Historial abandonados</button>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" onclick="window.location.href='<?php echo SERVERURL; ?>shopify/constructor'">Conectar</button>
+                    <button class="btn btn-secondary" onclick="window.location.href='<?php echo SERVERURL; ?>shopify/constructor_vista'">Productos conectados</button>
+                    <button class="btn btn-warning text-white" onclick="window.location.href='<?php echo SERVERURL; ?>shopify/constructor_abandonados'">Conectar abandonados</button>
+                    <button class="btn btn-danger" onclick="window.location.href='<?php echo SERVERURL; ?>Pedidos/historial_abandonados'">Historial abandonados</button>
+                </div>
             </div>
         </div>
     </div>
