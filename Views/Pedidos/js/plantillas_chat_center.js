@@ -328,6 +328,7 @@ function abrir_modal_configuraciones() {
     url: SERVERURL + "Usuarios/obtener_plantilla_select",
     type: "GET",
     success: function (response) {
+      $("#select_templates").val(response[0].template_generar_guia).change();
       $("#configuraciones_chatcenterModal").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
