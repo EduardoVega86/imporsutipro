@@ -229,6 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
   async function fetchProducts(reset = false) {
     // Incrementamos el requestId global y almacenamos
     const thisFetchId = ++lastFetchId;
+    console.log("Llamada a fetchProducts. reset:", reset, "fetchId:", thisFetchId, "formData_filtro:", [...formData_filtro.entries()]);
 
     if (reset) {
       // Reiniciamos estados
@@ -260,6 +261,12 @@ document.addEventListener("DOMContentLoaded", function () {
       if (thisFetchId !== lastFetchId) {
         console.warn("Descartando respuesta obsoleta de fetchProducts");
         return; // No hacemos nada, esta respuesta es vieja
+      }
+      
+      console.log("Respuesta de fetch:", newProducts, " fetchId:", thisFetchId);
+      if (thisFetchId !== lastFetchId) {
+        console.warn("Descartando respuesta obsoleta");
+        return;
       }
 
       // Si la API devuelve un array vacío, significa que no hay más
