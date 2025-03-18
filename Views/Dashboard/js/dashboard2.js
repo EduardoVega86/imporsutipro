@@ -1,6 +1,6 @@
 let fecha_inicio = "";
 let fecha_fin = "";
-let perfomanceChart;
+let performanceChart;
 
 // Función para obtener las fechas por defecto (primer y último día del mes actual)
 function obtenerFechasPorDefecto() {
