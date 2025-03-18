@@ -1,5 +1,10 @@
 let formData_filtro;
-let lastLoadedProductId = null; // Último ID de producto cargado para control
+let currentPage = 1;           // Página actual
+const pageSize = 35;          // Cantidad de productos por página
+let isLoading = false;        // Para evitar clicks múltiples
+let products = [];            // Acumularemos aquí todos los productos que se han ido cargando
+
+let currentAPI = "marketplace/obtener_productos_paginados";
 
 /************************************************
  * FUNCIONES FUERA DE DOMContentLoaded
@@ -8,7 +13,7 @@ let lastLoadedProductId = null; // Último ID de producto cargado para control
 function copyToClipboard(id) {
   navigator.clipboard.writeText(id).then(
     function () {
-      toastr.success("ID " + id + " COPIADA CON EXITO", "NOTIFICACIÓN", {
+      toastr.success("ID " + id + " COPIADA CON ÉXITO", "NOTIFICACIÓN", {
         positionClass: "toast-bottom-center",
       });
     },
@@ -28,7 +33,7 @@ function copyToClipboard(id) {
     contentType: false,
     success: function (response) {
       if (response.status == 500) {
-        toastr.error("NO SE AGREGO CORRECTAMENTE a shopify", "NOTIFICACIÓN", {
+        toastr.error("NO SE AGREGO CORRECTAMENTE a Shopify", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
       } else if (response.status == 200) {
@@ -67,32 +72,26 @@ function handleHeartClick(productId, esFavorito) {
   });
 }
 
-//agregar informacion al modal descripcion marketplace
-function verProducto(id){
-  window.location.href = SERVERURL + "Productos/products_page?id=" +id;
+// Ver producto (redirige)
+function verProducto(id) {
+  window.location.href = SERVERURL + "Productos/products_page?id=" + id;
 }
 
-function procesarPlataforma(url) {
-  let sinProtocolo = url.replace("https://", "");
-  let primerPunto = sinProtocolo.indexOf(".");
-  let baseNombre = sinProtocolo.substring(0, primerPunto);
-  return baseNombre.toUpperCase();
-}
-
-//abrir modal de seleccion de producto con atributo especifico
+// Abrir modal de selección de producto con atributo específico
 function abrir_modalSeleccionAtributo(id) {
   $("#id_productoSeleccionado").val(id);
   initDataTableSeleccionProductoAtributo();
   $("#seleccionProdcutoAtributoModal").modal("show");
 }
 
+// Abrir modal id Inventario
 function abrir_modal_idInventario(id) {
   $("#id_productoIventario").val(id);
   initDataTableTablaIdInventario();
   $("#tabla_idInventarioModal").modal("show");
 }
 
-//enviar cliente
+// Enviar cliente
 function enviar_cliente(id, sku, pvp, id_inventario) {
   const formData = new FormData();
   formData.append("cantidad", 1);
@@ -103,7 +102,7 @@ function enviar_cliente(id, sku, pvp, id_inventario) {
 
   $.ajax({
     type: "POST",
-    url: "" + SERVERURL + "marketplace/agregarTmp",
+    url: SERVERURL + "marketplace/agregarTmp",
     data: formData,
     processData: false,
     contentType: false,
@@ -125,21 +124,6 @@ function enviar_cliente(id, sku, pvp, id_inventario) {
       alert("Hubo un problema al agregar el producto temporalmente");
     },
   });
-}
-
-function formatPhoneNumber(number) {
-  // Eliminar caracteres no numéricos excepto el signo +
-  number = number.replace(/[^\d+]/g, "");
-  if (/^\+593/.test(number)) {
-    return number;
-  } else if (/^593/.test(number)) {
-    return "+" + number;
-  } else {
-    if (number.startsWith("0")) {
-      number = number.substring(1);
-    }
-    return "+593" + number;
-  }
 }
 
 function abrirModal_infoTienda(tienda) {
@@ -189,7 +173,11 @@ function obtenerURLImagen(imagePath, serverURL) {
   }
 }
 
+/************************************************
+ * MAIN DOMContentLoaded
+ ************************************************/
 document.addEventListener("DOMContentLoaded", function () {
+  // Inicializamos el formData para filtros
   formData_filtro = new FormData();
   formData_filtro.append("nombre", "");
   formData_filtro.append("linea", "");
@@ -198,56 +186,25 @@ document.addEventListener("DOMContentLoaded", function () {
   formData_filtro.append("max", "");
   formData_filtro.append("favorito", "0");
   formData_filtro.append("vendido", "0");
-  formData_filtro.append("id", "")
-
-  const initialProductsPerPage = 24;
-  const additionalProductsPerPage = 24;
-  let currentPage = 1;
-  let products = [];
-  let displayedProducts = new Set();
+  formData_filtro.append("id", "");
 
   const cardContainer = document.getElementById("card-container");
   const loadingIndicator = document.getElementById("loading-indicator");
   const loadMoreButton = document.getElementById("load-more");
   const sliderProveedores = document.getElementById("sliderProveedores");
-  const leftArrow = document.getElementById("sliderProveedoresLeft");
   const rightArrow = document.getElementById("sliderProveedoresRight");
 
-  let isLoading = false;
-  let currentFetchController = null;
-  let currentDisplayController = null;
-
-  //Revisamos si llego algun parametro en la URL (plataforma=xxx)
+  // Revisamos si llegó algún parámetro en la URL (plataforma=xxx)
   const urlParams = new URLSearchParams(window.location.search);
-  const plataformaParam = urlParams.get("plataforma")
-
-  if (plataformaParam){
-    //Seteamos el filtr de plataforma con ese valor
+  const plataformaParam = urlParams.get("plataforma");
+  if (plataformaParam) {
     formData_filtro.set("plataforma", plataformaParam);
   }
 
-  //Ocupar solo si se solicita flecha izquierda
-  // Al hacer click en flecha izquierda, desplazamos a la izquierda 200px
-  // leftArrow.addEventListener("click", () => {
-  //   sliderProveedores.scrollBy({
-  //     left: -200,
-  //     behavior: "smooth"
-  //   });
-  // });
-
-  // Al hacer click en flecha derecha, desplazamos a la derecha 200px
-  rightArrow.addEventListener("click", () => {
-    sliderProveedores.scrollBy({
-      left: 200,
-      behavior: "smooth",
-    });
-  });
-  /************************************************
-   * Función para vaciar pedidos temporales al cargar
-   ************************************************/
+  // Vaciar tmp pedidos al arrancar
   const vaciarTmpPedidos = async () => {
     try {
-      const response = await fetch("" + SERVERURL + "marketplace/vaciarTmp");
+      const response = await fetch(SERVERURL + "marketplace/vaciarTmp");
       if (!response.ok) {
         throw new Error("Error al vaciar los pedidos temporales");
       }
@@ -258,98 +215,64 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
+  // Flecha derecha para scrollear proveedores
+  rightArrow.addEventListener("click", () => {
+    sliderProveedores.scrollBy({ left: 200, behavior: "smooth" });
+  });
+
   /************************************************
-   * Filtrar, limpiar y recargar productos
+   * FUNCIÓN PRINCIPAL DE PAGINACIÓN
    ************************************************/
-  async function clearAndFetchProducts() {
-    // Cancel any ongoing fetch
-    if (currentFetchController) {
-      currentFetchController.abort();
-    }
+  async function fetchProducts(reset = false) {
+    // Si hay un fetch pendiente, lo cancelamos (opcional, si usas AbortController)
+    // Ejemplo: currentFetchController?.abort();
 
-    // Cancel any ongoing display task
-    if (currentDisplayController) {
-      currentDisplayController.abort();
-    }
-
-    // Clear previous products
-    clearProductList();
-
-    //Ocultar el botón y mensaje al filtrar
-    loadMoreButton.style.display = "none";
-    document.getElementById("no-more-products").style.display = "none";
-
-    // Fetch new products after a brief delay to ensure clearing is done
-    setTimeout(() => fetchProducts(true), 100);
-  }
-
-  function clearProductList() {
-    cardContainer.innerHTML = "";
-    displayedProducts.clear();
-    products = [];
-    currentPage = 1;
-  }
-
-  async function fetchProducts(reset = true) {
-    if (currentFetchController) {
-      currentFetchController.abort();
-    }
-  
-    currentFetchController = new AbortController();
-    const { signal } = currentFetchController;
-  
     if (reset) {
+      // Reiniciamos estados
       isLoading = true;
       loadingIndicator.style.display = "block";
-      clearProductList();
-      lastLoadedProductId = null; // Reiniciar el control de productos cargados
-      loadMoreButton.style.display = "none"; // Ocultar "Cargar Más" temporalmente
-      document.getElementById("no-more-products").style.display = "none"; // Ocultar mensaje
+      cardContainer.innerHTML = "";
+      products = [];
+      currentPage = 1;
+      loadMoreButton.style.display = "none";
+      document.getElementById("no-more-products").style.display = "none";
     }
-  
+
+    // Establecemos en el formData la página y el límite
+    formData_filtro.set("page", currentPage);
+    formData_filtro.set("limit", pageSize);
+
     try {
-      const response = await fetch(`${SERVERURL}marketplace/obtener_productos`, {
+      const response = await fetch(SERVERURL + currentAPI, {
         method: "POST",
         body: formData_filtro,
-        signal,
       });
-  
       const newProducts = await response.json();
-  
-      // Si la API devuelve una respuesta vacía, oculta el botón y muestra el mensaje
-      if (newProducts.length === 0) {
-        loadMoreButton.style.display = "none"; 
+
+      // Si la API devuelve un array vacío, significa que no hay más
+      if (!Array.isArray(newProducts) || newProducts.length === 0) {
+        loadMoreButton.style.display = "none";
         document.getElementById("no-more-products").style.display = "block";
         return;
       }
-  
-      // Actualizar el último ID cargado para evitar duplicados
-      lastLoadedProductId = newProducts[newProducts.length - 1].id_producto;
-  
-      if (reset) {
-        products = newProducts;
-        currentPage = 1;
-      } else {
-        products = [...products, ...newProducts];
-      }
-  
-      displayProducts(products, currentPage, reset ? initialProductsPerPage : additionalProductsPerPage);
-  
-      // Oculta el botón si ya no hay más productos
-      if (newProducts.length < additionalProductsPerPage) {
+
+      // Agregamos al arreglo global
+      products = [...products, ...newProducts];
+
+      // Mostramos en pantalla (por cada producto, busca sus detalles)
+      displayProducts(newProducts);
+
+      // Si hay menos de pageSize productos, ya no hay más
+      if (newProducts.length < pageSize) {
         loadMoreButton.style.display = "none";
         document.getElementById("no-more-products").style.display = "block";
       } else {
-        loadMoreButton.style.display = "block"; // Mostrar botón solo si hay más productos
+        // Caso contrario, mostramos botón Cargar más
+        loadMoreButton.style.display = "block";
         document.getElementById("no-more-products").style.display = "none";
       }
-  
     } catch (error) {
-      if (error.name === "AbortError") {
-        console.log("Fetch request canceled");
-      } else {
-        console.error("Error al obtener los productos:", error);
-      }
+      console.error("Error al obtener los productos:", error);
     } finally {
       isLoading = false;
       loadingIndicator.style.display = "none";
@@ -357,64 +280,38 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /************************************************
-   * Mostrar productos en la página
+   * Mostrar en la página (llama a detalles por producto)
    ************************************************/
-  const displayProducts = (products, page, perPage) => {
-    if (currentDisplayController) {
-      currentDisplayController.abort();
+  function displayProducts(productsArray) {
+    for (const product of productsArray) {
+      fetchProductDetails(product.id_producto).then((productDetails) => {
+        if (productDetails && productDetails.length > 0) {
+          createProductCard(product, productDetails[0]);
+        }
+      });
     }
-
-    currentDisplayController = new AbortController();
-    const { signal } = currentDisplayController;
-
-    const start = (page - 1) * perPage;
-    const end = start + perPage;
-    const paginatedProducts = products.slice(start, end);
-
-    paginatedProducts.forEach((product) => {
-      if (displayedProducts.has(product.id_producto)) return;
-      displayedProducts.add(product.id_producto);
-
-      fetchProductDetails(product.id_producto, signal)
-        .then((productDetails) => {
-          if (productDetails) {
-            createProductCard(product, productDetails[0]);
-          }
-        })
-        .catch((error) => {
-          if (error.name === "AbortError") {
-            console.log("Display task canceled");
-          } else {
-            console.error("Error al obtener los detalles del producto:", error);
-          }
-        });
-    });
-  };
-
-  async function fetchProductDetails(productId, signal) {
-    const response = await fetch(
-      SERVERURL + "marketplace/obtener_producto/" + productId,
-      { signal }
-    );
-    return await response.json();
   }
 
-  /**
-   * Crea la tarjeta de producto y la inserta en el contenedor principal.
-   * @param {Object} product - Datos generales del producto (obtenidos al listar).
-   * @param {Object} productDetails - Datos detallados (obtenidos de la API "obtener_producto").
-   */
-  function createProductCard(product, productDetails) {
-    const { pcp, pvp, saldo_stock, url_imporsuit, categoria } = productDetails;
+  async function fetchProductDetails(productId) {
+    const response = await fetch(
+      SERVERURL + "marketplace/obtener_producto/" + productId
+    );
+    if (!response.ok) return null;
+    return response.json();
+  }
 
-    // Determinamos botones para "Enviar cliente" y "Ver ID inventario" según si es variable
-    let boton_enviarCliente = ``;
-    let botonId_inventario = ``;
+  function createProductCard(product, productDetails) {
+    const cardContainer = document.getElementById("card-container");
+    const { pcp, pvp, saldo_stock, url_imporsuit } = productDetails;
+
+    // Según sea variable o no
+    let boton_enviarCliente = "";
+    let botonId_inventario = "";
 
     if (product.producto_variable == 0) {
       boton_enviarCliente = `
         <button class="btn btn-import d-flex align-items-center justify-content-center w-100" 
-                onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">
+          onclick="enviar_cliente(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">
           <i class='bx bx-send me-2'></i> Enviar a cliente
         </button>
       `;
@@ -423,10 +320,11 @@ document.addEventListener("DOMContentLoaded", function () {
           <span class="card-id">ID: ${product.id_inventario}</span>
         </div>
       `;
-    } else if (product.producto_variable == 1) {
+    } else {
+      // Producto variable
       boton_enviarCliente = `
         <button class="btn btn-import d-flex align-items-center justify-content-center w-100" 
-                onclick="abrir_modalSeleccionAtributo(${product.id_producto},'${product.sku}',${product.pvp},${product.id_inventario})">
+          onclick="abrir_modalSeleccionAtributo(${product.id_producto})">
           <i class='bx bx-send me-2'></i> Enviar a cliente
         </button>
       `;
@@ -437,14 +335,14 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
     }
 
-    // Verificamos si es un producto "favorito"
+    // ¿Es favorito?
     const esFavorito = product.Es_Favorito === "1";
 
-    // Creamos el contenedor principal de la tarjeta
+    // Creación del contenedor principal
     const card = document.createElement("div");
-    card.className = "card-custom position-relative card-clickable"; // clase extra para cursor pointer
+    card.className = "card-custom position-relative card-clickable";
 
-    // Obtenemos la URL de la imagen
+    // Imagen principal
     let imagePath = obtenerURLImagen(productDetails.image_path, SERVERURL);
 
     // Verificamos si la imagen realmente existe
@@ -453,23 +351,7 @@ document.addEventListener("DOMContentLoaded", function () {
       imagePath = SERVERURL + "public/img/broken-image.png";
     }
 
-    // Evento click general en la tarjeta (excepto en botones internos)
-    card.addEventListener("click", function (e) {
-      // Si el click fue en alguno de estos botones/elementos, no abrimos el producto
-      if (
-        e.target.closest(".btn-heart") ||
-        e.target.closest(".add-to-store-button") ||
-        e.target.closest(".add-to-funnel-button") ||
-        e.target.closest(".btn-import") ||
-        e.target.closest(".card-id-container")
-      ) {
-        return; 
-      }
-      // Caso contrario, abrimos la vista del producto
-      verProducto(product.id_producto);
-    });
-
-    // Construimos el contenido de la tarjeta
+    // Creamos el contenido
     card.innerHTML = `
       <div class="image-container position-relative">
         ${botonId_inventario}
@@ -520,46 +402,23 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
     `;
 
-    // Finalmente, agregamos la tarjeta al contenedor principal
+    // Click general en la tarjeta (salvo en botones)
+    card.addEventListener("click", (e) => {
+      if (
+        e.target.closest(".btn-heart") ||
+        e.target.closest(".add-to-store-button") ||
+        e.target.closest(".add-to-funnel-button") ||
+        e.target.closest(".btn-import") ||
+        e.target.closest(".card-id-container")
+      ) {
+        return;
+      }
+      verProducto(product.id_producto);
+    });
+
     cardContainer.appendChild(card);
   }
 
-
-  function debounce(func, wait) {
-    let timeout;
-    return function (...args) {
-      const context = this;
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(context, args), wait);
-    };
-  }
-
-  // Evento de click “global” para los botones “añadir a tienda” y “añadir a funnel”
-  cardContainer.addEventListener("click", function (event) {
-    const target = event.target;
-    if (
-      target.classList.contains("add-to-store-button") ||
-      target.closest(".add-to-store-button")
-    ) {
-      const button = target.closest(".add-to-store-button");
-      const productId = button.getAttribute("data-product-id");
-      const isAdded = button.classList.contains("added");
-      toggleAddToStore(productId, isAdded);
-    }
-    if (
-      target.classList.contains("add-to-funnel-button") ||
-      target.closest(".add-to-funnel-button")
-    ) {
-      const button = target.closest(".add-to-funnel-button");
-      const funnelId = button.getAttribute("data-funnel-id");
-      window.location.href =
-        "" + SERVERURL + "funnelish/constructor_vista/" + funnelId;
-    }
-  });
-
-  /************************************************
-   * Revisar si la imagen existe
-   ************************************************/
   async function verificarImagen(url) {
     try {
       const response = await fetch(url);
@@ -634,29 +493,40 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-
-  //Botón que muesta/oculta el input de búsqueda
+  /************************************************
+   * Botón para mostrar/ocultar input de búsqueda proveedor
+   ************************************************/
   document.getElementById("toggleSearch").addEventListener("click", function () {
     const input = document.getElementById("buscar_proveedor");
     if (input.style.display === "none") {
       input.style.display = "block";
-      input.focus(); // opcional, para enfocar el input al mostrarlo
+      input.focus();
     } else {
       input.style.display = "none";
     }
   });
-  
+
   /************************************************
-   * Filtro de precio con noUiSlider
+   * PREPARAMOS SLIDER DE PRECIO (noUiSlider)
    ************************************************/
   var slider = document.getElementById("price-range-slider");
   var priceMin = document.getElementById("price-min");
   var priceMax = document.getElementById("price-max");
 
-  // 1) Primero vaciamos pedidos
+  // Función para aplicar un "debounce"
+  function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+  }
+
+  // Al iniciar, vaciamos tmp
   vaciarTmpPedidos().then(() => {
-    // 2) Obtenemos el precio máximo para el slider
-    fetch(`${SERVERURL}marketplace/obtenerMaximo`)
+    // Obtenemos el precio máximo para el slider
+    fetch(SERVERURL + "marketplace/obtenerMaximo")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -666,7 +536,6 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         let data_precioMaximo = parseFloat(data);
         if (isNaN(data_precioMaximo)) {
-          // En caso de que la API devuelva algo inesperado
           data_precioMaximo = 999999;
         }
 
@@ -685,11 +554,10 @@ document.addEventListener("DOMContentLoaded", function () {
           }),
         });
 
-        // Ajustamos formData_filtro para mostrar todo inicialmente
-        formData_filtro.set("min", 0); // <-- CAMBIO: usar 0
-        formData_filtro.set("max", data_precioMaximo); // <-- CAMBIO: usar precioMáximo
+        // Ajustamos en el formData_filtro para que inicialmente sea [0, máx]
+        formData_filtro.set("min", 0);
+        formData_filtro.set("max", data_precioMaximo);
 
-        // Cada vez que el usuario mueva los sliders
         slider.noUiSlider.on("update", function (values, handle) {
           if (handle === 0) {
             priceMin.value = values[0];
@@ -703,15 +571,17 @@ document.addEventListener("DOMContentLoaded", function () {
           var max = values[1].replace("$", "").replace(",", "");
           formData_filtro.set("min", min);
           formData_filtro.set("max", max);
-          clearAndFetchProducts();
+
+          // Reiniciar y pedir la página 1
+          fetchProducts(true);
         });
 
-        // 3) Una vez configurado el slider y formData_filtro, llamamos fetchProducts para mostrar todo
-        fetchProducts(true); //Se muestra todo al iniciar
+        // Finalmente, cargamos la primera página
+        fetchProducts(true); // reset = true
       })
       .catch((error) => {
         console.error("Error fetching max price:", error);
-        // Si ocurre un error, ponemos un rango por defecto y fetch
+        // Si ocurre error, definimos un rango default
         noUiSlider.create(slider, {
           start: [0, 1000],
           connect: true,
@@ -733,159 +603,168 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   /************************************************
-   * Filtro por nombre, categoría, proveedor, etc.
+   * FILTROS DE TEXTO, SELECT, CHECKBOX, ETC.
    ************************************************/
-  const handleSelectChange = debounce(function () {
-    clearAndFetchProducts();
-  }, 300);
-
   $("#buscar_nombre").on(
     "input",
     debounce(function () {
-      var q = $("#buscar_nombre").val().trim();
-  
+      let q = $("#buscar_nombre").val().trim();
       if (/^\d+$/.test(q)) {
-        // CAMBIO: Si el valor es numérico, se asume búsqueda por id.
+        // Si es numérico => buscar por ID inventario
         formData_filtro.set("id", q);
-        // Se limpia el filtro por nombre para que no interfiera
         formData_filtro.set("nombre", "");
       } else {
-        // CAMBIO: Si el valor es texto, se busca por nombre y se elimina el filtro id.
-        formData_filtro.set("nombre", q);
+        // Si es texto => buscar por nombre
         formData_filtro.delete("id");
+        formData_filtro.set("nombre", q);
       }
-  
-      clearAndFetchProducts();
+      fetchProducts(true);
     }, 300)
   );
 
-  // Filtro por categoría (si usas select)
-  $("#categoria_filtroMarketplace").change(function () {
-    var categoria = $("#categoria_filtroMarketplace").val();
-    formData_filtro.set("linea", categoria);
-    handleSelectChange();
-  });
+  // Filtro por categoría
+  $("#categoria_filtroMarketplace").change(
+    debounce(function () {
+      let categoria = $("#categoria_filtroMarketplace").val();
+      formData_filtro.set("linea", categoria);
+      fetchProducts(true);
+    }, 300)
+  );
 
-  // Filtro por proveedor (si usas select)
-  $("#proveedor_filtroMarketplace").change(function () {
-    var proveedor = $("#proveedor_filtroMarketplace").val();
-    formData_filtro.set("plataforma", proveedor);
-    handleSelectChange();
-  });
+  // Filtro por proveedor (select)
+  $("#proveedor_filtroMarketplace").change(
+    debounce(function () {
+      let proveedor = $("#proveedor_filtroMarketplace").val();
+      formData_filtro.set("plataforma", proveedor);
+      fetchProducts(true);
+    }, 300)
+  );
 
   // Switch de favoritos
   $("#favoritosSwitch").change(function () {
-    var estado = $(this).is(":checked") ? 1 : 0;
+    let estado = $(this).is(":checked") ? 1 : 0;
     formData_filtro.set("favorito", estado);
-    clearAndFetchProducts();
+    fetchProducts(true);
   });
 
-  //Switch de VENDIDOS
-  $("#vendidosSwitch").change(function(){
-    const estado = $(this).is(":checked") ? 1:0;
-    //Actualizamos la varitable en el formData
+  // Switch de vendidos
+  $("#vendidosSwitch").change(function () {
+    let estado = $(this).is(":checked") ? 1 : 0;
     formData_filtro.set("vendido", estado);
-    //Limpiamos y recargar los productos
-    clearAndFetchProducts();
+    fetchProducts(true);
   });
 
-  // Botón “Cargar más”
+  // Switch de privados
+  $("#privadosSwitch").change(function () {
+    let estado = $(this).is(":checked") ? 1 : 0;
+
+    currentAPI = estado === 1 ? "marketplace/obtener_productos_privados" : "marketplace/obtener_productos_paginados";
+
+    fetchProducts(true);
+});
+
+  /************************************************
+   * BOTÓN "CARGAR MÁS"
+   ************************************************/
   loadMoreButton.addEventListener("click", () => {
     if (!isLoading) {
       isLoading = true;
       loadingIndicator.style.display = "block";
       currentPage++;
-  
-      fetchProducts(false).then(() => {
-        //Si la API ya no devuelve productos, ocultar el botón
-        if (products.length % additionalProductsPerPage !== 0) {
-          loadMoreButton.style.display = "none";
-          document.getElementById("no-more-products").style.display = "block";
-        }
-      });
+      fetchProducts(false);
+    }
+  });
+
+  /************************************************
+   * Eventos de click global (para Añadir a Tienda / Funnel)
+   ************************************************/
+  document.getElementById("card-container").addEventListener("click", (event) => {
+    const target = event.target;
+    if (
+      target.classList.contains("add-to-store-button") ||
+      target.closest(".add-to-store-button")
+    ) {
+      const button = target.closest(".add-to-store-button");
+      const productId = button.getAttribute("data-product-id");
+      const isAdded = button.classList.contains("added");
+      toggleAddToStore(productId, isAdded);
+    }
+    if (
+      target.classList.contains("add-to-funnel-button") ||
+      target.closest(".add-to-funnel-button")
+    ) {
+      const button = target.closest(".add-to-funnel-button");
+      const funnelId = button.getAttribute("data-funnel-id");
+      // Redirección a tu funnel
+      window.location.href = SERVERURL + "funnelish/constructor_vista/" + funnelId;
     }
   });
 
   /*****************************************************
-   * Cargar chips de categorías y proveedores (chips)
-   * (Toggling: si clicas el chip ya seleccionado, lo quita)
+   * Cargar chips de categorías y proveedores (dinámicos)
    *****************************************************/
-  //cargar select categoria
-  $(document).ready(
-    function () {
-      // Realiza la solicitud AJAX para obtener la lista de categorias
-      $.ajax({
-        url: SERVERURL + "productos/cargar_categorias",
-        type: "GET",
-        dataType: "json",
-        success: function (response) {
-          // Asegúrate de que la respuesta es un array
-          if (Array.isArray(response)) {
-            response.forEach(function (categoria) {
-              // Agrega una nueva opción al select por cada categoria
-              $("#categoria_filtroMarketplace").append(
-                new Option(categoria.nombre_linea, categoria.id_linea)
-              );
-            });
-          } else {
-            console.log("La respuesta de la API no es un array:", response);
-          }
-        },
-        error: function (error) {
-          console.error("Error al obtener la lista de categorias:", error);
-        },
-      });
+  // Cargar categorías en el <select> "categoria_filtroMarketplace"
+  $.ajax({
+    url: SERVERURL + "productos/cargar_categorias",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      if (Array.isArray(response)) {
+        response.forEach(function (categoria) {
+          $("#categoria_filtroMarketplace").append(
+            new Option(categoria.nombre_linea, categoria.id_linea)
+          );
+        });
+      } else {
+        console.log("La respuesta de la API no es un array:", response);
+      }
     },
+    error: function (error) {
+      console.error("Error al obtener la lista de categorias:", error);
+    },
+  });
 
-    // Cargar proveedores
-    $.ajax(
-      {
-        url: SERVERURL + "marketplace/obtenerProveedoresConProductosCategorias",
-        type: "GET",
-        dataType: "json",
-        success: function (response) {
-          if (Array.isArray(response)) {
-            const sliderProveedores =
-              document.getElementById("sliderProveedores");
-            sliderProveedores.innerHTML = ""; // Limpia antes de insertar
+  // Cargar chips de proveedores
+  $.ajax({
+    url: SERVERURL + "marketplace/obtenerProveedoresConProductosCategorias",
+    type: "GET",
+    dataType: "json",
+    success: function (response) {
+      if (Array.isArray(response)) {
+        const sliderProveedores = document.getElementById("sliderProveedores");
+        sliderProveedores.innerHTML = ""; // Limpia antes de insertar
 
-            response.forEach((proveedor) => {
-              const chipProv = document.createElement("div");
-              chipProv.classList.add("slider-chip");
-              chipProv.dataset.provId = proveedor.id_plataforma;
+        response.forEach((proveedor) => {
+          const chipProv = document.createElement("div");
+          chipProv.classList.add("slider-chip");
+          chipProv.dataset.provId = proveedor.id_plataforma;
 
-              //Construimos la ruta si existe, caso contrario usamos ícono por defecto
-              const imageSrc = proveedor.image
-              ? SERVERURL + proveedor.image
-              : SERVERURL + "public/img/icons/proveedor.png"
+          const imageSrc = proveedor.image
+            ? SERVERURL + proveedor.image
+            : SERVERURL + "public/img/icons/proveedor.png";
 
-              // Truncar el nombre de la tienda si es muy largo
-              let nombreTienda = proveedor.nombre_tienda
-                ? proveedor.nombre_tienda.toUpperCase()
-                : "SIN NOMBRE";
-              if (nombreTienda.length > 20) {
-                nombreTienda = nombreTienda.substring(0, 17) + "...";
-              }
+          // Truncar el nombre si es muy largo
+          let nombreTienda = proveedor.nombre_tienda
+            ? proveedor.nombre_tienda.toUpperCase()
+            : "SIN NOMBRE";
+          if (nombreTienda.length > 20) {
+            nombreTienda = nombreTienda.substring(0, 17) + "...";
+          }
 
-              // Convertir string de categorías a un array limpio
-              const categoriasArray = proveedor.categorias
-                ? proveedor.categorias.split(",").map((cat) => cat.trim()) // Separar por comas y quitar espacios
-                : [];
+          // Convertir string de categorías a un array
+          const categoriasArray = proveedor.categorias
+            ? proveedor.categorias.split(",").map((cat) => cat.trim())
+            : [];
+          let categoriasMostradas = categoriasArray.length
+            ? categoriasArray.slice(0, 3).join(", ")
+            : "Sin categorías";
+          if (categoriasMostradas.length > 30) {
+            categoriasMostradas = categoriasMostradas.substring(0, 27) + "...";
+          }
 
-              // Mostrar solo las primeras 3 categorías
-              let categoriasMostradas =
-                categoriasArray.length > 0
-                  ? categoriasArray.slice(0, 3).join(", ") // Tomar solo 3 y unir con comas
-                  : "Sin categorías";
-
-              if (categoriasMostradas.length > 30) {
-                categoriasMostradas =
-                  categoriasMostradas.substring(0, 27) + "...";
-              }
-
-              chipProv.innerHTML = `
+          chipProv.innerHTML = `
             <div class="chip-content">
-              <img src="${imageSrc}" class="icon-chip"  alt="Logo"> 
+              <img src="${imageSrc}" class="icon-chip" alt="Logo"> 
               <div class="chip-text">
                 <span class="chip-title">${nombreTienda}</span>
                 <span class="chip-count">${proveedor.cantidad_productos} productos</span>
@@ -893,90 +772,67 @@ document.addEventListener("DOMContentLoaded", function () {
               </div>
             </div>
           `;
-              // Toggle logic
-              chipProv.addEventListener("click", function (e) {
-                const clickedProvChip = e.currentTarget;
-              
-                // Verifica si ya está seleccionado
-                const isSelected = clickedProvChip.classList.contains("selected");
-              
-                // Primero, deseleccionamos todos los chips
-                document.querySelectorAll("#sliderProveedores .slider-chip")
-                  .forEach((el) => el.classList.remove("selected"));
-              
-                if (isSelected) {
-                  // Si el chip estaba seleccionado, lo deseleccionamos (no seleccionamos nada)
-                  clickedProvChip.classList.remove("selected");
-                  // Quitamos el filtro del formData
-                  formData_filtro.set("plataforma", "");
-                } else {
-                  // Si el chip NO estaba seleccionado, lo seleccionamos y aplicamos el filtro
-                  clickedProvChip.classList.add("selected");
-                  formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
-                }
-              
-                // Llamamos la función para limpiar y recargar los productos con el nuevo filtro
-                clearAndFetchProducts();
-              });
-                         
 
-              sliderProveedores.appendChild(chipProv);
-            });
-          } else {
-            console.log("La respuesta de la API no es un array:", response);
-          }
-        },
-        error: function (error) {
-          console.error("Error al obtener la lista de proveedores:", error);
-        },
-      },
-      $(document).ready(function () {
-        $("#buscar_proveedor").on("input", function () {
-          let searchValue = $(this).val().toLowerCase().trim();
-          let found = false;
-          let providerToScroll = null;
+          // Toggle logic para seleccionar/deseleccionar
+          chipProv.addEventListener("click", function (e) {
+            const clickedProvChip = e.currentTarget;
+            const isSelected = clickedProvChip.classList.contains("selected");
 
-          $("#sliderProveedores .slider-chip").each(function () {
-            let providerName = $(this).find(".chip-title").text().toLowerCase();
+            // Deseleccionar todos los chips
+            document
+              .querySelectorAll("#sliderProveedores .slider-chip")
+              .forEach((el) => el.classList.remove("selected"));
 
-            if (providerName.includes(searchValue)) {
-
-              // Guardamos el proveedor para hacer scroll después
-              providerToScroll = $(this);
-              found = true;
-              return false; // Salir del bucle al encontrar la coincidencia
+            if (isSelected) {
+              // Lo deseleccionamos y quitamos el filtro
+              clickedProvChip.classList.remove("selected");
+              formData_filtro.set("plataforma", "");
+            } else {
+              // Lo seleccionamos y ponemos el filtro
+              clickedProvChip.classList.add("selected");
+              formData_filtro.set("plataforma", clickedProvChip.dataset.provId);
             }
+            // Reiniciamos la paginación
+            fetchProducts(true);
           });
 
-          //Si el input esa vacío quitar TODA seleccion
-          if (searchValue === "") {
-            $("#sliderProveedores .slider-chip").removeClass("selected");
-          }
-
-          // Hacer scroll al proveedor encontrado
-          if (providerToScroll) {
-            let container = $("#sliderProveedores");
-
-            // Offset absoluto (en relación al documento)
-            let containerOffsetLeft = container.offset().left;
-            let itemOffsetLeft      = providerToScroll.offset().left;
-            
-            // scrollLeft actual del contenedor
-            let currentScrollLeft = container.scrollLeft();
-            
-            // Calculamos el scroll que necesitamos para que el chip sea visible
-            // Básicamente: la posición del chip - la posición del contenedor + lo que ya estaba scrolleado.
-            let scrollValue = currentScrollLeft + (itemOffsetLeft - containerOffsetLeft);
-            
-            // Opcionalmente, ajustamos un poco para no dejarlo “pegado” al borde
-            let ajuste = 30; // Cambia 30 si lo quieres más o menos separado
-            scrollValue = scrollValue - ajuste;
-            
-            // Hacemos la animación
-            container.animate({ scrollLeft: scrollValue }, 400);
-          }
+          sliderProveedores.appendChild(chipProv);
         });
-      })
-    )
-  );
+      } else {
+        console.log("La respuesta de la API no es un array:", response);
+      }
+    },
+    error: function (error) {
+      console.error("Error al obtener la lista de proveedores:", error);
+    },
+  });
+
+  // Búsqueda de proveedores en el slider
+  $("#buscar_proveedor").on("input", function () {
+    let searchValue = $(this).val().toLowerCase().trim();
+    let providerToScroll = null;
+
+    $("#sliderProveedores .slider-chip").each(function () {
+      let providerName = $(this).find(".chip-title").text().toLowerCase();
+      if (providerName.includes(searchValue)) {
+        providerToScroll = $(this);
+        return false; // salir del bucle al encontrar la coincidencia
+      }
+    });
+
+    // Si el input está vacío, quitamos toda selección
+    if (searchValue === "") {
+      $("#sliderProveedores .slider-chip").removeClass("selected");
+    }
+
+    // Hacer scroll al proveedor encontrado
+    if (providerToScroll) {
+      let container = $("#sliderProveedores");
+      let containerOffsetLeft = container.offset().left;
+      let itemOffsetLeft = providerToScroll.offset().left;
+      let currentScrollLeft = container.scrollLeft();
+      let scrollValue = currentScrollLeft + (itemOffsetLeft - containerOffsetLeft) - 30;
+      container.animate({ scrollLeft: scrollValue }, 400);
+    }
+  });
 });

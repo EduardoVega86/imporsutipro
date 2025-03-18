@@ -57,7 +57,10 @@
                     <p class="status disconnected">Desconectado</p>
                 </div> -->
 
-                <button class="btn btn-primary" onclick="redireccionar_shopify()">Conectar</button>
+                <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'shopify/constructor'">Conectar</button>
+                <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'shopify/constructor_vista'">Productos conectados</button>
+                <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'shopify/constructor_abandonados'">Conectar abandonados</button>
+                <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'Pedidos/historial_abandonados'">Historial abandonados</button>
             </div>
         </div>
     </div>
@@ -76,7 +79,8 @@
                     <p class="status disconnected">Desconectado</p>
                 </div> -->
 
-                <button class="btn btn-primary" onclick="redireccionar_funnelish()">Conectar</button>
+                <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'Productos/marketplace'">Markerplace</button>
+                <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'funnelish/constructor_vista'">Productos conectados</button>
             </div>
         </div>
 
