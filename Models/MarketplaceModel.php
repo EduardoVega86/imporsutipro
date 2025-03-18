@@ -286,7 +286,7 @@ class MarketplaceModel extends Query
                     FROM plataforma_matriz
                     WHERE id_matriz = $id_matriz
                   )
-                ORDER BY RAND()
+                ORDER BY p.id_producto DESC
                 LIMIT $offset, $limit";
 
         return $this->select($sql);
