@@ -36,6 +36,16 @@
                             <h3 class="font-weight-bold" id="total_guias">0</h3>
                         </div>
                     </div>
+                    <!-- Card: Total Recaudo -->
+                    <div class="col-md-4">
+                        <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #17a2b8;">
+                            <h5 class="text-info">
+                                <i class="bx bx-wallet"></i> Total Utilidad
+                                <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Monto total recaudado"></i>
+                            </h5>
+                            <h3 class="font-weight-bold" id="total_recaudo"></h3>
+                        </div>
+                    </div>
                     <!-- Card: Pedidos Entregados -->
                     <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
@@ -94,14 +104,14 @@
                 <img src="<?php echo BANNER_INICIO; ?>" alt="Slider">
             </div>
         </div>
-        <div class="tablas_estaditicas">
+        <!-- <div class="tablas_estaditicas">
             <div class="content-container">
                 <div class="content-box">
                     <h3 class="fs-5 fw-bold">Ventas del último Mes</h3>
                     <canvas id="salesChart"></canvas>
-                </div>
-                <!-- tabla ultimos pedidos -->
-                <div class="content-box">
+                </div> -->
+        <!-- tabla ultimos pedidos -->
+        <!-- <div class="content-box">
                     <h3 class="fs-5 fw-bold">Últimos pedidos</h3>
                     <div class="table-responsive">
                         <table class="table">
@@ -112,22 +122,22 @@
                                     <th>Monto</th>
                                 </tr>
                             </thead>
-                            <tbody id="facturas-body">
-                                <!-- Aquí se cargarán los datos dinámicamente -->
-                            </tbody>
+                            <tbody id="facturas-body"> -->
+        <!-- Aquí se cargarán los datos dinámicamente -->
+        <!-- </tbody>
                         </table>
-                    </div>
-                    <!-- <button class="btn btn-primary">Ver todas las Ventas</button> -->
-                </div>
-                <!-- fin de tabla ultimos pedidos -->
-                <div class="content-box" id="pie-chart-container" style="text-align: -webkit-center;">
+                    </div> -->
+        <!-- <button class="btn btn-primary">Ver todas las Ventas</button> -->
+        <!-- </div> -->
+        <!-- fin de tabla ultimos pedidos -->
+        <!-- <div class="content-box" id="pie-chart-container" style="text-align: -webkit-center;">
                     <h3 class="fs-5 fw-bold">Distribución de estados en guías de envío</h3>
                     <canvas id="distributionChart" width="400" height="200"></canvas>
-                </div>
-            </div>
-        </div>
+                </div> -->
+        <!-- </div>
+        </div> -->
 
-        <div class="tablas_estaditicas">
+        <!-- <div class="tablas_estaditicas">
             <div class="content-container">
                 <div class="d-flex flex-column seccion_dashboard1">
                     <div class="d-flex flex-row">
@@ -146,13 +156,13 @@
                             <p>Flete Promedio</p>
                         </div>
                     </div>
-                    <!-- Sección de Productos por cantidad -->
+                    Sección de Productos por cantidad
                     <div class="content-box1 productos" style="height: 100%;">
                         <h4>Productos por cantidad</h4>
                         <div id="products-container"></div>
-                    </div>
-                    <!-- Fin Sección de Productos por cantidad -->
-                </div>
+                    </div> -->
+        <!-- Fin Sección de Productos por cantidad -->
+        <!-- </div>
 
                 <div class="d-flex flex-column seccion_dashboard1">
                     <div class="d-flex flex-row">
@@ -170,46 +180,46 @@
                             <h3> <span id="tiempo_promedio_entrega">30 Horas</span></h3>
                             <p>Tiempo Promedio Entrega</p>
                         </div>
-                    </div>
-                    <!-- Sección de Ciudades con más despachos -->
-                    <div class="content-box1 ciudades" style="height: 100%;">
+                    </div> -->
+        <!-- Sección de Ciudades con más despachos -->
+        <!-- <div class="content-box1 ciudades" style="height: 100%;">
                         <h4>Ciudades con más despachos</h4>
                         <div id="ciudades-container"></div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="tablas_estaditicas">
-            <div class="content-container">
-                <!-- Sección de productos_entrega por cantidad -->
-                <div class="content-box1 productos_entrega seccion_dashboard1">
+        </div> -->
+        <!-- <div class="tablas_estaditicas">
+            <div class="content-container"> -->
+        <!-- Sección de productos_entrega por cantidad -->
+        <!-- <div class="content-box1 productos_entrega seccion_dashboard1">
                     <h4>Productos entregados por cantidad</h4>
                     <div id="productsEntregados-container"></div>
-                </div>
-                <!-- Fin Sección de productos_entrega por cantidad -->
-                <!-- Sección de Ciudades_entrega con más despachos -->
-                <div class="content-box1 ciudades_entrega seccion_dashboard1">
+                </div> -->
+        <!-- Fin Sección de productos_entrega por cantidad -->
+        <!-- Sección de Ciudades_entrega con más despachos -->
+        <!-- <div class="content-box1 ciudades_entrega seccion_dashboard1">
                     <h4>Ciudades con mayores entregadas</h4>
                     <div id="ciudadesEntregadas-container"></div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <div class="tablas_estaditicas">
-            <div class="content-container">
-                <!-- Sección de productos_devolucion por cantidad -->
-                <div class="content-box1 productos_devolucion seccion_dashboard1">
+        <!-- <div class="tablas_estaditicas">
+            <div class="content-container"> -->
+        <!-- Sección de productos_devolucion por cantidad -->
+        <!-- <div class="content-box1 productos_devolucion seccion_dashboard1">
                     <h4>Productos devueltos por cantidad</h4>
                     <div id="productsDevolucion-container"></div>
-                </div>
+                </div> -->
 
-                <!-- Sección de Ciudades_devolucion con más despachos -->
-                <div class="content-box1 ciudades_devolucion seccion_dashboard1">
+        <!-- Sección de Ciudades_devolucion con más despachos -->
+        <!-- <div class="content-box1 ciudades_devolucion seccion_dashboard1">
                     <h4>Ciudades con mayores devoluciones</h4>
                     <div id="ciudadesDevolucion-container"></div>
                 </div>
             </div>
-        </div>
+        </div> -->
     <?php } ?>
 
 </div>
