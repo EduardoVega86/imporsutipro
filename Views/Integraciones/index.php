@@ -44,20 +44,25 @@
         </div>
 
         <!-- Shopify -->
-        <div class="col-md-4">
-            <div class="card-custom p-4 text-center shadow-lg rounded">
-                <img src="<?php echo SERVERURL; ?>public/img/logo_shopify.png" alt="Shopify Logo" class="img-fluid mb-3" style="max-width: 100px;">
-                <h5 class="card-title">Shopify</h5>
-                <p class="card-text">Realiza la conexión de tu cuenta de Shopify con nuestro sistema Imporsuit.</p>
+        <div class="col-md-4 d-flex justify-content-center">
+            <div class="card shadow-lg p-4 text-center" style="max-width: 320px; border-radius: 12px;">
+                <img src="<?php echo SERVERURL; ?>public/img/logo_shopify.png"
+                    alt="Shopify Logo"
+                    class="img-fluid mb-3"
+                    style="max-width: 70px;">
+
+                <h5 class="card-title fw-bold">Shopify</h5>
+                <p class="card-text" style="font-size: 14px; color: #666;">Realiza la conexión de tu cuenta de Shopify con nuestro sistema Imporsuit.</p>
 
                 <div class="d-grid gap-2">
-                    <button class="btn btn-primary" onclick="window.location.href='<?php echo SERVERURL; ?>shopify/constructor'">Conectar</button>
-                    <button class="btn btn-secondary" onclick="window.location.href='<?php echo SERVERURL; ?>shopify/constructor_vista'">Productos conectados</button>
-                    <button class="btn btn-warning text-white" onclick="window.location.href='<?php echo SERVERURL; ?>shopify/constructor_abandonados'">Conectar abandonados</button>
-                    <button class="btn btn-danger" onclick="window.location.href='<?php echo SERVERURL; ?>Pedidos/historial_abandonados'">Historial abandonados</button>
+                    <button class="btn btn-primary btn-sm" onclick="window.location.href='<?php echo SERVERURL; ?>shopify/constructor'">Conectar</button>
+                    <button class="btn btn-secondary btn-sm" onclick="window.location.href='<?php echo SERVERURL; ?>shopify/constructor_vista'">Productos conectados</button>
+                    <button class="btn btn-warning btn-sm text-white" onclick="window.location.href='<?php echo SERVERURL; ?>shopify/constructor_abandonados'">Conectar abandonados</button>
+                    <button class="btn btn-danger btn-sm" onclick="window.location.href='<?php echo SERVERURL; ?>Pedidos/historial_abandonados'">Historial abandonados</button>
                 </div>
             </div>
         </div>
+
     </div>
     <div class="row justify-content-center">
         <!-- Funnelish -->
