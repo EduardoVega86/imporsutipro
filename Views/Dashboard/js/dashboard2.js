@@ -713,7 +713,7 @@ $(function () {
         ]
 
         const chartData = [
-          paseFloat(data.valor_pedidos) || 0,
+          parseFloat(data.valor_pedidos) || 0,
           parseFloat(data.total_guias) || 0,
           parseFloat(data.total_guias_entregadas) || 0,
           parseFloat(data.total_pedidos) || 0
