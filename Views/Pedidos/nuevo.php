@@ -152,8 +152,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     </div>
                     <div class="img-container text-center transportadora" data-company="laar">
                         <img src="<?php echo SERVERURL; ?>/public/img/LAAR.jpg" alt="Laborcourier">
-                        <div class="price-tag" data-price-id="price_laar"><span id="price_laar">Mantenimiento</span></div>
-                        <!-- <div class="price-tag" data-price-id="price_laar">$<span id="price_laar">--</span></div> -->
+                        <div class="price-tag" data-price-id="price_laar">$<span id="price_laar">--</span></div>
                     </div>
                     <div class="img-container text-center transportadora" data-company="speed">
                         <img src="<?php echo TRANSPORTADORA_IMAGEN ?>" alt="Speed">
