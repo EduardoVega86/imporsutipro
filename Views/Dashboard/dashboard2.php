@@ -104,7 +104,7 @@
         <div class="tablas_estaditicas">
             <div class="content-container">
                 <div class="content-box">
-                    <h3 class="fs-5 fw-bold">Ventas del último Mes</h3>
+                    <h3 class="fs-5 fw-bold">Rendimiento</h3>
                     <canvas id="salesChart"></canvas>
                 </div>
                 <!-- div adicional para cerrar lo que usamos -->
