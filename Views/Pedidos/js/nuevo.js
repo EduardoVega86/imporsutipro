@@ -645,7 +645,7 @@ function calcularTarifas() {
 
         $("#price_speed").text(response.speed);
 
-        $("#price_laar").text(response.laar);
+        /* $("#price_laar").text(response.laar); */
 
         resetTransportadoraSelectionSistema();
 
