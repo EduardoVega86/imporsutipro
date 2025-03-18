@@ -230,14 +230,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Incrementamos el requestId global y almacenamos
     const thisFetchId = ++lastFetchId;
 
-    // Abortamos la petición anterior si existe
-    if (currentFetchController) {
-      currentFetchController.abort();
-    }
-    // Creamos un nuevo AbortController
-    currentFetchController = new AbortController();
-    const { signal } = currentFetchController;
-
     if (reset) {
       // Reiniciamos estados
       isLoading = true;
