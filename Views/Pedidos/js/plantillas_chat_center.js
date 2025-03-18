@@ -269,9 +269,7 @@ const cargar_select_templates = async () => {
     }
 
     // Obtener y limpiar el select
-    const selects = [
-      $("#select_templates"),
-    ];
+    const selects = [$("#select_templates")];
 
     // Limpiar y agregar opción "Selecciona un template"
     selects.forEach((select) => {
@@ -296,6 +294,34 @@ const cargar_select_templates = async () => {
         })
         .val("")
         .trigger("change"); // Asegurar que la opción vacía sea la predeterminada
+    });
+
+    // Obtener la plantilla seleccionada y asignarla al select
+    $.ajax({
+      url: SERVERURL + "Usuarios/obtener_plantilla_select",
+      type: "GET",
+      dataType: "json", // Asegura que la respuesta sea un objeto JSON
+      success: function (response) {
+
+        if (
+          !response ||
+          response.length === 0 ||
+          !response[0].template_generar_guia
+        ) {
+          console.warn("No hay plantilla guardada o el formato es incorrecto.");
+          return;
+        }
+
+        // Asignar directamente el valor al select
+        $("#select_templates").val(response[0].template_generar_guia).trigger("change");
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error(
+          "Error al obtener la plantilla:",
+          textStatus,
+          errorThrown
+        );
+      },
     });
   } catch (error) {
     console.error("Error al cargar los templates:", error);

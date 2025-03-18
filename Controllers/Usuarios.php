@@ -827,4 +827,11 @@ class Usuarios extends Controller
         $response = $this->model->obtener_profesionales($id_plataforma);
         echo json_encode($response);
     }
+
+    public function obtener_plantilla_select()
+    {
+        $id_plataforma = $_SESSION['id_plataforma'];
+        $response = $this->model->obtener_plantilla_select($id_plataforma);
+        echo json_encode($response);
+    }
 }
