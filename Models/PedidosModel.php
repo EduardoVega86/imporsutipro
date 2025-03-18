@@ -1884,12 +1884,11 @@ class PedidosModel extends Query
     public function cargar_cards_pedidos($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido)
     {
         /* numero pedidos */
-        // Base de la consulta SQL justo y necesarui
         $sql_numero_pedidos = "SELECT COUNT(*) AS total_pedidos 
-        FROM facturas_cot 
-        WHERE anulada = 0 
-        AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-        AND id_plataforma = '$plataforma'";
+            FROM facturas_cot 
+            WHERE anulada = 0 
+            AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+            AND id_plataforma = '$plataforma'";
 
         // Agregar rango de fechas si se proporciona
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
@@ -1902,17 +1901,16 @@ class PedidosModel extends Query
 
         $sql_numero_pedidos .= " AND no_producto = 0";
 
-        // Ejecutar la consulta y obtener el resultado
         $resultado_numero_pedidos = $this->select($sql_numero_pedidos);
         /* numero pedidos */
 
+
         /* valor pedidos */
         $sql_valor_pedidos = "SELECT SUM(monto_factura) AS valor_pedidos 
-        FROM facturas_cot 
-        WHERE anulada = 0 
-        AND id_plataforma = '$plataforma'";
+            FROM facturas_cot 
+            WHERE anulada = 0 
+            AND id_plataforma = '$plataforma'";
 
-        // Agregar rango de fechas si se proporciona
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql_valor_pedidos .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
@@ -1923,37 +1921,64 @@ class PedidosModel extends Query
 
         $sql_valor_pedidos .= " AND no_producto = 0";
 
-        // Ejecutar la consulta y obtener el resultado
         $resultado_valor_pedidos = $this->select($sql_valor_pedidos);
-
         /* valor pedidos */
 
-        /* numero guias */
-        // Base de la consulta SQL
-        $sql_numero_guias = "SELECT COUNT(*) AS total_guias 
-        FROM facturas_cot 
-        WHERE anulada = 0 
-        AND (TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND numero_guia <> '0')
-        AND id_plataforma = '$plataforma'";
 
-        // Agregar rango de fechas si se proporciona
+        /* numero guias */
+        $sql_numero_guias = "SELECT COUNT(*) AS total_guias 
+            FROM facturas_cot 
+            WHERE anulada = 0 
+            AND (TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND numero_guia <> '0')
+            AND id_plataforma = '$plataforma'";
+
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql_numero_guias .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
-        // Ejecutar la consulta y obtener el resultado
         $resultado_numero_guias = $this->select($sql_numero_guias);
         /* numero guias */
 
 
-        $response['valor_pedidos'] = $resultado_valor_pedidos[0]['valor_pedidos'];
-        $response['total_guias'] = $resultado_numero_guias[0]['total_guias'];
+        /*
+         * total guias ENTREGADAS
+         * (usa la misma lógica de tu controlador obtener_guias() para estado "entregada")
+         */
+        $sql_guias_entregadas = "SELECT COUNT(*) AS total_guias_entregadas
+            FROM facturas_cot
+            WHERE anulada = 0
+            AND (TRIM(numero_guia) <> '' AND numero_guia IS NOT NULL AND numero_guia <> '0')
+            AND id_plataforma = '$plataforma'";
 
-        // Calcular el total combinado
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql_guias_entregadas .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        // Misma condición de “entregada”:
+        //  - transportadora = 2 => estado entre [400..403]
+        //  - transportadora = 1,3,4 => estado=7
+        $sql_guias_entregadas .= " 
+            AND (
+                ((estado_guia_sistema BETWEEN 400 AND 403) AND id_transporte=2)
+                OR (estado_guia_sistema=7 AND id_transporte IN (1,3,4))
+            )
+        ";
+
+        $resultado_guias_entregadas = $this->select($sql_guias_entregadas);
+
+
+        // Armamos la respuesta final sin tocar lo existente
+        $response['valor_pedidos'] = $resultado_valor_pedidos[0]['valor_pedidos'];
+        $response['total_guias']   = $resultado_numero_guias[0]['total_guias'];
+
+        // Aquí asignamos el nuevo campo con las guías entregadas
+        $response['total_guias_entregadas'] = $resultado_guias_entregadas[0]['total_guias_entregadas'];
+
+        // total_pedidos => la suma de pedidos sin guía + total guías
         $total_general = $resultado_numero_pedidos[0]['total_pedidos'] + $response['total_guias'];
         $response['total_pedidos'] = $total_general;
 
-        // Verificar que el total general sea mayor a 0 para evitar divisiones por cero
+        // Porcentaje confirmación
         if ($total_general > 0) {
             $response['porcentaje_confirmacion'] = round(
                 ($response['total_guias'] / $total_general) * 100,
@@ -1967,6 +1992,7 @@ class PedidosModel extends Query
 
         return $response;
     }
+
 
     public function eliminarPedido($id_factura)
     {
