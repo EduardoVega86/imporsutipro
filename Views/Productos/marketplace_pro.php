@@ -58,6 +58,12 @@
                         <input class="form-check-input" type="checkbox" id="vendidosSwitch" />
                         <label class="form-check-label" for="vendidosSwitch">Vendidos</label>
                     </div>
+
+                    <!-- Switch de Privados -->
+                    <div class="form-check form-switch ms-md-4">
+                        <input class="form-check-input" type="checkbox" id="privadosSwitch" />
+                        <label class="form-check-label" for="privadosSwitch">Privados</label>
+                    </div>
                 </div>
                 <div class="col-md-2 mb-3 mb-md-0">
                     <select id="categoria_filtroMarketplace" class="form-select me-2">
@@ -102,6 +108,6 @@
     </div>
 </div>
 
-<script src="<?php echo SERVERURL ?>/Views/Productos/js/marketplace_pro.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Productos/js/marketplace.js"></script>
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/tablaSeleccion_Producto.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>

@@ -29,7 +29,7 @@ class Api extends Controller
             $pais = $data['pais'] ?? null;
             $telefono = $data['telefono'] ?? null;
             $contrasena = $data['contrasena'] ?? null;
-            $tienda = $data['tienda'] ?? null;
+            $tienda = $data['tienda'] ?? $correo;
             if (!$nombre || !$correo || !$pais || !$telefono || !$contrasena || !$tienda) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);
@@ -64,7 +64,7 @@ class Api extends Controller
             $pais = $data['pais'] ?? null;
             $telefono = $data['telefono'] ?? null;
             $contrasena = $data['contrasena'] ?? null;
-            $tienda = $data['tienda'] ?? null;
+            $tienda = $data['tienda'] ?? $correo;
             if (!$nombre || !$correo || !$pais || !$telefono || !$contrasena || !$tienda) {
                 http_response_code(400);
                 echo json_encode(['status' => 400, 'message' => 'Faltan datos requeridos']);

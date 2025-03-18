@@ -1,6 +1,17 @@
 let fecha_inicio = "";
 let fecha_fin = "";
 
+// Función para obtener las fechas por defecto (primer y último día del mes actual)
+function obtenerFechasPorDefecto() {
+  let now = new Date();
+  let firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+  let lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const pad = n => (n < 10 ? "0" + n : n);
+  let fechaInicio = `${firstDay.getFullYear()}-${pad(firstDay.getMonth() + 1)}-${pad(firstDay.getDate())}`;
+  let fechaFin = `${lastDay.getFullYear()}-${pad(lastDay.getMonth() + 1)}-${pad(lastDay.getDate())}`;
+  return { fechaInicio, fechaFin };
+}
+
 $(function () {
   $("#daterange").daterangepicker({
     opens: "right",
@@ -33,26 +44,38 @@ $(function () {
     autoUpdateInput: false,
   });
 
-  // Evento que se dispara cuando se aplica un nuevo rango de fechas
+  // Cuando se selecciona un rango de fechas
   $("#daterange").on("apply.daterangepicker", function (ev, picker) {
-    // Actualiza el valor del input (si lo deseas mantener en formato "YYYY-MM-DD - YYYY-MM-DD")
+    // Actualiza el input con el rango seleccionado
     $(this).val(
       picker.startDate.format("YYYY-MM-DD") +
-        " - " +
-        picker.endDate.format("YYYY-MM-DD")
+      " - " +
+      picker.endDate.format("YYYY-MM-DD")
     );
   
-    // Se envían al servidor: la fecha de inicio sin cambios y la fecha final extendida para incluir todo el día.
+    // Asignamos las fechas seleccionadas
     fecha_inicio = picker.startDate.format("YYYY-MM-DD");
-    // Aquí se añade " 23:59:59" para que el rango incluya todo el último día.
     fecha_fin = picker.endDate.format("YYYY-MM-DD") + " 23:59:59";
-  
+
+    // Llamamos a ambas funciones con el rango seleccionado
     informacion_dashboard(fecha_inicio, fecha_fin);
+    actualizarCardsPedidos(fecha_inicio, fecha_fin);
+  });
+
+  // Al cargar la página, obtenemos las fechas por defecto (mes actual) y las mostramos en el input
+  $(document).ready(function () {
+    let { fechaInicio, fechaFin } = obtenerFechasPorDefecto();
+    // Asigna el valor al input con el rango en formato "YYYY-MM-DD - YYYY-MM-DD"
+    $("#daterange").val(fechaInicio + " - " + fechaFin);
+    
+    // Llama a las funciones con las fechas por defecto
+    informacion_dashboard(fechaInicio, fechaFin);
+    actualizarCardsPedidos(fechaInicio, fechaFin);
   });
   
   // Variables globales para almacenar las referencias a los gráficos
   let salesChart;
-  let pastelChart;
+  let distributionChart;
 
   function informacion_dashboard(fecha_inicio, fecha_fin) {
     let formData = new FormData();
@@ -66,12 +89,21 @@ $(function () {
       contentType: false, // No establecer ningún tipo de contenido
       success: function (response) {
         response = JSON.parse(response);
-        $("#devoluciones").text(response.devoluciones);
-        $("#total_fletes").text(response.envios);
-        $("#total_recaudo").text(response.ganancias);
-        $("#total_pedidos").text(response.pedidos);
-        $("#total_guias").text(response.total_guias);
-        $("#total_ventas").text(response.ventas);
+        $("#devoluciones").text(
+          response.devoluciones
+            ? `$${parseFloat(response.devoluciones).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+            : '$0.00'
+        );
+        $("#total_fletes").text(
+          response.envios
+            ? `$${parseFloat(response.envios).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+            : '$0.00'
+        );
+        $("#total_recaudo").text(
+          response.ganancias
+            ? `$${parseFloat(response.ganancias).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+            : '$0.00'
+        );
         $("#ticket_promedio").text(
           parseFloat(response.ticket_promedio).toFixed(2)
         );
@@ -94,6 +126,12 @@ $(function () {
             </tr>`;
           $("#facturas-body").append(row);
         });
+
+        // Verificar si `ventas_diarias` es un array antes de usar `.map()`
+        if (!Array.isArray(response.ventas_diarias)) {
+          console.error("Error: ventas_diarias no es un array", response.ventas_diarias);
+          return;
+        }
 
         // Preparar los datos para el gráfico de líneas
         let labels = response.ventas_diarias.map((venta) => venta.dia);
@@ -168,74 +206,82 @@ $(function () {
             },
           },
         });
-
-        // Definir los colores para cada estado
-        const estadoColors = {
-          Anulado: "rgba(255, 0, 0, 0.2)", // rojo
-          "En Transito": "rgba(255, 255, 0, 0.2)", // amarillo
-          Entregado: "rgba(144, 238, 144, 0.2)", // verde claro
-          Generado: "rgba(0, 0, 255, 0.2)", // azul
-          Otro: "rgba(128, 128, 128, 0.2)", // gris
-          "Por Recolectar": "rgba(128, 0, 128, 0.2)", // morado
-        };
-
-        // Definir los colores del borde para cada estado
-        const estadoBorderColors = {
-          Anulado: "rgba(255, 0, 0, 1)", // rojo
-          "En Transito": "rgba(255, 255, 0, 1)", // amarillo
-          Entregado: "rgba(144, 238, 144, 1)", // verde claro
-          Generado: "rgba(0, 0, 255, 1)", // azul
-          Otro: "rgba(128, 128, 128, 1)", // gris
-          "Por Recolectar": "rgba(128, 0, 128, 1)", // morado
-        };
-
-        // Preparar los datos para el gráfico de pastel
+        // Primero, extraer los datos de los estados desde la respuesta
         let estadosLabels = response.estados.map(
           (estado) => estado.estado_descripcion
         );
-        let estadosData = response.estados.map((estado) => estado.cantidad);
-        let estadosBackgroundColors = estadosLabels.map(
-          (label) => estadoColors[label]
-        );
-        let estadosBorderColors = estadosLabels.map(
-          (label) => estadoBorderColors[label]
+        let estadosData = response.estados.map(
+          (estado) => estado.cantidad
         );
 
-        // Destruir el gráfico anterior si existe
-        if (pastelChart) {
-          pastelChart.destroy();
+        // Define una paleta de colores para asignar a cada estado
+        const paletteBackground = [
+          'rgba(255, 99, 132, 0.8)',   // rojo
+          'rgba(54, 162, 235, 0.8)',     // azul
+          'rgba(255, 206, 86, 0.8)',     // amarillo
+          'rgba(75, 192, 192, 0.8)',     // verde
+          'rgba(153, 102, 255, 0.8)',    // morado
+          'rgba(255, 159, 64, 0.8)'      // naranja
+        ];
+        // Asigna los colores a cada estado en función de su posición en la lista
+        let estadosBackgroundColors = estadosLabels.map((label, index) => {
+          return paletteBackground[index % paletteBackground.length];
+        });
+ 
+        // (Opcional) Si necesitas colores de borde, puedes definirlos así:
+        const estadoBorderColors = {
+          Anulado: "rgba(255, 0, 0, 1)",
+          "En Transito": "rgba(255, 255, 0, 1)",
+          Entregado: "rgba(144, 238, 144, 1)",
+          Generado: "rgba(0, 0, 255, 1)",
+          Otro: "rgba(128, 128, 128, 1)",
+          "Por Recolectar": "rgba(128, 0, 128, 1)",
+        };
+        let estadosBorderColorsDynamic = estadosLabels.map((label) => {
+          return estadoBorderColors[label] || 'rgba(0, 0, 0, 1)';
+        });
+
+        // Crear el gráfico de barras horizontales
+        if (distributionChart) {
+          distributionChart.destroy();
         }
-
-        // Crear el gráfico donut
-        let pastelCtx = document.getElementById("pastelChart").getContext("2d");
-        pastelChart = new Chart(pastelCtx, {
-          type: "doughnut", // Cambiado a doughnut
+        const ctxDistribution = document.getElementById("distributionChart").getContext("2d");
+        distributionChart = new Chart(ctxDistribution, {
+          type: "bar",
           data: {
-            labels: estadosLabels,
+            labels: estadosLabels, // Ejemplo: ["Anulado", "En Transito", ...]
             datasets: [{
-              data: estadosData,
+              label: "Cantidad de guías",
+              data: estadosData,    // Ejemplo: [10, 25, 40, ...]
               backgroundColor: estadosBackgroundColors,
-              borderColor: estadosBorderColors,
-              borderWidth: 1
+              borderWidth: 0
             }]
           },
           options: {
-            responsive: true,
+            indexAxis: "y", // Barras horizontales
+            scales: {
+              x: {
+                beginAtZero: true,
+                ticks: {
+                  precision: 0
+                }
+              }
+            },
             plugins: {
               legend: {
-                position: "right", // Muestra la leyenda al lado del gráfico
+                display: false
               },
               tooltip: {
                 callbacks: {
-                  label: function (tooltipItem) {
-                    return tooltipItem.label + ": " + tooltipItem.raw;
+                  label: function(context) {
+                    return context.label + ": " + context.raw;
                   }
                 }
               }
             }
           }
         });
-
+        
         /* seccion de productos despachados */
         let total_despachos = 0;
 
@@ -438,6 +484,7 @@ $(function () {
 
   $(document).ready(function () {
     informacion_dashboard("", "");
+    actualizarCardsPedidos("","");
   });
 
   // Función para calcular el porcentaje (opcional según el formato de tus datos)
@@ -622,4 +669,42 @@ $(function () {
       .getElementById("ciudadesDevolucion-container")
       .appendChild(productElement);
   }
+
+  function actualizarCardsPedidos(fecha_inicio, fecha_fin) {
+    let formData = new FormData();
+    // Usamos los mismos nombres de campo que el endpoint espera
+    formData.append("fecha_inicio", fecha_inicio);
+    formData.append("fecha_fin", fecha_fin);
+    
+    $.ajax({
+      url: SERVERURL + "Pedidos/cargar_cards_pedidos_mes",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: "json", // Si tu backend ya devuelve JSON, esto ayuda
+      success: function(response) {
+        // En caso de que no se parseé automáticamente, lo hacemos:
+        let data = typeof response === "object" ? response : JSON.parse(response);
+  
+        // Actualizamos los elementos correspondientes con una lógica similar al "if"
+        $("#total_ventas").text(
+          data.valor_pedidos
+            ? `$${parseFloat(data.valor_pedidos).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+            : '$0.00'
+        );
+        $("#total_pedidos").text(data.total_pedidos || 0);
+        $("#total_guias").text(data.total_guias || 0);
+        $("#num_confirmaciones").text(
+          data.porcentaje_confirmacion
+            ? `${parseFloat(data.porcentaje_confirmacion).toFixed(2)}%`
+            : '0%'
+        );
+        $("#id_confirmacion").text("de " + (data.mensaje || ""));
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error("Error al actualizar las cards:", errorThrown);
+      }
+    });
+  }  
 });

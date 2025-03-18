@@ -135,11 +135,3 @@ $(document).ready(function () {
       console.error("Error al obtener el estado de las integraciones:", error);
     });
 });
-
-function redireccionar_funnelish() {
-  window.location.href = SERVERURL + "funnelish/constructor_vista";
-}
-
-function redireccionar_shopify() {
-  window.location.href = SERVERURL + "shopify/constructor";
-}

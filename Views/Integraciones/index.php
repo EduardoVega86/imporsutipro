@@ -45,19 +45,26 @@
 
         <!-- Shopify -->
         <div class="col-md-4">
-            <div class="card-custom">
-                <img src="<?php echo SERVERURL; ?>public/img/logo_shopify.png" alt="Shopify Logo">
-                <h5 class="card-title">Shopify</h5>
-                <p class="card-text">Realiza la conexion de tu cuenta de shopify con nuestro sistema Imporsuit.</p>
-                <!-- <input type="hidden" id="conectado_facebook" name="conectado_facebook">
-                <div id="conectarFacebook" style="display: none;">
-                    <p class="status connected">Conectado</p>
-                </div>
-                <div id="desconectarFacebook" style="display: none;">
-                    <p class="status disconnected">Desconectado</p>
-                </div> -->
+            <div class="card-custom text-center" style="border-radius: 12px;">
+                <img src="<?php echo SERVERURL; ?>public/img/logo_shopify.png" alt="Shopify Logo"
+                    class="img-fluid mb-3" style="max-width: 80px;">
+                <h5 class="card-title fw-bold">Shopify</h5>
+                <p class="card-text" style="font-size: 14px; color: #666;">Realiza la conexión de tu cuenta de Shopify con nuestro sistema Imporsuit.</p>
 
-                <button class="btn btn-primary" onclick="redireccionar_shopify()">Conectar</button>
+                <div class="d-flex justify-content-center gap-3 mt-3">
+                    <a href="<?php echo SERVERURL; ?>shopify/constructor" class="icon-btn" data-tooltip="Conectar">
+                        <i class="fas fa-plug"></i>
+                    </a>
+                    <a href="<?php echo SERVERURL; ?>shopify/constructor_vista" class="icon-btn" data-tooltip="Productos conectados">
+                        <i class="fas fa-box"></i>
+                    </a>
+                    <a href="<?php echo SERVERURL; ?>shopify/constructor_abandonados" class="icon-btn" data-tooltip="Conectar abandonados">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                    <a href="<?php echo SERVERURL; ?>Pedidos/historial_abandonados" class="icon-btn" data-tooltip="Historial abandonados">
+                        <i class="fas fa-history"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -76,7 +83,8 @@
                     <p class="status disconnected">Desconectado</p>
                 </div> -->
 
-                <button class="btn btn-primary" onclick="redireccionar_funnelish()">Conectar</button>
+                <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'Productos/marketplace'">Markerplace</button>
+                <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'funnelish/constructor_vista'">Productos conectados</button>
             </div>
         </div>
 
