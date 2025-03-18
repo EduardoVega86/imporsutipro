@@ -6,12 +6,8 @@ let products = [];            // Acumularemos aquí todos los productos que se h
 
 let currentAPI = "marketplace/obtener_productos_paginados";
 
-/* 
-  Variable global para controlar y abortar peticiones fetch pendientes.
-  Cada vez que iniciemos una nueva petición, abortaremos la anterior 
-  si todavía está en curso.
-*/
-let currentFetchController = null;
+// "requestId" global para ignorar respuestas viejas
+let lastFetchId = 0;
 
 /************************************************
  * FUNCIONES FUERA DE DOMContentLoaded
@@ -228,14 +224,17 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   /************************************************
-   * FUNCIÓN PRINCIPAL DE PAGINACIÓN (con AbortController)
+   * FUNCIÓN PRINCIPAL DE PAGINACIÓN
    ************************************************/
   async function fetchProducts(reset = false) {
-    // 1) Si había una petición anterior pendiente, la abortamos
+    // Incrementamos el requestId global y almacenamos
+    const thisFetchId = ++lastFetchId;
+
+    // Abortamos la petición anterior si existe
     if (currentFetchController) {
       currentFetchController.abort();
     }
-    // 2) Creamos un nuevo AbortController para esta petición
+    // Creamos un nuevo AbortController
     currentFetchController = new AbortController();
     const { signal } = currentFetchController;
 
@@ -258,13 +257,19 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch(SERVERURL + currentAPI, {
         method: "POST",
         body: formData_filtro,
-        signal, // <-- importante pasar la señal para poder abortar
+        signal, // <-- importante pasar la señal
       });
       if (!response.ok) {
         throw new Error("Error al obtener los productos");
       }
 
       const newProducts = await response.json();
+
+      // ¡Antes de procesar los datos, verificamos si sigue siendo la petición activa!
+      if (thisFetchId !== lastFetchId) {
+        console.warn("Descartando respuesta obsoleta de fetchProducts");
+        return; // No hacemos nada, esta respuesta es vieja
+      }
 
       // Si la API devuelve un array vacío, significa que no hay más
       if (!Array.isArray(newProducts) || newProducts.length === 0) {
@@ -289,7 +294,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("no-more-products").style.display = "none";
       }
     } catch (error) {
-      // 3) Si se abortó la petición, evitamos loguear error
       if (error.name === "AbortError") {
         console.log("La petición anterior fue abortada.");
         return;
@@ -331,7 +335,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const cardContainer = document.getElementById("card-container");
     const { pcp, pvp, saldo_stock, url_imporsuit } = productDetails;
 
-    // Según sea variable o no
     let boton_enviarCliente = "";
     let botonId_inventario = "";
 
@@ -362,7 +365,6 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
     }
 
-    // ¿Es favorito?
     const esFavorito = product.Es_Favorito === "1";
 
     // Creación del contenedor principal
@@ -373,12 +375,13 @@ document.addEventListener("DOMContentLoaded", function () {
     let imagePath = obtenerURLImagen(productDetails.image_path, SERVERURL);
 
     // Verificamos si la imagen realmente existe
+    // Verificamos si la imagen realmente existe
     let validador_imagen = verificarImagen(imagePath);
     if (validador_imagen == 0) {
       imagePath = SERVERURL + "public/img/broken-image.png";
     }
 
-    // Contenido HTML de la tarjeta
+    // Estructura HTML de la tarjeta
     card.innerHTML = `
       <div class="image-container position-relative">
         ${botonId_inventario}
@@ -429,7 +432,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
     `;
 
-    // Click general en la tarjeta (salvo en botones puntuales)
+    // Click general en la tarjeta (salvo en botones específicos)
     card.addEventListener("click", (e) => {
       if (
         e.target.closest(".btn-heart") ||
@@ -684,11 +687,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Switch de privados
   $("#privadosSwitch").change(function () {
     let estado = $(this).is(":checked") ? 1 : 0;
-
-    currentAPI =
-      estado === 1
-        ? "marketplace/obtener_productos_privados"
-        : "marketplace/obtener_productos_paginados";
+    currentAPI = (estado === 1)
+      ? "marketplace/obtener_productos_privados"
+      : "marketplace/obtener_productos_paginados";
 
     fetchProducts(true);
   });
@@ -850,7 +851,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // Si el input está vacío, quitamos toda selección
+    // Si el input está vacío, quitamos toda selección y filtro
     if (searchValue === "") {
       $("#sliderProveedores .slider-chip").removeClass("selected");
       formData_filtro.set("plataforma", "");
