@@ -100,9 +100,6 @@
                     </div> -->
                 </div>
             </div>
-            <div class="slider-container">
-                <img src="<?php echo BANNER_INICIO; ?>" alt="Slider">
-            </div>
         </div>
         <div class="tablas_estaditicas">
             <div class="content-container">
