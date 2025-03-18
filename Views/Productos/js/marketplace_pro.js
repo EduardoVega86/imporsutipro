@@ -4,7 +4,7 @@ const pageSize = 35;          // Cantidad de productos por página
 let isLoading = false;        // Para evitar clicks múltiples
 let products = [];            // Acumularemos aquí todos los productos que se han ido cargando
 
-let currentAPI = "marketplace/obtener_productos_paginados";
+let currentAPI = "marketplace/obtener_productos";
 
 /************************************************
  * FUNCIONES FUERA DE DOMContentLoaded
