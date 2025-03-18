@@ -695,6 +695,7 @@ $(function () {
         );
         $("#total_pedidos").text(data.total_pedidos || 0);
         $("#total_guias").text(data.total_guias || 0);
+        $("#total_entregado").text(data.total_guias_entregadas || 0);
         $("#num_confirmaciones").text(
           data.porcentaje_confirmacion
             ? `${parseFloat(data.porcentaje_confirmacion).toFixed(2)}%`
