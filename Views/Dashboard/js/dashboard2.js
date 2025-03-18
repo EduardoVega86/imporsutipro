@@ -59,7 +59,7 @@ $(function () {
     fecha_fin = picker.endDate.format("YYYY-MM-DD") + " 23:59:59";
 
     // Llamamos a ambas funciones con el rango seleccionado
-    // informacion_dashboard(fecha_inicio, fecha_fin);
+    informacion_dashboard(fecha_inicio, fecha_fin);
     actualizarCardsPedidos(fecha_inicio, fecha_fin);
   });
 
@@ -70,7 +70,7 @@ $(function () {
     $("#daterange").val(fechaInicio + " - " + fechaFin);
     
     // Llama a las funciones con las fechas por defecto
-    // informacion_dashboard(fechaInicio, fechaFin);
+    informacion_dashboard(fechaInicio, fechaFin);
     actualizarCardsPedidos(fechaInicio, fechaFin);
   });
   
@@ -484,7 +484,7 @@ $(function () {
   }
 
   $(document).ready(function () {
-    // informacion_dashboard("", "");
+    informacion_dashboard("", "");
     actualizarCardsPedidos("","");
   });
 
