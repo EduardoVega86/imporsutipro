@@ -104,14 +104,16 @@
                 <img src="<?php echo BANNER_INICIO; ?>" alt="Slider">
             </div>
         </div>
-        <!-- <div class="tablas_estaditicas">
+        <div class="tablas_estaditicas">
             <div class="content-container">
                 <div class="content-box">
                     <h3 class="fs-5 fw-bold">Ventas del último Mes</h3>
                     <canvas id="salesChart"></canvas>
-                </div> -->
-        <!-- tabla ultimos pedidos -->
-        <!-- <div class="content-box">
+                </div>
+                <!-- div adicional para cerrar lo que usamos -->
+            </div>
+            <!-- tabla ultimos pedidos -->
+            <!-- <div class="content-box">
                     <h3 class="fs-5 fw-bold">Últimos pedidos</h3>
                     <div class="table-responsive">
                         <table class="table">
@@ -123,21 +125,21 @@
                                 </tr>
                             </thead>
                             <tbody id="facturas-body"> -->
-        <!-- Aquí se cargarán los datos dinámicamente -->
-        <!-- </tbody>
+            <!-- Aquí se cargarán los datos dinámicamente -->
+            <!-- </tbody>
                         </table>
                     </div> -->
-        <!-- <button class="btn btn-primary">Ver todas las Ventas</button> -->
-        <!-- </div> -->
-        <!-- fin de tabla ultimos pedidos -->
-        <!-- <div class="content-box" id="pie-chart-container" style="text-align: -webkit-center;">
+            <!-- <button class="btn btn-primary">Ver todas las Ventas</button> -->
+            <!-- </div> -->
+            <!-- fin de tabla ultimos pedidos -->
+            <!-- <div class="content-box" id="pie-chart-container" style="text-align: -webkit-center;">
                     <h3 class="fs-5 fw-bold">Distribución de estados en guías de envío</h3>
                     <canvas id="distributionChart" width="400" height="200"></canvas>
                 </div> -->
-        <!-- </div>
+            <!-- </div>
         </div> -->
 
-        <!-- <div class="tablas_estaditicas">
+            <!-- <div class="tablas_estaditicas">
             <div class="content-container">
                 <div class="d-flex flex-column seccion_dashboard1">
                     <div class="d-flex flex-row">
@@ -161,8 +163,8 @@
                         <h4>Productos por cantidad</h4>
                         <div id="products-container"></div>
                     </div> -->
-        <!-- Fin Sección de Productos por cantidad -->
-        <!-- </div>
+            <!-- Fin Sección de Productos por cantidad -->
+            <!-- </div>
 
                 <div class="d-flex flex-column seccion_dashboard1">
                     <div class="d-flex flex-row">
@@ -181,49 +183,49 @@
                             <p>Tiempo Promedio Entrega</p>
                         </div>
                     </div> -->
-        <!-- Sección de Ciudades con más despachos -->
-        <!-- <div class="content-box1 ciudades" style="height: 100%;">
+            <!-- Sección de Ciudades con más despachos -->
+            <!-- <div class="content-box1 ciudades" style="height: 100%;">
                         <h4>Ciudades con más despachos</h4>
                         <div id="ciudades-container"></div>
                     </div>
                 </div>
             </div>
         </div> -->
-        <!-- <div class="tablas_estaditicas">
+            <!-- <div class="tablas_estaditicas">
             <div class="content-container"> -->
-        <!-- Sección de productos_entrega por cantidad -->
-        <!-- <div class="content-box1 productos_entrega seccion_dashboard1">
+            <!-- Sección de productos_entrega por cantidad -->
+            <!-- <div class="content-box1 productos_entrega seccion_dashboard1">
                     <h4>Productos entregados por cantidad</h4>
                     <div id="productsEntregados-container"></div>
                 </div> -->
-        <!-- Fin Sección de productos_entrega por cantidad -->
-        <!-- Sección de Ciudades_entrega con más despachos -->
-        <!-- <div class="content-box1 ciudades_entrega seccion_dashboard1">
+            <!-- Fin Sección de productos_entrega por cantidad -->
+            <!-- Sección de Ciudades_entrega con más despachos -->
+            <!-- <div class="content-box1 ciudades_entrega seccion_dashboard1">
                     <h4>Ciudades con mayores entregadas</h4>
                     <div id="ciudadesEntregadas-container"></div>
                 </div>
             </div>
         </div> -->
 
-        <!-- <div class="tablas_estaditicas">
+            <!-- <div class="tablas_estaditicas">
             <div class="content-container"> -->
-        <!-- Sección de productos_devolucion por cantidad -->
-        <!-- <div class="content-box1 productos_devolucion seccion_dashboard1">
+            <!-- Sección de productos_devolucion por cantidad -->
+            <!-- <div class="content-box1 productos_devolucion seccion_dashboard1">
                     <h4>Productos devueltos por cantidad</h4>
                     <div id="productsDevolucion-container"></div>
                 </div> -->
 
-        <!-- Sección de Ciudades_devolucion con más despachos -->
-        <!-- <div class="content-box1 ciudades_devolucion seccion_dashboard1">
+            <!-- Sección de Ciudades_devolucion con más despachos -->
+            <!-- <div class="content-box1 ciudades_devolucion seccion_dashboard1">
                     <h4>Ciudades con mayores devoluciones</h4>
                     <div id="ciudadesDevolucion-container"></div>
                 </div>
             </div>
         </div> -->
-    <?php } ?>
+        <?php } ?>
 
-</div>
+        </div>
 
-<script src="<?php echo SERVERURL ?>/Views/Dashboard/js/dashboard2.js"></script>
+        <script src="<?php echo SERVERURL ?>/Views/Dashboard/js/dashboard2.js"></script>
 
-<?php require_once './Views/templates/footer.php'; ?>
+        <?php require_once './Views/templates/footer.php'; ?>
