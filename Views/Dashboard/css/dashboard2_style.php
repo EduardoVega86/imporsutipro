@@ -80,7 +80,8 @@
         padding: 20px;
         margin: 10px;
         flex: 1 1 calc(50% - 40px);
-        max-width: calc(50% - 40px);
+        max-width: 55%;
+        margin-left: 22%;
     }
 
     .table-responsive {
