@@ -210,6 +210,10 @@
             /* Ajusta esta altura según sea necesario */
             right: 10px;
         }
+
+        .navbar-custom .navbar-right {
+            display: contents;
+        }
     }
 
     /* Badge de notificaciones */
