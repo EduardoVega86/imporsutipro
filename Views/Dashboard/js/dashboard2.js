@@ -720,8 +720,8 @@ $(function () {
         ];
 
         //destuir si existe alguno, para redibujarlo
-        if(perfomanceChart){
-          perfomanceChart.destroy();
+        if(performanceChart){
+          performanceChart.destroy();
         }
       // Seleccionamos el <canvas> donde dibujar (reutilizamos salesChart)
       let ctxPerf = document.getElementById("salesChart").getContext("2d");
