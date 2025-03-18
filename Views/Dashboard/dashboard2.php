@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <!-- Card: Total Vendido -->
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #28a745;">
                             <h5 class="text-success">
                                 <i class="bx bx-money"></i> Valor Total Pedidos
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <!-- Card: Total Guias Generadas -->
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
                             <h5 class="text-warning">
                                 <i class="bx bx-package"></i> Guías Generadas
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <!-- Card: Total Recaudo -->
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #17a2b8;">
                             <h5 class="text-info">
                                 <i class="bx bx-wallet"></i> Total Utilidad
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <!-- Card: Pedidos Entregados -->
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
                             <h5 class="text-warning">
                                 <i class="bx bx-package"></i> Pedidos Entregados
