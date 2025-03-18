@@ -45,7 +45,7 @@
 
         <!-- Shopify -->
         <div class="col-md-4">
-            <div class="card-custom text-center" style="border-radius: 12px;">
+            <div class="card-custom text-center p-4" style="border-radius: 12px;">
                 <img src="<?php echo SERVERURL; ?>public/img/logo_shopify.png" alt="Shopify Logo"
                     class="img-fluid mb-3" style="max-width: 80px;">
                 <h5 class="card-title fw-bold">Shopify</h5>
