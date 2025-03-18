@@ -15,12 +15,12 @@ class ProductosModel extends Query
     public function __construct()
     {
         parent::__construct();
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
+        if (!isset($_SESSION['id'])) {
+            header('Location: ' . SERVERURL . 'login');
+            exit;
         }
         $this->inventarioManager = new Inventario($this->getConnection(), $_SESSION["id_plataforma"]);
     }
-
 
     /**
      * @param $plataforma
@@ -37,6 +37,7 @@ class ProductosModel extends Query
         $data = $this->select($sql);
 
         $this->getResponse()["status"] = 200;
+        $this->getResponse()['title'] = 'Petición exitosa';
         $this->getResponse()["message"] = "Productos obtenidos exitosamente";
         $this->getResponse()["data"] = $data;
         return $this->getResponse();
