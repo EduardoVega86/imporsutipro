@@ -20,14 +20,34 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #28a745;">
                             <h5 class="text-success">
-                                <i class="bx bx-money"></i> Valor de Pedidos
+                                <i class="bx bx-money"></i> Valor Total Pedidos
                                 <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Valor total de pedidos"></i>
                             </h5>
                             <h3 class="font-weight-bold" id="total_ventas"></h3>
                         </div>
                     </div>
-                    <!-- Card: Total Pedidos -->
+                    <!-- Card: Total Guias Generadas -->
                     <div class="col-md-4">
+                        <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
+                            <h5 class="text-warning">
+                                <i class="bx bx-package"></i> Guías Generadas
+                                <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de guías generadas"></i>
+                            </h5>
+                            <h3 class="font-weight-bold" id="total_guias">0</h3>
+                        </div>
+                    </div>
+                    <!-- Card: Pedidos Entregados -->
+                    <div class="col-md-4">
+                        <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
+                            <h5 class="text-warning">
+                                <i class="bx bx-package"></i> Pedidos Entregados
+                                <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de pedidos entregados"></i>
+                            </h5>
+                            <h3 class="font-weight-bold" id="total_entregado">0</h3>
+                        </div>
+                    </div>
+                    <!-- Card: Total Pedidos -->
+                    <!-- <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #007bff;">
                             <h5 class="text-primary">
                                 <i class="bx bx-money"></i> Total de Pedidos
@@ -35,21 +55,11 @@
                             </h5>
                             <h3 class="font-weight-bold" id="total_pedidos">0</h3>
                         </div>
-                    </div>
-                    <!-- Card: Total Guias Generadas -->
-                    <div class="col-md-4">
-                        <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
-                            <h5 class="text-warning">
-                                <i class="bx bx-package"></i> Total Guías
-                                <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de guías generadas"></i>
-                            </h5>
-                            <h3 class="font-weight-bold" id="total_guias">0</h3>
-                        </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="row mb-4">
                     <!-- Card: Total Recaudo -->
-                    <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #17a2b8;">
                             <h5 class="text-info">
                                 <i class="bx bx-wallet"></i> Total Utilidad
@@ -57,9 +67,9 @@
                             </h5>
                             <h3 class="font-weight-bold" id="total_recaudo"></h3>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Card: Total Fletes -->
-                    <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #fd7e14;">
                             <h5 style="color: #fd7e14;">
                                 <i class="bx bx-dollar"></i> Total Fletes
@@ -67,9 +77,9 @@
                             </h5>
                             <h3 class="font-weight-bold" id="total_fletes">0</h3>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Card: Devoluciones -->
-                    <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #dc3545;">
                             <h5 class="text-danger">
                                 <i class="bx bx-dollar"></i> Devoluciones
@@ -77,7 +87,7 @@
                             </h5>
                             <h3 class="font-weight-bold" id="devoluciones">0</h3>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="slider-container">
