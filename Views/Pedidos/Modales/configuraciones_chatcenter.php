@@ -28,7 +28,7 @@
                 <form id="configuraciones_chatcenter_form" enctype="multipart/form-data">
                     <div class="row mb-3">
                         <div class="d-flex flex-column">
-                            <label for="template_whatsapp" class="form-label">Plantilla de respuesta Laar:</label>
+                            <label for="template_whatsapp" class="form-label">Plantilla de respuesta:</label>
                             <select id="select_templates" style="width: 100%;">
                                 <option value="">Cargando...</option>
                             </select>
