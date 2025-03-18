@@ -22,6 +22,12 @@ class UsuariosModel extends Query
         return $this->select($sql);
     }
 
+    public function obtener_plantilla_select($plataforma)
+    {
+        $sql = "select template_generar_guia from configuraciones WHERE id_plataforma = $plataforma";
+        return $this->select($sql);
+    }
+
     public function obtener_usuarios_matriz()
     {
         $id_matriz = $this->obtenerMatriz();

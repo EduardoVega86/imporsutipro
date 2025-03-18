@@ -269,9 +269,7 @@ const cargar_select_templates = async () => {
     }
 
     // Obtener y limpiar el select
-    const selects = [
-      $("#select_templates"),
-    ];
+    const selects = [$("#select_templates")];
 
     // Limpiar y agregar opción "Selecciona un template"
     selects.forEach((select) => {
@@ -323,4 +321,17 @@ function formatPhoneNumber(number) {
   }
 
   return number;
+}
+
+function abrir_modal_configuraciones() {
+  $.ajax({
+    url: SERVERURL + "Usuarios/obtener_plantilla_select",
+    type: "GET",
+    success: function (response) {
+      $("#configuraciones_chatcenterModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    },
+  });
 }
