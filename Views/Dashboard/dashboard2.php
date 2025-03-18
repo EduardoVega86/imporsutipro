@@ -67,9 +67,9 @@
                         </div>
                     </div> -->
                 </div>
-                <div class="row mb-4">
-                    <!-- Card: Total Recaudo -->
-                    <!-- <div class="col-md-4">
+                <!-- <div class="row mb-4"> -->
+                <!-- Card: Total Recaudo -->
+                <!-- <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #17a2b8;">
                             <h5 class="text-info">
                                 <i class="bx bx-wallet"></i> Total Utilidad
@@ -78,8 +78,8 @@
                             <h3 class="font-weight-bold" id="total_recaudo"></h3>
                         </div>
                     </div> -->
-                    <!-- Card: Total Fletes -->
-                    <!-- <div class="col-md-4">
+                <!-- Card: Total Fletes -->
+                <!-- <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #fd7e14;">
                             <h5 style="color: #fd7e14;">
                                 <i class="bx bx-dollar"></i> Total Fletes
@@ -88,8 +88,8 @@
                             <h3 class="font-weight-bold" id="total_fletes">0</h3>
                         </div>
                     </div> -->
-                    <!-- Card: Devoluciones -->
-                    <!-- <div class="col-md-4">
+                <!-- Card: Devoluciones -->
+                <!-- <div class="col-md-4">
                         <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #dc3545;">
                             <h5 class="text-danger">
                                 <i class="bx bx-dollar"></i> Devoluciones
@@ -98,7 +98,7 @@
                             <h3 class="font-weight-bold" id="devoluciones">0</h3>
                         </div>
                     </div> -->
-                </div>
+                <!-- </div> -->
             </div>
         </div>
         <div class="tablas_estaditicas">
