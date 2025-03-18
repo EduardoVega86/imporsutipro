@@ -24,7 +24,7 @@ class UsuariosModel extends Query
 
     public function obtener_plantilla_select($plataforma)
     {
-        $sql = "select template_generar_guia from configuraciones WHERE id_plataforma = $plataforma";
+        $sql = "SELECT COALESCE(template_generar_guia, '') AS template_generar_guia FROM configuraciones WHERE id_plataforma = $plataforma";
         return $this->select($sql);
     }
 

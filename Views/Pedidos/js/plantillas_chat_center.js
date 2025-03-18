@@ -313,9 +313,12 @@ const cargar_select_templates = async () => {
           return;
         }
 
-        // Si el valor es un JSON, convertirlo a objeto
-        let templateGenerarGuia = response[0].template_generar_guia;
-        if (typeof templateGenerarGuia === "string") {
+        // Si el valor es un JSON (inicia con { o [), entonces parsearlo, sino usarlo tal cual
+        if (
+          typeof templateGenerarGuia === "string" &&
+          (templateGenerarGuia.startsWith("{") ||
+            templateGenerarGuia.startsWith("["))
+        ) {
           try {
             templateGenerarGuia = JSON.parse(templateGenerarGuia);
           } catch (error) {
@@ -324,7 +327,7 @@ const cargar_select_templates = async () => {
           }
         }
 
-        // Si el valor es un string simple, asignarlo directamente
+        // Asignar directamente el valor al select
         $("#select_templates").val(templateGenerarGuia).trigger("change");
       },
       error: function (jqXHR, textStatus, errorThrown) {
