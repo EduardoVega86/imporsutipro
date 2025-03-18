@@ -44,21 +44,26 @@
         </div>
 
         <!-- Shopify -->
-        <div class="col-md-4 d-flex justify-content-center">
-            <div class="card shadow-lg p-4 text-center" style="max-width: 320px; border-radius: 12px;">
-                <img src="<?php echo SERVERURL; ?>public/img/logo_shopify.png"
-                    alt="Shopify Logo"
-                    class="img-fluid mb-3"
-                    style="max-width: 70px;">
-
+        <div class="col-md-4">
+            <div class="card-custom text-center p-4 shadow-lg" style="border-radius: 12px;">
+                <img src="<?php echo SERVERURL; ?>public/img/logo_shopify.png" alt="Shopify Logo"
+                    class="img-fluid mb-3" style="max-width: 80px;">
                 <h5 class="card-title fw-bold">Shopify</h5>
                 <p class="card-text" style="font-size: 14px; color: #666;">Realiza la conexión de tu cuenta de Shopify con nuestro sistema Imporsuit.</p>
 
-                <div class="d-grid gap-2">
-                    <button class="btn btn-primary btn-sm" onclick="window.location.href='<?php echo SERVERURL; ?>shopify/constructor'">Conectar</button>
-                    <button class="btn btn-secondary btn-sm" onclick="window.location.href='<?php echo SERVERURL; ?>shopify/constructor_vista'">Productos conectados</button>
-                    <button class="btn btn-warning btn-sm text-white" onclick="window.location.href='<?php echo SERVERURL; ?>shopify/constructor_abandonados'">Conectar abandonados</button>
-                    <button class="btn btn-danger btn-sm" onclick="window.location.href='<?php echo SERVERURL; ?>Pedidos/historial_abandonados'">Historial abandonados</button>
+                <div class="d-flex justify-content-center gap-3 mt-3">
+                    <a href="<?php echo SERVERURL; ?>shopify/constructor" class="icon-btn" data-tooltip="Conectar">
+                        <i class="fas fa-plug"></i>
+                    </a>
+                    <a href="<?php echo SERVERURL; ?>shopify/constructor_vista" class="icon-btn" data-tooltip="Productos conectados">
+                        <i class="fas fa-box"></i>
+                    </a>
+                    <a href="<?php echo SERVERURL; ?>shopify/constructor_abandonados" class="icon-btn" data-tooltip="Conectar abandonados">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                    <a href="<?php echo SERVERURL; ?>Pedidos/historial_abandonados" class="icon-btn" data-tooltip="Historial abandonados">
+                        <i class="fas fa-history"></i>
+                    </a>
                 </div>
             </div>
         </div>
