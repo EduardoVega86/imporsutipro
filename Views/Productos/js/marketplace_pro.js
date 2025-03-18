@@ -249,7 +249,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch(SERVERURL + currentAPI, {
         method: "POST",
         body: formData_filtro,
-        signal, // <-- importante pasar la señal
       });
       if (!response.ok) {
         throw new Error("Error al obtener los productos");
