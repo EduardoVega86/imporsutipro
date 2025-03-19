@@ -108,6 +108,15 @@
         <?php
         }
         ?>
+        
+        <div class="row mb-3">
+            <div class="col-12 col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" class="form-control" id="buscar_pedido" placeholder="Buscar por #Guía o Nombre...">
+                </div>
+            </div>
+        </div>
 
         <!-- TABLA DE HISTORIAL DE PEDIDOS -->
         <div class="table-responsive">

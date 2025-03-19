@@ -611,7 +611,8 @@ class Pedidos extends Controller
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
         $estado_pedido = $_POST['estado_pedido'] ?? "";
-        $data = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
+        $buscar_pedido = $_POST['buscar_pedido'] ?? "";
+        $data = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido);
         echo json_encode($data);
     }
 

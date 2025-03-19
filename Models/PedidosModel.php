@@ -1871,7 +1871,7 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function cargarPedidos_imporsuit($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido)
+    public function cargarPedidos_imporsuit($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
     {
         $sql = "SELECT *, 
         (SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad,
@@ -1886,6 +1886,10 @@ class PedidosModel extends Query
 
         if (!empty($estado_pedido)) {
             $sql .= " AND estado_pedido = $estado_pedido";
+        }
+
+        if (!empty($buscar_pedido)) {
+            $sql .= " AND (numero_guia LIKE '%$buscar_pedido%' OR nombre LIKE '%$buscar_pedido%')";
         }
 
         $sql .= " AND no_producto = 0";

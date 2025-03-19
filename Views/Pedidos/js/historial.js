@@ -59,6 +59,10 @@ const listHistorialPedidos = async () => {
     formData.append("fecha_fin", fecha_fin);
     formData.append("estado_pedido", $("#estado_pedido").val());
 
+    //Obtener el valor del campo búsqueda
+    let buscar_pedido = $("#buscar_pedido").val().trim();
+    formData.append("buscar_pedido", buscar_pedido); //agreamos al request
+
     const response = await fetch(`${SERVERURL}${currentAPI}`, {
       method: "POST",
       body: formData,
@@ -257,6 +261,11 @@ const listHistorialPedidos = async () => {
     alert(ex);
   }
 };
+
+// Capturar evento en el input de búsqueda
+$("#buscar_pedido").on("keyup", function () {
+  listHistorialPedidos(); // Volver a cargar los pedidos con el filtro
+});
 
 window.addEventListener("load", async () => {
   await initDataTableHistorial();
