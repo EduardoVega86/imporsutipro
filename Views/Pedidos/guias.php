@@ -240,8 +240,8 @@
                 </ul>
             </div>
 
-            <!-- Input de búsqueda alineado a la derecha -->
-            <div class="input-group ms-auto" style="max-width: 320px;">
+            <!-- Input de búsqueda alineado a la izquierda -->
+            <div class="input-group" style="max-width: 300px;">
                 <span class="input-group-text"><i class="fas fa-search"></i></span>
                 <input type="text" class="form-control" id="buscar_guia" placeholder="Buscar por #Guía o Cliente...">
             </div>
