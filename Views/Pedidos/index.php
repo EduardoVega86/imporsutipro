@@ -107,7 +107,7 @@
             <?php } ?>
 
             <!-- Input de búsqueda (visible para TODAS las plataformas) -->
-            <div class="input-group" style="max-width: 300px;">
+            <div class="input-group" style="max-width: 320px;">
                 <span class="input-group-text"><i class="fas fa-search"></i></span>
                 <input type="text" class="form-control" id="buscar_pedido" placeholder="Buscar por #Orden o Cliente...">
             </div>
