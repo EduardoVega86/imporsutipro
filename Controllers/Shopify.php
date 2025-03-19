@@ -25,20 +25,20 @@ class Shopify extends Controller
         }
     }*/
 
-    public function index($id_plataforma) :void
+    public function index($id_plataforma): void
     {
-        if(empty($id_plataforma)) {
-            echo json_encode(["error" => "No se ha especificado una plataforma", "status"=> "error", "code" => 400]);
+        if (empty($id_plataforma)) {
+            echo json_encode(["error" => "No se ha especificado una plataforma", "status" => "error", "code" => 400]);
             exit();
         }
-        if(!$this->model->existenciaPlataforma($id_plataforma)){
+        if (!$this->model->existenciaPlataforma($id_plataforma)) {
             $this->model->agregarJson($id_plataforma, file_get_contents("php://input"));
-            echo json_encode(["message" => "Se registro la plataforma", "status"=> "success", "code" => 200]);
+            echo json_encode(["message" => "Se registro la plataforma", "status" => "success", "code" => 200]);
             exit();
         }
         $data = file_get_contents("php://input");
         $this->model->agregarJson($id_plataforma, $data);
-        if($this->model->productoPlataforma($id_plataforma, $data)){
+        if ($this->model->productoPlataforma($id_plataforma, $data)) {
             $this->model->gestionarRequest($id_plataforma, $data);
             exit();
         }
@@ -170,27 +170,45 @@ class Shopify extends Controller
         echo $response[0]["json"];
     }
 
-    public function abandonado($id_plataforma){
+    public function abandonado($id_plataforma)
+    {
         /*$data = file_get_contents("php://input");
         $response = $this->model->saveAbandonedCart($id_plataforma, $data);
         echo json_encode($response);*/
 
         $this->catchAsync(function () use ($id_plataforma) {
-            if(empty($id_plataforma))
+            $id_abandonado = "";
+            if (empty($id_plataforma))
                 throw new Exception("No se ha especificado una plataforma");
-            if(!$this->model->existenciaPlataformaAbandonada($id_plataforma)){
-                $this->model->saveAbandonedCart($id_plataforma, file_get_contents("php://input"));
-                echo json_encode(["message" => "Se registro la plataforma", "status"=> "success", "code" => 200]);
-                exit();
-            }
-            $data = file_get_contents("php://input");
-            $response = $this->model->procesarAbandonado($id_plataforma, $data);
-            if($response){
-                echo json_encode(["message" => "Se registro el abandonado", "status"=> "success", "code" => 200, "data" => $response]);
-                exit();
-            }
-            echo json_encode(["message" => "No se registro el abandonado", "status"=> "error", "code" => 400]);
+            if (!$this->model->existenciaPlataformaAbandonada($id_plataforma)) {
+                $saveResponse = $this->model->saveAbandonedCart($id_plataforma, file_get_contents("php://input"));
 
+                if ($saveResponse["status"] === "200") {
+                    $id_abandonado = $saveResponse["id_abandonado"]; // Guardar el ID para usarlo después
+
+                    echo json_encode([
+                        "message" => "Se registró la plataforma",
+                        "status" => "success",
+                        "code" => 200,
+                        "id_abandonado" => $id_abandonado // Enviar el ID en la respuesta
+                    ]);
+                } else {
+                    echo json_encode([
+                        "message" => "Error al registrar la plataforma",
+                        "status" => "error",
+                        "code" => 500
+                    ]);
+                }
+                exit();
+            }
+
+            $data = file_get_contents("php://input");
+            $response = $this->model->procesarAbandonado($id_plataforma, $data, $id_abandonado);
+            if ($response) {
+                echo json_encode(["message" => "Se registro el abandonado", "status" => "success", "code" => 200, "data" => $response]);
+                exit();
+            }
+            echo json_encode(["message" => "No se registro el abandonado", "status" => "error", "code" => 400]);
         })();
     }
 
@@ -229,10 +247,4 @@ class Shopify extends Controller
             echo json_encode(["status" => 200, "message" => "Datos encontrados", "data" => $response, "count" => count($response)]);
         })();
     }
-
-
-
-
-
-
 }

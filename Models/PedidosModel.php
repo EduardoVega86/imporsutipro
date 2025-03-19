@@ -171,6 +171,146 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function cargarGuiasPorFila(
+        $plataforma,
+        $fecha_inicio,
+        $fecha_fin,
+        $transportadora,
+        $estado,
+        $impreso,
+        $drogshipin,
+        $despachos,
+        $buscar_guia
+    ) {
+        $sql = "SELECT
+                    fc.*,
+                    ccp.visto AS pagado,
+                    cc.ciudad,
+                    cc.provincia AS provinciaa,
+                    p.url_imporsuit AS plataforma,
+                    pp.url_imporsuit AS proveedor_plataforma,
+                    b.nombre AS nombre_bodega,
+                    b.direccion AS direccion_bodega,
+                    n.solucionada,
+                    n.terminado,
+                    n.estado_novedad,
+                    
+                    -- tomamos cada fila con dfc.sku y dfc.cantidad
+                    dfc.sku,
+                    dfc.cantidad
+                    
+                FROM facturas_cot fc
+                LEFT JOIN ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
+                LEFT JOIN plataformas p ON p.id_plataforma = fc.id_plataforma
+                LEFT JOIN plataformas pp ON pp.id_plataforma = fc.id_propietario
+                LEFT JOIN bodega b ON b.id = fc.id_bodega
+                LEFT JOIN novedades n ON n.guia_novedad = fc.numero_guia
+                LEFT JOIN cabecera_cuenta_pagar ccp ON ccp.numero_factura = fc.numero_factura
+                -- ÚNICO cambio importante:
+                LEFT JOIN detalle_fact_cot dfc ON dfc.numero_factura = fc.numero_factura
+    
+                WHERE TRIM(fc.numero_guia) <> ''
+                  AND fc.numero_guia IS NOT NULL
+                  AND fc.numero_guia <> '0'
+                  AND fc.anulada = 0
+                  AND (
+                       fc.id_plataforma = $plataforma
+                       OR fc.id_propietario = $plataforma
+                       OR b.id_plataforma = $plataforma
+                     )
+        ";
+
+        // Filtros de fecha
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        // Filtro transportadora
+        if (!empty($transportadora)) {
+            $sql .= " AND transporte = '$transportadora'";
+        }
+
+        // Filtro de búsqueda (número de guía o nombre)
+        if (!empty($buscar_guia)) {
+            $sql .= " AND (fc.numero_guia LIKE '%$buscar_guia%' OR fc.nombre LIKE '%$buscar_guia%')";
+        }
+
+        // Filtro estado (igual que en tu código original)
+        if (!empty($estado)) {
+            switch ($estado) {
+                case 'generada':
+                    $sql .= " AND ((estado_guia_sistema IN (100,102,103) AND id_transporte=2)
+                                   OR (estado_guia_sistema IN (1,2) AND id_transporte=1)
+                                   OR (estado_guia_sistema IN (1,2,3) AND id_transporte=3)
+                                   OR (estado_guia_sistema IN (2) AND id_transporte=4))";
+                    break;
+                case 'en_transito':
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 300 AND 317 AND estado_guia_sistema != 307 AND id_transporte=2)
+                                   OR (estado_guia_sistema IN (5,11,12) AND id_transporte=1)
+                                   OR (estado_guia_sistema IN (4) AND id_transporte=3)
+                                   OR (estado_guia_sistema IN (3) AND id_transporte=4))";
+                    break;
+                case 'zona_entrega':
+                    $sql .= " AND ((estado_guia_sistema = 307 AND id_transporte=2)
+                                   OR (estado_guia_sistema IN (6) AND id_transporte=1)
+                                   OR (estado_guia_sistema IN (5) AND id_transporte=3))";
+                    break;
+                case 'entregada':
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 400 AND 403 AND id_transporte=2)
+                                   OR (estado_guia_sistema IN (7) AND id_transporte=1)
+                                   OR (estado_guia_sistema IN (7) AND id_transporte=3)
+                                   OR (estado_guia_sistema IN (7) AND id_transporte=4))";
+                    break;
+                case 'novedad':
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 318 AND 351 AND id_transporte=2)
+                                   OR (estado_guia_sistema IN (14) AND id_transporte=1)
+                                   OR (estado_guia_sistema IN (6) AND id_transporte=3)
+                                   OR (estado_guia_sistema IN (14) AND id_transporte=4))";
+                    break;
+                case 'devolucion':
+                    $sql .= " AND ((estado_guia_sistema BETWEEN 500 AND 502 AND id_transporte=2)
+                                   OR (estado_guia_sistema IN (9) AND id_transporte=1)
+                                   OR (estado_guia_sistema IN (9) AND id_transporte=4)
+                                   OR (estado_guia_sistema IN (8,9,13) AND id_transporte=3))";
+                    break;
+            }
+        }
+
+        // Filtro DROGSHIPIN (0 local / 1)
+        if ($drogshipin == 0 || $drogshipin == 1) {
+            $sql .= " AND drogshipin = $drogshipin";
+        }
+
+        // Filtro Impreso
+        if ($impreso !== null && $impreso !== '') {
+            if ($impreso == 0 || $impreso == 1) {
+                $sql .= " AND impreso = '$impreso'";
+            }
+        }
+
+        // Filtro despachos
+        if ($despachos !== null && $despachos !== '') {
+            if ($despachos == 4) {
+                $sql .= " AND (
+                              (
+                                  (estado_guia_sistema BETWEEN 500 AND 502 AND id_transporte=2)
+                                  OR (estado_guia_sistema IN (9) AND id_transporte=1)
+                                  OR (estado_guia_sistema IN (9) AND id_transporte=4)
+                                  OR (estado_guia_sistema IN (8,9,13) AND id_transporte=3)
+                              )
+                              AND (estado_factura IN (1,2))
+                           )";
+            } else if (in_array($despachos, [1, 2, 3])) {
+                $sql .= " AND estado_factura = '$despachos'";
+            }
+        }
+
+        $sql .= " ORDER BY fc.numero_factura DESC";
+
+        return $this->select($sql);
+    }
+
+
     public function cargarGuiasEstadoGuiaSistema($plataforma, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
     {
         $sql = "SELECT 
@@ -381,7 +521,7 @@ class PedidosModel extends Query
         return $this->select($sql, $params);
     }
 
-    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
+    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $buscar_guia)
     {
         $sql = "SELECT 
                 vga.*,
@@ -462,6 +602,10 @@ class PedidosModel extends Query
 
         if (!empty($transportadora)) {
             $filtros[] = "transporte = '$transportadora'";
+        }
+
+        if (!empty($buscar_guia)) {
+            $filtros[] = "(fc.numero_guia LIKE '%$buscar_guia%' OR fc.nombre LIKE '%$buscar_guia%')";
         }
 
         if (!empty($estado)) {
@@ -1951,6 +2095,126 @@ class PedidosModel extends Query
         $sql .= " AND no_producto = 1";
 
         $sql .= " ORDER BY numero_factura DESC;";
+        return $this->select($sql);
+    }
+
+    public function cargarPedidosPorFila_imporsuit($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
+    {
+        // Arma la consulta base sobre facturas_cot (anulada = 0, sin #guía, etc.)
+        $sql = "SELECT 
+                    fc.*,
+                    -- Subconsultas para ciudad y provincia
+                    (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = fc.ciudad_cot) AS ciudad,
+                    (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = fc.ciudad_cot) AS provinciaa,
+                    (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = fc.id_propietario) AS plataforma,
+                    
+                    -- Lo importante: Traer SKU y cantidad del detalle
+                    dfc.sku,
+                    dfc.cantidad
+    
+                FROM facturas_cot fc
+                LEFT JOIN detalle_fact_cot dfc 
+                    ON dfc.numero_factura = fc.numero_factura
+    
+                WHERE fc.anulada = 0 
+                  AND (TRIM(fc.numero_guia) = '' OR fc.numero_guia IS NULL OR fc.numero_guia = '0')
+                  AND fc.id_plataforma = '$plataforma'";
+
+        // Filtros por fecha
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fc.fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        // Filtro estado_pedido
+        if (!empty($estado_pedido)) {
+            $sql .= " AND fc.estado_pedido = $estado_pedido";
+        }
+
+        // Filtro búsqueda
+        if (!empty($buscar_pedido)) {
+            $sql .= " AND (fc.numero_factura LIKE '%$buscar_pedido%' 
+                        OR fc.nombre LIKE '%$buscar_pedido%' 
+                        OR fc.comentario LIKE '%$buscar_pedido%')";
+        }
+
+        // Impedir que traiga los “sin producto”
+        $sql .= " AND fc.no_producto = 0";
+
+        // Orden final
+        $sql .= " ORDER BY fc.numero_factura DESC;";
+
+        return $this->select($sql);
+    }
+
+    public function cargarPedidosPorFila_anulados($plataforma, $fecha_inicio, $fecha_fin, $guia_enviada, $anulada)
+    {
+        $sql = "SELECT 
+                    fc.*,
+                    (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = fc.ciudad_cot) AS ciudad,
+                    (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = fc.ciudad_cot) AS provinciaa,
+                    (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = fc.id_propietario) AS plataforma,
+    
+                    dfc.sku,
+                    dfc.cantidad
+    
+                FROM facturas_cot fc
+                LEFT JOIN detalle_fact_cot dfc 
+                    ON dfc.numero_factura = fc.numero_factura
+    
+                WHERE fc.anulada = $anulada 
+                  AND (TRIM(fc.numero_guia) = '' OR fc.numero_guia IS NULL OR fc.numero_guia = '0')
+                  AND fc.id_plataforma = '$plataforma'";
+
+        // Filtro fecha
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fc.fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        // Filtro “guia_enviada” (estado_pedido?)
+        if (!empty($guia_enviada)) {
+            $sql .= " AND fc.estado_pedido = $guia_enviada";
+        }
+
+        // No producto = 0 (lo que usaba tu original)
+        $sql .= " AND fc.no_producto = 0";
+
+        // Orden
+        $sql .= " ORDER BY fc.numero_factura DESC;";
+
+        return $this->select($sql);
+    }
+
+    public function cargarPedidosPorFila_noVinculados($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido)
+    {
+        $sql = "SELECT 
+                    fc.*,
+                    (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = fc.ciudad_cot) AS ciudad,
+                    (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = fc.ciudad_cot) AS provinciaa,
+                    (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = fc.id_propietario) AS plataforma,
+    
+                    dfc.sku,
+                    dfc.cantidad
+    
+                FROM facturas_cot fc
+                LEFT JOIN detalle_fact_cot dfc 
+                    ON dfc.numero_factura = fc.numero_factura
+    
+                WHERE fc.anulada = 0 
+                  AND (TRIM(fc.numero_guia) = '' OR fc.numero_guia IS NULL OR fc.numero_guia = '0')
+                  AND fc.id_plataforma = '$plataforma'";
+
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fc.fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        if (!empty($estado_pedido)) {
+            $sql .= " AND fc.estado_pedido = $estado_pedido";
+        }
+
+        // Aquí SÍ “no_producto = 1”
+        $sql .= " AND fc.no_producto = 1";
+
+        $sql .= " ORDER BY fc.numero_factura DESC;";
         return $this->select($sql);
     }
 
@@ -3675,7 +3939,7 @@ class PedidosModel extends Query
         return $id_inventarios; // Devolvemos el array con los id_inventario
     }
 
-    public function generarCarroAbandonado($id_plataforma, $telefono, $productos, $sku_productos)
+    public function generarCarroAbandonado($id_plataforma, $telefono, $productos, $sku_productos, $id_abandonado)
     {
         $sql = "INSERT INTO `abandonado` (`id_plataforma`, `telefono`, `producto`) VALUES (?, ?, ?)";
         $data = [$id_plataforma, $telefono, $productos];
@@ -3741,6 +4005,8 @@ class PedidosModel extends Query
                 $response['message'] = "Pedido creado correctamente y datos enviados";
                 $response['data'] = $data;
                 $response['respuesta_curl'] = $response_api['response'];
+
+                $response_update_abandonado = $this-> actualizar_abandonado($id_abandonado);
             }
         } else {
             $response['status'] = 200;
@@ -3750,6 +4016,25 @@ class PedidosModel extends Query
         /* automatizador */
 
         return $this->insert($sql, $data);
+    }
+
+    public function actualizar_abandonado($id_abandonado)
+    {
+
+        $sql = "UPDATE abandonado SET contactado = ? WHERE id_abandonado = ?";
+        $data = [1, $id_abandonado];
+        $actualizar_abandonado = $this->update($sql, $data);
+        if ($actualizar_abandonado == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Imagen subida correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al subir la imagen';
+        }
+
+        return $response;
     }
 
     public function obtener_template_transportadora($id_plataforma)

@@ -168,6 +168,12 @@
         color: white;
     }
 
+    .dropdown-menu {
+        min-width: 300px;
+        /* Ajusta el ancho mínimo para que los textos largos no se corten */
+    }
+    
+
     .table-container {
         position: relative;
     }
@@ -175,7 +181,7 @@
     #tableLoader {
         position: absolute;
         top: -18px;
-        width: 66%;
+        width: 110%;
         height: 100%;
         background: rgba(255, 255, 255, 0.8);
         /* Fondo semitransparente */
