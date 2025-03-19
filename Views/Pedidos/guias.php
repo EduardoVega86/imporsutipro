@@ -242,6 +242,9 @@
                     <li><a class="dropdown-item" href="#" id="downloadExcelOption">
                             <i class="fas fa-file-excel text-success"></i> Guías.xlsx (Una guía por fila)
                         </a></li>
+                    <li><a class="dropdown-item" href="#" id="downloadExcelOption">
+                            <i class="fas fa-file-excel text-success"></i> Guías.xlsx (Una producto por fila)
+                        </a></li>
                     <li><a class="dropdown-item" href="#" id="downloadCsvOption">
                             <i class="fas fa-file-csv text-warning"></i> Guías.csv
                         </a></li>
