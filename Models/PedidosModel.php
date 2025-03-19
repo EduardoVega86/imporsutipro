@@ -381,7 +381,7 @@ class PedidosModel extends Query
         return $this->select($sql, $params);
     }
 
-    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
+    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $buscar_guia)
     {
         $sql = "SELECT 
                 vga.*,
@@ -462,6 +462,10 @@ class PedidosModel extends Query
 
         if (!empty($transportadora)) {
             $filtros[] = "transporte = '$transportadora'";
+        }
+
+        if (!empty($buscar_guia)) {
+            $sql .= "AND (fc.numero_guia LIKE '%$buscar_guia%' OR fc.nombre LIKE '%$buscar_guia%')";
         }
 
         if (!empty($estado)) {

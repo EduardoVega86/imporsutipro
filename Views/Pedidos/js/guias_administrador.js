@@ -56,7 +56,7 @@ const dataTableOptions = {
   lengthMenu: [25, 50, 100, 200],
   destroy: true,
   responsive: true,
-  dom: '<"d-flex w-full justify-content-between"lf><t><"d-flex justify-content-between"ip>',
+  dom: '<"d-flex justify-content-between"l><t><"d-flex justify-content-between"ip>',
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
@@ -159,6 +159,9 @@ const listGuias = async () => {
     formData.append("transportadora", $("#transporte").val());
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
+
+    let buscar_guia = $("#buscar_guia").val().trim();
+    formData.append("buscar_guia", buscar_guia); //agregamos al request
 
     const response = await fetch(`${SERVERURL}pedidos/obtener_guiasAdministrador`, {
       method: "POST",
@@ -417,6 +420,11 @@ const listGuias = async () => {
     alert(ex);
   }
 };
+
+//Capturamos evento en el input de busqueda
+$("#buscar_guia").on("keyup", function(){
+  listGuias(); //cargamos la lista con el filtro
+})
 
 /**
  * Marca el estado como en tránsito
