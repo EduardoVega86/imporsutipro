@@ -93,7 +93,7 @@ class PedidosModel extends Query
         }
 
         if (!empty($buscar_guia)) {
-            $sql .= "AND (numero_factura LIKE '%$buscar_guia%' OR nombre LIKE '%$buscar_guia%')";
+            $sql .= "AND (fc.numero_factura LIKE '%$buscar_guia%' OR nombre LIKE '%$buscar_guia%')";
         }
 
         if (!empty($estado)) {
