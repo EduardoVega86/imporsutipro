@@ -1383,12 +1383,15 @@ class Pedidos extends Controller
         // 7) Consultamos PEDIDOS y creamos HOJAS PARA CADA REPORTE
         // ================================================================
 
+        $buscar_pedido = $POST['buscar_pedido'] ?? "";
+
         // A) Pedidos pendientes
         $pedidos = $this->model->cargarPedidos_imporsuit(
             $id_plataforma,
             $fecha_inicio,
             $fecha_fin,
-            $estado_pedido
+            $estado_pedido,
+            $buscar_pedido
         );
         // B) Pedidos no vinculados
         $pedidosNoVinculados = $this->model->cargar_pedidos_sin_producto(
