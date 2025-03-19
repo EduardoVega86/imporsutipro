@@ -719,8 +719,9 @@ class Pedidos extends Controller
         $drogshipin = $_POST['drogshipin'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
         $despachos = $_POST['despachos'] ?? "";
+        $buscar_guia = $_POST['buscar_guia'] ?? "";
 
-        $data = $this->model->cargarGuias($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
+        $data = $this->model->cargarGuias($_SESSION['id_plataforma'], $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $buscar_guia);
 
         // Inicializamos los totales para mostrar cards en guías
         $totals = [
@@ -1248,7 +1249,7 @@ class Pedidos extends Controller
             $sheetGuias->setCellValue("Q{$fila}", ($guia['pagado'] == 'Pagado' ? 'ACREDITADO' : 'PENDIENTE'));
 
             // SKU 
-            $sheetGuias->setCellValue("R{$fila}", $guia['sku_list']); 
+            $sheetGuias->setCellValue("R{$fila}", $guia['sku_list']);
 
             //Contiene
             $sheetGuias->setCellValue("S{$fila}", $guia['contiene']);

@@ -40,7 +40,7 @@ class PedidosModel extends Query
         return $id_platafomra;
     }
 
-    public function cargarGuias($plataforma, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos)
+    public function cargarGuias($plataforma, $fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $buscar_guia)
     {
         $sql = "SELECT 
         fc.*, 
@@ -90,6 +90,10 @@ class PedidosModel extends Query
 
         if (!empty($transportadora)) {
             $sql .= " AND transporte = '$transportadora'";
+        }
+
+        if (!empty($buscar_guia)) {
+            $sql .= "AND (fc.numero_guia LIKE '%$buscar_guia%' OR fc.nombre LIKE '%$buscar_guia%')";
         }
 
         if (!empty($estado)) {

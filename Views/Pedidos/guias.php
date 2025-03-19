@@ -222,17 +222,31 @@
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-        <div style="padding-top: 20px;">
+        <div class="d-flex align-items-center gap-2 flex-wrap" style="padding-top: 20px;">
+            <!-- Botón Aplicar Filtros -->
             <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
-            <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
-            <button class="btn btn-primary dropdown-toggle" type="button" id="btnObtenerReporte" data-bs-toggle="dropdown" aria-expanded="false">
-                Obtener Reporte
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="btnObtenerReporte">
-                <li><a class="dropdown-item" href="#" id="downloadExcelOption">Excel</a></li>
-                <li><a class="dropdown-item" href="#" id="downloadCsvOption">CSV</a></li>
-            </ul>
+
+            <!-- Botón Generar Impresión -->
+            <button id="imprimir_guias" class="btn btn-success">Generar Impresión</button>
+
+            <!-- Botón de Obtener Reporte con Dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="btnObtenerReporte" data-bs-toggle="dropdown" aria-expanded="false">
+                    Obtener Reporte
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="btnObtenerReporte">
+                    <li><a class="dropdown-item" href="#" id="downloadExcelOption">📗 Guías.xlsx (Una guia por fila)</a></li>
+                    <li><a class="dropdown-item" href="#" id="downloadCsvOption">📃 Guías.csv</a></li>
+                </ul>
+            </div>
+
+            <!-- Input de búsqueda alineado a la izquierda -->
+            <div class="input-group" style="max-width: 300px;">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control" id="buscar_guia" placeholder="Buscar por #Guía o Cliente...">
+            </div>
         </div>
+
 
         <div class="table-container" style="position: relative;">
             <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
