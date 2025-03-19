@@ -7,7 +7,7 @@
             <!-- Fila : Proveedores -->
             <div class="row mb-3">
                 <div class="col-12">
-                    <div class="input-group" style="max-width: 320px;">
+                    <div class="slider-proveedores-container">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                         <input type="text" class="form-control" id="buscar_proveedor" placeholder="Buscar Proveedor...">
                         <div id="sliderProveedores" class="proveedores-grid"></div>
