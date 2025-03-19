@@ -64,24 +64,14 @@ const listHistorialPedidos = async () => {
     historialPedidos.data.forEach((historialPedido, index) => {
       let boton_automatizador = "";
 
-      /* if (VALIDAR_CONFIG_CHAT) {
-        if (historialPedido.automatizar_ws == 0) {
+      if (VALIDAR_CONFIG_CHAT) {
+        if (historialPedido.contactado == 0) {
           boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
-          ${historialPedido.id_factura},
-          '${historialPedido.ciudad_cot}', // Si es string, ponlo entre comillas
-          '${historialPedido.celular}', // Lo mismo aquí si es string
-          '${historialPedido.nombre}',
-          '${historialPedido.c_principal}',
-          '${historialPedido.c_secundaria}',
-          '${historialPedido.contiene}',
-          ${historialPedido.monto_factura} // Si es número, no necesita comillas
+          '${historialPedido.producto}',
+          '${historialPedido.telefono}',
           )"><i class="fa-brands fa-whatsapp"></i></button>`;
         }
-      } */
-
-      let acciones = "";
-
-      acciones = `${boton_automatizador}`;
+      }
 
       let contactado = "";
 
@@ -98,7 +88,7 @@ const listHistorialPedidos = async () => {
                     <td>${historialPedido.telefono}</td>
                     <td>${contactado}</td>
                     <td>
-                        ${acciones}
+                        ${boton_automatizador}
                     </td>
                 </tr>`;
     });
@@ -150,24 +140,12 @@ function boton_vista_anadir_sin_producto(id) {
 }
 
 function enviar_mensaje_automatizador(
-  nueva_factura,
-  ciudad_cot,
-  celular,
-  nombre,
-  c_principal,
-  c_secundaria,
   contiene,
-  monto_factura
+  celular,
 ) {
   let formData = new FormData();
-  formData.append("nueva_factura", nueva_factura);
-  formData.append("ciudad_cot", ciudad_cot);
   formData.append("celular", celular);
-  formData.append("nombre", nombre);
-  formData.append("c_principal", c_principal);
-  formData.append("c_secundaria", c_secundaria);
   formData.append("contiene", contiene);
-  formData.append("monto_factura", monto_factura);
 
   $.ajax({
     url: SERVERURL + "pedidos/enviar_mensaje_automatizador",

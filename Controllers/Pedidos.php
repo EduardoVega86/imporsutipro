@@ -496,6 +496,15 @@ class Pedidos extends Controller
         echo json_encode($data);
     }
 
+    public function enviar_abandonado_automatizador()
+    {
+        $celular = $_POST['celular'] ?? "";
+        $contiene = $_POST['contiene'] ?? "";
+
+        $data = $this->model->enviar_abandonado_automatizador($_SESSION['id_plataforma'], $celular, $contiene);
+        echo json_encode($data);
+    }
+
     public function nuevo_pedido_tienda()
     {
         $fecha_factura = date("Y-m-d H:i:s");
