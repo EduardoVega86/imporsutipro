@@ -80,14 +80,15 @@
                             <option value="5"> 2da llamada </option>
                             <option value="6"> Observación </option>
                         </select>
+                        <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div style="padding-top: 20px;">
+        <!-- <div style="padding-top: 20px;">
             <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
-        </div>
+        </div> -->
 
         <div class="table-container" style="position: relative;">
             <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
