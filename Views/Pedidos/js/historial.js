@@ -12,6 +12,7 @@ const dataTableHistorialOptions = {
   ],
   order: [[1, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
+  dom: '<"top"l>rt<"bottom"ip><"clear">', // Eliminamos 'f' para quitar el input de búsqueda de DataTables
   destroy: true,
   responsive: true,
   language: {
