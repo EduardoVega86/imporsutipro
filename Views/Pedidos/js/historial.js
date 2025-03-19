@@ -12,6 +12,7 @@ const dataTableHistorialOptions = {
   ],
   order: [[1, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
+  dom: '<"top"lf>rt<"bottom"ip><"clear">',
   destroy: true,
   responsive: true,
   language: {
@@ -533,3 +534,20 @@ function formatPhoneNumber(number) {
 
   return number;
 }
+
+$(document).ready(function () {
+  // Inicializar la DataTable
+  initDataTableHistorial();
+
+  // Esperar un breve tiempo para que DataTable renderice el campo de búsqueda
+  setTimeout(() => {
+      let searchInput = $("#datatable_historialPedidos_filter input");
+
+      // Verificar si ya se ha aplicado la estructura
+      if (!searchInput.parent().hasClass("input-group")) {
+          searchInput.wrap('<div class="input-group"></div>');
+          searchInput.before('<span class="input-group-text"><i class="fas fa-search"></i></span>');
+      }
+  }, 500);
+});
+
