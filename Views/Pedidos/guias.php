@@ -232,11 +232,15 @@
             <!-- Botón de Obtener Reporte con Dropdown -->
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" id="btnObtenerReporte" data-bs-toggle="dropdown" aria-expanded="false">
-                    Obtener Reporte
+                    <i class="fas fa-download"></i> Obtener Reporte
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="btnObtenerReporte">
-                    <li><a class="dropdown-item" href="#" id="downloadExcelOption">📗 Guías.xlsx (Una guia por fila)</a></li>
-                    <li><a class="dropdown-item" href="#" id="downloadCsvOption">📃 Guías.csv</a></li>
+                    <li><a class="dropdown-item" href="#" id="downloadExcelOption">
+                            <i class="fas fa-file-excel text-success"></i> Guías.xlsx (Una guía por fila)
+                        </a></li>
+                    <li><a class="dropdown-item" href="#" id="downloadCsvOption">
+                            <i class="fas fa-file-csv text-warning"></i> Guías.csv
+                        </a></li>
                 </ul>
             </div>
 
