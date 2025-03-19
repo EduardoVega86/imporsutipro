@@ -827,6 +827,43 @@ document.getElementById("downloadCsvOption").addEventListener("click", async (e)
   await descargarReporte("csv", "csv");
 });
 
+async function descargarReportePorFila(formato, extension) {
+  const formData = new FormData();
+  formData.append("fecha_inicio", fecha_inicio);
+  formData.append("fecha_fin", fecha_fin);
+  formData.append("transportadora", $("#transporte").val());
+  formData.append("estado", $("#estado_q").val());
+  formData.append("estado_pedido", $("#estado_pedido").val() || "");
+  formData.append("drogshipin", $("#tienda_q").val());
+  formData.append("impreso", $("#impresion").val());
+  formData.append("despachos", $("#despachos").val());
+  formData.append("buscar_guia", $("#buscar_guia").val().trim());
+  formData.append("formato", formato); // 'excel' o 'csv'
+
+  // Ahora apuntamos a TU NUEVA ruta
+  const response = await fetch(`${SERVERURL}pedidos/exportarGuiasPorFila`, {
+    method: "POST",
+    body: formData,
+  });
+
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = (formato === 'csv') ? 'guias_por_fila.csv' : 'guias_por_fila.xlsx';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+}
+
+document
+  .getElementById("downloadExcelOptionPorFila")
+  .addEventListener("click", async (e) => {
+    e.preventDefault(); // Evita navegación
+    await descargarReportePorFila("excel", "xlsx"); 
+  });
+
 
 window.addEventListener("load", async () => {
   await initDataTable();

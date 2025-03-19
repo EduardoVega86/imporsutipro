@@ -2208,7 +2208,249 @@ class Pedidos extends Controller
         }
     }
 
+    public function exportarGuiasPorFila()
+    {
+        // 1) Recogemos parámetros
+        $fecha_inicio   = $_POST['fecha_inicio']   ?? "";
+        $fecha_fin      = $_POST['fecha_fin']      ?? "";
+        $transportadora = $_POST['transportadora'] ?? "";
+        $estado         = $_POST['estado']         ?? "";
+        $drogshipin     = $_POST['drogshipin']     ?? "";
+        $impreso        = $_POST['impreso']        ?? "";
+        $despachos      = $_POST['despachos']      ?? "";
+        $formato        = $_POST['formato']        ?? "excel";
+        $buscar_guia    = $_POST['buscar_guia']    ?? "";
 
+        $id_plataforma = $_SESSION['id_plataforma'];
+
+        // 2) Obtenemos data con la nueva función
+        $data = $this->model->cargarGuiasPorFila(
+            $id_plataforma,
+            $fecha_inicio,
+            $fecha_fin,
+            $transportadora,
+            $estado,
+            $impreso,
+            $drogshipin,
+            $despachos,
+            $buscar_guia
+        );
+
+        // 3) Calculamos “counts” (igual que en exportarGuias)
+        $counts = [
+            'generada'     => 0,
+            'en_transito'  => 0,
+            'zona_entrega' => 0,
+            'entregada'    => 0,
+            'novedad'      => 0,
+            'devolucion'   => 0,
+        ];
+        foreach ($data as $idx => $guia) {
+            $estado_guia = intval($guia['estado_guia_sistema']);
+            $transporte  = intval($guia['id_transporte']);
+
+            // Aumentar contadores como en tu exportarGuias()
+            if (($transporte == 2 && in_array($estado_guia, [100, 102, 103])) ||
+                ($transporte == 1 && in_array($estado_guia, [1, 2])) ||
+                ($transporte == 3 && in_array($estado_guia, [1, 2, 3])) ||
+                ($transporte == 4 && $estado_guia == 2)
+            ) {
+                $counts['generada']++;
+            }
+
+            if (($transporte == 2 && $estado_guia >= 300 && $estado_guia <= 317 && $estado_guia != 307) ||
+                ($transporte == 1 && in_array($estado_guia, [5, 11, 12])) ||
+                ($transporte == 3 && in_array($estado_guia, [4])) ||
+                ($transporte == 4 && $estado_guia == 3)
+            ) {
+                $counts['en_transito']++;
+            }
+
+            if (($transporte == 2 && $estado_guia == 307) ||
+                ($transporte == 1 && in_array($estado_guia, [6])) ||
+                ($transporte == 3 && in_array($estado_guia, [5]))
+            ) {
+                $counts['zona_entrega']++;
+            }
+
+            if (($transporte == 2 && $estado_guia >= 400 && $estado_guia <= 403) ||
+                ($transporte == 1 && $estado_guia == 7) ||
+                ($transporte == 3 && $estado_guia == 7) ||
+                ($transporte == 4 && $estado_guia == 7)
+            ) {
+                $counts['entregada']++;
+            }
+
+            if (($transporte == 2 && $estado_guia >= 318 && $estado_guia <= 351) ||
+                ($transporte == 1 && $estado_guia == 14) ||
+                ($transporte == 3 && $estado_guia == 6) ||
+                ($transporte == 4 && $estado_guia == 14)
+            ) {
+                $counts['novedad']++;
+            }
+
+            if (($transporte == 2 && $estado_guia >= 500 && $estado_guia <= 502) ||
+                ($transporte == 1 && $estado_guia == 9) ||
+                ($transporte == 4 && $estado_guia == 9) ||
+                ($transporte == 3 && in_array($estado_guia, [8, 9, 13]))
+            ) {
+                $counts['devolucion']++;
+            }
+
+            // Pagado/Pendiente
+            $data[$idx]['pagado'] = ($guia['pagado'] == 1) ? 'Pagado' : 'Pendiente';
+        }
+        $total = count($data);
+
+        // 4) Construimos el Spreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('GUÍAS (1 fila x SKU)');
+
+        // Encabezados
+        // (Podrías comentar si no quieres encabezado grande)
+        // $sheet->mergeCells('A1:U1');
+        // $sheet->setCellValue('A1', 'REPORTE GUÍAS POR FILA (VARIOS SKU)');
+        // $sheet->getStyle('A1')->applyFromArray([...]);
+
+        // Fila de headers
+        $sheet->setCellValue('A1', '# Guía');
+        $sheet->setCellValue('B1', 'Fecha Factura');
+        $sheet->setCellValue('C1', 'Cliente');
+        $sheet->setCellValue('D1', 'Teléfono');
+        $sheet->setCellValue('E1', 'Dirección');
+        $sheet->setCellValue('F1', 'Destino');
+        $sheet->setCellValue('G1', 'Transportadora');
+        $sheet->setCellValue('H1', 'Estado');
+        $sheet->setCellValue('I1', 'Despachado');
+        $sheet->setCellValue('J1', 'Impreso');
+        $sheet->setCellValue('K1', 'Venta Total');
+        $sheet->setCellValue('L1', 'Costo Producto');
+        $sheet->setCellValue('M1', 'Costo Flete');
+        $sheet->setCellValue('N1', 'Monto a Recibir');
+        $sheet->setCellValue('O1', 'Recaudo');
+        $sheet->setCellValue('P1', 'Por Acreditar');
+
+        // 🔸 Columnas nuevas
+        $sheet->setCellValue('Q1', 'SKU');       // <--- Cada fila un SKU
+        $sheet->setCellValue('R1', 'Cantidad');  // <--- Cantidad específica de ese SKU
+
+        // Ajustar estilo del header
+        $sheet->getStyle('A1:R1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'size' => 14,
+                'color' => ['rgb' => 'FFFFFF']
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '0D1566']
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ]
+        ]);
+
+        foreach (range('A', 'R') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // 5) Rellenar filas
+        $filaExcel = 2;
+        foreach ($data as $guia) {
+            $sheet->setCellValue("A{$filaExcel}", $guia['numero_guia']);
+            $sheet->setCellValue("B{$filaExcel}", $guia['fecha_factura']);
+            $sheet->setCellValue("C{$filaExcel}", $guia['nombre']);
+            $sheet->setCellValue("D{$filaExcel}", $guia['telefono']);
+
+            // Dirección truncada a 20
+            $dire = $guia['c_principal'] . ' ' . $guia['c_secundaria'];
+            if (strlen($dire) > 20) {
+                $dire = substr($dire, 0, 20) . "...";
+            }
+            $sheet->setCellValue("E{$filaExcel}", $dire);
+
+            $destino = $guia['provinciaa'] . ' - ' . $guia['ciudad'];
+            $sheet->setCellValue("F{$filaExcel}", $destino);
+
+            $sheet->setCellValue("G{$filaExcel}", $guia['transporte']);
+
+            // Traducir estado guía
+            $estadoGuia = $this->traducirEstado($guia['id_transporte'], $guia['estado_guia_sistema']);
+            $sheet->setCellValue("H{$filaExcel}", $estadoGuia);
+
+            $despachado = '';
+            if ($guia['estado_factura'] == 1) $despachado = "No despachado";
+            if ($guia['estado_factura'] == 2) $despachado = "Despachado";
+            if ($guia['estado_factura'] == 3) $despachado = "Devuelto";
+            $sheet->setCellValue("I{$filaExcel}", $despachado);
+
+            $sheet->setCellValue("J{$filaExcel}", $guia['impreso'] == 1 ? 'SI' : 'NO');
+
+            $sheet->setCellValue("K{$filaExcel}", $guia['monto_factura']);
+            $sheet->setCellValue("L{$filaExcel}", $guia['costo_producto']);
+            $sheet->setCellValue("M{$filaExcel}", $guia['costo_flete']);
+
+            $montoRecibir = $guia['monto_factura'] - $guia['costo_producto'] - $guia['costo_flete'];
+            $sheet->setCellValue("N{$filaExcel}", $montoRecibir);
+
+            $sheet->setCellValue("O{$filaExcel}", $guia['cod'] == 1 ? 'SI' : 'NO');
+            $sheet->setCellValue("P{$filaExcel}", $guia['pagado'] == 'Pagado' ? 'ACREDITADO' : 'PENDIENTE');
+
+            // 🔸 Nuevas columnas por SKU
+            $sheet->setCellValue("Q{$filaExcel}", $guia['sku']);
+            $sheet->setCellValue("R{$filaExcel}", $guia['cantidad']);
+
+            $filaExcel++;
+        }
+
+        // Añadir bordes a todo
+        $ultimaFila = $filaExcel - 1;
+        if ($ultimaFila >= 1) {
+            $sheet->getStyle("A1:R{$ultimaFila}")->applyFromArray([
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => Border::BORDER_THIN,
+                        'color' => ['rgb' => '000000']
+                    ]
+                ],
+                'alignment' => [
+                    'horizontal' => Alignment::HORIZONTAL_LEFT,
+                ]
+            ]);
+        }
+
+        // 6) (Opcional) Crear la minitabla de estados y el chart, igual que en "exportarGuias()"
+        //    Si quieres el mismo chart, repite la lógica con DataSeries / PlotArea ...
+        //    Y no olvides `$writer->setIncludeCharts(true);`
+
+        // 7) Exportamos XLSX o CSV
+        if ($formato == 'csv') {
+            $writer = new Csv($spreadsheet);
+            $writer->setDelimiter(',');
+            $writer->setEnclosure('"');
+            $writer->setSheetIndex(0);
+
+            header('Content-Type: text/csv; charset=UTF-8');
+            header('Content-Disposition: attachment;filename="guias_por_fila.csv"');
+            header('Cache-Control: max-age=0');
+
+            $writer->save('php://output');
+            exit;
+        } else {
+            $writer = new Xlsx($spreadsheet);
+
+            // IMPORTANTE para incluir gráficos (si creas la minitabla+chart):
+            // $writer->setIncludeCharts(true);
+
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="guias_por_fila.xlsx"');
+            header('Cache-Control: max-age=0');
+
+            $writer->save('php://output');
+            exit;
+        }
+    }
 
     /// sebastian
     public function obtener_guiasAdministrador3()
