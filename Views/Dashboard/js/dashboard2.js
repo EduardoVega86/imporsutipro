@@ -523,7 +523,7 @@ $(function () {
             labels: chartLabels,
             datasets: [
               {
-                label: "Rendimiento (según Cards)",
+                label: "Rendimiento",
                 data: chartData,
                 borderColor: "rgba(75, 192, 192, 1)",
                 backgroundColor: "rgba(75, 192, 192, 0.2)",
