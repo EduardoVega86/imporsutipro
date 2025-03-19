@@ -1671,7 +1671,7 @@ class PedidosModel extends Query
             $response['message'] = "Pedido creado correctamente";
         }
 
-        $sql = "UPDATE facturas_cot SET automatizar_ws = ? WHERE id_factura = ?";
+        $sql = "UPDATE abandonado SET contactado = ? WHERE id_abandonado = ?";
         $data_update = [1, $id_abandonado];
         $editar_tmp = $this->update($sql, $data_update);
 
