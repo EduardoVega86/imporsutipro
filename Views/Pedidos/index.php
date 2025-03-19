@@ -67,25 +67,25 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex align-items-end mb-3">
-                <!-- Filtro de Estado -->
-                <div class="me-3">
-                    <label for="estado_pedido" class="col-form-label">Estado</label>
-                    <select name="estado_pedido" class="form-control" id="estado_pedido">
-                        <option value="">Todas</option>
-                        <option value="1">Pendiente</option>
-                        <option value="2">Gestionado</option>
-                        <option value="3">No desea</option>
-                        <option value="4">1ra llamada</option>
-                        <option value="5">2da llamada</option>
-                        <option value="6">Observación</option>
-                    </select>
+            <div class="flex-fill filtro_impresar">
+                <div class=" d-flex flex-column justify-content-start">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
+                    <div>
+                        <select name="estado_pedido" class="form-control" id="estado_pedido">
+                            <option value=""> Todas</option>
+                            <option value="1"> Pendiente </option>
+                            <option value="2"> Gestionado </option>
+                            <option value="3"> No desea </option>
+                            <option value="4"> 1ra llamada </option>
+                            <option value="5"> 2da llamada </option>
+                            <option value="6"> Observación </option>
+                        </select>
+                    </div>
+                    <div style="padding-top: 20px;">
+                        <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
+                    </div>
                 </div>
-
-                <!-- Botón Aplicar Filtros alineado a la derecha -->
-                <button id="btnAplicarFiltros" class="btn btn-primary ms-auto">Aplicar Filtros</button>
             </div>
-
         </div>
 
         <div class="table-container" style="position: relative;">
