@@ -224,10 +224,14 @@
 
         <div class="d-flex align-items-center gap-2 flex-wrap" style="padding-top: 20px;">
             <!-- Botón Aplicar Filtros -->
-            <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
+            <button id="btnAplicarFiltros" class="btn btn-primary">
+                <i class="fas fa-filter"></i> Aplicar Filtros
+            </button>
 
             <!-- Botón Generar Impresión -->
-            <button id="imprimir_guias" class="btn btn-success">Generar Impresión</button>
+            <button id="imprimir_guias" class="btn btn-success">
+                <i class="fas fa-print"></i> Generar Impresión
+            </button>
 
             <!-- Botón de Obtener Reporte con Dropdown -->
             <div class="dropdown">
