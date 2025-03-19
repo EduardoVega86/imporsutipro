@@ -18,13 +18,12 @@
                     </div>
                 </div>
             </div>
-            <div style="padding: 10px;">
-                <div id="loading-indicator" style="display: none;">Cargando...</div>
-            </div>
         </div>
     </div>
 </div>
-
+<div style="padding: 10px;">
+    <div id="loading-indicator" style="display: none;">Cargando...</div>
+</div>
 
 <script src="<?php echo SERVERURL ?>/Views/Productos/js/proveedores_pro.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
