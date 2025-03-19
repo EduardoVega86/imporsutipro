@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 
 <div class="custom-container-fluid">
-    <div class="container mt-5" style="max-width: 1600px;">
+    < class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Historial de Pedidos</h2>
 
         <!-- 🔹 SECCIÓN DE CARDS INFORMATIVAS 🔹 -->
@@ -109,10 +109,8 @@
         }
         ?>
 
-        <div class="input-group">
-            <span class="input-group-text"><i class="fas fa-search"></i></span>
-            <input type="text" class="form-control" id="buscar_pedido" placeholder="Buscar por #Orden o Nombre de Cliente...">
-        </div>
+        <span class="input-group-text"><i class="fas fa-search"></i></span>
+        <input type="text" class="form-control" id="buscar_pedido" placeholder="Buscar por #Orden o Nombre de Cliente...">
 
         <!-- TABLA DE HISTORIAL DE PEDIDOS -->
         <div class="table-responsive">
@@ -133,7 +131,7 @@
                 <tbody id="tableBody_historialPedidos"></tbody>
             </table>
         </div>
-    </div>
+</div>
 </div>
 
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/historial.js"></script>
