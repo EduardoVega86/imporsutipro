@@ -1889,7 +1889,7 @@ class PedidosModel extends Query
         }
 
         if (!empty($buscar_pedido)) {
-            $sql .= " AND (numero_guia LIKE '%$buscar_pedido%' OR nombre LIKE '%$buscar_pedido%')";
+            $sql .= " AND (numero_factura LIKE '%$buscar_pedido%' OR nombre LIKE '%$buscar_pedido%')";
         }
 
         $sql .= " AND no_producto = 0";
