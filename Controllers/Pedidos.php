@@ -1139,45 +1139,45 @@ class Pedidos extends Controller
         $sheetGuias->setTitle('GUÍAS');
 
         // --- Encabezado Título en A1:Q1 ---
-        $sheetGuias->mergeCells('A1:S1');
-        $sheetGuias->setCellValue('A1', 'REPORTE DE GUÍAS');
-        $sheetGuias->getStyle('A1')->applyFromArray([
-            'font' => [
-                'bold' => true,
-                'size' => 18,
-                'color' => ['rgb' => 'FFFFFF']
-            ],
-            'fill' => [
-                'fillType'   => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '0D1566']
-            ],
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_CENTER,
-            ]
-        ]);
+        // $sheetGuias->mergeCells('A1:S1');
+        // $sheetGuias->setCellValue('A1', 'REPORTE DE GUÍAS');
+        // $sheetGuias->getStyle('A1')->applyFromArray([
+        //     'font' => [
+        //         'bold' => true,
+        //         'size' => 18,
+        //         'color' => ['rgb' => 'FFFFFF']
+        //     ],
+        //     'fill' => [
+        //         'fillType'   => Fill::FILL_SOLID,
+        //         'startColor' => ['rgb' => '0D1566']
+        //     ],
+        //     'alignment' => [
+        //         'horizontal' => Alignment::HORIZONTAL_CENTER,
+        //     ]
+        // ]);
 
-        // --- Encabezados en la fila 3 ---
-        $sheetGuias->setCellValue('A3', '# Guia');
-        $sheetGuias->setCellValue('B3', 'Fecha Factura');
-        $sheetGuias->setCellValue('C3', 'Cliente');
-        $sheetGuias->setCellValue('D3', 'Teléfono');
-        $sheetGuias->setCellValue('E3', 'Dirección');
-        $sheetGuias->setCellValue('F3', 'Destino');
-        $sheetGuias->setCellValue('G3', 'Transportadora');
-        $sheetGuias->setCellValue('H3', 'Estado');
-        $sheetGuias->setCellValue('I3', 'Despachado');
-        $sheetGuias->setCellValue('J3', 'Impreso');
-        $sheetGuias->setCellValue('K3', 'Venta Total');
-        $sheetGuias->setCellValue('L3', 'Costo Producto');
-        $sheetGuias->setCellValue('M3', 'Costo Flete');
-        $sheetGuias->setCellValue('N3', 'Fulfillment');
-        $sheetGuias->setCellValue('O3', 'Monto a Recibir');
-        $sheetGuias->setCellValue('P3', 'Recaudo');
-        $sheetGuias->setCellValue('Q3', 'Por acreditar');
-        $sheetGuias->setCellValue('R3', 'Sku');
-        $sheetGuias->setCellValue('S3', 'Contiene');
+        // --- Encabezados en la fila 1 ---
+        $sheetGuias->setCellValue('A1', '# Guia');
+        $sheetGuias->setCellValue('B1', 'Fecha Factura');
+        $sheetGuias->setCellValue('C1', 'Cliente');
+        $sheetGuias->setCellValue('D1', 'Teléfono');
+        $sheetGuias->setCellValue('E1', 'Dirección');
+        $sheetGuias->setCellValue('F1', 'Destino');
+        $sheetGuias->setCellValue('G1', 'Transportadora');
+        $sheetGuias->setCellValue('H1', 'Estado');
+        $sheetGuias->setCellValue('I1', 'Despachado');
+        $sheetGuias->setCellValue('J1', 'Impreso');
+        $sheetGuias->setCellValue('K1', 'Venta Total');
+        $sheetGuias->setCellValue('L1', 'Costo Producto');
+        $sheetGuias->setCellValue('M1', 'Costo Flete');
+        $sheetGuias->setCellValue('N1', 'Fulfillment');
+        $sheetGuias->setCellValue('O1', 'Monto a Recibir');
+        $sheetGuias->setCellValue('P1', 'Recaudo');
+        $sheetGuias->setCellValue('Q1', 'Por acreditar');
+        $sheetGuias->setCellValue('R1', 'Sku');
+        $sheetGuias->setCellValue('S1', 'Contiene');
 
-        $sheetGuias->getStyle('A3:S3')->applyFromArray([
+        $sheetGuias->getStyle('A1:S1')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1265,14 +1265,14 @@ class Pedidos extends Controller
         // Estilos de alineación
         if ($ultimaFila >= 3) {
             // centrado general
-            $sheetGuias->getStyle("A3:S{$ultimaFila}")
+            $sheetGuias->getStyle("A1:S{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
         // Bordes
         if ($ultimaFila >= 3) {
-            $sheetGuias->getStyle("A3:S{$ultimaFila}")->applyFromArray([
+            $sheetGuias->getStyle("A1:S{$ultimaFila}")->applyFromArray([
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => Border::BORDER_THIN,
