@@ -41,11 +41,16 @@
             <!-- Fila : Nombre + Favoritos + Vendidos -->
             <div class="row mb-3">
                 <div class="col-12 col-md-4">
-                    <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Buscar producto.."
-                        id="buscar_nombre" />
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-search"></i> <!-- Icono de lupa -->
+                        </span>
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Buscar producto..."
+                            id="buscar_nombre" />
+                    </div>
                 </div>
                 <div class="col-12 col-md-4 d-flex align-items-center mt-2 mt-md-0">
                     <div class="form-check form-switch ms-md-4">
@@ -71,6 +76,7 @@
                     </select>
                 </div>
             </div>
+
 
             <!-- Fila : Rango de precio + botón filtros -->
             <div class="row">
