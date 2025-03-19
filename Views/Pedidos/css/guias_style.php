@@ -162,7 +162,7 @@
 
     #tableLoader {
         position: absolute;
-        top: -35px;
+        top: -18px;
         width: 102%;
         height: 100%;
         background: rgba(255, 255, 255, 0.8);
