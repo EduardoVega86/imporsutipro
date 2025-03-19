@@ -232,6 +232,11 @@
                 <li><a class="dropdown-item" href="#" id="downloadExcelOption">Excel</a></li>
                 <li><a class="dropdown-item" href="#" id="downloadCsvOption">CSV</a></li>
             </ul>
+            <!-- Input de busqueda -->
+            <div class="input-group" style="max-width: 320px;">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control" id="buscar_guia" placeholder="Buscar por #Guía o Cliente...">
+            </div>
         </div>
 
         <div class="table-container" style="position: relative;">

@@ -92,6 +92,9 @@ const listGuias = async () => {
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
 
+    let buscar_guia = $("#buscar_guia").val().trim();
+    formData.append("buscar_guia", buscar_guia); //agregamos al request
+
     const response = await fetch(`${SERVERURL}pedidos/obtener_guias`, {
       method: "POST",
       body: formData,
@@ -412,6 +415,11 @@ const listGuias = async () => {
     alert(ex);
   }
 };
+
+//Capturamos evento en el input de busqueda
+$("#buscar_guia").on("keyup", function(){
+  listGuias(); //cargamos la lista con el filtro
+})
 
 function abrirModal_infoTienda(tienda) {
   let formData = new FormData();
