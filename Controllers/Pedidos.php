@@ -91,7 +91,6 @@ class Pedidos extends Controller
         if (!$this->isAuth()) {
             header("Location: " . SERVERURL . "login");
         }
-        $data = $this->model->cargarAnuladas($filtro);
         $this->views->render($this, "anuladas");
     }
     public function anuladas_administrador($filtro = "")
@@ -99,7 +98,6 @@ class Pedidos extends Controller
         if (!$this->isAuth()) {
             header("Location: " . SERVERURL . "login");
         }
-        $data = $this->model->cargarAnuladas($filtro);
         $this->views->render($this, "anuladas_administrador");
     }
     public function nuevo()
