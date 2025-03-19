@@ -69,6 +69,7 @@ const listHistorialPedidos = async () => {
           boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
           '${historialPedido.producto}',
           '${historialPedido.telefono}',
+          ${historialPedido.id_abandonado},
           )"><i class="fa-brands fa-whatsapp"></i></button>`;
         }
       }
@@ -142,13 +143,15 @@ function boton_vista_anadir_sin_producto(id) {
 function enviar_mensaje_automatizador(
   contiene,
   celular,
+  id_abandonado
 ) {
   let formData = new FormData();
   formData.append("celular", celular);
   formData.append("contiene", contiene);
+  formData.append("id_abandonado", id_abandonado);
 
   $.ajax({
-    url: SERVERURL + "pedidos/enviar_mensaje_automatizador",
+    url: SERVERURL + "pedidos/enviar_abandonado_automatizador",
     type: "POST",
     data: formData,
     processData: false, // No procesar los datos

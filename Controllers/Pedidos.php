@@ -500,8 +500,9 @@ class Pedidos extends Controller
     {
         $celular = $_POST['celular'] ?? "";
         $contiene = $_POST['contiene'] ?? "";
+        $id_abandonado = $_POST['id_abandonado'] ?? "";
 
-        $data = $this->model->enviar_abandonado_automatizador($_SESSION['id_plataforma'], $celular, $contiene);
+        $data = $this->model->enviar_abandonado_automatizador($_SESSION['id_plataforma'], $celular, $contiene, $id_abandonado);
         echo json_encode($data);
     }
 

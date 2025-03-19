@@ -224,21 +224,33 @@
 
         <div class="d-flex align-items-center gap-2 flex-wrap" style="padding-top: 20px;">
             <!-- Botón Aplicar Filtros -->
-            <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
+            <button id="btnAplicarFiltros" class="btn btn-primary">
+                <i class="fas fa-filter"></i> Aplicar Filtros
+            </button>
 
             <!-- Botón Generar Impresión -->
-            <button id="imprimir_guias" class="btn btn-success">Generar Impresión</button>
+            <button id="imprimir_guias" class="btn btn-success">
+                <i class="fas fa-print"></i> Generar Impresión
+            </button>
 
             <!-- Botón de Obtener Reporte con Dropdown -->
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" id="btnObtenerReporte" data-bs-toggle="dropdown" aria-expanded="false">
-                    Obtener Reporte
+                    <i class="fas fa-download"></i> Obtener Reporte
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="btnObtenerReporte">
-                    <li><a class="dropdown-item" href="#" id="downloadExcelOption">📗 Guías.xlsx (Una guia por fila)</a></li>
-                    <li><a class="dropdown-item" href="#" id="downloadCsvOption">📃 Guías.csv</a></li>
+                <ul class="dropdown-menu w-auto" aria-labelledby="btnObtenerReporte">
+                    <li><a class="dropdown-item text-wrap" href="#" id="downloadExcelOption">
+                            <i class="fas fa-file-excel text-success"></i> Guías.xlsx (Una guía por fila)
+                        </a></li>
+                    <li><a class="dropdown-item text-wrap" href="#" id="downloadExcelOption">
+                            <i class="fas fa-file-excel text-success"></i> Guías.xlsx (Un producto por fila)
+                        </a></li>
+                    <li><a class="dropdown-item text-wrap" href="#" id="downloadCsvOption">
+                            <i class="fas fa-file-csv text-warning"></i> Guías.csv
+                        </a></li>
                 </ul>
             </div>
+
 
             <!-- Input de búsqueda alineado a la izquierda -->
             <div class="input-group" style="max-width: 300px;">

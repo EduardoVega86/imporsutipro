@@ -1604,7 +1604,7 @@ class PedidosModel extends Query
         return $response;
     }
 
-    public function enviar_abandonado_automatizador($id_plataforma, $celular, $contiene)
+    public function enviar_abandonado_automatizador($id_plataforma, $celular, $contiene, $id_abandonado)
     {
         $id_configuracion = $this->select("SELECT id FROM configuraciones WHERE id_plataforma = $id_plataforma");
         $id_configuracion = $id_configuracion[0]['id'];
@@ -1671,8 +1671,9 @@ class PedidosModel extends Query
             $response['message'] = "Pedido creado correctamente";
         }
 
-        $sql = "UPDATE facturas_cot SET automatizar_ws = ? WHERE id_factura = ?";
-        $editar_tmp = $this->update($sql, $data);
+        $sql = "UPDATE abandonado SET contactado = ? WHERE id_abandonado = ?";
+        $data_update = [1, $id_abandonado];
+        $editar_tmp = $this->update($sql, $data_update);
 
         return $response;
     }
