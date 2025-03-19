@@ -1197,7 +1197,7 @@ class Pedidos extends Controller
         }
 
         // 5) Rellenar la data de GUÍAS
-        $fila = 4;
+        $fila = 2;
         foreach ($data as $guia) {
             $sheetGuias->setCellValue("A{$fila}", $guia['numero_guia']);
             $sheetGuias->setCellValue("B{$fila}", $guia['fecha_factura']);
