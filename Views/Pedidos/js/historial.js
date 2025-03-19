@@ -12,7 +12,6 @@ const dataTableHistorialOptions = {
   ],
   order: [[1, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
-  dom: '<"top"lf>rt<"bottom"ip><"clear">',
   destroy: true,
   responsive: true,
   language: {
@@ -44,28 +43,13 @@ const initDataTableHistorial = async () => {
     dataTableHistorial = $("#datatable_historialPedidos").DataTable(
       dataTableHistorialOptions
     );
-    agregarLupaBusqueda();
+
     dataTableHistorialIsInitialized = true;
   } catch (error) {
     console.error("Error al cargar la tabla:", error);
   } finally {
     hideTableLoader();
   }
-};
-
-const agregarLupaBusqueda = () => {
-  setTimeout(() => {
-    let searchInput = $("#datatable_historialPedidos_filter input");
-    
-    // Verificar si el input ya tiene la estructura de la lupa
-    if (!searchInput.parent().hasClass("input-group")) {
-      searchInput.wrap('<div class="input-group"></div>');
-      searchInput.before('<span class="input-group-text"><i class="fas fa-search"></i></span>');
-
-      // Asegurar que el input no se extienda innecesariamente
-      searchInput.css("max-width", "200px");
-    }
-  }, 300);
 };
 
 const listHistorialPedidos = async () => {
