@@ -1812,45 +1812,45 @@ class Pedidos extends Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         // 1) Título en A1:P1
-        $sheet->mergeCells('A1:R1');
-        $sheet->setCellValue('A1', 'REPORTE DE GUÍAS ADMINISTRADOR');
-        $sheet->getStyle('A1')->applyFromArray([
-            'font' => [
-                'bold' => true,
-                'size' => 18,
-                'color' => ['rgb' => 'FFFFFF']
-            ],
-            'fill' => [
-                'fillType' => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '0D1566'] // color de fondo
-            ],
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_CENTER,
-            ]
-        ]);
+        // $sheet->mergeCells('A1:R1');
+        // $sheet->setCellValue('A1', 'REPORTE DE GUÍAS ADMINISTRADOR');
+        // $sheet->getStyle('A1')->applyFromArray([
+        //     'font' => [
+        //         'bold' => true,
+        //         'size' => 18,
+        //         'color' => ['rgb' => 'FFFFFF']
+        //     ],
+        //     'fill' => [
+        //         'fillType' => Fill::FILL_SOLID,
+        //         'startColor' => ['rgb' => '0D1566'] // color de fondo
+        //     ],
+        //     'alignment' => [
+        //         'horizontal' => Alignment::HORIZONTAL_CENTER,
+        //     ]
+        // ]);
 
         // 2) Encabezados en la fila 3
-        $sheet->setCellValue('A3', '# Guia');
-        $sheet->setCellValue('B3', 'Fecha Factura');
-        $sheet->setCellValue('C3', 'Cliente');
-        $sheet->setCellValue('D3', 'Teléfono');
-        $sheet->setCellValue('E3', 'Dirección');
-        $sheet->setCellValue('F3', 'Destino');
-        $sheet->setCellValue('G3', 'Transportadora');
-        $sheet->setCellValue('H3', 'Estado');
-        $sheet->setCellValue('I3', 'Despachado');
-        $sheet->setCellValue('J3', 'Impreso');
-        $sheet->setCellValue('K3', 'Venta Total');
-        $sheet->setCellValue('L3', 'Costo Producto');
-        $sheet->setCellValue('M3', 'Costo Flete');
-        $sheet->setCellValue('N3', 'Utilidad Flete'); // <-- Añadimos esta columna
-        $sheet->setCellValue('O3', 'Fulfillment');
-        $sheet->setCellValue('P3', 'Monto a Recibir');
-        $sheet->setCellValue('Q3', 'Recaudo');
-        $sheet->setCellValue('R3', 'Por acreditar');
+        $sheet->setCellValue('A1', '# Guia');
+        $sheet->setCellValue('B1', 'Fecha Factura');
+        $sheet->setCellValue('C1', 'Cliente');
+        $sheet->setCellValue('D1', 'Teléfono');
+        $sheet->setCellValue('E1', 'Dirección');
+        $sheet->setCellValue('F1', 'Destino');
+        $sheet->setCellValue('G1', 'Transportadora');
+        $sheet->setCellValue('H1', 'Estado');
+        $sheet->setCellValue('I1', 'Despachado');
+        $sheet->setCellValue('J1', 'Impreso');
+        $sheet->setCellValue('K1', 'Venta Total');
+        $sheet->setCellValue('L1', 'Costo Producto');
+        $sheet->setCellValue('M1', 'Costo Flete');
+        $sheet->setCellValue('N1', 'Utilidad Flete');
+        $sheet->setCellValue('O1', 'Fulfillment');
+        $sheet->setCellValue('P1', 'Monto a Recibir');
+        $sheet->setCellValue('Q1', 'Recaudo');
+        $sheet->setCellValue('R1', 'Por acreditar');
 
         // Aplicar estilos a los encabezados
-        $sheet->getStyle('A3:R3')->applyFromArray([
+        $sheet->getStyle('A1:R1')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1939,14 +1939,14 @@ class Pedidos extends Controller
 
         // Alinear contenido de la tabla principal
         if ($ultimaFila >= 3) {
-            $sheet->getStyle("A3:R{$ultimaFila}")
+            $sheet->getStyle("A1:R{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
         // Bordes a la tabla principal
         if ($ultimaFila >= 3) {
-            $sheet->getStyle("A3:R{$ultimaFila}")->applyFromArray([
+            $sheet->getStyle("A1:R{$ultimaFila}")->applyFromArray([
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => Border::BORDER_THIN,
