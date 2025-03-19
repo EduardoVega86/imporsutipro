@@ -156,6 +156,12 @@
         color: white;
     }
 
+    .dropdown-menu {
+        min-width: 250px;
+        /* Ajusta el ancho mínimo para que los textos largos no se corten */
+    }
+
+
     .table-container {
         position: relative;
     }
