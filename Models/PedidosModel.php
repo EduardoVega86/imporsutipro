@@ -3939,7 +3939,7 @@ class PedidosModel extends Query
         return $id_inventarios; // Devolvemos el array con los id_inventario
     }
 
-    public function generarCarroAbandonado($id_plataforma, $telefono, $productos, $sku_productos)
+    public function generarCarroAbandonado($id_plataforma, $telefono, $productos, $sku_productos, $id_abandonado)
     {
         $sql = "INSERT INTO `abandonado` (`id_plataforma`, `telefono`, `producto`) VALUES (?, ?, ?)";
         $data = [$id_plataforma, $telefono, $productos];
@@ -4005,6 +4005,8 @@ class PedidosModel extends Query
                 $response['message'] = "Pedido creado correctamente y datos enviados";
                 $response['data'] = $data;
                 $response['respuesta_curl'] = $response_api['response'];
+
+                $response_update_abandonado = $this-> actualizar_abandonado($id_abandonado);
             }
         } else {
             $response['status'] = 200;
@@ -4014,6 +4016,25 @@ class PedidosModel extends Query
         /* automatizador */
 
         return $this->insert($sql, $data);
+    }
+
+    public function actualizar_abandonado($id_abandonado)
+    {
+
+        $sql = "UPDATE abandonado SET contactado = ? WHERE id_abandonado = ?";
+        $data = [1, $id_abandonado];
+        $actualizar_abandonado = $this->update($sql, $data);
+        if ($actualizar_abandonado == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Imagen subida correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = 'Error al subir la imagen';
+        }
+
+        return $response;
     }
 
     public function obtener_template_transportadora($id_plataforma)

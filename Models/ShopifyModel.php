@@ -682,18 +682,23 @@ class ShopifyModel extends Query
 
     public function saveAbandonedCart($id_plataforma, $data): array
     {
-        $sql = "INSERT INTO abandoned_cart_shopify (id_plataforma, json) VALUES (?,?)";
+        $sql = "INSERT INTO abandoned_cart_shopify (id_plataforma, json) VALUES (?, ?)";
         $response = $this->insert($sql, [$id_plataforma, $data]);
-        if ($response == 1) {
-            $responses["status"] = "200";
-            $responses["message"] = "Json guardado correctamente";
-        } else {
-            $responses["status"] = "500";
-            $responses["message"] =  $response["message"];
-        }
-        return $responses;
-    }
 
+        if ($response == 1) {
+            $id_abandonado = $this->lastInsertId(); // Obtener el ID insertado
+            return [
+                "status" => "200",
+                "message" => "Json guardado correctamente",
+                "id_abandonado" => $id_abandonado // Devolver el ID insertado
+            ];
+        } else {
+            return [
+                "status" => "500",
+                "message" => $response["message"] ?? "Error al guardar"
+            ];
+        }
+    }
 
     function cleanJsonKeys($array): array
     {
@@ -741,7 +746,7 @@ class ShopifyModel extends Query
         return $responses;
     }
 
-    public function procesarAbandonado($id_plataforma, $data)
+    public function procesarAbandonado($id_plataforma, $data, $id_abandonado)
     {
         $data = json_decode($data, true);
         $configuraciones = $this->obtenerConfiguracionAbadoned($id_plataforma);
@@ -760,7 +765,7 @@ class ShopifyModel extends Query
         }
 
 
-        return $this->pedidosModel->generarCarroAbandonado($id_plataforma, $resultados["telefono"], $lineItems, $sku_productos);
+        return $this->pedidosModel->generarCarroAbandonado($id_plataforma, $resultados["telefono"], $lineItems, $sku_productos, $id_abandonado);
     }
 
     private function obtenerConfiguracionAbadoned($id_plataforma)
