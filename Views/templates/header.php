@@ -65,7 +65,7 @@
                 <?php if (MATRIZ == 1) { ?>
                     <a href="<?php echo SERVERURL ?>dashboard/home"><i class='bx bx-home menu-icon'></i> <span class="menu-text">Inicio</span></a>
                 <?php } ?>
-                <a href="<?php echo SERVERURL ?>dashboard"><i class='fa-solid fa-chart-line menu-icon'></i> <span class="menu-text">Dashboard</span></a>
+                <a href="<?php echo SERVERURL ?>dashboard/dashboard2"><i class='fa-solid fa-chart-line menu-icon'></i> <span class="menu-text">Dashboard</span></a>
 
 
                 <a href="#" class="dropdown-btn" data-target="#submenu01"><i class='bx bx-search menu-icon'></i> <span class="menu-text">Marketplace</span></a>
@@ -224,7 +224,7 @@
     <div class="content">
         <nav class="navbar navbar-expand-lg navbar-custom" style="padding-top: 0.26rem;">
             <div class="container-fluid">
-                <a class="navbar-brand img_logo" href="<?php echo SERVERURL ?>dashboard"><img src="<?php echo IMAGEN_LOGO; ?>" alt="IMORSUIT" width="100px" height="44px"></a>
+                <a class="navbar-brand img_logo" href="<?php echo SERVERURL ?>dashboard/dashboard2"><img src="<?php echo IMAGEN_LOGO; ?>" alt="IMORSUIT" width="100px" height="44px"></a>
                 <div class="navbar-right">
                     <?php if ($_SESSION['cargo'] == 15 || $_SESSION['cargo'] == 10 || $_SESSION['cargo'] == 20) { ?>
 
