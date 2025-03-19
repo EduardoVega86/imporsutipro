@@ -1036,10 +1036,10 @@ class Pedidos extends Controller
         $impreso        = $_POST['impreso']        ?? "";
         $despachos      = $_POST['despachos']      ?? "";
         $formato        = $_POST['formato']        ?? "excel";
-        $buscar_guia = $_POST['buscar_guia'] ?? "";
+        $buscar_guia    = $_POST['buscar_guia']    ?? "";
 
         // Para pedidos:
-        $estado_pedido  = $_POST['estado_pedido']  ?? "";
+        $estado_pedido = $_POST['estado_pedido'] ?? "";
 
         $id_plataforma = $_SESSION['id_plataforma'];
 
@@ -1060,12 +1060,12 @@ class Pedidos extends Controller
 
         // 3) Calculamos los “counts” (estados) basados en la misma lógica
         $counts = [
-            'generada'      => 0,
-            'en_transito'   => 0,
-            'zona_entrega'  => 0,
-            'entregada'     => 0,
-            'novedad'       => 0,
-            'devolucion'    => 0,
+            'generada'     => 0,
+            'en_transito'  => 0,
+            'zona_entrega' => 0,
+            'entregada'    => 0,
+            'novedad'      => 0,
+            'devolucion'   => 0,
         ];
         foreach ($data as $idx => $guia) {
             $estado_guia = intval($guia['estado_guia_sistema']);
@@ -1138,23 +1138,24 @@ class Pedidos extends Controller
         $sheetGuias = $spreadsheet->getActiveSheet();
         $sheetGuias->setTitle('GUÍAS');
 
-        // --- Encabezado Título en A1:Q1 ---
-        // $sheetGuias->mergeCells('A1:S1');
-        // $sheetGuias->setCellValue('A1', 'REPORTE DE GUÍAS');
-        // $sheetGuias->getStyle('A1')->applyFromArray([
-        //     'font' => [
-        //         'bold' => true,
-        //         'size' => 18,
-        //         'color' => ['rgb' => 'FFFFFF']
-        //     ],
-        //     'fill' => [
-        //         'fillType'   => Fill::FILL_SOLID,
-        //         'startColor' => ['rgb' => '0D1566']
-        //     ],
-        //     'alignment' => [
-        //         'horizontal' => Alignment::HORIZONTAL_CENTER,
-        //     ]
-        // ]);
+        // (Encabezado grande comentado en la hoja principal)
+        // // ENCABEZADO COMENTADO (HOJA PRINCIPAL)
+        // // $sheetGuias->mergeCells('A1:S1');
+        // // $sheetGuias->setCellValue('A1', 'REPORTE DE GUÍAS');
+        // // $sheetGuias->getStyle('A1')->applyFromArray([
+        // //     'font' => [
+        // //         'bold' => true,
+        // //         'size' => 18,
+        // //         'color' => ['rgb' => 'FFFFFF']
+        // //     ],
+        // //     'fill' => [
+        // //         'fillType'   => Fill::FILL_SOLID,
+        // //         'startColor' => ['rgb' => '0D1566']
+        // //     ],
+        // //     'alignment' => [
+        // //         'horizontal' => Alignment::HORIZONTAL_CENTER,
+        // //     ]
+        // // ]);
 
         // --- Encabezados en la fila 1 ---
         $sheetGuias->setCellValue('A1', '# Guia');
@@ -1252,10 +1253,10 @@ class Pedidos extends Controller
             // Por acreditar => ACREDITADO/PENDIENTE
             $sheetGuias->setCellValue("Q{$fila}", ($guia['pagado'] == 'Pagado' ? 'ACREDITADO' : 'PENDIENTE'));
 
-            // SKU 
+            // SKU
             $sheetGuias->setCellValue("R{$fila}", $guia['sku_list']);
 
-            //Contiene
+            // Contiene
             $sheetGuias->setCellValue("S{$fila}", $guia['contiene']);
 
             $fila++;
@@ -1264,7 +1265,6 @@ class Pedidos extends Controller
 
         // Estilos de alineación
         if ($ultimaFila >= 3) {
-            // centrado general
             $sheetGuias->getStyle("A1:S{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
@@ -1283,7 +1283,6 @@ class Pedidos extends Controller
         }
 
         // 6) Mini tabla + diagrama de barras en la HOJA de GUÍAS
-        // Cabecera minitabla
         $miniTableStart = 3;
         $sheetGuias->setCellValue("V{$miniTableStart}", "Estado");
         $sheetGuias->setCellValue("W{$miniTableStart}", "Porcentaje");
@@ -1318,7 +1317,6 @@ class Pedidos extends Controller
             $porcentajesRaw[$maxKey] += $dif;
         }
 
-        // Pegamos en la minitabla
         $rowAux = $miniTableStart + 1;
         foreach ($keysEstados as $i => $k) {
             $sheetGuias->setCellValue("V{$rowAux}", $labelsEstados[$i]);
@@ -1369,7 +1367,6 @@ class Pedidos extends Controller
 
         $chart = new Chart('chart_estados', $title, $legend, $plotArea, true, 0, null, $yAxisLab);
 
-        // Ubicamos el chart debajo de la data
         $posChartTop = $ultimaFila + 2;
         if ($posChartTop < 10) {
             $posChartTop = 10;
@@ -1383,7 +1380,7 @@ class Pedidos extends Controller
         // 7) Consultamos PEDIDOS y creamos HOJAS PARA CADA REPORTE
         // ================================================================
 
-        $buscar_pedido = $POST['buscar_pedido'] ?? "";
+        $buscar_pedido = $_POST['buscar_pedido'] ?? "";
 
         // A) Pedidos pendientes
         $pedidos = $this->model->cargarPedidos_imporsuit(
@@ -1410,35 +1407,34 @@ class Pedidos extends Controller
         );
 
         // =======================================================================
-        // HOJA 2: PEDIDOS PENDIENTES (Y AQUÍ TAMBIÉN MOSTRAREMOS ANULADOS EN ROJO)
+        // HOJA 2: PEDIDOS PENDIENTES + ANULADOS
         // =======================================================================
-
-        // Creamos la hoja de PENDIENTES
         $sheetPendientes = $spreadsheet->createSheet();
         $sheetPendientes->setTitle('PENDIENTES');
 
-        // Encabezado grande
         $fila = 1;
-        $sheetPendientes->mergeCells("A{$fila}:K{$fila}");
-        $sheetPendientes->setCellValue("A{$fila}", 'REPORTE PEDIDOS PENDIENTES + ANULADOS');
-        $sheetPendientes->getStyle("A{$fila}")->applyFromArray([
-            'font' => [
-                'bold' => true,
-                'size' => 16,
-                'color' => ['rgb' => 'FFFFFF']
-            ],
-            'fill' => [
-                'fillType'   => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '5A178B']
-            ],
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_CENTER,
-            ]
-        ]);
 
-        $fila += 2;  // dejamos un espacio
+        // ENCABEZADO COMENTADO (HOJA 2)
+        // $sheetPendientes->mergeCells("A{$fila}:K{$fila}");
+        // $sheetPendientes->setCellValue("A{$fila}", 'REPORTE PEDIDOS PENDIENTES + ANULADOS');
+        // $sheetPendientes->getStyle("A{$fila}")->applyFromArray([
+        //     'font' => [
+        //         'bold' => true,
+        //         'size' => 16,
+        //         'color' => ['rgb' => 'FFFFFF']
+        //     ],
+        //     'fill' => [
+        //         'fillType'   => Fill::FILL_SOLID,
+        //         'startColor' => ['rgb' => '5A178B']
+        //     ],
+        //     'alignment' => [
+        //         'horizontal' => Alignment::HORIZONTAL_CENTER,
+        //     ]
+        // ]);
 
-        // Encabezados de columna (usamos 11 columnas, A..K) para incluir “Estado (Pendiente/Anulado)”
+        $fila += 2; // dejamos un espacio
+
+        // Encabezados de columna
         $sheetPendientes->setCellValue("A{$fila}", '# Orden');
         $sheetPendientes->setCellValue("B{$fila}", 'Fecha');
         $sheetPendientes->setCellValue("C{$fila}", 'Cliente');
@@ -1450,7 +1446,6 @@ class Pedidos extends Controller
         $sheetPendientes->setCellValue("I{$fila}", 'Monto Factura');
         $sheetPendientes->setCellValue("J{$fila}", 'Costo Producto');
         $sheetPendientes->setCellValue("K{$fila}", 'Estado Final');
-        // (Esta "K" la usaremos para diferenciar “PENDIENTE” o “ANULADO” si quieres)
 
         $sheetPendientes->getStyle("A{$fila}:K{$fila}")->applyFromArray([
             'font' => [
@@ -1467,17 +1462,13 @@ class Pedidos extends Controller
             ]
         ]);
 
-        // Ajustar ancho automático
         foreach (range('A', 'K') as $col) {
             $sheetPendientes->getColumnDimension($col)->setAutoSize(true);
         }
-
         $filaCabecera = $fila;
         $fila++;
 
-        // -----------------------------------------------------------------------------
-        // 1) Agregamos la DATA DE PEDIDOS PENDIENTES en el color normal (sin rojo)
-        // -----------------------------------------------------------------------------
+        // 1) PEDIDOS PENDIENTES
         foreach ($pedidos as $p) {
             $sheetPendientes->setCellValue("A{$fila}", $p['numero_factura']);
             $sheetPendientes->setCellValue("B{$fila}", $p['fecha_factura']);
@@ -1496,29 +1487,26 @@ class Pedidos extends Controller
 
             $sheetPendientes->setCellValue("G{$fila}", $p['plataforma_importa']);
 
-            // Estado pedido (tu función traducirEstadoPedido)
+            // Estado pedido
             $estadoPedido = $this->traducirEstadoPedido($p['estado_pedido']);
             $sheetPendientes->setCellValue("H{$fila}", $estadoPedido);
 
             $sheetPendientes->setCellValue("I{$fila}", $p['monto_factura']);
             $sheetPendientes->setCellValue("J{$fila}", $p['costo_producto']);
 
-            // Columna K - “PENDIENTE” 
+            // Columna K - “PENDIENTE”
             $sheetPendientes->setCellValue("K{$fila}", 'PENDIENTE');
 
             $fila++;
         }
 
-        // -----------------------------------------------------------------------------
-        // 2) Agregamos la DATA DE PEDIDOS ANULADOS, pero pintamos la fila en rojo
-        // -----------------------------------------------------------------------------
+        // 2) PEDIDOS ANULADOS
         foreach ($pedidosAnulados as $pa) {
             $sheetPendientes->setCellValue("A{$fila}", $pa['numero_factura']);
             $sheetPendientes->setCellValue("B{$fila}", $pa['fecha_factura']);
             $sheetPendientes->setCellValue("C{$fila}", $pa['nombre']);
             $sheetPendientes->setCellValue("D{$fila}", $pa['telefono']);
 
-            // Dirección truncada
             $direA = $pa['c_principal'] . ' ' . $pa['c_secundaria'];
             if (strlen($direA) > 20) {
                 $direA = substr($direA, 0, 20) . '...';
@@ -1529,32 +1517,24 @@ class Pedidos extends Controller
             $sheetPendientes->setCellValue("F{$fila}", $destinoA);
 
             $sheetPendientes->setCellValue("G{$fila}", $pa['plataforma_importa']);
-
-            // Puedes forzar “ANULADO” en H o en K, o usar algo como $this->traducirEstadoPedido($pa['estado_pedido'])
+            // Forzamos “ANULADO” en la columna H y K
             $sheetPendientes->setCellValue("H{$fila}", 'ANULADO');
-
             $sheetPendientes->setCellValue("I{$fila}", $pa['monto_factura']);
             $sheetPendientes->setCellValue("J{$fila}", $pa['costo_producto']);
-
-            // Columna K - “ANULADO”
             $sheetPendientes->setCellValue("K{$fila}", 'ANULADO');
 
-            // Ahora, pintamos toda la fila de rojo claro:
+            // Pintar fila en color
             $sheetPendientes->getStyle("A{$fila}:K{$fila}")
                 ->applyFromArray([
                     'fill' => [
                         'fillType'   => Fill::FILL_SOLID,
-                        'startColor' => ['rgb' => 'FFC0CB'] // Ejemplo rosa claro 
-                        // puedes poner 'FF9999' para un rojo más fuerte, etc.
+                        'startColor' => ['rgb' => 'FFC0CB'] // Rosa claro
                     ],
                 ]);
-
             $fila++;
         }
 
-        // -----------------------------------------------------------------------------
-        // 3) Agregamos bordes a TODO el rango (incluyendo pendientes y anulados)
-        // -----------------------------------------------------------------------------
+        // Bordes en la hoja de pendientes
         $ultimaFila = $fila - 1;
         if ($ultimaFila >= $filaCabecera) {
             $sheetPendientes->getStyle("A{$filaCabecera}:K{$ultimaFila}")
@@ -1578,22 +1558,24 @@ class Pedidos extends Controller
         $sheetNoVinc->setTitle('NO VINCULADOS');
 
         $fila = 1;
-        $sheetNoVinc->mergeCells("A{$fila}:J{$fila}");
-        $sheetNoVinc->setCellValue("A{$fila}", 'REPORTE PEDIDOS (NO VINCULADOS)');
-        $sheetNoVinc->getStyle("A{$fila}")->applyFromArray([
-            'font' => [
-                'bold' => true,
-                'size' => 16,
-                'color' => ['rgb' => 'FFFFFF']
-            ],
-            'fill' => [
-                'fillType'   => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '0D3B05']
-            ],
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_CENTER,
-            ]
-        ]);
+
+        // ENCABEZADO COMENTADO (HOJA 3)
+        // $sheetNoVinc->mergeCells("A{$fila}:J{$fila}");
+        // $sheetNoVinc->setCellValue("A{$fila}", 'REPORTE PEDIDOS (NO VINCULADOS)');
+        // $sheetNoVinc->getStyle("A{$fila}")->applyFromArray([
+        //     'font' => [
+        //         'bold' => true,
+        //         'size' => 16,
+        //         'color' => ['rgb' => 'FFFFFF']
+        //     ],
+        //     'fill' => [
+        //         'fillType'   => Fill::FILL_SOLID,
+        //         'startColor' => ['rgb' => '0D3B05']
+        //     ],
+        //     'alignment' => [
+        //         'horizontal' => Alignment::HORIZONTAL_CENTER,
+        //     ]
+        // ]);
 
         foreach (range('A', 'J') as $col) {
             $sheetNoVinc->getColumnDimension($col)->setAutoSize(true);
@@ -1647,7 +1629,6 @@ class Pedidos extends Controller
             $sheetNoVinc->setCellValue("F{$fila}", $destNV);
 
             $sheetNoVinc->setCellValue("G{$fila}", $pe['plataforma_importa']);
-
             $estNV = $this->traducirEstadoPedido($pe['estado_pedido']);
             $sheetNoVinc->setCellValue("H{$fila}", $estNV);
 
@@ -1657,7 +1638,6 @@ class Pedidos extends Controller
             $fila++;
         }
         $ultimaFilaPedidos = $fila - 1;
-
         if ($ultimaFilaPedidos >= $filaPedidosInicio) {
             $sheetNoVinc->getStyle("A{$filaPedidosInicio}:J{$ultimaFilaPedidos}")
                 ->applyFromArray([
@@ -1674,19 +1654,15 @@ class Pedidos extends Controller
         }
 
         // ================================================================
-        // 8) Exportar según formato
+        // 8) Exportar según formato (CSV o XLSX)
         // ================================================================
-
-        // 2) Según formato:
         if ($formato == 'csv') {
             // Generar un CSV
             $writer = new Csv($spreadsheet);
-            // Opciones del CSV
             $writer->setDelimiter(',');
             $writer->setEnclosure('"');
             $writer->setSheetIndex(0);
 
-            // Encabezados HTTP para forzar descarga
             header('Content-Type: text/csv; charset=UTF-8');
             header('Content-Disposition: attachment;filename="guias.csv"');
             header('Cache-Control: max-age=0');
@@ -1705,6 +1681,7 @@ class Pedidos extends Controller
             exit;
         }
     }
+
 
 
 
@@ -1870,7 +1847,7 @@ class Pedidos extends Controller
         }
 
         // 3) Llenar la tabla principal
-        $fila = 4;
+        $fila = 2;
         foreach ($data as $guia) {
             $sheet->setCellValue("A{$fila}", $guia['numero_guia']);
             $sheet->setCellValue("B{$fila}", $guia['fecha_factura']);
