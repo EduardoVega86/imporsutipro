@@ -235,8 +235,8 @@
                     Obtener Reporte
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="btnObtenerReporte">
-                    <li><a class="dropdown-item" href="#" id="downloadExcelOption">Excel</a></li>
-                    <li><a class="dropdown-item" href="#" id="downloadCsvOption">CSV</a></li>
+                    <li><a class="dropdown-item" href="#" id="downloadExcelOption">📗 Guías.xlsx (Una guia por fila)</a></li>
+                    <li><a class="dropdown-item" href="#" id="downloadCsvOption">📃 Guías.csv</a></li>
                 </ul>
             </div>
 
