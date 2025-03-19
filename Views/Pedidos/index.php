@@ -98,16 +98,20 @@
             </div>
         </div>
 
-        <?php if ($_SESSION['id_plataforma'] != 3280) {
-        ?>
-            <div class="d-flex mb-3 mt-3">
+        <div class="d-flex mb-3 mt-3 align-items-center">
+            <?php if ($_SESSION['id_plataforma'] != 3280) { ?>
+                <!-- Botones (NO visibles para la plataforma 3280) -->
                 <button id="btnPedidos" class="btn btn-primary me-2 active">Pedidos</button>
                 <button id="btnAnulados" class="btn btn-secondary me-2">Anulados</button>
-                <button id="btnNo_vinculados" class="btn btn-secondary">No Vinculados</button>
+                <button id="btnNo_vinculados" class="btn btn-secondary me-3">No Vinculados</button>
+            <?php } ?>
+
+            <!-- Input de búsqueda (visible para TODAS las plataformas) -->
+            <div class="input-group" style="max-width: 320px;">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control" id="buscar_pedido" placeholder="Buscar por #Orden o Cliente...">
             </div>
-        <?php
-        }
-        ?>
+        </div>
 
         <!-- TABLA DE HISTORIAL DE PEDIDOS -->
         <div class="table-responsive">

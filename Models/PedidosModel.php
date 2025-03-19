@@ -1600,6 +1600,79 @@ class PedidosModel extends Query
         return $response;
     }
 
+    public function enviar_abandonado_automatizador($id_plataforma, $celular, $contiene)
+    {
+        $id_configuracion = $this->select("SELECT id FROM configuraciones WHERE id_plataforma = $id_plataforma");
+        $id_configuracion = $id_configuracion[0]['id'];
+
+        if (!empty($id_configuracion)) {
+
+            $telefono_cliente = $this->formatearTelefono($celular);
+
+            $data = [
+                "id_configuracion" => $id_configuracion,
+                "value_blocks_type" => "2",
+                "user_id" => "1",
+                "order_id" => "",
+                "nombre" => "",
+                "direccion" => "",
+                "email" => "",
+                "celular" => $telefono_cliente,
+                "contenido" => $contiene,
+                "costo" => "",
+                "ciudad" => "",
+                "tracking" => "",
+                "transportadora" => "",
+                "numero_guia" => "",
+                "productos" => $id_productos ?? [],
+                "categorias" => [""],
+                "status" => [""],
+                "novedad" => [""],
+                "provincia" => [""],
+                "ciudad" => [""],
+                "user_info" => [
+                    "nombre" => "",
+                    "direccion" => "",
+                    "email" => "",
+                    "celular" => $telefono_cliente,
+                    "order_id" => "",
+                    "contenido" => $contiene,
+                    "costo" => "",
+                    "ciudad" => "",
+                    "tracking" => "",
+                    "transportadora" => "",
+                    "numero_guia" => ""
+                ]
+            ];
+
+            $response_api = $this->enviar_a_api($data);
+
+
+            if (!$response_api['success']) {
+
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = "Error al enviar los datos a la API: " . $response_api['error'];
+            } else {
+
+                $response['status'] = 200;
+                $response['title'] = 'Peticion exitosa';
+                $response['message'] = "Pedido creado correctamente y datos enviados";
+                $response['data'] = $data;
+                $response['respuesta_curl'] = $response_api['response'];
+            }
+        } else {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = "Pedido creado correctamente";
+        }
+
+        $sql = "UPDATE facturas_cot SET automatizar_ws = ? WHERE id_factura = ?";
+        $editar_tmp = $this->update($sql, $data);
+
+        return $response;
+    }
+
     public function obtenerDestinatario($id)
     {
         $sql = "SELECT id_plataforma FROM inventario_bodegas WHERE id_producto = $id";
@@ -1798,7 +1871,7 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function cargarPedidos_imporsuit($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido)
+    public function cargarPedidos_imporsuit($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
     {
         $sql = "SELECT *, 
         (SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad,
@@ -1813,6 +1886,10 @@ class PedidosModel extends Query
 
         if (!empty($estado_pedido)) {
             $sql .= " AND estado_pedido = $estado_pedido";
+        }
+
+        if (!empty($buscar_pedido)) {
+            $sql .= " AND (numero_factura LIKE '%$buscar_pedido%' OR nombre LIKE '%$buscar_pedido%' OR comentario LIKE '%$buscar_pedido%')";
         }
 
         $sql .= " AND no_producto = 0";

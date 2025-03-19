@@ -496,6 +496,15 @@ class Pedidos extends Controller
         echo json_encode($data);
     }
 
+    public function enviar_abandonado_automatizador()
+    {
+        $celular = $_POST['celular'] ?? "";
+        $contiene = $_POST['contiene'] ?? "";
+
+        $data = $this->model->enviar_abandonado_automatizador($_SESSION['id_plataforma'], $celular, $contiene);
+        echo json_encode($data);
+    }
+
     public function nuevo_pedido_tienda()
     {
         $fecha_factura = date("Y-m-d H:i:s");
@@ -602,7 +611,8 @@ class Pedidos extends Controller
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
         $estado_pedido = $_POST['estado_pedido'] ?? "";
-        $data = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
+        $buscar_pedido = $_POST['buscar_pedido'] ?? "";
+        $data = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido);
         echo json_encode($data);
     }
 
