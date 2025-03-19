@@ -1,7 +1,7 @@
 let fecha_inicio = "";
 let fecha_fin = "";
 let performanceChart; // Gráfico de rendimiento (Cards)
-let distributionChart; // Gráfico de estados
+let distributionChart; // Gráfico de estados (barras)
 
 // Función para obtener las fechas por defecto (primer y último día del mes actual)
 function obtenerFechasPorDefecto() {
@@ -132,7 +132,7 @@ $(function () {
           $("#facturas-body").append(row);
         });
 
-        // --- COMENTAMOS el gráfico de líneas basado en ventas diarias ---
+        // --- COMENTAMOS el gráfico de líneas basado en ventas diarias (para no interferir) ---
         /*
         if (salesChart) {
           salesChart.destroy();
@@ -154,7 +154,7 @@ $(function () {
         salesChart = new Chart(ctx, {
           type: "line",
           data: {...},
-          options: {...}
+          ...
         });
         */
 
@@ -177,6 +177,7 @@ $(function () {
         let estadosBackgroundColors = estadosLabels.map((label, index) => {
           return paletteBackground[index % paletteBackground.length];
         });
+
         const ctxDistribution = document
           .getElementById("distributionChart")
           .getContext("2d");
@@ -290,7 +291,7 @@ $(function () {
           );
         });
 
-        // ***** Sección de ciudades despachos *****
+        // ***** Sección de ciudades con despachos *****
         let total_despachos_ciudad = 0;
         response.ciudad_pedidos.forEach((city) => {
           var cantidad_pedidos = parseFloat(city.cantidad_pedidos);
@@ -363,7 +364,7 @@ $(function () {
     return (cantidad / total) * 100;
   }
 
-  // Función para actualizar la barra de progreso en "Productos por cantidad"
+  // --- Barras de progreso de Productos y Ciudades ---
   function updateProductProgressBar(cantidad_despacho, nombre_producto, imagen, porcentaje) {
     const productElement = document.createElement("div");
     productElement.classList.add("product");
@@ -380,7 +381,6 @@ $(function () {
     document.getElementById("products-container").appendChild(productElement);
   }
 
-  // Función para actualizar la barra de progreso en "Ciudades con más despachos"
   function updateCityProgressBar(cantidad_pedidos, ciudad, porcentaje) {
     const productElement = document.createElement("div");
     productElement.classList.add("product");
@@ -396,7 +396,6 @@ $(function () {
     document.getElementById("ciudades-container").appendChild(productElement);
   }
 
-  // Productos Entrega
   function updateProductProgressBar_entrega(cantidad_despacho, nombre_producto, imagen, porcentaje) {
     const productElement = document.createElement("div");
     productElement.classList.add("product");
@@ -413,7 +412,6 @@ $(function () {
     document.getElementById("productsEntregados-container").appendChild(productElement);
   }
 
-  // Ciudades Entrega
   function updateCityProgressBar_entregar(cantidad_entregas, ciudad, porcentaje) {
     const productElement = document.createElement("div");
     productElement.classList.add("product");
@@ -429,7 +427,6 @@ $(function () {
     document.getElementById("ciudadesEntregadas-container").appendChild(productElement);
   }
 
-  // Productos Devolución
   function updateProductProgressBar_devolucion(cantidad_despacho, nombre_producto, imagen, porcentaje) {
     const productElement = document.createElement("div");
     productElement.classList.add("product");
@@ -446,7 +443,6 @@ $(function () {
     document.getElementById("productsDevolucion-container").appendChild(productElement);
   }
 
-  // Ciudades Devolución
   function updateCityProgressBar_devolucion(cantidad_entregas, ciudad, porcentaje) {
     const productElement = document.createElement("div");
     productElement.classList.add("product");
@@ -496,18 +492,21 @@ $(function () {
         );
         $("#id_confirmacion").text("de " + (data.mensaje || ""));
 
-        // Datos para el gráfico de LÍNEAS basado en las Cards
+        // Construimos un array de puntos con eje X e Y
+        // X = 1 (Valor Pedidos), 2 (Guías Generadas), 3 (Guías Entregadas), 4 (Total Pedidos)
+        // Y = valores
         const chartLabels = [
           "Valor Pedidos",
           "Guías Generadas",
           "Guías Entregadas",
           "Total Pedidos",
         ];
-        const chartData = [
-          parseFloat(data.valor_pedidos) || 0,
-          parseFloat(data.total_guias) || 0,
-          parseFloat(data.total_guias_entregadas) || 0,
-          parseFloat(data.total_pedidos) || 0,
+        // Eje X = numérico, Eje Y = valor
+        const chartPoints = [
+          { x: 1, y: parseFloat(data.valor_pedidos) || 0 },
+          { x: 2, y: parseFloat(data.total_guias) || 0 },
+          { x: 3, y: parseFloat(data.total_guias_entregadas) || 0 },
+          { x: 4, y: parseFloat(data.total_pedidos) || 0 },
         ];
 
         // Destruimos el gráfico anterior si existe
@@ -515,16 +514,15 @@ $(function () {
           performanceChart.destroy();
         }
 
-        // Creamos un nuevo gráfico de LÍNEAS en #salesChart
+        // Creamos un nuevo gráfico de LÍNEAS en #salesChart con ejes numéricos
         let ctxPerf = document.getElementById("salesChart").getContext("2d");
         performanceChart = new Chart(ctxPerf, {
           type: "line",
           data: {
-            labels: chartLabels,
             datasets: [
               {
                 label: "Rendimiento (según Cards)",
-                data: chartData,
+                data: chartPoints,
                 borderColor: "rgba(75, 192, 192, 1)",
                 backgroundColor: "rgba(75, 192, 192, 0.2)",
                 fill: false,
@@ -535,10 +533,33 @@ $(function () {
           },
           options: {
             scales: {
+              x: {
+                type: "linear",
+                beginAtZero: true,
+                min: 1,
+                max: 4,
+                title: {
+                  display: true,
+                  text: "Indicador (1 a 4)",
+                },
+              },
               y: {
                 beginAtZero: true,
-                ticks: {
-                  precision: 0,
+                title: {
+                  display: true,
+                  text: "Valor",
+                },
+              },
+            },
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    // El índice del punto que está en 'chartPoints'
+                    let idx = context.dataIndex; 
+                    let nombreIndicador = chartLabels[idx] || "Indicador";
+                    return nombreIndicador + ": " + context.formattedValue;
+                  },
                 },
               },
             },
