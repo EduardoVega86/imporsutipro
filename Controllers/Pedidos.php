@@ -1668,6 +1668,9 @@ class Pedidos extends Controller
             // Generar un Excel (XLSX)
             $writer = new Xlsx($spreadsheet);
 
+            //Incluir graficos
+            $writer->setIncludeCharts(true);
+
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment;filename="guias.xlsx"');
             header('Cache-Control: max-age=0');
