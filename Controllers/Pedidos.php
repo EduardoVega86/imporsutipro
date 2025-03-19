@@ -927,9 +927,10 @@ class Pedidos extends Controller
             $drogshipin = $_POST['drogshipin'] ?? "";
             $impreso = $_POST['impreso'] ?? "";
             $despachos = $_POST['despachos'] ?? "";
+            $buscar_guia = $_POST['buscar_guia'] ?? "";
             /*  $start = $_POST['start'] ?? 0;
             $length = $_POST['length'] ?? 25; */
-            $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos);
+            $data = $this->model->cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $buscar_guia);
 
             // Inicializamos los totales para mostrar cards en guias
             $totals = [
