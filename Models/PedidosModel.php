@@ -465,7 +465,7 @@ class PedidosModel extends Query
         }
 
         if (!empty($buscar_guia)) {
-            $sql .= "AND (fc.numero_guia LIKE '%$buscar_guia%' OR fc.nombre LIKE '%$buscar_guia%')";
+            $filtros[] = "(fc.numero_guia LIKE '%$buscar_guia%' OR fc.nombre LIKE '%$buscar_guia%')";
         }
 
         if (!empty($estado)) {
