@@ -1036,6 +1036,7 @@ class Pedidos extends Controller
         $impreso        = $_POST['impreso']        ?? "";
         $despachos      = $_POST['despachos']      ?? "";
         $formato        = $_POST['formato']        ?? "excel";
+        $buscar_guia = $_POST['buscar_guia'] ?? "";
 
         // Para pedidos:
         $estado_pedido  = $_POST['estado_pedido']  ?? "";
@@ -1053,7 +1054,8 @@ class Pedidos extends Controller
             $estado,
             $impreso,
             $drogshipin,
-            $despachos
+            $despachos,
+            $buscar_guia
         );
 
         // 3) Calculamos los “counts” (estados) basados en la misma lógica
@@ -1713,6 +1715,7 @@ class Pedidos extends Controller
         $impreso        = $_POST['impreso']        ?? "";
         $despachos      = $_POST['despachos']      ?? "";
         $formato        = $_POST['formato']        ?? "excel";
+        $buscar_guia = $_POST['buscar_guia'] ?? "";
 
         // Obtener los datos
         $data = $this->model->cargarGuiasAdministrador(
@@ -1722,7 +1725,8 @@ class Pedidos extends Controller
             $estado,
             $impreso,
             $drogshipin,
-            $despachos
+            $despachos,
+            $buscar_guia
         );
 
         // ========================================================
