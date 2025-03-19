@@ -1431,9 +1431,6 @@ class Pedidos extends Controller
         //         'horizontal' => Alignment::HORIZONTAL_CENTER,
         //     ]
         // ]);
-
-        $fila += 2; // dejamos un espacio
-
         // Encabezados de columna
         $sheetPendientes->setCellValue("A{$fila}", '# Orden');
         $sheetPendientes->setCellValue("B{$fila}", 'Fecha');
@@ -1580,8 +1577,6 @@ class Pedidos extends Controller
         foreach (range('A', 'J') as $col) {
             $sheetNoVinc->getColumnDimension($col)->setAutoSize(true);
         }
-
-        $fila += 2;
         // Encabezados
         $sheetNoVinc->setCellValue("A{$fila}", '# Orden');
         $sheetNoVinc->setCellValue("B{$fila}", 'Fecha');
