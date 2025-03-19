@@ -48,8 +48,8 @@
                     </div>
                     <!-- Card: Pedidos Entregados -->
                     <div class="col-md-3">
-                        <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #ffc107;">
-                            <h5 class="text-warning">
+                        <div class="card shadow-sm p-3 text-center" style="background: white; border-left: 5px solid #28a745;">
+                            <h5 class="text-success">
                                 <i class="bx bx-package"></i> Guías Entregadas
                                 <i class="bx bx-help-circle text-muted" data-toggle="tooltip" title="Cantidad total de pedidos entregados"></i>
                             </h5>
@@ -104,7 +104,7 @@
         <div class="tablas_estaditicas">
             <div class="content-container">
                 <div class="content-box">
-                    <h3 class="fs-5 fw-bold">Ventas del último Mes</h3>
+                    <h3 class="fs-5 fw-bold">Rendimiento</h3>
                     <canvas id="salesChart"></canvas>
                 </div>
                 <!-- div adicional para cerrar lo que usamos -->

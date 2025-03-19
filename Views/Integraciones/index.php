@@ -83,7 +83,7 @@
                     <p class="status disconnected">Desconectado</p>
                 </div> -->
 
-                <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'Productos/marketplace'">Markerplace</button>
+                <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'Productos/marketplace'">Marketplace</button>
                 <button class="btn btn-primary" onclick="window.location.href=SERVERURL+'funnelish/constructor_vista'">Productos conectados</button>
             </div>
         </div>
