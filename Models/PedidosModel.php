@@ -2098,6 +2098,126 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function cargarPedidosPorFila_imporsuit($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
+    {
+        // Arma la consulta base sobre facturas_cot (anulada = 0, sin #guía, etc.)
+        $sql = "SELECT 
+                    fc.*,
+                    -- Subconsultas para ciudad y provincia
+                    (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = fc.ciudad_cot) AS ciudad,
+                    (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = fc.ciudad_cot) AS provinciaa,
+                    (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = fc.id_propietario) AS plataforma,
+                    
+                    -- Lo importante: Traer SKU y cantidad del detalle
+                    dfc.sku,
+                    dfc.cantidad
+    
+                FROM facturas_cot fc
+                LEFT JOIN detalle_fact_cot dfc 
+                    ON dfc.numero_factura = fc.numero_factura
+    
+                WHERE fc.anulada = 0 
+                  AND (TRIM(fc.numero_guia) = '' OR fc.numero_guia IS NULL OR fc.numero_guia = '0')
+                  AND fc.id_plataforma = '$plataforma'";
+
+        // Filtros por fecha
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fc.fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        // Filtro estado_pedido
+        if (!empty($estado_pedido)) {
+            $sql .= " AND fc.estado_pedido = $estado_pedido";
+        }
+
+        // Filtro búsqueda
+        if (!empty($buscar_pedido)) {
+            $sql .= " AND (fc.numero_factura LIKE '%$buscar_pedido%' 
+                        OR fc.nombre LIKE '%$buscar_pedido%' 
+                        OR fc.comentario LIKE '%$buscar_pedido%')";
+        }
+
+        // Impedir que traiga los “sin producto”
+        $sql .= " AND fc.no_producto = 0";
+
+        // Orden final
+        $sql .= " ORDER BY fc.numero_factura DESC;";
+
+        return $this->select($sql);
+    }
+
+    public function cargarPedidosPorFila_anulados($plataforma, $fecha_inicio, $fecha_fin, $guia_enviada, $anulada)
+    {
+        $sql = "SELECT 
+                    fc.*,
+                    (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = fc.ciudad_cot) AS ciudad,
+                    (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = fc.ciudad_cot) AS provinciaa,
+                    (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = fc.id_propietario) AS plataforma,
+    
+                    dfc.sku,
+                    dfc.cantidad
+    
+                FROM facturas_cot fc
+                LEFT JOIN detalle_fact_cot dfc 
+                    ON dfc.numero_factura = fc.numero_factura
+    
+                WHERE fc.anulada = $anulada 
+                  AND (TRIM(fc.numero_guia) = '' OR fc.numero_guia IS NULL OR fc.numero_guia = '0')
+                  AND fc.id_plataforma = '$plataforma'";
+
+        // Filtro fecha
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fc.fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        // Filtro “guia_enviada” (estado_pedido?)
+        if (!empty($guia_enviada)) {
+            $sql .= " AND fc.estado_pedido = $guia_enviada";
+        }
+
+        // No producto = 0 (lo que usaba tu original)
+        $sql .= " AND fc.no_producto = 0";
+
+        // Orden
+        $sql .= " ORDER BY fc.numero_factura DESC;";
+
+        return $this->select($sql);
+    }
+
+    public function cargarPedidosPorFila_noVinculados($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido)
+    {
+        $sql = "SELECT 
+                    fc.*,
+                    (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = fc.ciudad_cot) AS ciudad,
+                    (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = fc.ciudad_cot) AS provinciaa,
+                    (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = fc.id_propietario) AS plataforma,
+    
+                    dfc.sku,
+                    dfc.cantidad
+    
+                FROM facturas_cot fc
+                LEFT JOIN detalle_fact_cot dfc 
+                    ON dfc.numero_factura = fc.numero_factura
+    
+                WHERE fc.anulada = 0 
+                  AND (TRIM(fc.numero_guia) = '' OR fc.numero_guia IS NULL OR fc.numero_guia = '0')
+                  AND fc.id_plataforma = '$plataforma'";
+
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fc.fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        if (!empty($estado_pedido)) {
+            $sql .= " AND fc.estado_pedido = $estado_pedido";
+        }
+
+        // Aquí SÍ “no_producto = 1”
+        $sql .= " AND fc.no_producto = 1";
+
+        $sql .= " ORDER BY fc.numero_factura DESC;";
+        return $this->select($sql);
+    }
+
 
 
     public function cargar_cards_pedidos($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido)
