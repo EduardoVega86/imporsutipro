@@ -246,7 +246,7 @@
                             <i class="fas fa-file-excel text-success"></i> Guías.xlsx
                         </a></li>
                     <li><a class="dropdown-item text-wrap" href="#" id="downloadCsvOption">
-                            <i class="fas fa-file-csv text-warning"></i> Guías y Pedidos.csv
+                            <i class="fas fa-file-csv text-warning"></i> Guías.csv
                         </a></li>
                 </ul>
             </div>
