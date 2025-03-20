@@ -236,10 +236,7 @@
                 </button>
                 <ul class="dropdown-menu w-auto" aria-labelledby="btnObtenerReporte">
                     <li><a class="dropdown-item text-wrap" href="#" id="downloadExcelOption">
-                            <i class="fas fa-file-excel text-success"></i> Guías.xlsx (Una guía por fila)
-                        </a></li>
-                    <li><a class="dropdown-item text-wrap" href="#" id="downloadExcelOption">
-                            <i class="fas fa-file-excel text-success"></i> Guías.xlsx (Un producto por fila)
+                            <i class="fas fa-file-excel text-success"></i> Guias y Pedidos.xlsx
                         </a></li>
                     <li><a class="dropdown-item text-wrap" href="#" id="downloadCsvOption">
                             <i class="fas fa-file-csv text-warning"></i> Guías.csv
