@@ -1682,7 +1682,21 @@ class Pedidos extends Controller
 
 
 
-
+    /**
+     * Exporta las guías de modo administrador en un archivo Excel o CSV con un reporte detallado el cual incluye datos adicionales como  utilidad del costo flete.
+     *
+     * Este método recibe parámetros a través de una solicitud POST para filtrar guías 
+     * según la plataforma, fecha, transportadora, estado, entre otros. Luego, genera 
+     * un archivo Excel con los datos obtenidos, incluyendo un resumen de estados 
+     * y estadísticas gráficas.
+     *
+     * @return void
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception En caso de errores con la manipulación de la hoja de cálculo.
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception En caso de errores al generar el archivo.
+     *
+     * @api
+     */
     public function exportarGuiasAdministrador()
     {
         $fecha_inicio   = $_POST['fecha_inicio']   ?? "";
@@ -2208,6 +2222,21 @@ class Pedidos extends Controller
         }
     }
 
+    /**
+     * Exporta las guías en un archivo Excel o CSV con un reporte detallado. Incluye datos adicionales como sku y cantidad por guia. 
+     *
+     * Este método recibe parámetros a través de una solicitud POST para filtrar guías 
+     * según la plataforma, fecha, transportadora, estado, entre otros. Luego, genera 
+     * un archivo Excel con los datos obtenidos, incluyendo un resumen de estados 
+     * y estadísticas gráficas.
+     *
+     * @return void
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception En caso de errores con la manipulación de la hoja de cálculo.
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception En caso de errores al generar el archivo.
+     *
+     * @api
+     */
     public function exportarGuiasPorFila()
     {
         // 1) Recogemos parámetros
