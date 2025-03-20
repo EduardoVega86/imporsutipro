@@ -319,6 +319,27 @@ class AccesoModel extends Query
         ];
     }
 
+    public function validarEmail($email)
+    {
+        $sql = "SELECT * FROM users WHERE usuario_users = ?";
+        $params = [$email];
+        $result = $this->simple_select($sql, $params);
+
+        if ($result > 0) {
+            return [
+                "status" => 400,
+                "message" => "Email encontrado",
+                'exists' => true,
+                'count' => $result
+            ];
+        }
+        return [
+            "status" => 200,
+            "message" => "Email no encontrado",
+            'exists' => false,
+            'count' => 0
+        ];
+    }
 
     /**
      * @param $token

@@ -142,6 +142,21 @@ class Acceso extends Controller
         })();
     }
 
+    public function validar_email(): void
+    {
+        $this->catchAsync(function () {
+            $dato_email = $this->jsonData();
+            if (empty($dato_email)) {
+                throw new Exception("No se han enviado datos");
+            }
+            if (empty($dato_email['email'])) {
+                throw new Exception("Nombre de tienda es requerido");
+            }
+            $exists = $this->model->validarEmail($dato_email['email']);
+            echo json_encode($exists);
+        })();
+    }
+
     /**
      * Enviá un correo con un token para recuperar la contraseña
      * @return void
