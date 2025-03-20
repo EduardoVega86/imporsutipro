@@ -132,7 +132,7 @@
         }
     }
 
-    function validateEmailAndPassword() {
+    async function validateEmailAndPassword() {
         const email = document.getElementById("correo").value;
         const emailErrorDiv = document.getElementById("email-error");
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -143,21 +143,27 @@
 
         let isValid = true;
 
+        // Validar formato de email
         if (emailPattern.test(email)) {
             emailErrorDiv.style.display = "none";
         } else {
+            emailErrorDiv.textContent = "Correo electrónico inválido.";
             emailErrorDiv.style.display = "block";
             isValid = false;
         }
 
+        // Validar que las contraseñas coincidan
         if (password === repeatPassword) {
             passwordErrorDiv.style.display = "none";
         } else {
+            passwordErrorDiv.textContent = "Las contraseñas no coinciden.";
             passwordErrorDiv.style.display = "block";
             isValid = false;
         }
 
-        fetch(SERVERURL + 'Acceso/validar_email', {
+        // Si el email ya existe, detener el proceso
+        try {
+            const response = await fetch(SERVERURL + 'Acceso/validar_email', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -165,19 +171,23 @@
                 body: JSON.stringify({
                     email: email
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.exists) {
-                    emailErrorDiv.textContent = "Este correo ya existe.";
-                    emailErrorDiv.style.display = "block";
-                    isValid = false;
-                } else {
-                    emailErrorDiv.style.display = "none";
-                    isValid = true;
-                }
-            })
+            });
 
+            const data = await response.json();
+
+            if (data.exists) {
+                emailErrorDiv.textContent = "Este correo ya existe.";
+                emailErrorDiv.style.display = "block";
+                isValid = false;
+            } else {
+                emailErrorDiv.style.display = "none";
+            }
+        } catch (error) {
+            console.error("Error validando el email:", error);
+            isValid = false;
+        }
+
+        // Si todas las validaciones son correctas, pasar al siguiente paso
         if (isValid) {
             nextStep();
         }
