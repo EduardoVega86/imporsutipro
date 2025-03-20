@@ -157,7 +157,7 @@
     }
 
     .dropdown-menu {
-        min-width: 201;
+        min-width: 202px;
         /* Ajusta el ancho mínimo para que los textos largos no se corten */
     }
 
