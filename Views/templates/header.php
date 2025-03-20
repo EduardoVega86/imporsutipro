@@ -134,6 +134,7 @@
                     ?>
                     <a href="<?php echo SERVERURL ?>pedidos/novedades_2"><i class='bx bx-info-circle menu-icon'></i> <span class="menu-text">Novedades</span></a>
                     <a href="<?php echo SERVERURL ?>Pedidos/historial_abandonados"><i class="fa-brands fa-shopify menu-icon"></i> <span class="menu-text">Historial Abandonados</span></a>
+                    
                 </div>
 
                 <?php if ($_SESSION['cargo'] != 5) { ?>
