@@ -521,160 +521,192 @@ class PedidosModel extends Query
         return $this->select($sql, $params);
     }
 
-    public function cargarGuiasAdministrador($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $buscar_guia)
-    {
+    public function cargarGuiasAdministrador(
+        $fecha_inicio,
+        $fecha_fin,
+        $transportadora,
+        $estado,
+        $impreso,
+        $drogshipin,
+        $despachos,
+        $buscar_guia
+    ) {
         $sql = "SELECT 
-                vga.*,
-                ccp.visto AS pagado,
-
-                -- Relación con ciudad_cotizacion
-                ccz.trayecto_laar, 
-                ccz.trayecto_servientrega, 
-                ccz.trayecto_gintracom,
-
-                -- Costo según la transportadora
-                COALESCE(cl.costo, cs.costo, cg.costo, 0) AS costo,
-
-                CASE
-                    WHEN vga.id_transporte = 4 THEN 
-                        1  -- Speed: ganancia fija de $1
-
-                    WHEN fc.cod = 1 THEN
-                        CASE 
-                            WHEN vga.id_transporte = 1 THEN
-                                vga.costo_flete - (
-                                    COALESCE(cl.costo, 0) 
-                                    + (vga.monto_factura * 0.02)
-                                ) 
-                            WHEN vga.id_transporte = 2 THEN
-                                vga.costo_flete - (
-                                    COALESCE(cs.costo, 0) 
-                                    + (vga.monto_factura * 0.03)
-                                )
-                            WHEN vga.id_transporte = 3 THEN
-                                vga.costo_flete - (
-                                    COALESCE(cg.costo, 0) 
-                                    + (vga.monto_factura * 0.015)
-                                )
-                            ELSE
-                                0
-                        END
-
-                    ELSE
-                        CASE 
-                            WHEN vga.id_transporte = 1 THEN
-                                vga.costo_flete - COALESCE(cl.costo, 0)
-                            WHEN vga.id_transporte = 2 THEN
-                                vga.costo_flete - COALESCE(cs.costo, 0)
-                            WHEN vga.id_transporte = 3 THEN
-                                vga.costo_flete - COALESCE(cg.costo, 0)
-                            ELSE
-                                0
-                        END
-                END AS utilidad
-
-            FROM vista_guias_administrador vga
-            LEFT JOIN cabecera_cuenta_pagar ccp 
-                ON ccp.numero_factura = vga.numero_factura
-            LEFT JOIN facturas_cot fc
-                ON fc.numero_factura = vga.numero_factura  
-            LEFT JOIN ciudad_cotizacion ccz
-                ON vga.ciudad_cot = ccz.id_cotizacion
-            -- Lógica para LAAR
-            LEFT JOIN cobertura_laar cl 
-                ON vga.id_transporte = 1 
-               AND cl.tipo_cobertura = ccz.trayecto_laar
-            -- Servientrega
-            LEFT JOIN cobertura_servientrega cs 
-                ON vga.id_transporte = 2 
-               AND cs.tipo_cobertura = ccz.trayecto_servientrega
-            -- Gintracom
-            LEFT JOIN cobertura_gintracom cg 
-                ON vga.id_transporte = 3 
-               AND cg.trayecto = ccz.trayecto_gintracom
-            ";
+                    vga.*,
+                    ccp.visto AS pagado,
+    
+                    -- Relación con ciudad_cotizacion
+                    ccz.trayecto_laar, 
+                    ccz.trayecto_servientrega, 
+                    ccz.trayecto_gintracom,
+    
+                    -- Costo según la transportadora
+                    COALESCE(cl.costo, cs.costo, cg.costo, 0) AS costo,
+    
+                    CASE
+                        WHEN vga.id_transporte = 4 THEN 
+                            1  -- Speed: ganancia fija de $1
+    
+                        WHEN fc.cod = 1 THEN
+                            CASE 
+                                WHEN vga.id_transporte = 1 THEN
+                                    vga.costo_flete - (
+                                        COALESCE(cl.costo, 0) 
+                                        + (vga.monto_factura * 0.02)
+                                    ) 
+                                WHEN vga.id_transporte = 2 THEN
+                                    vga.costo_flete - (
+                                        COALESCE(cs.costo, 0) 
+                                        + (vga.monto_factura * 0.03)
+                                    )
+                                WHEN vga.id_transporte = 3 THEN
+                                    vga.costo_flete - (
+                                        COALESCE(cg.costo, 0) 
+                                        + (vga.monto_factura * 0.015)
+                                    )
+                                ELSE
+                                    0
+                            END
+                        ELSE
+                            CASE 
+                                WHEN vga.id_transporte = 1 THEN
+                                    vga.costo_flete - COALESCE(cl.costo, 0)
+                                WHEN vga.id_transporte = 2 THEN
+                                    vga.costo_flete - COALESCE(cs.costo, 0)
+                                WHEN vga.id_transporte = 3 THEN
+                                    vga.costo_flete - COALESCE(cg.costo, 0)
+                                ELSE
+                                    0
+                            END
+                    END AS utilidad
+    
+                FROM vista_guias_administrador vga
+                LEFT JOIN cabecera_cuenta_pagar ccp 
+                    ON ccp.numero_factura = vga.numero_factura
+                LEFT JOIN facturas_cot fc
+                    ON fc.numero_factura = vga.numero_factura  
+                LEFT JOIN ciudad_cotizacion ccz
+                    ON vga.ciudad_cot = ccz.id_cotizacion
+                -- Lógica para LAAR
+                LEFT JOIN cobertura_laar cl 
+                    ON vga.id_transporte = 1 
+                   AND cl.tipo_cobertura = ccz.trayecto_laar
+                -- Servientrega
+                LEFT JOIN cobertura_servientrega cs 
+                    ON vga.id_transporte = 2 
+                   AND cs.tipo_cobertura = ccz.trayecto_servientrega
+                -- Gintracom
+                LEFT JOIN cobertura_gintracom cg 
+                    ON vga.id_transporte = 3 
+                   AND cg.trayecto = ccz.trayecto_gintracom
+        ";
 
         $filtros = [];
 
+        // FECHAS -> fc.fecha_guia
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $filtros[] = "fc.fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
+        // TRANSPORTADORA -> vga.transporte 
         if (!empty($transportadora)) {
-            $filtros[] = "transporte = '$transportadora'";
+            $filtros[] = "vga.transporte = '$transportadora'";
         }
 
+        // BUSCAR GUIA -> fc.numero_guia OR fc.nombre 
         if (!empty($buscar_guia)) {
             $filtros[] = "(fc.numero_guia LIKE '%$buscar_guia%' OR fc.nombre LIKE '%$buscar_guia%')";
         }
 
+        // ESTADO -> vga.estado_guia_sistema AND vga.id_transporte
         if (!empty($estado)) {
             switch ($estado) {
                 case 'generada':
-                    $filtros[] = "((estado_guia_sistema IN (100,102,103) AND id_transporte=2)
-                                OR (estado_guia_sistema IN (1,2) AND id_transporte=1)
-                                OR (estado_guia_sistema IN (1,2,3) AND id_transporte=3)
-                                OR (estado_guia_sistema IN (2) AND id_transporte=4))";
+                    $filtros[] = "(
+                        (vga.estado_guia_sistema IN (100,102,103) AND vga.id_transporte=2) OR
+                        (vga.estado_guia_sistema IN (1,2)       AND vga.id_transporte=1) OR
+                        (vga.estado_guia_sistema IN (1,2,3)     AND vga.id_transporte=3) OR
+                        (vga.estado_guia_sistema IN (2)         AND vga.id_transporte=4)
+                    )";
                     break;
                 case 'en_transito':
-                    $filtros[] = "((estado_guia_sistema BETWEEN 300 AND 317 AND estado_guia_sistema != 307 AND id_transporte=2)
-                                OR (estado_guia_sistema IN (5,11,12) AND id_transporte=1)
-                                OR (estado_guia_sistema IN (4) AND id_transporte=3)
-                                OR (estado_guia_sistema IN (3) AND id_transporte=4))";
+                    $filtros[] = "(
+                        (vga.estado_guia_sistema BETWEEN 300 AND 317 
+                            AND vga.estado_guia_sistema != 307 AND vga.id_transporte=2) OR
+                        (vga.estado_guia_sistema IN (5,11,12) AND vga.id_transporte=1) OR
+                        (vga.estado_guia_sistema IN (4)       AND vga.id_transporte=3) OR
+                        (vga.estado_guia_sistema IN (3)       AND vga.id_transporte=4)
+                    )";
                     break;
                 case 'zona_entrega':
-                    $filtros[] = "((estado_guia_sistema = 307 AND id_transporte=2)
-                                OR (estado_guia_sistema IN (6) AND id_transporte=1)
-                                OR (estado_guia_sistema IN (5) AND id_transporte=3))";
+                    $filtros[] = "(
+                        (vga.estado_guia_sistema = 307         AND vga.id_transporte=2) OR
+                        (vga.estado_guia_sistema IN (6)        AND vga.id_transporte=1) OR
+                        (vga.estado_guia_sistema IN (5)        AND vga.id_transporte=3)
+                    )";
                     break;
                 case 'entregada':
-                    $filtros[] = "((estado_guia_sistema BETWEEN 400 AND 403 AND id_transporte=2)
-                                OR (estado_guia_sistema IN (7) AND id_transporte=1)
-                                OR (estado_guia_sistema IN (7) AND id_transporte=3)
-                                OR (estado_guia_sistema IN (7) AND id_transporte=4))";
+                    $filtros[] = "(
+                        (vga.estado_guia_sistema BETWEEN 400 AND 403 AND vga.id_transporte=2) OR
+                        (vga.estado_guia_sistema IN (7)            AND vga.id_transporte=1) OR
+                        (vga.estado_guia_sistema IN (7)            AND vga.id_transporte=3) OR
+                        (vga.estado_guia_sistema IN (7)            AND vga.id_transporte=4)
+                    )";
                     break;
                 case 'novedad':
-                    $filtros[] = "((estado_guia_sistema BETWEEN 320 AND 351 AND id_transporte=2)
-                                OR (estado_guia_sistema IN (14) AND id_transporte=1)
-                                OR (estado_guia_sistema IN (6) AND id_transporte=3)
-                                OR (estado_guia_sistema IN (14) AND id_transporte=4))";
+                    $filtros[] = "(
+                        (vga.estado_guia_sistema BETWEEN 320 AND 351 AND vga.id_transporte=2) OR
+                        (vga.estado_guia_sistema IN (14)           AND vga.id_transporte=1) OR
+                        (vga.estado_guia_sistema IN (6)            AND vga.id_transporte=3) OR
+                        (vga.estado_guia_sistema IN (14)           AND vga.id_transporte=4)
+                    )";
                     break;
                 case 'devolucion':
-                    $filtros[] = "((estado_guia_sistema BETWEEN 500 AND 502 AND id_transporte=2)
-                                OR (estado_guia_sistema IN (9) AND id_transporte=1)
-                                OR (estado_guia_sistema IN (9) AND id_transporte=4)
-                                OR (estado_guia_sistema IN (8,9,13) AND id_transporte=3))";
+                    $filtros[] = "(
+                        (vga.estado_guia_sistema BETWEEN 500 AND 502 AND vga.id_transporte=2) OR
+                        (vga.estado_guia_sistema IN (9)            AND vga.id_transporte=1) OR
+                        (vga.estado_guia_sistema IN (9)            AND vga.id_transporte=4) OR
+                        (vga.estado_guia_sistema IN (8,9,13)       AND vga.id_transporte=3)
+                    )";
                     break;
             }
         }
 
+        // DROGSHIPIN -> vga.drogshipin
         if ($drogshipin == 0 || $drogshipin == 1) {
-            $filtros[] = "drogshipin = $drogshipin";
+            $filtros[] = "vga.drogshipin = $drogshipin";
         }
 
+        // IMPRESO -> vga.impreso
         if ($impreso == 0 || $impreso == 1) {
-            $filtros[] = "impreso = $impreso";
+            $filtros[] = "vga.impreso = $impreso";
         }
 
-        if ($despachos !== null && $despachos !== '') {
+        // DESPACHOS -> vga.estado_factura
+        if (!is_null($despachos) && $despachos !== '') {
             if ($despachos == 4) {
                 $filtros[] = "(
-                                (estado_guia_sistema BETWEEN 500 AND 502 AND id_transporte=2)
-                                OR (estado_guia_sistema IN (9) AND id_transporte=1)
-                                OR (estado_guia_sistema IN (9) AND id_transporte=4)
-                                OR (estado_guia_sistema IN (8,9,13) AND id_transporte=3)
-                            ) AND (estado_factura IN (1,2))";
+                    (
+                        (vga.estado_guia_sistema BETWEEN 500 AND 502 AND vga.id_transporte=2) OR
+                        (vga.estado_guia_sistema IN (9)            AND vga.id_transporte=1) OR
+                        (vga.estado_guia_sistema IN (9)            AND vga.id_transporte=4) OR
+                        (vga.estado_guia_sistema IN (8,9,13)       AND vga.id_transporte=3)
+                    )
+                    AND (vga.estado_factura IN (1,2))
+                )";
             } else if (in_array($despachos, [1, 2, 3])) {
-                $filtros[] = "estado_factura = '$despachos'";
+                $filtros[] = "vga.estado_factura = '$despachos'";
             }
         }
 
+        // CONCATENAR LOS FILTROS
         if (!empty($filtros)) {
             $sql .= " WHERE " . implode(" AND ", $filtros);
         }
 
         return $this->dselect($sql, []);
     }
+
 
 
 
