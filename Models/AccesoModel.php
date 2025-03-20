@@ -133,6 +133,7 @@ class AccesoModel extends Query
     {
         try {
             $auth = new RegisterUser($this->getConnection(), $nombre, $correo, $pais, $telefono, $contrasena, $tienda, $referido, 1);
+            $auth->register_user();
             $this->getResponse()['status'] = 200;
             $this->getResponse()['title'] = 'Petición exitosa';
             $this->getResponse()['message'] = 'Usuario registrado correctamente';
