@@ -157,6 +157,27 @@
             isValid = false;
         }
 
+        fetch(SERVERURL + 'Acceso/validar_email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    tienda: input.value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    emailErrorDiv.textContent = "Este correo ya existe.";
+                    emailErrorDiv.style.display = "block";
+                    isValid = false;
+                } else {
+                    emailErrorDiv.style.display = "none";
+                    isValid = true;
+                }
+            })
+
         if (isValid) {
             nextStep();
         }
