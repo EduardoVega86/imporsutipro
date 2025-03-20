@@ -3973,8 +3973,6 @@ class PedidosModel extends Query
 
     public function generarCarroAbandonado($id_plataforma, $telefono, $productos, $sku_productos)
     {
-        $sql = "INSERT INTO `abandonado` (`id_plataforma`, `telefono`, `producto`) VALUES (?, ?, ?)";
-        $data = [$id_plataforma, $telefono, $productos];
 
         /* automatizador */
         $id_configuracion = $this->select("SELECT id FROM configuraciones WHERE id_plataforma = $id_plataforma");
@@ -4035,7 +4033,7 @@ class PedidosModel extends Query
                 $response['status'] = 200;
                 $response['title'] = 'Peticion exitosa';
                 $response['message'] = "Pedido creado correctamente y datos enviados";
-                $response['data'] = $data;
+                $response['data'] = $data2;
                 $response['respuesta_curl'] = $response_api['response'];
             }
         } else {
@@ -4044,6 +4042,14 @@ class PedidosModel extends Query
             $response['message'] = "Pedido creado correctamente";
         }
         /* automatizador */
+        $contactado = 0;
+
+        if ($response_api['success']) {
+            $contactado = 1;
+        }
+
+        $sql = "INSERT INTO `abandonado` (`id_plataforma`, `telefono`, `producto`, `contactado`) VALUES (?, ?, ?, ?)";
+        $data = [$id_plataforma, $telefono, $productos, $contactado];
 
         return $this->insert($sql, $data);
     }
