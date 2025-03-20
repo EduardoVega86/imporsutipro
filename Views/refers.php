@@ -163,7 +163,7 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    tienda: input.value
+                    tienda: email
                 })
             })
             .then(response => response.json())
