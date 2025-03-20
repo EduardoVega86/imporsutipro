@@ -61,9 +61,9 @@
                     <a href="<?php echo SERVERURL; ?>shopify/constructor_abandonados" class="icon-btn" data-tooltip="Conectar abandonados">
                         <i class="fas fa-shopping-cart"></i>
                     </a>
-                    <a href="<?php echo SERVERURL; ?>Pedidos/historial_abandonados" class="icon-btn" data-tooltip="Historial abandonados">
+                    <!-- <a href="<?php echo SERVERURL; ?>Pedidos/historial_abandonados" class="icon-btn" data-tooltip="Historial abandonados">
                         <i class="fas fa-history"></i>
-                    </a>
+                    </a> -->
                 </div>
             </div>
         </div>
