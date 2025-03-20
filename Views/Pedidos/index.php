@@ -9,7 +9,6 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Historial de Pedidos</h2>
 
         <!-- 🔹 SECCIÓN DE CARDS INFORMATIVAS 🔹 -->
         <div class="row mb-4">

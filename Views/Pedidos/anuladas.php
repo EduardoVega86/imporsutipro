@@ -6,7 +6,6 @@
 <?php require_once './Views/Pedidos/Modales/gestionar_novedad.php'; ?>
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Guias Anuladas</h2>
         <div class="d-flex flex-column justify-content-between">
             <div class="primer_seccionFiltro" style="width: 100%;">
                 <div class="d-flex flex-row align-items-end filtro_fecha">
@@ -42,7 +41,7 @@
             </div>
 
             <div class="segunda_seccionFiltro">
-                
+
                 <div style="width: 100%;">
                     <label for="inputPassword3" class="col-sm-2 col-form-label">Transportadora</label>
                     <div>
