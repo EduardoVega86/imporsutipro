@@ -2450,100 +2450,8 @@ class Pedidos extends Controller
         }
 
         // 6) (Opcional) Crear la minitabla de estados y el chart, igual que en "exportarGuias()"
-        // 6) Creamos la MINITABLA y el CHART en la misma hoja 1 (igual que tu exportarGuias)
-        $miniTableStart = 3; // Empiezas en fila 3, col. V/W
-        $sheet->setCellValue("V{$miniTableStart}", "Estado");
-        $sheet->setCellValue("W{$miniTableStart}", "Porcentaje");
-        $sheet->getStyle("V{$miniTableStart}:W{$miniTableStart}")->applyFromArray([
-            'font' => [
-                'bold' => true,
-                'color' => ['rgb' => 'FFFFFF'],
-            ],
-            'fill' => [
-                'fillType'   => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '0D1566'],
-            ],
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_CENTER,
-            ]
-        ]);
-        $sheet->getColumnDimension('V')->setAutoSize(true);
-        $sheet->getColumnDimension('W')->setAutoSize(true);
-
-        // Etiquetas y keys
-        $labelsEstados = ["Generada", "En tránsito", "Zona entrega", "Entregada", "Novedad", "Devolución"];
-        $keysEstados   = ["generada", "en_transito", "zona_entrega", "entregada", "novedad", "devolucion"];
-
-        // Calculamos porcentajes
-        $porcentajesRaw = [];
-        foreach ($keysEstados as $k) {
-            $porcentajesRaw[$k] = ($total > 0) ? (($counts[$k] / $total) * 100) : 0;
-        }
-        $sumRaw = array_sum($porcentajesRaw);
-        $dif    = 100 - $sumRaw;
-        if ($sumRaw > 0) {
-            $maxKey = array_search(max($porcentajesRaw), $porcentajesRaw);
-            $porcentajesRaw[$maxKey] += $dif; // Ajustar para que sume 100
-        }
-
-        // Pegamos en la minitabla
-        $rowAux = $miniTableStart + 1;
-        foreach ($keysEstados as $i => $k) {
-            $sheet->setCellValue("V{$rowAux}", $labelsEstados[$i]);
-            $sheet->setCellValue("W{$rowAux}", round($porcentajesRaw[$k], 2));
-            $rowAux++;
-        }
-        $lastAux = $rowAux - 1;
-
-        // Bordes
-        $sheet->getStyle("V{$miniTableStart}:W{$lastAux}")->applyFromArray([
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => Border::BORDER_THIN,
-                    'color' => ['rgb' => '000000']
-                ]
-            ]
-        ]);
-
-        // Creamos el diagrama de barras
-        $numEstados = 6;
-        $startData  = $miniTableStart + 1; // 4
-        $endData    = $startData + $numEstados - 1; // 9
-
-        $labels = [
-            new DataSeriesValues('String', $sheetGuias->getTitle() . '!W' . $miniTableStart, null, 1),
-        ];
-        $categories = [
-            new DataSeriesValues('String', $sheetGuias->getTitle() . "!V{$startData}:V{$endData}", null, $numEstados),
-        ];
-        $values = [
-            new DataSeriesValues('Number', $sheetGuias->getTitle() . "!W{$startData}:W{$endData}", null, $numEstados),
-        ];
-        $series = new DataSeries(
-            DataSeries::TYPE_BARCHART,
-            DataSeries::GROUPING_CLUSTERED,
-            range(0, count($values) - 1),
-            $labels,
-            $categories,
-            $values
-        );
-        $series->setPlotDirection(DataSeries::DIRECTION_COL);
-
-        $plotArea = new PlotArea(null, [$series]);
-        $legend   = new Legend(Legend::POSITION_RIGHT, null, false);
-        $title    = new Title('% de Estados');
-        $yAxisLab = new Title('Porcentaje (%)');
-
-        $chart = new Chart('chart_estados', $title, $legend, $plotArea, true, 0, null, $yAxisLab);
-
-        $posChartTop = $ultimaFila + 2;
-        if ($posChartTop < 10) {
-            $posChartTop = 10;
-        }
-        $chart->setTopLeftPosition("D{$posChartTop}");
-        $chart->setBottomRightPosition("J" . ($posChartTop + 15));
-
-        $sheet->addChart($chart);
+        //    Si quieres el mismo chart, repite la lógica con DataSeries / PlotArea ...
+        //    Y no olvides `$writer->setIncludeCharts(true);`
 
         // 7) Exportamos XLSX o CSV
         if ($formato == 'csv') {
@@ -2561,7 +2469,8 @@ class Pedidos extends Controller
         } else {
             $writer = new Xlsx($spreadsheet);
 
-            $writer->setIncludeCharts(true);
+            // IMPORTANTE para incluir gráficos (si creas la minitabla+chart):
+            // $writer->setIncludeCharts(true);
 
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment;filename="guias_por_fila.xlsx"');
