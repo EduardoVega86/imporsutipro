@@ -1306,7 +1306,7 @@ $debug_log['texto_mensaje'] = $texto_mensaje;
 file_put_contents('debug_log.txt', "Mensaje procesado: " . $texto_mensaje . "\n", FILE_APPEND);
 
 // Verificar si el cliente ya existe en la tabla clientes_chat_center por celular_cliente
-$check_client_stmt = $conn->prepare("SELECT id FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ? ");
+$check_client_stmt = $conn->prepare("SELECT id, chat_cerrado FROM clientes_chat_center WHERE celular_cliente = ? AND id_plataforma = ? ");
 $check_client_stmt->bind_param('si', $phone_whatsapp_from, $id_plataforma);  // Buscamos por el celular_cliente
 $check_client_stmt->execute();
 $check_client_stmt->store_result();
@@ -1324,8 +1324,20 @@ if ($check_client_stmt->num_rows == 0) {
     $insert_client_stmt->close();
 } else {
     // El cliente existe, obtenemos su ID
-    $check_client_stmt->bind_result($id_cliente);
+    $check_client_stmt->bind_result($id_cliente, $chat_cerrado);
     $check_client_stmt->fetch();
+
+    if ($chat_cerrado == 1) {
+        // Si chat_cerrado es 1, lo actualizamos a 0
+        $update_chat_stmt = $conn->prepare("
+            UPDATE clientes_chat_center 
+            SET chat_cerrado = 0 
+            WHERE id = ?
+        ");
+        $update_chat_stmt->bind_param('i', $id_cliente);
+        $update_chat_stmt->execute();
+        $update_chat_stmt->close();
+    }
 }
 
 $check_client_stmt->close();
@@ -1403,7 +1415,7 @@ if ($stmt->execute()) {
     if (!empty($mensaje_interno)) {
         /* file_put_contents('debug_log.txt', "Entro en primera condición\n", FILE_APPEND); */
 
-        $id_template_principal = $mensaje_interno ;
+        $id_template_principal = $mensaje_interno;
 
         $sql_count = "SELECT count(id) AS total FROM mensajes_clientes WHERE id_plataforma = $id_plataforma AND celular_recibe = $id_cliente";
         $result_count = $conn->query($sql_count);
