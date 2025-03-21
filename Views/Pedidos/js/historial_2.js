@@ -68,11 +68,11 @@ const listHistorialPedidos = async () => {
       body: formData,
     });
 
-    const historialPedidos = await response.json();
+    const historialPedidos = await response.json(); // Aquí recibimos todos los pedidos combinados
 
     let content = ``;
 
-    // Procesar los pedidos
+    // Procesar todos los pedidos combinados
     const processPedidos = (pedidos) => {
       if (Array.isArray(pedidos)) {
         pedidos.forEach((historialPedido) => {
@@ -136,10 +136,8 @@ const listHistorialPedidos = async () => {
       }
     };
 
-    // Procesar las categorías de pedidos
-    processPedidos(historialPedidos.pedidosImporsuit);
-    processPedidos(historialPedidos.pedidosAnulados);
-    processPedidos(historialPedidos.pedidosSinProducto);
+    // Aquí ya no es necesario procesar por categorías
+    processPedidos(historialPedidos); // Llamar una sola vez para procesar todos los pedidos combinados
 
     document.getElementById("tableBody_historialPedidos").innerHTML = content;
   } catch (ex) {
