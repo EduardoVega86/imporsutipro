@@ -61,7 +61,7 @@ const listHistorialPedidos = async () => {
 
     // Obtener el valor del campo búsqueda
     let buscar_pedido = $("#buscar_pedido").val().trim();
-    formData.append("buscar_pedido", buscar_pedido); //agregamos al request
+    formData.append("buscar_pedido", buscar_pedido); // Agregamos al request
 
     const response = await fetch(`${SERVERURL}${currentAPI}`, {
       method: "POST",
@@ -76,22 +76,27 @@ const listHistorialPedidos = async () => {
     const processPedidos = (pedidos) => {
       if (Array.isArray(pedidos)) {
         pedidos.forEach((historialPedido) => {
+          // Definir el color del estado del pedido
           let color_estadoPedido = "";
-
-          // Definir el color de los estados del pedido
           switch (historialPedido.estado_pedido) {
             case '1': color_estadoPedido = "#ff8301"; break; // Pendiente
             case '2': color_estadoPedido = "#0d6efd"; break; // Gestionado
-            case '3': color_estadoPedido = "red"; break; // No desea
-            case '4': color_estadoPedido = "green"; break; // 1ra llamada
-            case '5': color_estadoPedido = "green"; break; // 2da llamada
-            case '6': color_estadoPedido = "green"; break; // Observación
-            case '7': color_estadoPedido = "red"; break; // Anulado
-            default: color_estadoPedido = "#ccc"; // Por defecto
+            case '3': color_estadoPedido = "red"; break;     // No desea
+            case '4': color_estadoPedido = "green"; break;   // 1ra llamada
+            case '5': color_estadoPedido = "green"; break;   // 2da llamada
+            case '6': color_estadoPedido = "green"; break;   // Observación
+            case '7': color_estadoPedido = "red"; break;     // Anulado
+            default:  color_estadoPedido = "#ccc"; break;    // Por defecto
           }
 
+          // 1) Determinar si el <select> debe estar deshabilitado (pedido anulado)
+          let disabled = (historialPedido.estado_pedido == 7) ? "disabled" : "";
+
           let select_estados_pedidos = `
-            <select class="form-select select-estado-pedido" style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido};" data-id-factura="${historialPedido.id_factura}">
+            <select class="form-select select-estado-pedido" 
+                    style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido};" 
+                    data-id-factura="${historialPedido.id_factura}"
+                    ${disabled}>
               <option value="0" ${historialPedido.estado_pedido == 0 ? "selected" : ""}>-- Selecciona estado --</option>
               <option value="1" ${historialPedido.estado_pedido == 1 ? "selected" : ""}>Pendiente</option>
               <option value="2" ${historialPedido.estado_pedido == 2 ? "selected" : ""}>Gestionado</option>
@@ -122,24 +127,40 @@ const listHistorialPedidos = async () => {
               <td>${historialPedido.numero_factura}</td>
               <td>${historialPedido.fecha_factura}</td>
               <td>${historialPedido.plataforma_importa}</td>
-              <td><strong>${historialPedido.nombre}</strong><br>telf: ${historialPedido.telefono}</td>
-              <td>${historialPedido.c_principal} - ${historialPedido.c_secundaria}<br>${historialPedido.provinciaa}-${historialPedido.ciudad_cot}</td>
+              <td>
+                <strong>${historialPedido.nombre}</strong><br>
+                telf: ${historialPedido.telefono}
+              </td>
+              <td>
+                ${historialPedido.c_principal} - ${historialPedido.c_secundaria}
+                <br>
+                ${historialPedido.provinciaa}-${historialPedido.ciudad_cot}
+              </td>
               <td>${historialPedido.contiene}</td>
               <td>$${parseFloat(historialPedido.monto_factura).toFixed(2)}</td>
               <td>${select_estados_pedidos}</td>
               <td>
-                ${boton_automatizador} 
-                <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
+                ${boton_automatizador}
+                <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})">
+                  <i class="fa-solid fa-pencil"></i>
+                </button>
               </td>
             </tr>`;
         });
       }
     };
 
-    // Aquí ya no es necesario procesar por categorías
-    processPedidos(historialPedidos); // Llamar una sola vez para procesar todos los pedidos combinados
+    processPedidos(historialPedidos);
 
-    document.getElementById("tableBody_historialPedidos").innerHTML = content;
+    // 2) Verificar si el contenedor de la tabla existe antes de asignar innerHTML
+    const tableBody = document.getElementById("tableBody_historialPedidos");
+    if (!tableBody) {
+      console.warn("No se encontró 'tableBody_historialPedidos' en el DOM.");
+      return;
+    }
+    
+    tableBody.innerHTML = content;
+
   } catch (ex) {
     alert(ex);
   }
@@ -163,20 +184,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-
-// Capturar evento en el input de búsqueda
-// $("#buscar_pedido").on("keyup", function () {
-//   listHistorialPedidos(); // Volver a cargar los pedidos con el filtro
-// });
-
+// Capturar evento en el input de búsqueda usando el filtro interno de DataTables
 $("#buscar_pedido").on("keyup", function () {
   let searchTerm = $(this).val(); // Captura el término de búsqueda
-  
-  // Realizamos la búsqueda a través de DataTable
-  dataTableHistorial.search(searchTerm).draw();
+  if (dataTableHistorial) {
+    dataTableHistorial.search(searchTerm).draw();
+  }
 });
-
-
 
 window.addEventListener("load", async () => {
   await initDataTableHistorial();
@@ -211,31 +225,14 @@ function hideTableLoader() {
 }
 
 // Manejo de botones para cambiar API y recargar la tabla
-// document.getElementById("btnPedidos").addEventListener("click", () => {
-//   currentAPI = "pedidos/cargarTodosLosPedidos";
-//   cambiarBotonActivo("btnPedidos");
-//   initDataTableHistorial();
-// });
-
-// document.getElementById("btnAnulados").addEventListener("click", () => {
-//   currentAPI = "pedidos/cargarPedidosAnulados"; // Nuevo endpoint para pedidos anulados
-//   cambiarBotonActivo("btnAnulados");
-//   initDataTableHistorial();
-// });
-
-
-/* document.getElementById("btnAbandonados").addEventListener("click", () => {
-  currentAPI = "pedidos/cargar_pedidos_abandonados"; // Ajusta la API correspondiente
-  cambiarBotonActivo("btnAbandonados");
+/*
+// Ejemplo: Cambiar API a "pedidos/cargarTodosLosPedidos"
+document.getElementById("btnPedidos").addEventListener("click", () => {
+  currentAPI = "pedidos/cargarTodosLosPedidos";
+  cambiarBotonActivo("btnPedidos");
   initDataTableHistorial();
-}); */
-
-// document.getElementById("btnNo_vinculados").addEventListener("click", () => {
-//   currentAPI = "pedidos/cargar_pedidos_sin_producto";
-//   cambiarBotonActivo("btnNo_vinculados");
-//   initDataTableHistorial();
-// });
-
+});
+*/
 const cambiarBotonActivo = (botonID) => {
   document.querySelectorAll(".d-flex button").forEach((btn) => {
     btn.classList.remove("active", "btn-primary");
@@ -331,16 +328,12 @@ function obtenerSubdominio(urlString) {
 function procesarPlataforma(url) {
   // Eliminar el "https://"
   let sinProtocolo = url.replace("https://", "");
-
   // Encontrar la posición del primer punto
   let primerPunto = sinProtocolo.indexOf(".");
-
   // Obtener la subcadena desde el inicio hasta el primer punto
   let baseNombre = sinProtocolo.substring(0, primerPunto);
-
   // Convertir a mayúsculas
   let resultado = baseNombre.toUpperCase();
-
   return resultado;
 }
 
@@ -349,45 +342,43 @@ function boton_editarPedido(id) {
 }
 
 function boton_vista_anadir_sin_producto(id) {
-  window.location.href =
-    "" + SERVERURL + "Pedidos/vista_anadir_sin_producto/" + id;
+  window.location.href = "" + SERVERURL + "Pedidos/vista_anadir_sin_producto/" + id;
 }
 
 async function eliminarPedido(idFactura) {
   try {
-      // Usando el método GET para enviar el id_factura en la URL
-      const response = await fetch(SERVERURL + `Pedidos/eliminarPedido/${idFactura}`, {
-          method: "GET", // O "POST", si prefieres hacerlo con POST, pero en la URL
+    // Usando el método GET para enviar el id_factura en la URL
+    const response = await fetch(SERVERURL + `Pedidos/eliminarPedido/${idFactura}`, {
+      method: "GET", // O "POST", si prefieres hacerlo con POST
+    });
+
+    const result = await response.json();
+
+    if (result.status == 200) {
+      toastr.success("PEDIDO ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
       });
-
-      const result = await response.json();
-
-      if (result.status == 200) {
-          toastr.success("PEDIDO ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
-              positionClass: "toast-bottom-center",
-          });
-          
-          // Comprobar si el contenedor de la tabla existe antes de intentar modificarla
-          const tableBody = document.getElementById("tableBody_historialPedidos");
-          if (tableBody) {
-              // Recargar la tabla después de eliminar
-              await initDataTableHistorial();
-          } else {
-              console.error("El elemento de la tabla no fue encontrado");
-          }
+      
+      // Comprobar si el contenedor de la tabla existe antes de intentar modificarla
+      const tableBody = document.getElementById("tableBody_historialPedidos");
+      if (tableBody) {
+        // Recargar la tabla después de eliminar
+        await initDataTableHistorial();
       } else {
-          toastr.error("No se pudo eliminar el pedido", "NOTIFICACIÓN", {
-              positionClass: "toast-bottom-center",
-          });
+        console.error("El elemento de la tabla no fue encontrado");
       }
-  } catch (error) {
-      console.error("Error al eliminar el pedido", error);
-      toastr.error("Hubo un error al eliminar el pedido", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
+    } else {
+      toastr.error("No se pudo eliminar el pedido", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
       });
+    }
+  } catch (error) {
+    console.error("Error al eliminar el pedido", error);
+    toastr.error("Hubo un error al eliminar el pedido", "NOTIFICACIÓN", {
+      positionClass: "toast-bottom-center",
+    });
   }
 }
-
 
 function enviar_mensaje_automatizador(
   nueva_factura,
@@ -425,7 +416,6 @@ function enviar_mensaje_automatizador(
         toastr.success("ENVIADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
         initDataTableHistorial();
       }
     },
@@ -454,6 +444,5 @@ function formatPhoneNumber(number) {
     // Agregar el código de país +593 al inicio del número
     number = "+593" + number;
   }
-
   return number;
 }

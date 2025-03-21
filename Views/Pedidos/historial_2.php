@@ -100,7 +100,7 @@
                 </div>
 
                 <!-- Input de búsqueda (visible para TODAS las plataformas) -->
-                <div class="input-group" style="max-width: 320px; margin-left: 500px;">
+                <div class="input-group" style="max-width: 320px; margin-left: 30px;">
                     <span class="input-group-text">
                         <i class="fas fa-search"></i>
                     </span>
