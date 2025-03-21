@@ -102,6 +102,21 @@ const listHistorialPedidos = async () => {
               <option value="7" ${historialPedido.estado_pedido == 7 ? "selected" : ""}>Anulado</option>
             </select>`;
 
+          // Botón de WhatsApp
+          let boton_automatizador = "";
+          if (VALIDAR_CONFIG_CHAT && historialPedido.automatizar_ws == 0) {
+            boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
+              ${historialPedido.id_factura},
+              '${historialPedido.ciudad_cot}', 
+              '${historialPedido.celular}', 
+              '${historialPedido.nombre}',
+              '${historialPedido.c_principal}',
+              '${historialPedido.c_secundaria}',
+              '${historialPedido.contiene}',
+              ${historialPedido.monto_factura}
+            )"><i class="fa-brands fa-whatsapp"></i></button>`;
+          }
+
           content += `
             <tr>
               <td>${historialPedido.numero_factura}</td>
@@ -113,6 +128,7 @@ const listHistorialPedidos = async () => {
               <td>$${parseFloat(historialPedido.monto_factura).toFixed(2)}</td>
               <td>${select_estados_pedidos}</td>
               <td>
+                ${boton_automatizador} 
                 <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
               </td>
             </tr>`;
