@@ -269,6 +269,17 @@ document.addEventListener("change", async (event) => {
           positionClass: "toast-bottom-center",
         });
 
+        if (nuevoEstado == 3) {
+          $("#id_factura_ingresar_motivo").val(idFactura);
+
+          $("#ingresar_nodDesea_pedidoModal").modal("show");
+        }
+
+        if (nuevoEstado == 6) {
+          $("#id_factura_ingresar_observacion").val(idFactura);
+
+          $("#ingresar_observacion_pedidoModal").modal("show");
+        }
         // Si el estado es "Anulado", proceder con la eliminación
         if (nuevoEstado == 7) {
           // Llamar a la API para eliminar el pedido
