@@ -2128,6 +2128,89 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function cargarTodosLosPedidos($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
+    {
+        // Consulta para los pedidos de Imporsuit
+        $sql = "
+            (SELECT *, 
+                (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
+                (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa,
+                (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma
+            FROM facturas_cot
+            WHERE anulada = 0 
+            AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+            AND id_plataforma = '$plataforma'";
+
+        // Filtrar por fechas
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        // Filtrar por estado de pedido
+        if (!empty($estado_pedido)) {
+            $sql .= " AND estado_pedido = $estado_pedido";
+        }
+
+        // Filtrar por búsqueda de pedido
+        if (!empty($buscar_pedido)) {
+            $sql .= " AND (numero_factura LIKE '%$buscar_pedido%' OR nombre LIKE '%$buscar_pedido%' OR comentario LIKE '%$buscar_pedido%')";
+        }
+
+        // Filtrar por no tener producto
+        $sql .= " AND no_producto = 0";
+
+        // Parte para pedidos anulados
+        $sql .= "
+            UNION
+            (SELECT *, 
+                (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
+                (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa,
+                (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma
+            FROM facturas_cot
+            WHERE anulada = 1 
+            AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+            AND id_plataforma = '$plataforma'";
+
+        // Filtrar por fechas y estado de pedido en los pedidos anulados
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        if (!empty($estado_pedido)) {
+            $sql .= " AND estado_pedido = $estado_pedido";
+        }
+
+        $sql .= " AND no_producto = 0";
+
+        // Parte para pedidos sin producto
+        $sql .= "
+            UNION
+            (SELECT *, 
+                (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
+                (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa,
+                (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma
+            FROM facturas_cot
+            WHERE anulada = 0 
+            AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+            AND id_plataforma = '$plataforma'";
+
+        // Filtrar por fechas y estado de pedido en los pedidos sin producto
+        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
+            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        if (!empty($estado_pedido)) {
+            $sql .= " AND estado_pedido = $estado_pedido";
+        }
+
+        $sql .= " AND no_producto = 1";
+
+        // Ordenar los resultados
+        $sql .= " ORDER BY numero_factura DESC;";
+
+        // Ejecutar la consulta y retornar los resultados
+        return $this->select($sql);
+    }
 
     public function cargarPedidosPorFila_imporsuit($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
     {
