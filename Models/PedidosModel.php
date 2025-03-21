@@ -2130,7 +2130,7 @@ class PedidosModel extends Query
 
     public function cargarTodosLosPedidos($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
     {
-        // Consulta para los pedidos de Imporsuit
+        // Consulta base
         $sql = "
             (SELECT *, 
                 (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
@@ -2139,21 +2139,21 @@ class PedidosModel extends Query
             FROM facturas_cot
             WHERE anulada = 0 
             AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-            AND id_plataforma = '$plataforma'";
+            AND id_plataforma = :plataforma";
 
         // Filtrar por fechas
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $sql .= " AND fecha_factura BETWEEN :fecha_inicio AND :fecha_fin";
         }
 
         // Filtrar por estado de pedido
         if (!empty($estado_pedido)) {
-            $sql .= " AND estado_pedido = $estado_pedido";
+            $sql .= " AND estado_pedido = :estado_pedido";
         }
 
         // Filtrar por búsqueda de pedido
         if (!empty($buscar_pedido)) {
-            $sql .= " AND (numero_factura LIKE '%$buscar_pedido%' OR nombre LIKE '%$buscar_pedido%' OR comentario LIKE '%$buscar_pedido%')";
+            $sql .= " AND (numero_factura LIKE :buscar_pedido OR nombre LIKE :buscar_pedido OR comentario LIKE :buscar_pedido)";
         }
 
         // Filtrar por no tener producto
@@ -2169,15 +2169,15 @@ class PedidosModel extends Query
             FROM facturas_cot
             WHERE anulada = 1 
             AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-            AND id_plataforma = '$plataforma'";
+            AND id_plataforma = :plataforma";
 
         // Filtrar por fechas y estado de pedido en los pedidos anulados
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $sql .= " AND fecha_factura BETWEEN :fecha_inicio AND :fecha_fin";
         }
 
         if (!empty($estado_pedido)) {
-            $sql .= " AND estado_pedido = $estado_pedido";
+            $sql .= " AND estado_pedido = :estado_pedido";
         }
 
         $sql .= " AND no_producto = 0";
@@ -2192,15 +2192,15 @@ class PedidosModel extends Query
             FROM facturas_cot
             WHERE anulada = 0 
             AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-            AND id_plataforma = '$plataforma'";
+            AND id_plataforma = :plataforma";
 
         // Filtrar por fechas y estado de pedido en los pedidos sin producto
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+            $sql .= " AND fecha_factura BETWEEN :fecha_inicio AND :fecha_fin";
         }
 
         if (!empty($estado_pedido)) {
-            $sql .= " AND estado_pedido = $estado_pedido";
+            $sql .= " AND estado_pedido = :estado_pedido";
         }
 
         $sql .= " AND no_producto = 1";
@@ -2208,9 +2208,19 @@ class PedidosModel extends Query
         // Ordenar los resultados
         $sql .= " ORDER BY numero_factura DESC;";
 
+        // Preparar los parámetros para la consulta
+        $params = [
+            ':plataforma' => $plataforma,
+            ':fecha_inicio' => $fecha_inicio,
+            ':fecha_fin' => $fecha_fin,
+            ':estado_pedido' => $estado_pedido,
+            ':buscar_pedido' => '%' . $buscar_pedido . '%',
+        ];
+
         // Ejecutar la consulta y retornar los resultados
-        return $this->select($sql);
+        return $this->dselect($sql, $params);
     }
+
 
     public function cargarPedidosPorFila_imporsuit($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
     {
