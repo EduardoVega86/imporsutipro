@@ -2379,7 +2379,7 @@ class PedidosModel extends Query
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
-            $response['message'] = 'Error al eliminar la Pedido';
+            $response['message'] = 'Error al eliminar el Pedido';
         }
         return $response;
     }
