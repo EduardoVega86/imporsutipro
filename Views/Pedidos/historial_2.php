@@ -90,8 +90,14 @@
                 <!-- Botón de Aplicar Filtros -->
                 <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
 
+                <div id="tableLoader" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+
                 <!-- Input de búsqueda (visible para TODAS las plataformas) -->
-                <div class="input-group" style="max-width: 320px;">
+                <div class="input-group" style="max-width: 320px; margin-left: 500px">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
                     <input type="text" class="form-control" id="buscar_pedido" placeholder="Buscar por #Orden o Cliente...">
                 </div>
@@ -101,11 +107,7 @@
 
         <div class="table-container" style="position: relative;">
             <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
-            <div id="tableLoader" style="display: none;">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Cargando...</span>
-                </div>
-            </div>
+
         </div>
 
         <!-- TABLA DE HISTORIAL DE PEDIDOS -->
