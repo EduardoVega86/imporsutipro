@@ -165,9 +165,30 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 // Capturar evento en el input de búsqueda
+// $("#buscar_pedido").on("keyup", function () {
+//   listHistorialPedidos(); // Volver a cargar los pedidos con el filtro
+// });
+
 $("#buscar_pedido").on("keyup", function () {
-  listHistorialPedidos(); // Volver a cargar los pedidos con el filtro
+  let searchTerm = $(this).val().toLowerCase(); // Captura el término de búsqueda y lo convierte a minúsculas
+  filterTable(searchTerm);
 });
+
+function filterTable(searchTerm) {
+  // Obtener todas las filas de la tabla
+  let rows = $("#datatable_historialPedidos tbody tr");
+
+  // Recorrer todas las filas y ocultar las que no coincidan con el término de búsqueda
+  rows.each(function () {
+    let rowText = $(this).text().toLowerCase(); // Obtener el texto completo de la fila
+    if (rowText.indexOf(searchTerm) === -1) {
+      $(this).hide(); // Ocultar la fila si no contiene el término de búsqueda
+    } else {
+      $(this).show(); // Mostrar la fila si contiene el término de búsqueda
+    }
+  });
+}
+
 
 window.addEventListener("load", async () => {
   await initDataTableHistorial();
