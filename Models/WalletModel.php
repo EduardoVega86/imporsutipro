@@ -27,8 +27,8 @@ class WalletModel extends Query
     {
         parent::__construct();
         session_start();
-        if(!isset($_SESSION['id'])) {
-            header('Location: '. SERVERURL . 'login');
+        if (!isset($_SESSION['id'])) {
+            header('Location: ' . SERVERURL . 'login');
             exit;
         }
         $this->auditable = new Auditable($_SESSION['id'], 'Billetera');
@@ -37,6 +37,7 @@ class WalletModel extends Query
     /**
      * Se obtiene las tiendas
      * @return bool|string
+     * @throws Exception
      */
     public function obtenerTiendas(): bool|string
     {
@@ -49,7 +50,9 @@ class WalletModel extends Query
 
     /**
      * Se obtiene la cabecera
+     * @param $id_cabecera
      * @return array
+     * @throws Exception
      */
     public function obtenerCabecera($id_cabecera): array
     {
@@ -115,6 +118,7 @@ class WalletModel extends Query
      * Se elimina la cabecera
      * @param $id_cabecera
      * @return array
+     * @throws Exception
      */
 
     public function eliminar($id_cabecera): array
@@ -149,6 +153,7 @@ class WalletModel extends Query
      * @param $id_cabecera
      * @param $estado
      * @return array
+     * @throws Exception
      */
     public function cambiarEstado($id_cabecera, $estado): array
     {
@@ -208,6 +213,7 @@ class WalletModel extends Query
      * Se obtiene los datos generales de la tienda
      * @param $tienda
      * @return array
+     * @throws Exception
      */
     public function obtenerDatos($tienda): array
     {
@@ -253,6 +259,7 @@ class WalletModel extends Query
      * @param $estado
      * @param $transportadora
      * @return array
+     * @throws Exception
      */
     public function obtenerFacturas($id_plataforma, $filtro, $estado, $transportadora): array
     {
@@ -283,7 +290,7 @@ class WalletModel extends Query
         ";
 
         // Eliminar los sufijos -P y -F en numero_factura antes de comparar
-        $factura_sin_sufijo = "REPLACE(REPLACE(ccp.numero_factura, '-P', ''), '-F', '')";
+        $factura_sin_sufijo = "REPLACE(REPLACE(REPLACE(ccp.numero_factura, '-PF', ''), '-P', '') ,'-F', '')";
 
         $estados = "";
         switch ($estado) {
@@ -375,6 +382,7 @@ class WalletModel extends Query
      * @param $valor
      * @param $usuario
      * @return array
+     * @throws Exception
      */
     public function abonarBilletera($id_cabecera, $valor, $usuario): array
     {
@@ -412,7 +420,7 @@ class WalletModel extends Query
 
         // Verificar el estado de la factura
         $isCodFactura = $this->esCodFactura($cabecera['numero_factura']);
-        if ($isCodFactura && $cabecera['estado_guia'] == 7 && $valor < 0 && $isCodFactura == 1) {
+        if ($cabecera['estado_guia'] == 7 && $valor < 0 && $isCodFactura == 1) {
             $this->auditable->auditar("ABONAR BILLETERA", "El usuario intentó abonar una guía con COD en estado 7 y valor negativo, GUIA: $guia");
             return $this->errorResponse('La guía no permite transacciones negativas');
         }
@@ -437,6 +445,7 @@ class WalletModel extends Query
      * Se todos los datos de la cabecera
      * @param $id_cabecera
      * @return mixed|null
+     * @throws Exception
      */
     private function getCabeceraCuentaPagar($id_cabecera): mixed
     {
@@ -449,6 +458,7 @@ class WalletModel extends Query
      * Se obtiene el COD de la factura
      * @param $numero_factura
      * @return mixed|null
+     * @throws Exception
      */
     private function esCodFactura($numero_factura): mixed
     {
@@ -486,6 +496,7 @@ class WalletModel extends Query
      * Se pasa a pagado la guía
      * @param $id_cabecera
      * @return void
+     * @throws Exception
      */
     private function actualizarCabecera($id_cabecera): void
     {
@@ -498,6 +509,7 @@ class WalletModel extends Query
      * @param $id_plataforma
      * @param $valor
      * @return void
+     * @throws Exception
      */
     private function actualizarBilletera($id_plataforma, $valor): void
     {
@@ -509,6 +521,7 @@ class WalletModel extends Query
      * Aquí se verifica si la billetera existe
      * @param $id_plataforma
      * @return mixed|null
+     * @throws Exception
      */
     private function obtenerIdBilletera($id_plataforma): mixed
     {
@@ -524,6 +537,7 @@ class WalletModel extends Query
      * @param $valor
      * @param $guia
      * @return void
+     * @throws Exception
      */
     private function registrarHistorialBilletera($id_billetera, $usuario, $valor, $guia): void
     {
@@ -541,6 +555,7 @@ class WalletModel extends Query
      * @param $usuario
      * @param $valor
      * @return void
+     * @throws Exception
      */
     private function manejarGuiaCompleta($cabecera, $usuario, $valor): void
     {
@@ -553,6 +568,10 @@ class WalletModel extends Query
         if ($cabecera['full'] > 0) {
             $this->manejarFullfilment($cabecera, $usuario);
         }
+
+        if ($cabecera['full'] == 0 && $cabecera['id_proveedor']) {
+            $this->manejarFullfilmentNegativo($cabecera, $usuario);
+        }
     }
 
     /**
@@ -561,6 +580,7 @@ class WalletModel extends Query
      * @param $usuario
      * @param $valor
      * @return void
+     * @throws Exception
      */
     private function manejarProveedor($cabecera, $usuario, $valor): void
     {
@@ -594,6 +614,7 @@ class WalletModel extends Query
      * @param $cabecera
      * @param $usuario
      * @return void
+     * @throws Exception
      */
     private function manejarFullfilment($cabecera, $usuario): void
     {
@@ -620,6 +641,7 @@ class WalletModel extends Query
      * @param $cabecera
      * @param $id_full
      * @return void
+     * @throws Exception
      */
     private function crearCabeceraFull($cabecera, $id_full): void
     {
@@ -1191,7 +1213,7 @@ class WalletModel extends Query
         $visto_guia = $response_guia[0]['visto'];
         $precio_envio = $response_guia[0]['precio_envio'];
 
-        if($precio_envio == 0){
+        if ($precio_envio == 0) {
             $responses["status"] = 501;
             $responses["message"] = "No se puede cambiar el estado de una guía que no tiene precio de envío";
             $this->auditable->auditar("CAMBIAR ESTADO GUIA", "El usuario intentó cambiar el estado de una guía que no tiene precio de envío, GUIA: $guia");
@@ -1246,7 +1268,7 @@ class WalletModel extends Query
 
         $precio_envio = $response_guia[0]['precio_envio'];
 
-        if($precio_envio == 0){
+        if ($precio_envio == 0) {
             $responses["status"] = 501;
             $responses["message"] = "No se puede cambiar el estado de una guía que no tiene precio de envío";
             $this->auditable->auditar("CAMBIAR ESTADO GUIA", "El usuario intentó cambiar el estado de una guía que no tiene precio de envío, GUIA: $guia");
@@ -1300,7 +1322,7 @@ class WalletModel extends Query
         $visto_guia = $response[0]['visto'];
         $precio_envio = $response[0]['precio_envio'];
 
-        if($precio_envio == 0){
+        if ($precio_envio == 0) {
             $responses["status"] = 501;
             $responses["message"] = "No se puede cambiar el estado de una guía que no tiene precio de envío";
             $this->auditable->auditar("CAMBIAR ESTADO GUIA", "El usuario intentó cambiar el estado de una guía que no tiene precio de envío, GUIA: $guia");
@@ -2289,6 +2311,7 @@ class WalletModel extends Query
      * @param $search
      * @param $page
      * @return array
+     * @throws Exception
      */
     public function obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search, $page): array
     {
@@ -2453,5 +2476,21 @@ class WalletModel extends Query
         $respuesta["limit"] = $limit;
 
         return $respuesta;
+    }
+
+    /**
+     * Función para obtener las cabeceras de las guías
+     * @param $cabecera
+     * @param $usuario
+     * @return array
+     * @throws Exception
+     */
+    public function manejarFullfilmentNegativo($cabecera, $usuario): array
+    {
+        $sql = "SELECT dfc.id_inventario, ib.bodega FROM facturas_cot fc INNER JOIN detalle_fact_cot dfc ON fc.numero_factura = dfc.numero_factura INNER JOIN inventario_bodegas ib ON dfc.id_inventario = ib.id_inventario WHERE fc.numero_factura = ? and ib.envio_prioritario = 0 limit 1";
+
+
+        return $this->dselect($sql, array($cabecera['numero_factura']));
+
     }
 }
