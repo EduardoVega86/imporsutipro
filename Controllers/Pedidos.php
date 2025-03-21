@@ -666,22 +666,20 @@ class Pedidos extends Controller
             $estado_pedido = $_POST['estado_pedido'] ?? "";
             $buscar_pedido = $_POST['buscar_pedido'] ?? "";
 
-            // Llamar a los tres modelos
+            // Llamar a cada modelo
             $pedidosImporsuit = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido);
             $pedidosAnulados = $this->model->cargarPedidosAnulados($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, 0, 1);
             $pedidosSinProducto = $this->model->cargar_pedidos_sin_producto($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
 
-            // Combinar los resultados en un solo arreglo
-            $todosPedidos = [
-                'pedidosImporsuit' => $pedidosImporsuit,
-                'pedidosAnulados' => $pedidosAnulados,
-                'pedidosSinProducto' => $pedidosSinProducto
-            ];
+            // Combinar los resultados de manera más controlada
+            $todosPedidos = array_merge($pedidosImporsuit, $pedidosAnulados, $pedidosSinProducto);
 
             // Devolver todo como un JSON
             echo json_encode($todosPedidos);
         })();
     }
+
+
 
     public function cargar_cards_pedidos($id_plataforma = null)
     {
@@ -3265,5 +3263,14 @@ class Pedidos extends Controller
         // Redirigir automáticamente a la URL de tracking
         header("Location: " . $urlPersonalizada);
         exit();
+    }
+
+    public function actualizar_cerrado($id_detalle)
+    {
+        $chatId = $_POST['chatId'];
+        $nuevoEstado = $_POST['nuevoEstado'];
+        $response = $this->model->actualizar_cerrado($chatId, $nuevoEstado);
+
+        echo json_encode($response);
     }
 }
