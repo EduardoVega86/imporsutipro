@@ -450,7 +450,7 @@ async function eliminarPedido(idFactura) {
   try {
       // Usando el método GET para enviar el id_factura en la URL
       const response = await fetch(SERVERURL + `Pedidos/eliminarPedido/${idFactura}`, {
-          method: "POST", // O "POST", si prefieres hacerlo con POST, pero en la URL
+          method: "GET", // O "POST", si prefieres hacerlo con POST, pero en la URL
       });
 
       const result = await response.json();
@@ -459,8 +459,15 @@ async function eliminarPedido(idFactura) {
           toastr.success("Pedido eliminado correctamente", "NOTIFICACIÓN", {
               positionClass: "toast-bottom-center",
           });
-          // Recargar la tabla después de eliminar
-          initDataTableHistorial();
+          
+          // Comprobar si el contenedor de la tabla existe antes de intentar modificarla
+          const tableBody = document.getElementById("tableBody_historialPedidos");
+          if (tableBody) {
+              // Recargar la tabla después de eliminar
+              await initDataTableHistorial();
+          } else {
+              console.error("El elemento de la tabla no fue encontrado");
+          }
       } else {
           toastr.error("No se pudo eliminar el pedido", "NOTIFICACIÓN", {
               positionClass: "toast-bottom-center",
