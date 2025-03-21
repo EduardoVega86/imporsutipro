@@ -642,6 +642,47 @@ class Pedidos extends Controller
         echo json_encode($data);
     }
 
+    /**
+     * Carga todos los pedidos combinando los resultados de tres consultas: 
+     * pedidos en estado "imporsuit", pedidos anulados y pedidos sin productos.
+     *
+     * Este método recibe parámetros a través de una solicitud POST para filtrar 
+     * los pedidos según la plataforma, fechas, estado del pedido y búsqueda de texto. 
+     * Luego, ejecuta las tres consultas correspondientes y devuelve los datos combinados 
+     * en un único arreglo, que incluye los pedidos en cada uno de los estados mencionados.
+     *
+     * @return void
+     *
+     * @throws \Exception Si ocurre un error al ejecutar las consultas o al combinar los resultados.
+     *
+     * @api
+     */
+
+    public function cargarTodosLosPedidos()
+    {
+        $this->catchAsync(function () {
+            $fecha_inicio = $_POST['fecha_inicio'] ?? "";
+            $fecha_fin = $_POST['fecha_fin'] ?? "";
+            $estado_pedido = $_POST['estado_pedido'] ?? "";
+            $buscar_pedido = $_POST['buscar_pedido'] ?? "";
+
+            // Llamar a los tres modelos
+            $pedidosImporsuit = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido);
+            $pedidosAnulados = $this->model->cargarPedidosAnulados($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, 0, 1);
+            $pedidosSinProducto = $this->model->cargar_pedidos_sin_producto($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
+
+            // Combinar los resultados en un solo arreglo
+            $todosPedidos = [
+                'pedidosImporsuit' => $pedidosImporsuit,
+                'pedidosAnulados' => $pedidosAnulados,
+                'pedidosSinProducto' => $pedidosSinProducto
+            ];
+
+            // Devolver todo como un JSON
+            echo json_encode($todosPedidos);
+        })();
+    }
+
     public function cargar_cards_pedidos($id_plataforma = null)
     {
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";

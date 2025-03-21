@@ -217,7 +217,7 @@ const listHistorialPedidos = async () => {
       }
 
       let acciones = "";
-      if (currentAPI == "pedidos/cargarPedidos_imporsuit") {
+      if (currentAPI == "pedidos/cargarTodosLosPedidos") {
         acciones = `
           <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
           ${boton_automatizador}`;
@@ -305,7 +305,7 @@ function hideTableLoader() {
 
 // Manejo de botones para cambiar API y recargar la tabla
 document.getElementById("btnPedidos").addEventListener("click", () => {
-  currentAPI = "pedidos/cargarPedidos_imporsuit";
+  currentAPI = "pedidos/cargarTodosLosPedidos";
   cambiarBotonActivo("btnPedidos");
   initDataTableHistorial();
 });
@@ -456,7 +456,7 @@ async function eliminarPedido(idFactura) {
       const result = await response.json();
 
       if (result.status == 200) {
-          toastr.success("Pedido eliminado correctamente", "NOTIFICACIÓN", {
+          toastr.success("PEDIDO ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
               positionClass: "toast-bottom-center",
           });
           
