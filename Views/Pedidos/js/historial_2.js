@@ -170,24 +170,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 // });
 
 $("#buscar_pedido").on("keyup", function () {
-  let searchTerm = $(this).val().toLowerCase(); // Captura el término de búsqueda y lo convierte a minúsculas
-  filterTable(searchTerm);
+  let searchTerm = $(this).val(); // Captura el término de búsqueda
+  
+  // Realizamos la búsqueda a través de DataTable
+  dataTableHistorial.search(searchTerm).draw();
 });
-
-function filterTable(searchTerm) {
-  // Obtener todas las filas del DataTable (no solo las visibles)
-  let rows = dataTableHistorial.rows().nodes(); // Esto devuelve todas las filas, no solo las de la página actual
-
-  // Recorrer todas las filas y ocultar las que no coincidan con el término de búsqueda
-  rows.each(function () {
-    let rowText = $(this).text().toLowerCase(); // Obtener el texto completo de la fila
-    if (rowText.indexOf(searchTerm) === -1) {
-      $(this).hide(); // Ocultar la fila si no contiene el término de búsqueda
-    } else {
-      $(this).show(); // Mostrar la fila si contiene el término de búsqueda
-    }
-  });
-}
 
 
 
