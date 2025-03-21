@@ -202,17 +202,17 @@ function hideTableLoader() {
 }
 
 // Manejo de botones para cambiar API y recargar la tabla
-document.getElementById("btnPedidos").addEventListener("click", () => {
-  currentAPI = "pedidos/cargarTodosLosPedidos";
-  cambiarBotonActivo("btnPedidos");
-  initDataTableHistorial();
-});
+// document.getElementById("btnPedidos").addEventListener("click", () => {
+//   currentAPI = "pedidos/cargarTodosLosPedidos";
+//   cambiarBotonActivo("btnPedidos");
+//   initDataTableHistorial();
+// });
 
-document.getElementById("btnAnulados").addEventListener("click", () => {
-  currentAPI = "pedidos/cargarPedidosAnulados"; // Nuevo endpoint para pedidos anulados
-  cambiarBotonActivo("btnAnulados");
-  initDataTableHistorial();
-});
+// document.getElementById("btnAnulados").addEventListener("click", () => {
+//   currentAPI = "pedidos/cargarPedidosAnulados"; // Nuevo endpoint para pedidos anulados
+//   cambiarBotonActivo("btnAnulados");
+//   initDataTableHistorial();
+// });
 
 
 /* document.getElementById("btnAbandonados").addEventListener("click", () => {
@@ -221,11 +221,11 @@ document.getElementById("btnAnulados").addEventListener("click", () => {
   initDataTableHistorial();
 }); */
 
-document.getElementById("btnNo_vinculados").addEventListener("click", () => {
-  currentAPI = "pedidos/cargar_pedidos_sin_producto";
-  cambiarBotonActivo("btnNo_vinculados");
-  initDataTableHistorial();
-});
+// document.getElementById("btnNo_vinculados").addEventListener("click", () => {
+//   currentAPI = "pedidos/cargar_pedidos_sin_producto";
+//   cambiarBotonActivo("btnNo_vinculados");
+//   initDataTableHistorial();
+// });
 
 const cambiarBotonActivo = (botonID) => {
   document.querySelectorAll(".d-flex button").forEach((btn) => {
