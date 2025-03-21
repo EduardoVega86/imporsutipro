@@ -91,7 +91,7 @@ const listHistorialPedidos = async () => {
 
           // 1) Determinar si el <select> debe estar deshabilitado (pedido anulado)
           let disabled = (historialPedido.estado_pedido == 7) ? "disabled" : "";
-          
+
           let select_estados_pedidos = `
           <select class="form-select select-estado-pedido" 
                   style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido};" 
@@ -369,7 +369,7 @@ async function eliminarPedido(idFactura) {
     const result = await response.json();
 
     if (result.status == 200) {
-      toastr.success("PEDIDO ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
+      toastr.success("PEDIDO ANULADO CORRECTAMENTE", "NOTIFICACIÓN", {
         positionClass: "toast-bottom-center",
       });
       
@@ -460,3 +460,7 @@ function formatPhoneNumber(number) {
   }
   return number;
 }
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await initDataTableHistorial();
+});
