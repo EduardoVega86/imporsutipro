@@ -2059,7 +2059,7 @@ class PedidosModel extends Query
         (SELECT provincia FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as provinciaa,
         (SELECT url_imporsuit from plataformas where id_plataforma = id_propietario) as plataforma 
         FROM facturas_cot WHERE anulada = 0 AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-         and id_plataforma = '$plataforma'";
+        and id_plataforma = '$plataforma'";
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
@@ -2070,11 +2070,11 @@ class PedidosModel extends Query
         }
 
         if (!empty($buscar_pedido)) {
-            $sql .= " AND (numero_factura LIKE '%$buscar_pedido%' OR nombre LIKE '%$buscar_pedido%' OR comentario LIKE '%$buscar_pedido%')";
+            // Para que sea una búsqueda exacta en lugar de una búsqueda parcial
+            $sql .= " AND (numero_factura = '$buscar_pedido' OR nombre = '$buscar_pedido' OR comentario = '$buscar_pedido')";
         }
 
         $sql .= " AND no_producto = 0";
-
         $sql .= " ORDER BY numero_factura DESC;";
 
         return $this->select($sql);
@@ -2088,8 +2088,8 @@ class PedidosModel extends Query
                 (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma 
                 FROM facturas_cot 
                 WHERE anulada = $anulada 
-                  AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-                  AND id_plataforma = '$plataforma'";
+                AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+                AND id_plataforma = '$plataforma'";
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
@@ -2105,8 +2105,6 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-
-
     public function cargar_pedidos_sin_producto($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido): array
     {
         $sql = "SELECT *, 
@@ -2114,7 +2112,7 @@ class PedidosModel extends Query
         (SELECT provincia FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as provinciaa,
         (SELECT url_imporsuit from plataformas where id_plataforma = id_propietario) as plataforma 
         FROM facturas_cot WHERE anulada = 0 AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-         and id_plataforma = '$plataforma'";
+        and id_plataforma = '$plataforma'";
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
@@ -2129,6 +2127,7 @@ class PedidosModel extends Query
         $sql .= " ORDER BY numero_factura DESC;";
         return $this->select($sql);
     }
+
 
     public function cargarPedidosPorFila_imporsuit($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
     {
