@@ -4068,4 +4068,22 @@ class PedidosModel extends Query
 
         return ["template" => $templates];
     }
+
+    public function actualizar_cerrado($chatId, $nuevoEstado)
+    {
+        $sql = "UPDATE clientes_chat_center SET chat_cerrado = ? WHERE id = ?";
+        $data = [$nuevoEstado, $chatId];
+        $responses = $this->update($sql, $data);
+        /* print_r($sql); */
+        if ($responses == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Peticion exitosa';
+            $response['message'] = 'Producto actualizado correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = "Error al actualizar";
+        }
+        return $response;
+    }
 }

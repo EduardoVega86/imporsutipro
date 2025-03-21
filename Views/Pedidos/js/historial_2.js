@@ -72,75 +72,71 @@ const listHistorialPedidos = async () => {
 
     let content = ``;
 
-    // Procesar cada categoría de pedidos por separado
+    // Procesar los pedidos
     const processPedidos = (pedidos) => {
       if (Array.isArray(pedidos)) {
-        pedidos.forEach((historialPedido, index) => {
-          let transporte = historialPedido.id_transporte;
-          console.log(transporte);
-          let transporte_content = "";
-          let select_estados_pedidos = "";
+        pedidos.forEach((historialPedido) => {
           let color_estadoPedido = "";
 
-          if (historialPedido.estado_pedido == 1) {
-            color_estadoPedido = "#ff8301";
-          } else if (historialPedido.estado_pedido == 2) {
-            color_estadoPedido = "#0d6efd";
-          } else if (historialPedido.estado_pedido == 3) {
-            color_estadoPedido = "red";
-          } else if (historialPedido.estado_pedido == 4) {
-            color_estadoPedido = "green";
-          } else if (historialPedido.estado_pedido == 5) {
-            color_estadoPedido = "green";
-          } else if (historialPedido.estado_pedido == 6) {
-            color_estadoPedido = "green";
-          } else if (historialPedido.estado_pedido == 7) {
-            color_estadoPedido = "red";
+          // Definir el color de los estados del pedido
+          switch (historialPedido.estado_pedido) {
+            case '1': color_estadoPedido = "#ff8301"; break; // Pendiente
+            case '2': color_estadoPedido = "#0d6efd"; break; // Gestionado
+            case '3': color_estadoPedido = "red"; break; // No desea
+            case '4': color_estadoPedido = "green"; break; // 1ra llamada
+            case '5': color_estadoPedido = "green"; break; // 2da llamada
+            case '6': color_estadoPedido = "green"; break; // Observación
+            case '7': color_estadoPedido = "red"; break; // Anulado
+            default: color_estadoPedido = "#ccc"; // Por defecto
           }
 
-          select_estados_pedidos = `
-                    <select class="form-select select-estado-pedido" style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
-            historialPedido.id_factura
-          }">
-                        <option value="0" ${
-            historialPedido.estado_pedido == 0 ? "selected" : ""
-          }>-- Selecciona estado --</option>
-                        <option value="1" ${
-            historialPedido.estado_pedido == 1 ? "selected" : ""
-          }>Pendiente</option>
-                        <option value="2" ${
-            historialPedido.estado_pedido == 2 ? "selected" : ""
-          }>Gestionado</option>
-                        <option value="3" ${
-            historialPedido.estado_pedido == 3 ? "selected" : ""
-          }>No desea</option>
-                        <option value="4" ${
-            historialPedido.estado_pedido == 4 ? "selected" : ""
-          }>1ra llamada</option>
-                        <option value="5" ${
-            historialPedido.estado_pedido == 5 ? "selected" : ""
-          }>2da llamada</option>
-                        <option value="6" ${
-            historialPedido.estado_pedido == 6 ? "selected" : ""
-          }>Observación</option>
-                        <option value="7" ${
-            historialPedido.estado_pedido == 7 ? "selected" : ""
-          }>Anulado</option>
-                    </select>`;
+          let select_estados_pedidos = `
+            <select class="form-select select-estado-pedido" style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido};" data-id-factura="${historialPedido.id_factura}">
+              <option value="0" ${historialPedido.estado_pedido == 0 ? "selected" : ""}>-- Selecciona estado --</option>
+              <option value="1" ${historialPedido.estado_pedido == 1 ? "selected" : ""}>Pendiente</option>
+              <option value="2" ${historialPedido.estado_pedido == 2 ? "selected" : ""}>Gestionado</option>
+              <option value="3" ${historialPedido.estado_pedido == 3 ? "selected" : ""}>No desea</option>
+              <option value="4" ${historialPedido.estado_pedido == 4 ? "selected" : ""}>1ra llamada</option>
+              <option value="5" ${historialPedido.estado_pedido == 5 ? "selected" : ""}>2da llamada</option>
+              <option value="6" ${historialPedido.estado_pedido == 6 ? "selected" : ""}>Observación</option>
+              <option value="7" ${historialPedido.estado_pedido == 7 ? "selected" : ""}>Anulado</option>
+            </select>`;
+
+          // Botón de WhatsApp
+          let boton_automatizador = "";
+          if (VALIDAR_CONFIG_CHAT && historialPedido.automatizar_ws == 0) {
+            boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
+              ${historialPedido.id_factura},
+              '${historialPedido.ciudad_cot}', 
+              '${historialPedido.celular}', 
+              '${historialPedido.nombre}',
+              '${historialPedido.c_principal}',
+              '${historialPedido.c_secundaria}',
+              '${historialPedido.contiene}',
+              ${historialPedido.monto_factura}
+            )"><i class="fa-brands fa-whatsapp"></i></button>`;
+          }
 
           content += `
-                    <tr>
-                        <td>${historialPedido.numero_factura}</td>
-                        <td>${historialPedido.fecha_factura}</td>
-                        <td>${historialPedido.nombre}</td>
-                        <td>${historialPedido.telefono}</td>
-                        <td>${select_estados_pedidos}</td>
-                    </tr>`;
+            <tr>
+              <td>${historialPedido.numero_factura}</td>
+              <td>${historialPedido.fecha_factura}</td>
+              <td>${historialPedido.plataforma_importa}</td>
+              <td><strong>${historialPedido.nombre}</strong><br>telf: ${historialPedido.telefono}</td>
+              <td>${historialPedido.c_principal} - ${historialPedido.c_secundaria}<br>${historialPedido.provinciaa}-${historialPedido.ciudad_cot}</td>
+              <td>${historialPedido.contiene}</td>
+              <td>$${parseFloat(historialPedido.monto_factura).toFixed(2)}</td>
+              <td>${select_estados_pedidos}</td>
+              <td>
+                ${boton_automatizador} 
+                <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
+              </td>
+            </tr>`;
         });
       }
     };
 
-    // Procesar los pedidos de cada categoría
+    // Procesar las categorías de pedidos
     processPedidos(historialPedidos.pedidosImporsuit);
     processPedidos(historialPedidos.pedidosAnulados);
     processPedidos(historialPedidos.pedidosSinProducto);
@@ -150,6 +146,7 @@ const listHistorialPedidos = async () => {
     alert(ex);
   }
 };
+
 
 
 // Capturar evento en el input de búsqueda

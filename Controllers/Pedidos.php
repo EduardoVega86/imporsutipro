@@ -3266,4 +3266,13 @@ class Pedidos extends Controller
         header("Location: " . $urlPersonalizada);
         exit();
     }
+
+    public function actualizar_cerrado($id_detalle)
+    {
+        $chatId = $_POST['chatId'];
+        $nuevoEstado = $_POST['nuevoEstado'];
+        $response = $this->model->actualizar_cerrado($chatId, $nuevoEstado);
+
+        echo json_encode($response);
+    }
 }
