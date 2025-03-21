@@ -666,19 +666,19 @@ class Pedidos extends Controller
             $estado_pedido = $_POST['estado_pedido'] ?? "";
             $buscar_pedido = $_POST['buscar_pedido'] ?? "";
 
-            // Llamar al modelo que trae todos los pedidos combinados
-            $todosPedidos = $this->model->cargarTodosLosPedidos(
-                $_SESSION["id_plataforma"],
-                $fecha_inicio,
-                $fecha_fin,
-                $estado_pedido,
-                $buscar_pedido
-            );
+            // Llamar a cada modelo
+            $pedidosImporsuit = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido);
+            $pedidosAnulados = $this->model->cargarPedidosAnulados($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, 0, 1);
+            $pedidosSinProducto = $this->model->cargar_pedidos_sin_producto($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
 
-            // Devolver los resultados en formato JSON
+            // Combinar los resultados de manera más controlada
+            $todosPedidos = array_merge($pedidosImporsuit, $pedidosAnulados, $pedidosSinProducto);
+
+            // Devolver todo como un JSON
             echo json_encode($todosPedidos);
         })();
     }
+
 
 
     public function cargar_cards_pedidos($id_plataforma = null)
