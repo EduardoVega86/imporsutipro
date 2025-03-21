@@ -31,55 +31,26 @@ const dataTableHistorialOptions = {
   },
 };
 
-function initDataTableHistorial() {
-  $.ajax({
-      url: SERVERURL + 'Pedidos/cargarTodosLosPedidos',
-      method: 'POST',
-      data: {
-          fecha_inicio: fecha_inicio,
-          fecha_fin: fecha_fin,
-          estado_pedido: $("#estado_pedido").val()
-      },
-      dataType: 'json',
-      success: function(data) {
-          // Asumiendo que data es un array de objetos
-          var tableData = [];
-          $.each(data, function(index, value) {
-              var row = [
-                  value.orden,          // Columna 1: # Orden
-                  value.fecha,          // Columna 2: Fecha
-                  value.canal_venta,    // Columna 3: Canal de venta
-                  value.cliente,        // Columna 4: Cliente
-                  value.destino,        // Columna 5: Destino
-                  value.contiene,       // Columna 6: Contiene
-                  value.monto,          // Columna 7: Monto
-                  value.estado_pedido,  // Columna 8: Estado Pedido
-                  value.acciones        // Columna 9: Acciones
-              ];
-              tableData.push(row);
-          });
+const initDataTableHistorial = async () => {
+  showTableLoader();
+  try {
+    if (dataTableHistorialIsInitialized) {
+      dataTableHistorial.destroy();
+    }
 
-          $('#datatable_historialPedidos').DataTable({
-              data: tableData,
-              columns: [
-                  { title: "# Orden" },
-                  { title: "Fecha" },
-                  { title: "Canal de venta" },
-                  { title: "Cliente" },
-                  { title: "Destino" },
-                  { title: "Contiene" },
-                  { title: "Monto" },
-                  { title: "Estado Pedido" },
-                  { title: "Acciones" }
-              ]
-          });
-      },
-      error: function(xhr, status, error) {
-          console.error('Error al cargar los datos:', error);
-      }
-  });
-}
+    await listHistorialPedidos();
 
+    dataTableHistorial = $("#datatable_historialPedidos").DataTable(
+      dataTableHistorialOptions
+    );
+
+    dataTableHistorialIsInitialized = true;
+  } catch (error) {
+    console.error("Error al cargar la tabla:", error);
+  } finally {
+    hideTableLoader();
+  }
+};
 
 const listHistorialPedidos = async () => {
   try {
@@ -101,75 +72,56 @@ const listHistorialPedidos = async () => {
 
     let content = ``;
 
-    // Procesar cada categoría de pedidos por separado
+    // Procesar los pedidos
     const processPedidos = (pedidos) => {
       if (Array.isArray(pedidos)) {
-        pedidos.forEach((historialPedido, index) => {
-          let transporte = historialPedido.id_transporte;
-          console.log(transporte);
-          let transporte_content = "";
-          let select_estados_pedidos = "";
+        pedidos.forEach((historialPedido) => {
           let color_estadoPedido = "";
 
-          if (historialPedido.estado_pedido == 1) {
-            color_estadoPedido = "#ff8301";
-          } else if (historialPedido.estado_pedido == 2) {
-            color_estadoPedido = "#0d6efd";
-          } else if (historialPedido.estado_pedido == 3) {
-            color_estadoPedido = "red";
-          } else if (historialPedido.estado_pedido == 4) {
-            color_estadoPedido = "green";
-          } else if (historialPedido.estado_pedido == 5) {
-            color_estadoPedido = "green";
-          } else if (historialPedido.estado_pedido == 6) {
-            color_estadoPedido = "green";
-          } else if (historialPedido.estado_pedido == 7) {
-            color_estadoPedido = "red";
+          // Definir el color de los estados del pedido
+          switch (historialPedido.estado_pedido) {
+            case '1': color_estadoPedido = "#ff8301"; break; // Pendiente
+            case '2': color_estadoPedido = "#0d6efd"; break; // Gestionado
+            case '3': color_estadoPedido = "red"; break; // No desea
+            case '4': color_estadoPedido = "green"; break; // 1ra llamada
+            case '5': color_estadoPedido = "green"; break; // 2da llamada
+            case '6': color_estadoPedido = "green"; break; // Observación
+            case '7': color_estadoPedido = "red"; break; // Anulado
+            default: color_estadoPedido = "#ccc"; // Por defecto
           }
 
-          select_estados_pedidos = `
-                    <select class="form-select select-estado-pedido" style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
-            historialPedido.id_factura
-          }">
-                        <option value="0" ${
-            historialPedido.estado_pedido == 0 ? "selected" : ""
-          }>-- Selecciona estado --</option>
-                        <option value="1" ${
-            historialPedido.estado_pedido == 1 ? "selected" : ""
-          }>Pendiente</option>
-                        <option value="2" ${
-            historialPedido.estado_pedido == 2 ? "selected" : ""
-          }>Gestionado</option>
-                        <option value="3" ${
-            historialPedido.estado_pedido == 3 ? "selected" : ""
-          }>No desea</option>
-                        <option value="4" ${
-            historialPedido.estado_pedido == 4 ? "selected" : ""
-          }>1ra llamada</option>
-                        <option value="5" ${
-            historialPedido.estado_pedido == 5 ? "selected" : ""
-          }>2da llamada</option>
-                        <option value="6" ${
-            historialPedido.estado_pedido == 6 ? "selected" : ""
-          }>Observación</option>
-                        <option value="7" ${
-            historialPedido.estado_pedido == 7 ? "selected" : ""
-          }>Anulado</option>
-                    </select>`;
+          let select_estados_pedidos = `
+            <select class="form-select select-estado-pedido" style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido};" data-id-factura="${historialPedido.id_factura}">
+              <option value="0" ${historialPedido.estado_pedido == 0 ? "selected" : ""}>-- Selecciona estado --</option>
+              <option value="1" ${historialPedido.estado_pedido == 1 ? "selected" : ""}>Pendiente</option>
+              <option value="2" ${historialPedido.estado_pedido == 2 ? "selected" : ""}>Gestionado</option>
+              <option value="3" ${historialPedido.estado_pedido == 3 ? "selected" : ""}>No desea</option>
+              <option value="4" ${historialPedido.estado_pedido == 4 ? "selected" : ""}>1ra llamada</option>
+              <option value="5" ${historialPedido.estado_pedido == 5 ? "selected" : ""}>2da llamada</option>
+              <option value="6" ${historialPedido.estado_pedido == 6 ? "selected" : ""}>Observación</option>
+              <option value="7" ${historialPedido.estado_pedido == 7 ? "selected" : ""}>Anulado</option>
+            </select>`;
 
           content += `
-                    <tr>
-                        <td>${historialPedido.numero_factura}</td>
-                        <td>${historialPedido.fecha_factura}</td>
-                        <td>${historialPedido.nombre}</td>
-                        <td>${historialPedido.telefono}</td>
-                        <td>${select_estados_pedidos}</td>
-                    </tr>`;
+            <tr>
+              <td>${historialPedido.numero_factura}</td>
+              <td>${historialPedido.fecha_factura}</td>
+              <td>${historialPedido.plataforma_importa}</td>
+              <td><strong>${historialPedido.nombre}</strong><br>telf: ${historialPedido.telefono}</td>
+              <td>${historialPedido.c_principal} - ${historialPedido.c_secundaria}<br>${historialPedido.provinciaa}-${historialPedido.ciudad_cot}</td>
+              <td>${historialPedido.contiene}</td>
+              <td>$${parseFloat(historialPedido.monto_factura).toFixed(2)}</td>
+              <td>${select_estados_pedidos}</td>
+              <td>
+                <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
+                <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
+              </td>
+            </tr>`;
         });
       }
     };
 
-    // Procesar los pedidos de cada categoría
+    // Procesar las categorías de pedidos
     processPedidos(historialPedidos.pedidosImporsuit);
     processPedidos(historialPedidos.pedidosAnulados);
     processPedidos(historialPedidos.pedidosSinProducto);
@@ -179,6 +131,7 @@ const listHistorialPedidos = async () => {
     alert(ex);
   }
 };
+
 
 
 // Capturar evento en el input de búsqueda
