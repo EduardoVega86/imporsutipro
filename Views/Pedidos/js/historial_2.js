@@ -446,33 +446,34 @@ function boton_vista_anadir_sin_producto(id) {
     "" + SERVERURL + "Pedidos/vista_anadir_sin_producto/" + id;
 }
 
-// Función para eliminar un pedido cuando el estado se cambia a "Anulado"
 async function eliminarPedido(idFactura) {
   try {
-    const formData = new FormData();
-    formData.append("id_factura", idFactura);
-
-    const response = await fetch(SERVERURL + "Pedidos/eliminarPedido", {
-      method: "POST",
-      body: formData,
-    });
-
-    const result = await response.json();
-
-    if (result.status == 200) {
-      toastr.success("Pedido eliminado correctamente", "NOTIFICACIÓN", {
-        positionClass: "toast-bottom-center",
+      // Usando el método GET para enviar el id_factura en la URL
+      const response = await fetch(SERVERURL + `Pedidos/eliminarPedido/${idFactura}`, {
+          method: "GET", // O "POST", si prefieres hacerlo con POST, pero en la URL
       });
-    } else {
-      toastr.error("No se pudo eliminar el pedido", "NOTIFICACIÓN", {
-        positionClass: "toast-bottom-center",
-      });
-    }
+
+      const result = await response.json();
+
+      if (result.status == 200) {
+          toastr.success("Pedido eliminado correctamente", "NOTIFICACIÓN", {
+              positionClass: "toast-bottom-center",
+          });
+          // Recargar la tabla después de eliminar
+          initDataTableHistorial();
+      } else {
+          toastr.error("No se pudo eliminar el pedido", "NOTIFICACIÓN", {
+              positionClass: "toast-bottom-center",
+          });
+      }
   } catch (error) {
-    console.error("Error al eliminar el pedido", error);
-    alert("Hubo un error al eliminar el pedido");
+      console.error("Error al eliminar el pedido", error);
+      toastr.error("Hubo un error al eliminar el pedido", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+      });
   }
 }
+
 
 function enviar_mensaje_automatizador(
   nueva_factura,
