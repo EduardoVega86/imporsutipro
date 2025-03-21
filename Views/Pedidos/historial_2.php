@@ -85,10 +85,10 @@
             </div>
         </div>
 
+        <div style="padding-top: 20px;">
+            <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
+        </div>
         <div class="d-flex mb-3 mt-3 align-items-center">
-            <div style="padding-top: 20px;">
-                <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
-            </div>
             <!-- Input de búsqueda (visible para TODAS las plataformas) -->
             <div class="input-group" style="max-width: 320px;">
                 <span class="input-group-text"><i class="fas fa-search"></i></span>
