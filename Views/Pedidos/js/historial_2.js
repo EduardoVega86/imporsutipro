@@ -109,6 +109,9 @@ const listHistorialPedidos = async () => {
       } else if (historialPedido.estado_pedido == 6) {
         color_estadoPedido = "green";
       }
+      else if (historialPedido.estado_pedido == 7) {
+        color_estadoPedido = "red";
+      }
 
       select_estados_pedidos = `
                     <select class="form-select select-estado-pedido" style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
@@ -135,6 +138,9 @@ const listHistorialPedidos = async () => {
                         <option value="6" ${
                           historialPedido.estado_pedido == 6 ? "selected" : ""
                         }>Observación</option>
+                        <option value="6" ${
+                          historialPedido.estado_pedido == 7 ? "selected" : ""
+                        }>Anulado</option>
                     </select>`;
 
       //tomar solo la ciudad
@@ -214,12 +220,10 @@ const listHistorialPedidos = async () => {
       if (currentAPI == "pedidos/cargarPedidos_imporsuit") {
         acciones = `
           <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
-          <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
           ${boton_automatizador}`;
       } else if (currentAPI == "pedidos/cargar_pedidos_sin_producto") {
         acciones = `
           <button class="btn btn-sm btn-primary" onclick="boton_vista_anadir_sin_producto(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
-          <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
           ${boton_automatizador}`;
       }
 
@@ -343,35 +347,28 @@ document.addEventListener("change", async (event) => {
   if (event.target && event.target.classList.contains("select-estado-pedido")) {
     const idFactura = event.target.getAttribute("data-id-factura");
     const nuevoEstado = event.target.value;
+
     const formData = new FormData();
     formData.append("id_factura", idFactura);
     formData.append("estado_nuevo", nuevoEstado);
     formData.append("detalle_noDesea_pedido", "");
 
     try {
-      const response = await fetch(
-        SERVERURL + `Pedidos/cambiar_estado_pedido`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const response = await fetch(SERVERURL + `Pedidos/cambiar_estado_pedido`, {
+        method: "POST",
+        body: formData,
+      });
       const result = await response.json();
+
       if (result.status == 200) {
         toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
 
-        if (nuevoEstado == 3) {
-          $("#id_factura_ingresar_motivo").val(idFactura);
-
-          $("#ingresar_nodDesea_pedidoModal").modal("show");
-        }
-
-        if (nuevoEstado == 6) {
-          $("#id_factura_ingresar_observacion").val(idFactura);
-
-          $("#ingresar_observacion_pedidoModal").modal("show");
+        // Si el estado es "Anulado", proceder con la eliminación
+        if (nuevoEstado == 7) {
+          // Llamar a la API para eliminar el pedido
+          await eliminarPedido(idFactura);
         }
 
         initDataTableHistorial();
@@ -449,29 +446,32 @@ function boton_vista_anadir_sin_producto(id) {
     "" + SERVERURL + "Pedidos/vista_anadir_sin_producto/" + id;
 }
 
-function boton_anularPedido(id_factura) {
-  $.ajax({
-    type: "POST",
-    url: SERVERURL + "Pedidos/eliminarPedido/" + id_factura,
-    dataType: "json",
-    success: function (response) {
-      if (response.status == 500) {
-        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      } else if (response.status == 200) {
-        toastr.success("ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+// Función para eliminar un pedido cuando el estado se cambia a "Anulado"
+async function eliminarPedido(idFactura) {
+  try {
+    const formData = new FormData();
+    formData.append("id_factura", idFactura);
 
-        initDataTableHistorial();
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al elimnar pedido");
-    },
-  });
+    const response = await fetch(SERVERURL + "Pedidos/eliminarPedido", {
+      method: "POST",
+      body: formData,
+    });
+
+    const result = await response.json();
+
+    if (result.status == 200) {
+      toastr.success("Pedido eliminado correctamente", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+    } else {
+      toastr.error("No se pudo eliminar el pedido", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+    }
+  } catch (error) {
+    console.error("Error al eliminar el pedido", error);
+    alert("Hubo un error al eliminar el pedido");
+  }
 }
 
 function enviar_mensaje_automatizador(
