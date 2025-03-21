@@ -147,6 +147,7 @@ const listHistorialPedidos = async () => {
               </td>
             </tr>`;
         });
+        document.getElementById("tableBody_historialPedidos").innerHTML = content;
       }
     };
 
