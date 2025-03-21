@@ -91,21 +91,23 @@ const listHistorialPedidos = async () => {
 
           // 1) Determinar si el <select> debe estar deshabilitado (pedido anulado)
           let disabled = (historialPedido.estado_pedido == 7) ? "disabled" : "";
-
+          
           let select_estados_pedidos = `
-            <select class="form-select select-estado-pedido" 
-                    style="max-width: 90%; margin-top: 10px; color: white; background:$*-{color_estadoPedido};" 
-                    data-id-factura="${historialPedido.id_factura}"
-                    ${disabled}>
-              <option value="0" ${historialPedido.estado_pedido == 0 ? "selected" : ""}>-- Selecciona estado --</option>
-              <option value="1" ${historialPedido.estado_pedido == 1 ? "selected" : ""}>Pendiente</option>
-              <option value="2" ${historialPedido.estado_pedido == 2 ? "selected" : ""}>Gestionado</option>
-              <option value="3" ${historialPedido.estado_pedido == 3 ? "selected" : ""}>No desea</option>
-              <option value="4" ${historialPedido.estado_pedido == 4 ? "selected" : ""}>1ra llamada</option>
-              <option value="5" ${historialPedido.estado_pedido == 5 ? "selected" : ""}>2da llamada</option>
-              <option value="6" ${historialPedido.estado_pedido == 6 ? "selected" : ""}>Observación</option>
-              <option value="7" ${historialPedido.estado_pedido == 7 ? "selected" : ""}>Anulado</option>
-            </select>`;
+          <select class="form-select select-estado-pedido" 
+                  style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido};" 
+                  data-id-factura="${historialPedido.id_factura}"
+                  ${disabled}>
+            <option value="0" ${historialPedido.estado_pedido == 0 ? "selected" : ""}>-- Selecciona estado --</option>
+            <option value="1" ${historialPedido.estado_pedido == 1 ? "selected" : ""}>Pendiente</option>
+            <option value="2" ${historialPedido.estado_pedido == 2 ? "selected" : ""}>Gestionado</option>
+            <option value="3" ${historialPedido.estado_pedido == 3 ? "selected" : ""}>No desea</option>
+            <option value="4" ${historialPedido.estado_pedido == 4 ? "selected" : ""}>1ra llamada</option>
+            <option value="5" ${historialPedido.estado_pedido == 5 ? "selected" : ""}>2da llamada</option>
+            <option value="6" ${historialPedido.estado_pedido == 6 ? "selected" : ""}>Observación</option>
+            <option value="7" ${historialPedido.estado_pedido == 7 ? "selected" : ""}>Anulado</option>
+          </select>
+        `;
+        
 
           // Botón de WhatsApp
           let boton_automatizador = "";
