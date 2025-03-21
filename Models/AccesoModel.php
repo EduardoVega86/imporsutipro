@@ -298,7 +298,12 @@ class AccesoModel extends Query
         return $this->select($sql);
     }
 
-    public function validarTiendas($tienda)
+    /**
+     * @param $tienda
+     * @return array
+     * @throws Exception
+     */
+    public function validarTiendas($tienda): array
     {
         $sql = "SELECT * FROM plataformas WHERE nombre_tienda = ?";
         $params = [$tienda];
@@ -320,7 +325,10 @@ class AccesoModel extends Query
         ];
     }
 
-    public function validarEmail($email)
+    /**
+     * @throws Exception
+     */
+    public function validarEmail($email): array
     {
         $sql = "SELECT * FROM users WHERE usuario_users = ?";
         $params = [$email];
@@ -374,7 +382,7 @@ class AccesoModel extends Query
         if (str_contains($correo, '@dev')) {
             throw new Exception("No se puede recuperar la contraseña de un correo de desarrollo");
         }
-        $usuario = $this->select("SELECT * FROM users WHERE email_users = ?", [$correo]);
+        $usuario = $this->dselect("SELECT * FROM users WHERE email_users = ?", [$correo]);
         if (empty($usuario)) {
             throw new Exception("Usuario no encontrado");
         }
