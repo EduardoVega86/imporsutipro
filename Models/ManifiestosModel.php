@@ -1392,15 +1392,8 @@ $result = $this->insert($detalle_sql_historial, $data);
 
         $response = $this->initialResponse();
 
-
-        $sql = "INSERT INTO detalle_devolucion_producto (numero_guia, id_cabecera_devolucion) VALUES (?, ?)";
-        $data = [$num_guia, $id_cabecera];
-        // Ejecuta la inserción
-        $insertar_detalle_rd = $this->insert($sql, $data);
-
         //print_r($insertar_detalle_rd);
         $sql_factura = "SELECT * FROM facturas_cot WHERE numero_guia = '$num_guia'";
-          echo $sql_factura;
         $factura = $this->select($sql_factura);
         $id_factura = $factura[0]['id_factura'];
         $estado_factura = $factura[0]['estado_factura'];
@@ -1577,6 +1570,9 @@ $result = $this->insert($detalle_sql_historial, $data);
         return $lastInsertId;
     }
 
+    /**
+     * @throws Exception
+     */
     public function guardarCabeceraDevolucion($plataforma)
     {
 
@@ -1601,13 +1597,15 @@ $result = $this->insert($detalle_sql_historial, $data);
             . " and fecha_hora = '$fecha_actual' ";
         $stock = $this->select($sql_id);
         //echo $sql_id;
-        $lastInsertId = $stock[0]['id_devolucion'];
-
         // Obtiene el ID del último registro insertado
 
         // Devuelve el ID generado
-        return $lastInsertId;
+        return $stock[0]['id_devolucion'];
     }
+
+    /**
+     * @throws Exception
+     */
     public function generarManifiestoGuiasDevolucion($arreglo, $id_cabecera)
     {
         if (count($arreglo) == 0) return;
