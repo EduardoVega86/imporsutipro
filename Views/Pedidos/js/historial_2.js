@@ -114,7 +114,6 @@ const listHistorialPedidos = async () => {
               <td>${select_estados_pedidos}</td>
               <td>
                 <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
-                <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
               </td>
             </tr>`;
         });
