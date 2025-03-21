@@ -59,9 +59,9 @@ const listHistorialPedidos = async () => {
     formData.append("fecha_fin", fecha_fin);
     formData.append("estado_pedido", $("#estado_pedido").val());
 
-    //Obtener el valor del campo búsqueda
+    // Obtener el valor del campo búsqueda
     let buscar_pedido = $("#buscar_pedido").val().trim();
-    formData.append("buscar_pedido", buscar_pedido); //agreamos al request
+    formData.append("buscar_pedido", buscar_pedido); //agregamos al request
 
     const response = await fetch(`${SERVERURL}${currentAPI}`, {
       method: "POST",
@@ -71,200 +71,86 @@ const listHistorialPedidos = async () => {
     const historialPedidos = await response.json();
 
     let content = ``;
-    historialPedidos.forEach((historialPedido, index) => {
-      let transporte = historialPedido.id_transporte;
-      console.log(transporte);
-      let transporte_content = "";
-      /* if (transporte == 2) {
-        transporte_content =
-          '<span text-nowrap style="background-color: #28C839; color: white; padding: 5px; border-radius: 0.3rem;">SERVIENTREGA</span>';
-      } else if (transporte == 1) {
-        transporte_content =
-          '<span text-nowrap style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">LAAR</span>';
-      } else if (transporte == 4) {
-        transporte_content =
-          '<span text-nowrap style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">SPEED</span>';
-      } else if (transporte == 3) {
-        transporte_content =
-          '<span text-nowrap style="background-color: red; color: white; padding: 5px; border-radius: 0.3rem;">GINTRACOM</span>';
-      } else if (transporte == 0) {
-      transporte_content =
-        '<span text-nowrap style="background-color: #E3BC1C; color: white; padding: 5px; border-radius: 0.3rem;">Guia no enviada</span>';
-            } */
 
-      let select_estados_pedidos = "";
+    // Procesar cada categoría de pedidos por separado
+    const processPedidos = (pedidos) => {
+      if (Array.isArray(pedidos)) {
+        pedidos.forEach((historialPedido, index) => {
+          let transporte = historialPedido.id_transporte;
+          console.log(transporte);
+          let transporte_content = "";
+          let select_estados_pedidos = "";
+          let color_estadoPedido = "";
 
-      color_estadoPedido = "";
+          if (historialPedido.estado_pedido == 1) {
+            color_estadoPedido = "#ff8301";
+          } else if (historialPedido.estado_pedido == 2) {
+            color_estadoPedido = "#0d6efd";
+          } else if (historialPedido.estado_pedido == 3) {
+            color_estadoPedido = "red";
+          } else if (historialPedido.estado_pedido == 4) {
+            color_estadoPedido = "green";
+          } else if (historialPedido.estado_pedido == 5) {
+            color_estadoPedido = "green";
+          } else if (historialPedido.estado_pedido == 6) {
+            color_estadoPedido = "green";
+          } else if (historialPedido.estado_pedido == 7) {
+            color_estadoPedido = "red";
+          }
 
-      if (historialPedido.estado_pedido == 1) {
-        color_estadoPedido = "#ff8301";
-      } else if (historialPedido.estado_pedido == 2) {
-        color_estadoPedido = "#0d6efd";
-      } else if (historialPedido.estado_pedido == 3) {
-        color_estadoPedido = "red";
-      } else if (historialPedido.estado_pedido == 4) {
-        color_estadoPedido = "green";
-      } else if (historialPedido.estado_pedido == 5) {
-        color_estadoPedido = "green";
-      } else if (historialPedido.estado_pedido == 6) {
-        color_estadoPedido = "green";
-      }
-      else if (historialPedido.estado_pedido == 7) {
-        color_estadoPedido = "red";
-      }
-
-      select_estados_pedidos = `
+          select_estados_pedidos = `
                     <select class="form-select select-estado-pedido" style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
-        historialPedido.id_factura
-      }">
+            historialPedido.id_factura
+          }">
                         <option value="0" ${
-                          historialPedido.estado_pedido == 0 ? "selected" : ""
-                        }>-- Selecciona estado --</option>
+            historialPedido.estado_pedido == 0 ? "selected" : ""
+          }>-- Selecciona estado --</option>
                         <option value="1" ${
-                          historialPedido.estado_pedido == 1 ? "selected" : ""
-                        }>Pendiente</option>
+            historialPedido.estado_pedido == 1 ? "selected" : ""
+          }>Pendiente</option>
                         <option value="2" ${
-                          historialPedido.estado_pedido == 2 ? "selected" : ""
-                        }>Gestionado</option>
+            historialPedido.estado_pedido == 2 ? "selected" : ""
+          }>Gestionado</option>
                         <option value="3" ${
-                          historialPedido.estado_pedido == 3 ? "selected" : ""
-                        }>No desea</option>
+            historialPedido.estado_pedido == 3 ? "selected" : ""
+          }>No desea</option>
                         <option value="4" ${
-                          historialPedido.estado_pedido == 4 ? "selected" : ""
-                        }>1ra llamada</option>
+            historialPedido.estado_pedido == 4 ? "selected" : ""
+          }>1ra llamada</option>
                         <option value="5" ${
-                          historialPedido.estado_pedido == 5 ? "selected" : ""
-                        }>2da llamada</option>
+            historialPedido.estado_pedido == 5 ? "selected" : ""
+          }>2da llamada</option>
                         <option value="6" ${
-                          historialPedido.estado_pedido == 6 ? "selected" : ""
-                        }>Observación</option>
+            historialPedido.estado_pedido == 6 ? "selected" : ""
+          }>Observación</option>
                         <option value="7" ${
-                          historialPedido.estado_pedido == 7 ? "selected" : ""
-                        }>Anulado</option>
+            historialPedido.estado_pedido == 7 ? "selected" : ""
+          }>Anulado</option>
                     </select>`;
 
-      //tomar solo la ciudad
-
-      let boton_automatizador = "";
-
-      if (VALIDAR_CONFIG_CHAT) {
-        if (historialPedido.automatizar_ws == 0) {
-          boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
-          ${historialPedido.id_factura},
-          '${historialPedido.ciudad_cot}', // Si es string, ponlo entre comillas
-          '${historialPedido.celular}', // Lo mismo aquí si es string
-          '${historialPedido.nombre}',
-          '${historialPedido.c_principal}',
-          '${historialPedido.c_secundaria}',
-          '${historialPedido.contiene}',
-          ${historialPedido.monto_factura} // Si es número, no necesita comillas
-          )"><i class="fa-brands fa-whatsapp"></i></button>`;
-        }
+          content += `
+                    <tr>
+                        <td>${historialPedido.numero_factura}</td>
+                        <td>${historialPedido.fecha_factura}</td>
+                        <td>${historialPedido.nombre}</td>
+                        <td>${historialPedido.telefono}</td>
+                        <td>${select_estados_pedidos}</td>
+                    </tr>`;
+        });
       }
+    };
 
-      if (historialPedido.estado_pedido == 3) {
-        select_estados_pedidos += `<span>${historialPedido.detalle_noDesea_pedido}</span>`;
-      } else if (historialPedido.estado_pedido == 6) {
-        select_estados_pedidos += `<span>${historialPedido.observacion_pedido}</span>`;
-      }
+    // Procesar los pedidos de cada categoría
+    processPedidos(historialPedidos.pedidosImporsuit);
+    processPedidos(historialPedidos.pedidosAnulados);
+    processPedidos(historialPedidos.pedidosSinProducto);
 
-      let ciudadCompleta = historialPedido.ciudad;
-      let ciudad = "";
-      if (ciudadCompleta !== null) {
-        let ciudadArray = ciudadCompleta.split("/");
-        ciudad = ciudadArray[0];
-      }
-
-      let plataforma = "";
-      if (
-        historialPedido.plataforma == "" ||
-        historialPedido.plataforma == null
-      ) {
-        plataforma = "";
-      } else {
-        plataforma = procesarPlataforma(historialPedido.plataforma);
-      }
-
-      let plataforma_proveedor = obtenerSubdominio(
-        historialPedido.plataforma_proveedor
-      );
-
-      let canal_venta;
-      let color_canal_venta;
-      let numero_orden_shopify = "";
-
-      let factura = historialPedido.numero_factura;
-
-      if (historialPedido.importado == 0) {
-        canal_venta = "manual";
-        color_canal_venta = "red";
-      } else if (historialPedido.plataforma_importa == "Funnelish") {
-        canal_venta = "Funnelish";
-        color_canal_venta = "#5e81f4";
-      } else if (historialPedido.plataforma_importa == "Shopify") {
-        canal_venta = "Shopify";
-        color_canal_venta = "#79b258";
-
-        let comentario = historialPedido.comentario;
-
-        // Dividir la cadena en partes usando "número de orden: "
-        let partes = comentario.split("número de orden: ");
-
-        // Si se encontró la frase, tomar la segunda parte y limpiar espacios
-        numero_orden_shopify = partes.length > 1 ? partes[1].trim() : null;
-
-        factura = numero_orden_shopify;
-      }
-
-      let acciones = "";
-      if (currentAPI == "pedidos/cargarTodosLosPedidos") {
-        acciones = `
-          <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
-          ${boton_automatizador}`;
-      } else if (currentAPI == "pedidos/cargar_pedidos_sin_producto") {
-        acciones = `
-          <button class="btn btn-sm btn-primary" onclick="boton_vista_anadir_sin_producto(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
-          ${boton_automatizador}`;
-      }
-
-      content += `
-                <tr>
-                    <td>${factura}</td>
-                    <td>${historialPedido.fecha_factura}</td>
-                    <td>${canal_venta}</td>
-                    <td>
-                        <div><strong>${historialPedido.nombre}</strong></div>
-                        <div>telf: ${historialPedido.telefono}</div>
-                    </td>
-                    <td>
-                    <div>${historialPedido.c_principal} - ${historialPedido.c_secundaria}</div>
-                    <div>${historialPedido.provinciaa}-${ciudad}</div>
-                    </td>
-                    <td>
-                    <div>
-                    <strong>${plataforma_proveedor}</strong>
-                    </div>
-                    <div>
-                    ${historialPedido.contiene}
-                    </div>
-                    </td>
-                    <td>$ ${historialPedido.monto_factura}</td>
-                    <td>
-                    <div style = "text-align: -webkit-center;">
-                    ${transporte_content}
-                    ${select_estados_pedidos}
-                    </div>
-                    </td>
-                    <td>
-                        ${acciones}
-                    </td>
-                </tr>`;
-    });
     document.getElementById("tableBody_historialPedidos").innerHTML = content;
   } catch (ex) {
     alert(ex);
   }
 };
+
 
 // Capturar evento en el input de búsqueda
 $("#buscar_pedido").on("keyup", function () {
