@@ -450,7 +450,7 @@ async function eliminarPedido(idFactura) {
   try {
       // Usando el método GET para enviar el id_factura en la URL
       const response = await fetch(SERVERURL + `Pedidos/eliminarPedido/${idFactura}`, {
-          method: "GET", // O "POST", si prefieres hacerlo con POST, pero en la URL
+          method: "POST", // O "POST", si prefieres hacerlo con POST, pero en la URL
       });
 
       const result = await response.json();
