@@ -31,26 +31,55 @@ const dataTableHistorialOptions = {
   },
 };
 
-const initDataTableHistorial = async () => {
-  showTableLoader();
-  try {
-    if (dataTableHistorialIsInitialized) {
-      dataTableHistorial.destroy();
-    }
+function initDataTableHistorial() {
+  $.ajax({
+      url: SERVERURL + 'Pedidos/cargarTodosLosPedidos',
+      method: 'POST',
+      data: {
+          fecha_inicio: fecha_inicio,
+          fecha_fin: fecha_fin,
+          estado_pedido: $("#estado_pedido").val()
+      },
+      dataType: 'json',
+      success: function(data) {
+          // Asumiendo que data es un array de objetos
+          var tableData = [];
+          $.each(data, function(index, value) {
+              var row = [
+                  value.orden,          // Columna 1: # Orden
+                  value.fecha,          // Columna 2: Fecha
+                  value.canal_venta,    // Columna 3: Canal de venta
+                  value.cliente,        // Columna 4: Cliente
+                  value.destino,        // Columna 5: Destino
+                  value.contiene,       // Columna 6: Contiene
+                  value.monto,          // Columna 7: Monto
+                  value.estado_pedido,  // Columna 8: Estado Pedido
+                  value.acciones        // Columna 9: Acciones
+              ];
+              tableData.push(row);
+          });
 
-    await listHistorialPedidos();
+          $('#datatable_historialPedidos').DataTable({
+              data: tableData,
+              columns: [
+                  { title: "# Orden" },
+                  { title: "Fecha" },
+                  { title: "Canal de venta" },
+                  { title: "Cliente" },
+                  { title: "Destino" },
+                  { title: "Contiene" },
+                  { title: "Monto" },
+                  { title: "Estado Pedido" },
+                  { title: "Acciones" }
+              ]
+          });
+      },
+      error: function(xhr, status, error) {
+          console.error('Error al cargar los datos:', error);
+      }
+  });
+}
 
-    dataTableHistorial = $("#datatable_historialPedidos").DataTable(
-      dataTableHistorialOptions
-    );
-
-    dataTableHistorialIsInitialized = true;
-  } catch (error) {
-    console.error("Error al cargar la tabla:", error);
-  } finally {
-    hideTableLoader();
-  }
-};
 
 const listHistorialPedidos = async () => {
   try {
