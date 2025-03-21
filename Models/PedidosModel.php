@@ -2151,7 +2151,7 @@ class PedidosModel extends Query
             $sql .= " AND estado_pedido = :estado_pedido";
         }
 
-        // Filtrar por búsqueda de pedido
+        // Filtrar por búsqueda de pedido (si está presente)
         if (!empty($buscar_pedido)) {
             $sql .= " AND (numero_factura LIKE :buscar_pedido OR nombre LIKE :buscar_pedido OR comentario LIKE :buscar_pedido)";
         }
@@ -2211,15 +2211,16 @@ class PedidosModel extends Query
         // Preparar los parámetros para la consulta
         $params = [
             ':plataforma' => $plataforma,
-            ':fecha_inicio' => $fecha_inicio,
-            ':fecha_fin' => $fecha_fin,
-            ':estado_pedido' => $estado_pedido,
-            ':buscar_pedido' => '%' . $buscar_pedido . '%',
+            ':fecha_inicio' => !empty($fecha_inicio) ? $fecha_inicio : null,
+            ':fecha_fin' => !empty($fecha_fin) ? $fecha_fin : null,
+            ':estado_pedido' => !empty($estado_pedido) ? $estado_pedido : null,
+            ':buscar_pedido' => !empty($buscar_pedido) ? '%' . $buscar_pedido . '%' : null,
         ];
 
         // Ejecutar la consulta y retornar los resultados
         return $this->dselect($sql, $params);
     }
+
 
 
     public function cargarPedidosPorFila_imporsuit($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
