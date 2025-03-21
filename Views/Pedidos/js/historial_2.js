@@ -138,7 +138,7 @@ const listHistorialPedidos = async () => {
                         <option value="6" ${
                           historialPedido.estado_pedido == 6 ? "selected" : ""
                         }>Observación</option>
-                        <option value="6" ${
+                        <option value="7" ${
                           historialPedido.estado_pedido == 7 ? "selected" : ""
                         }>Anulado</option>
                     </select>`;
