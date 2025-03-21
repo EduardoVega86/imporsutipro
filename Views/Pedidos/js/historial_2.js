@@ -12,6 +12,7 @@ const dataTableHistorialOptions = {
   ],
   order: [[1, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
+  dom: '<"top"l>rt<"bottom"ip><"clear">', // Eliminamos 'f' para quitar el input de búsqueda de DataTables
   destroy: true,
   responsive: true,
   language: {
@@ -20,7 +21,6 @@ const dataTableHistorialOptions = {
     info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
     infoEmpty: "Ningún usuario encontrado",
     infoFiltered: "(filtrados desde _MAX_ registros totales)",
-    search: "Buscar:",
     loadingRecords: "Cargando...",
     paginate: {
       first: "Primero",
@@ -58,6 +58,10 @@ const listHistorialPedidos = async () => {
     formData.append("fecha_inicio", fecha_inicio);
     formData.append("fecha_fin", fecha_fin);
     formData.append("estado_pedido", $("#estado_pedido").val());
+
+    //Obtener el valor del campo búsqueda
+    let buscar_pedido = $("#buscar_pedido").val().trim();
+    formData.append("buscar_pedido", buscar_pedido); //agreamos al request
 
     const response = await fetch(`${SERVERURL}${currentAPI}`, {
       method: "POST",
@@ -258,6 +262,11 @@ const listHistorialPedidos = async () => {
   }
 };
 
+// Capturar evento en el input de búsqueda
+$("#buscar_pedido").on("keyup", function () {
+  listHistorialPedidos(); // Volver a cargar los pedidos con el filtro
+});
+
 window.addEventListener("load", async () => {
   await initDataTableHistorial();
 
@@ -296,6 +305,13 @@ document.getElementById("btnPedidos").addEventListener("click", () => {
   cambiarBotonActivo("btnPedidos");
   initDataTableHistorial();
 });
+
+document.getElementById("btnAnulados").addEventListener("click", () => {
+  currentAPI = "pedidos/cargarPedidosAnulados"; // Nuevo endpoint para pedidos anulados
+  cambiarBotonActivo("btnAnulados");
+  initDataTableHistorial();
+});
+
 
 /* document.getElementById("btnAbandonados").addEventListener("click", () => {
   currentAPI = "pedidos/cargar_pedidos_abandonados"; // Ajusta la API correspondiente

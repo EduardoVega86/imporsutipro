@@ -9,7 +9,6 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Historial de Pedidos</h2>
 
         <!-- 🔹 SECCIÓN DE CARDS INFORMATIVAS 🔹 -->
         <div class="row mb-4">
@@ -98,10 +97,19 @@
             </div>
         </div>
 
-        <div class="d-flex mb-3 mt-3">
-            <button id="btnPedidos" class="btn btn-primary me-2 active">Pedidos</button>
-            <!-- <button id="btnAbandonados" class="btn btn-secondary me-2">Abandonados</button> -->
-            <button id="btnNo_vinculados" class="btn btn-secondary">No Vinculados</button>
+        <div class="d-flex mb-3 mt-3 align-items-center">
+            <?php if ($_SESSION['id_plataforma'] != 3280) { ?>
+                <!-- Botones (NO visibles para la plataforma 3280) -->
+                <button id="btnPedidos" class="btn btn-primary me-2 active">Pedidos</button>
+                <button id="btnAnulados" class="btn btn-secondary me-2">Anulados</button>
+                <button id="btnNo_vinculados" class="btn btn-secondary me-3">No Vinculados</button>
+            <?php } ?>
+
+            <!-- Input de búsqueda (visible para TODAS las plataformas) -->
+            <div class="input-group" style="max-width: 320px;">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control" id="buscar_pedido" placeholder="Buscar por #Orden o Cliente...">
+            </div>
         </div>
 
         <!-- TABLA DE HISTORIAL DE PEDIDOS -->
