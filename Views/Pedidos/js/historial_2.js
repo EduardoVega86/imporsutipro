@@ -145,6 +145,23 @@ const listHistorialPedidos = async () => {
   }
 };
 
+document.addEventListener("DOMContentLoaded", async () => {
+  const btnAplicar = document.getElementById("btnAplicarFiltros");
+  if (btnAplicar) {
+    btnAplicar.addEventListener("click", async function () {
+      let rangoFechas = $("#daterange").val();
+      if (rangoFechas) {
+        let fechas = rangoFechas.split(" - ");
+        fecha_inicio = fechas[0] + " 00:00:00";
+        fecha_fin = fechas[1] + " 23:59:59";
+      }
+      await initDataTableHistorial();
+      cargarCardsPedidos();
+    });
+  } else {
+    console.error("El botón 'btnAplicarFiltros' no se encuentra en el DOM.");
+  }
+});
 
 
 // Capturar evento en el input de búsqueda
