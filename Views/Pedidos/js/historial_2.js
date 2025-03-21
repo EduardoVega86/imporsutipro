@@ -175,8 +175,8 @@ $("#buscar_pedido").on("keyup", function () {
 });
 
 function filterTable(searchTerm) {
-  // Obtener todas las filas de la tabla
-  let rows = $("#datatable_historialPedidos tbody tr");
+  // Obtener todas las filas del DataTable (no solo las visibles)
+  let rows = dataTableHistorial.rows().nodes(); // Esto devuelve todas las filas, no solo las de la página actual
 
   // Recorrer todas las filas y ocultar las que no coincidan con el término de búsqueda
   rows.each(function () {
@@ -188,6 +188,7 @@ function filterTable(searchTerm) {
     }
   });
 }
+
 
 
 window.addEventListener("load", async () => {
