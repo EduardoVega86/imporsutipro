@@ -379,7 +379,7 @@ document.addEventListener("change", async (event) => {
         }
         // Si es estado 7 (Anulado), llamamos a la función para eliminar el pedido
         if (nuevoEstado == 7) {
-          eliminarPedido(idFactura);
+          boton_anularPedido(idFactura);
         }
         initDataTableHistorial();
       }
@@ -456,65 +456,64 @@ function boton_vista_anadir_sin_producto(id) {
     "" + SERVERURL + "Pedidos/vista_anadir_sin_producto/" + id;
 }
 
-// function boton_anularPedido(id_factura) {
-//   $.ajax({
-//     type: "POST",
-//     url: SERVERURL + "Pedidos/eliminarPedido/" + id_factura,
-//     dataType: "json",
-//     success: function (response) {
-//       if (response.status == 500) {
-//         toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
-//           positionClass: "toast-bottom-center",
-//         });
-//       } else if (response.status == 200) {
-//         toastr.success("ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
-//           positionClass: "toast-bottom-center",
-//         });
+function boton_anularPedido(id_factura) {
+  $.ajax({
+    type: "POST",
+    url: SERVERURL + "Pedidos/eliminarPedido/" + id_factura,
+    dataType: "json",
+    success: function (response) {
+      if (response.status == 500) {
+        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
+      } else if (response.status == 200) {
+        toastr.success("ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
+          positionClass: "toast-bottom-center",
+        });
 
-//         initDataTableHistorial();
-//       }
-//     },
-//     error: function (xhr, status, error) {
-//       console.error("Error en la solicitud AJAX:", error);
-//       alert("Hubo un problema al elimnar pedido");
-//     },
-//   });
-// }
-
-async function eliminarPedido(idFactura) {
-  try {
-    // Usando el método GET para enviar el id_factura en la URL
-    const response = await fetch(SERVERURL + `Pedidos/eliminarPedido/${idFactura}`, {
-      method: "GET", // O "POST", si prefieres hacerlo con POST
-    });
-
-    const result = await response.json();
-
-    if (result.status == 200) {
-      toastr.success("PEDIDO ANULADO CORRECTAMENTE", "NOTIFICACIÓN", {
-        positionClass: "toast-bottom-center",
-      });
-      
-      // Comprobar si el contenedor de la tabla existe antes de intentar modificarla
-      const tableBody = document.getElementById("tableBody_historialPedidos");
-      if (tableBody) {
-        // Recargar la tabla después de eliminar
-        await initDataTableHistorial();
-      } else {
-        console.error("El elemento de la tabla no fue encontrado");
+        initDataTableHistorial();
       }
-    } else {
-      toastr.error("No se pudo eliminar el pedido", "NOTIFICACIÓN", {
-        positionClass: "toast-bottom-center",
-      });
-    }
-  } catch (error) {
-    console.error("Error al eliminar el pedido", error);
-    toastr.error("Hubo un error al eliminar el pedido", "NOTIFICACIÓN", {
-      positionClass: "toast-bottom-center",
-    });
-  }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Hubo un problema al elimnar pedido");
+    },
+  });
 }
+
+// async function eliminarPedido(idFactura) {
+//   try {
+//     // Usando el método GET para enviar el id_factura en la URL
+//     const response = await fetch(SERVERURL + `Pedidos/eliminarPedido/${idFactura}`, {
+//       method: "GET", // O "POST", si prefieres hacerlo con POST
+//     });
+
+//     const result = await response.json();
+
+//     if (result.status == 200) {
+//       toastr.success("PEDIDO ANULADO CORRECTAMENTE", "NOTIFICACIÓN", {
+//         positionClass: "toast-bottom-center",
+//       });
+//       // Comprobar si el contenedor de la tabla existe antes de intentar modificarla
+//       const tableBody = document.getElementById("tableBody_historialPedidos");
+//       if (tableBody) {
+//         // Recargar la tabla después de eliminar
+//         await initDataTableHistorial();
+//       } else {
+//         console.error("El elemento de la tabla no fue encontrado");
+//       }
+//     } else {
+//       toastr.error("No se pudo eliminar el pedido", "NOTIFICACIÓN", {
+//         positionClass: "toast-bottom-center",
+//       });
+//     }
+//   } catch (error) {
+//     console.error("Error al eliminar el pedido", error);
+//     toastr.error("Hubo un error al eliminar el pedido", "NOTIFICACIÓN", {
+//       positionClass: "toast-bottom-center",
+//     });
+//   }
+// }
 
 function enviar_mensaje_automatizador(
   nueva_factura,
