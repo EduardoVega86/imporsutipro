@@ -416,10 +416,12 @@ const listGuias = async () => {
   }
 };
 
-//Capturamos evento en el input de busqueda
-$("#buscar_guia").on("keyup", function(){
-  listGuias(); //cargamos la lista con el filtro
-})
+$("#buscar_guia").on("keyup", function () {
+  let searchTerm = $(this).val();
+  if (dataTableHistorial) {
+    dataTableHistorial.search(searchTerm).draw();
+  }
+});
 
 function abrirModal_infoTienda(tienda) {
   let formData = new FormData();
