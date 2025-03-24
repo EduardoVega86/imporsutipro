@@ -112,6 +112,10 @@ $(function () {
             : "$0.00"
         );
         $("#total_productos").text(response.productos_vendidos|| 0);
+        $("#topProductsList").text(response.top_productos|| 0);
+        $("#topCategoriesList").text(response.top_categorias|| 0);
+        $("#topCitiesList").text(response.top_categorias|| 0);
+
         $("#ticket_promedio").text(
           parseFloat(response.ticket_promedio).toFixed(2)
         );
