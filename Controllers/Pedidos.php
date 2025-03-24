@@ -619,15 +619,24 @@ class Pedidos extends Controller
 
     public function cargarPedidosAnulados()
     {
-        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
-        $fecha_fin    = $_POST['fecha_fin'] ?? "";
+        $fecha_inicio  = $_POST['fecha_inicio']   ?? "";
+        $fecha_fin     = $_POST['fecha_fin']      ?? "";
+        $estado_pedido = $_POST['estado_pedido']  ?? "";
+        $buscar_pedido = $_POST['buscar_pedido']  ?? "";
 
-        // Forzamos que la guía enviada siempre sea 0
+        // Forzamos guía_enviada=0 y anulada=1 (tu misma lógica actual)
         $guia_enviada = 0;
-        // Y que se traigan los pedidos anulados (anulada = 1)
         $anulada = 1;
 
-        $data = $this->model->cargarPedidosAnulados($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $guia_enviada, $anulada);
+        $data = $this->model->cargarPedidosAnulados(
+            $_SESSION["id_plataforma"],
+            $fecha_inicio,
+            $fecha_fin,
+            $estado_pedido,
+            $buscar_pedido,
+            $guia_enviada,
+            $anulada
+        );
         echo json_encode($data);
     }
 
@@ -635,10 +644,18 @@ class Pedidos extends Controller
 
     public function cargar_pedidos_sin_producto()
     {
-        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
-        $fecha_fin = $_POST['fecha_fin'] ?? "";
-        $estado_pedido = $_POST['estado_pedido'] ?? "";
-        $data = $this->model->cargar_pedidos_sin_producto($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
+        $fecha_inicio  = $_POST['fecha_inicio']   ?? "";
+        $fecha_fin     = $_POST['fecha_fin']      ?? "";
+        $estado_pedido = $_POST['estado_pedido']  ?? "";
+        $buscar_pedido = $_POST['buscar_pedido']  ?? "";
+
+        $data = $this->model->cargar_pedidos_sin_producto(
+            $_SESSION["id_plataforma"],
+            $fecha_inicio,
+            $fecha_fin,
+            $estado_pedido,
+            $buscar_pedido
+        );
         echo json_encode($data);
     }
 
@@ -668,8 +685,8 @@ class Pedidos extends Controller
 
             // Llamar a cada modelo
             $pedidosImporsuit = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido);
-            $pedidosAnulados = $this->model->cargarPedidosAnulados($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, 0, 1);
-            $pedidosSinProducto = $this->model->cargar_pedidos_sin_producto($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
+            $pedidosAnulados = $this->model->cargarPedidosAnulados($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido, 0, 1);
+            $pedidosSinProducto = $this->model->cargar_pedidos_sin_producto($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido);
 
             // Combinar los resultados de manera más controlada
             $todosPedidos = array_merge($pedidosImporsuit, $pedidosAnulados, $pedidosSinProducto);
@@ -1434,13 +1451,16 @@ class Pedidos extends Controller
             $id_plataforma,
             $fecha_inicio,
             $fecha_fin,
-            $estado_pedido
+            $estado_pedido,
+            $buscar_pedido
         );
         // C) Pedidos anulados
         $pedidosAnulados = $this->model->cargarPedidosAnulados(
             $id_plataforma,
             $fecha_inicio,
             $fecha_fin,
+            $estado_pedido,
+            $buscar_pedido,
             0,
             1
         );
