@@ -2080,53 +2080,78 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function cargarPedidosAnulados($plataforma, $fecha_inicio, $fecha_fin, $guia_enviada, $anulada)
+    public function cargarPedidosAnulados($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido, $guia_enviada, $anulada)
     {
         $sql = "SELECT *, 
                 (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
                 (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa,
                 (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma 
                 FROM facturas_cot 
-                WHERE anulada = $anulada 
-                AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-                AND id_plataforma = '$plataforma'";
+                WHERE id_plataforma = '$plataforma'
+                  AND anulada = $anulada
+                  AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+                  AND no_producto = 0";
 
+        // Filtrar por rango de fechas
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        // Filtrar adicionalmente por estado_pedido (si deseas permitirlo)
+        if (!empty($estado_pedido)) {
+            $sql .= " AND estado_pedido = $estado_pedido";
+        }
+
+        // Filtrar por texto de búsqueda
+        if (!empty($buscar_pedido)) {
+            $sql .= " AND (numero_factura = '$buscar_pedido' 
+                           OR nombre = '$buscar_pedido' 
+                           OR comentario = '$buscar_pedido')";
         }
 
         if (!empty($guia_enviada)) {
             $sql .= " AND estado_pedido = $guia_enviada";
         }
 
-        $sql .= " AND no_producto = 0";
         $sql .= " ORDER BY numero_factura DESC;";
-
         return $this->select($sql);
     }
 
-    public function cargar_pedidos_sin_producto($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido): array
+
+    public function cargar_pedidos_sin_producto($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
     {
         $sql = "SELECT *, 
-        (SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad,
-        (SELECT provincia FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as provinciaa,
-        (SELECT url_imporsuit from plataformas where id_plataforma = id_propietario) as plataforma 
-        FROM facturas_cot WHERE anulada = 0 AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-        and id_plataforma = '$plataforma'";
+                (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
+                (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa,
+                (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma
+                FROM facturas_cot
+                WHERE anulada = 0
+                  AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+                  AND id_plataforma = '$plataforma'
+                  AND no_producto = 1";
 
+        // Filtrar por rango de fechas
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
+        // Filtrar por estado_pedido
         if (!empty($estado_pedido)) {
             $sql .= " AND estado_pedido = $estado_pedido";
         }
 
-        $sql .= " AND no_producto = 1";
+        // Filtrar por texto de búsqueda
+        if (!empty($buscar_pedido)) {
+            $sql .= " AND (numero_factura = '$buscar_pedido' 
+                           OR nombre = '$buscar_pedido' 
+                           OR comentario = '$buscar_pedido')";
+        }
 
         $sql .= " ORDER BY numero_factura DESC;";
+
         return $this->select($sql);
     }
+    
 
     public function cargarTodosLosPedidos($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
     {
