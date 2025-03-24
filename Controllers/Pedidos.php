@@ -1451,13 +1451,16 @@ class Pedidos extends Controller
             $id_plataforma,
             $fecha_inicio,
             $fecha_fin,
-            $estado_pedido
+            $estado_pedido,
+            $buscar_pedido
         );
         // C) Pedidos anulados
         $pedidosAnulados = $this->model->cargarPedidosAnulados(
             $id_plataforma,
             $fecha_inicio,
             $fecha_fin,
+            $estado_pedido,
+            $buscar_pedido,
             0,
             1
         );

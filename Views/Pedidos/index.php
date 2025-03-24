@@ -86,14 +86,25 @@
         </div>
 
         <div style="padding-top: 20px;">
-            <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
-        </div>
+            <div class="d-flex align-items-center" style="gap: 20px;">
+                <!-- Botón de Aplicar Filtros -->
+                <button id="btnAplicarFiltros" class="btn btn-primary">
+                    Aplicar Filtros
+                </button>
 
-        <div class="table-container" style="position: relative;">
-            <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
-            <div id="tableLoader" style="display: none;">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Cargando...</span>
+                <!-- Spinner (si deseas mostrarlo intermedio, a la derecha del botón) -->
+                <div id="tableLoader" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+
+                <!-- Input de búsqueda (visible para TODAS las plataformas) -->
+                <div class="input-group" style="max-width: 320px; margin-left: 30px;">
+                    <span class="input-group-text">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="text" class="form-control" id="buscar_pedido" placeholder="Buscar por #Orden o Cliente...">
                 </div>
             </div>
         </div>
