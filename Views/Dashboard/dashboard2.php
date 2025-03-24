@@ -17,7 +17,7 @@
     <!-- FILA DE CARDS -->
     <div class="row g-3 mb-4">
         <!-- Card: Valor Total -->
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-md-2">
             <div class="card h-100 shadow border-start border-4 border-success">
                 <div class="card-body text-center">
                     <h6 class="text-success">
@@ -30,7 +30,7 @@
             </div>
         </div>
         <!-- Card: Guías Generadas -->
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-md-2">
             <div class="card h-100 shadow border-start border-4 border-warning">
                 <div class="card-body text-center">
                     <h6 class="text-warning">
@@ -43,7 +43,7 @@
             </div>
         </div>
         <!-- Card: Productos Vendidos -->
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-md-2">
             <div class="card h-100 shadow border-start border-4 border-primary">
                 <div class="card-body text-center">
                     <h6 class="text-primary">
@@ -56,7 +56,7 @@
             </div>
         </div>
         <!-- Card: Guías Entregadas -->
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-md-2">
             <div class="card h-100 shadow border-start border-4 border-success">
                 <div class="card-body text-center">
                     <h6 class="text-success">
@@ -69,7 +69,7 @@
             </div>
         </div>
         <!-- Card: Utilidad Total -->
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-md-2">
             <div class="card h-100 shadow border-start border-4 border-info">
                 <div class="card-body text-center">
                     <h6 class="text-info">
@@ -131,6 +131,12 @@
 </div>
 
 </div>
+<footer class="text-center mt-4 py-3">
+    <hr class="mb-3">
+    <p class="mb-0 text-muted" style="font-size: 0.9rem;">
+        2025 © Imporsuit
+    </p>
+</footer>
 
 <!-- Tu JS actual del dashboard -->
 <script src="<?php echo SERVERURL ?>/Views/Dashboard/js/dashboard2.js"></script>
