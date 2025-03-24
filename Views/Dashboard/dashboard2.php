@@ -17,86 +17,80 @@
     <!-- FILA DE CARDS: 5 Tarjetas ocupando todo el ancho en pantallas grandes -->
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-3 mb-4">
 
-        <!-- Card 1: Valor Total -->
+        <!-- Card: Valor Total -->
         <div class="col">
             <div class="card h-100 shadow border-start border-4 border-success">
                 <div class="card-body text-center">
                     <div class="mb-2">
-                        <!-- Ícono Font Awesome -->
-                        <i class="fa-solid fa-sack-dollar fs-1 text-success"></i>
+                        <i class="bx bx-money fs-1 text-success"></i>
                     </div>
                     <h6 class="text-success">
                         Valor Total
-                        <i class="fa-solid fa-circle-question text-muted" data-bs-toggle="tooltip"
-                            title="Valor total de pedidos"></i>
+                        <i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip" title="Valor total de pedidos"></i>
                     </h6>
                     <h3 class="fw-bold mb-0" id="total_ventas">$0.00</h3>
                 </div>
             </div>
         </div>
 
-        <!-- Card 2: Guías Generadas -->
+        <!-- Card: Guías Generadas -->
         <div class="col">
             <div class="card h-100 shadow border-start border-4 border-warning">
                 <div class="card-body text-center">
                     <div class="mb-2">
-                        <i class="fa-solid fa-truck-ramp-box fs-1 text-warning"></i>
+                        <i class="bx bx-package fs-1 text-warning"></i>
                     </div>
                     <h6 class="text-warning">
                         Guías Generadas
-                        <i class="fa-solid fa-circle-question text-muted" data-bs-toggle="tooltip"
-                            title="Cantidad total de guías generadas"></i>
+                        <i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip" title="Cantidad total de guías generadas"></i>
                     </h6>
                     <h3 class="fw-bold mb-0" id="total_guias">0</h3>
                 </div>
             </div>
         </div>
 
-        <!-- Card 3: Productos Vendidos -->
+        <!-- Card: Productos Vendidos -->
         <div class="col">
             <div class="card h-100 shadow border-start border-4 border-primary">
                 <div class="card-body text-center">
                     <div class="mb-2">
-                        <i class="fa-solid fa-cubes fs-1 text-primary"></i>
+                        <i class="bx bx-cube fs-1 text-primary"></i>
                     </div>
                     <h6 class="text-primary">
                         Productos Vendidos
-                        <i class="fa-solid fa-circle-question text-muted" data-bs-toggle="tooltip"
-                            title="Cantidad total de productos vendidos"></i>
+                        <i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip" title="Cantidad total de productos vendidos"></i>
                     </h6>
                     <h3 class="fw-bold mb-0" id="total_productos">0</h3>
                 </div>
             </div>
         </div>
 
-        <!-- Card 4: Guías Entregadas -->
+        <!-- Card: Guías Entregadas -->
         <div class="col">
             <div class="card h-100 shadow border-start border-4 border-success">
                 <div class="card-body text-center">
                     <div class="mb-2">
-                        <i class="fa-solid fa-boxes-packing fs-1 text-success"></i>
+                        <i class="bx bx-check-square fs-1 text-success"></i>
                     </div>
                     <h6 class="text-success">
                         Guías Entregadas
-                        <i class="fa-solid fa-circle-question text-muted" data-bs-toggle="tooltip"
-                            title="Cantidad total de pedidos entregados"></i>
+                        <i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip" title="Cantidad total de pedidos entregados"></i>
                     </h6>
                     <h3 class="fw-bold mb-0" id="total_entregado">0</h3>
                 </div>
             </div>
         </div>
 
-        <!-- Card 5: Utilidad Total -->
+        <!-- Card: Utilidad Total -->
         <div class="col">
             <div class="card h-100 shadow border-start border-4 border-info">
                 <div class="card-body text-center">
                     <div class="mb-2">
-                        <i class="fa-solid fa-wallet fs-1 text-info"></i>
+                        <i class="bx bx-wallet fs-1 text-info"></i>
                     </div>
                     <h6 class="text-info">
                         Utilidad Total
-                        <i class="fa-solid fa-circle-question text-muted" data-bs-toggle="tooltip"
-                            title="Monto total recaudado"></i>
+                        <i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip" title="Monto total recaudado"></i>
                     </h6>
                     <h3 class="fw-bold mb-0" id="total_recaudo">0</h3>
                 </div>
@@ -125,7 +119,7 @@
     </footer>
 </div>
 
-<!-- JS de tu dashboard -->
+<!-- JS para tu dashboard -->
 <script src="<?php echo SERVERURL ?>/Views/Dashboard/js/dashboard2.js"></script>
 
 <?php require_once './Views/templates/footer.php'; ?>
