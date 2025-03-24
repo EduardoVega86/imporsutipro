@@ -133,9 +133,9 @@
 
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/historial.js"></script>
 
-
 <script>
     // Definir la URL de la API por defecto (Pedidos)
+    let currentAPI = "pedidos/cargarTodosLosPedidos";
     let fecha_inicio = "";
     let fecha_fin = "";
 
