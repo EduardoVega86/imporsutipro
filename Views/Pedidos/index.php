@@ -132,8 +132,6 @@
 </div>
 
 <script>
-    let fecha_inicio = "";
-    let fecha_fin = "";
     // Obtenemos la plataforma desde PHP
     const ID_PLATAFORMA = <?php echo (int)($_SESSION['id_plataforma'] ?? 0); ?>;
 
