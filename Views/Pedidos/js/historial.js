@@ -377,7 +377,10 @@ document.addEventListener("change", async (event) => {
 
           $("#ingresar_observacion_pedidoModal").modal("show");
         }
-
+        // Si es estado 7 (Anulado), llamamos a la función para eliminar el pedido
+        if (nuevoEstado == 7) {
+          eliminarPedido(idFactura);
+        }
         initDataTableHistorial();
       }
     } catch (error) {
@@ -453,30 +456,30 @@ function boton_vista_anadir_sin_producto(id) {
     "" + SERVERURL + "Pedidos/vista_anadir_sin_producto/" + id;
 }
 
-function boton_anularPedido(id_factura) {
-  $.ajax({
-    type: "POST",
-    url: SERVERURL + "Pedidos/eliminarPedido/" + id_factura,
-    dataType: "json",
-    success: function (response) {
-      if (response.status == 500) {
-        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      } else if (response.status == 200) {
-        toastr.success("ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+// function boton_anularPedido(id_factura) {
+//   $.ajax({
+//     type: "POST",
+//     url: SERVERURL + "Pedidos/eliminarPedido/" + id_factura,
+//     dataType: "json",
+//     success: function (response) {
+//       if (response.status == 500) {
+//         toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+//           positionClass: "toast-bottom-center",
+//         });
+//       } else if (response.status == 200) {
+//         toastr.success("ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
+//           positionClass: "toast-bottom-center",
+//         });
 
-        initDataTableHistorial();
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al elimnar pedido");
-    },
-  });
-}
+//         initDataTableHistorial();
+//       }
+//     },
+//     error: function (xhr, status, error) {
+//       console.error("Error en la solicitud AJAX:", error);
+//       alert("Hubo un problema al elimnar pedido");
+//     },
+//   });
+// }
 
 async function eliminarPedido(idFactura) {
   try {
