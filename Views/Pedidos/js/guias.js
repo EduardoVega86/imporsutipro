@@ -418,8 +418,8 @@ const listGuias = async () => {
 
 $("#buscar_guia").on("keyup", function () {
   let searchTerm = $(this).val();
-  if (dataTableHistorial) {
-    dataTableHistorial.search(searchTerm).draw();
+  if (dataTable) {
+    dataTable.search(searchTerm).draw();
   }
 });
 
