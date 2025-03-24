@@ -79,6 +79,7 @@
                             <option value="5"> 2da llamada </option>
                             <option value="6"> Observación </option>
                             <option value="7"> Anulado </option>
+                            <option value="8"> No vinculado </option>
                         </select>
                     </div>
                 </div>

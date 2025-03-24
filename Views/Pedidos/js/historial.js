@@ -110,6 +110,8 @@ const listHistorialPedidos = async () => {
         color_estadoPedido = "green";
       } else if (historialPedido.estado_pedido == 7) {
         color_estadoPedido = "red";
+      } else if (historialPedido.estado_pedido == 8) {
+        color_estadoPedido = "green";
       }
 
       let disabled = (historialPedido.estado_pedido == 7) ? "disabled" : "";
