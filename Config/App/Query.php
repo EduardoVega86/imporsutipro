@@ -36,7 +36,8 @@ class Query extends Conexion
             $query->execute($data);
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
+            // throw new Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), 0);
         }
     }
     // Devuelve numeros de filas afectadas
