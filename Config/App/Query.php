@@ -20,7 +20,8 @@ class Query extends Conexion
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
+            // throw new Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), 0);
         }
     }
 
