@@ -685,8 +685,8 @@ class Pedidos extends Controller
 
             // Llamar a cada modelo
             $pedidosImporsuit = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido);
-            $pedidosAnulados = $this->model->cargarPedidosAnulados($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, 0, 1);
-            $pedidosSinProducto = $this->model->cargar_pedidos_sin_producto($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
+            $pedidosAnulados = $this->model->cargarPedidosAnulados($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido, 0, 1);
+            $pedidosSinProducto = $this->model->cargar_pedidos_sin_producto($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido);
 
             // Combinar los resultados de manera más controlada
             $todosPedidos = array_merge($pedidosImporsuit, $pedidosAnulados, $pedidosSinProducto);
