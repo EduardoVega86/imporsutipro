@@ -9,7 +9,6 @@
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-
         <!-- 🔹 SECCIÓN DE CARDS INFORMATIVAS 🔹 -->
         <div class="row mb-4">
             <!-- Card 1: Número de pedidos -->
@@ -55,14 +54,14 @@
                         <i class="bx bx-check-shield" style="font-size: 24px;"></i> Confirmacion
                         <span id="id_confirmacion"></span>
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
-                            title="Procentaje de guias o pedidos confirmados"></i>
+                            title="Procentaje de guías o pedidos confirmados"></i>
                     </h5>
                     <h3 class="font-weight-bold" id="num_confirmaciones">0</h3>
                 </div>
             </div>
         </div>
 
-        <!-- 🔹 FILTROS DE FECHA Y ESTADO 🔹 -->
+        <!-- 🔹 FILTROS (Fecha, Estado, Búsqueda) 🔹 -->
         <div class="primer_seccionFiltro" style="width: 100%;">
             <div class="d-flex flex-row align-items-end filtro_fecha">
                 <div class="flex-fill">
@@ -75,7 +74,7 @@
             </div>
             <div class="flex-fill filtro_impresar">
                 <div class=" d-flex flex-column justify-content-start">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">Estado</label>
+                    <label for="estado_pedido" class="col-sm-2 col-form-label">Estado</label>
                     <div>
                         <select name="estado_pedido" class="form-control" id="estado_pedido">
                             <option value="">Todas</option>
@@ -92,21 +91,19 @@
             </div>
         </div>
 
-        <!-- Botón Aplicar Filtros + Spinner + Búsqueda -->
+        <!-- Botón, Spinner, Búsqueda -->
         <div style="padding-top: 20px;">
             <div class="d-flex align-items-center" style="gap: 20px;">
                 <button id="btnAplicarFiltros" class="btn btn-primary">
                     Aplicar Filtros
                 </button>
 
-                <!-- Spinner (si deseas mostrarlo junto al botón) -->
                 <div id="tableLoader" style="display: none;">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Cargando...</span>
                     </div>
                 </div>
 
-                <!-- Input de búsqueda (visible para TODAS las plataformas) -->
                 <div class="input-group" style="max-width: 320px; margin-left: 30px;">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
                     <input type="text" class="form-control" id="buscar_pedido"
@@ -115,7 +112,7 @@
             </div>
         </div>
 
-        <!-- TABLA DE HISTORIAL DE PEDIDOS -->
+        <!-- TABLA -->
         <div class="table-responsive mt-3">
             <table id="datatable_historialPedidos" class="table table-striped">
                 <thead>
@@ -137,33 +134,32 @@
     </div>
 </div>
 
+<!-- 1) DEFINIMOS VARIABLES GLOBALES PRIMERO -->
 <script>
-    // Obtenemos la plataforma desde PHP
-    const ID_PLATAFORMA = <?php echo (int)($_SESSION['id_plataforma'] ?? 0); ?>;
-
-    // Definimos la URL de la API según plataforma
-    let currentAPI = "";
+    let ID_PLATAFORMA = <?php echo (int)($_SESSION['id_plataforma'] ?? 0); ?>;
+    let currentAPI = "pedidos/cargarTodosLosPedidos";
     if (ID_PLATAFORMA === 3280) {
-        // Si es 3280 => cargarPedidos_imporsuit
         currentAPI = "pedidos/cargarPedidos_imporsuit";
-    } else {
-        // Caso contrario => cargarTodosLosPedidos
-        currentAPI = "pedidos/cargarTodosLosPedidos";
     }
 
-    // Variables para fechas
+    // Variables de fecha
     let fecha_inicio = "";
     let fecha_fin = "";
 
-    // Calcula fecha de hoy y 14 días atrás
+    // Calcula la fecha de hoy y hace 14 días
     let hoy = moment();
     let haceDosSemanas = moment().subtract(13, 'days');
 
-    // Asignar valores iniciales
     fecha_inicio = haceDosSemanas.format('YYYY-MM-DD') + ' 00:00:00';
     fecha_fin = hoy.format('YYYY-MM-DD') + ' 23:59:59';
+</script>
 
-    // Configurar el DateRangePicker al cargar
+<!-- 2) CARGAMOS "historial.js" DESPUÉS DE DEFINIR ESAS VARIABLES -->
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/historial.js"></script>
+
+<!-- 3) CONFIGURAMOS DATERANGEPICKER Y LLAMAMOS A LAS CARDS -->
+<script>
+    // Configurar el rango de fechas
     $(function() {
         $('#daterange').daterangepicker({
             opens: 'right',
@@ -188,7 +184,7 @@
             autoUpdateInput: true
         });
 
-        // Evento que salta al aplicar nuevo rango
+        // Evento que salta al aplicar rango
         $('#daterange').on('apply.daterangepicker', function(ev, picker) {
             $(this).val(
                 picker.startDate.format('YYYY-MM-DD') + ' - ' +
@@ -197,27 +193,20 @@
             fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
             fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
 
-            // Recargar Cards y Tabla
+            // Llamamos a la recarga de cards y tabla
             cargarCardsPedidos();
             initDataTableHistorial();
         });
 
-        // Colocar rango inicial en el input
+        // Valor inicial en el input
         $('#daterange').val(
             haceDosSemanas.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD')
         );
     });
-</script>
 
-<!-- Aquí cargas tu JS de historial (el que pusiste en la pregunta) -->
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/historial.js"></script>
-
-<script>
-    // Función para cargar las "cards" superiores
+    // Función para cargar las tarjetas superiores
     function cargarCardsPedidos() {
-        // URL de tu API (cards)
         const apiUrl = SERVERURL + 'Pedidos/cargar_cards_pedidos';
-
         const formData = new FormData();
         formData.append("fecha_inicio", fecha_inicio);
         formData.append("fecha_fin", fecha_fin);
@@ -244,24 +233,23 @@
                         `${parseFloat(data.porcentaje_confirmacion).toFixed(2)}%` :
                         '0%'
                     );
-
                     $("#id_confirmacion").text("de " + data.mensaje || "");
                 } else {
                     console.error('No se recibieron datos válidos de la API (cards).');
                 }
             },
             error: function(xhr, status, error) {
-                console.error('Error al consumir la API de cards:', error);
+                console.error('Error en la API de cards:', error);
             }
         });
     }
 
-    // Al cargar el documento
+    // Al cargar la página
     $(document).ready(function() {
         // Inicializar tooltips
         $('[data-toggle="tooltip"]').tooltip();
 
-        // Llamar a las cards con el rango inicial
+        // Cargar Cards con el rango inicial
         cargarCardsPedidos();
     });
 </script>
