@@ -195,21 +195,21 @@ class DashboardModel extends Query
         $respTop5Cat = $this->select($sql);
 
         // 4) TOP 5 CIUDADES CON MAYOR NÚMERO DE ENTREGAS
-        $sql =
-            "SELECT 
-                ct.ciudad,
-                COUNT(fc.id_factura) AS total_entregas
-            FROM facturas_cot fc
-            JOIN ciudad_cotizacion ct ON fc.ciudad_cot = ct.id_cotizacion
-            WHERE fc.anulada = 0
-            AND fc.id_plataforma = '$id_plataforma'
-            AND fc.estado_guia_sistema IN (7,400,401,402,403)
-            AND fc.fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
-            GROUP BY ct.ciudad
-            ORDER BY total_entregas DESC
-            LIMIT 5;
-        ";
-        $respTop5Cities = $this->select($sql);
+        // $sql =
+        //     "SELECT 
+        //         ct.ciudad,
+        //         COUNT(fc.id_factura) AS total_entregas
+        //     FROM facturas_cot fc
+        //     JOIN ciudad_cotizacion ct ON fc.ciudad_cot = ct.id_cotizacion
+        //     WHERE fc.anulada = 0
+        //     AND fc.id_plataforma = '$id_plataforma'
+        //     AND fc.estado_guia_sistema IN (7,400,401,402,403)
+        //     AND fc.fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
+        //     GROUP BY ct.ciudad
+        //     ORDER BY total_entregas DESC
+        //     LIMIT 5;
+        // ";
+        // $respTop5Cities = $this->select($sql);
 
 
         $ventas = $response[0]['ventas'] ?? 0;
@@ -248,8 +248,8 @@ class DashboardModel extends Query
             'flete_promedio' => $flete_promedio,
             'productos_vendidos' => $totalProductosVendidos,
             'top_productos'      => $respTop5Prod,
-            'top_categorias'     => $respTop5Cat,
-            'top_ciudades'       => $respTop5Cities
+            'top_categorias'     => $respTop5Cat
+            // 'top_ciudades'       => $respTop5Cities
         ];
 
         return $datos;
