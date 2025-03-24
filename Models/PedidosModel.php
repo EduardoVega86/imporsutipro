@@ -812,7 +812,7 @@ class PedidosModel extends Query
     }
 
 
-    public function cargarGuiasSpeed($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $recibo)
+    public function cargarGuiasSpeed($fecha_inicio, $fecha_fin, $estado, $impreso, $drogshipin, $despachos, $recibo)
     {
         $sql = "SELECT 
                 fc.*, 
@@ -848,10 +848,6 @@ class PedidosModel extends Query
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
-        }
-
-        if (!empty($transportadora)) {
-            $sql .= " AND transporte = '$transportadora'";
         }
 
         if (!empty($estado)) {

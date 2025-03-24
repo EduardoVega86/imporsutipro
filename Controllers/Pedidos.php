@@ -2646,13 +2646,12 @@ class Pedidos extends Controller
     {
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
-        $transportadora = $_POST['transportadora'] ?? "";
         $estado = $_POST['estado'] ?? "";
         $drogshipin = $_POST['drogshipin'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
         $despachos = $_POST['despachos'] ?? "";
         $recibo = $_POST['recibo'] ?? "";
-        $data = $this->model->cargarGuiasSpeed($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $recibo);
+        $data = $this->model->cargarGuiasSpeed($fecha_inicio, $fecha_fin, $estado, $impreso, $drogshipin, $despachos, $recibo);
         echo json_encode($data);
     }
 
