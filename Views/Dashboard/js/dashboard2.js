@@ -145,11 +145,11 @@ $(function () {
         }
 
         $("#topCitiesList").empty();
-        if (Array.isArray(response.top_ciudades)) {
-          response.top_ciudades.forEach(city => {
+        if (Array.isArray(response.ciudades_entregas)) {
+          response.ciudades_entregas.forEach(city => {
             const li = document.createElement("li");
             li.classList.add("list-group-item");
-            li.textContent = `${city.ciudad} - ${city.total_entregas} entregas`;
+            li.textContent = `${city.ciudad} - ${city.cantidad_entregas} entregas`;
             document.getElementById("topCitiesList").appendChild(li);
           });
         } else {
