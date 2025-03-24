@@ -186,6 +186,14 @@ class Pedidos extends Controller
         $this->views->render($this, "configuracion_chats_imporsuit");
     }
 
+    public function lista_assistants($filtro = "")
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "lista_assistants");
+    }
+
     public function inicio_automatizador($filtro = "")
     {
         if (!$this->isAuth()) {
@@ -2999,6 +3007,12 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function lista_assistmant()
+    {
+        $response = $this->model->lista_assistmant($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function agregar_configuracion()
     {
         $nombre_configuracion = $_POST['nombre_configuracion'];
@@ -3009,6 +3023,16 @@ class Pedidos extends Controller
         $webhook_url = $_POST['webhook_url'];
 
         $response = $this->model->agregar_configuracion($nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $webhook_url, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function agregar_assistmant()
+    {
+        $nombre_bot = $_POST['nombre_bot'];
+        $assistant_id = $_POST['assistant_id'];
+        $api_key = $_POST['api_key'];
+
+        $response = $this->model->agregar_assistmant($nombre_bot, $assistant_id, $api_key, $_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 

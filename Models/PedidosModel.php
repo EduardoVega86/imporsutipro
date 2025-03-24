@@ -2147,7 +2147,7 @@ class PedidosModel extends Query
 
         return $this->select($sql);
     }
-    
+
 
     public function cargarTodosLosPedidos($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
     {
@@ -3313,6 +3313,12 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function lista_assistmant($id_plataforma)
+    {
+        $sql = "SELECT * FROM `configuraciones` WHERE id_plataforma = $id_plataforma";
+        return $this->select($sql);
+    }
+
     public function agregar_configuracion($nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $webhook_url, $id_plataforma)
     {
         // Inicializar la respuesta
@@ -3361,6 +3367,33 @@ class PedidosModel extends Query
                 $response['title'] = 'Error en actualización';
                 $response['message'] = 'Hubo un problema al actualizar la configuración';
             }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error en inserción';
+            $response['message'] = $insertar_configuracion['message'];
+        }
+
+        return $response;
+    }
+
+    public function agregar_assistmant($nombre_bot, $assistant_id, $api_key, $id_plataforma)
+    {
+        // Inicializar la respuesta
+        $response = $this->initialResponse();
+
+        // Consulta de inserción con la clave única
+        $sql = "INSERT INTO `openai_assistants` (`id_plataforma`, `nombre_bot`, `assistant_id`, `api_key`) 
+            VALUES (?, ?, ?, ?)";
+        $data = [$id_plataforma, $nombre_bot, $assistant_id, $api_key];
+
+        // Insertar configuración
+        $insertar_configuracion = $this->insert($sql, $data);
+
+        // Verificar si la inserción fue exitosa
+        if ($insertar_configuracion == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Configuración agregada y actualizada correctamente';
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error en inserción';
