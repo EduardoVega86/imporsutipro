@@ -1,14 +1,19 @@
 <?php
 require "Models/PedidosModel.php";
+
 class ShopifyModel extends Query
 {
     private PedidosModel $pedidosModel;
+
     public function __construct()
     {
         parent::__construct();
         $this->pedidosModel = new PedidosModel();
     }
 
+    /**
+     * @throws Exception
+     */
     public function productoPlataforma($id_plataforma, $data): bool
     {
         $data = json_decode($data, true);
@@ -32,6 +37,9 @@ class ShopifyModel extends Query
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function verificarDuplicidad($id_plataforma, $id, $phone, $name)
     {
         $sql = "SELECT count(*) as cantidad
@@ -73,7 +81,11 @@ class ShopifyModel extends Query
         }
         $this->crearOrdenSinProducto($resultados, $lineItems, $plataforma, $order_number);
     }
-    public function gestionarRequest($plataforma, $data)
+
+    /**
+     * @throws Exception
+     */
+    public function gestionarRequest($plataforma, $data): void
     {
         $json_String = mb_convert_encoding($data, "UTF-8", "auto");
         $data = json_decode($json_String, true);
@@ -127,7 +139,7 @@ class ShopifyModel extends Query
         $nombre = $data['nombre'] . " " . $data['apellido'];
         $telefono = $data['telefono'];
         // Quitar el + de la cadena
-        $telefono =  $this->CambiarEstructuraNumero($telefono);
+        $telefono = $this->CambiarEstructuraNumero($telefono);
         $calle_principal = $data['principal'];
         $calle_secundaria = $data['secundaria'] ?? "";
         $provincia = $data['provincia'];
@@ -172,6 +184,10 @@ class ShopifyModel extends Query
                 if (count($lineItems) == 1) {
                     die("Proceso detenido: el único ítem no tiene SKU.");
                 }
+                //si el sku no es solo numeros muere el proceso
+                if (!is_numeric($item['sku'])) {
+                    throw new Exception("El SKU no es un número");
+                }
                 // Si el SKU está vacío, salta al siguiente ítem
                 $observacion .= ", SKU vacío: " . $item['name'] . " x" . $item['quantity'] . ": $" . $item['price'] . "";
                 $item_total_price_no_sku = $item['price'] * $item['quantity'];
@@ -215,7 +231,7 @@ class ShopifyModel extends Query
             $total_units += $item['quantity'];
             $productos[] = [
                 'id_producto_venta' => $id_producto_venta,
-                'nombre' =>  $this->remove_emoji($item['name']),
+                'nombre' => $this->remove_emoji($item['name']),
                 'cantidad' => $item['quantity'],
                 'precio' => $item['price'],
                 'item_total_price' => $item_total_price,
@@ -263,7 +279,7 @@ class ShopifyModel extends Query
 
 
                 $divisible = $productoSinSku['item_total_price'] / $continua;
-                echo "division de precio sin sku: " . $productoSinSku['item_total_price'] . "/" .  $continua;
+                echo "division de precio sin sku: " . $productoSinSku['item_total_price'] . "/" . $continua;
                 echo "Se dividira entre: " . $total_line_items;
 
                 echo "Valor a sumar: " . $divisible;
@@ -314,7 +330,7 @@ class ShopifyModel extends Query
             'celular' => $telefono,
             'dueño_id' => $plataforma,
             'dropshipping' => 0,
-            'id_plataforma' =>  $plataforma,
+            'id_plataforma' => $plataforma,
             'importado' => $importado,
             'plataforma_importa' => $plataforma_importa,
             'cod' => $recaudo,
@@ -426,12 +442,13 @@ class ShopifyModel extends Query
         }
     }
 
-    public function existenciaPlataformaAbandonada($id_plataforma)
+    /**
+     * @throws Exception
+     */
+    public function existenciaPlataformaAbandonada($id_plataforma): bool
     {
         $sql = "SELECT id_plataforma FROM configuracion_shopify_abandoned_cart WHERE id_plataforma = $id_plataforma";
         $response = $this->select($sql);
-        //print_r($response);
-
         if (!empty($response)) {
             return true;
         } else {
@@ -450,7 +467,7 @@ class ShopifyModel extends Query
         $url = $response[0]["url_matriz"];
 
         $responses = array(
-            "url_imporsuit" =>  $url . "shopify/index/" . $id_plataforma,
+            "url_imporsuit" => $url . "shopify/index/" . $id_plataforma,
         );
         return $responses;
     }
@@ -523,7 +540,7 @@ class ShopifyModel extends Query
             $responses["message"] = "Json guardado correctamente";
         } else {
             $responses["status"] = "500";
-            $responses["message"] =  $response["message"];
+            $responses["message"] = $response["message"];
         }
         return $responses;
     }
@@ -538,7 +555,7 @@ class ShopifyModel extends Query
             $responses["message"] = "Json guardado correctamente";
         } else {
             $responses["status"] = "500";
-            $responses["message"] =  $response["message"];
+            $responses["message"] = $response["message"];
         }
         return $responses;
     }
@@ -630,7 +647,7 @@ class ShopifyModel extends Query
             'celular' => $telefono_cliente,
             'dueño_id' => $plataforma,
             'dropshipping' => 0,
-            'id_plataforma' =>  $plataforma,
+            'id_plataforma' => $plataforma,
             'importado' => $importado,
             'plataforma_importa' => $plataforma_importa,
             'cod' => $recaudo,
@@ -666,6 +683,7 @@ class ShopifyModel extends Query
 
         $this->pedidosModel->nuevo_pedido_sin_producto($datos_cliente, $productoTexto);
     }
+
     private function procesarProductosSinVinculo($productos, $arreglo): array
     {
         foreach ($productos as $producto) {
@@ -689,7 +707,7 @@ class ShopifyModel extends Query
             $responses["message"] = "Json guardado correctamente";
         } else {
             $responses["status"] = "500";
-            $responses["message"] =  $response["message"];
+            $responses["message"] = $response["message"];
         }
         return $responses;
     }
@@ -705,6 +723,7 @@ class ShopifyModel extends Query
 
         return $cleaned;
     }
+
     /**
      * @throws Exception
      */
@@ -736,16 +755,20 @@ class ShopifyModel extends Query
             $responses["message"] = "Json guardado correctamente";
         } else {
             $responses["status"] = "500";
-            $responses["message"] =  $response;
+            $responses["message"] = $response;
         }
         return $responses;
     }
 
+    /**
+     * @throws Exception
+     */
     public function procesarAbandonado($id_plataforma, $data)
     {
         $data = json_decode($data, true);
         $configuraciones = $this->obtenerConfiguracionAbadoned($id_plataforma);
         $configuraciones = $configuraciones[0];
+
         $resultados = array_map(function ($value) use ($data) {
             return $this->obtenerData($data, $value);
         }, $configuraciones);
@@ -759,17 +782,22 @@ class ShopifyModel extends Query
             }
         }
 
-
         return $this->pedidosModel->generarCarroAbandonado($id_plataforma, $resultados["telefono"], $lineItems, $sku_productos);
     }
 
-    private function obtenerConfiguracionAbadoned($id_plataforma)
+    /**
+     * @throws Exception
+     */
+    private function obtenerConfiguracionAbadoned($id_plataforma): array
     {
         $sql = "SELECT * FROM configuracion_shopify_abandoned_cart WHERE id_plataforma = $id_plataforma";
         return $this->select($sql);
     }
 
-    public function getAbandonedCarts($id_plataforma, $filtro)
+    /**
+     * @throws Exception
+     */
+    public function getAbandonedCarts($id_plataforma, $filtro): array
     {
         $condition = "";
         if ($filtro == "1") {
