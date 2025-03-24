@@ -6,7 +6,7 @@
     <!-- FILTRO DE FECHAS -->
     <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
         <div class="d-flex align-items-center">
-            <label class="me-2 mb-0 fw-bold" for="daterange">Seleccione el rango de fechas:</label>
+            <!-- <label class="me-2 mb-0 fw-bold" for="daterange">Seleccione el rango de fechas:</label> -->
             <div class="input-group">
                 <input type="text" class="form-control" id="daterange" style="min-width: 200px;">
                 <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -109,6 +109,40 @@
             </div>
         </div>
     </div>
+
+    <div class="row g-3 mb-4">
+        <!-- Card: Top 5 Productos Vendidos -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Top Productos Vendidos</h5>
+                    <!-- Usamos una lista o tabla para inyectar con JS -->
+                    <ul class="list-group list-group-flush" id="topProductsList"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: Top 5 Categorías -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Top Categorías</h5>
+                    <ul class="list-group list-group-flush" id="topCategoriesList"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: Top 5 Ciudades -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Top Ciudades</h5>
+                    <ul class="list-group list-group-flush" id="topCitiesList"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Footer -->
     <footer class="text-center mt-4 py-3">

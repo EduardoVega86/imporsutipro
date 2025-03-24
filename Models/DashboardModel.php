@@ -144,6 +144,78 @@ class DashboardModel extends Query
         $sql = "SELECT AVG(fc.costo_flete) AS promedio_flete FROM facturas_cot fc WHERE fc.estado_guia_sistema NOT IN (1, 2, 8, 12) AND fc.id_plataforma = $id_plataforma  AND fecha_guia BETWEEN '$fecha_i' AND '$fecha_f' ;";
         $response16 = $this->select($sql);
 
+        // 1) TOTAL DE PRODUCTOS VENDIDOS
+        $sql =
+            "SELECT 
+                SUM(df.cantidad) AS total_productos_vendidos
+            FROM detalle_fact_cot df
+            JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura
+            WHERE fc.anulada = 0
+            AND fc.id_plataforma = '$id_plataforma'
+            AND fc.fecha_factura BETWEEN '$fecha_i' AND '$fecha_f';
+        ";
+        $respTotalProd = $this->select($sql);
+        $totalProductosVendidos = $respTotalProd[0]['total_productos_vendidos'] ?? 0;
+
+        // 2) TOP 5 PRODUCTOS VENDIDOS
+        $sql =
+            "SELECT 
+                p.nombre_producto,
+                SUM(df.cantidad) AS total_vendido
+            FROM detalle_fact_cot df
+            JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura
+            JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario
+            JOIN productos p ON ib.id_producto = p.id_producto
+            WHERE fc.anulada = 0
+            AND fc.id_plataforma = '$id_plataforma'
+            AND fc.fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
+            GROUP BY p.nombre_producto
+            ORDER BY total_vendido DESC
+            LIMIT 5;
+        ";
+        $respTop5Prod = $this->select($sql);
+
+        // 3) TOP 5 CATEGORÍAS
+        // Asumiendo que la tabla `productos` tiene `p.id_categoria`
+        // y que existe una tabla `categorias` con `c.id_categoria`
+        // y el nombre se llama `c.nombre_categoria`.
+        $sql =
+            "SELECT 
+                c.nombre_categoria,
+                SUM(df.cantidad) AS total_categoria
+            FROM detalle_fact_cot df
+            JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura
+            JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario
+            JOIN productos p ON ib.id_producto = p.id_producto
+            JOIN categorias c ON p.id_categoria = c.id_categoria
+            WHERE fc.anulada = 0
+            AND fc.id_plataforma = '$id_plataforma'
+            AND fc.fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
+            GROUP BY c.nombre_categoria
+            ORDER BY total_categoria DESC
+            LIMIT 5;
+        ";
+        $respTop5Cat = $this->select($sql);
+
+        // 4) TOP 5 CIUDADES CON MAYOR NÚMERO DE ENTREGAS
+        // Suponiendo que `estado_guia_sistema` en (7,400,401,402,403) = “Entregado”
+        // y que la fecha que usas para filtrar es `fecha_factura` (ajusta si usas otra).
+        $sql =
+            "SELECT 
+                ct.ciudad,
+                COUNT(fc.id_factura) AS total_entregas
+            FROM facturas_cot fc
+            JOIN ciudad_cotizacion ct ON fc.ciudad_cot = ct.id_cotizacion
+            WHERE fc.anulada = 0
+            AND fc.id_plataforma = '$id_plataforma'
+            AND fc.estado_guia_sistema IN (7,400,401,402,403)
+            AND fc.fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
+            GROUP BY ct.ciudad
+            ORDER BY total_entregas DESC
+            LIMIT 5;
+        ";
+        $respTop5Cities = $this->select($sql);
+
 
         $ventas = $response[0]['ventas'] ?? 0;
         $ganancias = $response[0]['ganancias'] ?? 0;
@@ -178,7 +250,11 @@ class DashboardModel extends Query
             'ciudades_devoluciones' => $ciudades_devoluciones,
             'ticket_promedio' => $ticket_promedio,
             'devolucion_promedio' => $devolucion_promedio,
-            'flete_promedio' => $flete_promedio
+            'flete_promedio' => $flete_promedio,
+            'productos_vendidos' => $totalProductosVendidos,
+            'top_productos'      => $respTop5Prod,
+            'top_categorias'     => $respTop5Cat,
+            'top_ciudades'       => $respTop5Cities
         ];
 
         return $datos;
