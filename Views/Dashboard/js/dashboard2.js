@@ -111,6 +111,13 @@ $(function () {
               })}`
             : "$0.00"
         );
+        $("#total_productos").text(
+          response.productos_vendidos
+            ? `$${parseFloat(response.productos_vendidos).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+              })}`
+            : "0"
+        );
         $("#ticket_promedio").text(
           parseFloat(response.ticket_promedio).toFixed(2)
         );
