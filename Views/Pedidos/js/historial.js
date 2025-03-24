@@ -108,12 +108,15 @@ const listHistorialPedidos = async () => {
         color_estadoPedido = "green";
       } else if (historialPedido.estado_pedido == 6) {
         color_estadoPedido = "green";
+      } else if (historialPedido.estado_pedido == 7) {
+        color_estadoPedido = "red";
       }
+
+      let disabled = (historialPedido.estado_pedido == 7) ? "disabled" : "";
 
       select_estados_pedidos = `
                     <select class="form-select select-estado-pedido" style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
-        historialPedido.id_factura
-      }">
+        historialPedido.id_factura}" ${disabled}>
                         <option value="0" ${
                           historialPedido.estado_pedido == 0 ? "selected" : ""
                         }>-- Selecciona estado --</option>
@@ -135,6 +138,9 @@ const listHistorialPedidos = async () => {
                         <option value="6" ${
                           historialPedido.estado_pedido == 6 ? "selected" : ""
                         }>Observación</option>
+                        <option value="7" ${
+                          historialPedido.estado_pedido == 7 ? "selected" : ""
+                        }>Anulado</option>
                     </select>`;
 
       //tomar solo la ciudad
@@ -214,12 +220,10 @@ const listHistorialPedidos = async () => {
       if (currentAPI == "pedidos/cargarTodosLosPedidos") {
         acciones = `
           <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
-          <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
           ${boton_automatizador}`;
       } else if (currentAPI == "pedidos/cargar_pedidos_sin_producto") {
         acciones = `
           <button class="btn btn-sm btn-primary" onclick="boton_vista_anadir_sin_producto(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
-          <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
           ${boton_automatizador}`;
       }
 
@@ -472,6 +476,41 @@ function boton_anularPedido(id_factura) {
       alert("Hubo un problema al elimnar pedido");
     },
   });
+}
+
+async function eliminarPedido(idFactura) {
+  try {
+    // Usando el método GET para enviar el id_factura en la URL
+    const response = await fetch(SERVERURL + `Pedidos/eliminarPedido/${idFactura}`, {
+      method: "GET", // O "POST", si prefieres hacerlo con POST
+    });
+
+    const result = await response.json();
+
+    if (result.status == 200) {
+      toastr.success("PEDIDO ANULADO CORRECTAMENTE", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+      
+      // Comprobar si el contenedor de la tabla existe antes de intentar modificarla
+      const tableBody = document.getElementById("tableBody_historialPedidos");
+      if (tableBody) {
+        // Recargar la tabla después de eliminar
+        await initDataTableHistorial();
+      } else {
+        console.error("El elemento de la tabla no fue encontrado");
+      }
+    } else {
+      toastr.error("No se pudo eliminar el pedido", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+    }
+  } catch (error) {
+    console.error("Error al eliminar el pedido", error);
+    toastr.error("Hubo un error al eliminar el pedido", "NOTIFICACIÓN", {
+      positionClass: "toast-bottom-center",
+    });
+  }
 }
 
 function enviar_mensaje_automatizador(
