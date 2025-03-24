@@ -873,6 +873,9 @@ window.addEventListener("load", async () => {
   const btnAplicar = document.getElementById("btnAplicarFiltros");
   if(btnAplicar){
     btnAplicar.addEventListener("click", async function () {
+      //Deshabilitamos el boton al comenzar
+      btnAplicar.disabled = true;
+      try{
         let rangoFechas = $("#daterange").val();
         if (rangoFechas){
             let fechas = rangoFechas.split(" - ");
@@ -880,7 +883,10 @@ window.addEventListener("load", async () => {
             fecha_fin = fechas[1] + " 23:59:59";
         }
         await initDataTable();
-    })
+      } finally {
+        btnAplicar.disabled = false;
+      }
+    });
   }
 });
 
