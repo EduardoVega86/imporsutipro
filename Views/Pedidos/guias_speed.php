@@ -77,18 +77,6 @@
                     </div>
                 </div>
                 <div style="width: 100%;">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">Transportadora</label>
-                    <div>
-                        <select name="transporte" id="transporte" class="form-control">
-                            <option value=""> Seleccione Transportadora</option>
-                            <option value="LAAR">Laar</option>
-                            <option value="SPEED">Speed</option>
-                            <option value="SERVIENTREGA">Servientrega</option>
-                            <option value="GINTRACOM">Gintracom</option>
-                        </select>
-                    </div>
-                </div>
-                <div style="width: 100%;">
                     <label for="inputPassword3" class="col-sm-2 col-form-label">Recibo</label>
                     <div>
                         <select name="recibo" id="recibo" class="form-control">
@@ -188,7 +176,7 @@
 
     $(document).ready(function() {
         // Inicializa la tabla cuando cambian los selectores
-        $("#tienda_q,#estado_q,#transporte,#impresion,#despachos,#recibo").change(function() {
+        $("#tienda_q,#estado_q,#impresion,#despachos,#recibo").change(function() {
             initDataTable();
         });
     });
