@@ -1,8 +1,5 @@
 let dataTableHistorial;
 let dataTableHistorialIsInitialized = false;
-let fecha_inicio = "";
-let fecha_fin = "";
-let currentAPI = "";
 
 const dataTableHistorialOptions = {
   //scrollX: "2000px",
