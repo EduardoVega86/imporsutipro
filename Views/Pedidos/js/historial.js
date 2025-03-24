@@ -211,7 +211,7 @@ const listHistorialPedidos = async () => {
       }
 
       let acciones = "";
-      if (currentAPI == "pedidos/cargarPedidos_imporsuit") {
+      if (currentAPI == "pedidos/cargarTodosLosPedidos") {
         acciones = `
           <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
           <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
@@ -301,7 +301,7 @@ function hideTableLoader() {
 
 // Manejo de botones para cambiar API y recargar la tabla
 document.getElementById("btnPedidos").addEventListener("click", () => {
-  currentAPI = "pedidos/cargarPedidos_imporsuit";
+  currentAPI = "pedidos/cargarTodosLosPedidos";
   cambiarBotonActivo("btnPedidos");
   initDataTableHistorial();
 });
