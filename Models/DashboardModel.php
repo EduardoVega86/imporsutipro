@@ -186,7 +186,7 @@ class DashboardModel extends Query
             JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura
             JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario
             JOIN productos p ON ib.id_producto = p.id_producto
-            JOIN lineas l ON p.id_linea_producto = l.id_categoria
+            JOIN lineas l ON p.id_linea_producto = l.id_linea
             WHERE fc.anulada = 0
             AND fc.id_plataforma = '$id_plataforma'
             AND fc.fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
