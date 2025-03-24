@@ -268,7 +268,10 @@ const listHistorialPedidos = async () => {
 
 // Capturar evento en el input de búsqueda
 $("#buscar_pedido").on("keyup", function () {
-  listHistorialPedidos(); // Volver a cargar los pedidos con el filtro
+  let searchTerm = $(this).val();
+  if (dataTableHistorial) {
+    dataTableHistorial.search(searchTerm).draw();
+  }
 });
 
 window.addEventListener("load", async () => {
