@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Dashboard/css/dashboard2_style.php'; ?>
+<?php require_once './Views/Dashboard/css/dashboard_style.php'; ?>
 
 <!-- Agregar CDN de Boxicons -->
 <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
