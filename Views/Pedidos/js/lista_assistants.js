@@ -42,7 +42,7 @@ const initDataTableConfiguracionAutomatizador = async () => {
 const listConfiguracionAutomatizador = async () => {
   try {
     const response = await fetch(
-      "" + SERVERURL + "Pedidos/configuraciones_automatizador"
+      "" + SERVERURL + "Pedidos/lista_assistmant"
     );
     const configuracionAutomatizador = await response.json();
 
