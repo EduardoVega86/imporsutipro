@@ -214,15 +214,13 @@ function hideTableLoader() {
   $("#tableLoader").css("display", "none");
 }
 
-// Manejo de botones para cambiar API y recargar la tabla
-/*
-// Ejemplo: Cambiar API a "pedidos/cargarTodosLosPedidos"
+
 document.getElementById("btnPedidos").addEventListener("click", () => {
   currentAPI = "pedidos/cargarTodosLosPedidos";
   cambiarBotonActivo("btnPedidos");
   initDataTableHistorial();
 });
-*/
+
 const cambiarBotonActivo = (botonID) => {
   document.querySelectorAll(".d-flex button").forEach((btn) => {
     btn.classList.remove("active", "btn-primary");
