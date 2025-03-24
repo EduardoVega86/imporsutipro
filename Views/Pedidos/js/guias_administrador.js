@@ -422,9 +422,12 @@ const listGuias = async () => {
 };
 
 //Capturamos evento en el input de busqueda
-$("#buscar_guia").on("keyup", function(){
-  listGuias(); //cargamos la lista con el filtro
-})
+$("#buscar_guia").on("keyup", function () {
+  let searchTerm = $(this).val();
+  if (dataTable) {
+    dataTable.search(searchTerm).draw();
+  }
+});
 
 /**
  * Marca el estado como en tránsito
