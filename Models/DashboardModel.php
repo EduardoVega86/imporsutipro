@@ -176,41 +176,25 @@ class DashboardModel extends Query
         $respTop5Prod = $this->select($sql);
 
         // 3) TOP 5 CATEGORÍAS
-        // $sql =
-        //     "SELECT 
-        //         c.nombre_linea,
-        //         SUM(df.cantidad) AS total_categoria
-        //     FROM detalle_fact_cot df
-        //     JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura
-        //     JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario
-        //     JOIN productos p ON ib.id_producto = p.id_producto
-        //     JOIN lineas c ON p.id_linea_producto = c.id_categoria
-        //     WHERE fc.anulada = 0
-        //     AND fc.id_plataforma = '$id_plataforma'
-        //     AND fc.fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
-        //     GROUP BY c.nombre_linea
-        //     ORDER BY total_categoria DESC
-        //     LIMIT 5;
-        // ";
-        // $respTop5Cat = $this->select($sql);
-
-        // 4) TOP 5 CIUDADES CON MAYOR NÚMERO DE ENTREGAS
-        // $sql =
-        //     "SELECT 
-        //         ct.ciudad,
-        //         COUNT(fc.id_factura) AS total_entregas
-        //     FROM facturas_cot fc
-        //     JOIN ciudad_cotizacion ct ON fc.ciudad_cot = ct.id_cotizacion
-        //     WHERE fc.anulada = 0
-        //     AND fc.id_plataforma = '$id_plataforma'
-        //     AND fc.estado_guia_sistema IN (7,400,401,402,403)
-        //     AND fc.fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
-        //     GROUP BY ct.ciudad
-        //     ORDER BY total_entregas DESC
-        //     LIMIT 5;
-        // ";
-        // $respTop5Cities = $this->select($sql);
-
+        // Ajusta según tus campos reales: la tabla `lineas` (o `categorias`) tiene el campo pk `id_categoria`
+        // y `productos` tiene `id_linea_producto` que coincide con `lineas.id_categoria`.
+        $sql = "
+            SELECT 
+                l.nombre_linea,
+                SUM(df.cantidad) AS total_categoria
+            FROM detalle_fact_cot df
+            JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura
+            JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario
+            JOIN productos p ON ib.id_producto = p.id_producto
+            JOIN lineas l ON p.id_linea_producto = l.id_categoria
+            WHERE fc.anulada = 0
+            AND fc.id_plataforma = '$id_plataforma'
+            AND fc.fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
+            GROUP BY l.nombre_linea
+            ORDER BY total_categoria DESC
+            LIMIT 5;
+        ";
+        $respTop5Cat = $this->select($sql);
 
         $ventas = $response[0]['ventas'] ?? 0;
         $ganancias = $response[0]['ganancias'] ?? 0;
@@ -248,8 +232,7 @@ class DashboardModel extends Query
             'flete_promedio' => $flete_promedio,
             'productos_vendidos' => $totalProductosVendidos,
             'top_productos'      => $respTop5Prod,
-            // 'top_categorias'     => $respTop5Cat
-            // 'top_ciudades'       => $respTop5Cities
+            'top_categorias'     => $respTop5Cat
         ];
 
         return $datos;
