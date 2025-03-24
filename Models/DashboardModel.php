@@ -176,30 +176,25 @@ class DashboardModel extends Query
         $respTop5Prod = $this->select($sql);
 
         // 3) TOP 5 CATEGORÍAS
-        // Asumiendo que la tabla `productos` tiene `p.id_categoria`
-        // y que existe una tabla `categorias` con `c.id_categoria`
-        // y el nombre se llama `c.nombre_categoria`.
         $sql =
             "SELECT 
-                c.nombre_categoria,
+                c.nombre_linea,
                 SUM(df.cantidad) AS total_categoria
             FROM detalle_fact_cot df
             JOIN facturas_cot fc ON df.numero_factura = fc.numero_factura
             JOIN inventario_bodegas ib ON df.id_inventario = ib.id_inventario
             JOIN productos p ON ib.id_producto = p.id_producto
-            JOIN categorias c ON p.id_categoria = c.id_categoria
+            JOIN lineas c ON p.id_linea_producto = c.id_categoria
             WHERE fc.anulada = 0
             AND fc.id_plataforma = '$id_plataforma'
             AND fc.fecha_factura BETWEEN '$fecha_i' AND '$fecha_f'
-            GROUP BY c.nombre_categoria
+            GROUP BY c.nombre_linea
             ORDER BY total_categoria DESC
             LIMIT 5;
         ";
         $respTop5Cat = $this->select($sql);
 
         // 4) TOP 5 CIUDADES CON MAYOR NÚMERO DE ENTREGAS
-        // Suponiendo que `estado_guia_sistema` en (7,400,401,402,403) = “Entregado”
-        // y que la fecha que usas para filtrar es `fecha_factura` (ajusta si usas otra).
         $sql =
             "SELECT 
                 ct.ciudad,
