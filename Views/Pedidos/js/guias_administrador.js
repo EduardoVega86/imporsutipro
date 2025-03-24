@@ -1269,21 +1269,25 @@ document.getElementById("downloadCsvOption").addEventListener("click", async (e)
 
 document.addEventListener("DOMContentLoaded", function () {
   // NUEVO: si deseas cargar la DataTable por defecto al entrar a la página
-  initDataTable(); // <--- NEW: se puede comentar si no deseas cargar nada al inicio
+  initDataTable(); 
 
   // NUEVO: agregar el evento al botón "Aplicar Filtros"
   const btnAplicar = document.getElementById("btnAplicarFiltros");
   if (btnAplicar) {
     btnAplicar.addEventListener("click", async function () {
-      // NUEVO: Leer la fecha seleccionada en el daterangepicker
-      let rangoFechas = $("#daterange").val();
-      if (rangoFechas) {
-        let fechas = rangoFechas.split(" - ");
-        fecha_inicio = fechas[0] + " 00:00:00";
-        fecha_fin = fechas[1] + " 23:59:59";
+      btnAplicar.disabled = true;
+      try{// NUEVO: Leer la fecha seleccionada en el daterangepicker
+        let rangoFechas = $("#daterange").val();
+        if (rangoFechas) {
+          let fechas = rangoFechas.split(" - ");
+          fecha_inicio = fechas[0] + " 00:00:00";
+          fecha_fin = fechas[1] + " 23:59:59";
+        }
+        // NUEVO: Recargar la DataTable con los nuevos valores de los filtros
+        await initDataTable();
+      } finally{
+        btnAplicar.disabled = false;
       }
-      // NUEVO: Recargar la DataTable con los nuevos valores de los filtros
-      await initDataTable();
     });
   }
 });
