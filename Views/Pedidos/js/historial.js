@@ -282,6 +282,8 @@ window.addEventListener("load", async () => {
   const btnAplicar = document.getElementById("btnAplicarFiltros");
   if (btnAplicar) {
     btnAplicar.addEventListener("click", async function () {
+      btnAplicar.disabled = true;
+      try{
       let rangoFechas = $("#daterange").val();
       if (rangoFechas) {
         let fechas = rangoFechas.split(" - ");
@@ -290,6 +292,9 @@ window.addEventListener("load", async () => {
       }
       await initDataTableHistorial();
       cargarCardsPedidos();
+    }finally{
+      btnAplicar.disabled = false;
+    }
     });
   }
 });
