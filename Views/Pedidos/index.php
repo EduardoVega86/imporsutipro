@@ -133,23 +133,11 @@
 
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/historial.js"></script>
 
+
 <script>
     // Definir la URL de la API por defecto (Pedidos)
     let fecha_inicio = "";
     let fecha_fin = "";
-
-    // Obtenemos la plataforma desde PHP
-    const ID_PLATAFORMA = <?php echo (int)($_SESSION['id_plataforma'] ?? 0); ?>;
-
-    // Definimos la URL de la API según plataforma
-    let currentAPI = "";
-    if (ID_PLATAFORMA === 3280) {
-        // Si es 3280 => cargarPedidos_imporsuit
-        currentAPI = "pedidos/cargarPedidos_imporsuit";
-    } else {
-        // Caso contrario => cargarTodosLosPedidos
-        currentAPI = "pedidos/cargarTodosLosPedidos";
-    }
 
     // Calcula la fecha de inicio (hace 14 días) y la fecha de fin (hoy)
     let hoy = moment();
