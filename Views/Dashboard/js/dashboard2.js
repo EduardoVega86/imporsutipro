@@ -111,6 +111,52 @@ $(function () {
               })}`
             : "$0.00"
         );
+        $("#total_productos").text(response.productos_vendidos|| 0);
+        
+        // Limpia la lista
+        $("#topProductsList").empty();
+
+        // Verifica que 'response.top_productos' sea un array
+        if (Array.isArray(response.top_productos)) {
+          response.top_productos.forEach(item => {
+            // Creamos un <li> con la info
+            const li = document.createElement("li");
+            li.classList.add("list-group-item");
+            // Por ejemplo, mostramos nombre_producto - total_vendido
+            li.textContent = `${item.nombre_producto} - ${item.total_vendido} uds.`;
+            // Lo agregamos a la lista
+            document.getElementById("topProductsList").appendChild(li);
+          });
+        } else {
+          // Si no es un array, muestra algo por defecto
+          $("#topProductsList").text("No se encontraron productos.");
+        }
+
+        $("#topCategoriesList").empty();
+        if (Array.isArray(response.top_categorias)) {
+          response.top_categorias.forEach(cat => {
+            const li = document.createElement("li");
+            li.classList.add("list-group-item");
+            li.textContent = `${cat.nombre_linea} - ${cat.total_categoria} uds.`;
+            document.getElementById("topCategoriesList").appendChild(li);
+          });
+        } else {
+          $("#topCategoriesList").text("No hay categorías registradas.");
+        }
+
+        $("#topCitiesList").empty();
+        if (Array.isArray(response.top_ciudades)) {
+          response.top_ciudades.forEach(city => {
+            const li = document.createElement("li");
+            li.classList.add("list-group-item");
+            li.textContent = `${city.ciudad} - ${city.total_entregas} entregas`;
+            document.getElementById("topCitiesList").appendChild(li);
+          });
+        } else {
+          $("#topCitiesList").text("No hay datos de ciudades.");
+        }
+
+
         $("#ticket_promedio").text(
           parseFloat(response.ticket_promedio).toFixed(2)
         );
