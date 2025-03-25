@@ -3416,7 +3416,7 @@ class PedidosModel extends Query
             'Content-Type: application/json',
         ];
 
-        // 2. Crear thread
+        // 2. Crear thread con depuración de error
         $ch = curl_init('https://api.openai.com/v1/threads');
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
