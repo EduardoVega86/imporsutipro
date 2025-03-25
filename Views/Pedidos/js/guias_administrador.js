@@ -31,14 +31,14 @@ $(function() {
       ],
       firstDay: 1
     },
-    autoUpdateInput: tr  });
+    autoUpdateInput: false  });
 
   // NO recargamos la tabla directamente al aplicar el rango, lo haremos con el botón "Aplicar Filtros".
-  // $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-  //   fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
-  //   fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
-  //   initDataTable(); 
-  // });
+  $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+    fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
+    fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
+    initDataTable(); 
+  });
   // Seteamos en el input la fecha inicial y final
   $('#daterange').val(
     haceUnaSemana.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD')
