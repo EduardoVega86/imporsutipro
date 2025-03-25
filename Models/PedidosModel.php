@@ -3414,7 +3414,8 @@ class PedidosModel extends Query
         $headers = [
             'Authorization: Bearer ' . $api_key,
             'Content-Type: application/json',
-        ];
+            'OpenAI-Beta: assistants=v2'
+        ];        
 
         // 2. Crear thread con depuración de error
         $ch = curl_init('https://api.openai.com/v1/threads');
