@@ -5,18 +5,17 @@ const dataTableOptions = {
   columnDefs: [
     {
       className: "centered",
-      targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
     },
     { orderable: false, targets: 0 }, // Asegúrate de que esta sea la columna correcta
-    { visible: false, targets: 11 },
     { visible: false, targets: 12 },
-    /* { visible: false, targets: 13 }, // Asegúrate de que esta sea la columna correcta */
+    { visible: false, targets: 13 },
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
   destroy: true,
   responsive: true,
-  dom: '<"d-flex w-full justify-content-between"lf><t><"d-flex justify-content-between"ip>',
+  dom: '<"d-flex justify-content-between"l><t><"d-flex justify-content-between"ip>',
   language: {
     lengthMenu: "Mostrar _MENU_ registros por página",
     zeroRecords: "Ningún usuario encontrado",
@@ -93,7 +92,10 @@ const listGuias = async () => {
     formData.append("impreso", $("#impresion").val());
     formData.append("despachos", $("#despachos").val());
 
-    const response = await fetch(`${SERVERURL}pedidos/obtener_guias_estado_guia_sistema`, {
+    let buscar_guia = $("#buscar_guia").val().trim();
+    formData.append("buscar_guia", buscar_guia); //agregamos al request
+
+    const response = await fetch(`${SERVERURL}pedidos/obtener_guias`, {
       method: "POST",
       body: formData,
     });
@@ -106,6 +108,7 @@ const listGuias = async () => {
     let content = ``;
     let impresiones = "";
     let novedad = "";
+
     guias.forEach((guia, index) => {
       let transporte = guia.id_transporte;
       let transporte_content = "";
@@ -241,6 +244,10 @@ const listGuias = async () => {
       }
       let mostrar_tienda = `<td><span class="link-like" id="plataformaLink" onclick="abrirModal_infoTienda('${guia.plataforma}')">${plataforma}</span></td>`;
       mostrar_tienda = "";
+
+      let acreditado = guia.pagado === "1" 
+          ? `<i class='bx bx-check' style="color:#28E418; font-size: 30px;"></i>` 
+          : `<i class='bx bx-x' style="color:red; font-size: 30px;"></i>`;
       content += `
                 <tr>
                     <td><input type="checkbox" class="selectCheckbox" data-id="${guia.id_factura}"></td>
@@ -283,7 +290,9 @@ const listGuias = async () => {
                       </div>
                     </td>
                     <td>${despachado}</td>
+                    <td>${acreditado}</td>
                     <td>${impresiones}</td>
+                    <td>${guia.contiene}</td>
                     <td>
                       <div class="dropdown">
                         <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -295,7 +304,6 @@ const listGuias = async () => {
                         </ul>
                       </div>
                     </td>
-                    <td>${guia.contiene}</td>
                     <td>${guia.monto_factura}</td>
                     <td>${guia.costo_producto}</td>
                 </tr>`;
@@ -407,6 +415,13 @@ const listGuias = async () => {
     alert(ex);
   }
 };
+
+$("#buscar_guia").on("keyup", function () {
+  let searchTerm = $(this).val();
+  if (dataTable) {
+    dataTable.search(searchTerm).draw();
+  }
+});
 
 function abrirModal_infoTienda(tienda) {
   let formData = new FormData();
@@ -603,9 +618,12 @@ function validar_estadoServi(estado) {
   } else if (estado == 200 || estado == 201 || estado == 202) {
     span_estado = "badge_purple";
     estado_guia = "Recolectado";
-  } else if (estado >= 300 && estado <= 317) {
+  } else if (estado >= 300 && estado <= 316) {
     span_estado = "badge_warning";
     estado_guia = "Procesamiento";
+  } else if (estado == 317){
+    span_estado = "badge_warning";
+    estado_guia = "Retirar en agencia";
   } else if (estado >= 400 && estado <= 403) {
     span_estado = "badge_green";
     estado_guia = "Entregado";
@@ -771,42 +789,8 @@ document.getElementById("imprimir_guias").addEventListener("click", () => {
   });
 });
 
-document
-  .getElementById("btnExportExcel")
-  .addEventListener("click", async () => {
-    // Creamos un FormData con todos los parámetros
-    const formData = new FormData();
-    formData.append("fecha_inicio", fecha_inicio);
-    formData.append("fecha_fin", fecha_fin);
-    formData.append("transportadora", $("#transporte").val());
-    formData.append("estado", $("#estado_q").val());
-    formData.append("estado_pedido", $("#estado_pedido").val() || "");
-    formData.append("drogshipin", $("#tienda_q").val());
-    formData.append("impreso", $("#impresion").val());
-    formData.append("despachos", $("#despachos").val());
-    formData.append("formato", "excel"); // 'excel' o 'csv'
-
-    // Hacemos fetch en POST
-    const response = await fetch(`${SERVERURL}pedidos/exportarGuiasVistaNormal`, {
-      method: "POST",
-      body: formData,
-    });
-
-    // Esperamos Blob u ArrayBuffer
-    const blob = await response.blob();
-    // Forzamos descarga manual
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "guias.xlsx"; // o .csv
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
-  });
-
-document.getElementById("btnExportCsv").addEventListener("click", async () => {
-  // Creamos un FormData con todos los parámetros
+// Función común para descargar el reporte según el formato y extensión
+async function descargarReporte(formato, extension) {
   const formData = new FormData();
   formData.append("fecha_inicio", fecha_inicio);
   formData.append("fecha_fin", fecha_fin);
@@ -816,26 +800,72 @@ document.getElementById("btnExportCsv").addEventListener("click", async () => {
   formData.append("drogshipin", $("#tienda_q").val());
   formData.append("impreso", $("#impresion").val());
   formData.append("despachos", $("#despachos").val());
-  formData.append("formato", "csv"); // 'excel' o 'csv'
+  formData.append("formato", formato); // 'excel' o 'csv'
 
-  // Hacemos fetch en POST
-  const response = await fetch(`${SERVERURL}pedidos/exportarGuiasVistaNormal`, {
+  const response = await fetch(`${SERVERURL}pedidos/exportarGuias`, {
     method: "POST",
     body: formData,
   });
 
-  // Esperamos Blob u ArrayBuffer
   const blob = await response.blob();
-  // Forzamos descarga manual
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "guias.csv"; // o .csv
+  a.download = (formato === 'csv') ? 'guias.csv' : 'guias.xlsx';
   document.body.appendChild(a);
   a.click();
   a.remove();
   window.URL.revokeObjectURL(url);
+}
+
+// Asignar eventos a las opciones del dropdown
+document.getElementById("downloadExcelOption").addEventListener("click", async (e) => {
+  e.preventDefault(); // Evita la acción predeterminada del enlace
+  await descargarReporte("excel", "xlsx");
 });
+
+document.getElementById("downloadCsvOption").addEventListener("click", async (e) => {
+  e.preventDefault();
+  await descargarReporte("csv", "csv");
+});
+
+async function descargarReportePorFila(formato, extension) {
+  const formData = new FormData();
+  formData.append("fecha_inicio", fecha_inicio);
+  formData.append("fecha_fin", fecha_fin);
+  formData.append("transportadora", $("#transporte").val());
+  formData.append("estado", $("#estado_q").val());
+  formData.append("estado_pedido", $("#estado_pedido").val() || "");
+  formData.append("drogshipin", $("#tienda_q").val());
+  formData.append("impreso", $("#impresion").val());
+  formData.append("despachos", $("#despachos").val());
+  formData.append("buscar_guia", $("#buscar_guia").val().trim());
+  formData.append("formato", formato); // 'excel' o 'csv'
+
+  // Ahora apuntamos a TU NUEVA ruta
+  const response = await fetch(`${SERVERURL}pedidos/exportarGuiasPorFila`, {
+    method: "POST",
+    body: formData,
+  });
+
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = (formato === 'csv') ? 'guias_por_fila.csv' : 'guias_por_fila.xlsx';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+}
+
+document
+  .getElementById("downloadExcelOptionPorFila")
+  .addEventListener("click", async (e) => {
+    e.preventDefault(); // Evita navegación
+    await descargarReportePorFila("excel", "xlsx"); 
+  });
+
 
 window.addEventListener("load", async () => {
   await initDataTable();
@@ -843,6 +873,9 @@ window.addEventListener("load", async () => {
   const btnAplicar = document.getElementById("btnAplicarFiltros");
   if(btnAplicar){
     btnAplicar.addEventListener("click", async function () {
+      //Deshabilitamos el boton al comenzar
+      btnAplicar.disabled = true;
+      try{
         let rangoFechas = $("#daterange").val();
         if (rangoFechas){
             let fechas = rangoFechas.split(" - ");
@@ -850,7 +883,10 @@ window.addEventListener("load", async () => {
             fecha_fin = fechas[1] + " 23:59:59";
         }
         await initDataTable();
-    })
+      } finally {
+        btnAplicar.disabled = false;
+      }
+    });
   }
 });
 
