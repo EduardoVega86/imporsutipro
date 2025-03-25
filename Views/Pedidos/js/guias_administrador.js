@@ -31,7 +31,7 @@ $(function() {
       ],
       firstDay: 1
     },
-    autoUpdateInput: false  });
+    autoUpdateInput: true  });
 
   // NO recargamos la tabla directamente al aplicar el rango, lo haremos con el botón "Aplicar Filtros".
   $('#daterange').on('apply.daterangepicker', function(ev, picker) {
