@@ -877,99 +877,33 @@ document
   });
 
 
-// window.addEventListener("load", async () => {
-//   await initDataTable();
-
-//   const btnAplicar = document.getElementById("btnAplicarFiltros");
-//   if(btnAplicar){
-//     btnAplicar.addEventListener("click", async function () {
-//       //Deshabilitamos el boton al comenzar
-//       btnAplicar.disabled = true;
-//       try{
-//         let rangoFechas = $("#daterange").val();
-//         if (rangoFechas){
-//             let fechas = rangoFechas.split(" - ");
-//             fecha_inicio = fechas[0] + " 00:00:00";
-//             fecha_fin = fechas[1] + " 23:59:59";
-//         }
-//         await initDataTable();
-//         // Cierra el modal después de aplicar los filtros
-//         const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalFiltros'));
-//         if (modalInstance) {
-//           modalInstance.hide();
-//         }
-//       } finally {
-//         btnAplicar.disabled = false;
-//       }
-//     });
-//   }
-// });
-let fecha_inicio = "";
-let fecha_fin = "";
-
 window.addEventListener("load", async () => {
-  // Inicializa flatpickr
-  flatpickr("#daterange", {
-    mode: "range",
-    locale: "es",
-    dateFormat: "Y-m-d",
-    defaultDate: [
-      moment().subtract(6, "days").format("YYYY-MM-DD"),
-      moment().format("YYYY-MM-DD"),
-    ],
-    onChange: async function (selectedDates, dateStr, instance) {
-      if (selectedDates.length === 2) {
-        const [start, end] = selectedDates;
-
-        fecha_inicio = moment(start).format("YYYY-MM-DD") + " 00:00:00";
-        fecha_fin = moment(end).format("YYYY-MM-DD") + " 23:59:59";
-
-        await initDataTable();
-      }
-    },
-  });
-
-  // Asignar valores iniciales de fecha
-  fecha_inicio =
-    moment().subtract(6, "days").format("YYYY-MM-DD") + " 00:00:00";
-  fecha_fin = moment().format("YYYY-MM-DD") + " 23:59:59";
-
-  // Seteamos en el input el rango visible como texto
-  document.getElementById("daterange").value =
-    moment().subtract(6, "days").format("YYYY-MM-DD") +
-    " to " +
-    moment().format("YYYY-MM-DD");
-
-  // Cargar data inicialmente
   await initDataTable();
 
-  // Este bloque se mantiene por si aún usas el botón de aplicar en otros filtros
-  // const btnAplicar = document.getElementById("btnAplicarFiltros");
-  // if (btnAplicar) {
-  //   btnAplicar.addEventListener("click", async function () {
-  //     btnAplicar.disabled = true;
-  //     try {
-  //       let rangoFechas = $("#daterange").val();
-  //       if (rangoFechas.includes("to")) {
-  //         let fechas = rangoFechas.split(" to ");
-  //         fecha_inicio = fechas[0] + " 00:00:00";
-  //         fecha_fin = fechas[1] + " 23:59:59";
-  //       }
-  //       await initDataTable();
-
-  //       const modalInstance = bootstrap.Modal.getInstance(
-  //         document.getElementById("modalFiltros")
-  //       );
-  //       if (modalInstance) {
-  //         modalInstance.hide();
-  //       }
-  //     } finally {
-  //       btnAplicar.disabled = false;
-  //     }
-  //   });
-  // }
+  const btnAplicar = document.getElementById("btnAplicarFiltros");
+  if(btnAplicar){
+    btnAplicar.addEventListener("click", async function () {
+      //Deshabilitamos el boton al comenzar
+      btnAplicar.disabled = true;
+      try{
+        let rangoFechas = $("#daterange").val();
+        if (rangoFechas){
+            let fechas = rangoFechas.split(" - ");
+            fecha_inicio = fechas[0] + " 00:00:00";
+            fecha_fin = fechas[1] + " 23:59:59";
+        }
+        await initDataTable();
+        // Cierra el modal después de aplicar los filtros
+        const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalFiltros'));
+        if (modalInstance) {
+          modalInstance.hide();
+        }
+      } finally {
+        btnAplicar.disabled = false;
+      }
+    });
+  }
 });
-
 
 function formatPhoneNumber(number) {
   // Eliminar caracteres no numéricos excepto el signo +

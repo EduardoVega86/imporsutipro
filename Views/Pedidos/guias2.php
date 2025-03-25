@@ -306,50 +306,24 @@
     let fecha_inicio = "";
     let fecha_fin = "";
 
-    // Calcula la fecha de inicio (hace 7 días) y la fecha de fin (hoy)
-    let hoy = moment();
-    let haceUnaSemana = moment().subtract(6, 'days'); // Rango de 7 días
+    flatpickr("#daterange", {
+        mode: "range",
+        locale: "es",
+        dateFormat: "Y-m-d",
+        defaultDate: [moment().subtract(6, 'days').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
+        onChange: function(selectedDates, dateStr, instance) {
+            if (selectedDates.length === 2) {
+                // Ambos extremos del rango fueron seleccionados
+                const [start, end] = selectedDates;
 
-    // Asignar las fechas a las variables al cargar la página
-    fecha_inicio = haceUnaSemana.format('YYYY-MM-DD') + ' 00:00:00';
-    fecha_fin = hoy.format('YYYY-MM-DD') + ' 23:59:59';
+                fecha_inicio = moment(start).format("YYYY-MM-DD") + " 00:00:00";
+                fecha_fin = moment(end).format("YYYY-MM-DD") + " 23:59:59";
 
-    $(function() {
-        $('#daterange').daterangepicker({
-            opens: 'right',
-            startDate: haceUnaSemana, // Fecha de inicio predefinida
-            endDate: hoy, // Fecha de fin predefinida
-            locale: {
-                format: 'YYYY-MM-DD',
-                separator: ' - ',
-                applyLabel: 'Aplicar',
-                cancelLabel: 'Cancelar',
-                fromLabel: 'Desde',
-                toLabel: 'Hasta',
-                customRangeLabel: 'Custom',
-                weekLabel: 'S',
-                daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                firstDay: 1
-            },
-            autoUpdateInput: true // Actualiza el input automáticamente
-        });
-
-        $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-            fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
-            fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
-            const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalFiltros'));
-            if (modalInstance) {
-                modalInstance.hide();
+                initDataTable(); // Actualiza la tabla automáticamente
             }
-            initDataTable();
-        });
-
-        // Seteamos en el input la fecha inicial y final
-        $('#daterange').val(
-            haceUnaSemana.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD')
-        );
+        }
     });
 </script>
+
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias2.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>
