@@ -2149,101 +2149,6 @@ class PedidosModel extends Query
     }
 
 
-    public function cargarTodosLosPedidos($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
-    {
-        // Consulta base
-        $sql = "
-            (SELECT *, 
-                (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
-                (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa,
-                (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma
-            FROM facturas_cot
-            WHERE anulada = 0 
-            AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-            AND id_plataforma = :plataforma";
-
-        // Filtrar por fechas
-        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN :fecha_inicio AND :fecha_fin";
-        }
-
-        // Filtrar por estado de pedido
-        if (!empty($estado_pedido)) {
-            $sql .= " AND estado_pedido = :estado_pedido";
-        }
-
-        // Filtrar por búsqueda de pedido (si está presente)
-        if (!empty($buscar_pedido)) {
-            $sql .= " AND (numero_factura LIKE :buscar_pedido OR nombre LIKE :buscar_pedido OR comentario LIKE :buscar_pedido)";
-        }
-
-        // Filtrar por no tener producto
-        $sql .= " AND no_producto = 0";
-
-        // Parte para pedidos anulados
-        $sql .= "
-            UNION
-            (SELECT *, 
-                (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
-                (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa,
-                (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma
-            FROM facturas_cot
-            WHERE anulada = 1 
-            AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-            AND id_plataforma = :plataforma";
-
-        // Filtrar por fechas y estado de pedido en los pedidos anulados
-        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN :fecha_inicio AND :fecha_fin";
-        }
-
-        if (!empty($estado_pedido)) {
-            $sql .= " AND estado_pedido = :estado_pedido";
-        }
-
-        $sql .= " AND no_producto = 0";
-
-        // Parte para pedidos sin producto
-        $sql .= "
-            UNION
-            (SELECT *, 
-                (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
-                (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa,
-                (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma
-            FROM facturas_cot
-            WHERE anulada = 0 
-            AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-            AND id_plataforma = :plataforma";
-
-        // Filtrar por fechas y estado de pedido en los pedidos sin producto
-        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN :fecha_inicio AND :fecha_fin";
-        }
-
-        if (!empty($estado_pedido)) {
-            $sql .= " AND estado_pedido = :estado_pedido";
-        }
-
-        $sql .= " AND no_producto = 1";
-
-        // Ordenar los resultados
-        $sql .= " ORDER BY numero_factura DESC;";
-
-        // Preparar los parámetros para la consulta
-        $params = [
-            ':plataforma' => $plataforma,
-            ':fecha_inicio' => !empty($fecha_inicio) ? $fecha_inicio : null,
-            ':fecha_fin' => !empty($fecha_fin) ? $fecha_fin : null,
-            ':estado_pedido' => !empty($estado_pedido) ? $estado_pedido : null,
-            ':buscar_pedido' => !empty($buscar_pedido) ? '%' . $buscar_pedido . '%' : null,
-        ];
-
-        // Ejecutar la consulta y retornar los resultados
-        return $this->dselect($sql, $params);
-    }
-
-
-
     public function cargarPedidosPorFila_imporsuit($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
     {
         // Arma la consulta base sobre facturas_cot (anulada = 0, sin #guía, etc.)
@@ -3415,7 +3320,7 @@ class PedidosModel extends Query
             'Authorization: Bearer ' . $api_key,
             'Content-Type: application/json',
             'OpenAI-Beta: assistants=v2'
-        ];        
+        ];
 
         // 2. Crear thread con depuración de error
         $ch = curl_init('https://api.openai.com/v1/threads');
@@ -3461,7 +3366,8 @@ class PedidosModel extends Query
             CURLOPT_POST => true,
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_POSTFIELDS => json_encode([
-                "assistant_id" => $assistant_id
+                "assistant_id" => $assistant_id,
+                "max_completion_tokens" => 30
             ])
         ]);
         $run_response = json_decode(curl_exec($ch), true);
@@ -3490,7 +3396,7 @@ class PedidosModel extends Query
                 "error" => "Falló la ejecución del assistant",
                 "run_status" => $status_response
             ];
-        }        
+        }
 
         // 6. Obtener mensaje del assistant
         $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
