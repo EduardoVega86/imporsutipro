@@ -33,7 +33,7 @@ $(function() {
     },
     autoUpdateInput: true  });
 
-  // NO recargamos la tabla directamente al aplicar el rango, lo haremos con el botón "Aplicar Filtros".
+  // Recargamos la tabla directamente al aplicar el rango, lo haremos con el botón "Aplicar Filtros".
   $('#daterange').on('apply.daterangepicker', function(ev, picker) {
     fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
     fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
