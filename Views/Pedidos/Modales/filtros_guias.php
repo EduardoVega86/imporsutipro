@@ -1,3 +1,6 @@
+<!-- flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 <div class="modal fade" id="modalFiltros" tabindex="-1" aria-labelledby="modalFiltrosLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
@@ -12,13 +15,18 @@
                     <div class="row g-3"> <!-- g-3: gutter para separación -->
 
                         <!-- Rango de fechas -->
-                        <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="daterange" placeholder="Selecciona un rango de fechas">
+                            <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                        </div>
+
+                        <!-- <div class="col-md-6">
                             <label for="daterange" class="form-label">Rango de fechas</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="daterange">
                                 <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- Impresiones -->
                         <div class="col-md-6">
