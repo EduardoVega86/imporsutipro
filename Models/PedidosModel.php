@@ -3366,7 +3366,8 @@ class PedidosModel extends Query
             CURLOPT_POST => true,
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_POSTFIELDS => json_encode([
-                "assistant_id" => $assistant_id
+                "assistant_id" => $assistant_id,
+                "max_completion_tokens" => 30
             ])
         ]);
         $run_response = json_decode(curl_exec($ch), true);
