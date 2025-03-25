@@ -180,6 +180,11 @@
         /* Asegura que esté por encima de la tabla */
     }
 
+    .daterangepicker .applyBtn {
+        display: none !important;
+    }
+
+
     @media (min-width: 768px) {
         .custom-cards .col-md-2 {
             flex: 0 0 auto;

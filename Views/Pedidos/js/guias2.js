@@ -877,33 +877,22 @@ document
   });
 
 
-window.addEventListener("load", async () => {
-  await initDataTable();
+  document.getElementById("btnAplicarFiltros").addEventListener("click", async () => {
+    let rangoFechas = $("#daterange").val();
+    if (rangoFechas.includes(" - ")) {
+        let fechas = rangoFechas.split(" - ");
+        fecha_inicio = fechas[0] + " 00:00:00";
+        fecha_fin = fechas[1] + " 23:59:59";
+    }
 
-  const btnAplicar = document.getElementById("btnAplicarFiltros");
-  if(btnAplicar){
-    btnAplicar.addEventListener("click", async function () {
-      //Deshabilitamos el boton al comenzar
-      btnAplicar.disabled = true;
-      try{
-        let rangoFechas = $("#daterange").val();
-        if (rangoFechas){
-            let fechas = rangoFechas.split(" - ");
-            fecha_inicio = fechas[0] + " 00:00:00";
-            fecha_fin = fechas[1] + " 23:59:59";
-        }
-        await initDataTable();
-        // Cierra el modal después de aplicar los filtros
-        const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalFiltros'));
-        if (modalInstance) {
-          modalInstance.hide();
-        }
-      } finally {
-        btnAplicar.disabled = false;
-      }
-    });
-  }
-});
+    await initDataTable();
+
+    const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalFiltros'));
+    if (modalInstance) {
+        modalInstance.hide();
+    }
+  });
+
 
 function formatPhoneNumber(number) {
   // Eliminar caracteres no numéricos excepto el signo +

@@ -303,24 +303,23 @@
     </div>
 </div>
 <script>
-    let fecha_inicio = "";
-    let fecha_fin = "";
-
-    flatpickr("#daterange", {
-        mode: "range",
-        locale: "es",
-        dateFormat: "Y-m-d",
-        defaultDate: [moment().subtract(6, 'days').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
-        onChange: function(selectedDates, dateStr, instance) {
-            if (selectedDates.length === 2) {
-                // Ambos extremos del rango fueron seleccionados
-                const [start, end] = selectedDates;
-
-                fecha_inicio = moment(start).format("YYYY-MM-DD") + " 00:00:00";
-                fecha_fin = moment(end).format("YYYY-MM-DD") + " 23:59:59";
-
-                initDataTable(); // Actualiza la tabla automáticamente
-            }
+    $('#daterange').daterangepicker({
+        opens: 'right',
+        startDate: haceUnaSemana,
+        endDate: hoy,
+        autoUpdateInput: true,
+        locale: {
+            format: 'YYYY-MM-DD',
+            separator: ' - ',
+            applyLabel: 'Aplicar',
+            cancelLabel: 'Cancelar',
+            fromLabel: 'Desde',
+            toLabel: 'Hasta',
+            customRangeLabel: 'Personalizado',
+            weekLabel: 'S',
+            daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            firstDay: 1
         }
     });
 </script>
