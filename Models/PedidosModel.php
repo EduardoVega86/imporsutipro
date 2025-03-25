@@ -3486,8 +3486,11 @@ class PedidosModel extends Query
         } while ($status !== 'completed' && $status !== 'failed');
 
         if ($status === 'failed') {
-            return ["error" => "Falló la ejecución del assistant"];
-        }
+            return [
+                "error" => "Falló la ejecución del assistant",
+                "run_status" => $status_response
+            ];
+        }        
 
         // 6. Obtener mensaje del assistant
         $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
