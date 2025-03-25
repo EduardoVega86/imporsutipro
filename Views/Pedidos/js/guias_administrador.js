@@ -1298,10 +1298,9 @@ document.addEventListener("DOMContentLoaded", function () {
         // NUEVO: Recargar la DataTable con los nuevos valores de los filtros
         //Cierra el modal después de aplicar los filtros
         await initDataTable();
-        const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalFiltros'));
-        if (modalInstance) {
-          modalInstance.hide();
-        }
+        const modalElement = document.getElementById('modalFiltros');
+        const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+        modalInstance.hide();
       } finally{
         btnAplicar.disabled = false;
       }
