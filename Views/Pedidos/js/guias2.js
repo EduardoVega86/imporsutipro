@@ -883,6 +883,11 @@ window.addEventListener("load", async () => {
             fecha_fin = fechas[1] + " 23:59:59";
         }
         await initDataTable();
+        // Cierra el modal después de aplicar los filtros
+        const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalFiltros'));
+        if (modalInstance) {
+          modalInstance.hide();
+        }
       } finally {
         btnAplicar.disabled = false;
       }

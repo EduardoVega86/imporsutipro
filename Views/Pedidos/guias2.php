@@ -5,6 +5,7 @@
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 <?php require_once './Views/Pedidos/Modales/detalles_factura.php'; ?>
 <?php require_once './Views/Pedidos/Modales/gestionar_novedad.php'; ?>
+<?php require_once './Views/Pedidos/Modales/filtros_guias.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
@@ -140,7 +141,8 @@
             </div>
         </div>
 
-        <div class="d-flex flex-column justify-content-between">
+        <!-- Migramos y lo convertimos en un modal -->
+        <!-- <div class="d-flex flex-column justify-content-between">
             <div class="primer_seccionFiltro" style="width: 100%;">
                 <div class="d-flex flex-row align-items-end filtro_fecha">
                     <div class="flex-fill">
@@ -218,15 +220,16 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
         <div class="d-flex align-items-center gap-2 flex-wrap" style="padding-top: 20px;">
-            <!-- Botón Aplicar Filtros -->
-            <button id="btnAplicarFiltros" class="btn btn-primary">
-                <i class="fas fa-filter"></i> Aplicar Filtros
+            <!-- Botón Filtros -->
+            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalFiltros">
+                <i class="fas fa-filter"></i>
             </button>
+
 
             <!-- Botón Generar Impresión -->
             <button id="imprimir_guias" class="btn btn-success">
