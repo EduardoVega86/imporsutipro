@@ -314,17 +314,17 @@ function hideTableLoader() {
 }
 
 // Manejo de botones para cambiar API y recargar la tabla
-document.getElementById("btnPedidos").addEventListener("click", () => {
-  currentAPI = "pedidos/cargarTodosLosPedidos";
-  cambiarBotonActivo("btnPedidos");
-  initDataTableHistorial();
-});
+// document.getElementById("btnPedidos").addEventListener("click", () => {
+//   currentAPI = "pedidos/cargarTodosLosPedidos";
+//   cambiarBotonActivo("btnPedidos");
+//   initDataTableHistorial();
+// });
 
-document.getElementById("btnAnulados").addEventListener("click", () => {
-  currentAPI = "pedidos/cargarPedidosAnulados"; // Nuevo endpoint para pedidos anulados
-  cambiarBotonActivo("btnAnulados");
-  initDataTableHistorial();
-});
+// document.getElementById("btnAnulados").addEventListener("click", () => {
+//   currentAPI = "pedidos/cargarPedidosAnulados"; // Nuevo endpoint para pedidos anulados
+//   cambiarBotonActivo("btnAnulados");
+//   initDataTableHistorial();
+// });
 
 
 /* document.getElementById("btnAbandonados").addEventListener("click", () => {
