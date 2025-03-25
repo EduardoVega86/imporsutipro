@@ -87,11 +87,20 @@ function getFecha() {
 }
 
 //Cargando
+// function showTableLoader() {
+//   // Inserta siempre el HTML del spinner y luego muestra el contenedor
+//   $("#tableLoader").html(
+//     '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
+//   ).css("display", "flex");
+// }
+//Cargando loader por detras del modal filtros
 function showTableLoader() {
-  // Inserta siempre el HTML del spinner y luego muestra el contenedor
-  $("#tableLoader").html(
-    '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
-  ).css("display", "flex");
+  const modalOpen = document.querySelector('#modalFiltros.show');
+  if (!modalOpen) {
+    $("#tableLoader").html(
+      '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
+    ).css("display", "flex");
+  }
 }
 
 function hideTableLoader() {
@@ -1284,7 +1293,12 @@ document.addEventListener("DOMContentLoaded", function () {
           fecha_fin = fechas[1] + " 23:59:59";
         }
         // NUEVO: Recargar la DataTable con los nuevos valores de los filtros
+        //Cierra el modal después de aplicar los filtros
         await initDataTable();
+        const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalFiltros'));
+        if (modalInstance) {
+          modalInstance.hide();
+        }
       } finally{
         btnAplicar.disabled = false;
       }

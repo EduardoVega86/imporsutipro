@@ -43,11 +43,21 @@ function getFecha() {
 }
 
 //Cargando
+// function showTableLoader() {
+//   // Inserta siempre el HTML del spinner y luego muestra el contenedor
+//   $("#tableLoader").html(
+//     '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
+//   ).css("display", "flex");
+// }
+
+//Cargando loader por detras del modal filtros
 function showTableLoader() {
-  // Inserta siempre el HTML del spinner y luego muestra el contenedor
-  $("#tableLoader").html(
-    '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
-  ).css("display", "flex");
+  const modalOpen = document.querySelector('#modalFiltros.show');
+  if (!modalOpen) {
+    $("#tableLoader").html(
+      '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
+    ).css("display", "flex");
+  }
 }
 
 function hideTableLoader() {
