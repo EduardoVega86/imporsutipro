@@ -39,6 +39,10 @@ $(function() {
   //   fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
   //   initDataTable(); 
   // });
+  // Seteamos en el input la fecha inicial y final
+  $('#daterange').val(
+    haceUnaSemana.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD')
+  );
 });
 
 // NUEVO: Agregamos este botón que usaremos para aplicar los filtros manualmente.
