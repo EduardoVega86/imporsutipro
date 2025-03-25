@@ -3036,6 +3036,15 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function mensaje_assistmant()
+    {
+        $id_assistmant = $_POST['id_assistmant'];
+        $mensaje = $_POST['mensaje'];
+
+        $response = $this->model->mensaje_assistmant($id_assistmant, $mensaje);
+        echo json_encode($response);
+    }
+
     public function agregar_automatizador()
     {
         $nombre_automatizador = $_POST['nombre_automatizador'];

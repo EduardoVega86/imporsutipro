@@ -3403,6 +3403,105 @@ class PedidosModel extends Query
         return $response;
     }
 
+    public function mensaje_assistmant($id_assistmant, $mensaje)
+    {
+        $sql = "SELECT assistant_id, api_key FROM openai_assistants WHERE id = $id_assistmant AND activo = 1";
+        $assistant = $this->select($sql);
+
+        $assistant_id = $assistant[0]['assistant_id'];
+        $api_key = $assistant[0]['api_key'];
+
+        $headers = [
+            'Authorization: Bearer ' . $api_key,
+            'Content-Type: application/json',
+        ];
+
+        // 2. Crear thread
+        $ch = curl_init('https://api.openai.com/v1/threads');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_POSTFIELDS => '{}'
+        ]);
+        $thread_response = json_decode(curl_exec($ch), true);
+        curl_close($ch);
+
+        $thread_id = $thread_response['id'] ?? null;
+        if (!$thread_id) {
+            return ["error" => "No se pudo crear el thread"];
+        }
+
+        // 3. Agregar mensaje del usuario al thread
+        $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_POSTFIELDS => json_encode([
+                "role" => "user",
+                "content" => $mensaje
+            ])
+        ]);
+        curl_exec($ch);
+        curl_close($ch);
+
+        // 4. Ejecutar el assistant
+        $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/runs");
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_POSTFIELDS => json_encode([
+                "assistant_id" => $assistant_id
+            ])
+        ]);
+        $run_response = json_decode(curl_exec($ch), true);
+        curl_close($ch);
+
+        $run_id = $run_response['id'] ?? null;
+        if (!$run_id) {
+            return ["error" => "No se pudo ejecutar el assistant"];
+        }
+
+        // 5. Esperar respuesta (polling simple)
+        do {
+            sleep(1); // Espera 1 segundo
+            $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/runs/$run_id");
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => $headers
+            ]);
+            $status_response = json_decode(curl_exec($ch), true);
+            curl_close($ch);
+            $status = $status_response['status'] ?? 'queued';
+        } while ($status !== 'completed' && $status !== 'failed');
+
+        if ($status === 'failed') {
+            return ["error" => "Falló la ejecución del assistant"];
+        }
+
+        // 6. Obtener mensaje del assistant
+        $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => $headers
+        ]);
+        $messages_response = json_decode(curl_exec($ch), true);
+        curl_close($ch);
+
+        $mensajes = $messages_response['data'] ?? [];
+        $respuesta = null;
+        foreach (array_reverse($mensajes) as $msg) {
+            if ($msg['role'] === 'assistant') {
+                $respuesta = $msg['content'][0]['text']['value'];
+                break;
+            }
+        }
+
+        return ["respuesta" => $respuesta];
+    }
+
     // Función para generar una clave única
     private function generarClaveUnica()
     {
