@@ -336,13 +336,13 @@
         });
 
         // NO recargamos la tabla directamente al aplicar el rango, lo haremos con el botón "Aplicar Filtros".
-        $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-            fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
-            fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
+        // $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+        //     fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
+        //     fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
 
-            //Recargamos la tabla inmediatamente usando el nuevo rango de fechas
-            initDataTable();
-        });
+        //Recargamos la tabla inmediatamente usando el nuevo rango de fechas
+        //     initDataTable();
+        // });
 
         // Seteamos en el input la fecha inicial y final
         $('#daterange').val(
