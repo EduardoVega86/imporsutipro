@@ -114,11 +114,12 @@ const listHistorialPedidos = async () => {
         color_estadoPedido = "green";
       }
 
-      let disabled = (historialPedido.estado_pedido == 7) ? "disabled" : "";
+      let disabled = historialPedido.estado_pedido == 7 ? "disabled" : "";
 
       select_estados_pedidos = `
                     <select class="form-select select-estado-pedido" style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
-        historialPedido.id_factura}" ${disabled}>
+        historialPedido.id_factura
+      }" ${disabled}>
                         <option value="0" ${
                           historialPedido.estado_pedido == 0 ? "selected" : ""
                         }>-- Selecciona estado --</option>
@@ -283,18 +284,18 @@ window.addEventListener("load", async () => {
   if (btnAplicar) {
     btnAplicar.addEventListener("click", async function () {
       btnAplicar.disabled = true;
-      try{
-      let rangoFechas = $("#daterange").val();
-      if (rangoFechas) {
-        let fechas = rangoFechas.split(" - ");
-        fecha_inicio = fechas[0] + " 00:00:00";
-        fecha_fin = fechas[1] + " 23:59:59";
+      try {
+        let rangoFechas = $("#daterange").val();
+        if (rangoFechas) {
+          let fechas = rangoFechas.split(" - ");
+          fecha_inicio = fechas[0] + " 00:00:00";
+          fecha_fin = fechas[1] + " 23:59:59";
+        }
+        await initDataTableHistorial();
+        cargarCardsPedidos();
+      } finally {
+        btnAplicar.disabled = false;
       }
-      await initDataTableHistorial();
-      cargarCardsPedidos();
-    }finally{
-      btnAplicar.disabled = false;
-    }
     });
   }
 });
@@ -326,18 +327,17 @@ function hideTableLoader() {
 //   initDataTableHistorial();
 // });
 
-
 /* document.getElementById("btnAbandonados").addEventListener("click", () => {
   currentAPI = "pedidos/cargar_pedidos_abandonados"; // Ajusta la API correspondiente
   cambiarBotonActivo("btnAbandonados");
   initDataTableHistorial();
 }); */
 
-document.getElementById("btnNo_vinculados").addEventListener("click", () => {
-  currentAPI = "pedidos/cargar_pedidos_sin_producto";
-  cambiarBotonActivo("btnNo_vinculados");
-  initDataTableHistorial();
-});
+// document.getElementById("btnNo_vinculados").addEventListener("click", () => {
+//   currentAPI = "pedidos/cargar_pedidos_sin_producto";
+//   cambiarBotonActivo("btnNo_vinculados");
+//   initDataTableHistorial();
+// });
 
 const cambiarBotonActivo = (botonID) => {
   document.querySelectorAll(".d-flex button").forEach((btn) => {
@@ -520,7 +520,6 @@ async function eliminarPedido(idFactura) {
     });
   }
 }
-
 
 function enviar_mensaje_automatizador(
   nueva_factura,
