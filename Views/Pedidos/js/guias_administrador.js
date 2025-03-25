@@ -37,6 +37,10 @@ $(function() {
   $('#daterange').on('apply.daterangepicker', function(ev, picker) {
     fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
     fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
+    const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalFiltros'));
+    if (modalInstance) {
+      modalInstance.hide();
+    }
     initDataTable(); 
   });
   // Seteamos en el input la fecha inicial y final
@@ -1298,9 +1302,10 @@ document.addEventListener("DOMContentLoaded", function () {
         // NUEVO: Recargar la DataTable con los nuevos valores de los filtros
         //Cierra el modal después de aplicar los filtros
         await initDataTable();
-        const modalElement = document.getElementById('modalFiltros');
-        const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
-        modalInstance.hide();
+        const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalFiltros'));
+        if (modalInstance) {
+          modalInstance.hide();
+        }
       } finally{
         btnAplicar.disabled = false;
       }
