@@ -3424,12 +3424,19 @@ class PedidosModel extends Query
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_POSTFIELDS => '{}'
         ]);
-        $thread_response = json_decode(curl_exec($ch), true);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
+        $thread_response = json_decode($response, true);
         $thread_id = $thread_response['id'] ?? null;
+
         if (!$thread_id) {
-            return ["error" => "No se pudo crear el thread"];
+            return [
+                "error" => "No se pudo crear el thread",
+                "http_code" => $httpcode,
+                "respuesta_openai" => $thread_response
+            ];
         }
 
         // 3. Agregar mensaje del usuario al thread
