@@ -3,6 +3,47 @@ let dataTableIsInitialized = false;
 let fecha_inicio = "";
 let fecha_fin = "";
 
+// Configurar rango inicial
+let hoy = moment();
+let haceUnaSemana = moment().subtract(6, 'days');
+fecha_inicio = haceUnaSemana.format('YYYY-MM-DD') + ' 00:00:00';
+fecha_fin = hoy.format('YYYY-MM-DD') + ' 23:59:59';
+
+// Configurar daterangepicker al cargar la página
+$(function() {
+  $('#daterange').daterangepicker({
+    opens: 'right',
+    startDate: haceUnaSemana,
+    endDate: hoy,
+    locale: {
+      format: 'YYYY-MM-DD',               
+      separator: ' - ',
+      applyLabel: 'Aplicar',
+      cancelLabel: 'Cancelar',
+      fromLabel: 'Desde',
+      toLabel: 'Hasta',
+      customRangeLabel: 'Personalizado',
+      weekLabel: 'S',
+      daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+      monthNames: [
+        'Enero','Febrero','Marzo','Abril','Mayo','Junio',
+        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
+      ],
+      firstDay: 1
+    },
+    autoUpdateInput: tr  });
+
+  // NO recargamos la tabla directamente al aplicar el rango, lo haremos con el botón "Aplicar Filtros".
+  // $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+  //   fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
+  //   fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
+  //   initDataTable(); 
+  // });
+  // Seteamos en el input la fecha inicial y final
+  $('#daterange').val(
+    haceUnaSemana.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD')
+  );
+});
 
 // NUEVO: Agregamos este botón que usaremos para aplicar los filtros manualmente.
 // IMPORTANTE: Asegúrate de tener un botón con id="btnAplicarFiltros" en tu HTML.
