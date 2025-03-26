@@ -1873,7 +1873,10 @@ class WalletModel extends Query
 
     /////////////////////////////// DEBUGS //////////////////////////////////////
 
-    public function devolucionAwallet($numero_guia)
+    /**
+     * @throws Exception
+     */
+    public function devolucionAwallet($numero_guia): array
     {
         $sql_select = "SELECT * FROM `facturas_cot` WHERE numero_guia = '$numero_guia'";
         $response = $this->select($sql_select);
