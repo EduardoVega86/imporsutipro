@@ -3335,4 +3335,12 @@ class Pedidos extends Controller
 
         echo json_encode($response);
     }
+
+    public function obtener_nombre_bodega()
+    {
+        $id_bodega = $_POST['id_bodega'];
+
+        $response = $this->model->obtener_nombre_bodega($id_bodega);
+        echo json_encode($response);
+    }
 }

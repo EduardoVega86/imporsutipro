@@ -4249,4 +4249,19 @@ class PedidosModel extends Query
         }
         return $response;
     }
+
+    public function obtener_nombre_bodega($id_bodega)
+    {
+        $sql = "SELECT nombre FROM bodega WHERE id = $id_bodega";
+        $resultado = $this->select($sql);
+
+        if (!$resultado) {
+            return ["error" => "No se encontró configuración para la plataforma"];
+        }
+
+        // Decodificar JSON almacenado en la base de datos
+        $nombre = $resultado[0]['nombre'];
+
+        return ["nombre" => $nombre];
+    }
 }
