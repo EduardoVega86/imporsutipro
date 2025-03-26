@@ -3098,8 +3098,9 @@ class Pedidos extends Controller
     {
         $id_assistmant = $_POST['id_assistmant'];
         $mensaje = $_POST['mensaje'];
+        $historial = isset($_POST['historial']) ? json_decode($_POST['historial'], true) : [];
 
-        $response = $this->model->mensaje_assistmant($id_assistmant, $mensaje);
+        $response = $this->model->mensaje_assistmant($id_assistmant, $mensaje, $historial);
         echo json_encode($response);
     }
 
