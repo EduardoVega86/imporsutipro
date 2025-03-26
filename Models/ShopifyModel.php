@@ -176,6 +176,8 @@ class ShopifyModel extends Query
         $costo = 0;
         $total_units = 0;
 
+        $id_producto_venta = 0;
+
         // Recorre los items y verifica las condiciones necesarias
         foreach ($lineItems as $item) {
             // si esta vacio o si el sku no esta conformado por solo numeros
@@ -206,10 +208,15 @@ class ShopifyModel extends Query
                 echo "-__________________-";
                 continue;
             }
-            $id_producto_venta = $item['sku'];
+
+            if (!$this->envioPrioritario($item['sku'])) {
+                $id_producto_venta = $item['sku'];
+                $product_costo = $this->obtenerCosto($id_producto_venta);
+            }else{
+                $product_costo = $this->obtenerCosto($item['sku']);
+            }
             // Obtener información de la bodega
             $datos_telefono = $this->obtenerBodegaInventario($id_producto_venta);
-            $product_costo = $this->obtenerCosto($id_producto_venta);
             $costo += $product_costo * $item['quantity']; // Multiplica por la cantidad
             $bodega = $datos_telefono[0];
             $celularO = $bodega['contacto'];
@@ -230,7 +237,7 @@ class ShopifyModel extends Query
             $total_line_items += $item_total_price;
             $total_units += $item['quantity'];
             $productos[] = [
-                'id_producto_venta' => $id_producto_venta,
+                'id_producto_venta' =>  $this->envioPrioritario($item['sku']) ? $item['sku'] : $id_producto_venta,
                 'nombre' => $this->remove_emoji($item['name']),
                 'cantidad' => $item['quantity'],
                 'precio' => $item['price'],
@@ -807,5 +814,12 @@ class ShopifyModel extends Query
         }
         $sql = "SELECT * FROM abandonado WHERE id_plataforma = $id_plataforma" . $condition;
         return $this->select($sql);
+    }
+
+    private function envioPrioritario($sku)
+    {
+        $sql = "SELECT envio_prioritario FROM inventario_bodegas WHERE id_inventario = ?";
+        $response = $this->dselect($sql, [$sku]);
+        return $response[0]['envio_prioritario'];
     }
 }
