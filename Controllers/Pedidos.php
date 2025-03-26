@@ -1774,7 +1774,7 @@ class Pedidos extends Controller
         $impreso        = $_POST['impreso']        ?? "";
         $despachos      = $_POST['despachos']      ?? "";
         $formato        = $_POST['formato']        ?? "excel";
-        $buscar_guia = $_POST['buscar_guia'] ?? "";
+        $buscar_guia    = $_POST['buscar_guia']    ?? "";
 
         // Obtener los datos
         $data = $this->model->cargarGuiasAdministrador(
@@ -1904,9 +1904,12 @@ class Pedidos extends Controller
         $sheet->setCellValue('P1', 'Monto a Recibir');
         $sheet->setCellValue('Q1', 'Recaudo');
         $sheet->setCellValue('R1', 'Por acreditar');
+        // NUEVOS CAMPOS
+        $sheet->setCellValue('S1', 'Proveedor');
+        $sheet->setCellValue('T1', 'Tienda');
 
         // Aplicar estilos a los encabezados
-        $sheet->getStyle('A1:R1')->applyFromArray([
+        $sheet->getStyle('A1:T1')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 14,
@@ -1921,7 +1924,7 @@ class Pedidos extends Controller
             ]
         ]);
 
-        foreach (range('A', 'R') as $col) {
+        foreach (range('A', 'T') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
@@ -1989,20 +1992,24 @@ class Pedidos extends Controller
             // Por acreditar => ACREDITADO/PENDIENTE
             $sheet->setCellValue("R{$fila}", ($guia['pagado'] == 1 ? 'ACREDITADO' : 'PENDIENTE'));
 
+            // NUEVOS CAMPOS: Proveedor y Tienda
+            $sheet->setCellValue("S{$fila}", $guia['nombre_proveedor']);
+            $sheet->setCellValue("T{$fila}", $guia['tienda']);
+
             $fila++;
         }
         $ultimaFila = $fila - 1;
 
         // Alinear contenido de la tabla principal
         if ($ultimaFila >= 3) {
-            $sheet->getStyle("A1:R{$ultimaFila}")
+            $sheet->getStyle("A1:T{$ultimaFila}")
                 ->getAlignment()
                 ->setHorizontal(Alignment::HORIZONTAL_LEFT);
         }
 
         // Bordes a la tabla principal
         if ($ultimaFila >= 3) {
-            $sheet->getStyle("A1:R{$ultimaFila}")->applyFromArray([
+            $sheet->getStyle("A1:T{$ultimaFila}")->applyFromArray([
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => Border::BORDER_THIN,
@@ -2016,10 +2023,11 @@ class Pedidos extends Controller
         // 4) Mini tabla + Forzar suma 100% + Diagrama de barras
         // =========================================================
         $miniTableStart = 3; // fila 3
-        $sheet->setCellValue("T{$miniTableStart}", "Estado");
-        $sheet->setCellValue("U{$miniTableStart}", "Porcentaje");
+        // Se actualizan las columnas para la mini tabla (ahora U y V, ya que T es parte de la tabla principal)
+        $sheet->setCellValue("U{$miniTableStart}", "Estado");
+        $sheet->setCellValue("V{$miniTableStart}", "Porcentaje");
         // Estilo encabezado minitabla
-        $sheet->getStyle("T{$miniTableStart}:U{$miniTableStart}")->applyFromArray([
+        $sheet->getStyle("U{$miniTableStart}:V{$miniTableStart}")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'color' => ['rgb' => 'FFFFFF'],
@@ -2032,8 +2040,8 @@ class Pedidos extends Controller
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
             ]
         ]);
-        $sheet->getColumnDimension('T')->setAutoSize(true);
         $sheet->getColumnDimension('U')->setAutoSize(true);
+        $sheet->getColumnDimension('V')->setAutoSize(true);
 
         // Preparar array para estados
         $labelsEstados = ["Generada", "En tránsito", "Zona entrega", "Entregada", "Novedad", "Devolución"];
@@ -2048,7 +2056,7 @@ class Pedidos extends Controller
                 $porcentajesRaw[$k] = 0;
             }
         }
-        // 4.2) Ajustar para forzar sum 100 => se lo damos a la categoría con valor mayor
+        // 4.2) Ajustar para forzar suma 100 => se lo damos a la categoría con valor mayor
         $sumRaw = array_sum($porcentajesRaw);
         $dif    = 100 - $sumRaw;
         if ($sumRaw > 0) {
@@ -2059,15 +2067,15 @@ class Pedidos extends Controller
         // 4.3) Volvemos a iterar para "pegar" en la hoja (redondeando c/2 decimales)
         $rowAux = $miniTableStart + 1; // fila 4
         foreach ($keysEstados as $i => $k) {
-            $sheet->setCellValue("T{$rowAux}", $labelsEstados[$i]);
+            $sheet->setCellValue("U{$rowAux}", $labelsEstados[$i]);
             $porcentajeFinal = round($porcentajesRaw[$k], 2);
-            $sheet->setCellValue("U{$rowAux}", $porcentajeFinal);
+            $sheet->setCellValue("V{$rowAux}", $porcentajeFinal);
             $rowAux++;
         }
         $lastAux = $rowAux - 1;
 
         // Bordes mini tabla
-        $sheet->getStyle("T{$miniTableStart}:U{$lastAux}")->applyFromArray([
+        $sheet->getStyle("U{$miniTableStart}:V{$lastAux}")->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -2081,13 +2089,13 @@ class Pedidos extends Controller
         $startData  = $miniTableStart + 1; // 4
         $endData    = $startData + $numEstados - 1; // 9
         $labels = [
-            new DataSeriesValues('String', $sheet->getTitle() . '!U' . $miniTableStart, null, 1), // S3 => "Porcentaje"
+            new DataSeriesValues('String', $sheet->getTitle() . '!V' . $miniTableStart, null, 1),
         ];
         $categories = [
-            new DataSeriesValues('String', $sheet->getTitle() . "!T{$startData}:T{$endData}", null, $numEstados),
+            new DataSeriesValues('String', $sheet->getTitle() . "!U{$startData}:U{$endData}", null, $numEstados),
         ];
         $values = [
-            new DataSeriesValues('Number', $sheet->getTitle() . "!U{$startData}:U{$endData}", null, $numEstados),
+            new DataSeriesValues('Number', $sheet->getTitle() . "!V{$startData}:V{$endData}", null, $numEstados),
         ];
 
         $series = new DataSeries(
@@ -2146,6 +2154,7 @@ class Pedidos extends Controller
             exit;
         }
     }
+
 
     /**
      * Retorna la descripción de estado del pedido en texto, .
