@@ -834,9 +834,9 @@ class SpeedModel extends Query
             $responses_cabecera_c_p = $this->update($sql_cabecera_c_p, $data);
 
             if ($responses_cabecera_c_p == 1) {
-                $sql = "SELECT cliente, id_plataforma FROM facturas_cot WHERE numero_factura = '$numeroFactura'";
+                $sql = "SELECT nombre, id_plataforma FROM facturas_cot WHERE numero_factura = '$numeroFactura'";
                 $resultado = $this->select($sql);
-                $cliente = $resultado[0]['cliente'];
+                $cliente = $resultado[0]['nombre'];
                 $id_plataforma = $resultado[0]['id_plataforma'];
 
                 $insert_sql = "INSERT INTO novedades (guia_novedad, cliente_novedad, estado_novedad, tracking, id_plataforma) VALUES (?, ?, ?, ?, ?)";
