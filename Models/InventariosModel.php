@@ -664,7 +664,7 @@ class InventariosModel extends Query
             $id_plataforma_bodega = $plataforma_bodega[0]['id_plataforma'];
 
             if ($id_plataforma_bodega == $plataforma) {
-                if ($estado_factura == 2) {
+                if ($estado_factura <= 2) {
                     //  echo $id_factura;
 
                     $tmp_cotizaciones = $this->select("SELECT * FROM detalle_fact_cot WHERE id_factura = $id_factura");
