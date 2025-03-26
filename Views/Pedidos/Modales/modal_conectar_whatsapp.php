@@ -24,7 +24,7 @@
     // por ejemplo: https://desarrollo.imporsuitpro.com/
     function abrirOnboardingWhatsApp() {
         // Ruta que Facebook usará para retornar waba_id, phone_number_id y access_token
-        var redirectUrl = '<?php echo SERVERURL; ?>pedidos/onboarding.php?m=onboarding';
+        var redirectUrl = '<?php echo SERVERURL; ?>pedidos/onboarding?m=onboarding';
 
         // Arma la URL del Onboarding de WhatsApp con los parámetros adecuados
         var url = 'https://www.facebook.com/business/wa/onboarding' +
