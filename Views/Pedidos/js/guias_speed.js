@@ -158,7 +158,7 @@ const listGuias = async () => {
         select_speed = `
                     <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${
                       guia.numero_guia
-                    }" data-id-factura="${guia.id_factura}">
+                    }" data-id-factura="${guia.id_factura}" data-numero-factura="${guia.numero_factura}">
                         <option value="0" ${
                           guia.estado_guia_sistema == 0 ? "selected" : ""
                         }>-- Selecciona estado --</option>
@@ -354,6 +354,8 @@ document.addEventListener("change", async (event) => {
     const nuevoEstado = event.target.value;
 
     const idFactura = event.target.getAttribute("data-id-factura");
+    const numeroFactura = event.target.getAttribute("data-numero-factura");
+    
 
     if (nuevoEstado == 7) {
       $("#numeroGuia_subir_reporte").val(numeroGuia);
@@ -363,27 +365,60 @@ document.addEventListener("change", async (event) => {
       $("#subir_imagen_speedModal").modal("show");
       reloadDataTable();
     } else if (nuevoEstado == 14) {
-      $("#numeroGuia_novedad_speed").val(numeroGuia);
-      $("#nuevoEstado_novedad_speed").val(nuevoEstado);
-      $("#idFactura_novedad_speed").val(idFactura);
+      const formData = new FormData();
+      formData.append("estado", nuevoEstado);
+      formData.append("numeroGuia", numeroGuia);
+      formData.append("numeroFactura", numeroFactura);
 
-      /* $("#gestionar_novedadSpeedModal").modal("show"); */
-      reloadDataTable();
+      try {
+        const response = await fetch(
+          SERVERURL+`Speed/cambiar_estado_novedad`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const result = await response.json();
+        if (result.status == 200) {
+          toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
+
+          reloadDataTable();
+        }
+      } catch (error) {
+        console.error("Error al conectar con la API", error);
+        alert("Error al conectar con la API");
+      }
     } else if (nuevoEstado == 9) {
-      $("#numeroGuia_novedad_speed").val(numeroGuia);
-      $("#nuevoEstado_novedad_speed").val(nuevoEstado);
-      $("#idFactura_novedad_speed").val(idFactura);
+      const formData = new FormData();
+      formData.append("estado", nuevoEstado);
+      formData.append("numeroGuia", numeroGuia);
+      formData.append("numeroFactura", numeroFactura);
 
-      $("#tipo_speed").val("recibir").change();
+      try {
+        const response = await fetch(
+          SERVERURL+`Speed/cambiar_estado_devolucion`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const result = await response.json();
+        if (result.status == 200) {
+          toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
+            positionClass: "toast-bottom-center",
+          });
 
-      /* $("#gestionar_novedadSpeedModal").modal("show"); */
+          reloadDataTable();
+        }
+      } catch (error) {
+        console.error("Error al conectar con la API", error);
+        alert("Error al conectar con la API");
+      }
     } else {
       const formData = new FormData();
       formData.append("estado", nuevoEstado);
-
-      if (nuevoEstado == 9) {
-        $("#tipo_speed").val("recibir").change();
-      }
 
       try {
         const response = await fetch(
@@ -923,7 +958,7 @@ function anular_guiaGintracom(numero_guia) {
 //fin anular guia
 //modal novedades
 function gestionar_novedad() {
-  window.location.href = SERVERURL+'Pedidos/novedades_2';
+  window.location.href = SERVERURL + "Pedidos/novedades_2";
 }
 
 $(document).ready(function () {

@@ -3218,6 +3218,30 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function guardarDesdeMeta($data)
+    {
+        $sql = "INSERT INTO configuraciones (
+                    nombre_configuracion,
+                    telefono,
+                    id_telefono,
+                    id_whatsapp,
+                    token,
+                    webhook_url,
+                    created_at
+                ) VALUES (?, ?, ?, ?, ?, '', NOW())";
+
+        $params = [
+            'Configuración automática',
+            $data['telefono'],
+            $data['id_telefono'],
+            $data['id_whatsapp'],
+            $data['token']
+        ];
+
+        return $this->insert($sql, $params);
+    }
+
+
     public function lista_assistmant($id_plataforma)
     {
         $sql = "SELECT * FROM `configuraciones` WHERE id_plataforma = $id_plataforma";
