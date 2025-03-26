@@ -3027,7 +3027,6 @@ class Pedidos extends Controller
 
     public function onboarding()
     {
-        // Revisa si tienes estos parámetros en el GET:
         $waba_id = $_GET['waba_id'] ?? null;
         $phone_number_id = $_GET['phone_number_id'] ?? null;
         $token = $_GET['access_token'] ?? null;
@@ -3058,8 +3057,6 @@ class Pedidos extends Controller
 
         echo json_encode($saveResponse);
 
-        // Si deseas, podrías verificar $saveResponse para ver si la inserción fue exitosa
-        // y actuar en consecuencia. Por simplicidad, asumimos que todo fue bien.
 
         // Redireccionar o mostrar un mensaje de éxito
         echo "<script>
