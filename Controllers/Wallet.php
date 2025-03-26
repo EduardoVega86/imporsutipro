@@ -773,7 +773,7 @@ class Wallet extends Controller
             $numero_guia = $_POST['numero_guia'];
             $response = $this->model->devolucionAwallet($numero_guia);
             echo json_encode($response);
-        });
+        })();
     }
 
     /**
