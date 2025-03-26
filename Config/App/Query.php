@@ -45,7 +45,7 @@ class Query extends Conexion
     /**
      * @throws Exception
      */
-    public function simple_select($sql, $data)
+    public function simple_select($sql, $data): int
     {
         try {
             $this->sql = $sql;
@@ -70,7 +70,7 @@ class Query extends Conexion
             $query->execute($data);
             return $query->rowCount();
         } catch (PDOException $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), 0);
         }
     }
 

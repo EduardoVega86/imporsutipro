@@ -6,18 +6,18 @@ class Wallet extends Controller
     public function __construct()
     {
         // si se busca el controlador y el metodo guias_reporte saltar la validacion de sesion
-
         parent::__construct();
         if (!$this->isAuth()) {
-
             header("Location:  " . SERVERURL . "login");
             exit;
         }
     }
-
     ///vistas
 
-    public function index()
+    /**
+     * @return void
+     */
+    public function index(): void
     {
         if ($_SESSION["cargo"] != 10 && $_SESSION["cargo"] != 25) {
             header("Location: /wallet/billetera");
@@ -25,23 +25,36 @@ class Wallet extends Controller
         $this->views->render($this, "index");
     }
 
-    public function masivo()
+    /**
+     * @return void
+     */
+    public function masivo(): void
     {
         $this->views->render($this, "masivo");
     }
 
-    public function masivo2()
+    /**
+     * @return void
+     */
+    public function masivo2(): void
     {
         $this->views->render($this, "masivo2");
     }
 
-    public function billetera()
+    /**
+     * @return void
+     */
+    public function billetera(): void
     {
         define("ENLACE", $_SESSION["id_plataforma"]);
         $this->views->render($this, "billetera");
     }
 
-    public function editar($id)
+    /**
+     * @param $id
+     * @return void
+     */
+    public function editar($id): void
     {
         $total_venta = $_POST['total_venta'];
         $precio_envio = $_POST['precio_envio'];
@@ -52,7 +65,10 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-    public function solicitudes()
+    /**
+     * @return void
+     */
+    public function solicitudes(): void
     {
         if ($_SESSION["cargo"] != 10) {
             header("Location: /wallet/billetera");
@@ -60,7 +76,10 @@ class Wallet extends Controller
         $this->views->render($this, "solicitudes");
     }
 
-    public function solicitudes_referidos()
+    /**
+     * @return void
+     */
+    public function solicitudes_referidos(): void
     {
         if ($_SESSION["cargo"] != 10) {
             header("Location: /wallet/billetera");
@@ -68,12 +87,18 @@ class Wallet extends Controller
         $this->views->render($this, "solicitudes_referidos");
     }
 
-    public function historial_solicitudes()
+    /**
+     * @return void
+     */
+    public function historial_solicitudes(): void
     {
         $this->views->render($this, "historial_solicitudes");
     }
 
-    public function auditoria_guias()
+    /**
+     * @return void
+     */
+    public function auditoria_guias(): void
     {
         if ($_SESSION["cargo"] != 10 && $_SESSION["cargo"] != 25) {
             header("Location: /wallet/billetera");
@@ -81,7 +106,10 @@ class Wallet extends Controller
         $this->views->render($this, "auditoria_guias");
     }
 
-    public function auditoria_guias_total()
+    /**
+     * @return void
+     */
+    public function auditoria_guias_total(): void
     {
         if ($_SESSION["cargo"] != 10) {
             header("Location: /wallet/billetera");
@@ -89,7 +117,10 @@ class Wallet extends Controller
         $this->views->render($this, "auditoria_guias_total");
     }
 
-    public function pagar()
+    /**
+     * @return void
+     */
+    public function pagar(): void
     {
         $tienda = $_GET['id_plataforma'];
         if ($_SESSION["cargo"] != 10 && $_SESSION["cargo"] != 25) {
@@ -104,26 +135,40 @@ class Wallet extends Controller
         $this->views->render($this, "pagar");
     }
 
-    public function datos_bancarios()
+    /**
+     * @return void
+     */
+    public function datos_bancarios(): void
     {
         $this->views->render($this, "datos_bancarios");
     }
 
     //funciones
 
-    public function obtenerCabecera($id)
+    /**
+     * @param $id
+     * @return void
+     */
+    public function obtenerCabecera($id): void
     {
         $response = $this->model->obtenerCabecera($id);
         echo json_encode($response);
     }
 
-    public function eliminar($id)
+    /**
+     * @param $id
+     * @return void
+     */
+    public function eliminar($id): void
     {
         $response = $this->model->eliminar($id);
         echo json_encode($response);
     }
 
-    public function cambiarEstado()
+    /**
+     * @return void
+     */
+    public function cambiarEstado(): void
     {
         $id = $_POST['id_cabecera'];
         $estado = $_POST['estado'];
@@ -132,26 +177,38 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-    public function obtenerDatos()
+    /**
+     * @return void
+     */
+    public function obtenerDatos(): void
     {
         $datos = $this->model->obtenerTiendas();
         echo $datos;
     }
 
-    public function obtenerBilleteraTienda()
+    /**
+     * @return void
+     */
+    public function obtenerBilleteraTienda(): void
     {
         $datos = $this->model->obtenerBilleteraTienda($_SESSION["id_plataforma"]);
         echo json_encode($datos);
     }
 
-    public function obtenerBilleteraTienda_plataforma()
+    /**
+     * @return void
+     */
+    public function obtenerBilleteraTienda_plataforma(): void
     {
         $id_plataforma = $_POST['id_plataforma'];
         $datos = $this->model->obtenerBilleteraTienda_plataforma($id_plataforma);
         echo json_encode($datos);
     }
 
-    public function obtenerDetalles()
+    /**
+     * @return void
+     */
+    public function obtenerDetalles(): void
     {
         $tienda = $_POST['tienda'];
 
@@ -159,7 +216,10 @@ class Wallet extends Controller
         echo json_encode($datos);
     }
 
-    public function obtenerFacturas()
+    /**
+     * @return void
+     */
+    public function obtenerFacturas(): void
     {
         $tienda = $_POST['tienda'];
         $estado = $_POST['estado'] ?? 0;
@@ -169,7 +229,10 @@ class Wallet extends Controller
         echo json_encode($datos);
     }
 
-    public function abonarBilletera()
+    /**
+     * @return void
+     */
+    public function abonarBilletera(): void
     {
         $id_cabecera = $_POST['id_cabecera'];
         $valor = $_POST['valor'];
@@ -179,14 +242,20 @@ class Wallet extends Controller
         echo json_encode($datos);
     }
 
-    public function verificarPago()
+    /**
+     * @return void
+     */
+    public function verificarPago(): void
     {
         $id_solicitud = $_POST['id_solicitud'];
         $datos = $this->model->verificarPago($id_solicitud);
         echo json_encode($datos);
     }
 
-    public function reversarAbono()
+    /**
+     * @return void
+     */
+    public function reversarAbono(): void
     {
         $id_cabecera = $_POST['id_cabecera'];
         $valor = $_POST['valor'];
@@ -195,13 +264,19 @@ class Wallet extends Controller
         $datos = $this->model->reversarAbono($id_cabecera, $valor, $usuario);
     }
 
-    public function obtenerDatosBancarios()
+    /**
+     * @return void
+     */
+    public function obtenerDatosBancarios(): void
     {
         $datos = $this->model->obtenerDatosBancarios($_SESSION["id_plataforma"]);
         echo json_encode($datos);
     }
 
-    public function guardarDatosBancarios()
+    /**
+     * @return void
+     */
+    public function guardarDatosBancarios(): void
     {
         $banco = $_POST['banco'];
         $tipo_cuenta = $_POST['tipo_cuenta'];
@@ -215,14 +290,20 @@ class Wallet extends Controller
         echo json_encode($datos);
     }
 
-    public function eliminarDatoBancario()
+    /**
+     * @return void
+     */
+    public function eliminarDatoBancario(): void
     {
         $id_cuenta = $_POST['id_cuenta'];
         $datos = $this->model->eliminarDatoBancario($id_cuenta);
         echo json_encode($datos);
     }
 
-    public function guardarDatosFacturacion()
+    /**
+     * @return void
+     */
+    public function guardarDatosFacturacion(): void
     {
         $ruc = $_POST['ruc'];
         $razon_social = $_POST['razon_social'];
@@ -234,7 +315,10 @@ class Wallet extends Controller
         echo json_encode($datos);
     }
 
-    public function eliminarDatoFacturacion()
+    /**
+     * @return void
+     */
+    public function eliminarDatoFacturacion(): void
     {
         $id_facturacion = $_POST['id_facturacion'];
         $datos = $this->model->eliminarDatoFacturacion($id_facturacion);
@@ -242,7 +326,10 @@ class Wallet extends Controller
     }
 
 
-    public function obtenerDatosFacturacion()
+    /**
+     * @return void
+     */
+    public function obtenerDatosFacturacion(): void
     {
         $dato_bancarios = $this->model->obtenerDatosBancarios($_SESSION["id_plataforma"]);
         $dato_facturacion = $this->model->obtenerDatosFacturacion($_SESSION["id_plataforma"]);
@@ -256,7 +343,10 @@ class Wallet extends Controller
     }
 
 
-    public function solicitarPago()
+    /**
+     * @return void
+     */
+    public function solicitarPago(): void
     {
         $id_cuenta = $_POST['id_cuenta'] ?? 0;
         $valor = $_POST['valor'] ?? 0;
@@ -274,7 +364,7 @@ class Wallet extends Controller
 
 
         $puedeSolicitar = $this->model->puedeSolicitar($_SESSION["id_plataforma"], $valor);
-        if ($puedeSolicitar == false) {
+        if (!$puedeSolicitar) {
             echo json_encode(["status" => 400, "message" => "No puedes solicitar un pago mayor al saldo disponible en tu billetera o ya tienes una solicitud pendiente"]);
             return;
         }
@@ -288,7 +378,10 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-    public function obtenerCodigoVerificacion()
+    /**
+     * @return void
+     */
+    public function obtenerCodigoVerificacion(): void
     {
         $codigo = $_POST['codigo'];
         $response = $this->model->obtenerCodigoVerificacion($codigo, $_SESSION["id_plataforma"]);
@@ -296,13 +389,19 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-    public function generarCodigoVerificacion()
+    /**
+     * @return void
+     */
+    public function generarCodigoVerificacion(): void
     {
         $response = $this->model->generarCodigoVerificacion($_SESSION["id_plataforma"]);
         echo json_encode($response);
     }
 
-    public function pagarFactura()
+    /**
+     * @return void
+     */
+    public function pagarFactura(): void
     {
         $valor = $_POST['valor'];
         $documento = $_POST['documento'];
@@ -321,39 +420,60 @@ class Wallet extends Controller
         }
     }
 
-    public function obtenerHistorial()
+    /**
+     * @return void
+     */
+    public function obtenerHistorial(): void
     {
         $tienda = $_POST['tienda'];
         $response = $this->model->obtenerHistorial($tienda);
         echo json_encode($response);
     }
 
-    public function obtenerCuentas()
+    /**
+     * @return void
+     */
+    public function obtenerCuentas(): void
     {
         $id_plataforma = $_SESSION['id_plataforma'];
         $response = $this->model->obtenerCuentas($id_plataforma);
         echo json_encode($response);
     }
 
-    public function devolucion($id)
+    /**
+     * @param $id
+     * @return void
+     */
+    public function devolucion($id): void
     {
         $response = $this->model->devolucion($id);
         echo json_encode($response);
     }
 
-    public function entregar($id)
+    /**
+     * @param $id
+     * @return void
+     */
+    public function entregar($id): void
     {
         $response = $this->model->entregar($id);
         echo json_encode($response);
     }
 
-    public function transito($id)
+    /**
+     * @param $id
+     * @return void
+     */
+    public function transito($id): void
     {
         $response = $this->model->transito($id);
         echo json_encode($response);
     }
 
-    public function agregarOtroPago()
+    /**
+     * @return void
+     */
+    public function agregarOtroPago(): void
     {
         $tipo = $_POST['tipo'];
         $cuenta = $_POST['cuenta'];
@@ -363,14 +483,20 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-    public function buscarFull()
+    /**
+     * @return void
+     */
+    public function buscarFull(): void
     {
         $numero_factura = $_POST['numero_factura'];
         $id_plataforma = $_SESSION['id_plataforma'];
         $response = $this->model->buscarFull($numero_factura, $id_plataforma);
     }
 
-    public function eliminarOtroPago()
+    /**
+     * @return void
+     */
+    public function eliminarOtroPago(): void
     {
         $id = $_POST['id'];
 
@@ -378,49 +504,75 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-    public function obtenerOtroPago()
+    /**
+     * @return void
+     */
+    public function obtenerOtroPago(): void
     {
         $response = $this->model->obtenerOtroPago($_SESSION['id_plataforma']);
         echo json_encode($response);
     }
 
-    public function obtenerOtroPagosReferidos()
+    /**
+     * @return void
+     */
+    public function obtenerOtroPagosReferidos(): void
     {
         $response = $this->model->obtenerOtroPagosReferidos();
         echo json_encode($response);
     }
 
-    public function obtenerSolicitudes()
+    /**
+     * @return void
+     */
+    public function obtenerSolicitudes(): void
     {
         $response = $this->model->obtenerSolicitudes();
         echo json_encode($response);
     }
 
-    public function eliminarSolicitudes($id)
+    /**
+     * @param $id
+     * @return void
+     */
+    public function eliminarSolicitudes($id): void
     {
         $response = $this->model->eliminarSolicitudes($id);
         echo json_encode($response);
     }
 
-    public function obtenerSolicitudes_otrasFormasPago()
+    /**
+     * @return void
+     */
+    public function obtenerSolicitudes_otrasFormasPago(): void
     {
         $response = $this->model->obtenerSolicitudes_otrasFormasPago();
         echo json_encode($response);
     }
 
-    public function obtenerSolicitudes_otrasFormasPago_Referidos()
+    /**
+     * @return void
+     */
+    public function obtenerSolicitudes_otrasFormasPago_Referidos(): void
     {
         $response = $this->model->obtenerSolicitudes_otrasFormasPagosReferidos();
         echo json_encode($response);
     }
 
-    public function eliminarSolicitudes_referidos($id)
+    /**
+     * @param $id
+     * @return void
+     */
+    public function eliminarSolicitudes_referidos($id): void
     {
         $response = $this->model->eliminarSolicitudes_referidos($id);
         echo json_encode($response);
     }
 
-    public function obtenerGuiasAuditoria()
+    /**
+     * @return void
+     */
+    public function obtenerGuiasAuditoria(): void
     {
         //echo $estado;
         $estado = $_POST['estado'];
@@ -429,7 +581,10 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-    public function obtenerTotalGuiasAuditoria()
+    /**
+     * @return void
+     */
+    public function obtenerTotalGuiasAuditoria(): void
     {
         //echo $estado;
         $estado = $_POST['estado'];
@@ -438,7 +593,10 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-    public function habilitarAuditoria()
+    /**
+     * @return void
+     */
+    public function habilitarAuditoria(): void
     {
         $guia = $_POST['numero_guia'];
         $estado = $_POST['estado'];
@@ -446,14 +604,22 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-    public function buscarTienda()
+    /**
+     * @return void
+     */
+    public function buscarTienda(): void
     {
         $numero_factura = $_POST['numero_factura'];
         $response = $this->model->buscarTienda($numero_factura);
         echo json_encode($response);
     }
 
-    public function importarExcel()
+    /**
+     * @return void
+     * @throws PHPExcel_Exception
+     * @throws PHPExcel_Reader_Exception
+     */
+    public function importarExcel(): void
     {
         // Obtener el ID de inventario desde el formulario
         $transportadora = $_POST['id_transportadora'];
@@ -546,32 +712,50 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-    public function solicitudesReferidos()
+    /**
+     * @return void
+     */
+    public function solicitudesReferidos(): void
     {
         $response = $this->model->solicitudesReferidos();
         echo json_encode($response);
     }
 
-    public function aprobarSolicitud()
+    /**
+     * @return void
+     */
+    public function aprobarSolicitud(): void
     {
         $id_solicitud = $_POST['id_solicitud'];
         $response = $this->model->aprobarSolicitud($id_solicitud);
         echo json_encode($response);
     }
 
-    public function historialSolicitud($tipo, $cantidad, $id_plataforma)
+    /**
+     * @param $tipo
+     * @param $cantidad
+     * @param $id_plataforma
+     * @return void
+     */
+    public function historialSolicitud($tipo, $cantidad, $id_plataforma): void
     {
         $response = $this->model->historialSolicitud($tipo, $cantidad, $id_plataforma);
         echo json_encode($response);
     }
 
-    public function obtenerHistorialSolicitudes()
+    /**
+     * @return void
+     */
+    public function obtenerHistorialSolicitudes(): void
     {
         $response = $this->model->obtenerHistorialSolicitudes();
         echo json_encode($response);
     }
 
-    public function historialSolicitudes()
+    /**
+     * @return void
+     */
+    public function historialSolicitudes(): void
     {
         $response = $this->model->historialSolicitudes($_SESSION["id_plataforma"]);
         echo json_encode($response);
@@ -579,53 +763,82 @@ class Wallet extends Controller
 
     ///debugs
 
-    public function devolucionAwallet()
+    /**
+     * @return void
+     */
+    public function devolucionAwallet(): void
     {
-        $numero_guia = $_POST['numero_guia'];
-        $response = $this->model->devolucionAwallet($numero_guia);
-        echo json_encode($response);
+        $this->catchAsync(function () {
+
+            $numero_guia = $_POST['numero_guia'];
+            $response = $this->model->devolucionAwallet($numero_guia);
+            echo json_encode($response);
+        });
     }
 
-    public function entregaAWallet()
+    /**
+     * @return void
+     */
+    public function entregaAWallet(): void
     {
         $numero_guia = $_POST['numero_guia'];
         $response = $this->model->entregaAWallet($numero_guia);
         echo json_encode($response);
     }
 
-    public function guiasAhistorial()
+    /**
+     * @return void
+     */
+    public function guiasAhistorial(): void
     {
         $numero_guia = $_POST['numero_guia'];
         $response = $this->model->guiasAhistorial($numero_guia);
         echo json_encode($response);
     }
 
-    public function guiasAproveedor($guia)
+    /**
+     * @param $guia
+     * @return void
+     */
+    public function guiasAproveedor($guia): void
     {
         $response = $this->model->guiasAproveedor($guia);
         echo json_encode($response);
     }
 
-    public function guiasAcuadre()
+    /**
+     * @return void
+     */
+    public function guiasAcuadre(): void
     {
         $response = $this->model->guiasAcuadre();
         echo json_encode($response);
     }
 
-    public function retener()
+    /**
+     * @return void
+     */
+    public function retener(): void
     {
         $response = $this->model->retener($_SESSION["id_plataforma"]);
         echo json_encode($response);
     }
 
     // Procesos de PAGO AUTOMATICO NO COLOCAR CODIGO AQUI NI MODIFICAR ABSOLUTAMENTE NADA
-    public function pagar_laar()
+
+    /**
+     * @return void
+     */
+    public function pagar_laar(): void
     {
         $response = $this->model->pagar_laar();
         echo json_encode($response);
     }
 
-    public function guias_reporte()
+    /**
+     * @return void
+     */
+    public function guias_reporte(): void
     {
 
         $mes = $_POST['mes'] ?? date('m');
@@ -637,7 +850,10 @@ class Wallet extends Controller
         echo json_encode($response);
     }
 
-    public function obtenerCabeceras()
+    /**
+     * @return void
+     */
+    public function obtenerCabeceras(): void
     {
         $limit = $_POST['limit'] ?? 10;
         $page = $_POST['page'] ?? 1;
@@ -650,5 +866,19 @@ class Wallet extends Controller
         $response = $this->model->obtenerCabeceras($limit, $offset, $transportadora, $estado, $fecha, $search, $page);
 
         echo json_encode($response);
+    }
+
+    public function manejarFullNega(): void
+    {
+        $this->catchJWT(function () {
+            $data = $this->jsonData();
+            if (empty($data)) {
+                throw new Exception("No se recibieron datos", 400);
+            }
+            $this->dataVerifier("numero_factura", $data["numero_factura"]);
+
+            $response = $this->model->manejarFullfilmentNegativo(["numero_factura" => $data["numero_factura"], $data["full"]], 0);
+            echo json_encode($response);
+        })();
     }
 }
