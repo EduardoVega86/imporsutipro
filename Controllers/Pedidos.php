@@ -3027,32 +3027,43 @@ class Pedidos extends Controller
 
     public function onboarding()
     {
+        // Revisa si tienes estos parámetros en el GET:
         $waba_id = $_GET['waba_id'] ?? null;
         $phone_number_id = $_GET['phone_number_id'] ?? null;
         $token = $_GET['access_token'] ?? null;
 
+        // Validación básica
         if (!$waba_id || !$phone_number_id || !$token) {
             echo "No se recibieron todos los datos requeridos.";
             return;
         }
 
-        // Obtener número de teléfono opcionalmente desde Meta
+        // Llamada a la API de Facebook para obtener el display_phone_number
         $url = "https://graph.facebook.com/v18.0/{$phone_number_id}?fields=display_phone_number&access_token={$token}";
-        $response = file_get_contents($url);
+        $response = @file_get_contents($url);
+        if ($response === false) {
+            echo "Error al obtener datos desde Facebook. Revisa tu token y phone_number_id.";
+            return;
+        }
+
         $data = json_decode($response, true);
         $telefono = $data['display_phone_number'] ?? 'Desconocido';
 
-        // Guardar en tu tabla `configuraciones`
-        $response = $this->model->guardarDesdeMeta([
+        $saveResponse = $this->model->guardarDesdeMeta([
             'telefono' => $telefono,
             'id_telefono' => $phone_number_id,
             'id_whatsapp' => $waba_id,
-            'token' => $token
+            'token'      => $token
         ]);
 
-        // Redirige a alguna vista o muestra un mensaje
+        echo json_encode($saveResponse);
+
+        // Si deseas, podrías verificar $saveResponse para ver si la inserción fue exitosa
+        // y actuar en consecuencia. Por simplicidad, asumimos que todo fue bien.
+
+        // Redireccionar o mostrar un mensaje de éxito
         echo "<script>
-            alert('Conexión completada correctamente.');
+            alert('Conexión completada correctamente con el número: $telefono');
             window.location.href = '" . SERVERURL . "Pedidos/configuraciones';
         </script>";
     }

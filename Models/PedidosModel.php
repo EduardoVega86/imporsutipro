@@ -3230,14 +3230,17 @@ class PedidosModel extends Query
                     created_at
                 ) VALUES (?, ?, ?, ?, ?, '', NOW())";
 
-        return $this->insert($sql, [
+        $params = [
             'Configuración automática',
             $data['telefono'],
             $data['id_telefono'],
             $data['id_whatsapp'],
             $data['token']
-        ]);
+        ];
+
+        return $this->insert($sql, $params);
     }
+
 
     public function lista_assistmant($id_plataforma)
     {

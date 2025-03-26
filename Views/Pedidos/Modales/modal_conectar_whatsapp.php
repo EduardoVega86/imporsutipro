@@ -21,11 +21,17 @@
 </div>
 
 <script>
+    // por ejemplo: https://desarrollo.imporsuitpro.com/
     function abrirOnboardingWhatsApp() {
-        // Abre la URL de onboarding en una pestaña nueva:
-        window.open(
-            'https://www.facebook.com/business/wa/onboarding?app_id=1211546113231811&redirect_uri=<?php echo SERVERURL; ?>pedidos/onboarding.php?m=onboarding',
-            '_blank'
-        );
+        // Ruta que Facebook usará para retornar waba_id, phone_number_id y access_token
+        var redirectUrl = '<?php echo SERVERURL; ?>pedidos/onboarding.php?m=onboarding';
+
+        // Arma la URL del Onboarding de WhatsApp con los parámetros adecuados
+        var url = 'https://www.facebook.com/business/wa/onboarding' +
+            '?app_id=1211546113231811' +
+            '&redirect_uri=' + encodeURIComponent(redirectUrl);
+
+        // Abre la ventana de Onboarding en una nueva pestaña
+        window.open(url, '_blank');
     }
 </script>
