@@ -24,7 +24,7 @@
     function abrirOnboardingWhatsApp() {
         // Abre la URL de onboarding en una pestaña nueva:
         window.open(
-            'https://www.facebook.com/business/wa/onboarding?app_id=1790001771377467&redirect_uri=<?php echo SERVERURL; ?>pedidos/onboarding.php?m=onboarding',
+            'https://www.facebook.com/business/wa/onboarding?app_id=1211546113231811&redirect_uri=<?php echo SERVERURL; ?>pedidos/onboarding.php?m=onboarding',
             '_blank'
         );
     }
