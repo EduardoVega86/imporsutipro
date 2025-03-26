@@ -3017,6 +3017,38 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function onboarding()
+    {
+        $waba_id = $_GET['waba_id'] ?? null;
+        $phone_number_id = $_GET['phone_number_id'] ?? null;
+        $token = $_GET['access_token'] ?? null;
+
+        if (!$waba_id || !$phone_number_id || !$token) {
+            echo "No se recibieron todos los datos requeridos.";
+            return;
+        }
+
+        // Obtener número de teléfono opcionalmente desde Meta
+        $url = "https://graph.facebook.com/v18.0/{$phone_number_id}?fields=display_phone_number&access_token={$token}";
+        $response = file_get_contents($url);
+        $data = json_decode($response, true);
+        $telefono = $data['display_phone_number'] ?? 'Desconocido';
+
+        // Guardar en tu tabla `configuraciones`
+        $response = $this->model->guardarDesdeMeta([
+            'telefono' => $telefono,
+            'id_telefono' => $phone_number_id,
+            'id_whatsapp' => $waba_id,
+            'token' => $token
+        ]);
+
+        // Redirige a alguna vista o muestra un mensaje
+        echo "<script>
+            alert('Conexión completada correctamente.');
+            window.location.href = '" . SERVERURL . "Pedidos/configuraciones';
+        </script>";
+    }
+
     public function lista_assistmant()
     {
         $response = $this->model->lista_assistmant($_SESSION['id_plataforma']);
