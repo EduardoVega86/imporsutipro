@@ -53,7 +53,7 @@ class Query extends Conexion
             $query->execute($data);
             return $query->rowCount();
         } catch (PDOException $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), 0);
         }
     }
 
@@ -85,7 +85,7 @@ class Query extends Conexion
             $query->execute();
             return $query->rowCount();
         } catch (PDOException $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(),0);
         }
     }
 
@@ -112,7 +112,7 @@ class Query extends Conexion
             $query->execute($data);
             return $query->rowCount();
         } catch (PDOException $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), 0);
         }
     }
 
@@ -127,7 +127,7 @@ class Query extends Conexion
             $query->execute();
             return $query->rowCount();
         } catch (PDOException $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), 0);
         }
     }
     public function close()
