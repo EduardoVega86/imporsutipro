@@ -78,6 +78,8 @@
                             <option value="4"> 1ra llamada </option>
                             <option value="5"> 2da llamada </option>
                             <option value="6"> Observación </option>
+                            <option value="7"> Anulado </option>
+                            <option value="8"> No vinculado </option>
                         </select>
                     </div>
                 </div>
@@ -85,30 +87,26 @@
         </div>
 
         <div style="padding-top: 20px;">
-            <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
-        </div>
+            <div class="d-flex align-items-center" style="gap: 20px;">
+                <!-- Botón de Aplicar Filtros -->
+                <button id="btnAplicarFiltros" class="btn btn-primary">
+                    Aplicar Filtros
+                </button>
 
-        <div class="table-container" style="position: relative;">
-            <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
-            <div id="tableLoader" style="display: none;">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Cargando...</span>
+                <!-- Spinner (si deseas mostrarlo intermedio, a la derecha del botón) -->
+                <div id="tableLoader" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="d-flex mb-3 mt-3 align-items-center">
-            <?php if ($_SESSION['id_plataforma'] != 3280) { ?>
-                <!-- Botones (NO visibles para la plataforma 3280) -->
-                <button id="btnPedidos" class="btn btn-primary me-2 active">Pedidos</button>
-                <button id="btnAnulados" class="btn btn-secondary me-2">Anulados</button>
-                <button id="btnNo_vinculados" class="btn btn-secondary me-3">No Vinculados</button>
-            <?php } ?>
-
-            <!-- Input de búsqueda (visible para TODAS las plataformas) -->
-            <div class="input-group" style="max-width: 320px;">
-                <span class="input-group-text"><i class="fas fa-search"></i></span>
-                <input type="text" class="form-control" id="buscar_pedido" placeholder="Buscar por #Orden o Cliente...">
+                <!-- Input de búsqueda (visible para TODAS las plataformas) -->
+                <div class="input-group" style="max-width: 320px; margin-left: 30px;">
+                    <span class="input-group-text">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="text" class="form-control" id="buscar_pedido" placeholder="Buscar por #Orden o Cliente...">
+                </div>
             </div>
         </div>
 
@@ -138,7 +136,7 @@
 
 <script>
     // Definir la URL de la API por defecto (Pedidos)
-    let currentAPI = "pedidos/cargarPedidos_imporsuit";
+    let currentAPI = "pedidos/cargarTodosLosPedidos";
     let fecha_inicio = "";
     let fecha_fin = "";
 

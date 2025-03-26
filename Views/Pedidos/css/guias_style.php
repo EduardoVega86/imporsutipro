@@ -169,7 +169,7 @@
     #tableLoader {
         position: absolute;
         top: -18px;
-        width: 110%;
+        width: 100%;
         height: 100%;
         background: rgba(255, 255, 255, 0.8);
         /* Fondo semitransparente */
@@ -179,6 +179,11 @@
         z-index: 9999;
         /* Asegura que esté por encima de la tabla */
     }
+
+    .daterangepicker .applyBtn {
+        display: none !important;
+    }
+
 
     @media (min-width: 768px) {
         .custom-cards .col-md-2 {

@@ -186,6 +186,14 @@ class Pedidos extends Controller
         $this->views->render($this, "configuracion_chats_imporsuit");
     }
 
+    public function lista_assistants($filtro = "")
+    {
+        if (!$this->isAuth()) {
+            header("Location: " . SERVERURL . "login");
+        }
+        $this->views->render($this, "lista_assistants");
+    }
+
     public function inicio_automatizador($filtro = "")
     {
         if (!$this->isAuth()) {
@@ -619,15 +627,24 @@ class Pedidos extends Controller
 
     public function cargarPedidosAnulados()
     {
-        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
-        $fecha_fin    = $_POST['fecha_fin'] ?? "";
+        $fecha_inicio  = $_POST['fecha_inicio']   ?? "";
+        $fecha_fin     = $_POST['fecha_fin']      ?? "";
+        $estado_pedido = $_POST['estado_pedido']  ?? "";
+        $buscar_pedido = $_POST['buscar_pedido']  ?? "";
 
-        // Forzamos que la guía enviada siempre sea 0
+        // Forzamos guía_enviada=0 y anulada=1 (tu misma lógica actual)
         $guia_enviada = 0;
-        // Y que se traigan los pedidos anulados (anulada = 1)
         $anulada = 1;
 
-        $data = $this->model->cargarPedidosAnulados($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $guia_enviada, $anulada);
+        $data = $this->model->cargarPedidosAnulados(
+            $_SESSION["id_plataforma"],
+            $fecha_inicio,
+            $fecha_fin,
+            $estado_pedido,
+            $buscar_pedido,
+            $guia_enviada,
+            $anulada
+        );
         echo json_encode($data);
     }
 
@@ -635,10 +652,18 @@ class Pedidos extends Controller
 
     public function cargar_pedidos_sin_producto()
     {
-        $fecha_inicio = $_POST['fecha_inicio'] ?? "";
-        $fecha_fin = $_POST['fecha_fin'] ?? "";
-        $estado_pedido = $_POST['estado_pedido'] ?? "";
-        $data = $this->model->cargar_pedidos_sin_producto($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
+        $fecha_inicio  = $_POST['fecha_inicio']   ?? "";
+        $fecha_fin     = $_POST['fecha_fin']      ?? "";
+        $estado_pedido = $_POST['estado_pedido']  ?? "";
+        $buscar_pedido = $_POST['buscar_pedido']  ?? "";
+
+        $data = $this->model->cargar_pedidos_sin_producto(
+            $_SESSION["id_plataforma"],
+            $fecha_inicio,
+            $fecha_fin,
+            $estado_pedido,
+            $buscar_pedido
+        );
         echo json_encode($data);
     }
 
@@ -668,8 +693,8 @@ class Pedidos extends Controller
 
             // Llamar a cada modelo
             $pedidosImporsuit = $this->model->cargarPedidos_imporsuit($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido);
-            $pedidosAnulados = $this->model->cargarPedidosAnulados($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, 0, 1);
-            $pedidosSinProducto = $this->model->cargar_pedidos_sin_producto($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido);
+            $pedidosAnulados = $this->model->cargarPedidosAnulados($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido, 0, 1);
+            $pedidosSinProducto = $this->model->cargar_pedidos_sin_producto($_SESSION["id_plataforma"], $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido);
 
             // Combinar los resultados de manera más controlada
             $todosPedidos = array_merge($pedidosImporsuit, $pedidosAnulados, $pedidosSinProducto);
@@ -1434,13 +1459,16 @@ class Pedidos extends Controller
             $id_plataforma,
             $fecha_inicio,
             $fecha_fin,
-            $estado_pedido
+            $estado_pedido,
+            $buscar_pedido
         );
         // C) Pedidos anulados
         $pedidosAnulados = $this->model->cargarPedidosAnulados(
             $id_plataforma,
             $fecha_inicio,
             $fecha_fin,
+            $estado_pedido,
+            $buscar_pedido,
             0,
             1
         );
@@ -2626,13 +2654,12 @@ class Pedidos extends Controller
     {
         $fecha_inicio = $_POST['fecha_inicio'] ?? "";
         $fecha_fin = $_POST['fecha_fin'] ?? "";
-        $transportadora = $_POST['transportadora'] ?? "";
         $estado = $_POST['estado'] ?? "";
         $drogshipin = $_POST['drogshipin'] ?? "";
         $impreso = $_POST['impreso'] ?? "";
         $despachos = $_POST['despachos'] ?? "";
         $recibo = $_POST['recibo'] ?? "";
-        $data = $this->model->cargarGuiasSpeed($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $recibo);
+        $data = $this->model->cargarGuiasSpeed($fecha_inicio, $fecha_fin, $estado, $impreso, $drogshipin, $despachos, $recibo);
         echo json_encode($data);
     }
 
@@ -2980,6 +3007,12 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function lista_assistmant()
+    {
+        $response = $this->model->lista_assistmant($_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
     public function agregar_configuracion()
     {
         $nombre_configuracion = $_POST['nombre_configuracion'];
@@ -2990,6 +3023,25 @@ class Pedidos extends Controller
         $webhook_url = $_POST['webhook_url'];
 
         $response = $this->model->agregar_configuracion($nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $webhook_url, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function agregar_assistmant()
+    {
+        $nombre_bot = $_POST['nombre_bot'];
+        $assistant_id = $_POST['assistant_id'];
+        $api_key = $_POST['api_key'];
+
+        $response = $this->model->agregar_assistmant($nombre_bot, $assistant_id, $api_key, $_SESSION['id_plataforma']);
+        echo json_encode($response);
+    }
+
+    public function mensaje_assistmant()
+    {
+        $id_assistmant = $_POST['id_assistmant'];
+        $mensaje = $_POST['mensaje'];
+
+        $response = $this->model->mensaje_assistmant($id_assistmant, $mensaje);
         echo json_encode($response);
     }
 

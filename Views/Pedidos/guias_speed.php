@@ -68,36 +68,11 @@
                     <div>
                         <select name="estado_q" class="form-control" id="estado_q">
                             <option value=""> Seleccione Estado </option>
-                            <option value="(estado_guia_sistema in (100,102,103) and id_transporte=2)
-                            OR (estado_guia_sistema in (1,2) and id_transporte=1)
-                            or (estado_guia_sistema in (1,2,3) and id_transporte=3)
-                            or (estado_guia_sistema in (2) and id_transporte=4)"> Generada/ Por Recolectar </option>
-                            <option value="(estado_guia_sistema BETWEEN 200 AND 202 and id_transporte=2)
-                            OR (estado_guia_sistema in (5,11,12,6) and id_transporte=1)
-                            OR (estado_guia_sistema in (5,4) and id_transporte=3)
-                            OR (estado_guia_sistema in (3) and id_transporte=4)"> En Transito </option>
-                            <option value="(estado_guia_sistema BETWEEN 400 AND 403   and id_transporte=2)
-                            OR  (estado_guia_sistema in (7)  and id_transporte=1)
-                            OR  (estado_guia_sistema in (7)  and id_transporte=3)"> Entregada </option>
-                            <option value="(estado_guia_sistema BETWEEN 320 AND 351 and id_transporte=2)
-                            OR  (estado_guia_sistema in (14) and id_transporte=1)
-                            OR  (estado_guia_sistema in (6) and id_transporte=3)"> Novedad </option>
-                            <option value="(estado_guia_sistema BETWEEN 500 AND 502 and id_transporte=2)
-                            OR (estado_guia_sistema in (9) and id_transporte=2)
-                            OR (estado_guia_sistema in (9) and id_transporte=4)
-                            OR (estado_guia_sistema in (8,9,13) and id_transporte=3)"> Devolucion </option>
-                        </select>
-                    </div>
-                </div>
-                <div style="width: 100%;">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">Transportadora</label>
-                    <div>
-                        <select name="transporte" id="transporte" class="form-control">
-                            <option value=""> Seleccione Transportadora</option>
-                            <option value="LAAR">Laar</option>
-                            <option value="SPEED">Speed</option>
-                            <option value="SERVIENTREGA">Servientrega</option>
-                            <option value="GINTRACOM">Gintracom</option>
+                            <option value="(estado_guia_sistema in (2) and id_transporte=4)"> Generada/ Por Recolectar </option>
+                            <option value="(estado_guia_sistema in (3) and id_transporte=4)"> En Transito </option>
+                            <option value="(estado_guia_sistema in (7)  and id_transporte=4)"> Entregada </option>
+                            <option value="(estado_guia_sistema in (14) and id_transporte=4)"> Novedad </option>
+                            <option value="(estado_guia_sistema in (9) and id_transporte=4)"> Devolucion </option>
                         </select>
                     </div>
                 </div>
@@ -201,7 +176,7 @@
 
     $(document).ready(function() {
         // Inicializa la tabla cuando cambian los selectores
-        $("#tienda_q,#estado_q,#transporte,#impresion,#despachos,#recibo").change(function() {
+        $("#tienda_q,#estado_q,#impresion,#despachos,#recibo").change(function() {
             initDataTable();
         });
     });

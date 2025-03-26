@@ -172,7 +172,7 @@
         min-width: 201px;
         /* Ajusta el ancho mínimo para que los textos largos no se corten */
     }
-    
+
 
     .table-container {
         position: relative;
@@ -181,7 +181,7 @@
     #tableLoader {
         position: absolute;
         top: -18px;
-        width: 110%;
+        width: 100%;
         height: 100%;
         background: rgba(255, 255, 255, 0.8);
         /* Fondo semitransparente */
@@ -190,6 +190,10 @@
         align-items: center;
         z-index: 9999;
         /* Asegura que esté por encima de la tabla */
+    }
+
+    .daterangepicker .applyBtn {
+        display: none !important;
     }
 
     @media (min-width: 768px) {

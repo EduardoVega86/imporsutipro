@@ -31,15 +31,22 @@ $(function() {
       ],
       firstDay: 1
     },
-    autoUpdateInput: true
-  });
+    autoUpdateInput: true  });
 
-  // Este evento se disparará cuando cambie el rango:
+  // Recargamos la tabla directamente al aplicar el rango, lo haremos con el botón "Aplicar Filtros".
   $('#daterange').on('apply.daterangepicker', function(ev, picker) {
     fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
     fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
+    const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalFiltros'));
+    if (modalInstance) {
+      modalInstance.hide();
+    }
     initDataTable(); 
   });
+  // Seteamos en el input la fecha inicial y final
+  $('#daterange').val(
+    haceUnaSemana.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD')
+  );
 });
 
 // NUEVO: Agregamos este botón que usaremos para aplicar los filtros manualmente.
@@ -87,11 +94,20 @@ function getFecha() {
 }
 
 //Cargando
+// function showTableLoader() {
+//   // Inserta siempre el HTML del spinner y luego muestra el contenedor
+//   $("#tableLoader").html(
+//     '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
+//   ).css("display", "flex");
+// }
+//Cargando loader por detras del modal filtros
 function showTableLoader() {
-  // Inserta siempre el HTML del spinner y luego muestra el contenedor
-  $("#tableLoader").html(
-    '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
-  ).css("display", "flex");
+  const modalOpen = document.querySelector('#modalFiltros.show');
+  if (!modalOpen) {
+    $("#tableLoader").html(
+      '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>'
+    ).css("display", "flex");
+  }
 }
 
 function hideTableLoader() {
@@ -422,9 +438,12 @@ const listGuias = async () => {
 };
 
 //Capturamos evento en el input de busqueda
-$("#buscar_guia").on("keyup", function(){
-  listGuias(); //cargamos la lista con el filtro
-})
+$("#buscar_guia").on("keyup", function () {
+  let searchTerm = $(this).val();
+  if (dataTable) {
+    dataTable.search(searchTerm).draw();
+  }
+});
 
 /**
  * Marca el estado como en tránsito
@@ -1266,21 +1285,30 @@ document.getElementById("downloadCsvOption").addEventListener("click", async (e)
 
 document.addEventListener("DOMContentLoaded", function () {
   // NUEVO: si deseas cargar la DataTable por defecto al entrar a la página
-  initDataTable(); // <--- NEW: se puede comentar si no deseas cargar nada al inicio
+  initDataTable(); 
 
   // NUEVO: agregar el evento al botón "Aplicar Filtros"
   const btnAplicar = document.getElementById("btnAplicarFiltros");
   if (btnAplicar) {
     btnAplicar.addEventListener("click", async function () {
-      // NUEVO: Leer la fecha seleccionada en el daterangepicker
-      let rangoFechas = $("#daterange").val();
-      if (rangoFechas) {
-        let fechas = rangoFechas.split(" - ");
-        fecha_inicio = fechas[0] + " 00:00:00";
-        fecha_fin = fechas[1] + " 23:59:59";
+      btnAplicar.disabled = true;
+      try{// NUEVO: Leer la fecha seleccionada en el daterangepicker
+        let rangoFechas = $("#daterange").val();
+        if (rangoFechas) {
+          let fechas = rangoFechas.split(" - ");
+          fecha_inicio = fechas[0] + " 00:00:00";
+          fecha_fin = fechas[1] + " 23:59:59";
+        }
+        // NUEVO: Recargar la DataTable con los nuevos valores de los filtros
+        //Cierra el modal después de aplicar los filtros
+        await initDataTable();
+        const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalFiltros'));
+        if (modalInstance) {
+          modalInstance.hide();
+        }
+      } finally{
+        btnAplicar.disabled = false;
       }
-      // NUEVO: Recargar la DataTable con los nuevos valores de los filtros
-      await initDataTable();
     });
   }
 });

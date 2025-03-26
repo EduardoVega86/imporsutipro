@@ -812,7 +812,7 @@ class PedidosModel extends Query
     }
 
 
-    public function cargarGuiasSpeed($fecha_inicio, $fecha_fin, $transportadora, $estado, $impreso, $drogshipin, $despachos, $recibo)
+    public function cargarGuiasSpeed($fecha_inicio, $fecha_fin, $estado, $impreso, $drogshipin, $despachos, $recibo)
     {
         $sql = "SELECT 
                 fc.*, 
@@ -848,10 +848,6 @@ class PedidosModel extends Query
 
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_guia BETWEEN '$fecha_inicio' AND '$fecha_fin'";
-        }
-
-        if (!empty($transportadora)) {
-            $sql .= " AND transporte = '$transportadora'";
         }
 
         if (!empty($estado)) {
@@ -2080,147 +2076,77 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function cargarPedidosAnulados($plataforma, $fecha_inicio, $fecha_fin, $guia_enviada, $anulada)
+    public function cargarPedidosAnulados($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido, $guia_enviada, $anulada)
     {
         $sql = "SELECT *, 
                 (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
                 (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa,
                 (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma 
                 FROM facturas_cot 
-                WHERE anulada = $anulada 
-                AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-                AND id_plataforma = '$plataforma'";
+                WHERE id_plataforma = '$plataforma'
+                  AND anulada = $anulada
+                  AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+                  AND no_producto = 0";
 
+        // Filtrar por rango de fechas
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+
+        // Filtrar adicionalmente por estado_pedido (si deseas permitirlo)
+        if (!empty($estado_pedido)) {
+            $sql .= " AND estado_pedido = $estado_pedido";
+        }
+
+        // Filtrar por texto de búsqueda
+        if (!empty($buscar_pedido)) {
+            $sql .= " AND (numero_factura = '$buscar_pedido' 
+                           OR nombre = '$buscar_pedido' 
+                           OR comentario = '$buscar_pedido')";
         }
 
         if (!empty($guia_enviada)) {
             $sql .= " AND estado_pedido = $guia_enviada";
         }
 
-        $sql .= " AND no_producto = 0";
         $sql .= " ORDER BY numero_factura DESC;";
-
         return $this->select($sql);
     }
 
-    public function cargar_pedidos_sin_producto($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido): array
+
+    public function cargar_pedidos_sin_producto($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
     {
         $sql = "SELECT *, 
-        (SELECT ciudad FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as ciudad,
-        (SELECT provincia FROM ciudad_cotizacion where id_cotizacion = ciudad_cot) as provinciaa,
-        (SELECT url_imporsuit from plataformas where id_plataforma = id_propietario) as plataforma 
-        FROM facturas_cot WHERE anulada = 0 AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-        and id_plataforma = '$plataforma'";
+                (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
+                (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa,
+                (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma
+                FROM facturas_cot
+                WHERE anulada = 0
+                  AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
+                  AND id_plataforma = '$plataforma'
+                  AND no_producto = 1";
 
+        // Filtrar por rango de fechas
         if (!empty($fecha_inicio) && !empty($fecha_fin)) {
             $sql .= " AND fecha_factura BETWEEN '$fecha_inicio' AND '$fecha_fin'";
         }
 
+        // Filtrar por estado_pedido
         if (!empty($estado_pedido)) {
             $sql .= " AND estado_pedido = $estado_pedido";
         }
 
-        $sql .= " AND no_producto = 1";
+        // Filtrar por texto de búsqueda
+        if (!empty($buscar_pedido)) {
+            $sql .= " AND (numero_factura = '$buscar_pedido' 
+                           OR nombre = '$buscar_pedido' 
+                           OR comentario = '$buscar_pedido')";
+        }
 
         $sql .= " ORDER BY numero_factura DESC;";
+
         return $this->select($sql);
     }
-
-    public function cargarTodosLosPedidos($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
-    {
-        // Consulta base
-        $sql = "
-            (SELECT *, 
-                (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
-                (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa,
-                (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma
-            FROM facturas_cot
-            WHERE anulada = 0 
-            AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-            AND id_plataforma = :plataforma";
-
-        // Filtrar por fechas
-        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN :fecha_inicio AND :fecha_fin";
-        }
-
-        // Filtrar por estado de pedido
-        if (!empty($estado_pedido)) {
-            $sql .= " AND estado_pedido = :estado_pedido";
-        }
-
-        // Filtrar por búsqueda de pedido (si está presente)
-        if (!empty($buscar_pedido)) {
-            $sql .= " AND (numero_factura LIKE :buscar_pedido OR nombre LIKE :buscar_pedido OR comentario LIKE :buscar_pedido)";
-        }
-
-        // Filtrar por no tener producto
-        $sql .= " AND no_producto = 0";
-
-        // Parte para pedidos anulados
-        $sql .= "
-            UNION
-            (SELECT *, 
-                (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
-                (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa,
-                (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma
-            FROM facturas_cot
-            WHERE anulada = 1 
-            AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-            AND id_plataforma = :plataforma";
-
-        // Filtrar por fechas y estado de pedido en los pedidos anulados
-        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN :fecha_inicio AND :fecha_fin";
-        }
-
-        if (!empty($estado_pedido)) {
-            $sql .= " AND estado_pedido = :estado_pedido";
-        }
-
-        $sql .= " AND no_producto = 0";
-
-        // Parte para pedidos sin producto
-        $sql .= "
-            UNION
-            (SELECT *, 
-                (SELECT ciudad FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS ciudad,
-                (SELECT provincia FROM ciudad_cotizacion WHERE id_cotizacion = ciudad_cot) AS provinciaa,
-                (SELECT url_imporsuit FROM plataformas WHERE id_plataforma = id_propietario) AS plataforma
-            FROM facturas_cot
-            WHERE anulada = 0 
-            AND (TRIM(numero_guia) = '' OR numero_guia IS NULL OR numero_guia = '0')
-            AND id_plataforma = :plataforma";
-
-        // Filtrar por fechas y estado de pedido en los pedidos sin producto
-        if (!empty($fecha_inicio) && !empty($fecha_fin)) {
-            $sql .= " AND fecha_factura BETWEEN :fecha_inicio AND :fecha_fin";
-        }
-
-        if (!empty($estado_pedido)) {
-            $sql .= " AND estado_pedido = :estado_pedido";
-        }
-
-        $sql .= " AND no_producto = 1";
-
-        // Ordenar los resultados
-        $sql .= " ORDER BY numero_factura DESC;";
-
-        // Preparar los parámetros para la consulta
-        $params = [
-            ':plataforma' => $plataforma,
-            ':fecha_inicio' => !empty($fecha_inicio) ? $fecha_inicio : null,
-            ':fecha_fin' => !empty($fecha_fin) ? $fecha_fin : null,
-            ':estado_pedido' => !empty($estado_pedido) ? $estado_pedido : null,
-            ':buscar_pedido' => !empty($buscar_pedido) ? '%' . $buscar_pedido . '%' : null,
-        ];
-
-        // Ejecutar la consulta y retornar los resultados
-        return $this->dselect($sql, $params);
-    }
-
 
 
     public function cargarPedidosPorFila_imporsuit($plataforma, $fecha_inicio, $fecha_fin, $estado_pedido, $buscar_pedido)
@@ -3292,6 +3218,12 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function lista_assistmant($id_plataforma)
+    {
+        $sql = "SELECT * FROM `configuraciones` WHERE id_plataforma = $id_plataforma";
+        return $this->select($sql);
+    }
+
     public function agregar_configuracion($nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $webhook_url, $id_plataforma)
     {
         // Inicializar la respuesta
@@ -3347,6 +3279,144 @@ class PedidosModel extends Query
         }
 
         return $response;
+    }
+
+    public function agregar_assistmant($nombre_bot, $assistant_id, $api_key, $id_plataforma)
+    {
+        // Inicializar la respuesta
+        $response = $this->initialResponse();
+
+        // Consulta de inserción con la clave única
+        $sql = "INSERT INTO `openai_assistants` (`id_plataforma`, `nombre_bot`, `assistant_id`, `api_key`) 
+            VALUES (?, ?, ?, ?)";
+        $data = [$id_plataforma, $nombre_bot, $assistant_id, $api_key];
+
+        // Insertar configuración
+        $insertar_configuracion = $this->insert($sql, $data);
+
+        // Verificar si la inserción fue exitosa
+        if ($insertar_configuracion == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Configuración agregada y actualizada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error en inserción';
+            $response['message'] = $insertar_configuracion['message'];
+        }
+
+        return $response;
+    }
+
+    public function mensaje_assistmant($id_assistmant, $mensaje)
+    {
+        $sql = "SELECT assistant_id, api_key FROM openai_assistants WHERE id = $id_assistmant AND activo = 1";
+        $assistant = $this->select($sql);
+
+        $assistant_id = $assistant[0]['assistant_id'];
+        $api_key = $assistant[0]['api_key'];
+
+        $headers = [
+            'Authorization: Bearer ' . $api_key,
+            'Content-Type: application/json',
+            'OpenAI-Beta: assistants=v2'
+        ];
+
+        // 2. Crear thread con depuración de error
+        $ch = curl_init('https://api.openai.com/v1/threads');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_POSTFIELDS => '{}'
+        ]);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        $thread_response = json_decode($response, true);
+        $thread_id = $thread_response['id'] ?? null;
+
+        if (!$thread_id) {
+            return [
+                "error" => "No se pudo crear el thread",
+                "http_code" => $httpcode,
+                "respuesta_openai" => $thread_response
+            ];
+        }
+
+        // 3. Agregar mensaje del usuario al thread
+        $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_POSTFIELDS => json_encode([
+                "role" => "user",
+                "content" => $mensaje
+            ])
+        ]);
+        curl_exec($ch);
+        curl_close($ch);
+
+        // 4. Ejecutar el assistant
+        $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/runs");
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_POSTFIELDS => json_encode([
+                "assistant_id" => $assistant_id,
+                "max_completion_tokens" => 30
+            ])
+        ]);
+        $run_response = json_decode(curl_exec($ch), true);
+        curl_close($ch);
+
+        $run_id = $run_response['id'] ?? null;
+        if (!$run_id) {
+            return ["error" => "No se pudo ejecutar el assistant"];
+        }
+
+        // 5. Esperar respuesta (polling simple)
+        do {
+            sleep(1); // Espera 1 segundo
+            $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/runs/$run_id");
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => $headers
+            ]);
+            $status_response = json_decode(curl_exec($ch), true);
+            curl_close($ch);
+            $status = $status_response['status'] ?? 'queued';
+        } while ($status !== 'completed' && $status !== 'failed');
+
+        if ($status === 'failed') {
+            return [
+                "error" => "Falló la ejecución del assistant",
+                "run_status" => $status_response
+            ];
+        }
+
+        // 6. Obtener mensaje del assistant
+        $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => $headers
+        ]);
+        $messages_response = json_decode(curl_exec($ch), true);
+        curl_close($ch);
+
+        $mensajes = $messages_response['data'] ?? [];
+        $respuesta = null;
+        foreach (array_reverse($mensajes) as $msg) {
+            if ($msg['role'] === 'assistant') {
+                $respuesta = $msg['content'][0]['text']['value'];
+                break;
+            }
+        }
+
+        return ["respuesta" => $respuesta];
     }
 
     // Función para generar una clave única

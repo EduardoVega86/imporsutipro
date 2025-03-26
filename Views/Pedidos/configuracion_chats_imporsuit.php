@@ -1,5 +1,5 @@
 <?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Pedidos/css/configuracion_chats_impursuit_style.php'; ?>
+<?php require_once './Views/Pedidos/css/configuracion_chats_imporsuit_style.php'; ?>
 <?php require_once './Views/Pedidos/Modales/agregar_configuracion_automatizador.php'; ?>
 <?php require_once './Views/Pedidos/Modales/agregar_automatizador.php'; ?>
 
@@ -27,5 +27,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/configuracion_chats_impursuit.js"></script>
+<script src="<?php echo SERVERURL ?>/Views/Pedidos/js/configuracion_chats_imporsuit.js"></script>
 <?php require_once './Views/templates/footer.php'; ?>

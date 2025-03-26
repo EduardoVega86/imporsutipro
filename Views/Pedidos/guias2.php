@@ -5,11 +5,10 @@
 <?php require_once './Views/Pedidos/Modales/informacion_plataforma.php'; ?>
 <?php require_once './Views/Pedidos/Modales/detalles_factura.php'; ?>
 <?php require_once './Views/Pedidos/Modales/gestionar_novedad.php'; ?>
+<?php require_once './Views/Pedidos/Modales/filtros_guias.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
-        <h2 class="text-center mb-4">Guias</h2>
-
         <!-- 🔹 SECCIÓN DE CARDS INFORMATIVAS 🔹 -->
         <div class="row mb-4 text-center custom-cards">
             <!-- Card 1: Número de guias -->
@@ -142,7 +141,8 @@
             </div>
         </div>
 
-        <div class="d-flex flex-column justify-content-between">
+        <!-- Migramos y lo convertimos en un modal -->
+        <!-- <div class="d-flex flex-column justify-content-between">
             <div class="primer_seccionFiltro" style="width: 100%;">
                 <div class="d-flex flex-row align-items-end filtro_fecha">
                     <div class="flex-fill">
@@ -206,6 +206,7 @@
                         </select>
                     </div>
                 </div>
+
                 <div style="width: 100%;">
                     <label for="inputPassword3" class="col-sm-2 col-form-label">Transportadora</label>
                     <div>
@@ -219,23 +220,48 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-        <div style="padding-top: 20px;">
-            <button id="btnAplicarFiltros" class="btn btn-primary">Aplicar Filtros</button>
-            <button id="imprimir_guias" class="btn btn-success">Generar Impresion</button>
-            <!-- Botón Excel -->
-            <button id="btnExportExcel" class="btn btn-success">
-                <i class="bi bi-file-earmark-excel-fill"></i>
+        <div class="d-flex align-items-center gap-2 flex-wrap" style="padding-top: 20px;">
+            <!-- Botón Filtros -->
+            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalFiltros">
+                <i class="fas fa-filter"></i>
             </button>
 
-            <!-- Botón CSV -->
-            <button id="btnExportCsv" class="btn btn-info">
-                <i class="bi bi-file-earmark-text"></i>
+
+            <!-- Botón Generar Impresión -->
+            <button id="imprimir_guias" class="btn btn-success">
+                <i class="fas fa-print"></i> Generar Impresión
             </button>
+
+            <!-- Botón de Obtener Reporte con Dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="btnObtenerReporte" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-download"></i> Obtener Reporte
+                </button>
+                <ul class="dropdown-menu w-auto" aria-labelledby="btnObtenerReporte">
+                    <li><a class="dropdown-item text-wrap" href="#" id="downloadExcelOption">
+                            <i class="fas fa-file-excel text-success"></i> Guias y Pedidos.xlsx
+                        </a></li>
+                    <li><a class="dropdown-item text-wrap" href="#" id="downloadExcelOptionPorFila">
+                            <i class="fas fa-file-excel text-success"></i> Guías.xlsx
+                        </a></li>
+                    <li><a class="dropdown-item text-wrap" href="#" id="downloadCsvOption">
+                            <i class="fas fa-file-csv text-warning"></i> Guías.csv
+                        </a></li>
+                </ul>
+            </div>
+
+
+            <!-- Input de búsqueda alineado a la izquierda -->
+            <div class="input-group" style="max-width: 300px;">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control" id="buscar_guia" placeholder="Buscar por #Guía o Cliente...">
+            </div>
         </div>
+
 
         <div class="table-container" style="position: relative;">
             <!-- Loader que se mostrará únicamente sobre el área de la tabla -->
@@ -263,9 +289,10 @@
                         <th class="centered">Transportadora</th>
                         <th class="centered">Estado</th>
                         <th class="centered">Despachado</th>
+                        <th class="centered">Acreditado</th>
                         <th class="centered">Impreso</th>
-                        <th class="centered">Acciones</th>
                         <th class="centered">Contiene</th>
+                        <th class="centered">Acciones</th>
                         <th class="centered">Monto</th>
                         <th class="centered">Costo</th>
                     </tr>
@@ -308,12 +335,13 @@
             autoUpdateInput: true // Actualiza el input automáticamente
         });
 
-        // NO recargamos la tabla directamente al aplicar el rango, lo haremos con el botón "Aplicar Filtros".
         $('#daterange').on('apply.daterangepicker', function(ev, picker) {
             fecha_inicio = picker.startDate.format('YYYY-MM-DD') + ' 00:00:00';
             fecha_fin = picker.endDate.format('YYYY-MM-DD') + ' 23:59:59';
-
-            //Recargamos la tabla inmediatamente usando el nuevo rango de fechas
+            const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalFiltros'));
+            if (modalInstance) {
+                modalInstance.hide();
+            }
             initDataTable();
         });
 

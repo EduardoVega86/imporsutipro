@@ -2,13 +2,8 @@ let dataTableHistorial;
 let dataTableHistorialIsInitialized = false;
 
 const dataTableHistorialOptions = {
-  //scrollX: "2000px",
-  /* lengthMenu: [5, 10, 15, 20, 100, 200, 500], */
   columnDefs: [
     { className: "centered", targets: [0, 1, 2, 3, 4, 5, 6] },
-    /* { orderable: false, targets: [5, 6] }, */
-    /* { searchable: false, targets: [1] } */
-    //{ width: "50%", targets: [0] }
   ],
   order: [[1, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
   pageLength: 10,
@@ -59,57 +54,51 @@ const listHistorialPedidos = async () => {
     formData.append("fecha_fin", fecha_fin);
     formData.append("estado_pedido", $("#estado_pedido").val());
 
-    // Obtener el valor del campo búsqueda
     let buscar_pedido = $("#buscar_pedido").val().trim();
-    formData.append("buscar_pedido", buscar_pedido); // Agregamos al request
+    formData.append("buscar_pedido", buscar_pedido);
 
     const response = await fetch(`${SERVERURL}${currentAPI}`, {
       method: "POST",
       body: formData,
     });
 
-    const historialPedidos = await response.json(); // Aquí recibimos todos los pedidos combinados
+    const historialPedidos = await response.json();
 
     let content = ``;
 
-    // Procesar todos los pedidos combinados
     const processPedidos = (pedidos) => {
       if (Array.isArray(pedidos)) {
         pedidos.forEach((historialPedido) => {
-          // Definir el color del estado del pedido
           let color_estadoPedido = "";
           switch (historialPedido.estado_pedido) {
-            case '1': color_estadoPedido = "#ff8301"; break; // Pendiente
-            case '2': color_estadoPedido = "#0d6efd"; break; // Gestionado
-            case '3': color_estadoPedido = "red"; break;     // No desea
-            case '4': color_estadoPedido = "green"; break;   // 1ra llamada
-            case '5': color_estadoPedido = "green"; break;   // 2da llamada
-            case '6': color_estadoPedido = "green"; break;   // Observación
-            case '7': color_estadoPedido = "red"; break;     // Anulado
-            default:  color_estadoPedido = "#ccc"; break;    // Por defecto
+            case '1': color_estadoPedido = "#ff8301"; break;
+            case '2': color_estadoPedido = "#0d6efd"; break;
+            case '3': color_estadoPedido = "red"; break;
+            case '4': color_estadoPedido = "green"; break;
+            case '5': color_estadoPedido = "green"; break;
+            case '6': color_estadoPedido = "green"; break;
+            case '7': color_estadoPedido = "red"; break;
+            default: color_estadoPedido = "#ccc"; break;
           }
 
-          // 1) Determinar si el <select> debe estar deshabilitado (pedido anulado)
           let disabled = (historialPedido.estado_pedido == 7) ? "disabled" : "";
 
           let select_estados_pedidos = `
-          <select class="form-select select-estado-pedido" 
-                  style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido};" 
-                  data-id-factura="${historialPedido.id_factura}"
-                  ${disabled}>
-            <option value="0" ${historialPedido.estado_pedido == 0 ? "selected" : ""}>-- Selecciona estado --</option>
-            <option value="1" ${historialPedido.estado_pedido == 1 ? "selected" : ""}>Pendiente</option>
-            <option value="2" ${historialPedido.estado_pedido == 2 ? "selected" : ""}>Gestionado</option>
-            <option value="3" ${historialPedido.estado_pedido == 3 ? "selected" : ""}>No desea</option>
-            <option value="4" ${historialPedido.estado_pedido == 4 ? "selected" : ""}>1ra llamada</option>
-            <option value="5" ${historialPedido.estado_pedido == 5 ? "selected" : ""}>2da llamada</option>
-            <option value="6" ${historialPedido.estado_pedido == 6 ? "selected" : ""}>Observación</option>
-            <option value="7" ${historialPedido.estado_pedido == 7 ? "selected" : ""}>Anulado</option>
-          </select>
-        `;
-        
+            <select class="form-select select-estado-pedido" 
+                    style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido};" 
+                    data-id-factura="${historialPedido.id_factura}" 
+                    ${disabled}>
+              <option value="0" ${historialPedido.estado_pedido == 0 ? "selected" : ""}>-- Selecciona estado --</option>
+              <option value="1" ${historialPedido.estado_pedido == 1 ? "selected" : ""}>Pendiente</option>
+              <option value="2" ${historialPedido.estado_pedido == 2 ? "selected" : ""}>Gestionado</option>
+              <option value="3" ${historialPedido.estado_pedido == 3 ? "selected" : ""}>No desea</option>
+              <option value="4" ${historialPedido.estado_pedido == 4 ? "selected" : ""}>1ra llamada</option>
+              <option value="5" ${historialPedido.estado_pedido == 5 ? "selected" : ""}>2da llamada</option>
+              <option value="6" ${historialPedido.estado_pedido == 6 ? "selected" : ""}>Observación</option>
+              <option value="7" ${historialPedido.estado_pedido == 7 ? "selected" : ""}>Anulado</option>
+            </select>
+          `;
 
-          // Botón de WhatsApp
           let boton_automatizador = "";
           if (VALIDAR_CONFIG_CHAT && historialPedido.automatizar_ws == 0) {
             boton_automatizador = `<button class="btn btn-sm btn-success" onclick="enviar_mensaje_automatizador(
@@ -149,13 +138,11 @@ const listHistorialPedidos = async () => {
               </td>
             </tr>`;
         });
-        document.getElementById("tableBody_historialPedidos").innerHTML = content;
       }
     };
 
     processPedidos(historialPedidos);
 
-    // 2) Verificar si el contenedor de la tabla existe antes de asignar innerHTML
     const tableBody = document.getElementById("tableBody_historialPedidos");
     if (!tableBody) {
       console.warn("No se encontró 'tableBody_historialPedidos' en el DOM.");
@@ -187,9 +174,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-// Capturar evento en el input de búsqueda usando el filtro interno de DataTables
 $("#buscar_pedido").on("keyup", function () {
-  let searchTerm = $(this).val(); // Captura el término de búsqueda
+  let searchTerm = $(this).val();
   if (dataTableHistorial) {
     dataTableHistorial.search(searchTerm).draw();
   }
@@ -197,6 +183,7 @@ $("#buscar_pedido").on("keyup", function () {
 
 window.addEventListener("load", async () => {
   await initDataTableHistorial();
+});
 
   const btnAplicar = document.getElementById("btnAplicarFiltros");
   if (btnAplicar) {
@@ -211,7 +198,7 @@ window.addEventListener("load", async () => {
       cargarCardsPedidos();
     });
   }
-});
+
 
 //Cargando
 function showTableLoader() {
@@ -227,15 +214,13 @@ function hideTableLoader() {
   $("#tableLoader").css("display", "none");
 }
 
-// Manejo de botones para cambiar API y recargar la tabla
-/*
-// Ejemplo: Cambiar API a "pedidos/cargarTodosLosPedidos"
+
 document.getElementById("btnPedidos").addEventListener("click", () => {
   currentAPI = "pedidos/cargarTodosLosPedidos";
   cambiarBotonActivo("btnPedidos");
   initDataTableHistorial();
 });
-*/
+
 const cambiarBotonActivo = (botonID) => {
   document.querySelectorAll(".d-flex button").forEach((btn) => {
     btn.classList.remove("active", "btn-primary");
@@ -258,7 +243,6 @@ document.addEventListener("change", async (event) => {
     const formData = new FormData();
     formData.append("id_factura", idFactura);
     formData.append("estado_nuevo", nuevoEstado);
-    formData.append("detalle_noDesea_pedido", "");
 
     try {
       const response = await fetch(SERVERURL + `Pedidos/cambiar_estado_pedido`, {
@@ -271,24 +255,6 @@ document.addEventListener("change", async (event) => {
         toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
           positionClass: "toast-bottom-center",
         });
-
-        if (nuevoEstado == 3) {
-          $("#id_factura_ingresar_motivo").val(idFactura);
-
-          $("#ingresar_nodDesea_pedidoModal").modal("show");
-        }
-
-        if (nuevoEstado == 6) {
-          $("#id_factura_ingresar_observacion").val(idFactura);
-
-          $("#ingresar_observacion_pedidoModal").modal("show");
-        }
-        // Si el estado es "Anulado", proceder con la eliminación
-        if (nuevoEstado == 7) {
-          // Llamar a la API para eliminar el pedido
-          await eliminarPedido(idFactura);
-        }
-
         initDataTableHistorial();
       }
     } catch (error) {

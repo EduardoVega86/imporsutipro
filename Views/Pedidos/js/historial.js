@@ -108,12 +108,18 @@ const listHistorialPedidos = async () => {
         color_estadoPedido = "green";
       } else if (historialPedido.estado_pedido == 6) {
         color_estadoPedido = "green";
+      } else if (historialPedido.estado_pedido == 7) {
+        color_estadoPedido = "red";
+      } else if (historialPedido.estado_pedido == 8) {
+        color_estadoPedido = "green";
       }
+
+      let disabled = historialPedido.estado_pedido == 7 ? "disabled" : "";
 
       select_estados_pedidos = `
                     <select class="form-select select-estado-pedido" style="max-width: 90%; margin-top: 10px; color: white; background:${color_estadoPedido} ;" data-id-factura="${
         historialPedido.id_factura
-      }">
+      }" ${disabled}>
                         <option value="0" ${
                           historialPedido.estado_pedido == 0 ? "selected" : ""
                         }>-- Selecciona estado --</option>
@@ -135,6 +141,9 @@ const listHistorialPedidos = async () => {
                         <option value="6" ${
                           historialPedido.estado_pedido == 6 ? "selected" : ""
                         }>Observación</option>
+                        <option value="7" ${
+                          historialPedido.estado_pedido == 7 ? "selected" : ""
+                        }>Anulado</option>
                     </select>`;
 
       //tomar solo la ciudad
@@ -211,15 +220,13 @@ const listHistorialPedidos = async () => {
       }
 
       let acciones = "";
-      if (currentAPI == "pedidos/cargarPedidos_imporsuit") {
+      if (currentAPI == "pedidos/cargarTodosLosPedidos") {
         acciones = `
           <button class="btn btn-sm btn-primary" onclick="boton_editarPedido(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
-          <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
           ${boton_automatizador}`;
       } else if (currentAPI == "pedidos/cargar_pedidos_sin_producto") {
         acciones = `
           <button class="btn btn-sm btn-primary" onclick="boton_vista_anadir_sin_producto(${historialPedido.id_factura})"><i class="fa-solid fa-pencil"></i></button>
-          <button class="btn btn-sm btn-danger" onclick="boton_anularPedido(${historialPedido.id_factura})"><i class="fa-solid fa-trash-can"></i></button>
           ${boton_automatizador}`;
       }
 
@@ -264,7 +271,10 @@ const listHistorialPedidos = async () => {
 
 // Capturar evento en el input de búsqueda
 $("#buscar_pedido").on("keyup", function () {
-  listHistorialPedidos(); // Volver a cargar los pedidos con el filtro
+  let searchTerm = $(this).val();
+  if (dataTableHistorial) {
+    dataTableHistorial.search(searchTerm).draw();
+  }
 });
 
 window.addEventListener("load", async () => {
@@ -273,14 +283,19 @@ window.addEventListener("load", async () => {
   const btnAplicar = document.getElementById("btnAplicarFiltros");
   if (btnAplicar) {
     btnAplicar.addEventListener("click", async function () {
-      let rangoFechas = $("#daterange").val();
-      if (rangoFechas) {
-        let fechas = rangoFechas.split(" - ");
-        fecha_inicio = fechas[0] + " 00:00:00";
-        fecha_fin = fechas[1] + " 23:59:59";
+      btnAplicar.disabled = true;
+      try {
+        let rangoFechas = $("#daterange").val();
+        if (rangoFechas) {
+          let fechas = rangoFechas.split(" - ");
+          fecha_inicio = fechas[0] + " 00:00:00";
+          fecha_fin = fechas[1] + " 23:59:59";
+        }
+        await initDataTableHistorial();
+        cargarCardsPedidos();
+      } finally {
+        btnAplicar.disabled = false;
       }
-      await initDataTableHistorial();
-      cargarCardsPedidos();
     });
   }
 });
@@ -300,18 +315,17 @@ function hideTableLoader() {
 }
 
 // Manejo de botones para cambiar API y recargar la tabla
-document.getElementById("btnPedidos").addEventListener("click", () => {
-  currentAPI = "pedidos/cargarPedidos_imporsuit";
-  cambiarBotonActivo("btnPedidos");
-  initDataTableHistorial();
-});
+// document.getElementById("btnPedidos").addEventListener("click", () => {
+//   currentAPI = "pedidos/cargarTodosLosPedidos";
+//   cambiarBotonActivo("btnPedidos");
+//   initDataTableHistorial();
+// });
 
-document.getElementById("btnAnulados").addEventListener("click", () => {
-  currentAPI = "pedidos/cargarPedidosAnulados"; // Nuevo endpoint para pedidos anulados
-  cambiarBotonActivo("btnAnulados");
-  initDataTableHistorial();
-});
-
+// document.getElementById("btnAnulados").addEventListener("click", () => {
+//   currentAPI = "pedidos/cargarPedidosAnulados"; // Nuevo endpoint para pedidos anulados
+//   cambiarBotonActivo("btnAnulados");
+//   initDataTableHistorial();
+// });
 
 /* document.getElementById("btnAbandonados").addEventListener("click", () => {
   currentAPI = "pedidos/cargar_pedidos_abandonados"; // Ajusta la API correspondiente
@@ -319,11 +333,11 @@ document.getElementById("btnAnulados").addEventListener("click", () => {
   initDataTableHistorial();
 }); */
 
-document.getElementById("btnNo_vinculados").addEventListener("click", () => {
-  currentAPI = "pedidos/cargar_pedidos_sin_producto";
-  cambiarBotonActivo("btnNo_vinculados");
-  initDataTableHistorial();
-});
+// document.getElementById("btnNo_vinculados").addEventListener("click", () => {
+//   currentAPI = "pedidos/cargar_pedidos_sin_producto";
+//   cambiarBotonActivo("btnNo_vinculados");
+//   initDataTableHistorial();
+// });
 
 const cambiarBotonActivo = (botonID) => {
   document.querySelectorAll(".d-flex button").forEach((btn) => {
@@ -373,7 +387,11 @@ document.addEventListener("change", async (event) => {
 
           $("#ingresar_observacion_pedidoModal").modal("show");
         }
-
+        // Estado 7 = anulado => llamamos a eliminarPedido
+        if (nuevoEstado == 7) {
+          await eliminarPedido(idFactura);
+          return; // Sales de la función para evitar la recarga extra
+        }
         initDataTableHistorial();
       }
     } catch (error) {
@@ -449,29 +467,58 @@ function boton_vista_anadir_sin_producto(id) {
     "" + SERVERURL + "Pedidos/vista_anadir_sin_producto/" + id;
 }
 
-function boton_anularPedido(id_factura) {
-  $.ajax({
-    type: "POST",
-    url: SERVERURL + "Pedidos/eliminarPedido/" + id_factura,
-    dataType: "json",
-    success: function (response) {
-      if (response.status == 500) {
-        toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
-      } else if (response.status == 200) {
-        toastr.success("ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
-          positionClass: "toast-bottom-center",
-        });
+// function boton_anularPedido(id_factura) {
+//   $.ajax({
+//     type: "POST",
+//     url: SERVERURL + "Pedidos/eliminarPedido/" + id_factura,
+//     dataType: "json",
+//     success: function (response) {
+//       if (response.status == 500) {
+//         toastr.error("NO SE ELIMINO CORRECTAMENTE", "NOTIFICACIÓN", {
+//           positionClass: "toast-bottom-center",
+//         });
+//       } else if (response.status == 200) {
+//         toastr.success("ELIMINADO CORRECTAMENTE", "NOTIFICACIÓN", {
+//           positionClass: "toast-bottom-center",
+//         });
 
-        initDataTableHistorial();
+//         initDataTableHistorial();
+//       }
+//     },
+//     error: function (xhr, status, error) {
+//       console.error("Error en la solicitud AJAX:", error);
+//       alert("Hubo un problema al elimnar pedido");
+//     },
+//   });
+// }
+
+async function eliminarPedido(idFactura) {
+  try {
+    const response = await fetch(
+      SERVERURL + `Pedidos/eliminarPedido/${idFactura}`,
+      {
+        method: "GET",
       }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error en la solicitud AJAX:", error);
-      alert("Hubo un problema al elimnar pedido");
-    },
-  });
+    );
+    const result = await response.json();
+
+    if (result.status == 200) {
+      toastr.success("PEDIDO ANULADO CORRECTAMENTE", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+      // SOLO recargas la tabla dentro de esta función
+      await initDataTableHistorial();
+    } else {
+      toastr.error("No se pudo eliminar el pedido", "NOTIFICACIÓN", {
+        positionClass: "toast-bottom-center",
+      });
+    }
+  } catch (error) {
+    console.error("Error al eliminar el pedido", error);
+    toastr.error("Hubo un error al eliminar el pedido", "NOTIFICACIÓN", {
+      positionClass: "toast-bottom-center",
+    });
+  }
 }
 
 function enviar_mensaje_automatizador(
