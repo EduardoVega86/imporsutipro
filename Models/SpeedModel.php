@@ -874,7 +874,7 @@ class SpeedModel extends Query
             $responses_cabecera_c_p = $this->update($sql_cabecera_c_p, $data);
 
             if ($responses_cabecera_c_p == 1) {
-                $sql = "SELECT id_novedad FROM novedades WHERE guia_novedad = $numeroGuia";
+                $sql = "SELECT id_novedad FROM novedades WHERE guia_novedad = '$numeroGuia'";
                 $resultado = $this->select($sql);
 
                 if (!empty($resultado)) {
@@ -885,7 +885,7 @@ class SpeedModel extends Query
                     if ($actualizar == 1) {
                         $response['status'] = 200;
                         $response['title'] = 'Petición exitosa';
-                        $response['message'] = 'Guía actualizada correctamente (update).';
+                        $response['message'] = 'Guía actualizada correctamente.';
                     }
                 } else {
                     $response['status'] = 200;
