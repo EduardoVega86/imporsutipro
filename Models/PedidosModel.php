@@ -3442,7 +3442,7 @@ class PedidosModel extends Query
             FROM mensajes_clientes 
             WHERE celular_recibe = $celular_recibe 
             ORDER BY id DESC 
-            LIMIT 10;";
+            LIMIT 3;";
 
         $mensajes = $this->select($sql);
         $resultado = [];
