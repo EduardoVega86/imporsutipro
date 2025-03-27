@@ -134,6 +134,9 @@ class ShopifyModel extends Query
         return str_replace("5930", '593', $telefono);
     }
 
+    /**
+     * @throws Exception
+     */
     public function crearOrden($data, $lineItems, $plataforma, $order_number)
     {
         $nombre = $data['nombre'] . " " . $data['apellido'];
@@ -184,10 +187,10 @@ class ShopifyModel extends Query
             if (empty($item['sku']) || !is_numeric($item['sku'])) {
                 // Si solo hay un ítem y no tiene SKU, detiene el proceso
                 if (count($lineItems) == 1) {
-                    die("Proceso detenido: el único ítem no tiene SKU.");
+                     throw new Exception("El SKU está vacío");
                 }
                 //si el sku no es solo numeros muere el proceso
-                if (!is_numeric($item['sku'])) {
+                if (!is_numeric($item['sku']) && $item['sku'] != "") {
                     throw new Exception("El SKU no es un número");
                 }
                 // Si el SKU está vacío, salta al siguiente ítem

@@ -3061,7 +3061,7 @@ class Pedidos extends Controller
         // Redireccionar o mostrar un mensaje de éxito
         echo "<script>
             alert('Conexión completada correctamente con el número: $telefono');
-            window.location.href = '" . SERVERURL . "Pedidos/configuraciones';
+            window.location.href = '" . SERVERURL . "Pedidos/configuracion_chats_imporsuit2';
         </script>";
     }
 
@@ -3098,9 +3098,8 @@ class Pedidos extends Controller
     {
         $id_assistmant = $_POST['id_assistmant'];
         $mensaje = $_POST['mensaje'];
-        $historial = isset($_POST['historial']) ? json_decode($_POST['historial'], true) : [];
 
-        $response = $this->model->mensaje_assistmant($id_assistmant, $mensaje, $historial);
+        $response = $this->model->mensaje_assistmant($id_assistmant, $mensaje);
         echo json_encode($response);
     }
 
