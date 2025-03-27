@@ -3473,12 +3473,14 @@ class PedidosModel extends Query
                 foreach ($datos as $k => $v) {
                     $texto_mensaje .= ucfirst($k) . ": " . $v . "\n";
                 }
+            } elseif (!empty($ruta_archivo)) {
+                // Si no es JSON pero tiene archivo, lo agregamos como texto
+                $texto_mensaje .= "\n[Archivo adjunto: $ruta_archivo]";
             }
 
             $resultado[] = [
                 'role' => $rol_mensaje,
                 'content' => $texto_mensaje,
-                'ruta_archivo' => $ruta_archivo,
             ];
         }
 
