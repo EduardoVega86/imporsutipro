@@ -3454,12 +3454,15 @@ class PedidosModel extends Query
         $mensajes = $this->select($sql);
         $resultado = [];
 
+        // Ruta base del servidor para archivos (ajústalo a tu dominio real)
+        $base_url = "https://new.imporsuitpro.com/";
+
         foreach (array_reverse($mensajes) as $m) {
             $rol_mensaje = ($m['rol_mensaje'] == 1) ? "assistant" : "user";
             $texto_mensaje = $m['texto_mensaje'];
             $ruta_archivo = $m['ruta_archivo'];
 
-            // Si ruta_archivo es un JSON, procesamos reemplazos
+            // Si es JSON: reemplazar placeholders + agregar como info
             if ($this->esJson($ruta_archivo)) {
                 $datos = json_decode($ruta_archivo, true);
 
@@ -3468,19 +3471,20 @@ class PedidosModel extends Query
                     $texto_mensaje = str_replace('{{' . $clave . '}}', $valor, $texto_mensaje);
                 }
 
-                // Opcional: incluir como nota los datos extra
+                // Agregar como nota al final
                 $texto_mensaje .= "\n[Información adicional del sistema]\n";
                 foreach ($datos as $k => $v) {
                     $texto_mensaje .= ucfirst($k) . ": " . $v . "\n";
                 }
             } elseif (!empty($ruta_archivo)) {
-                // Si no es JSON pero tiene archivo, lo agregamos como texto
-                $texto_mensaje .= "\n[Archivo adjunto: $ruta_archivo]";
+                // Es una ruta parcial a un archivo → convertirla en URL completa
+                $link_completo = $base_url . ltrim($ruta_archivo, '/');
+                $texto_mensaje .= "\n[Archivo adjunto: $link_completo]";
             }
 
             $resultado[] = [
                 'role' => $rol_mensaje,
-                'content' => $texto_mensaje,
+                'content' => $texto_mensaje
             ];
         }
 
