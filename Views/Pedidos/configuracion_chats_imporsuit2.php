@@ -9,22 +9,22 @@
 
         <div class="button-add">
             <button
-                class="btn btn-success"
+                class="btn btn-success me-2"
                 data-bs-toggle="modal"
                 data-bs-target="#agregar_configuracion_automatizadorModal"
                 style="display:none;"
                 id="boton_agregar_configuracion">
-                <i class="fas fa-plus"></i> Agregar
+                <i class="fas fa-plus me-1"></i> Agregar configuración
             </button>
 
-            <!-- Botón para el flujo de Embedded Signup -->
             <button
-                class="btn btn-primary mb-3"
+                class="btn btn-outline-primary"
                 id="btnConectarWhatsApp"
                 onclick="launchWhatsAppSignup()">
-                <i class="fab fa-whatsapp"></i> Conectar WhatsApp
+                <i class="fab fa-whatsapp me-1"></i> Conectar WhatsApp
             </button>
         </div>
+
 
         <div class="table-responsive">
             <table id="datatable_configuracion_automatizador" class="table table-striped">

@@ -58,9 +58,14 @@
         padding: 4px;
         border-radius: 0.3rem;
     }
-</style>
 
-<style>
+    .button-add {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+
     .filtros_producos {
         display: flex;
         flex-direction: row;
@@ -73,11 +78,12 @@
     }
 
     .link-like {
-            color: blue;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-        .link-like:hover {
-            color: darkblue;
-        }
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .link-like:hover {
+        color: darkblue;
+    }
 </style>
