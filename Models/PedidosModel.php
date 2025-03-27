@@ -3305,34 +3305,7 @@ class PedidosModel extends Query
         return $response;
     }
 
-    public function agregar_assistmant($nombre_bot, $assistant_id, $api_key, $id_plataforma)
-    {
-        // Inicializar la respuesta
-        $response = $this->initialResponse();
-
-        // Consulta de inserción con la clave única
-        $sql = "INSERT INTO `openai_assistants` (`id_plataforma`, `nombre_bot`, `assistant_id`, `api_key`) 
-            VALUES (?, ?, ?, ?)";
-        $data = [$id_plataforma, $nombre_bot, $assistant_id, $api_key];
-
-        // Insertar configuración
-        $insertar_configuracion = $this->insert($sql, $data);
-
-        // Verificar si la inserción fue exitosa
-        if ($insertar_configuracion == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Petición exitosa';
-            $response['message'] = 'Configuración agregada y actualizada correctamente';
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error en inserción';
-            $response['message'] = $insertar_configuracion['message'];
-        }
-
-        return $response;
-    }
-
-    public function mensaje_assistmant($id_assistmant, $mensaje)
+    public function mensaje_assistmant($id_assistmant, $mensaje, $celular_recibe)
     {
         $sql = "SELECT assistant_id, api_key FROM openai_assistants WHERE id = $id_assistmant AND activo = 1";
         $assistant = $this->select($sql);
@@ -3346,7 +3319,7 @@ class PedidosModel extends Query
             'OpenAI-Beta: assistants=v2'
         ];
 
-        // 2. Crear thread con depuración de error
+        // 1. Crear thread
         $ch = curl_init('https://api.openai.com/v1/threads');
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
@@ -3369,21 +3342,41 @@ class PedidosModel extends Query
             ];
         }
 
-        // 3. Agregar mensaje del usuario al thread
-        $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_POSTFIELDS => json_encode([
-                "role" => "user",
-                "content" => $mensaje
-            ])
-        ]);
-        curl_exec($ch);
-        curl_close($ch);
+        // 2. Obtener historial desde método interno
+        $mensajes_previos = $this->ultimos_mensajes_assistmant($celular_recibe);
+        $historial = [];
 
-        // 4. Ejecutar el assistant
+        if (is_array($mensajes_previos)) {
+            foreach ($mensajes_previos as $m) {
+                if (isset($m['role']) && isset($m['content'])) {
+                    $historial[] = [
+                        "role" => $m['role'],
+                        "content" => $m['content']
+                    ];
+                }
+            }
+        }
+
+        // 3. Agregar el nuevo mensaje del usuario
+        $historial[] = [
+            "role" => "user",
+            "content" => $mensaje
+        ];
+
+        // 4. Enviar mensajes al thread
+        foreach ($historial as $msg) {
+            $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_HTTPHEADER => $headers,
+                CURLOPT_POSTFIELDS => json_encode($msg)
+            ]);
+            curl_exec($ch);
+            curl_close($ch);
+        }
+
+        // 5. Ejecutar assistant
         $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/runs");
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
@@ -3402,9 +3395,9 @@ class PedidosModel extends Query
             return ["error" => "No se pudo ejecutar el assistant"];
         }
 
-        // 5. Esperar respuesta (polling simple)
+        // 6. Esperar respuesta
         do {
-            sleep(1); // Espera 1 segundo
+            sleep(1);
             $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/runs/$run_id");
             curl_setopt_array($ch, [
                 CURLOPT_RETURNTRANSFER => true,
@@ -3422,7 +3415,7 @@ class PedidosModel extends Query
             ];
         }
 
-        // 6. Obtener mensaje del assistant
+        // 7. Obtener respuesta
         $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
@@ -3496,7 +3489,6 @@ class PedidosModel extends Query
         json_decode($string);
         return (json_last_error() == JSON_ERROR_NONE && is_array(json_decode($string, true)));
     }
-
 
     // Función para generar una clave única
     private function generarClaveUnica()
