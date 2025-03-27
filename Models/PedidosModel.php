@@ -3458,7 +3458,7 @@ class PedidosModel extends Query
 
     public function ultimos_mensajes_assistmant($celular_recibe)
     {
-        $sql = "SELECT rol_mensaje, texto_mensaje, ruta_archivo 
+        $sql = "SELECT rol_mensaje, texto_mensaje, ruta_archivo, created_at
             FROM mensajes_clientes 
             WHERE celular_recibe = $celular_recibe 
             ORDER BY id DESC 
@@ -3474,6 +3474,8 @@ class PedidosModel extends Query
             $rol_mensaje = ($m['rol_mensaje'] == 1) ? "assistant" : "user";
             $texto_mensaje = $m['texto_mensaje'];
             $ruta_archivo = $m['ruta_archivo'];
+            $fecha = date('d/m/Y H:i', strtotime($m['created_at']));
+            $texto_mensaje = "[$fecha]\n" . $texto_mensaje;
 
             // Si es JSON: reemplazar placeholders + agregar como info
             if ($this->esJson($ruta_archivo)) {
