@@ -3443,6 +3443,29 @@ class PedidosModel extends Query
         return ["respuesta" => $respuesta];
     }
 
+    public function ultimos_mensajes_assistmant($celular_recibe)
+    {
+        $sql = "SELECT rol_mensaje, texto_mensaje, ruta_archivo FROM mensajes_clientes WHERE celular_recibe = $celular_recibe ORDER BY `mensajes_clientes`.`id` DESC LIMIT 10;";
+        $mensajes = $this->select($sql);
+
+        $resultado = [];
+
+        // Recorremos en orden cronológico (inverso al DESC)
+        foreach (array_reverse($mensajes) as $m) {
+            $rol_mensaje = ($m['rol_mensaje'] == 1) ? "assistant" : "user";
+            $texto_mensaje = $m['texto_mensaje'];
+            $ruta_archivo = $m['ruta_archivo'];
+
+            $resultado[] = [
+                'role' => $rol_mensaje,
+                'mensaje' => $texto_mensaje,
+                'ruta_archivo' => $ruta_archivo
+            ];
+        }
+
+        return $resultado;
+    }
+
     // Función para generar una clave única
     private function generarClaveUnica()
     {

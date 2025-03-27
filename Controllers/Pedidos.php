@@ -3103,6 +3103,13 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function ultimos_mensajes_assistmant()
+    {
+        $celular_recibe = $_POST['celular_recibe'];
+        $response = $this->model->ultimos_mensajes_assistmant($celular_recibe);
+        echo json_encode($response);
+    }
+
     public function agregar_automatizador()
     {
         $nombre_automatizador = $_POST['nombre_automatizador'];
