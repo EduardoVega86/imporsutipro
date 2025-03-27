@@ -1,29 +1,30 @@
 <?php require_once './Views/templates/header.php'; ?>
 <?php require_once './Views/Pedidos/css/configuracion_chats_imporsuit_style.php'; ?>
 <?php require_once './Views/Pedidos/Modales/agregar_configuracion_automatizador.php'; ?>
-<?php require_once './Views/Pedidos/Modales/modal_conectar_whatsapp.php'; ?>
 <?php require_once './Views/Pedidos/Modales/agregar_automatizador.php'; ?>
 
 <div class="custom-container-fluid">
     <div class="container mt-5" style="max-width: 1600px;">
         <h2 class="text-center mb-4">Lista de Configuraciones</h2>
 
-        <button
-            class="btn btn-success"
-            data-bs-toggle="modal"
-            data-bs-target="#agregar_configuracion_automatizadorModal"
-            style="display:none;"
-            id="boton_agregar_configuracion">
-            <i class="fas fa-plus"></i> Agregar
-        </button>
+        <div class="button-add">
+            <button
+                class="btn btn-success"
+                data-bs-toggle="modal"
+                data-bs-target="#agregar_configuracion_automatizadorModal"
+                style="display:none;"
+                id="boton_agregar_configuracion">
+                <i class="fas fa-plus"></i> Agregar
+            </button>
 
-        <!-- Botón para el flujo de Embedded Signup -->
-        <button
-            class="btn btn-primary mb-3"
-            id="btnConectarWhatsApp"
-            onclick="launchWhatsAppSignup()">
-            <i class="fab fa-whatsapp"></i> Conectar WhatsApp
-        </button>
+            <!-- Botón para el flujo de Embedded Signup -->
+            <button
+                class="btn btn-primary mb-3"
+                id="btnConectarWhatsApp"
+                onclick="launchWhatsAppSignup()">
+                <i class="fab fa-whatsapp"></i> Conectar WhatsApp
+            </button>
+        </div>
 
         <div class="table-responsive">
             <table id="datatable_configuracion_automatizador" class="table table-striped">
