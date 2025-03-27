@@ -3305,7 +3305,34 @@ class PedidosModel extends Query
         return $response;
     }
 
-    public function mensaje_assistmant($id_assistmant, $mensaje, $celular_recibe)
+    public function agregar_assistmant($nombre_bot, $assistant_id, $api_key, $id_plataforma)
+    {
+        // Inicializar la respuesta
+        $response = $this->initialResponse();
+
+        // Consulta de inserción con la clave única
+        $sql = "INSERT INTO `openai_assistants` (`id_plataforma`, `nombre_bot`, `assistant_id`, `api_key`) 
+            VALUES (?, ?, ?, ?)";
+        $data = [$id_plataforma, $nombre_bot, $assistant_id, $api_key];
+
+        // Insertar configuración
+        $insertar_configuracion = $this->insert($sql, $data);
+
+        // Verificar si la inserción fue exitosa
+        if ($insertar_configuracion == 1) {
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = 'Configuración agregada y actualizada correctamente';
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error en inserción';
+            $response['message'] = $insertar_configuracion['message'];
+        }
+
+        return $response;
+    }
+
+    public function mensaje_assistmant($id_assistmant, $mensaje)
     {
         $sql = "SELECT assistant_id, api_key FROM openai_assistants WHERE id = $id_assistmant AND activo = 1";
         $assistant = $this->select($sql);
@@ -3319,9 +3346,7 @@ class PedidosModel extends Query
             'OpenAI-Beta: assistants=v2'
         ];
 
-        $inicio = microtime(true); // log para medir tiempo
-
-        // 1. Crear thread
+        // 2. Crear thread con depuración de error
         $ch = curl_init('https://api.openai.com/v1/threads');
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
@@ -3344,41 +3369,21 @@ class PedidosModel extends Query
             ];
         }
 
-        // 2. Obtener historial desde método interno
-        $mensajes_previos = $this->ultimos_mensajes_assistmant($celular_recibe); // LIMIT 3 en el modelo
-        $historial = [];
+        // 3. Agregar mensaje del usuario al thread
+        $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_POSTFIELDS => json_encode([
+                "role" => "user",
+                "content" => $mensaje
+            ])
+        ]);
+        curl_exec($ch);
+        curl_close($ch);
 
-        if (is_array($mensajes_previos)) {
-            foreach ($mensajes_previos as $m) {
-                if (isset($m['role']) && isset($m['content'])) {
-                    $historial[] = [
-                        "role" => $m['role'],
-                        "content" => $m['content']
-                    ];
-                }
-            }
-        }
-
-        // 3. Agregar el nuevo mensaje del usuario
-        $historial[] = [
-            "role" => "user",
-            "content" => $mensaje
-        ];
-
-        // 4. Enviar mensajes al thread
-        foreach ($historial as $msg) {
-            $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
-            curl_setopt_array($ch, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POST => true,
-                CURLOPT_HTTPHEADER => $headers,
-                CURLOPT_POSTFIELDS => json_encode($msg)
-            ]);
-            curl_exec($ch);
-            curl_close($ch);
-        }
-
-        // 5. Ejecutar assistant
+        // 4. Ejecutar el assistant
         $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/runs");
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
@@ -3397,14 +3402,9 @@ class PedidosModel extends Query
             return ["error" => "No se pudo ejecutar el assistant"];
         }
 
-        // 6. Esperar respuesta con timeout (máx 20 intentos = 20s)
-        $intentos = 0;
-        $max_intentos = 20;
-        $status = 'queued';
-
+        // 5. Esperar respuesta (polling simple)
         do {
-            sleep(1);
-            $intentos++;
+            sleep(1); // Espera 1 segundo
             $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/runs/$run_id");
             curl_setopt_array($ch, [
                 CURLOPT_RETURNTRANSFER => true,
@@ -3413,11 +3413,7 @@ class PedidosModel extends Query
             $status_response = json_decode(curl_exec($ch), true);
             curl_close($ch);
             $status = $status_response['status'] ?? 'queued';
-        } while ($status !== 'completed' && $status !== 'failed' && $intentos < $max_intentos);
-
-        if ($intentos >= $max_intentos) {
-            return ["error" => "Tiempo de espera agotado para la respuesta del assistant."];
-        }
+        } while ($status !== 'completed' && $status !== 'failed');
 
         if ($status === 'failed') {
             return [
@@ -3426,7 +3422,7 @@ class PedidosModel extends Query
             ];
         }
 
-        // 7. Obtener respuesta del assistant
+        // 6. Obtener mensaje del assistant
         $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
@@ -3444,15 +3440,7 @@ class PedidosModel extends Query
             }
         }
 
-        // Medir tiempo total (opcional)
-        $fin = microtime(true);
-        $tiempo = round($fin - $inicio, 2);
-        // file_put_contents("logs/gpt_tiempo.txt", "Duración: {$tiempo}s\n", FILE_APPEND); // <-- activar si querés logs
-
-        return [
-            "respuesta" => $respuesta,
-            "duracion" => $tiempo . "s"
-        ];
+        return ["respuesta" => $respuesta];
     }
 
     public function ultimos_mensajes_assistmant($celular_recibe)
@@ -3461,7 +3449,7 @@ class PedidosModel extends Query
             FROM mensajes_clientes 
             WHERE celular_recibe = $celular_recibe 
             ORDER BY id DESC 
-            LIMIT 3;";
+            LIMIT 10;";
 
         $mensajes = $this->select($sql);
         $resultado = [];
