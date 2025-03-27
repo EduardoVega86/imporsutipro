@@ -123,37 +123,40 @@
         }
     };
 
-    FB.EmbeddedSignup.start({
-        // Reemplaza con tu config ID real
-        config_id: '2295613834169297',
-        onEvent: (event) => {
-            console.log('Evento recibido de EmbeddedSignup:', event);
+    // 4. Función que lanza el flujo de WhatsApp Embedded Signup
+    function launchWhatsAppSignup() {
+        FB.EmbeddedSignup.start({
+            // Reemplaza con tu config ID real
+            config_id: '2295613834169297',
+            onEvent: (event) => {
+                console.log('Evento recibido de EmbeddedSignup:', event);
 
-            if (event.type === 'WA_EMBEDDED_SIGNUP') {
-                const {
-                    waba_id,
-                    phone_number_id,
-                    long_lived_token
-                } = event.payload;
+                if (event.type === 'WA_EMBEDDED_SIGNUP') {
+                    const {
+                        waba_id,
+                        phone_number_id,
+                        long_lived_token
+                    } = event.payload;
 
-                console.log("Datos recibidos:", {
-                    waba_id,
-                    phone_number_id,
-                    long_lived_token
-                });
+                    console.log("Datos recibidos:", {
+                        waba_id,
+                        phone_number_id,
+                        long_lived_token
+                    });
 
-                // Ahora sí llamamos a tu backend
-                fetch("<?php echo SERVERURL; ?>Pedidos/onboarding?waba_id=" + waba_id +
-                        "&phone_number_id=" + phone_number_id +
-                        "&access_token=" + long_lived_token)
-                    .then(resp => resp.text())
-                    .then(serverResponse => {
-                        console.log("Respuesta del backend onboarding:", serverResponse);
-                    })
-                    .catch(error => console.error("Error en fetch onboarding:", error));
-            }
-        },
-    });
+                    // Ahora sí llamamos a tu backend
+                    fetch("<?php echo SERVERURL; ?>Pedidos/onboarding?waba_id=" + waba_id +
+                            "&phone_number_id=" + phone_number_id +
+                            "&access_token=" + long_lived_token)
+                        .then(resp => resp.text())
+                        .then(serverResponse => {
+                            console.log("Respuesta del backend onboarding:", serverResponse);
+                        })
+                        .catch(error => console.error("Error en fetch onboarding:", error));
+                }
+            },
+        });
+    }
 </script>
 
 <!-- Tu archivo JS donde tienes el DataTable, etc. -->
