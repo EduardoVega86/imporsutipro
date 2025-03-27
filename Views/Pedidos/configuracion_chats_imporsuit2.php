@@ -41,14 +41,10 @@
     </div>
 </div>
 
-<!-- SDK de Facebook (básico) -->
+<!-- Cargar solo el SDK oficial -->
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 
-<!-- SDK de Embedded Signup -->
-<script async defer crossorigin="anonymous" src="https://www.facebook.com/wa/embed/wa_embed.js"></script>
-
 <script>
-    // Inicializa el SDK de Facebook
     window.fbAsyncInit = function() {
         FB.init({
             appId: '1211546113231811',
@@ -57,30 +53,22 @@
             version: 'v22.0'
         });
 
-        // Espera a que esté listo FB.EmbeddedSignup
-        const waitForEmbeddedSignup = setInterval(() => {
+        // Esperar hasta que EmbeddedSignup esté disponible
+        const waitForEmbed = setInterval(() => {
             if (typeof FB.EmbeddedSignup !== 'undefined') {
-                clearInterval(waitForEmbeddedSignup);
+                clearInterval(waitForEmbed);
 
-                // Ya podemos activar el botón
-                document.getElementById('btnConectarWhatsApp').onclick = function() {
+                document.getElementById('btnConectarWhatsApp').addEventListener('click', () => {
                     FB.EmbeddedSignup.start({
-                        config_id: '2295613834169297', // Reemplaza con tu ID de configuración real
+                        config_id: '2295613834169297',
                         onEvent: (event) => {
-                            console.log('Evento recibido de EmbeddedSignup:', event);
-
-                            if (event.type === 'WA_EMBEDDED_SIGNUP') {
+                            console.log("Evento recibido:", event);
+                            if (event.type === 'WA_EMBEDDED_SIGNUP' && event.payload) {
                                 const {
                                     waba_id,
                                     phone_number_id,
                                     long_lived_token
                                 } = event.payload;
-
-                                console.log("Datos recibidos:", {
-                                    waba_id,
-                                    phone_number_id,
-                                    long_lived_token
-                                });
 
                                 fetch("<?php echo SERVERURL; ?>Pedidos/onboarding?waba_id=" + waba_id +
                                         "&phone_number_id=" + phone_number_id +
@@ -88,19 +76,16 @@
                                     .then(resp => resp.text())
                                     .then(serverResponse => {
                                         console.log("Respuesta del backend onboarding:", serverResponse);
-                                        // Opcional: location.reload();
                                     })
-                                    .catch(error => console.error("Error en fetch onboarding:", error));
+                                    .catch(error => console.error("Error en onboarding:", error));
                             }
                         }
                     });
-                };
+                });
             }
-        }, 300); // Revisa cada 300ms
+        }, 300);
     };
 </script>
 
-<!-- Tu archivo JS donde tienes el DataTable, etc. -->
 <script src="<?php echo SERVERURL; ?>/Views/Pedidos/js/configuracion_chats_imporsuit2.js"></script>
-
 <?php require_once './Views/templates/footer.php'; ?>
