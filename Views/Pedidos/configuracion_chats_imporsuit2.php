@@ -43,11 +43,18 @@
 </div>
 
 <!-- Carga del SDK de Facebook (necesario para Embedded Signup) -->
-<script
+<!-- <script
     async
     defer
     crossorigin="anonymous"
     src="https://connect.facebook.net/en_US/sdk.js">
+</script> -->
+
+<script
+    async
+    defer
+    crossorigin="anonymous"
+    src="https://www.facebook.com/wa/embed/wa_embed.js">
 </script>
 
 <script>
