@@ -63,6 +63,7 @@
 
     // 2. Escuchar mensajes desde el iFrame (Embedded Signup usa un iFrame interno)
     window.addEventListener('message', (event) => {
+        console.log("MENSAJE RECIBIDO DE FB:", event);
         // Solo atendemos mensajes que provienen de Facebook
         if (
             event.origin !== "https://www.facebook.com" &&
@@ -70,7 +71,9 @@
         ) return;
 
         try {
+            console.log("Contenido bruto del mensaje:", event.data); // <--- Y ESTO
             const data = JSON.parse(event.data);
+            console.log("Mensaje parseado:", data);
             // Verifica si es el evento del “WhatsApp Embedded Signup”
             if (data.type === 'WA_EMBEDDED_SIGNUP') {
                 console.log('Mensaje Embedded Signup:', data);
@@ -81,6 +84,12 @@
                     const wabaId = data.payload.waba_id;
                     const phoneNumberId = data.payload.phone_number_id;
                     const accessToken = data.payload.long_lived_token;
+                    // 🔍 LOGEA LOS DATOS ANTES DE LLAMAR AL BACK
+                    console.log({
+                        wabaId,
+                        phoneNumberId,
+                        accessToken
+                    });
 
                     // Hacemos un fetch al método "onboarding" que tienes en tu Controller
                     // para almacenar la info (waba_id, phone_number_id, access_token):
