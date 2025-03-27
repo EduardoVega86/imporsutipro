@@ -54,7 +54,7 @@
     // 1. Inicializar el SDK de Facebook
     window.fbAsyncInit = function() {
         FB.init({
-            appId: '2295613834169297', // Reemplazar con tu App ID real de Facebook
+            appId: '1211546113231811', // Reemplazar con tu App ID real de Facebook
             autoLogAppEvents: true,
             xfbml: true,
             version: 'v22.0' // O la versión de Graph API que uses
