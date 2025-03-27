@@ -3319,6 +3319,8 @@ class PedidosModel extends Query
             'OpenAI-Beta: assistants=v2'
         ];
 
+        $inicio = microtime(true); // log para medir tiempo
+
         // 1. Crear thread
         $ch = curl_init('https://api.openai.com/v1/threads');
         curl_setopt_array($ch, [
@@ -3343,7 +3345,7 @@ class PedidosModel extends Query
         }
 
         // 2. Obtener historial desde método interno
-        $mensajes_previos = $this->ultimos_mensajes_assistmant($celular_recibe);
+        $mensajes_previos = $this->ultimos_mensajes_assistmant($celular_recibe); // LIMIT 3 en el modelo
         $historial = [];
 
         if (is_array($mensajes_previos)) {
@@ -3395,9 +3397,14 @@ class PedidosModel extends Query
             return ["error" => "No se pudo ejecutar el assistant"];
         }
 
-        // 6. Esperar respuesta
+        // 6. Esperar respuesta con timeout (máx 20 intentos = 20s)
+        $intentos = 0;
+        $max_intentos = 20;
+        $status = 'queued';
+
         do {
             sleep(1);
+            $intentos++;
             $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/runs/$run_id");
             curl_setopt_array($ch, [
                 CURLOPT_RETURNTRANSFER => true,
@@ -3406,7 +3413,11 @@ class PedidosModel extends Query
             $status_response = json_decode(curl_exec($ch), true);
             curl_close($ch);
             $status = $status_response['status'] ?? 'queued';
-        } while ($status !== 'completed' && $status !== 'failed');
+        } while ($status !== 'completed' && $status !== 'failed' && $intentos < $max_intentos);
+
+        if ($intentos >= $max_intentos) {
+            return ["error" => "Tiempo de espera agotado para la respuesta del assistant."];
+        }
 
         if ($status === 'failed') {
             return [
@@ -3415,7 +3426,7 @@ class PedidosModel extends Query
             ];
         }
 
-        // 7. Obtener respuesta
+        // 7. Obtener respuesta del assistant
         $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
@@ -3433,7 +3444,15 @@ class PedidosModel extends Query
             }
         }
 
-        return ["respuesta" => $respuesta];
+        // Medir tiempo total (opcional)
+        $fin = microtime(true);
+        $tiempo = round($fin - $inicio, 2);
+        // file_put_contents("logs/gpt_tiempo.txt", "Duración: {$tiempo}s\n", FILE_APPEND); // <-- activar si querés logs
+
+        return [
+            "respuesta" => $respuesta,
+            "duracion" => $tiempo . "s"
+        ];
     }
 
     public function ultimos_mensajes_assistmant($celular_recibe)
@@ -3442,7 +3461,7 @@ class PedidosModel extends Query
             FROM mensajes_clientes 
             WHERE celular_recibe = $celular_recibe 
             ORDER BY id DESC 
-            LIMIT 10;";
+            LIMIT 3;";
 
         $mensajes = $this->select($sql);
         $resultado = [];
