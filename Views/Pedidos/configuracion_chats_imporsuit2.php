@@ -20,7 +20,8 @@
         <!-- Botón para el flujo de Embedded Signup -->
         <button
             class="btn btn-primary mb-3"
-            id="btnConectarWhatsApp">
+            id="btnConectarWhatsApp"
+            onclick="launchWhatsAppSignup()">
             <i class="fab fa-whatsapp"></i> Conectar WhatsApp
         </button>
 
@@ -41,51 +42,94 @@
     </div>
 </div>
 
-<!-- Cargar solo el SDK oficial -->
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
-
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId: '1211546113231811',
-            autoLogAppEvents: true,
-            xfbml: true,
-            version: 'v22.0'
-        });
-
-        // Esperar hasta que EmbeddedSignup esté disponible
-        const waitForEmbed = setInterval(() => {
-            if (typeof FB.EmbeddedSignup !== 'undefined') {
-                clearInterval(waitForEmbed);
-
-                document.getElementById('btnConectarWhatsApp').addEventListener('click', () => {
-                    FB.EmbeddedSignup.start({
-                        config_id: '2295613834169297',
-                        onEvent: (event) => {
-                            console.log("Evento recibido:", event);
-                            if (event.type === 'WA_EMBEDDED_SIGNUP' && event.payload) {
-                                const {
-                                    waba_id,
-                                    phone_number_id,
-                                    long_lived_token
-                                } = event.payload;
-
-                                fetch("<?php echo SERVERURL; ?>Pedidos/onboarding?waba_id=" + waba_id +
-                                        "&phone_number_id=" + phone_number_id +
-                                        "&access_token=" + long_lived_token)
-                                    .then(resp => resp.text())
-                                    .then(serverResponse => {
-                                        console.log("Respuesta del backend onboarding:", serverResponse);
-                                    })
-                                    .catch(error => console.error("Error en onboarding:", error));
-                            }
-                        }
-                    });
-                });
-            }
-        }, 300);
-    };
+<!-- Carga del SDK de Facebook (necesario para Embedded Signup) -->
+<script
+    async
+    defer
+    crossorigin="anonymous"
+    src="https://connect.facebook.net/en_US/sdk.js">
 </script>
 
+<script>
+    // 1. Inicializar el SDK de Facebook
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: '1211546113231811', // Reemplazar con tu App ID real de Facebook
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: 'v22.0' // O la versión de Graph API que uses
+        });
+    };
+
+    // 2. Escuchar mensajes desde el iFrame (Embedded Signup usa un iFrame interno)
+    window.addEventListener('message', (event) => {
+        // Solo atendemos mensajes que provienen de Facebook
+        if (
+            event.origin !== "https://www.facebook.com" &&
+            event.origin !== "https://web.facebook.com"
+        ) return;
+
+        try {
+            const data = JSON.parse(event.data);
+            // Verifica si es el evento del “WhatsApp Embedded Signup”
+            if (data.type === 'WA_EMBEDDED_SIGNUP') {
+                console.log('Mensaje Embedded Signup:', data);
+
+                // En algunos casos, data puede traer: data.payload.waba_id, data.payload.phone_number_id, data.payload.long_lived_token, etc.
+                // Valida y envía al backend para guardar
+                if (data.payload) {
+                    const wabaId = data.payload.waba_id;
+                    const phoneNumberId = data.payload.phone_number_id;
+                    const accessToken = data.payload.long_lived_token;
+
+                    // Hacemos un fetch al método "onboarding" que tienes en tu Controller
+                    // para almacenar la info (waba_id, phone_number_id, access_token):
+                    fetch("<?php echo SERVERURL; ?>Pedidos/onboarding?waba_id=" + wabaId +
+                            "&phone_number_id=" + phoneNumberId +
+                            "&access_token=" + accessToken)
+                        .then(resp => resp.text())
+                        .then(serverResponse => {
+                            console.log("Respuesta del backend onboarding:", serverResponse);
+                            // Podrías recargar la página o redirigir a otra ruta si quieres
+                            // location.reload();
+                        })
+                        .catch(error => console.error("Error en fetch onboarding:", error));
+                }
+            }
+        } catch (err) {
+            console.warn('Mensaje no-JSON o error parseando:', event.data);
+        }
+    });
+
+    // 3. (Opcional) Callback de FB.login (si devuelven un “code”)
+    //    Puedes usarlo o no, según lo requiera tu flujo.
+    const fbLoginCallback = (response) => {
+        if (response.authResponse) {
+            console.log('fbLoginCallback con authResponse:', response.authResponse);
+            // Por si Meta retornara un code, lo capturas:
+            // let code = response.authResponse.code;
+            // ...
+        } else {
+            console.log('fbLoginCallback sin authResponse:', response);
+        }
+    };
+
+    // 4. Función que lanza el flujo de WhatsApp Embedded Signup
+    function launchWhatsAppSignup() {
+        FB.login(fbLoginCallback, {
+            config_id: '2295613834169297', // Reemplaza con tu Configuration ID real
+            response_type: 'code',
+            override_default_response_type: true,
+            extras: {
+                setup: {},
+                featureType: '',
+                sessionInfoVersion: '3',
+            },
+        });
+    }
+</script>
+
+<!-- Tu archivo JS donde tienes el DataTable, etc. -->
 <script src="<?php echo SERVERURL; ?>/Views/Pedidos/js/configuracion_chats_imporsuit2.js"></script>
+
 <?php require_once './Views/templates/footer.php'; ?>
