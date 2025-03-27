@@ -160,4 +160,24 @@ class Speed extends Controller
         }
         echo json_encode($response);
     }
+
+    public function cambiar_estado_novedad()
+    {
+        $estado = $_POST['estado'];
+        $numeroGuia = $_POST['numeroGuia'];
+        $numeroFactura = $_POST['numeroFactura'];
+        $response = $this->model->cambiar_estado_novedad($estado, $numeroGuia, $numeroFactura);
+
+        echo json_encode($response);
+    }
+
+    public function cambiar_estado_devolucion()
+    {
+        $estado = $_POST['estado'];
+        $numeroGuia = $_POST['numeroGuia'];
+        $numeroFactura = $_POST['numeroFactura'];
+        $response = $this->model->cambiar_estado_devolucion($estado, $numeroGuia, $numeroFactura);
+
+        echo json_encode($response);
+    }
 }

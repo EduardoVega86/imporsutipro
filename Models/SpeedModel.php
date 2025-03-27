@@ -820,4 +820,88 @@ class SpeedModel extends Query
         // Si no cumple con ninguno de los casos anteriores, retorna el número tal cual
         return $telefono;
     }
+
+    public function cambiar_estado_novedad($estado, $numeroGuia, $numeroFactura)
+    {
+        $sql_fact_cot = "UPDATE facturas_cot SET estado_guia_sistema = ? WHERE numero_factura = ?";
+        $data = [$estado, $numeroFactura];
+        $responses_fact_cot = $this->update($sql_fact_cot, $data);
+        /* print_r($sql); */
+        if ($responses_fact_cot == 1) {
+
+            $sql_cabecera_c_p = "UPDATE cabecera_cuenta_pagar SET estado_guia = ? WHERE numero_factura = ?";
+            $data = [$estado, $numeroFactura];
+            $responses_cabecera_c_p = $this->update($sql_cabecera_c_p, $data);
+
+            if ($responses_cabecera_c_p == 1) {
+                $sql = "SELECT nombre, id_plataforma FROM facturas_cot WHERE numero_factura = '$numeroFactura'";
+                $resultado = $this->select($sql);
+                $cliente = $resultado[0]['nombre'];
+                $id_plataforma = $resultado[0]['id_plataforma'];
+
+                $insert_sql = "INSERT INTO novedades (guia_novedad, cliente_novedad, estado_novedad, tracking, id_plataforma) VALUES (?, ?, ?, ?, ?)";
+                $insert_data = [$numeroGuia, $cliente, $estado, "", $id_plataforma];
+                $insertar_asignacion = $this->insert($insert_sql, $insert_data);
+
+                if ($insertar_asignacion == 1) {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Guia actualizada correctamente';
+                }
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = "Error al actualizar cabecera_cuenta_pagar";
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = "Error al actualizar facturas_cot";
+        }
+        return $response;
+    }
+
+    public function cambiar_estado_devolucion($estado, $numeroGuia, $numeroFactura)
+    {
+        $sql_fact_cot = "UPDATE facturas_cot SET estado_guia_sistema = ? WHERE numero_factura = ?";
+        $data = [$estado, $numeroFactura];
+        $responses_fact_cot = $this->update($sql_fact_cot, $data);
+        /* print_r($sql); */
+        if ($responses_fact_cot == 1) {
+
+            $sql_cabecera_c_p = "UPDATE cabecera_cuenta_pagar SET estado_guia = ? WHERE numero_factura = ?";
+            $data = [$estado, $numeroFactura];
+            $responses_cabecera_c_p = $this->update($sql_cabecera_c_p, $data);
+
+            if ($responses_cabecera_c_p == 1) {
+                $sql = "SELECT id_novedad FROM novedades WHERE guia_novedad = '$numeroGuia'";
+                $resultado = $this->select($sql);
+
+                if (!empty($resultado)) {
+                    $update_sql = "UPDATE novedades SET terminado = ? WHERE guia_novedad = ?";
+                    $update_data = [1, $numeroGuia];
+                    $actualizar = $this->update($update_sql, $update_data);
+
+                    if ($actualizar == 1) {
+                        $response['status'] = 200;
+                        $response['title'] = 'Petición exitosa';
+                        $response['message'] = 'Guía actualizada correctamente.';
+                    }
+                } else {
+                    $response['status'] = 200;
+                    $response['title'] = 'Peticion exitosa';
+                    $response['message'] = 'Guia actualizada correctamente';
+                }
+            } else {
+                $response['status'] = 500;
+                $response['title'] = 'Error';
+                $response['message'] = "Error al actualizar cabecera_cuenta_pagar";
+            }
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = "Error al actualizar facturas_cot";
+        }
+        return $response;
+    }
 }
