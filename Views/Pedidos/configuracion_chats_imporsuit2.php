@@ -43,11 +43,18 @@
 </div>
 
 <!-- Carga del SDK de Facebook (necesario para Embedded Signup) -->
-<script
+<!-- <script
     async
     defer
     crossorigin="anonymous"
     src="https://connect.facebook.net/en_US/sdk.js">
+</script> -->
+
+<script
+    async
+    defer
+    crossorigin="anonymous"
+    src="https://www.facebook.com/wa/embed/wa_embed.js">
 </script>
 
 <script>
@@ -63,6 +70,7 @@
 
     // 2. Escuchar mensajes desde el iFrame (Embedded Signup usa un iFrame interno)
     window.addEventListener('message', (event) => {
+        console.log("MENSAJE RECIBIDO DE FB:", event);
         // Solo atendemos mensajes que provienen de Facebook
         if (
             event.origin !== "https://www.facebook.com" &&
@@ -70,7 +78,9 @@
         ) return;
 
         try {
+            console.log("Contenido bruto del mensaje:", event.data); // <--- Y ESTO
             const data = JSON.parse(event.data);
+            console.log("Mensaje parseado:", data);
             // Verifica si es el evento del “WhatsApp Embedded Signup”
             if (data.type === 'WA_EMBEDDED_SIGNUP') {
                 console.log('Mensaje Embedded Signup:', data);
@@ -81,6 +91,12 @@
                     const wabaId = data.payload.waba_id;
                     const phoneNumberId = data.payload.phone_number_id;
                     const accessToken = data.payload.long_lived_token;
+                    // 🔍 LOGEA LOS DATOS ANTES DE LLAMAR AL BACK
+                    console.log({
+                        wabaId,
+                        phoneNumberId,
+                        accessToken
+                    });
 
                     // Hacemos un fetch al método "onboarding" que tienes en tu Controller
                     // para almacenar la info (waba_id, phone_number_id, access_token):
@@ -116,14 +132,35 @@
 
     // 4. Función que lanza el flujo de WhatsApp Embedded Signup
     function launchWhatsAppSignup() {
-        FB.login(fbLoginCallback, {
-            config_id: '2295613834169297', // Reemplaza con tu Configuration ID real
-            response_type: 'code',
-            override_default_response_type: true,
-            extras: {
-                setup: {},
-                featureType: '',
-                sessionInfoVersion: '3',
+        FB.EmbeddedSignup.start({
+            // Reemplaza con tu config ID real
+            config_id: '2295613834169297',
+            onEvent: (event) => {
+                console.log('Evento recibido de EmbeddedSignup:', event);
+
+                if (event.type === 'WA_EMBEDDED_SIGNUP') {
+                    const {
+                        waba_id,
+                        phone_number_id,
+                        long_lived_token
+                    } = event.payload;
+
+                    console.log("Datos recibidos:", {
+                        waba_id,
+                        phone_number_id,
+                        long_lived_token
+                    });
+
+                    // Ahora sí llamamos a tu backend
+                    fetch("<?php echo SERVERURL; ?>Pedidos/onboarding?waba_id=" + waba_id +
+                            "&phone_number_id=" + phone_number_id +
+                            "&access_token=" + long_lived_token)
+                        .then(resp => resp.text())
+                        .then(serverResponse => {
+                            console.log("Respuesta del backend onboarding:", serverResponse);
+                        })
+                        .catch(error => console.error("Error en fetch onboarding:", error));
+                }
             },
         });
     }
