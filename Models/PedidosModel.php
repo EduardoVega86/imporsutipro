@@ -3372,7 +3372,7 @@ class PedidosModel extends Query
         $historial = $this->ultimos_mensajes_assistmant($celular_recibe);
         $historial[] = [
             "role" => "user",
-            "content" => $mensaje
+            "content" => "NUEVO MENSAJE DEL CLIENTE: " . $mensaje
         ];
 
         // 3. Enviar todos los mensajes (historial + actual)
