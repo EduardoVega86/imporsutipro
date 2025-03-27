@@ -3027,43 +3027,50 @@ class Pedidos extends Controller
 
     public function onboarding()
     {
-        $waba_id = $_GET['waba_id'] ?? null;
+        $waba_id         = $_GET['waba_id']         ?? null;
         $phone_number_id = $_GET['phone_number_id'] ?? null;
-        $token = $_GET['access_token'] ?? null;
+        $token           = $_GET['access_token']    ?? null;
 
-        // Validación básica
         if (!$waba_id || !$phone_number_id || !$token) {
-            echo "No se recibieron todos los datos requeridos.";
+            echo "Error: faltan datos en la URL";
             return;
         }
 
-        // Llamada a la API de Facebook para obtener el display_phone_number
-        $url = "https://graph.facebook.com/v18.0/{$phone_number_id}?fields=display_phone_number&access_token={$token}";
+        // (A) Opcional: obtener display_phone_number
+        $url = "https://graph.facebook.com/v16.0/{$phone_number_id}?fields=display_phone_number&access_token={$token}";
         $response = @file_get_contents($url);
-        if ($response === false) {
-            echo "Error al obtener datos desde Facebook. Revisa tu token y phone_number_id.";
-            return;
-        }
-
         $data = json_decode($response, true);
         $telefono = $data['display_phone_number'] ?? 'Desconocido';
 
+        // (B) Guardar en tu BD
         $saveResponse = $this->model->guardarDesdeMeta([
-            'telefono' => $telefono,
-            'id_telefono' => $phone_number_id,
-            'id_whatsapp' => $waba_id,
-            'token'      => $token
+            'telefono'     => $telefono,
+            'id_telefono'  => $phone_number_id,
+            'id_whatsapp'  => $waba_id,
+            'token'        => $token
         ]);
 
-        echo json_encode($saveResponse);
+        // (C) Llamar al endpoint /register para pasar de “Pending” a “Connected”
+        $registerUrl = "https://graph.facebook.com/v21.0/{$phone_number_id}/register?access_token={$token}";
+        $payload     = [
+            "pin" => "123456",
+            "messaging_product" => "whatsapp"
+        ];
+        $options     = [
+            'http' => [
+                'header'  => "Content-type: application/json\r\n",
+                'method'  => 'POST',
+                'content' => json_encode($payload),
+            ]
+        ];
+        $context  = stream_context_create($options);
+        $result   = file_get_contents($registerUrl, false, $context);
+        // $result contendrá la respuesta en JSON.
 
-
-        // Redireccionar o mostrar un mensaje de éxito
-        echo "<script>
-            alert('Conexión completada correctamente con el número: $telefono');
-            window.location.href = '" . SERVERURL . "Pedidos/configuracion_chats_imporsuit2';
-        </script>";
+        // Retornar algo al front (por ej. tu “fetch” lo recibe como texto)
+        echo "Guardado con éxito en la BD. Respuesta del /register: " . $result;
     }
+
 
     public function lista_assistmant()
     {

@@ -3445,26 +3445,58 @@ class PedidosModel extends Query
 
     public function ultimos_mensajes_assistmant($celular_recibe)
     {
-        $sql = "SELECT rol_mensaje, texto_mensaje, ruta_archivo FROM mensajes_clientes WHERE celular_recibe = $celular_recibe ORDER BY `mensajes_clientes`.`id` DESC LIMIT 10;";
-        $mensajes = $this->select($sql);
+        $sql = "SELECT rol_mensaje, texto_mensaje, ruta_archivo 
+            FROM mensajes_clientes 
+            WHERE celular_recibe = $celular_recibe 
+            ORDER BY id DESC 
+            LIMIT 10;";
 
+        $mensajes = $this->select($sql);
         $resultado = [];
 
-        // Recorremos en orden cronológico (inverso al DESC)
+        // Ruta base del servidor para archivos (ajústalo a tu dominio real)
+        $base_url = "https://new.imporsuitpro.com/";
+
         foreach (array_reverse($mensajes) as $m) {
             $rol_mensaje = ($m['rol_mensaje'] == 1) ? "assistant" : "user";
             $texto_mensaje = $m['texto_mensaje'];
             $ruta_archivo = $m['ruta_archivo'];
 
+            // Si es JSON: reemplazar placeholders + agregar como info
+            if ($this->esJson($ruta_archivo)) {
+                $datos = json_decode($ruta_archivo, true);
+
+                // Reemplazar {{clave}} por valor del JSON
+                foreach ($datos as $clave => $valor) {
+                    $texto_mensaje = str_replace('{{' . $clave . '}}', $valor, $texto_mensaje);
+                }
+
+                // Agregar como nota al final
+                $texto_mensaje .= "\n[Información adicional del sistema]\n";
+                foreach ($datos as $k => $v) {
+                    $texto_mensaje .= ucfirst($k) . ": " . $v . "\n";
+                }
+            } elseif (!empty($ruta_archivo)) {
+                // Es una ruta parcial a un archivo → convertirla en URL completa
+                $link_completo = $base_url . ltrim($ruta_archivo, '/');
+                $texto_mensaje .= "\n[Archivo adjunto: $link_completo]";
+            }
+
             $resultado[] = [
                 'role' => $rol_mensaje,
-                'mensaje' => $texto_mensaje,
-                'ruta_archivo' => $ruta_archivo
+                'content' => $texto_mensaje
             ];
         }
 
         return $resultado;
     }
+
+    private function esJson($string)
+    {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE && is_array(json_decode($string, true)));
+    }
+
 
     // Función para generar una clave única
     private function generarClaveUnica()
