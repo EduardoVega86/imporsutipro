@@ -118,8 +118,8 @@
     function launchWhatsAppSignup() {
         FB.login(fbLoginCallback, {
             config_id: '2295613834169297', // Reemplaza con tu Configuration ID real
-            response_type: 'code',
-            override_default_response_type: true,
+            // response_type: 'code',
+            // override_default_response_type: true,
             extras: {
                 setup: {},
                 featureType: '',
