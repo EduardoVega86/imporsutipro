@@ -3061,7 +3061,7 @@ class Pedidos extends Controller
         // Redireccionar o mostrar un mensaje de éxito
         echo "<script>
             alert('Conexión completada correctamente con el número: $telefono');
-            window.location.href = '" . SERVERURL . "Pedidos/configuraciones';
+            window.location.href = '" . SERVERURL . "Pedidos/configuracion_chats_imporsuit2';
         </script>";
     }
 
