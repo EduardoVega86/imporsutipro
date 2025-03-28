@@ -220,19 +220,4 @@ class Controller
         return isset($_SESSION["user"]);
     }
 
-
-    function autoloadJSFromDir(string $dirPath, string $baseUrl = ''): void
-    {
-        /*$fullPath = $_SERVER['DOCUMENT_ROOT'] . $dirPath;
-        if (!is_dir($fullPath)) return;
-
-        $files = scandir($fullPath);
-        foreach ($files as $file) {
-            if (pathinfo($file, PATHINFO_EXTENSION) === 'js') {
-                echo '<script src="' . $baseUrl . $dirPath . '/' . $file . '"></script>' . PHP_EOL;
-            }
-        }*/
-        echo "holi";
-    }
-
 }
