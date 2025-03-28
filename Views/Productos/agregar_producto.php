@@ -14,18 +14,18 @@
                 <li class="nav-item">
                     <a class="nav-link" data-section="bodega" href="#">Bodega</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-section="imagen" href="#">Imagenes del producto</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-section="variable" href="#">Variables</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-section="privados" href="#">Productos privados</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-section="tiendas" href="#">Tienda Virtual</a>
-                </li>
+                <!-- <li class="nav-item">
+                     <a class="nav-link" data-section="imagen" href="#">Imagenes del producto</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" data-section="variable" href="#">Variables</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" data-section="privados" href="#">Productos privados</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" data-section="tiendas" href="#">Tienda Virtual</a>
+                 </li>-->
             </ul>
         </div>
 
@@ -35,13 +35,15 @@
             <div id="general" class="content-section">
                 <h4>Información General</h4>
                 <div class="mb-3">
-                    <label class="form-label">Código del producto</label>
-                    <input type="text" id="codigo_producto" name="codigo_producto" class="form-control">
+                    <label for="codigo_producto" class="form-label">Código del producto <span class="text-danger">*</span></label>
+                    <input type="text" id="codigo_producto" name="codigo_producto" class="form-control"
+                           placeholder="SKU, UPC, EAN, etc.">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Nombre del producto</label>
-                    <input type="text" id="nombre_producto" name="nombre_producto" class="form-control">
+                    <label for="nombre_producto" class="form-label">Nombre del producto <span class="text-danger">*</span></label>
+                    <input  type="text" id="nombre_producto" name="nombre_producto" class="form-control"
+                           placeholder="Nombre del producto">
                 </div>
 
                 <div class="mb-3">
@@ -50,18 +52,19 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Categoría</label>
+                    <label class="form-label">Categoría <span class="text-danger">*</span></label>
                     <select name="id_linea_producto" id="id_linea_producto" class="form-control">
                         <option value="0"> -- Seleccione una categoría --</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Precio de Venta</label>
-                    <input type="number" id="pvp" name="pvp" class="form-control">
+                    <label class="form-label">Precio de Venta <span class="text-danger">*</span></label>
+                    <input type="number" id="pvp" name="pvp" class="form-control" placeholder="Precio de venta">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Precio como Proveedor</label>
-                    <input type="number" id="pvp" name="pvp" class="form-control">
+                    <label class="form-label">Precio como Proveedor <span class="text-danger">*</span></label>
+                    <input type="number" id="pvp" name="pvp" class="form-control"
+                           placeholder="Si no desea colocar un precio, dejar en 0">
                 </div>
 
             </div>
@@ -98,27 +101,6 @@
         </div>
     </div>
 </div>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const menuItems = document.querySelectorAll("#menu .nav-link");
-        const sections = document.querySelectorAll(".content-section");
 
-        menuItems.forEach(item => {
-            item.addEventListener("click", function (e) {
-                e.preventDefault();
-
-                // Quitar la clase activa de todos los enlaces
-                menuItems.forEach(link => link.classList.remove("active"));
-                this.classList.add("active");
-
-                // Ocultar todas las secciones
-                sections.forEach(section => section.classList.add("hidden"));
-
-                // Mostrar la sección correspondiente
-                const sectionId = this.getAttribute("data-section");
-                document.getElementById(sectionId).classList.remove("hidden");
-            });
-        });
-    });
-</script>
+<?php loadViewScripts("Productos", "agregar_producto"); ?>
 <?php require_once './Views/templates/footer.php'; ?>
