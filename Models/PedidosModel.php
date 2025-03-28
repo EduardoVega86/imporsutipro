@@ -3477,15 +3477,14 @@ class PedidosModel extends Query
     public function ultimos_mensajes_assistmant($celular_recibe)
     {
         $sql = "SELECT rol_mensaje, texto_mensaje, ruta_archivo, created_at
-            FROM mensajes_clientes 
-            WHERE celular_recibe = $celular_recibe 
-            ORDER BY id DESC 
-            LIMIT 3;";
+        FROM mensajes_clientes 
+        WHERE celular_recibe = $celular_recibe 
+        ORDER BY id DESC 
+        LIMIT 3;";
 
         $mensajes = $this->select($sql);
         $resultado = [];
-
-        // Ruta base del servidor para archivos (ajústalo a tu dominio real)
+        $datos_factura_unificados = [];
         $base_url = "https://new.imporsuitpro.com/";
 
         foreach (array_reverse($mensajes) as $m) {
@@ -3495,30 +3494,50 @@ class PedidosModel extends Query
             $fecha = date('d/m/Y H:i', strtotime($m['created_at']));
             $texto_mensaje = "[$fecha]\n" . $texto_mensaje;
 
-            // Si es JSON: reemplazar placeholders + agregar como info
+            // Si es JSON, se procesa como información de la factura
             if ($this->esJson($ruta_archivo)) {
                 $datos = json_decode($ruta_archivo, true);
 
-                // Reemplazar {{clave}} por valor del JSON
+                // Guardamos los datos para enviarlos como bloque separado
+                $datos_factura_unificados[] = $datos;
+
+                // Reemplazo en el texto
                 foreach ($datos as $clave => $valor) {
                     $texto_mensaje = str_replace('{{' . $clave . '}}', $valor, $texto_mensaje);
                 }
 
-                // Agregar como nota al final
+                // Agregamos info breve al final del mensaje
                 $texto_mensaje .= "\n[Información adicional del sistema]\n";
                 foreach ($datos as $k => $v) {
                     $texto_mensaje .= ucfirst($k) . ": " . $v . "\n";
                 }
             } elseif (!empty($ruta_archivo)) {
-                // Es una ruta parcial a un archivo → convertirla en URL completa
                 $link_completo = $base_url . ltrim($ruta_archivo, '/');
                 $texto_mensaje .= "\n[Archivo adjunto: $link_completo]";
             }
 
             $resultado[] = [
                 'role' => $rol_mensaje,
-                'content' => $texto_mensaje
+                'content' => $texto_mensaje,
+                'fecha' => $m['created_at']
             ];
+        }
+
+        // Si hay datos_factura, los unificamos como bloque system
+        if (!empty($datos_factura_unificados)) {
+            $texto_facturas = "datos_factura:\n";
+            foreach ($datos_factura_unificados as $index => $factura) {
+                $texto_facturas .= "\nFactura " . ($index + 1) . ":\n";
+                foreach ($factura as $k => $v) {
+                    $texto_facturas .= ucfirst($k) . ": " . $v . "\n";
+                }
+            }
+
+            array_unshift($resultado, [
+                'role' => 'system',
+                'content' => $texto_facturas,
+                'fecha' => null
+            ]);
         }
 
         return $resultado;
