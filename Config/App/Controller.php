@@ -40,12 +40,29 @@ class Controller
      */
     private function validateJWT(): void
     {
-        $headers = getallheaders();
-        if (!isset($headers['Authorization'])) {
+        $headers = [];
+
+        // Intentar recuperar Authorization de todas las formas posibles
+        if (function_exists('getallheaders')) {
+            $headers = getallheaders();
+        } else {
+            foreach ($_SERVER as $name => $value) {
+                if (substr($name, 0, 5) === 'HTTP_') {
+                    $headers[str_replace('_', '-', substr($name, 5))] = $value;
+                }
+            }
+        }
+
+        if (isset($headers['Authorization'])) {
+            $authHeader = $headers['Authorization'];
+        } elseif (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+            $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
+        } elseif (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+            $authHeader = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+        } else {
             throw new Exception("No has iniciado sesión", 401);
         }
 
-        $authHeader = $headers['Authorization'];
         if (!preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
             throw new Exception("Formato de token inválido", 401);
         }
@@ -59,6 +76,7 @@ class Controller
             throw new Exception("Token inválido o expirado", 401);
         }
     }
+
 
     /**
      * Maneja excepciones
@@ -152,7 +170,7 @@ class Controller
     public function jsonData(array $requiredFields = []): array
     {
         $data = json_decode(file_get_contents('php://input'), true) ?? [];
-        if(empty($data)){
+        if (empty($data)) {
             throw new Exception("No se envió ningún dato");
         }
 
