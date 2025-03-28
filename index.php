@@ -57,7 +57,6 @@ function loadViewScripts(string $controller, string $view): void
     $funcionalidad = explode('_', $view)[0] ?? '';
     $modulo = explode('_', $view)[1] ?? '';
     $path = "Views/{$controller}/js/" . $modulo . "/" . $funcionalidad;
-    echo $path;
     if (is_dir($path)) {
         foreach (scandir($path) as $file) {
             if (pathinfo($file, PATHINFO_EXTENSION) === 'js') {
