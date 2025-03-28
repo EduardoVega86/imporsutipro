@@ -33,7 +33,7 @@ const listBodegas = async () => {
                         <i class="fa-solid fa-gear"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_bodegas(${bodega.id})"></span></li>
+                        <li><span class="dropdown-item" style="cursor: pointer;" onclick="editar_bodegas(${bodega.id})"><i class="bx bxs-pencil"></i>Editar</span></li>
                         <li><span class="dropdown-item" style="cursor: pointer;" onclick="ver_inventario(${bodega.id})"><i class='bx bxs-file-find'></i>Ver Inventario</span></li>
                     </ul>
                     </div>
