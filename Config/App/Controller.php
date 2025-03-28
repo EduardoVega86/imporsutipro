@@ -45,6 +45,12 @@ class Controller
         // Intentar recuperar Authorization de todas las formas posibles
         if (function_exists('getallheaders')) {
             $headers = getallheaders();
+        } else {
+            foreach ($_SERVER as $name => $value) {
+                if (substr($name, 0, 5) === 'HTTP_') {
+                    $headers[str_replace('_', '-', substr($name, 5))] = $value;
+                }
+            }
         }
 
         if (isset($headers['Authorization'])) {
