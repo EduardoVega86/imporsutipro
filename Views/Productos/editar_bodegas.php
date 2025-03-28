@@ -1,5 +1,13 @@
-<?php require_once './Views/templates/header.php'; ?>
-<?php require_once './Views/Productos/css/agregar_bodegas_style.php'; ?>
+<?php
+require_once './Views/templates/header.php';
+
+/**
+ * @var int $data se recibe id desde el render
+ */
+$bodega_id = $data;
+?>
+<?php require_once './Views/Productos/css/editar_bodega_style.php'; ?>
+
     <div class="container-fluid my-3">
         <form id="frmBodega">
             <div class="row">
@@ -19,59 +27,71 @@
                 </div>
                 <!-- Contenido dinámico -->
                 <div class="col-md-9">
-                    <!-- Sección General -->
                     <div id="general" class="content-section">
                         <h4>Información General</h4>
+                        <input type="hidden" id="id" name="id" value="<?php echo $bodega_id; ?>">
                         <div class="mb-3">
-                            <label for="nombre_bodega" class="form-label">Nombre de la bodega <span
+                            <label for="nombre_bodega" class="form-label">Nombre de la Bodega <span
                                         style="color: red">*</span></label>
-                            <input type="text" id="nombre_bodega" name="nombre_bodega" class="form-control">
+                            <input id="nombre_bodega" name="nombre_bodega" class="form-control" type="text"
+                                   placeholder="Nombre de la Bodega" required/>
                         </div>
 
                         <div class="mb-3">
                             <label for="provincia" class="form-label">Provincia donde se ubica <span style="color: red">*</span></label>
-                            <select name="provincia" id="provincia" class="form-control">
-                                <option value="0"> -- Seleccione una provincia --</option>
+                            <select class="datos form-control" id="provincia" name="provincia"
+                                    onchange="cargarCiudades()" required>
+                                <option value="">Provincia *</option>
                             </select>
                         </div>
-
                         <div class="mb-3">
                             <label for="ciudad" class="form-label">Ciudad donde se ubica <span
                                         style="color: red">*</span></label>
                             <select name="ciudad" id="ciudad" class="form-control" disabled>
                                 <option value="0"> -- Seleccione una ciudad --</option>
                             </select>
+
                         </div>
 
                         <div class="mb-3">
                             <label for="direccion" class="form-label">Dirección de bodega <span
                                         style="color: red">*</span></label>
-                            <input id="direccion" name="direccion" class="form-control">
+                            <input id="direccion" name="direccion"
+                                   class="form-control"
+                                   type="text"
+                                   placeholder="Ingresa una dirección"/>
                         </div>
 
                         <div class="mb-3">
                             <label for="num_casa" class="form-label">Número de casa</label>
-                            <input id="num_casa" name="num_casa" class="form-control">
+                            <input id="num_casa" name="num_casa" class="form-control" type="text"
+                                   placeholder="Numero de Casa">
                         </div>
 
                         <div class="mb-3">
                             <label for="responsable" class="form-label">Responsable de la bodega <span
-                                        style="color: red">*</span></label>
-                            <input id="responsable" name="responsable" class="form-control">
+                                        style="color: red">*</span>
+                            </label>
+                            <input id="responsable" name="responsable" class="form-control " type="text"
+                                   placeholder="Ingrese nombre del responsable">
                         </div>
 
                         <div class="mb-3">
                             <label for="telefono" class="form-label">Teléfono de la bodega <span
-                                        style="color: red">*</span></label>
-                            <input id="telefono" name="telefono" class="form-control">
+                                        style="color: red">*</span>
+                            </label>
+                            <input id="telefono" name="telefono" class="form-control " type="text"
+                                   placeholder="Telefono de contacto"/>
                         </div>
 
                         <div class="mb-3">
                             <label for="referencia" class="form-label">Referencia de ubicación <span style="color: red">*</span></label>
-                            <input id="referencia" name="referencia" class="form-control">
+                            <input id="referencia" name="referencia" class="form-control " type="text"
+                                   placeholder="Ingrese referencia">
                         </div>
+
                     </div>
-                    <!-- Sección Existencia -->
+                    <!-- Sección Fullfilment -->
                     <div id="fullfilment" class="content-section hidden-all">
                         <h4>Fullfilment</h4>
                         <p>Servicio de almacenamiento y envío de productos</p>
@@ -81,6 +101,7 @@
                                 ¿Desea ofrecer servicios de fullfilment?
                             </label>
                             <label class="switch">
+
                                 <input type="checkbox" id="full" name="full" value="SI"/>
                                 <span class="sliderB"></span>
                             </label>
@@ -93,9 +114,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </form>
     </div>
 
-<?php loadViewScripts("Productos", 'agregar_bodega') ?>
+<?php loadViewScripts("Productos", "editar_bodega") ?>
 <?php require_once './Views/templates/footer.php'; ?>

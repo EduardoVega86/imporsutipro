@@ -110,10 +110,10 @@ const listBovedas = async () => {
 // Llenar select de Nombres
 const cargarNombres = async () => {
     try {
-        const response = await fetch(
+        const response = await impAxios(
             `${SERVERURL}Productos/obtener_productos_todos`
         );
-        const result = await response.json();
+        const result = response.data;
 
         // Validamos el estado antes de acceder a los datos se tuvo que encapsular en data por documentacion swagger debe mostrar codigo 200
         if (result.status === 200) {
@@ -139,8 +139,8 @@ const cargarNombres = async () => {
 // Llenar select de Categorías
 const cargarCategorias = async () => {
     try {
-        const response = await fetch(`${SERVERURL}Productos/obtener_lineas_global`);
-        const categorias = await response.json();
+        const response = await impAxios(`${SERVERURL}Productos/obtener_lineas_global`);
+        const categorias = response.data;
 
         let opciones = "<option value=''>Seleccione una Categoría</option>";
         categorias.forEach((cat) => {
@@ -158,8 +158,8 @@ const cargarCategorias = async () => {
 // Llenar select de Proveedores
 const cargarProveedores = async () => {
     try {
-        const response = await fetch(`${SERVERURL}Productos/obtenerProveedores`);
-        const result = await response.json();
+        const response = await impAxios(`${SERVERURL}Productos/obtenerProveedores`);
+        const result = await response.data;
         if (result.status === 200) {
             const proveedores = result.data;
 

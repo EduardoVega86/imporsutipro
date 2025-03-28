@@ -513,6 +513,9 @@ class InventariosModel extends Query
         return $response;
     }
 
+    /**
+     * @throws Exception
+     */
     public function despacho_guia2($num_guia, $plataforma, $transportadora, $bodega)
     {
 

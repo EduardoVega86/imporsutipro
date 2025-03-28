@@ -17,17 +17,14 @@ class Productos extends Controller
      */
     public function __construct()
     {
-        parent::__construct();
         if (!$this->isAuth()) {
             header("Location:  " . SERVERURL . "login");
             exit();
         }
-        /* if (!$this->hasPermission(2)) {
-            header("Location: /dashboard");
-        } */
+        parent::__construct();
     }
 
-    /**}
+    /**
      * Renderiza la vista principal de productos
      * @return void
      */
@@ -58,9 +55,9 @@ class Productos extends Controller
      * Renderiza la vista de editar bodegas
      * @return void
      */
-    public function editar_bodegas(): void
+    public function editar_bodegas($id): void
     {
-        $this->views->render($this, "editar_bodega");
+        $this->views->render($this, "editar_bodegas", $id);
     }
 
     /**
@@ -200,6 +197,15 @@ class Productos extends Controller
     }
 
     /**
+     * Renderiza la vista de agregar productos
+     * @return void
+     */
+    public function agregar_productos(): void
+    {
+        $this->views->render($this, "agregar_producto");
+    }
+
+    /**
      * Renderiza la vista de landing
      * @param $id
      * @return void
@@ -248,8 +254,9 @@ class Productos extends Controller
      */
     public function obtener_productos(): void
     {
-        $this->catchAsync(function () {
-            $response = $this->model->obtener_productos($_SESSION['id_plataforma']);
+        $this->catchJWT(function () {
+            $response = $this->model->obtener_productos($this->user_data['id_plataforma']);
+            $response["user_data"] = $this->user_data;
             echo json_encode($response);
         })();
     }
@@ -260,8 +267,11 @@ class Productos extends Controller
      */
     public function obtener_productos_todos(): void
     {
-        $response = $this->model->obtenerProductosTodos();
-        echo json_encode($response);
+        $this->catchJWT(function () {
+            $response = $this->model->obtenerProductosTodos();
+            echo json_encode($response);
+        })();
+
     }
 
     public function obtener_productos_boveda()
@@ -371,15 +381,19 @@ class Productos extends Controller
 
     public function obtenerProveedores()
     {
-        $proveedores = $this->model->obtenerProveedores();
-        echo json_encode($proveedores);
+        $this->catchJWT(function () {
+            $response = $this->model->obtenerProveedores();
+            echo json_encode($response);
+        })();
     }
 
 
     public function obtener_lineas_global()
     {
-        $response = $this->model->obtenerLineasGlobal();
-        echo json_encode($response);
+        $this->catchJWT(function () {
+            $response = $this->model->obtenerLineasGlobal();
+            echo json_encode($response);
+        })();
     }
 
     public function obtener_productos_bodega($bodega)
@@ -489,63 +503,77 @@ class Productos extends Controller
      */
     public function agregarBodega(): void
     {
+        $this->catchJWT(function () {
+            $data = $this->jsonData(["nombre_bodega", "provincia", "ciudad", "direccion", "responsable", "telefono", "telefono", "referencia"]);
+            $nombre = $data['nombre_bodega'];
+            $direccion = $data['direccion'];
+            $telefono = $data['telefono'];
+            $ciudad = $data['ciudad'];
+            $provincia = $data['provincia'];
+            $contacto = $data['responsable'];
+            $numerocasa = $data['num_casa'] ?? '';
+            $referencia = $data['referencia'];
+            $longitud = $data['longitud'] ?? '0';
+            $latitud = $data['latitud'] ?? '0';
+            $isFull = $data['isFull'];
+            $full = $isFull ? $data["full"] : 0;
+
+            $response = $this->model->agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $numerocasa, $referencia, $this->user_data["id_plataforma"], $longitud, $latitud, $isFull, $full);
+            echo json_encode($response);
+        })();
+    }
+
+    /**
+     * Endpoint para obtener información de una bodega
+     * @param $id
+     * @return void
+     */
+    public function obtenerBodega($id): void
+    {
+        $this->catchJWT(function () use ($id) {
+            $response = $this->model->obtenerBodega($id, $this->user_data["id_plataforma"]);
+            echo json_encode($response);
+        })();
+    }
+
+    /**
+     * Endpoint para editar una bodega
+     * @return void
+     */
+    public function editarBodega(): void
+    {
+        $this->catchJWT(function () {
+            $data = $this->jsonData(["nombre_bodega", "provincia", "ciudad", "direccion", "responsable", "telefono", "referencia"]);
+            $id = $data['id'];
+            $nombre = $data['nombre_bodega'];
+            $direccion = $data['direccion'];
+            $telefono = $data['telefono'];
+            $ciudad = $data['ciudad'];
+            $provincia = $data['provincia'];
+            $contacto = $data['responsable'];
+            $numerocasa = $data['num_casa'] ?? '';
+            $referencia = $data['referencia'];
+            $longitud = $data['longitud'] ?? '0';
+            $latitud = $data['latitud'] ?? '0';
+            $isFull = $data['isFull'];
+            $full = $isFull ? $data["full"] : 0;
+
+            $response = $this->model->editarBodega($id, $nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $numerocasa, $referencia, $this->user_data["id_plataforma"], $longitud, $latitud, $isFull, $full);
+            echo json_encode($response);
+        })();
+    }
+
+    public function eliminarBodega()
+    {
         $this->catchAsync(function () {
             $data = $this->jsonData();
             if (empty($data)) {
                 throw new Exception("No se han enviado datos");
             }
-            $this->dataVerifier('nombre', $data['nombre']);
-            $this->dataVerifier('direccion_completa', $data['direccion_completa']);
-            $this->dataVerifier('telefono', $data['telefono']);
-            $this->dataVerifier('ciudad_entrega', $data['ciudad_entrega']);
-            $this->dataVerifier('provincia', $data['provincia']);
-            $this->dataVerifier('nombre_contacto', $data['nombre_contacto']);
-            $this->dataVerifier('referencia', $data['referencia']);
-            $nombre = $data['nombre'];
-            $direccion = $data['direccion_completa'];
-            $telefono = $data['telefono'];
-            $ciudad = $data['ciudad_entrega'];
-            $provincia = $data['provincia'];
-            $contacto = $data['nombre_contacto'];
-            $telefono_contacto = $telefono;
-            $numerocasa = $data['numero_casa'] ?? '';
-            $referencia = $data['referencia'];
-            $longitud = $data['longitud'];
-            $latitud = $data['latitud'];
-            $response = $this->model->agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $_SESSION['id_plataforma'], $longitud, $latitud);
+            $this->dataVerifier('id', $data['id']);
+            $response = $this->model->eliminarBodega($data['id'], $_SESSION['id_plataforma']);
             echo json_encode($response);
         })();
-    }
-
-    public function obtenerBodega($id)
-    {
-        $response = $this->model->obtenerBodega($id, $_SESSION['id_plataforma']);
-        echo json_encode($response);
-    }
-
-    public function editarBodega()
-    {
-        $id = $_POST['id'];
-        $nombre = $_POST['nombre'];
-        $direccion = $_POST['direccion_completa'];
-        $telefono = $_POST['telefono'];
-        $ciudad = $_POST['ciudad_entrega'];
-        $provincia = $_POST['provincia'];
-        $contacto = $_POST['nombre_contacto'];
-        $telefono_contacto = $telefono;
-        $numerocasa = $_POST['numero_casa'];
-        $referencia = $_POST['referencia'];
-        $longitud = $_POST['longitud'];
-        $latitud = $_POST['latitud'];
-        $response = $this->model->editarBodega($id, $nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $_SESSION['id_plataforma'], $longitud, $latitud);
-        echo json_encode($response);
-    }
-
-    public function eliminarBodega()
-    {
-        $id = $_POST['id'];
-        $response = $this->model->eliminarBodega($id, $_SESSION['id_plataforma']);
-        echo json_encode($response);
     }
 
     public function listar_bodegas()
@@ -556,8 +584,10 @@ class Productos extends Controller
 
     public function cargarBodegas()
     {
-        $response = $this->model->cargarBodegas($_SESSION['id_plataforma']);
-        echo json_encode($response);
+        $this->catchJWT(function () {
+            $response = $this->model->cargarBodegas($this->user_data['id_plataforma']);
+            echo json_encode($response);
+        })();
     }
 
 
@@ -677,39 +707,52 @@ class Productos extends Controller
 
     /// Funciones de productos
 
+    /**
+     * Agregar un producto
+     * @return void
+     */
     public function agregar_producto()
     {
-        $codigo_producto = $_POST['codigo_producto'];
-        $nombre_producto = $_POST['nombre_producto'];
-        $descripcion_producto = $_POST['descripcion_producto'];
-        $id_linea_producto = $_POST["id_linea_producto"];
-        $inv_producto = $_POST['inv_producto'];
-        $producto_variable = $_POST['producto_variable'];
-        $costo_producto = 0;
-        $aplica_iva = $_POST['aplica_iva'] ?? 0;
-        $estado_producto = $_POST['estado_producto'];
-        $date_added = date("Y-m-d H:i:s");
-        $image_path = "";
-        $id_imp_producto = $_POST['id_imp_producto'] ?? 12;
-        $pagina_web = $_POST['pagina_web'] ?? 0;
-        $formato = $_POST['formato'];
-        $drogshipin = $_POST['drogshipin'] ?? 0;
-        $destacado = $_POST['destacado'] ?? 0;
-        $envio_prioritario = $_POST['envio_prioritario'] ?? 0;
+        $this->catchJWT(function () {
+            $data = $this->jsonData();
+            if (empty($data)) {
+                throw new Exception("No se han enviado datos");
+            }
+            $this->dataVerifier('codigo_producto', $data['codigo_producto']);
+            $this->dataVerifier('nombre_producto', $data['nombre_producto']);
+            $this->dataVerifier('inv_producto', $data['inv_producto']);
+            $this->dataVerifier('pvp', $data['pvp']);
 
-        $enlace_funnelish = $_POST['enlace_funnelish'] ?? "";
-        /// stocks
-        $stock_inicial = $_POST['stock_inicial'] ?? 0;
-        $bodega = $_POST['bodega'] ?? 0;
+            $codigo_producto = $data['codigo_producto'];
+            $nombre_producto = $data['nombre_producto'];
+            $descripcion_producto = $data['descripcion_producto'];
+            $id_linea_producto = $data["id_linea_producto"];
+            $inv_producto = $data['inv_producto'];
+            $producto_variable = $data['producto_variable'];
+            $costo_producto = 0;
+            $aplica_iva = $data['aplica_iva'] ?? 0;
+            $estado_producto = $data['estado_producto'];
+            $date_added = date("Y-m-d H:i:s");
+            $image_path = "";
+            $id_imp_producto = $data['id_imp_producto'] ?? 12;
+            $pagina_web = $data['pagina_web'] ?? 0;
+            $formato = $data['formato'];
+            $drogshipin = $data['drogshipin'] ?? 0;
+            $destacado = $data['destacado'] ?? 0;
+            $envio_prioritario = $data['envio_prioritario'] ?? 0;
 
-        $pcp = $_POST['pcp'] ?? 0;
-        $pvp = $_POST['pvp'] ?? 0;
-        $pref = 0;
+            $enlace_funnelish = $data['enlace_funnelish'] ?? "";
+            /// stocks
+            $stock_inicial = $data['stock_inicial'] ?? 0;
+            $bodega = $data['bodega'] ?? 0;
 
+            $pcp = $data['pcp'] ?? 0;
+            $pvp = $data['pvp'] ?? 0;
+            $pref = 0;
 
-        $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref, $enlace_funnelish, $envio_prioritario);
-        //echo 'asds';
-        echo json_encode($response);
+            $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref, $enlace_funnelish, $envio_prioritario);
+            echo json_encode($response);
+        })();
     }
 
     public function editar_producto()

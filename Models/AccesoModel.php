@@ -228,11 +228,11 @@ class AccesoModel extends Query
         //5. Validar la configuración y asignar a la sesión
         $_SESSION['validar_config_chat'] = $this->validar_configuracion($auth->getIdPlataforma());
 
-        setcookie("token", $jwt, time() + 3600, "/", "." . DOMINIO);
+        setcookie("token", $jwt, time() + $_ENV["JWT_EXPIRE"], "/", "." . DOMINIO);
 
         // Opcional: cookie extra (jwt_token) con más flags
         setcookie('jwt_token', $jwt, [
-            'expires' => time() + 3600,
+            'expires' => time() + $_ENV["JWT_EXPIRE"],
             'path' => '/',
             'domain' => '.' . DOMINIO,
             'secure' => true,
@@ -471,7 +471,7 @@ class AccesoModel extends Query
                 $_SESSION["enlace"] = "https://" . $result[0]["nombre_tienda"] . "." . DOMINIO;
                 $_SESSION["matriz"] = $this->obtenerMatriz();
                 $_SESSION["login_time"] = time();
-                $_SESSION["session_lifetime"] = 3600;
+                $_SESSION["session_lifetime"] = $_ENV["JWT_EXPIRE"];
                 $_SESSION["token"] = $token;
             }
 

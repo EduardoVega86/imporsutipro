@@ -1,3 +1,3 @@
 window.addEventListener("load", async () => {
-  await initDataTable();
+    await initDataTable();
 });

@@ -41,15 +41,10 @@ class Acceso extends Controller
     public function login(): void
     {
         $this->catchAsync(function () {
-            $data = $this->jsonData();
-            if (empty($data)) {
-                throw new Exception("No se han enviado datos");
-            }
-            $correo = $data['correo'] ?? null;
-            $contrasena = $data['contrasena'] ?? null;
-            if (empty($correo) || empty($contrasena)) {
-                throw new Exception("Correo y contraseña son requeridos");
-            }
+            $data = $this->jsonData(['correo', 'contrasena']);
+            $correo = $data['correo'];
+            $contrasena = $data['contrasena'];
+
             $response = $this->model->login2($correo, $contrasena);
             echo json_encode($response);
         })();

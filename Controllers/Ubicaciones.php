@@ -12,7 +12,7 @@ class Ubicaciones extends Controller
         } */
     }
 
-    public function obtenerProvincias()
+    public function obtenerProvincias(): void
     {
         $pais = $_POST['pais'] ?? 0;
         $data = $this->model->obtener_provincias($pais);

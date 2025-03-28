@@ -1384,49 +1384,63 @@ class ProductosModel extends Query
      * @param $ciudad
      * @param $provincia
      * @param $contacto
-     * @param $telefono_contacto
      * @param $numerocasa
      * @param $referencia
      * @param $plataforma
      * @param $longitud
      * @param $latitud
+     * @param $isFull
+     * @param $full
      * @return array
      * @throws Exception
      */
-    public function agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $plataforma, $longitud, $latitud): array
+    public function agregarBodega($nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $numerocasa, $referencia, $plataforma, $longitud, $latitud, $isFull, $full): array
     {
-        $this->inventarioManager->registrarBodega($nombre, $contacto, $telefono_contacto, $ciudad, $provincia, $direccion, $referencia, $plataforma, $numerocasa, $longitud, $latitud);
+        $this->inventarioManager->registrarBodega($nombre, $contacto, $telefono, $ciudad, $provincia, $direccion, $referencia, $plataforma, $isFull, $full, $numerocasa, $longitud, $latitud);
         $this->getResponse()["status"] = 200;
         $this->getResponse()["title"] = "Peticion exitosa";
         $this->getResponse()["message"] = "Bodega agregada correctamente";
         return $this->getResponse();
     }
 
-    public function obtenerBodega($id, $plataforma)
+    /**
+     * @param $id
+     * @param $plataforma
+     * @return array
+     * @throws Exception
+     */
+    public function obtenerBodega($id, $plataforma): array
     {
         $sql = "SELECT * FROM bodega WHERE id= $id AND id_plataforma = $plataforma";
         return $this->select($sql);
     }
 
-    public function editarBodega($id, $nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $telefono_contacto, $numerocasa, $referencia, $plataforma, $longitud, $latitud)
+    /**
+     * @param $id
+     * @param $nombre
+     * @param $direccion
+     * @param $telefono
+     * @param $ciudad
+     * @param $provincia
+     * @param $contacto
+     * @param $numerocasa
+     * @param $referencia
+     * @param $plataforma
+     * @param $longitud
+     * @param $latitud
+     * @param $isFull
+     * @param $full
+     * @return array
+     * @throws Exception
+     */
+    public function editarBodega($id, $nombre, $direccion, $telefono, $ciudad, $provincia, $contacto, $numerocasa, $referencia, $plataforma, $longitud, $latitud, $isFull, $full): array
     {
-        // codigo para editar categoria
-        $response = $this->initialResponse();
+        $this->inventarioManager->editarBodega($id, $nombre, $contacto, $telefono, $ciudad, $provincia, $direccion, $referencia, $plataforma, $isFull, $full, $numerocasa, $longitud, $latitud);
+        $this->getResponse()["status"] = 200;
+        $this->getResponse()["title"] = "Peticion exitosa";
+        $this->getResponse()["message"] = "Bodega editada correctamente";
+        return $this->getResponse();
 
-        $sql = "UPDATE `bodega` SET `nombre` = ?, `longitud` = ?, `latitud` = ?, `direccion` = ?, `num_casa` = ?, `referencia` = ?, `responsable` = ?, `contacto` = ?, `localidad` = ?, `provincia` = ? WHERE `id` = ? ";
-        $data = [$nombre, $longitud, $latitud, $direccion, $numerocasa, $referencia, $contacto, $telefono_contacto, $ciudad, $provincia, $id];
-        $editar_categoria = $this->update($sql, $data);
-        //print_r($editar_categoria);
-        if ($editar_categoria == 1) {
-            $response['status'] = 200;
-            $response['title'] = 'Peticion exitosa';
-            $response['message'] = 'Categoria editada correctamente';
-        } else {
-            $response['status'] = 500;
-            $response['title'] = 'Error';
-            $response['message'] = $editar_categoria['message'];
-        }
-        return $response;
     }
 
     public function eliminarBodega($id, $plataforma)
@@ -1481,6 +1495,9 @@ class ProductosModel extends Query
         return $this->select($sql);
     }
 
+    /**
+     * @throws Exception
+     */
     public function cargarBodegas($plataforma)
     {
         $id_matriz = $this->obtenerMatriz();
@@ -1514,7 +1531,7 @@ class ProductosModel extends Query
 
     ///caracteristicas
 
-    public function agregarCaracteristica($variedad, $id_atributo, $plataforma)
+    public function agregarCaracteristica($variedad, $id_atributo, $plataforma): array
     {
         $response = $this->initialResponse();
         $sql = "INSERT INTO variedades (variedad, id_atributo, id_plataforma) VALUES (?, ?, ?)";

@@ -20,7 +20,7 @@ class Inventarios extends Controller
     {
         $this->views->render($this, "bodegas");
     }
-    public function agregar_bodegas()
+    public function agregar_bodegas(): void
     {
         $this->views->render($this, "agregar_bodegas");
     }

@@ -6,8 +6,10 @@ function getFecha() {
     let mes = fecha.getMonth() + 1;
     let dia = fecha.getDate();
     let anio = fecha.getFullYear();
-    let fechaHoy = `${anio}-${mes}-${dia}`;
-    return fechaHoy;
+    let hora = fecha.getHours();
+    let minutos = fecha.getMinutes();
+    let segundos = fecha.getSeconds();
+    return `${anio}-${mes}-${dia}-${hora}-${minutos}-${segundos}`;
 }
 
 const dataTableProductosOptions = {
@@ -97,10 +99,10 @@ const initDataTableProductos = async () => {
 
 const listProductos = async () => {
     try {
-        const response = await fetch(SERVERURL + "productos/obtener_productos");
-        let res = await response.json();
-        let content = ``;
-        let productos;
+        const response = await impAxios.get(SERVERURL + "productos/obtener_productos");
+        const res = response.data;
+        let content = "";
+        let productos = [];
         if (res.status === 200) productos = res.data;
 
 
@@ -114,7 +116,7 @@ const listProductos = async () => {
         const full_f = infoTiendaResponse[0].full_f;
 
         /* Validador de bodega */
-        if (full_f == 0) {
+        if (full_f === 0) {
             validador_bodega();
         }
 
