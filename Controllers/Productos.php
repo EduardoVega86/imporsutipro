@@ -713,46 +713,37 @@ class Productos extends Controller
      */
     public function agregar_producto()
     {
-        $this->catchJWT(function () {
-            $data = $this->jsonData();
-            if (empty($data)) {
-                throw new Exception("No se han enviado datos");
-            }
-            $this->dataVerifier('codigo_producto', $data['codigo_producto']);
-            $this->dataVerifier('nombre_producto', $data['nombre_producto']);
-            $this->dataVerifier('inv_producto', $data['inv_producto']);
-            $this->dataVerifier('pvp', $data['pvp']);
+        $codigo_producto = $_POST['codigo_producto'];
+        $nombre_producto = $_POST['nombre_producto'];
+        $descripcion_producto = $_POST['descripcion_producto'];
+        $id_linea_producto = $_POST["id_linea_producto"];
+        $inv_producto = $_POST['inv_producto'];
+        $producto_variable = $_POST['producto_variable'];
+        $costo_producto = 0;
+        $aplica_iva = $_POST['aplica_iva'] ?? 0;
+        $estado_producto = $_POST['estado_producto'];
+        $date_added = date("Y-m-d H:i:s");
+        $image_path = "";
+        $id_imp_producto = $_POST['id_imp_producto'] ?? 12;
+        $pagina_web = $_POST['pagina_web'] ?? 0;
+        $formato = $_POST['formato'];
+        $drogshipin = $_POST['drogshipin'] ?? 0;
+        $destacado = $_POST['destacado'] ?? 0;
+        $envio_prioritario = $_POST['envio_prioritario'] ?? 0;
 
-            $codigo_producto = $data['codigo_producto'];
-            $nombre_producto = $data['nombre_producto'];
-            $descripcion_producto = $data['descripcion_producto'];
-            $id_linea_producto = $data["id_linea_producto"];
-            $inv_producto = $data['inv_producto'];
-            $producto_variable = $data['producto_variable'];
-            $costo_producto = 0;
-            $aplica_iva = $data['aplica_iva'] ?? 0;
-            $estado_producto = $data['estado_producto'];
-            $date_added = date("Y-m-d H:i:s");
-            $image_path = "";
-            $id_imp_producto = $data['id_imp_producto'] ?? 12;
-            $pagina_web = $data['pagina_web'] ?? 0;
-            $formato = $data['formato'];
-            $drogshipin = $data['drogshipin'] ?? 0;
-            $destacado = $data['destacado'] ?? 0;
-            $envio_prioritario = $data['envio_prioritario'] ?? 0;
+        $enlace_funnelish = $_POST['enlace_funnelish'] ?? "";
+        /// stocks
+        $stock_inicial = $_POST['stock_inicial'] ?? 0;
+        $bodega = $_POST['bodega'] ?? 0;
 
-            $enlace_funnelish = $data['enlace_funnelish'] ?? "";
-            /// stocks
-            $stock_inicial = $data['stock_inicial'] ?? 0;
-            $bodega = $data['bodega'] ?? 0;
+        $pcp = $_POST['pcp'] ?? 0;
+        $pvp = $_POST['pvp'] ?? 0;
+        $pref = 0;
 
-            $pcp = $data['pcp'] ?? 0;
-            $pvp = $data['pvp'] ?? 0;
-            $pref = 0;
 
-            $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref, $enlace_funnelish, $envio_prioritario);
-            echo json_encode($response);
-        })();
+        $response = $this->model->agregarProducto($codigo_producto, $nombre_producto, $descripcion_producto, $id_linea_producto, $inv_producto, $producto_variable, $costo_producto, $aplica_iva, $estado_producto, $date_added, $image_path, $id_imp_producto, $pagina_web, $formato, $drogshipin, $destacado, $_SESSION['id_plataforma'], $stock_inicial, $bodega, $pcp, $pvp, $pref, $enlace_funnelish, $envio_prioritario);
+        //echo 'asds';
+        echo json_encode($response);
     }
 
     public function editar_producto()
