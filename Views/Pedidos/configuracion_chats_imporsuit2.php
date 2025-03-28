@@ -55,7 +55,7 @@
     // 1. Inicializar el SDK de Facebook
     window.fbAsyncInit = function() {
         FB.init({
-            appId: '1211546113231811', // Reemplazar con tu App ID real de Facebook
+            appId: '1211546113231811', // Reemplazar con tu APP ID real de Facebook => IMPORTANTE
             autoLogAppEvents: true,
             xfbml: true,
             version: 'v22.0' // O la versión de Graph API que uses
@@ -118,7 +118,7 @@
     // 4. Función que lanza el flujo de WhatsApp Embedded Signup
     function launchWhatsAppSignup() {
         FB.login(fbLoginCallback, {
-            config_id: '2295613834169297', // Reemplaza con tu Configuration ID real
+            config_id: '2295613834169297', // Reemplaza con tu CONFIGURATION ID real => IMPORTANTE
             response_type: 'code',
             override_default_response_type: true,
             extras: {
