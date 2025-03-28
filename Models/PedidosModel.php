@@ -3524,11 +3524,16 @@ class PedidosModel extends Query
 
         // Insertamos el bloque system al principio si hay datos válidos
         if (!empty($ultima_factura_valida)) {
-            $resultado = array_merge([[
+            $bloque_factura = "datos_factura:\n";
+            foreach ($ultima_factura_valida as $k => $v) {
+                $bloque_factura .= ucfirst($k) . ": " . $v . "\n";
+            }
+
+            array_unshift($resultado, [
                 'role' => 'system',
-                'content' => json_encode(['datos_factura' => $ultima_factura_valida], JSON_UNESCAPED_UNICODE),
+                'content' => $bloque_factura,
                 'fecha' => null
-            ]], $resultado);
+            ]);
         }
 
         return $resultado;
