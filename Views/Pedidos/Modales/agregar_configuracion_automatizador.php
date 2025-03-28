@@ -111,10 +111,10 @@
                             <input type="text" class="form-control" id="tokenApi" placeholder="Ingrese el token de la API de WhatsApp">
                         </div>
 
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="tokenWebhookUrl" class="form-label">Token Webhook URL</label>
                             <input type="text" class="form-control" id="tokenWebhookUrl" placeholder="Ingrese el token de Webhook URL" value="wh_clfgshur5">
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
@@ -136,7 +136,7 @@
         var idWhatsapp = $('#idWhatsapp').val();
         var idBusinessAccount = $('#idBusinessAccount').val();
         var tokenApi = $('#tokenApi').val();
-        var tokenWebhookUrl = $('#tokenWebhookUrl').val();
+        /* var tokenWebhookUrl = $('#tokenWebhookUrl').val(); */
 
         let formData = new FormData();
         formData.append("nombre_configuracion", nombreConfiguracion);
@@ -144,7 +144,7 @@
         formData.append("id_telefono", idWhatsapp);
         formData.append("id_whatsapp", idBusinessAccount);
         formData.append("token", tokenApi);
-        formData.append("webhook_url", tokenWebhookUrl);
+        /* formData.append("webhook_url", tokenWebhookUrl); */
 
         $.ajax({
             url: SERVERURL + "Pedidos/agregar_configuracion",
