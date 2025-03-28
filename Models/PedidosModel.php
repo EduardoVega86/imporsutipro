@@ -3524,9 +3524,10 @@ class PedidosModel extends Query
 
         // Insertamos el bloque system al principio si hay datos válidos
         if (!empty($ultima_factura_valida)) {
-            $bloque_factura = "datos_factura:\n";
+            $bloque_factura = "IMPORTANTE: A continuación se presenta el bloque de datos_factura con la información del pedido más reciente. Úsala para responder si el cliente pregunta sobre dirección, ciudad, precio, producto u otros detalles:\n\n";
+
             foreach ($ultima_factura_valida as $k => $v) {
-                $bloque_factura .= ucfirst($k) . ": " . $v . "\n";
+                $bloque_factura .= strtoupper($k) . ": " . $v . "\n";
             }
 
             array_unshift($resultado, [
