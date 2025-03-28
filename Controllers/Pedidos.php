@@ -3084,7 +3084,7 @@ class Pedidos extends Controller
         $telefono = $_POST['telefono'];
         $id_telefono = $_POST['id_telefono'];
         $id_whatsapp = $_POST['id_whatsapp'];
-        $token = $_POST['token'];;
+        $token = $_POST['token'];
 
         $response = $this->model->agregar_configuracion($nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $_SESSION['id_plataforma']);
         echo json_encode($response);
