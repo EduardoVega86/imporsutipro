@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Class/ImageUploader.php';
+
 class UsuariosModel extends Query
 {
     public function __construct()
@@ -96,6 +97,7 @@ ON
         }
         return $responses;
     }
+
     public function registro($nombre, $correo, $pais, $telefono, $contrasena, $tienda)
     {
         //echo 'asd';
@@ -103,7 +105,7 @@ ON
         $response = $this->initialResponse();
 
         //Se general el usuario
-        $date_added       = date("Y-m-d H:i:s");
+        $date_added = date("Y-m-d H:i:s");
         /* $sql = "INSERT INTO users (nombre, correo, pais, telefono, contrasena) VALUES (?, ?, ?, ?, ?)"; */
 
         $prefix = 'tmp_';
@@ -779,7 +781,7 @@ ON
             . "`subtexto_icon`=?,`enlace_icon`=?,"
             . "`icon_text`=? WHERE id_plataforma = ? AND id = ?;";
         // echo $sql;
-        $data = [$texto, $subtexto_icon, $enlace_icon,  $icon_text, $id_plataforma, $id];
+        $data = [$texto, $subtexto_icon, $enlace_icon, $icon_text, $id_plataforma, $id];
         //  print_r($data);
         $editar_icono = $this->update($sql, $data);
 
@@ -928,7 +930,6 @@ ON
 
         return $response;
     }
-
 
 
     public function eliminarBanner($id, $plataforma)
@@ -1347,7 +1348,8 @@ ON
         $enlace_oferta2,
         $imagen2,
         $plataforma
-    ) {
+    )
+    {
         $response = $this->initialResponse();
         $target_dir = "public/img/ofertas_plantilla2/";
 
@@ -1498,7 +1500,8 @@ ON
         $enlace_btn_promocion,
         $imagen_promocion,
         $plataforma
-    ) {
+    )
+    {
         $response = $this->initialResponse();
         $target_dir = "public/img/promocion/";
 
@@ -1642,6 +1645,7 @@ ON
         }
         return $response;
     }
+
     /* Fin tienda online */
 
 
@@ -2017,7 +2021,7 @@ ON
         $response = $this->initialResponse();
 
         //Se general el usuario
-        $date_added       = date("Y-m-d H:i:s");
+        $date_added = date("Y-m-d H:i:s");
 
         $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
         $sql = "INSERT INTO users (nombre_users, email_users, con_users, usuario_users, date_added, cargo_users) VALUES (?, ?, ?, ?, ?, ?)";
@@ -2074,7 +2078,7 @@ ON
         // Consulta para novedades
         $sql2 = "SELECT COUNT(*) AS cantidad_novedades 
     FROM novedades 
-    WHERE id_plataforma=$plataforma AND solucionada=0 AND terminado=0 and fecha_novedad BETWEEN DATE_SUB(CURDATE(), INTERVAL 4 DAY) AND CURDATE();";
+    WHERE id_plataforma=$plataforma AND solucionada=0 AND terminado=0 and fecha BETWEEN DATE_SUB(CURDATE(), INTERVAL 4 DAY) AND CURDATE();";
 
         $result2 = $this->select($sql2);
         $cantidad_novedades = isset($result2[0]['cantidad_novedades']) ? $result2[0]['cantidad_novedades'] : 0;
@@ -2203,7 +2207,7 @@ ON
 
         foreach ($usuarios as $key => $usuario) {
             //si detecta el campo whatsapp vacio, lo cambia por sin asignar
-            $usuarios[$key]['whatsapp']  = trim($usuario['whatsapp']);
+            $usuarios[$key]['whatsapp'] = trim($usuario['whatsapp']);
             if ($usuario['whatsapp'] == "" || $usuario['whatsapp'] == null) {
                 $usuarios[$key]['whatsapp'] = 'Sin asignar';
             }
@@ -2263,5 +2267,30 @@ ON
         }
 
         return $response;
+    }
+
+    /**
+     * Obtiene la proveeduria de una plataforma
+     * @return array
+     * @throws Exception
+     */
+    public function obtenerProveeduria($id_plataforma): array
+    {
+        $sql = "SELECT proveedor FROM `plataformas` WHERE id_plataforma = ?";
+        $proveeduria = $this->dselect($sql, [$id_plataforma]);
+
+        if ($proveeduria[0]["proveedor"] == 1) {
+            $this->getResponse()["status"] = 200;
+            $this->getResponse()["title"] = "Peticion exitosa";
+            $this->getResponse()["message"] = "Proveeduria obtenida correctamente";
+            $this->getResponse()["data"] = 1;
+            return $this->getResponse();
+        } else {
+            $this->getResponse()["status"] = 500;
+            $this->getResponse()["title"] = "Error";
+            $this->getResponse()["message"] = "No dispone de proveeduria";
+            $this->getResponse()["data"] = 0;
+            return $this->getResponse();
+        }
     }
 }

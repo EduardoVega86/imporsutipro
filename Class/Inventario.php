@@ -25,17 +25,24 @@ class Inventario
      * @param string $direccion
      * @param string $referencia
      * @param int $id_empresa es el id_plataforma de la tabla plataformas
+     * @param bool $isFull
+     * @param float $full
      * @param string $numero_casa
      * @param string $longitud son opcionales
      * @param string $latitud son opcionales
      * @return void La función no retorna nada.
      * @throws Exception Si ocurre un error al registrar la bodega se realiza un rollback y se lanza una excepción.
      */
-    public function registrarBodega(string $nombre, string $responsable, string $contacto, int $localidad, int $provincia, string $direccion, string $referencia, int $id_empresa, string $numero_casa = "", string $longitud = "", string $latitud = ""): void
+    public function registrarBodega(string $nombre, string $responsable, string $contacto, int $localidad, int $provincia, string $direccion, string $referencia, int $id_empresa, bool $isFull, float $full, string $numero_casa = "", string $longitud = "", string $latitud = ""): void
     {
         try {
             $this->pdo->beginTransaction();
-            $statement = "INSERT INTO bodega (nombre, responsable, contacto, localidad, provincia, direccion, referencia, id_empresa, num_casa, id_plataforma, longitud, latitud) VALUES (:nombre, :responsable, :contacto, :localidad, :provincia, :direccion, :referencia, :id_empresa, :numero_casa, :id_plataforma, :longitud, :latitud)";
+            $global = 0;
+            if ($full) {
+                $global = 1;
+            }
+
+            $statement = "INSERT INTO bodega (nombre, responsable, contacto, localidad, provincia, direccion, referencia, id_empresa, num_casa, id_plataforma, longitud, latitud, global, full_filme) VALUES (:nombre, :responsable, :contacto, :localidad, :provincia, :direccion, :referencia, :id_empresa, :numero_casa, :id_plataforma, :longitud, :latitud, :global, :full_filme)";
             $stmt = $this->pdo->prepare($statement);
             $stmt->execute([
                 'nombre' => $nombre,
@@ -48,14 +55,68 @@ class Inventario
                 'id_empresa' => $id_empresa,
                 'numero_casa' => $numero_casa ?? null,
                 'id_plataforma' => $this->id_plataforma,
-                'longitud' => $longitud ?? null,
-                'latitud' => $latitud ?? null
+                'longitud' => $longitud ?? 0,
+                'latitud' => $latitud ?? 0,
+                'global' => $global,
+                'full_filme' => $full
             ]);
+            $this->pdo->commit();
         } catch (PDOException $e) {
             $this->pdo->rollBack();
             throw new Exception("Error al registrar la bodega: " . $e->getMessage());
-        } finally {
+        }
+    }
+
+    /**
+     * Edita una bodega
+     * @param int $id_bodega
+     * @param string $nombre
+     * @param string $responsable
+     * @param string $contacto
+     * @param int $localidad
+     * @param int $provincia
+     * @param string $direccion
+     * @param string $referencia
+     * @param int $id_empresa
+     * @param bool $isFull
+     * @param float $full
+     * @param string $numero_casa
+     * @param string $longitud
+     * @param string $latitud
+     * @throws Exception
+     */
+    public function editarBodega(int $id_bodega, string $nombre, string $responsable, string $contacto, int $localidad, int $provincia, string $direccion, string $referencia, int $id_empresa, bool $isFull, float $full, string $numero_casa = "", string $longitud = "", string $latitud = ""): void
+    {
+        try {
+            $this->pdo->beginTransaction();
+            $global = 0;
+            if ($isFull) {
+                $global = 1;
+            }
+
+            $statement = "UPDATE bodega SET nombre = :nombre, responsable = :responsable, contacto = :contacto, localidad = :localidad, provincia = :provincia, direccion = :direccion, referencia = :referencia, id_empresa = :id_empresa, num_casa = :numero_casa, id_plataforma = :id_plataforma, longitud = :longitud, latitud = :latitud, global = :global, full_filme = :full_filme WHERE id = :id_bodega";
+            $stmt = $this->pdo->prepare($statement);
+            $stmt->execute([
+                'id_bodega' => $id_bodega,
+                'nombre' => $nombre,
+                'responsable' => $responsable,
+                'contacto' => $contacto,
+                'localidad' => $localidad,
+                'provincia' => $provincia,
+                'direccion' => $direccion,
+                'referencia' => $referencia,
+                'id_empresa' => $id_empresa,
+                'numero_casa' => $numero_casa ?? null,
+                'id_plataforma' => $this->id_plataforma,
+                'longitud' => $longitud ?? 0,
+                'latitud' => $latitud ?? 0,
+                'global' => $global,
+                'full_filme' => $full
+            ]);
             $this->pdo->commit();
+        } catch (PDOException $e) {
+            $this->pdo->rollBack();
+            throw new Exception("Error al editar la bodega: " . $e->getMessage());
         }
     }
 

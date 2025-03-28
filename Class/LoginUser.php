@@ -101,11 +101,11 @@ class LoginUser
         $_SESSION['matriz'] = MATRIZ;
 
         // Compartir cookie con subdominio
-        setcookie("user", $this->email_users, time() + 3600, "/", "." . DOMINIO);
-        setcookie("id_plataforma", $this->id_plataforma, time() + 3600, "/", "." . DOMINIO);
-        setcookie("login_time", time(), time() + 3600, "/", "." . DOMINIO);
-        setcookie("cargo", $this->cargo_users, time() + 3600, "/", "." . DOMINIO);
-        setcookie("id", $this->id_users, time() + 3600, "/", "." . DOMINIO);
+        setcookie("user", $this->email_users, time() + $_ENV["JWT_EXPIRE"], "/", "." . DOMINIO);
+        setcookie("id_plataforma", $this->id_plataforma, time() + $_ENV["JWT_EXPIRE"], "/", "." . DOMINIO);
+        setcookie("login_time", time(), time() + $_ENV["JWT_EXPIRE"], "/", "." . DOMINIO);
+        setcookie("cargo", $this->cargo_users, time() + $_ENV["JWT_EXPIRE"], "/", "." . DOMINIO);
+        setcookie("id", $this->id_users, time() + $_ENV["JWT_EXPIRE"], "/", "." . DOMINIO);
     }
 
 

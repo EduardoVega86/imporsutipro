@@ -58,7 +58,7 @@
                     id="menuDropdown"
                     class="hidden absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg z-10">
                     <ul class="py-2">
-                        <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer" id="logoutBtn">Cerrar sesión</li>
+                        <button onclick="cerrar_sesion()" class="px-4 py-2 hover:bg-gray-200 cursor-pointer" id="logoutBtn">Cerrar sesión</button>
                     </ul>
                 </div>
             </div>

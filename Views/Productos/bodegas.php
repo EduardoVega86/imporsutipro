@@ -33,5 +33,5 @@
         </div>
     </div>
 </div>
-<script src="<?php echo SERVERURL ?>/Views/Productos/js/bodegas.js"></script>
+<?php loadViewScripts("Productos", "listar_bodega"); ?>
 <?php require_once './Views/templates/footer.php'; ?>

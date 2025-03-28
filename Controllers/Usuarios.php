@@ -834,4 +834,12 @@ class Usuarios extends Controller
         $response = $this->model->obtener_plantilla_select($id_plataforma);
         echo json_encode($response);
     }
+
+    public function obtenerProveeduria($id_plataforma)
+    {
+         $this->catchJWT(function () use ($id_plataforma) {
+             $response = $this->model->obtenerProveeduria($id_plataforma);
+             echo json_encode($response);
+         })();
+    }
 }

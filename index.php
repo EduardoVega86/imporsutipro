@@ -52,7 +52,19 @@ if (!empty($array[2])) {
         $parameter = trim($parameter, '-||-');
     }
 }
-
+function loadViewScripts(string $controller, string $view): void
+{
+    $funcionalidad = explode('_', $view)[0] ?? '';
+    $modulo = explode('_', $view)[1] ?? '';
+    $path = "Views/{$controller}/js/" . ucfirst($modulo) . "/" . $funcionalidad;
+    if (is_dir($path)) {
+        foreach (scandir($path) as $file) {
+            if (pathinfo($file, PATHINFO_EXTENSION) === 'js') {
+                echo "<script src='" . SERVERURL . $path . "/" . $file . "'></script>" . PHP_EOL;
+            }
+        }
+    }
+}
 // Cargar archivos necesarios
 require_once 'Config/App/autoload.php';
 

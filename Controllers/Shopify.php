@@ -6,25 +6,6 @@ class Shopify extends Controller
         parent::__construct();
     }
 
-    /*public function index($id_plataforma): void
-    {
-        if (empty($id_plataforma)) {
-            die("Error: No se ha especificado una plataforma");
-        }
-        if ($this->model->existenciaPlataforma($id_plataforma)) {
-            $data = file_get_contents("php://input");
-            $response = $this->model->agregarJson($id_plataforma, $data);
-            echo json_encode($response);
-            $valido = $this->model->productoPlataforma($id_plataforma, $data);
-            if ($valido) {
-                $this->model->gestionarRequest($id_plataforma, $data);
-            } else return;
-        } else {
-            $data = file_get_contents("php://input");
-            $response = $this->model->agregarJson($id_plataforma, $data);
-        }
-    }*/
-
     public function index($id_plataforma) :void
     {
         if(empty($id_plataforma)) {
@@ -171,13 +152,11 @@ class Shopify extends Controller
     }
 
     public function abandonado($id_plataforma){
-        /*$data = file_get_contents("php://input");
-        $response = $this->model->saveAbandonedCart($id_plataforma, $data);
-        echo json_encode($response);*/
 
         $this->catchAsync(function () use ($id_plataforma) {
             if(empty($id_plataforma))
                 throw new Exception("No se ha especificado una plataforma");
+
             if(!$this->model->existenciaPlataformaAbandonada($id_plataforma)){
                 $this->model->saveAbandonedCart($id_plataforma, file_get_contents("php://input"));
                 echo json_encode(["message" => "Se registro la plataforma", "status"=> "success", "code" => 200]);
