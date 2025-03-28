@@ -3525,13 +3525,9 @@ class PedidosModel extends Query
 
         // Si hay datos_factura, los unificamos como bloque system
         if (!empty($datos_factura_unificados)) {
-            $texto_facturas = "datos_factura:\n";
-            foreach ($datos_factura_unificados as $index => $factura) {
-                $texto_facturas .= "\nFactura " . ($index + 1) . ":\n";
-                foreach ($factura as $k => $v) {
-                    $texto_facturas .= ucfirst($k) . ": " . $v . "\n";
-                }
-            }
+            $texto_facturas = json_encode([
+                "datos_factura" => $datos_factura_unificados
+            ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
             array_unshift($resultado, [
                 'role' => 'system',
