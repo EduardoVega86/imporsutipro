@@ -3473,19 +3473,18 @@ class PedidosModel extends Query
         return ["respuesta" => $respuesta];
     }
 
-
     public function ultimos_mensajes_assistmant($celular_recibe)
     {
         $sql = "SELECT rol_mensaje, texto_mensaje, ruta_archivo, created_at
-        FROM mensajes_clientes 
-        WHERE celular_recibe = $celular_recibe 
-        ORDER BY id DESC 
-        LIMIT 3;";
+            FROM mensajes_clientes 
+            WHERE celular_recibe = $celular_recibe 
+            ORDER BY id DESC 
+            LIMIT 3;";
 
         $mensajes = $this->select($sql);
         $resultado = [];
-        $datos_factura_unificados = [];
         $base_url = "https://new.imporsuitpro.com/";
+        $ultima_factura_valida = null;
 
         foreach (array_reverse($mensajes) as $m) {
             $rol_mensaje = ($m['rol_mensaje'] == 1) ? "assistant" : "user";
@@ -3494,19 +3493,19 @@ class PedidosModel extends Query
             $fecha = date('d/m/Y H:i', strtotime($m['created_at']));
             $texto_mensaje = "[$fecha]\n" . $texto_mensaje;
 
-            // Si es JSON, se procesa como información de la factura
+            // Si es JSON válido, procesar como factura
             if ($this->esJson($ruta_archivo)) {
                 $datos = json_decode($ruta_archivo, true);
 
-                // Guardamos los datos para enviarlos como bloque separado
-                $datos_factura_unificados[] = $datos;
-
-                // Reemplazo en el texto
+                // Reemplazar {{}} en texto
                 foreach ($datos as $clave => $valor) {
                     $texto_mensaje = str_replace('{{' . $clave . '}}', $valor, $texto_mensaje);
                 }
 
-                // Agregamos info breve al final del mensaje
+                // Guardamos solo la última factura válida para el bloque system
+                $ultima_factura_valida = $datos;
+
+                // Anexar resumen al texto
                 $texto_mensaje .= "\n[Información adicional del sistema]\n";
                 foreach ($datos as $k => $v) {
                     $texto_mensaje .= ucfirst($k) . ": " . $v . "\n";
@@ -3523,17 +3522,13 @@ class PedidosModel extends Query
             ];
         }
 
-        // Si hay datos_factura, los unificamos como bloque system
-        if (!empty($datos_factura_unificados)) {
-            $texto_facturas = json_encode([
-                "datos_factura" => $datos_factura_unificados
-            ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-            array_unshift($resultado, [
+        // Insertamos el bloque system al principio si hay datos válidos
+        if (!empty($ultima_factura_valida)) {
+            $resultado = array_merge([[
                 'role' => 'system',
-                'content' => $texto_facturas,
+                'content' => json_encode(['datos_factura' => $ultima_factura_valida], JSON_UNESCAPED_UNICODE),
                 'fecha' => null
-            ]);
+            ]], $resultado);
         }
 
         return $resultado;
@@ -3542,7 +3537,7 @@ class PedidosModel extends Query
     private function esJson($string)
     {
         json_decode($string);
-        return (json_last_error() == JSON_ERROR_NONE && is_array(json_decode($string, true)));
+        return (json_last_error() === JSON_ERROR_NONE && is_array(json_decode($string, true)));
     }
 
     // Función para generar una clave única
