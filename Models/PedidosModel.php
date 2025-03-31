@@ -3248,7 +3248,7 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function agregar_configuracion($nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $webhook_url, $id_plataforma)
+    public function agregar_configuracion($nombre_configuracion, $telefono, $id_telefono, $id_whatsapp, $token, $id_plataforma)
     {
         // Inicializar la respuesta
         $response = $this->initialResponse();
@@ -3266,12 +3266,7 @@ class PedidosModel extends Query
 
         // Verificar si la inserción fue exitosa
         if ($insertar_configuracion == 1) {
-            $sql = "SELECT * FROM configuraciones WHERE key_imporsuit = '$key_imporsuit'";
-            $configuracion = $this->select($sql);
-
-            $id_configuracion = $configuracion[0]['id'];
-
-            $webhook_url = "https://new.imporsuitpro.com/public/webhook_whatsapp/webhook.php?id=" . $id_configuracion . "&webhook=" . $webhook_url;
+            $webhook_url = "https://new.imporsuitpro.com/public/webhook_whatsapp/webhook_2.php?webhook=wh_czcv54";
 
             // Realizar el update usando la clave única 'key_imporsuit'
             $sql_update = "UPDATE `configuraciones` SET `webhook_url` = ? WHERE `key_imporsuit` = ?";
