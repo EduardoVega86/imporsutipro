@@ -876,6 +876,7 @@ document
     await descargarReportePorFila("excel", "xlsx"); 
   });
 
+const loader = document.getElementById("modalFilterLoader");
 
 window.addEventListener("load", async () => {
   await initDataTable();
@@ -885,6 +886,7 @@ window.addEventListener("load", async () => {
     btnAplicar.addEventListener("click", async function () {
       //Deshabilitamos el boton al comenzar
       btnAplicar.disabled = true;
+      loader.style.display = "inline-block"; // Mostrar el loader
       try{
         let rangoFechas = $("#daterange").val();
         if (rangoFechas){
@@ -900,6 +902,7 @@ window.addEventListener("load", async () => {
         }
       } finally {
         btnAplicar.disabled = false;
+        loader.style.display = "none"; // Ocultar el loader
       }
     });
   }
