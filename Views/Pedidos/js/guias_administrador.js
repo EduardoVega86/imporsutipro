@@ -293,7 +293,7 @@ const listGuias = async () => {
           </td>
           <td>
             <div><button onclick="ver_detalle_cot('${guia.id_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
-            <div>${guia.fecha_factura}</div>
+            <div>${guia.fecha_guia}</div>
           </td>
           <td>
             <div><strong>${guia.nombre}</strong></div>
@@ -629,7 +629,7 @@ function ver_detalle_cot(id_factura) {
       );
       $("#telefono_detalleFac").text(response[0].telefono);
       $("#numOrden_detalleFac").text(response[0].numero_factura);
-      $("#fecha_detalleFac").text(response[0].fecha_factura);
+      $("#fecha_detalleFac").text(response[0].fecha_guia);
       $("#companiaEnvio_detalleFac").text(response[0].transporte);
       if (response[0].cod == 1) {
         $("#tipoEnvio_detalleFac").text("Con Recaudo");
