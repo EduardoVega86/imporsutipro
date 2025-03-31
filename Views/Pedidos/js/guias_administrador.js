@@ -293,7 +293,7 @@ const listGuias = async () => {
           </td>
           <td>
             <div><button onclick="ver_detalle_cot('${guia.id_factura}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>
-            <div>${guia.fecha_factura}</div>
+            <div>${guia.fecha_guia}</div>
           </td>
           <td>
             <div><strong>${guia.nombre}</strong></div>
@@ -629,7 +629,7 @@ function ver_detalle_cot(id_factura) {
       );
       $("#telefono_detalleFac").text(response[0].telefono);
       $("#numOrden_detalleFac").text(response[0].numero_factura);
-      $("#fecha_detalleFac").text(response[0].fecha_factura);
+      $("#fecha_detalleFac").text(response[0].fecha_guia);
       $("#companiaEnvio_detalleFac").text(response[0].transporte);
       if (response[0].cod == 1) {
         $("#tipoEnvio_detalleFac").text("Con Recaudo");
@@ -1281,8 +1281,8 @@ document.getElementById("downloadCsvOption").addEventListener("click", async (e)
   await descargarReporte("csv", "csv");
 });
 
+const loader = document.getElementById("modalFilterLoader")
 //Cargamos la tabla cuando el DOM esté listo (si quieres tener datos por defecto).
-
 document.addEventListener("DOMContentLoaded", function () {
   // NUEVO: si deseas cargar la DataTable por defecto al entrar a la página
   initDataTable(); 
@@ -1292,7 +1292,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (btnAplicar) {
     btnAplicar.addEventListener("click", async function () {
       btnAplicar.disabled = true;
-      try{// NUEVO: Leer la fecha seleccionada en el daterangepicker
+      loader.style.display = "inline-block";
+      try{
         let rangoFechas = $("#daterange").val();
         if (rangoFechas) {
           let fechas = rangoFechas.split(" - ");
@@ -1308,6 +1309,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       } finally{
         btnAplicar.disabled = false;
+        loader.style.display = "none"
       }
     });
   }
