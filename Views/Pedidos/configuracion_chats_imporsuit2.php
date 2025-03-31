@@ -19,6 +19,7 @@
 
             <button
                 class="btn btn-outline-primary"
+                style="display:none;"
                 id="btnConectarWhatsApp"
                 onclick="launchWhatsAppSignup()">
                 <i class="fab fa-whatsapp me-1"></i> Conectar WhatsApp
