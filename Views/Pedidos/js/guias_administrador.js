@@ -1281,8 +1281,8 @@ document.getElementById("downloadCsvOption").addEventListener("click", async (e)
   await descargarReporte("csv", "csv");
 });
 
+const loader = document.getElementById("modalFilterLoader")
 //Cargamos la tabla cuando el DOM esté listo (si quieres tener datos por defecto).
-
 document.addEventListener("DOMContentLoaded", function () {
   // NUEVO: si deseas cargar la DataTable por defecto al entrar a la página
   initDataTable(); 
@@ -1292,7 +1292,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (btnAplicar) {
     btnAplicar.addEventListener("click", async function () {
       btnAplicar.disabled = true;
-      try{// NUEVO: Leer la fecha seleccionada en el daterangepicker
+      loader.style.display = "inline-block";
+      try{
         let rangoFechas = $("#daterange").val();
         if (rangoFechas) {
           let fechas = rangoFechas.split(" - ");
@@ -1308,6 +1309,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       } finally{
         btnAplicar.disabled = false;
+        loader.style.display = "none"
       }
     });
   }
