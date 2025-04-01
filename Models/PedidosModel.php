@@ -3223,14 +3223,6 @@ class PedidosModel extends Query
         $sql = "SELECT * FROM configuraciones WHERE id_plataforma = $id_plataforma LIMIT 1";
         $result = $this->select($sql);
 
-        // 2) Verificar que existan las claves
-        if (!isset($result['id_whatsapp']) || !isset($result['token'])) {
-            return [
-                'error' => true,
-                'message' => 'No existen las columnas id_whatsapp o token en la fila.'
-            ];
-        }
-
         $whatsappId  = $result[0]['id_whatsapp'];
         $accessToken = $result[0]['token'];
 
