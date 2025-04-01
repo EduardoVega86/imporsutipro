@@ -821,7 +821,7 @@ class SpeedModel extends Query
         return $telefono;
     }
 
-    public function cambiar_estado_novedad($estado, $numeroGuia, $numeroFactura)
+    public function cambiar_estado_novedad($estado, $numeroGuia, $numeroFactura, $motivo)
     {
         $sql_fact_cot = "UPDATE facturas_cot SET estado_guia_sistema = ? WHERE numero_factura = ?";
         $data = [$estado, $numeroFactura];
@@ -839,14 +839,18 @@ class SpeedModel extends Query
                 $cliente = $resultado[0]['nombre'];
                 $id_plataforma = $resultado[0]['id_plataforma'];
 
-                $insert_sql = "INSERT INTO novedades (guia_novedad, cliente_novedad, estado_novedad, tracking, id_plataforma) VALUES (?, ?, ?, ?, ?)";
-                $insert_data = [$numeroGuia, $cliente, $estado, "", $id_plataforma];
+                $insert_sql = "INSERT INTO novedades (guia_novedad, cliente_novedad, estado_novedad, tracking, id_plataforma, novedad) VALUES (?, ?, ?, ?, ?, ?)";
+                $insert_data = [$numeroGuia, $cliente, $estado, "", $id_plataforma, $motivo];
                 $insertar_asignacion = $this->insert($insert_sql, $insert_data);
 
                 if ($insertar_asignacion == 1) {
                     $response['status'] = 200;
                     $response['title'] = 'Peticion exitosa';
                     $response['message'] = 'Guia actualizada correctamente';
+                } else {
+                    $response['status'] = 500;
+                    $response['title'] = 'Error';
+                    $response['message'] = "Error al actualizar guia";
                 }
             } else {
                 $response['status'] = 500;
@@ -861,7 +865,7 @@ class SpeedModel extends Query
         return $response;
     }
 
-    public function cambiar_estado_devolucion($estado, $numeroGuia, $numeroFactura)
+    public function cambiar_estado_devolucion($estado, $numeroGuia, $numeroFactura, $motivo)
     {
         $sql_fact_cot = "UPDATE facturas_cot SET estado_guia_sistema = ? WHERE numero_factura = ?";
         $data = [$estado, $numeroFactura];
@@ -878,8 +882,8 @@ class SpeedModel extends Query
                 $resultado = $this->select($sql);
 
                 if (!empty($resultado)) {
-                    $update_sql = "UPDATE novedades SET terminado = ? WHERE guia_novedad = ?";
-                    $update_data = [1, $numeroGuia];
+                    $update_sql = "UPDATE novedades SET estado_novedad = ? ,terminado = ?, solucion_novedad = ? WHERE guia_novedad = ?";
+                    $update_data = [9, 1, $motivo, $numeroGuia];
                     $actualizar = $this->update($update_sql, $update_data);
 
                     if ($actualizar == 1) {
@@ -888,9 +892,24 @@ class SpeedModel extends Query
                         $response['message'] = 'Guía actualizada correctamente.';
                     }
                 } else {
-                    $response['status'] = 200;
-                    $response['title'] = 'Peticion exitosa';
-                    $response['message'] = 'Guia actualizada correctamente';
+                    $sql = "SELECT nombre, id_plataforma FROM facturas_cot WHERE numero_factura = '$numeroFactura'";
+                    $resultado = $this->select($sql);
+                    $cliente = $resultado[0]['nombre'];
+                    $id_plataforma = $resultado[0]['id_plataforma'];
+
+                    $insert_sql = "INSERT INTO novedades (guia_novedad, cliente_novedad, estado_novedad, tracking, id_plataforma, solucion_novedad) VALUES (?, ?, ?, ?, ?, ?)";
+                    $insert_data = [$numeroGuia, $cliente, 9, "", $id_plataforma, $motivo];
+                    $insertar_asignacion = $this->insert($insert_sql, $insert_data);
+
+                    if ($insertar_asignacion == 1) {
+                        $response['status'] = 200;
+                        $response['title'] = 'Peticion exitosa';
+                        $response['message'] = 'Guia actualizada correctamente';
+                    } else {
+                        $response['status'] = 500;
+                        $response['title'] = 'Error';
+                        $response['message'] = "Error al actualizar guia";
+                    }
                 }
             } else {
                 $response['status'] = 500;

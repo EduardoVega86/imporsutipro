@@ -158,7 +158,9 @@ const listGuias = async () => {
         select_speed = `
                     <select class="form-select select-estado-speed" style="max-width: 130px;" data-numero-guia="${
                       guia.numero_guia
-                    }" data-id-factura="${guia.id_factura}" data-numero-factura="${guia.numero_factura}">
+                    }" data-id-factura="${
+          guia.id_factura
+        }" data-numero-factura="${guia.numero_factura}">
                         <option value="0" ${
                           guia.estado_guia_sistema == 0 ? "selected" : ""
                         }>-- Selecciona estado --</option>
@@ -355,7 +357,6 @@ document.addEventListener("change", async (event) => {
 
     const idFactura = event.target.getAttribute("data-id-factura");
     const numeroFactura = event.target.getAttribute("data-numero-factura");
-    
 
     if (nuevoEstado == 7) {
       $("#numeroGuia_subir_reporte").val(numeroGuia);
@@ -365,57 +366,113 @@ document.addEventListener("change", async (event) => {
       $("#subir_imagen_speedModal").modal("show");
       reloadDataTable();
     } else if (nuevoEstado == 14) {
-      const formData = new FormData();
-      formData.append("estado", nuevoEstado);
-      formData.append("numeroGuia", numeroGuia);
-      formData.append("numeroFactura", numeroFactura);
-
-      try {
-        const response = await fetch(
-          SERVERURL+`Speed/cambiar_estado_novedad`,
-          {
-            method: "POST",
-            body: formData,
+      Swal.fire({
+        title: "Motivo de la novedad",
+        input: "textarea",
+        inputPlaceholder: "Escribe el motivo aquí...",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar novedad",
+        cancelButtonText: "Cerrar",
+        inputValidator: (value) => {
+          if (!value.trim()) {
+            return "Debes escribir un motivo para continuar.";
           }
-        );
-        const result = await response.json();
-        if (result.status == 200) {
-          toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
-            positionClass: "toast-bottom-center",
-          });
+          return null;
+        },
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const motivo = result.value;
 
-          reloadDataTable();
+          const formData = new FormData();
+          formData.append("estado", nuevoEstado);
+          formData.append("numeroGuia", numeroGuia);
+          formData.append("numeroFactura", numeroFactura);
+          formData.append("motivo", motivo);
+
+          try {
+            const response = await fetch(
+              SERVERURL + `Speed/cambiar_estado_novedad`,
+              {
+                method: "POST",
+                body: formData,
+              }
+            );
+
+            const result = await response.json();
+
+            if (result.status == 200) {
+              toastr.success(
+                "ESTADO ACTUALIZADO CORRECTAMENTE",
+                "NOTIFICACIÓN",
+                {
+                  positionClass: "toast-bottom-center",
+                }
+              );
+
+              reloadDataTable();
+            } else {
+              Swal.fire("Error", "No se pudo actualizar el estado", "error");
+            }
+          } catch (error) {
+            console.error("Error al conectar con la API", error);
+            Swal.fire("Error", "Error al conectar con la API", "error");
+          }
         }
-      } catch (error) {
-        console.error("Error al conectar con la API", error);
-        alert("Error al conectar con la API");
-      }
+      });
     } else if (nuevoEstado == 9) {
-      const formData = new FormData();
-      formData.append("estado", nuevoEstado);
-      formData.append("numeroGuia", numeroGuia);
-      formData.append("numeroFactura", numeroFactura);
-
-      try {
-        const response = await fetch(
-          SERVERURL+`Speed/cambiar_estado_devolucion`,
-          {
-            method: "POST",
-            body: formData,
+      Swal.fire({
+        title: "Motivo de la devolución",
+        input: "textarea",
+        inputPlaceholder: "Escribe el motivo aquí...",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar devolución",
+        cancelButtonText: "Cerrar",
+        inputValidator: (value) => {
+          if (!value.trim()) {
+            return "Debes escribir un motivo para continuar.";
           }
-        );
-        const result = await response.json();
-        if (result.status == 200) {
-          toastr.success("ESTADO ACTUALIZADO CORRECTAMENTE", "NOTIFICACIÓN", {
-            positionClass: "toast-bottom-center",
-          });
+          return null;
+        },
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const motivo = result.value;
 
-          reloadDataTable();
+          const formData = new FormData();
+          formData.append("estado", nuevoEstado);
+          formData.append("numeroGuia", numeroGuia);
+          formData.append("numeroFactura", numeroFactura);
+          formData.append("motivo", motivo);
+
+          try {
+            const response = await fetch(
+              SERVERURL + `Speed/cambiar_estado_devolucion`,
+              {
+                method: "POST",
+                body: formData,
+              }
+            );
+
+            const result = await response.json();
+
+            if (result.status == 200) {
+              toastr.success(
+                "ESTADO ACTUALIZADO CORRECTAMENTE",
+                "NOTIFICACIÓN",
+                {
+                  positionClass: "toast-bottom-center",
+                }
+              );
+
+              reloadDataTable();
+            } else {
+              Swal.fire("Error", "No se pudo actualizar el estado", "error");
+            }
+          } catch (error) {
+            console.error("Error al conectar con la API", error);
+            Swal.fire("Error", "Error al conectar con la API", "error");
+          }
         }
-      } catch (error) {
-        console.error("Error al conectar con la API", error);
-        alert("Error al conectar con la API");
-      }
+      });
     } else {
       const formData = new FormData();
       formData.append("estado", nuevoEstado);
