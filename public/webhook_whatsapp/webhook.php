@@ -1460,26 +1460,4 @@ $stmt->close();
 $conn->close();
 
 // Opcional: Guardar el log en un archivo para depuración
-$status_info = $debug_log['data_msg_whatsapp']['entry'][0]['changes'][0]['value']['statuses'][0];
-$status = $status_info['status'] ?? null;
-$error_code = $status_info['errors'][0]['code'] ?? null;
-
-if ($status === 'failed' && (int)$error_code === 131042) {
-    $debug_log['log'][] = "💥 Error 131042 detectado: Problema con el método de pago";
-
-    $update_stmt = $conn->prepare("UPDATE `configuraciones` SET metodo_pago = ? WHERE id = ?");
-    if (!$update_stmt) {
-        $debug_log['log'][] = "❌ Error al preparar el UPDATE: " . $conn->error;
-    } else {
-        $metodo_pago = 0;
-        $update_stmt->bind_param('ii', $metodo_pago, $id_configuracion);
-        if ($update_stmt->execute()) {
-            $debug_log['log'][] = "✅ Configuración actualizada correctamente para ID $id_configuracion";
-        } else {
-            $debug_log['log'][] = "❌ Error al ejecutar el UPDATE";
-        }
-        $update_stmt->close();
-    }
-}
-
 file_put_contents('debug_log.txt', print_r($debug_log, true) . "\n", FILE_APPEND);
