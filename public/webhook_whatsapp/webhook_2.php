@@ -94,11 +94,14 @@ if ($check_cofiguraciones_stmt->num_rows > 0) {
 /* consultar id_configuracion, id_platafirma, token y id_whatsapp desde BD con el business_phone_id  */
 
 // Verificar si viene un 'status: failed' con error 131042
+file_put_contents($logFile, "Chequeando estructura: " . json_encode($whatsapp_value['statuses']) . "\n", FILE_APPEND);
 if (
+    isset($whatsapp_value['statuses']) &&
+    is_array($whatsapp_value['statuses']) &&
     isset($whatsapp_value['statuses'][0]['status']) &&
     $whatsapp_value['statuses'][0]['status'] === 'failed' &&
     isset($whatsapp_value['statuses'][0]['errors'][0]['code']) &&
-    $whatsapp_value['statuses'][0]['errors'][0]['code'] === 131042
+    (int)$whatsapp_value['statuses'][0]['errors'][0]['code'] === 131042
 ) {
     $update_mensajes_espera_stmt = $conn->prepare("UPDATE `configuraciones` SET metodo_pago = ? WHERE id = ?");
     if (!$update_mensajes_espera_stmt) {
