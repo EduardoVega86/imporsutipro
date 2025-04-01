@@ -478,7 +478,7 @@ function ver_detalle_cot(id_factura) {
       );
       $("#telefono_detalleFac").text(response[0].telefono);
       $("#numOrden_detalleFac").text(response[0].numero_factura);
-      $("#fecha_detalleFac").text(response[0].fecha_factura);
+      $("#fecha_detalleFac").text(response[0].fecha_guia);
       $("#companiaEnvio_detalleFac").text(response[0].transporte);
       if (response[0].cod == 1) {
         $("#tipoEnvio_detalleFac").text("Con Recaudo");
@@ -876,6 +876,7 @@ document
     await descargarReportePorFila("excel", "xlsx"); 
   });
 
+const loader = document.getElementById("modalFilterLoader");
 
 window.addEventListener("load", async () => {
   await initDataTable();
@@ -885,6 +886,7 @@ window.addEventListener("load", async () => {
     btnAplicar.addEventListener("click", async function () {
       //Deshabilitamos el boton al comenzar
       btnAplicar.disabled = true;
+      loader.style.display = "inline-block"; // Mostrar el loader
       try{
         let rangoFechas = $("#daterange").val();
         if (rangoFechas){
@@ -900,6 +902,7 @@ window.addEventListener("load", async () => {
         }
       } finally {
         btnAplicar.disabled = false;
+        loader.style.display = "none"; // Ocultar el loader
       }
     });
   }

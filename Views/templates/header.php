@@ -26,6 +26,7 @@
         .hidden-all {
             display: none;
         }
+
         .switch {
             position: relative;
             display: inline-block;
@@ -60,14 +61,14 @@
             border-radius: 50%;
         }
 
-        .switch input:checked + .sliderB {
-            background-color: #4CAF50; /* verde */
+        .switch input:checked+.sliderB {
+            background-color: #4CAF50;
+            /* verde */
         }
 
-        .switch input:checked + .sliderB::before {
+        .switch input:checked+.sliderB::before {
             transform: translateX(24px);
         }
-
     </style>
 </head>
 
@@ -249,14 +250,14 @@
                     <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
                     <div class="submenu" id="submenu5">
                         <a href="<?php echo SERVERURL ?>Pedidos/plantillas_chat_center"><i class="fa-solid fa-message menu-icon"></i> <span class="menu-text">Plantillas</span></a>
-                        <a href="<?php echo SERVERURL ?>/Pedidos/configuracion_chats_imporsuit"><i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuracion</span></a>
+                        <a href="<?php echo SERVERURL ?>/Pedidos/configuracion_chats_imporsuit2"><i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuracion</span></a>
                         <a href="https://chatcenter.imporfactory.app/"><i class="fa-brands fa-rocketchat menu-icon"></i> <span class="menu-text">Chat-Center V2.0</span></a>
                     </div>
                 <?php } else { ?>
                     <a href="#" class="dropdown-btn" data-target="#submenu5"><i class='bx bxs-bot menu-icon'></i> <span class="menu-text">Automatizador</span></a>
                     <div class="submenu" id="submenu5">
                         <a href="<?php echo SERVERURL; ?>Pedidos/inicio_automatizador"><i class="fa-solid fa-graduation-cap menu-icon"></i> <span class="menu-text">Agendar</span></a>
-                        <a href="<?php echo SERVERURL ?>/Pedidos/configuracion_chats_imporsuit"><i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuracion</span></a>
+                        <a href="<?php echo SERVERURL ?>/Pedidos/configuracion_chats_imporsuit2"><i class="fa-solid fa-wrench menu-icon"></i> <span class="menu-text">Configuracion</span></a>
                     </div>
                 <?php } ?>
             <?php } ?>
