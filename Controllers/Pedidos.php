@@ -3028,9 +3028,8 @@ class Pedidos extends Controller
     public function obtener_plantillas_whatsapp()
     {
         $this->catchAsync(function () {
-            $id_configuracion = $_POST['id_configuracion'] ?? 0;
 
-            $data = $this->model->obtenerPlantillasWhatsApp($id_configuracion);
+            $data = $this->model->obtenerPlantillasWhatsApp($_SESSION['id_plataforma']);
 
             echo json_encode($data);
         })();

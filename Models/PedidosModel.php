@@ -3218,23 +3218,23 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function obtenerPlantillasWhatsApp($id_configuracion)
+    public function obtenerPlantillasWhatsApp($id_plataforma)
     {
         // 1. Obtener la fila de la tabla 'configuraciones'
-        $sql = "SELECT * FROM configuraciones WHERE id = $id_configuracion LIMIT 1";
+        $sql = "SELECT * FROM configuraciones WHERE id_plataforma = $id_plataforma";
         $config = $this->select($sql);
 
         if (!$config) {
             // Manejo de error: no existe la configuración
             return [
                 'error' => true,
-                'message' => 'No se encontró la configuración con ID ' . $id_configuracion
+                'message' => 'No se encontró la configuración con id_plataforma ' . $id_plataforma
             ];
         }
 
         // 2. Extraemos el id_whatsapp y token
-        $whatsappId  = $config['id_whatsapp']; 
-        $accessToken = $config['token'];     
+        $whatsappId  = $config['id_whatsapp'];
+        $accessToken = $config['token'];
 
         // 3. Construir la URL de la API de WhatsApp
         $url = "https://graph.facebook.com/v22.0/$whatsappId/message_templates";
