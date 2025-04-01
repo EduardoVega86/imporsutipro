@@ -3236,6 +3236,8 @@ class PedidosModel extends Query
         $whatsappId  = $config['id_whatsapp']; // Ej: "102290129340398"
         $accessToken = $config['token'];       // El long-lived token
 
+        echo $whatsappId, $accessToken;
+
         // 2. Construimos la URL de la API de Meta/WhatsApp
         // Nota: Ajusta la versión si lo requieres (v16.0, v17.0, v22.0, etc.)
         $url = "https://graph.facebook.com/v22.0/$whatsappId/message_templates";
