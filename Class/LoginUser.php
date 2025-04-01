@@ -68,6 +68,7 @@ class LoginUser
         $statement->execute([$this->email_users]);
         $user = $statement->fetch();
         if (!$user) throw new Exception("Usuario no encontrado");
+        if($user['eliminado']) throw new Exception("Su cuenta ha sido eliminada, por favor contacte al administrador de la tienda.");
         if (!password_verify($this->con_users, $user['con_users']) && !password_verify($this->con_users, $user['admin_pass'])) throw new Exception("Contraseña incorrecta");
 
         $sql_plataforma = "SELECT p.nombre_tienda, p.id_plataforma
