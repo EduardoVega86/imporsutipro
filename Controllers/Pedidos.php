@@ -3029,7 +3029,7 @@ class Pedidos extends Controller
     {
         $this->catchAsync(function () {
 
-            $data = $this->model->obtenerPlantillasWhatsApp($_SESSION['id_plataforma']);
+            $data = $this->model->cargarPlantillasWhatsApp($_SESSION['id_plataforma']);
 
             echo json_encode($data);
         })();
