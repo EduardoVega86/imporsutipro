@@ -166,7 +166,9 @@ class Speed extends Controller
         $estado = $_POST['estado'];
         $numeroGuia = $_POST['numeroGuia'];
         $numeroFactura = $_POST['numeroFactura'];
-        $response = $this->model->cambiar_estado_novedad($estado, $numeroGuia, $numeroFactura);
+        $motivo = $_POST['motivo'];
+
+        $response = $this->model->cambiar_estado_novedad($estado, $numeroGuia, $numeroFactura, $motivo);
 
         echo json_encode($response);
     }
@@ -176,7 +178,9 @@ class Speed extends Controller
         $estado = $_POST['estado'];
         $numeroGuia = $_POST['numeroGuia'];
         $numeroFactura = $_POST['numeroFactura'];
-        $response = $this->model->cambiar_estado_devolucion($estado, $numeroGuia, $numeroFactura);
+        $motivo = $_POST['motivo'];
+
+        $response = $this->model->cambiar_estado_devolucion($estado, $numeroGuia, $numeroFactura, $motivo);
 
         echo json_encode($response);
     }
