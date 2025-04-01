@@ -3220,21 +3220,29 @@ class PedidosModel extends Query
 
     public function cargarPlantillasWhatsApp($id_plataforma)
     {
-        // 1. Buscamos la fila en la tabla "configuraciones" correspondiente a ese id_configuracion
         $sql = "SELECT * FROM configuraciones WHERE id_plataforma = $id_plataforma LIMIT 1";
-        $config = $this->select($sql); // asumiendo que "select()" te retorna un array asociativo con la fila
+        $result = $this->select($sql);
 
-        if (!$config) {
-            // Maneja el caso de que no exista esa configuración
+        // 1) Si 'select()' te retorna varias filas, 'result' podría ser un array de arrays.
+        // Verifícalo:
+        if (is_array($result) && count($result) > 0 && isset($result[0])) {
+            $config = $result[0]; // tomar la primera fila
+        } else {
+            // o si 'select()' retorna un solo array con la fila, ajusta en consecuencia
+            $config = $result;
+        }
+
+        // 2) Verificar que existan las claves
+        if (!isset($config['id_whatsapp']) || !isset($config['token'])) {
             return [
                 'error' => true,
-                'message' => 'No se encontró la configuración solicitada.'
+                'message' => 'No existen las columnas id_whatsapp o token en la fila.'
             ];
         }
 
-        // Extraer los campos que necesitas para la petición a Meta
-        $whatsappId  = $config['id_whatsapp']; // Ej: "102290129340398"
-        $accessToken = $config['token'];       // El long-lived token
+        // Ahora sí puedes usarlo
+        $whatsappId  = $config['id_whatsapp'];
+        $accessToken = $config['token'];
 
         echo $whatsappId, $accessToken;
 
