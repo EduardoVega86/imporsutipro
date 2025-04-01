@@ -3218,61 +3218,72 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
-    public function obtenerPlantillasWhatsApp($id_plataforma)
+    public function cargarPlantillasWhatsApp($id_plataforma)
     {
-        // 1. Obtener la fila de la tabla 'configuraciones'
-        $sql = "SELECT * FROM configuraciones WHERE id_plataforma = $id_plataforma";
-        $config = $this->select($sql);
+        // 1. Buscamos la fila en la tabla "configuraciones" correspondiente a ese id_configuracion
+        $sql = "SELECT * FROM configuraciones WHERE id_plataforma = $id_plataforma LIMIT 1";
+        $config = $this->select($sql); // asumiendo que "select()" te retorna un array asociativo con la fila
 
         if (!$config) {
-            // Manejo de error: no existe la configuración
+            // Maneja el caso de que no exista esa configuración
             return [
                 'error' => true,
-                'message' => 'No se encontró la configuración con id_plataforma ' . $id_plataforma
+                'message' => 'No se encontró la configuración solicitada.'
             ];
         }
 
-        // 2. Extraemos el id_whatsapp y token
-        $whatsappId  = $config['id_whatsapp'];
-        $accessToken = $config['token'];
+        // Extraer los campos que necesitas para la petición a Meta
+        $whatsappId  = $config['id_whatsapp']; // Ej: "102290129340398"
+        $accessToken = $config['token'];       // El long-lived token
 
-        // 3. Construir la URL de la API de WhatsApp
+        // 2. Construimos la URL de la API de Meta/WhatsApp
+        // Nota: Ajusta la versión si lo requieres (v16.0, v17.0, v22.0, etc.)
         $url = "https://graph.facebook.com/v22.0/$whatsappId/message_templates";
 
-        // 4. Crear el contexto de la petición (sin cURL, usando file_get_contents)
-        $opts = [
-            'http' => [
-                'method'  => 'GET',
-                'header'  => "Content-Type: application/json\r\n" .
-                    "Authorization: Bearer $accessToken\r\n"
-            ]
+        // 3. Iniciar cURL para hacer la petición GET
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPGET, true);
+
+        // Encabezados necesarios
+        $headers = [
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $accessToken
         ];
-        $context = stream_context_create($opts);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-        // 5. Ejecutar la petición
-        $response = @file_get_contents($url, false, $context);
+        // Para que el resultado se devuelva en la variable en lugar de hacer echo directo
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        if ($response === false) {
-            // Error de red o similar
+        // 4. Ejecutamos la petición
+        $response = curl_exec($ch);
+        $err      = curl_error($ch);  // Por si ocurre algún error de conexión
+        curl_close($ch);
+
+        if ($err) {
+            // Manejo de error cURL (problemas de red, DNS, etc.)
             return [
                 'error'   => true,
-                'message' => 'No se pudo conectar a la API de WhatsApp'
+                'message' => 'Error de conexión cURL: ' . $err
             ];
         }
 
-        // 6. Decodificar la respuesta JSON
+        // 5. Decodificamos la respuesta JSON de Meta
         $dataApi = json_decode($response, true);
 
-        // 7. Checar si la API devolvió un error
+        // Si la respuesta viene con un "error" (por parte de Meta), podemos manejarlo
         if (isset($dataApi['error'])) {
+            // Por ejemplo, retornar un array con info del error
             return [
                 'error'    => true,
-                'message'  => 'Error al obtener plantillas desde WhatsApp',
+                'message'  => 'Error de la API de WhatsApp',
                 'response' => $dataApi['error']
             ];
         }
+        // 6. Retornamos todo el contenido (o solo "data", según te convenga)
         return $dataApi;
     }
+
 
 
     public function guardarDesdeMeta($data)
