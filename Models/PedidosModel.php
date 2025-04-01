@@ -3223,26 +3223,16 @@ class PedidosModel extends Query
         $sql = "SELECT * FROM configuraciones WHERE id_plataforma = $id_plataforma LIMIT 1";
         $result = $this->select($sql);
 
-        // 1) Si 'select()' te retorna varias filas, 'result' podría ser un array de arrays.
-        // Verifícalo:
-        if (is_array($result) && count($result) > 0 && isset($result[0])) {
-            $config = $result[0]; // tomar la primera fila
-        } else {
-            // o si 'select()' retorna un solo array con la fila, ajusta en consecuencia
-            $config = $result;
-        }
-
         // 2) Verificar que existan las claves
-        if (!isset($config['id_whatsapp']) || !isset($config['token'])) {
+        if (!isset($result['id_whatsapp']) || !isset($result['token'])) {
             return [
                 'error' => true,
                 'message' => 'No existen las columnas id_whatsapp o token en la fila.'
             ];
         }
 
-        // Ahora sí puedes usarlo
-        $whatsappId  = $config['id_whatsapp'];
-        $accessToken = $config['token'];
+        $whatsappId  = $result[0]['id_whatsapp'];
+        $accessToken = $result[0]['token'];
 
         echo $whatsappId, $accessToken;
 
