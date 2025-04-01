@@ -3218,6 +3218,63 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function obtenerPlantillasWhatsApp($id_configuracion)
+    {
+        // 1. Obtener la fila de la tabla 'configuraciones'
+        $sql = "SELECT * FROM configuraciones WHERE id = $id_configuracion LIMIT 1";
+        $config = $this->select($sql);
+
+        if (!$config) {
+            // Manejo de error: no existe la configuración
+            return [
+                'error' => true,
+                'message' => 'No se encontró la configuración con ID ' . $id_configuracion
+            ];
+        }
+
+        // 2. Extraemos el id_whatsapp y token
+        $whatsappId  = $config['id_whatsapp']; 
+        $accessToken = $config['token'];     
+
+        // 3. Construir la URL de la API de WhatsApp
+        $url = "https://graph.facebook.com/v22.0/$whatsappId/message_templates";
+
+        // 4. Crear el contexto de la petición (sin cURL, usando file_get_contents)
+        $opts = [
+            'http' => [
+                'method'  => 'GET',
+                'header'  => "Content-Type: application/json\r\n" .
+                    "Authorization: Bearer $accessToken\r\n"
+            ]
+        ];
+        $context = stream_context_create($opts);
+
+        // 5. Ejecutar la petición
+        $response = @file_get_contents($url, false, $context);
+
+        if ($response === false) {
+            // Error de red o similar
+            return [
+                'error'   => true,
+                'message' => 'No se pudo conectar a la API de WhatsApp'
+            ];
+        }
+
+        // 6. Decodificar la respuesta JSON
+        $dataApi = json_decode($response, true);
+
+        // 7. Checar si la API devolvió un error
+        if (isset($dataApi['error'])) {
+            return [
+                'error'    => true,
+                'message'  => 'Error al obtener plantillas desde WhatsApp',
+                'response' => $dataApi['error']
+            ];
+        }
+        return $dataApi;
+    }
+
+
     public function guardarDesdeMeta($data)
     {
         $sql = "INSERT INTO configuraciones (
