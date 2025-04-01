@@ -817,7 +817,7 @@ class Usuarios extends Controller
     public function eliminar_usuario()
     {
         $id_usuario = $_POST['id_usuario'];
-        $response = $this->model->eliminar_usuario($id_usuario);
+        $response = $this->model->eliminar_usuario($id_usuario, "Borrado de usuario");
         echo json_encode($response);
     }
 
