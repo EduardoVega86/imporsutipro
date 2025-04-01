@@ -93,34 +93,6 @@ if ($check_cofiguraciones_stmt->num_rows > 0) {
 }
 /* consultar id_configuracion, id_platafirma, token y id_whatsapp desde BD con el business_phone_id  */
 
-// Verificar si viene un 'status: failed' con error 131042
-file_put_contents($logFile, "Chequeando estructura: " . json_encode($whatsapp_value['statuses']) . "\n", FILE_APPEND);
-if (
-    isset($whatsapp_value['statuses']) &&
-    is_array($whatsapp_value['statuses']) &&
-    isset($whatsapp_value['statuses'][0]['status']) &&
-    $whatsapp_value['statuses'][0]['status'] === 'failed' &&
-    isset($whatsapp_value['statuses'][0]['errors'][0]['code']) &&
-    (int)$whatsapp_value['statuses'][0]['errors'][0]['code'] === 131042
-) {
-    $update_mensajes_espera_stmt = $conn->prepare("UPDATE `configuraciones` SET metodo_pago = ? WHERE id = ?");
-    if (!$update_mensajes_espera_stmt) {
-        logDebug("Error al preparar la consulta de actualización: " . $conn->error, $logFile);
-        return;
-    }
-    $id_para_actualizar = $id_wait;
-
-    $update_mensajes_espera_stmt->bind_param('ii', 0, $id_configuracion);
-
-    // Ejecutar el statement
-    if ($update_mensajes_espera_stmt->execute()) {
-        logDebug("Error con metodo de pago. ID = $id_configuracion", $logFile);
-    }
-
-    $update_mensajes_espera_stmt->close();
-}
-// Verificar si viene un 'status: failed' con error 131042
-
 // Separar el nombre y apellido (en caso de que estén juntos en el campo "name")
 $nombre_completo = explode(" ", $name_whatsapp_from);
 $nombre_cliente = $nombre_completo[0] ?? '';  // Primer nombre
@@ -1487,4 +1459,26 @@ $stmt->close();
 $conn->close();
 
 // Opcional: Guardar el log en un archivo para depuración
+$status_info = $debug_log['data_msg_whatsapp']['entry'][0]['changes'][0]['value']['statuses'][0];
+$status = $status_info['status'] ?? null;
+$error_code = $status_info['errors'][0]['code'] ?? null;
+
+if ($status === 'failed' && (int)$error_code === 131042) {
+    $debug_log['log'][] = "💥 Error 131042 detectado: Problema con el método de pago";
+
+    $update_stmt = $conn->prepare("UPDATE `configuraciones` SET metodo_pago = ? WHERE id = ?");
+    if (!$update_stmt) {
+        $debug_log['log'][] = "❌ Error al preparar el UPDATE: " . $conn->error;
+    } else {
+        $metodo_pago = 0;
+        $update_stmt->bind_param('ii', $metodo_pago, $id_configuracion);
+        if ($update_stmt->execute()) {
+            $debug_log['log'][] = "✅ Configuración actualizada correctamente para ID $id_configuracion";
+        } else {
+            $debug_log['log'][] = "❌ Error al ejecutar el UPDATE";
+        }
+        $update_stmt->close();
+    }
+}
+
 file_put_contents('debug_log.txt', print_r($debug_log, true) . "\n", FILE_APPEND);
