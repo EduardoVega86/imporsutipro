@@ -3025,6 +3025,16 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function obtener_plantillas_whatsapp()
+    {
+        $this->catchAsync(function () {
+
+            $data = $this->model->cargarPlantillasWhatsApp($_SESSION['id_plataforma']);
+
+            echo json_encode($data);
+        })();
+    }
+
     public function onboarding()
     {
         $waba_id         = $_GET['waba_id']         ?? null;

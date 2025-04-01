@@ -50,8 +50,10 @@ const listConfiguracionAutomatizador = async () => {
 
     if (configuracionAutomatizador.length > 0) {
       $("#boton_agregar_configuracion").hide();
+      $("#btnConectarWhatsApp").hide();
     } else {
       $("#boton_agregar_configuracion").show();
+      $("#btnConectarWhatsApp").show();
     }
 
     configuracionAutomatizador.forEach((configuracion, index) => {

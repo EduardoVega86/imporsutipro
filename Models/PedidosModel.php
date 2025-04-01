@@ -3218,6 +3218,66 @@ class PedidosModel extends Query
         return $this->select($sql);
     }
 
+    public function cargarPlantillasWhatsApp($id_plataforma)
+    {
+        $sql = "SELECT * FROM configuraciones WHERE id_plataforma = $id_plataforma LIMIT 1";
+        $result = $this->select($sql);
+
+        $whatsappId  = $result[0]['id_whatsapp'];
+        $accessToken = $result[0]['token'];
+
+        echo $whatsappId, $accessToken;
+
+        // 2. Construimos la URL de la API de Meta/WhatsApp
+        // Nota: Ajusta la versión si lo requieres (v16.0, v17.0, v22.0, etc.)
+        $url = "https://graph.facebook.com/v22.0/$whatsappId/message_templates";
+
+        // 3. Iniciar cURL para hacer la petición GET
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPGET, true);
+
+        // Encabezados necesarios
+        $headers = [
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $accessToken
+        ];
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        // Para que el resultado se devuelva en la variable en lugar de hacer echo directo
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // 4. Ejecutamos la petición
+        $response = curl_exec($ch);
+        $err      = curl_error($ch);  // Por si ocurre algún error de conexión
+        curl_close($ch);
+
+        if ($err) {
+            // Manejo de error cURL (problemas de red, DNS, etc.)
+            return [
+                'error'   => true,
+                'message' => 'Error de conexión cURL: ' . $err
+            ];
+        }
+
+        // 5. Decodificamos la respuesta JSON de Meta
+        $dataApi = json_decode($response, true);
+
+        // Si la respuesta viene con un "error" (por parte de Meta), podemos manejarlo
+        if (isset($dataApi['error'])) {
+            // Por ejemplo, retornar un array con info del error
+            return [
+                'error'    => true,
+                'message'  => 'Error de la API de WhatsApp',
+                'response' => $dataApi['error']
+            ];
+        }
+        // 6. Retornamos todo el contenido (o solo "data", según te convenga)
+        return $dataApi;
+    }
+
+
+
     public function guardarDesdeMeta($data)
     {
         $sql = "INSERT INTO configuraciones (

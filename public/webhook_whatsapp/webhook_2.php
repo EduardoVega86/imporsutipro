@@ -93,6 +93,31 @@ if ($check_cofiguraciones_stmt->num_rows > 0) {
 }
 /* consultar id_configuracion, id_platafirma, token y id_whatsapp desde BD con el business_phone_id  */
 
+// Verificar si viene un 'status: failed' con error 131042
+if (
+    isset($whatsapp_value['statuses'][0]['status']) &&
+    $whatsapp_value['statuses'][0]['status'] === 'failed' &&
+    isset($whatsapp_value['statuses'][0]['errors'][0]['code']) &&
+    $whatsapp_value['statuses'][0]['errors'][0]['code'] === 131042
+) {
+    $update_mensajes_espera_stmt = $conn->prepare("UPDATE `configuraciones` SET metodo_pago = ? WHERE id = ?");
+    if (!$update_mensajes_espera_stmt) {
+        logDebug("Error al preparar la consulta de actualización: " . $conn->error, $logFile);
+        return;
+    }
+    $id_para_actualizar = $id_wait;
+
+    $update_mensajes_espera_stmt->bind_param('ii', 0, $id_configuracion);
+
+    // Ejecutar el statement
+    if ($update_mensajes_espera_stmt->execute()) {
+        logDebug("Error con metodo de pago. ID = $id_configuracion", $logFile);
+    }
+
+    $update_mensajes_espera_stmt->close();
+}
+// Verificar si viene un 'status: failed' con error 131042
+
 // Separar el nombre y apellido (en caso de que estén juntos en el campo "name")
 $nombre_completo = explode(" ", $name_whatsapp_from);
 $nombre_cliente = $nombre_completo[0] ?? '';  // Primer nombre
