@@ -88,6 +88,31 @@ if (isset($data_msg_whatsapp['entry'][0]['changes'][0]['value'])) {
     exit;
 }
 
+// Verificar si viene un 'status: failed' con error 131042
+if (
+    isset($whatsapp_value['statuses'][0]['status']) &&
+    $whatsapp_value['statuses'][0]['status'] === 'failed' &&
+    isset($whatsapp_value['statuses'][0]['errors'][0]['code']) &&
+    $whatsapp_value['statuses'][0]['errors'][0]['code'] === 131042
+) {
+    $update_mensajes_espera_stmt = $conn->prepare("UPDATE `configuraciones` SET metodo_pago = ? WHERE id = ?");
+    if (!$update_mensajes_espera_stmt) {
+        logDebug("Error al preparar la consulta de actualización: " . $conn->error, $logFile);
+        return;
+    }
+    $id_para_actualizar = $id_wait;
+
+    $update_mensajes_espera_stmt->bind_param('ii', 0, $id_configuracion);
+
+    // Ejecutar el statement
+    if ($update_mensajes_espera_stmt->execute()) {
+        logDebug("Error con metodo de pago. ID = $id_configuracion", $logFile);
+    }
+
+    $update_mensajes_espera_stmt->close();
+}
+// Verificar si viene un 'status: failed' con error 131042
+
 // Extraer datos del mensaje
 $business_phone_id = $whatsapp_value['metadata']['phone_number_id'] ?? '';  // Obtenemos el phone_number_id
 $phone_whatsapp_from = $whatsapp_value['messages'][0]['from'] ?? '';  // Obtenemos el remitente
