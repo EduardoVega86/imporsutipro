@@ -2092,7 +2092,7 @@ ON
         }
 
         if ($cantidad_novedades > 0) {
-            $response[] = ['nombre' => 'NOVEDADES', 'cantidad' => $cantidad_novedades, 'url' => 'pedidos/novedades'];
+            $response[] = ['nombre' => 'NOVEDADES', 'cantidad' => $cantidad_novedades, 'url' => 'pedidos/novedades_2'];
         }
 
 
