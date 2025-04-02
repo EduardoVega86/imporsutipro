@@ -4446,4 +4446,25 @@ class PedidosModel extends Query
 
         return ["nombre" => $nombre];
     }
+
+    public function actualizar_metodo_pago($estado, $id_configuracion)
+    {
+        $sql = "UPDATE configuraciones SET metodo_pago = ? WHERE id = ?";
+        $response = $this->update($sql, [$estado, $id_configuracion]);
+
+        if ($response == 1) {
+            $response = [
+                'status' => 200,
+                'title' => 'Peticion exitosa',
+                'message' => 'Actualizado correctamente'
+            ];
+        } else {
+            $response = [
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'Error al actualizar'
+            ];
+        }
+        return $response;
+    }
 }
