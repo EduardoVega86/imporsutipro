@@ -93,10 +93,10 @@
                             </div>
                         </div>
 
-                        <!-- <div class="mb-3">
-                            <label for="tokenApi" class="form-label">Token WhatsApp API</label>
-                            <input type="text" class="form-control" id="tokenApi" placeholder="Ingrese el token de la API de WhatsApp">
-                        </div> -->
+                        <div class="mb-3">
+                            <label for="promt" class="form-label">Promt</label>
+                            <input type="textarea" class="form-control" id="promt" placeholder="Ingrese un promt adicional (Opcional)">
+                        </div>
                     </div>
                 </div>
 
@@ -116,11 +116,13 @@
         var nombre_bot = $('#nombre_bot').val();
         var assistant_id = $('#assistant_id').val();
         var api_key = $('#api_key').val();
+        var promt = $('#promt').val();
 
         let formData = new FormData();
         formData.append("nombre_bot", nombre_bot);
         formData.append("assistant_id", assistant_id);
         formData.append("api_key", api_key);
+        formData.append("promt", promt);
 
         $.ajax({
             url: SERVERURL + "Pedidos/agregar_assistmant",

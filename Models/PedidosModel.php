@@ -3360,15 +3360,15 @@ class PedidosModel extends Query
         return $response;
     }
 
-    public function agregar_assistmant($nombre_bot, $assistant_id, $api_key, $id_plataforma)
+    public function agregar_assistmant($nombre_bot, $assistant_id, $api_key, $id_plataforma, $prompt)
     {
         // Inicializar la respuesta
         $response = $this->initialResponse();
 
         // Consulta de inserción con la clave única
-        $sql = "INSERT INTO `openai_assistants` (`id_plataforma`, `nombre_bot`, `assistant_id`, `api_key`) 
-            VALUES (?, ?, ?, ?)";
-        $data = [$id_plataforma, $nombre_bot, $assistant_id, $api_key];
+        $sql = "INSERT INTO `openai_assistants` (`id_plataforma`, `nombre_bot`, `assistant_id`, `api_key`, `prompt`) 
+            VALUES (?, ?, ?, ?, ?)";
+        $data = [$id_plataforma, $nombre_bot, $assistant_id, $api_key, $prompt];
 
         // Insertar configuración
         $insertar_configuracion = $this->insert($sql, $data);
