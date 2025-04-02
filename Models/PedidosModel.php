@@ -3220,7 +3220,7 @@ class PedidosModel extends Query
 
     public function cargarPlantillasWhatsApp($id_plataforma)
     {
-        echo $id_plataforma;
+        var_dump($id_plataforma);
         $sql = "SELECT * FROM configuraciones WHERE id_plataforma = $id_plataforma";
         $result = $this->select($sql);
 
