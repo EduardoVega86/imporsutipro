@@ -3105,8 +3105,9 @@ class Pedidos extends Controller
         $nombre_bot = $_POST['nombre_bot'];
         $assistant_id = $_POST['assistant_id'];
         $api_key = $_POST['api_key'];
+        $prompt = $_POST['prompt'];
 
-        $response = $this->model->agregar_assistmant($nombre_bot, $assistant_id, $api_key, $_SESSION['id_plataforma']);
+        $response = $this->model->agregar_assistmant($nombre_bot, $assistant_id, $api_key, $_SESSION['id_plataforma'], $prompt);
         echo json_encode($response);
     }
 
