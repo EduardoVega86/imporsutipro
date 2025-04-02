@@ -3415,4 +3415,12 @@ class Pedidos extends Controller
         $response = $this->model->obtener_nombre_bodega($id_bodega);
         echo json_encode($response);
     }
+
+    public function actualizar_metodo_pago()
+    {
+        $estado = $_POST['estado'];
+        $id_configuracion = $_POST['id_configuracion'];
+        $response = $this->model->actualizar_metodo_pago($estado, $id_configuracion);
+        echo json_encode($response);
+    }
 }
