@@ -94,8 +94,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="promt" class="form-label">Promt</label>
-                            <input type="textarea" class="form-control" id="promt" placeholder="Ingrese un promt adicional (Opcional)">
+                            <label for="promt" class="form-label">Promt (Opcional):</label>
+                            <textarea id="promt" rows="5" cols="50" style="resize: none;"></textarea>
                         </div>
                     </div>
                 </div>
