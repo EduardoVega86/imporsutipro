@@ -88,6 +88,36 @@ if (isset($data_msg_whatsapp['entry'][0]['changes'][0]['value'])) {
     exit;
 }
 
+// Validar si hay error de método de pago en los estados del mensaje
+if (isset($whatsapp_value['statuses'][0]['errors'][0])) {
+    $error_info = $whatsapp_value['statuses'][0]['errors'][0];
+    $error_code = $error_info['code'] ?? '';
+    $error_message = $error_info['message'] ?? '';
+
+    // Si el error es por método de pago, ejecutar UPDATE
+    if ($error_code == 131042 || stripos($error_message, 'payment') !== false) {
+        // Reemplaza con tu conexión y tu ID de configuración
+        $id_configuracion = 1; // <-- Ajusta este ID según sea necesario
+
+        $update_stmt = $conn->prepare("UPDATE configuraciones SET metodo_pago = ? WHERE id = ?");
+        if (!$update_stmt) {
+            $debug_log['log'][] = "❌ Error al preparar el UPDATE: " . $conn->error;
+        } else {
+            $metodo_pago = 0;
+            $update_stmt->bind_param('ii', $metodo_pago, $id_configuracion);
+            if ($update_stmt->execute()) {
+                $debug_log['log'][] = "✅ Configuración actualizada correctamente para ID $id_configuracion";
+            } else {
+                $debug_log['log'][] = "❌ Error al ejecutar el UPDATE";
+            }
+            $update_stmt->close();
+        }
+
+        // Guardar log después del intento de update
+        file_put_contents('debug_log.txt', print_r($debug_log, true) . "\n", FILE_APPEND);
+    }
+}
+
 // Extraer datos del mensaje
 $business_phone_id = $whatsapp_value['metadata']['phone_number_id'] ?? '';  // Obtenemos el phone_number_id
 $phone_whatsapp_from = $whatsapp_value['messages'][0]['from'] ?? '';  // Obtenemos el remitente
