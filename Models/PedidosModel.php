@@ -3220,14 +3220,12 @@ class PedidosModel extends Query
 
     public function cargarPlantillasWhatsApp($id_plataforma)
     {
-        var_dump($id_plataforma);
         $sql = "SELECT * FROM configuraciones WHERE id_plataforma = $id_plataforma";
         $result = $this->select($sql);
 
         $whatsappId  = $result[0]['id_whatsapp'];
         $accessToken = $result[0]['token'];
 
-        echo $whatsappId, $accessToken;
 
         // 2. Construimos la URL de la API de Meta/WhatsApp
         // Nota: Ajusta la versión si lo requieres (v16.0, v17.0, v22.0, etc.)
