@@ -66,7 +66,7 @@ const listConfiguracionAutomatizador = async () => {
           <td>${configuracion.id_telefono}</td>
           <td>${configuracion.webhook_url}</td>
           <td>
-            <div class="form-check form-switch">
+            <div class="form-check form-switch" style="justify-self: center;">
               <input 
                 class="form-check-input" 
                 type="checkbox" 
