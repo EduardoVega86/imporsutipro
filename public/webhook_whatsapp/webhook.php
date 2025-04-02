@@ -96,8 +96,6 @@ if (isset($whatsapp_value['statuses'][0]['errors'][0])) {
 
     // Si el error es por método de pago, ejecutar UPDATE
     if ($error_code == 131042 || stripos($error_message, 'payment') !== false) {
-        // Reemplaza con tu conexión y tu ID de configuración
-        $id_configuracion = 1; // <-- Ajusta este ID según sea necesario
 
         $update_stmt = $conn->prepare("UPDATE configuraciones SET metodo_pago = ? WHERE id = ?");
         if (!$update_stmt) {
