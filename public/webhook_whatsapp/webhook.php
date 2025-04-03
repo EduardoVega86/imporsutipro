@@ -974,6 +974,118 @@ function asignar_etiquetas($id_etiquetas, $id_plataforma, $id_cliente)
     }
 }
 
+function enviar_asistente_gpt($id_assistmant, $mensaje, $celular_recibe)
+{
+    $url = 'https://new.imporsuitpro.com/Pedidos/mensaje_assistmant';
+
+    // Crear los datos en formato FormData (multipart/form-data)
+    $postData = [
+        'id_assistmant'   => $id_assistmant,
+        'mensaje'         => $mensaje,
+        'celular_recibe'  => $celular_recibe
+    ];
+
+    // Inicializar cURL
+    $ch = curl_init($url);
+
+    // Configurar cURL
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+
+    // Ejecutar la petición
+    $response = curl_exec($ch);
+
+    // Verificar si hubo error
+    if (curl_errno($ch)) {
+        $error = curl_error($ch);
+        file_put_contents('debug_log.txt', "❌ Error en cURL: $error\n", FILE_APPEND);
+        curl_close($ch);
+        return false;
+    }
+
+    curl_close($ch);
+
+    // Decodificar la respuesta JSON
+    $respuesta = json_decode($response, true);
+
+    if (isset($respuesta['respuesta'])) {
+        file_put_contents('debug_log.txt', "✅ Respuesta asistente: " . $respuesta['respuesta'] . "\n", FILE_APPEND);
+        return $respuesta['respuesta'];
+    } else {
+        file_put_contents('debug_log.txt', "⚠️ Respuesta sin estructura esperada: " . $response . "\n", FILE_APPEND);
+        return false;
+    }
+}
+
+//funcion para enviar mensaje normal de texto
+function enviar_mensaje_whatsapp($phone_whatsapp_to, $texto_mensaje, $business_phone_id, $accessToken, $conn, $id_plataforma, $id_configuracion)
+{
+    $url = "https://graph.facebook.com/v20.0/$business_phone_id/messages";
+
+    $data = [
+        "messaging_product" => "whatsapp",
+        "to" => $phone_whatsapp_to,
+        "type" => "text",
+        "text" => [
+            "body" => $texto_mensaje
+        ]
+    ];
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken",
+        "Content-Type: application/json"
+    ]);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    file_put_contents('debug_log.txt', "HTTP Code: $http_code\nRespuesta: $response\n", FILE_APPEND);
+
+    $response_array = json_decode($response, true);
+
+    if ($http_code >= 200 && $http_code < 300 && isset($response_array['messages'][0]['id'])) {
+        $id_mensaje = $response_array['messages'][0]['id'];
+        file_put_contents('debug_log.txt', "✅ Mensaje enviado correctamente. ID: $id_mensaje\n", FILE_APPEND);
+
+        // Obtener datos de configuración
+        $telefono_configuracion = "";
+        $nombre_configuracion = "";
+
+        $stmt = $conn->prepare("SELECT telefono, nombre_configuracion FROM configuraciones WHERE id = ?");
+        $stmt->bind_param('i', $id_configuracion);
+        $stmt->execute();
+        $stmt->bind_result($telefono_configuracion, $nombre_configuracion);
+        $stmt->fetch();
+        $stmt->close();
+
+        // Guardar en la base de datos (si tienes esta función ya definida)
+        procesarMensajeTexto(
+            $conn,
+            $id_plataforma,
+            $business_phone_id,
+            $nombre_configuracion,
+            "",
+            $telefono_configuracion,
+            $phone_whatsapp_to,
+            "text",
+            $texto_mensaje,
+            null
+        );
+
+        /* return true; */
+    } else {
+        $mensaje_error = isset($response_array['error']) ? json_encode($response_array['error'], JSON_UNESCAPED_UNICODE) : 'Respuesta inesperada.';
+        file_put_contents('debug_log.txt', "❌ Error al enviar mensaje: $mensaje_error\n", FILE_APPEND);
+        /* return false; */
+    }
+}
+
 // Función para enviar datos a la API sockect
 function enviarConsultaAPI($id_plataforma, $celular_recibe)
 {
@@ -1467,6 +1579,17 @@ if ($stmt->execute()) {
         }
     }
     /* fin validar si tiene mensaje interno principal */
+
+    /* validar si el chat ah sido cerrado */
+
+    $respuesta_asistente = "";
+    if ($chat_cerrado == 1) {
+        $respuesta_asistente = enviar_asistente_gpt(3, $texto_mensaje, $id_cliente);
+
+        enviar_mensaje_whatsapp($phone_whatsapp_from, $respuesta_asistente, $business_phone_id, $accessToken, $conn, $id_plataforma, $id_configuracion);
+    }
+
+    /* validar si el chat ah sido cerrado */
 
     // Aquí llamas a la función para enviar datos a la API
     $resultado_api = enviarConsultaAPI($id_plataforma, $id_cliente);
