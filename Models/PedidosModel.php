@@ -3425,6 +3425,8 @@ class PedidosModel extends Query
         // 2. Obtener historial y datos del cliente (mensajes + info guía/pedido)
         $mensajes_previos = $this->ultimos_mensajes_assistmant($celular_recibe, $id_plataforma, $telefono);
 
+        print_r($mensajes_previos);
+
         foreach ($mensajes_previos as $msg) {
             $payload = [
                 "role" => $msg['role'],
