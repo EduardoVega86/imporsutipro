@@ -3386,7 +3386,7 @@ class PedidosModel extends Query
         return $response;
     }
 
-    public function mensaje_assistmant($id_assistmant, $mensaje, $celular_recibe)
+    public function mensaje_assistmant($id_assistmant, $mensaje, $celular_recibe, $id_plataforma)
     {
         $sql = "SELECT assistant_id, api_key FROM openai_assistants WHERE id = $id_assistmant AND activo = 1";
         $assistant = $this->select($sql);
@@ -3423,27 +3423,24 @@ class PedidosModel extends Query
         }
 
         // 2. Armar historial como bloque system
-        $mensajes_previos = $this->ultimos_mensajes_assistmant($celular_recibe);
-        $bloque_historial = "Contexto anterior del cliente:\n\n";
-
+        $mensajes_previos = $this->ultimos_mensajes_assistmant($celular_recibe, $id_plataforma);
+        // Enviar cada mensaje (incluyendo el bloque system con datos_guia o datos_pedido)
         foreach ($mensajes_previos as $msg) {
-            $fecha = isset($msg['fecha']) ? date('d/m/Y H:i', strtotime($msg['fecha'])) : '';
-            $bloque_historial .= strtoupper($msg['role']) . " [" . $fecha . "]: " . $msg['content'] . "\n\n";
-        }
+            $payload = [
+                "role" => $msg['role'],
+                "content" => $msg['content']
+            ];
 
-        // 3. Enviar mensaje system con historial
-        $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_POSTFIELDS => json_encode([
-                "role" => "system",
-                "content" => $bloque_historial
-            ])
-        ]);
-        curl_exec($ch);
-        curl_close($ch);
+            $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_HTTPHEADER => $headers,
+                CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_UNICODE)
+            ]);
+            curl_exec($ch);
+            curl_close($ch);
+        }
 
         // 4. Enviar mensaje actual del cliente
         $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
@@ -3527,18 +3524,19 @@ class PedidosModel extends Query
         return ["respuesta" => $respuesta];
     }
 
-    public function ultimos_mensajes_assistmant($celular_recibe)
+    public function ultimos_mensajes_assistmant($celular_recibe, $id_plataforma)
     {
+        $resultado = [];
+
+        // Obtener últimos 2 mensajes
         $sql = "SELECT rol_mensaje, texto_mensaje, ruta_archivo, created_at
             FROM mensajes_clientes 
             WHERE celular_recibe = $celular_recibe 
             ORDER BY id DESC 
-            LIMIT 2;";
+            LIMIT 2";
 
         $mensajes = $this->select($sql);
-        $resultado = [];
         $base_url = "https://new.imporsuitpro.com/";
-        $ultima_factura_valida = null;
 
         foreach (array_reverse($mensajes) as $m) {
             $rol_mensaje = ($m['rol_mensaje'] == 1) ? "assistant" : "user";
@@ -3547,24 +3545,7 @@ class PedidosModel extends Query
             $fecha = date('d/m/Y H:i', strtotime($m['created_at']));
             $texto_mensaje = "[$fecha]\n" . $texto_mensaje;
 
-            // Si es JSON válido, procesar como factura
-            if ($this->esJson($ruta_archivo)) {
-                $datos = json_decode($ruta_archivo, true);
-
-                // Reemplazar {{}} en texto
-                foreach ($datos as $clave => $valor) {
-                    $texto_mensaje = str_replace('{{' . $clave . '}}', $valor, $texto_mensaje);
-                }
-
-                // Guardamos solo la última factura válida para el bloque system
-                $ultima_factura_valida = $datos;
-
-                // Anexar resumen al texto
-                $texto_mensaje .= "\n[Información adicional del sistema]\n";
-                foreach ($datos as $k => $v) {
-                    $texto_mensaje .= ucfirst($k) . ": " . $v . "\n";
-                }
-            } elseif (!empty($ruta_archivo)) {
+            if (!empty($ruta_archivo) && !$this->esJson($ruta_archivo)) {
                 $link_completo = $base_url . ltrim($ruta_archivo, '/');
                 $texto_mensaje .= "\n[Archivo adjunto: $link_completo]";
             }
@@ -3576,12 +3557,97 @@ class PedidosModel extends Query
             ];
         }
 
-        /* informacion de ultima factura */
-        $sql = "SELECT rol_mensaje, texto_mensaje, ruta_archivo, created_at
-            FROM mensajes_clientes 
-            WHERE celular_recibe = $celular_recibe 
-            ORDER BY id DESC 
-            LIMIT 2;";
+        // -------------------
+        // Buscar información del pedido o guía
+        // -------------------
+
+        // Consulta 1: con guía
+        $sql_guia = "
+        SELECT 
+            fc.numero_factura AS numero_factura,
+            fc.monto_factura AS monto_factura,
+            fc.nombre AS nombre_cliente,
+            fc.telefono,
+            fc.c_principal AS calle_principal,
+            fc.c_secundaria AS calle_secundaria,
+            fc.referencia,
+            fc.numero_guia,
+            fc.transporte AS transportadora,
+            fc.costo_flete,
+            cc.ciudad, 
+            cc.provincia, 
+            b.nombre AS nombre_bodega, 
+            b.direccion AS direccion_bodega,
+            (
+                SELECT GROUP_CONCAT(CONCAT(p.nombre_producto, ' x', dfc.cantidad, ' - $', dfc.precio_venta) SEPARATOR ', ')
+                FROM detalle_fact_cot dfc
+                INNER JOIN productos p ON p.id_producto = dfc.id_producto
+                WHERE dfc.numero_factura = fc.numero_factura
+            ) AS detalle_productos
+        FROM facturas_cot fc
+        LEFT JOIN ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
+        LEFT JOIN bodega b ON b.id = fc.id_bodega
+        WHERE 
+            TRIM(fc.numero_guia) <> '' AND fc.numero_guia IS NOT NULL AND fc.numero_guia <> '0'
+            AND fc.anulada = 0  
+            AND (fc.id_plataforma = $id_plataforma OR fc.id_propietario = $id_plataforma OR b.id_plataforma = $id_plataforma)
+            AND fc.telefono = '$celular_recibe'
+        ORDER BY fc.fecha_guia DESC 
+        LIMIT 1";
+
+        $factura = $this->select($sql_guia);
+
+        // Si no hay guía, consulta como pedido
+        $tipo_dato = 'datos_guia';
+        if (empty($factura)) {
+            $tipo_dato = 'datos_pedido';
+            $sql_pedido = "
+            SELECT 
+                fc.numero_factura AS numero_factura,
+                fc.monto_factura AS monto_factura,
+                fc.nombre AS nombre_cliente,
+                fc.telefono,
+                fc.c_principal AS calle_principal,
+                fc.c_secundaria AS calle_secundaria,
+                fc.referencia,
+                fc.numero_guia,
+                fc.transporte,
+                fc.costo_flete,
+                cc.ciudad, 
+                cc.provincia, 
+                b.nombre AS nombre_bodega, 
+                b.direccion AS direccion_bodega,
+                (
+                    SELECT GROUP_CONCAT(CONCAT(p.nombre_producto, ' x', dfc.cantidad, ' - $', dfc.precio_venta) SEPARATOR ', ')
+                    FROM detalle_fact_cot dfc
+                    INNER JOIN productos p ON p.id_producto = dfc.id_producto
+                    WHERE dfc.numero_factura = fc.numero_factura
+                ) AS detalle_productos
+            FROM facturas_cot fc
+            LEFT JOIN ciudad_cotizacion cc ON cc.id_cotizacion = fc.ciudad_cot
+            LEFT JOIN bodega b ON b.id = fc.id_bodega
+            WHERE 
+                (TRIM(fc.numero_guia) = '' OR fc.numero_guia IS NULL OR fc.numero_guia = '0')
+                AND fc.anulada = 0  
+                AND fc.id_plataforma = $id_plataforma
+                AND fc.telefono = '$celular_recibe'
+            ORDER BY fc.fecha_factura DESC 
+            LIMIT 1";
+
+            $factura = $this->select($sql_pedido);
+        }
+
+        // Agregar bloque system según tipo
+        if (!empty($factura)) {
+            $datos = $factura[0];
+
+            $bloque = [
+                'role' => 'system',
+                'content' => json_encode([$tipo_dato => $datos], JSON_UNESCAPED_UNICODE),
+            ];
+
+            array_unshift($resultado, $bloque);
+        }
 
         return $resultado;
     }
