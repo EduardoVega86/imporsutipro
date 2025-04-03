@@ -974,7 +974,7 @@ function asignar_etiquetas($id_etiquetas, $id_plataforma, $id_cliente)
     }
 }
 
-function enviar_asistente_gpt($id_assistmant, $mensaje, $celular_recibe)
+function enviar_asistente_gpt($id_assistmant, $mensaje, $celular_recibe, $id_plataforma, $telefono)
 {
     $url = 'https://new.imporsuitpro.com/Pedidos/mensaje_assistmant';
 
@@ -982,7 +982,9 @@ function enviar_asistente_gpt($id_assistmant, $mensaje, $celular_recibe)
     $postData = [
         'id_assistmant'   => $id_assistmant,
         'mensaje'         => $mensaje,
-        'celular_recibe'  => $celular_recibe
+        'celular_recibe'  => $celular_recibe,
+        'id_plataforma'  => $id_plataforma,
+        'telefono'  => $telefono
     ];
 
     // Inicializar cURL
@@ -1584,7 +1586,7 @@ if ($stmt->execute()) {
 
     $respuesta_asistente = "";
     if ($chat_cerrado == 1) {
-        $respuesta_asistente = enviar_asistente_gpt(3, $texto_mensaje, $id_cliente);
+        $respuesta_asistente = enviar_asistente_gpt(3, $texto_mensaje, $id_cliente, $id_plataforma, $phone_whatsapp_from);
 
         enviar_mensaje_whatsapp($phone_whatsapp_from, $respuesta_asistente, $business_phone_id, $accessToken, $conn, $id_plataforma, $id_configuracion);
     }
