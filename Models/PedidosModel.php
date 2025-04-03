@@ -3386,7 +3386,7 @@ class PedidosModel extends Query
         return $response;
     }
 
-    public function mensaje_assistmant($id_assistmant, $mensaje, $celular_recibe, $id_plataforma)
+    public function mensaje_assistmant($id_assistmant, $mensaje, $celular_recibe, $id_plataforma, $telefono)
     {
         $sql = "SELECT assistant_id, api_key FROM openai_assistants WHERE id = $id_assistmant AND activo = 1";
         $assistant = $this->select($sql);
@@ -3423,7 +3423,7 @@ class PedidosModel extends Query
         }
 
         // 2. Armar historial como bloque system
-        $mensajes_previos = $this->ultimos_mensajes_assistmant($celular_recibe, $id_plataforma);
+        $mensajes_previos = $this->ultimos_mensajes_assistmant($celular_recibe, $id_plataforma, $telefono);
         // Enviar cada mensaje (incluyendo el bloque system con datos_guia o datos_pedido)
         foreach ($mensajes_previos as $msg) {
             $payload = [
@@ -3524,7 +3524,7 @@ class PedidosModel extends Query
         return ["respuesta" => $respuesta];
     }
 
-    public function ultimos_mensajes_assistmant($celular_recibe, $id_plataforma)
+    public function ultimos_mensajes_assistmant($celular_recibe, $id_plataforma, $telefono)
     {
         $resultado = [];
 
@@ -3591,7 +3591,7 @@ class PedidosModel extends Query
             TRIM(fc.numero_guia) <> '' AND fc.numero_guia IS NOT NULL AND fc.numero_guia <> '0'
             AND fc.anulada = 0  
             AND (fc.id_plataforma = $id_plataforma OR fc.id_propietario = $id_plataforma OR b.id_plataforma = $id_plataforma)
-            AND fc.telefono = '$celular_recibe'
+            AND fc.telefono = '$telefono'
         ORDER BY fc.fecha_guia DESC 
         LIMIT 1";
 
@@ -3630,7 +3630,7 @@ class PedidosModel extends Query
                 (TRIM(fc.numero_guia) = '' OR fc.numero_guia IS NULL OR fc.numero_guia = '0')
                 AND fc.anulada = 0  
                 AND fc.id_plataforma = $id_plataforma
-                AND fc.telefono = '$celular_recibe'
+                AND fc.telefono = '$telefono'
             ORDER BY fc.fecha_factura DESC 
             LIMIT 1";
 
