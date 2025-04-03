@@ -3404,7 +3404,7 @@ class PedidosModel extends Query
             'OpenAI-Beta: assistants=v2'
         ];
 
-        // 1. Crear thread
+        // 1. Crear el thread
         $ch = curl_init('https://api.openai.com/v1/threads');
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
@@ -3422,9 +3422,9 @@ class PedidosModel extends Query
             return ["error" => "No se pudo crear el thread", "respuesta_openai" => $thread_response];
         }
 
-        // 2. Armar historial como bloque system
+        // 2. Obtener historial y datos del cliente (mensajes + info guía/pedido)
         $mensajes_previos = $this->ultimos_mensajes_assistmant($celular_recibe, $id_plataforma, $telefono);
-        // Enviar cada mensaje (incluyendo el bloque system con datos_guia o datos_pedido)
+
         foreach ($mensajes_previos as $msg) {
             $payload = [
                 "role" => $msg['role'],
@@ -3442,7 +3442,7 @@ class PedidosModel extends Query
             curl_close($ch);
         }
 
-        // 4. Enviar mensaje actual del cliente
+        // 3. Enviar el nuevo mensaje del cliente
         $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
@@ -3451,12 +3451,12 @@ class PedidosModel extends Query
             CURLOPT_POSTFIELDS => json_encode([
                 "role" => "user",
                 "content" => $mensaje
-            ])
+            ], JSON_UNESCAPED_UNICODE)
         ]);
         curl_exec($ch);
         curl_close($ch);
 
-        // 5. Ejecutar el assistant
+        // 4. Ejecutar el assistant
         $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/runs");
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
@@ -3464,7 +3464,7 @@ class PedidosModel extends Query
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_POSTFIELDS => json_encode([
                 "assistant_id" => $assistant_id,
-                "max_completion_tokens" => 150
+                "max_completion_tokens" => 300
             ])
         ]);
         $run_response = json_decode(curl_exec($ch), true);
@@ -3475,7 +3475,7 @@ class PedidosModel extends Query
             return ["error" => "No se pudo ejecutar el assistant"];
         }
 
-        // 6. Esperar respuesta (con timeout)
+        // 5. Esperar respuesta del assistant
         $intentos = 0;
         $max_intentos = 20;
 
@@ -3502,7 +3502,7 @@ class PedidosModel extends Query
             return ["error" => "Falló la ejecución del assistant", "run_status" => $status_response];
         }
 
-        // 7. Obtener respuesta final
+        // 6. Obtener la respuesta del assistant
         $ch = curl_init("https://api.openai.com/v1/threads/$thread_id/messages");
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
