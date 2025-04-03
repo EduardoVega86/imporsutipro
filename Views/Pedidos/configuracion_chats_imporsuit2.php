@@ -34,8 +34,8 @@
                         <th class="centered">ID</th>
                         <th class="centered">Nombre configuración</th>
                         <th class="centered">Teléfono</th>
-                        <th class="centered">webhook_url</th>
-                        <th class="centered">metodo de pago</th>
+                        <th class="centered">Webhook_url</th>
+                        <th class="centered">Método de pago</th>
                         <th class="centered">Acciones</th>
                     </tr>
                 </thead>
