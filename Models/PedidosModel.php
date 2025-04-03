@@ -3533,7 +3533,7 @@ class PedidosModel extends Query
             FROM mensajes_clientes 
             WHERE celular_recibe = $celular_recibe 
             ORDER BY id DESC 
-            LIMIT 3;";
+            LIMIT 2;";
 
         $mensajes = $this->select($sql);
         $resultado = [];
@@ -3576,20 +3576,12 @@ class PedidosModel extends Query
             ];
         }
 
-        // Insertamos el bloque system al principio si hay datos válidos
-        if (!empty($ultima_factura_valida)) {
-            $bloque_factura = "DATOS DE LA FACTURA ACTUAL DEL CLIENTE:\n";
-
-            foreach ($ultima_factura_valida as $k => $v) {
-                $bloque_factura .= ucfirst($k) . ": " . $v . "\n";
-            }
-
-            array_unshift($resultado, [
-                'role' => 'system',
-                'content' => $bloque_factura,
-                'fecha' => null
-            ]);
-        }
+        /* informacion de ultima factura */
+        $sql = "SELECT rol_mensaje, texto_mensaje, ruta_archivo, created_at
+            FROM mensajes_clientes 
+            WHERE celular_recibe = $celular_recibe 
+            ORDER BY id DESC 
+            LIMIT 2;";
 
         return $resultado;
     }
