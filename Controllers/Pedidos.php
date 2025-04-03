@@ -3117,8 +3117,9 @@ class Pedidos extends Controller
         $mensaje = $_POST['mensaje'];
         $celular_recibe = $_POST['celular_recibe'];
         $id_plataforma = $_POST['id_plataforma'];
+        $telefono = $_POST['telefono'];
 
-        $response = $this->model->mensaje_assistmant($id_assistmant, $mensaje, $celular_recibe, $id_plataforma);
+        $response = $this->model->mensaje_assistmant($id_assistmant, $mensaje, $celular_recibe, $id_plataforma, $telefono);
         echo json_encode($response);
     }
 
@@ -3126,7 +3127,8 @@ class Pedidos extends Controller
     {
         $celular_recibe = $_POST['celular_recibe'];
         $id_plataforma = $_POST['id_plataforma'];
-        $response = $this->model->ultimos_mensajes_assistmant($celular_recibe, $id_plataforma);
+        $telefono = $_POST['telefono'];
+        $response = $this->model->ultimos_mensajes_assistmant($celular_recibe, $id_plataforma, $telefono);
         echo json_encode($response);
     }
 
