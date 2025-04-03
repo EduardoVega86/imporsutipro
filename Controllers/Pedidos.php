@@ -3116,15 +3116,17 @@ class Pedidos extends Controller
         $id_assistmant = $_POST['id_assistmant'];
         $mensaje = $_POST['mensaje'];
         $celular_recibe = $_POST['celular_recibe'];
+        $id_plataforma = $_POST['id_plataforma'];
 
-        $response = $this->model->mensaje_assistmant($id_assistmant, $mensaje, $celular_recibe);
+        $response = $this->model->mensaje_assistmant($id_assistmant, $mensaje, $celular_recibe, $id_plataforma);
         echo json_encode($response);
     }
 
     public function ultimos_mensajes_assistmant()
     {
         $celular_recibe = $_POST['celular_recibe'];
-        $response = $this->model->ultimos_mensajes_assistmant($celular_recibe);
+        $id_plataforma = $_POST['id_plataforma'];
+        $response = $this->model->ultimos_mensajes_assistmant($celular_recibe, $id_plataforma);
         echo json_encode($response);
     }
 
