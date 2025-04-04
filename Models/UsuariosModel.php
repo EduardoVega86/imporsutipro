@@ -1348,8 +1348,7 @@ ON
         $enlace_oferta2,
         $imagen2,
         $plataforma
-    )
-    {
+    ) {
         $response = $this->initialResponse();
         $target_dir = "public/img/ofertas_plantilla2/";
 
@@ -1500,8 +1499,7 @@ ON
         $enlace_btn_promocion,
         $imagen_promocion,
         $plataforma
-    )
-    {
+    ) {
         $response = $this->initialResponse();
         $target_dir = "public/img/promocion/";
 
@@ -2078,7 +2076,7 @@ ON
         // Consulta para novedades
         $sql2 = "SELECT COUNT(*) AS cantidad_novedades 
         FROM novedades 
-        WHERE id_plataforma=$plataforma AND NOT (guia_novedad LIKE 'I00%' AND estado_novedad = 6) AND solucionada=0 AND terminado=0 and fecha BETWEEN DATE_SUB(CURDATE(), INTERVAL 4 DAY) AND CURDATE();";
+        WHERE id_plataforma=$plataforma AND NOT ((guia_novedad LIKE 'IMP%' OR guia_novedad LIKE 'MKP%' ) AND estado_novedad IN (124, 26, 117, 18, 97, 108, 118, 57, 44, 56, 53, 52, 123, 121, 51, 10, 54, 119, 109, 55, 99, 120, 104, 122, 93, 111, 3, 8, 98, 15, 113)) AND NOT (guia_novedad LIKE 'I00%' AND estado_novedad IN (1,2,3,4,5,6,7,15,27)) AND solucionada = 0 AND terminado = 0 AND fecha BETWEEN DATE_SUB(NOW(), INTERVAL 4 DAY) AND NOW();";
 
         $result2 = $this->select($sql2);
         $cantidad_novedades = isset($result2[0]['cantidad_novedades']) ? $result2[0]['cantidad_novedades'] : 0;
@@ -2156,7 +2154,6 @@ ON
             $response['status'] = 200;
             $response['title'] = 'Peticion exitosa';
             $response['message'] = 'Usuario eliminado correctamente';
-
         } else {
             $response['status'] = 500;
             $response['title'] = 'Error';
