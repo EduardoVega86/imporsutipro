@@ -105,15 +105,17 @@ const listNovedades = async () => {
       let boton_gestionar = "";
       let boton_ver_detalle = `<div><button onclick="initDataTableNovedadesGestionadas('${novedad.guia_novedad}')" class="btn btn-sm btn-outline-primary"> Ver detalle</button></div>`;
       if (novedad.solucionada == 0) {
-        let validar_estado = validar_estado_novedad(
-          novedad.guia_novedad,
-          novedad.estado_novedad
-        );
+        if (novedad.terminado == 0) {
+          let validar_estado = validar_estado_novedad(
+            novedad.guia_novedad,
+            novedad.estado_novedad
+          );
 
-        if (validar_estado) {
-          boton_gestionar = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${novedad.guia_novedad}')">Gestionar</button>`;
-        } else {
-          boton_gestionar = boton_ver_detalle;
+          if (validar_estado) {
+            boton_gestionar = `<button id="downloadExcel" class="btn btn_novedades" onclick="gestionar_novedad('${novedad.guia_novedad}')">Gestionar</button>`;
+          } else {
+            boton_gestionar = boton_ver_detalle;
+          }
         }
       } else {
         boton_gestionar = boton_ver_detalle;
@@ -268,13 +270,22 @@ function ejecutarGestionNovedad(guia_novedad) {
       $("#transportadora_gestionarNov").text(transportadora);
       $("#novedad_gestionarNov").text(response.novedad[0].novedad);
 
-      if (response.factura[0].transporte == "LAAR"){
-        $("#tracking_gestionarNov").attr("href", `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${response.novedad[0].guia_novedad}`);
-      } else if (response.factura[0].transporte == "SERVIENTREGA"){
-        $("#tracking_gestionarNov").attr("href", `https://www.servientrega.com.ec/Tracking/?guia=${response.novedad[0].guia_novedad}&tipo=GUIA`);
-      } else if (response.factura[0].transporte == "GINTRACOM"){
-        $("#tracking_gestionarNov").attr("href", `https://ec.gintracom.site/web/site/tracking?guia=${response.novedad[0].guia_novedad}`);
-      } else if (response.factura[0].transporte == "SPEED"){
+      if (response.factura[0].transporte == "LAAR") {
+        $("#tracking_gestionarNov").attr(
+          "href",
+          `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${response.novedad[0].guia_novedad}`
+        );
+      } else if (response.factura[0].transporte == "SERVIENTREGA") {
+        $("#tracking_gestionarNov").attr(
+          "href",
+          `https://www.servientrega.com.ec/Tracking/?guia=${response.novedad[0].guia_novedad}&tipo=GUIA`
+        );
+      } else if (response.factura[0].transporte == "GINTRACOM") {
+        $("#tracking_gestionarNov").attr(
+          "href",
+          `https://ec.gintracom.site/web/site/tracking?guia=${response.novedad[0].guia_novedad}`
+        );
+      } else if (response.factura[0].transporte == "SPEED") {
         $("#tracking_gestionarNov").attr("href", ``);
       }
 

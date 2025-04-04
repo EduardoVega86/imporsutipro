@@ -2078,7 +2078,7 @@ ON
         // Consulta para novedades
         $sql2 = "SELECT COUNT(*) AS cantidad_novedades 
         FROM novedades 
-        WHERE id_plataforma=$plataforma AND solucionada=0 AND terminado=0 and fecha BETWEEN DATE_SUB(CURDATE(), INTERVAL 4 DAY) AND CURDATE();";
+        WHERE id_plataforma=$plataforma AND NOT (guia_novedad LIKE 'I00%' AND estado_novedad = 6) AND solucionada=0 AND terminado=0 and fecha BETWEEN DATE_SUB(CURDATE(), INTERVAL 4 DAY) AND CURDATE();";
 
         $result2 = $this->select($sql2);
         $cantidad_novedades = isset($result2[0]['cantidad_novedades']) ? $result2[0]['cantidad_novedades'] : 0;
