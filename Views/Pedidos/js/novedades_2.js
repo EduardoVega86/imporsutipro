@@ -268,13 +268,22 @@ function ejecutarGestionNovedad(guia_novedad) {
       $("#transportadora_gestionarNov").text(transportadora);
       $("#novedad_gestionarNov").text(response.novedad[0].novedad);
 
-      if (response.factura[0].transporte == "LAAR"){
-        $("#tracking_gestionarNov").attr("href", `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${response.novedad[0].guia_novedad}`);
-      } else if (response.factura[0].transporte == "SERVIENTREGA"){
-        $("#tracking_gestionarNov").attr("href", `https://www.servientrega.com.ec/Tracking/?guia=${response.novedad[0].guia_novedad}&tipo=GUIA`);
-      } else if (response.factura[0].transporte == "GINTRACOM"){
-        $("#tracking_gestionarNov").attr("href", `https://ec.gintracom.site/web/site/tracking?guia=${response.novedad[0].guia_novedad}`);
-      } else if (response.factura[0].transporte == "SPEED"){
+      if (response.factura[0].transporte == "LAAR") {
+        $("#tracking_gestionarNov").attr(
+          "href",
+          `https://fenixoper.laarcourier.com/Tracking/Guiacompleta.aspx?guia=${response.novedad[0].guia_novedad}`
+        );
+      } else if (response.factura[0].transporte == "SERVIENTREGA") {
+        $("#tracking_gestionarNov").attr(
+          "href",
+          `https://www.servientrega.com.ec/Tracking/?guia=${response.novedad[0].guia_novedad}&tipo=GUIA`
+        );
+      } else if (response.factura[0].transporte == "GINTRACOM") {
+        $("#tracking_gestionarNov").attr(
+          "href",
+          `https://ec.gintracom.site/web/site/tracking?guia=${response.novedad[0].guia_novedad}`
+        );
+      } else if (response.factura[0].transporte == "SPEED") {
         $("#tracking_gestionarNov").attr("href", ``);
       }
 
