@@ -3388,8 +3388,8 @@ class PedidosModel extends Query
 
     public function mensaje_assistmant($id_assistmant, $mensaje, $id_thread, $id_plataforma, $telefono, $api_key_openai)
     {
-        $sql = "SELECT assistant_id FROM openai_assistants WHERE id = ? AND activo = 1";
-        $assistant = $this->select($sql, [$id_assistmant]);
+        $sql = "SELECT assistant_id FROM openai_assistants WHERE id = $id_assistmant AND activo = 1";
+        $assistant = $this->select($sql);
 
         if (empty($assistant)) {
             return ["error" => "No se encontró el assistant con ese ID"];
