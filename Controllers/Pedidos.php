@@ -3128,10 +3128,8 @@ class Pedidos extends Controller
     {
         $id_plataforma = $_POST['id_plataforma'];
         $telefono = $_POST['telefono'];
-        $thread_id  = $this->model->obtener_datos_cliente_para_assistant($id_plataforma, $telefono);
-        echo json_encode([
-            "thread_id" => $thread_id
-        ]);
+        $response = $this->model->obtener_datos_cliente_para_assistant($id_plataforma, $telefono);
+        echo json_encode($response);
     }
 
     public function obtener_thread_id()
