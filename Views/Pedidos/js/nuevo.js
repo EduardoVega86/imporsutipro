@@ -212,7 +212,9 @@ const listNuevoPedido = async () => {
           $("#precioEnvio_infoVenta").text(response.tarifa);
           $("#fulfillment_infoVenta").text(response.full);
           $("#total_infoVenta").text(response.resultante);
-          $("#monto_total").text(response.resultante); // 🔥 Aquí actualizamos el monto total visible
+          $("#monto_total").text(response.resultante); // Total general (con envío)
+          $("#precioFinal_nuevoPedido_0").text(response.resultante); // Actualiza la celda del producto con ese total
+          
 
           // Si quieres que el DataTable refleje también ese valor
           if (!dataTableNuevoPedidoIsInitialized) {
