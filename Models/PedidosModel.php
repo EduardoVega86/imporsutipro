@@ -3408,7 +3408,7 @@ class PedidosModel extends Query
 
         if ($bloque_info) {
             $payload = [
-                "role" => "system", // ✅ así debe ir
+                "role" => "system",
                 "content" => "🧾 Información del cliente para usar como contexto:\n\n" . $bloque_info
             ];
 
