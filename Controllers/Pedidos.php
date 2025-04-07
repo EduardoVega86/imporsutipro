@@ -3115,21 +3115,31 @@ class Pedidos extends Controller
     {
         $id_assistmant = $_POST['id_assistmant'];
         $mensaje = $_POST['mensaje'];
-        $celular_recibe = $_POST['celular_recibe'];
+        $id_thread = $_POST['id_thread'];
         $id_plataforma = $_POST['id_plataforma'];
         $telefono = $_POST['telefono'];
+        $api_key_openai = $_POST['api_key_openai'];
 
-        $response = $this->model->mensaje_assistmant($id_assistmant, $mensaje, $celular_recibe, $id_plataforma, $telefono);
+        $response = $this->model->mensaje_assistmant($id_assistmant, $mensaje, $id_thread, $id_plataforma, $telefono, $api_key_openai);
         echo json_encode($response);
     }
 
-    public function ultimos_mensajes_assistmant()
+    public function obtener_datos_cliente_para_assistant()
     {
-        $celular_recibe = $_POST['celular_recibe'];
         $id_plataforma = $_POST['id_plataforma'];
         $telefono = $_POST['telefono'];
-        $response = $this->model->ultimos_mensajes_assistmant($celular_recibe, $id_plataforma, $telefono);
+        $response = $this->model->obtener_datos_cliente_para_assistant($id_plataforma, $telefono);
         echo json_encode($response);
+    }
+
+    public function obtener_thread_id()
+    {
+        $id_cliente_chat_center = $_POST['id_cliente_chat_center'];
+        $api_key = $_POST['api_key'];
+
+        $thread_id = $this->model->obtener_o_crear_thread_id($id_cliente_chat_center, $api_key);
+
+        echo json_encode(["thread_id" => $thread_id]);
     }
 
     public function agregar_automatizador()
