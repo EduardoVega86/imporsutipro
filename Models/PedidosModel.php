@@ -3586,7 +3586,11 @@ class PedidosModel extends Query
         }
 
         if (!empty($factura)) {
-            return json_encode([$tipo_dato => $factura[0]], JSON_UNESCAPED_UNICODE);
+            $bloque = strtoupper($tipo_dato) . " DETECTADO:\n\n";
+            foreach ($factura[0] as $clave => $valor) {
+                $bloque .= ucfirst(str_replace('_', ' ', $clave)) . ": " . $valor . "\n";
+            }
+            return $bloque;
         }
 
         return null;
@@ -3650,12 +3654,6 @@ class PedidosModel extends Query
         $thread_response = json_decode($response, true);
 
         return $thread_response['id'] ?? null;
-    }
-
-    private function esJson($string)
-    {
-        json_decode($string);
-        return (json_last_error() === JSON_ERROR_NONE && is_array(json_decode($string, true)));
     }
 
     // Función para generar una clave única
