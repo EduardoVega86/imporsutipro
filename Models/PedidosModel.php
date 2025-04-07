@@ -3453,7 +3453,10 @@ class PedidosModel extends Query
 
         $run_id = $run_response['id'] ?? null;
         if (!$run_id) {
-            return ["error" => "No se pudo ejecutar el assistant"];
+            return [
+                "error" => "No se pudo ejecutar el assistant",
+                "respuesta_openai" => $run_response
+            ];
         }
 
         // 4. Esperar respuesta
