@@ -60,7 +60,7 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                     <tbody id="tableBody_nuevoPedido"></tbody>
                 </table>
                 <div class="text-end">
-                    <span>Total: $<span id="total_infoVenta" class="monto">
+                    <span>Total: $<span id="monto_total" class="monto">
 
                         </span> </span>
 
