@@ -185,6 +185,8 @@ const listNuevoPedido = async () => {
     document.getElementById("monto_total").innerHTML = total.toFixed(2);
     document.getElementById("tableBody_nuevoPedido").innerHTML = content;
 
+    
+
     if (eliminado == true) {
       eliminado = false;
     }
