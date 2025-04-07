@@ -177,7 +177,7 @@ function enviar_cliente(id, sku, pvp, id_inventario) {
 }
 
 // Función para solicitar muestra
-function solicitar_muestra(id, sku, id_inventario) {
+function solicitar_muestra(id, sku, pvp,id_inventario) {
     const formData = new FormData();
     formData.append("cantidad", 1);
     formData.append("precio", pvp); // Precio en 0 porque es muestra
