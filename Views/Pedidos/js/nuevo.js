@@ -64,7 +64,6 @@ const listNuevoPedido = async () => {
     const response = await fetch(SERVERURL + "pedidos/buscarTmp");
     const data = await response.json();
 
-    // Verificar si el array 'tmp' está vacío o tiene un producto con id 0
     if (data.tmp.length === 0 || (data.tmp[0].id_producto == 0 && !eliminado)) {
       document.getElementById("monto_total").innerHTML = 0;
       document.getElementById("tableBody_nuevoPedido").innerHTML = "";
@@ -74,21 +73,17 @@ const listNuevoPedido = async () => {
     const nuevosPedidos = data.tmp;
     const nuevosPedidos_bodega = data.bodega;
 
-    let content = ``;
+    let content = "";
     let total = 0;
-    let precio_costo = 0;
     costo_producto = 0;
     contiene = "";
     contieneGintracom = "";
-    let variedad = "";
-
     costo_general = 0;
 
     const urlParams = new URLSearchParams(window.location.search);
     const muestra = urlParams.get("muestra");
 
     nuevosPedidos.forEach((nuevoPedido, index) => {
-      //Editar solo si no es un pedido de muestra
       let priceDisabled = muestra === "1" ? "readonly" : "";
       if (nuevosPedidos_bodega.length > 0 && nuevosPedidos_bodega[0]) {
         celular_bodega = nuevosPedidos_bodega[0].contacto;
@@ -103,33 +98,13 @@ const listNuevoPedido = async () => {
       if (nuevoPedido.envio_prioritario === "0")
         id_producto_venta = nuevoPedido.id_producto;
       dropshipping = nuevoPedido.drogshipin;
-      costo_producto =
-        costo_producto +
-        parseFloat(nuevoPedido.pcp) * parseFloat(nuevoPedido.cantidad_tmp);
 
-      /* console.log(costo_producto); */
-      variedad = "";
-      if (nuevoPedido.variedad != null) {
-        variedad = `${nuevoPedido.variedad}`;
-      }
-
-      contiene += ` ${nuevoPedido.cantidad_tmp} x ${nuevoPedido.nombre_producto} ${variedad}`;
-      contieneGintracom += ` ${nuevoPedido.nombre_producto} ${variedad} X${nuevoPedido.cantidad_tmp} `;
-
-      lista_productos.push({
-        id_inventario: nuevoPedido.id_inventario,
-        cantidad: nuevoPedido.cantidad_tmp,
-      });
-
-
-      precio_costo = parseFloat(nuevoPedido.precio_tmp);
-
-      if (!validar_direccion()) {
-        return;
-      }
-
-      costo_general =
-        costo_general + nuevoPedido.pcp * nuevoPedido.cantidad_tmp;
+      costo_producto += parseFloat(nuevoPedido.pcp) * parseFloat(nuevoPedido.cantidad_tmp);
+      contiene += ` ${nuevoPedido.cantidad_tmp} x ${nuevoPedido.nombre_producto}`;
+      contieneGintracom += ` ${nuevoPedido.nombre_producto} X${nuevoPedido.cantidad_tmp}`;
+      lista_productos.push({ id_inventario: nuevoPedido.id_inventario, cantidad: nuevoPedido.cantidad_tmp });
+      if (!validar_direccion()) return;
+      costo_general += nuevoPedido.pcp * nuevoPedido.cantidad_tmp;
 
       const precio = parseFloat(nuevoPedido.precio_tmp);
       const descuento = parseFloat(nuevoPedido.desc_tmp);
@@ -140,93 +115,19 @@ const listNuevoPedido = async () => {
       total += precioFinal;
 
       content += `
-                <tr>
-                    <td>${nuevoPedido.id_tmp}</td>
-                    <td><input type="text" onblur='recalcular("${
-                      nuevoPedido.id_tmp
-                    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' id="cantidad_nuevoPedido_${index}" 
-    class="form-control prec" 
-    value="${nuevoPedido.cantidad_tmp}">
-</td>
-                    <td>${nuevoPedido.nombre_producto} ${variedad}</td>
-                    <td>
-  <input 
-    type="text" 
-    onblur='recalcular("${
-      nuevoPedido.id_tmp
-    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' 
-    id="precio_nuevoPedido_${index}" 
-    class="form-control prec" 
-    value="${precio}"
-    ${priceDisabled}
-  >
-</td>
-<td>
-  <input 
-    type="text" 
-    onblur='recalcular("${
-      nuevoPedido.id_tmp
-    }", "precio_nuevoPedido_${index}", "descuento_nuevoPedido_${index}", "cantidad_nuevoPedido_${index}")' 
-    id="descuento_nuevoPedido_${index}" 
-    class="form-control desc" 
-    value="${descuento}">
-</td>
-                    <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(
-        2
-      )}</span></td>
-                    <td>
-                        <button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${
-                          nuevoPedido.id_tmp
-                        })"><i class="fa-solid fa-trash-can"></i></button>
-                    </td>
-                </tr>`;
+        <tr>
+          <td>${nuevoPedido.id_tmp}</td>
+          <td><input type="text" value="${nuevoPedido.cantidad_tmp}" class="form-control prec" readonly></td>
+          <td>${nuevoPedido.nombre_producto}</td>
+          <td><input type="text" value="${precio}" class="form-control prec" ${priceDisabled} readonly></td>
+          <td><input type="text" value="${descuento}" class="form-control desc" readonly></td>
+          <td><span class='tota' id="precioFinal_nuevoPedido_${index}">${precioFinal.toFixed(2)}</span></td>
+          <td><button class="btn btn-sm btn-danger" onclick="eliminar_nuevoPedido(${nuevoPedido.id_tmp})"><i class="fa-solid fa-trash-can"></i></button></td>
+        </tr>`;
     });
 
     document.getElementById("monto_total").innerHTML = total.toFixed(2);
     document.getElementById("tableBody_nuevoPedido").innerHTML = content;
-
-    const urllParams = new URLSearchParams(window.location.search);
-    const muesstra = urlParams.get("muestra");
-
-    if (muesstra === "1") {
-      const idProducto_calcular = urlParams.get("id_producto");
-      const priceValue = $("#costo_flete").val() || 0; // tarifa
-      const monto_total_general = total.toFixed(2); // total sin tarifa aún
-
-      let formData = new FormData();
-      formData.append("id_producto", idProducto_calcular);
-      formData.append("total", monto_total_general);
-      formData.append("tarifa", priceValue);
-      formData.append("costo", costo_general);
-
-      $.ajax({
-        url: SERVERURL + "calculadora/calcularGuiaDirectaMuestra",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        success: function (response) {
-          $("#montoVenta_infoVenta").text(response.total);
-          $("#costo_infoVenta").text(response.costo);
-          $("#precioEnvio_infoVenta").text(response.tarifa);
-          $("#fulfillment_infoVenta").text(response.full);
-          $("#total_infoVenta").text(response.resultante);
-          $("#monto_total").text(response.resultante); // Total general (con envío)
-          $("#precioFinal_nuevoPedido_0").text(response.resultante); // Actualiza la celda del producto con ese total
-          
-
-          // Si quieres que el DataTable refleje también ese valor
-          if (!dataTableNuevoPedidoIsInitialized) {
-            initDataTableNuevoPedido();
-          }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          alert(errorThrown);
-        },
-      });
-    }
-
 
     if (eliminado == true) {
       eliminado = false;
@@ -235,6 +136,41 @@ const listNuevoPedido = async () => {
     alert(ex);
   }
 };
+
+// Si es muestra, calcular valores desde aquí luego de seleccionar provincia y ciudad
+const urlParamsCalcular = new URLSearchParams(window.location.search);
+if (urlParamsCalcular.get("muestra") === "1") {
+  const idProducto = urlParamsCalcular.get("id_producto");
+  const montoTotal = $("#monto_total").text().trim();
+  const tarifa = $("#costo_flete").val() || 0;
+
+  let formData = new FormData();
+  formData.append("id_producto", idProducto);
+  formData.append("total", montoTotal);
+  formData.append("tarifa", tarifa);
+  formData.append("costo", costo_general);
+
+  $.ajax({
+    url: SERVERURL + "calculadora/calcularGuiaDirectaMuestra",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    dataType: "json",
+    success: function (response) {
+      $("#montoVenta_infoVenta").text(response.total);
+      $("#costo_infoVenta").text(response.costo);
+      $("#precioEnvio_infoVenta").text(response.tarifa);
+      $("#fulfillment_infoVenta").text(response.full);
+      $("#total_infoVenta").text(response.resultante);
+      $("#monto_total").text(response.resultante);
+      $("#precioFinal_nuevoPedido_0").text(response.resultante);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert(errorThrown);
+    }
+  });
+}
 
 function recalcular(id, idPrecio, idDescuento, idCantidad) {
   var button2 = document.getElementById("generarGuiaBtn");
