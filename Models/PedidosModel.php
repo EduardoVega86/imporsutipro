@@ -3592,7 +3592,7 @@ class PedidosModel extends Query
     public function obtener_o_crear_thread_id($id_cliente_chat_center, $api_key)
     {
         // Consultar si ya existe un thread
-        $sql = "SELECT thread_id, fecha_creado FROM openai_threads WHERE id_clientes_chat_center = $id_cliente_chat_center";
+        $sql = "SELECT thread_id, fecha_creado FROM openai_threads WHERE id_cliente_chat_center = $id_cliente_chat_center";
         $existe = $this->select($sql);
 
         // Si existe
