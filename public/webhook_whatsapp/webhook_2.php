@@ -1054,9 +1054,9 @@ function obtener_thread_id($celular_recibe, $api_key_openai)
     // Decodificar la respuesta JSON
     $respuesta = json_decode($response, true);
 
-    if (isset($respuesta['respuesta'])) {
-        file_put_contents('debug_log.txt', "✅ id_thread: " . $respuesta['respuesta'] . "\n", FILE_APPEND);
-        return $respuesta['respuesta'];
+    if (isset($respuesta['id_thread'])) {
+        file_put_contents('debug_log.txt', "✅ id_thread: " . $respuesta['id_thread'] . "\n", FILE_APPEND);
+        return $respuesta['id_thread'];
     } else {
         file_put_contents('debug_log.txt', "⚠️ Respuesta sin estructura esperada: " . $response . "\n", FILE_APPEND);
         return false;
