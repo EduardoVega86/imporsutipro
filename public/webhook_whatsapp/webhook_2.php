@@ -75,7 +75,7 @@ $tipo_mensaje = $whatsapp_value['messages'][0]['type'] ?? '';  // Tipo de mensaj
 
 /* consultar id_configuracion, id_platafirma, token y id_whatsapp desde BD con el business_phone_id  */
 // Preparar la consulta
-$check_cofiguraciones_stmt = $conn->prepare("SELECT id_plataforma, token, id_whatsapp, id FROM configuraciones WHERE id_telefono = ?");
+$check_cofiguraciones_stmt = $conn->prepare("SELECT id_plataforma, token, id_whatsapp, id, api_key_openai FROM configuraciones WHERE id_telefono = ?");
 $check_cofiguraciones_stmt->bind_param('s', $business_phone_id);  // Usamos id_configuracion como parámetro
 $check_cofiguraciones_stmt->execute();
 $check_cofiguraciones_stmt->store_result();  // Almacenar el resultado antes de bind_result
@@ -83,7 +83,7 @@ $check_cofiguraciones_stmt->store_result();  // Almacenar el resultado antes de 
 // Verificar si la consulta devolvió alguna fila
 if ($check_cofiguraciones_stmt->num_rows > 0) {
     // Enlazar los resultados a variables
-    $check_cofiguraciones_stmt->bind_result($id_plataforma, $accessToken, $waba_id, $id_configuracion);
+    $check_cofiguraciones_stmt->bind_result($id_plataforma, $accessToken, $waba_id, $id_configuracion, $api_key_openai);
     $check_cofiguraciones_stmt->fetch();  // Obtener los valores vinculados
 } else {
     // Si no hay resultados, maneja el error apropiadamente
@@ -973,7 +973,7 @@ function asignar_etiquetas($id_etiquetas, $id_plataforma, $id_cliente)
     }
 }
 
-function enviar_asistente_gpt($id_assistmant, $mensaje, $celular_recibe)
+function enviar_asistente_gpt($id_assistmant, $mensaje, $id_plataforma, $telefono, $api_key_openai, $id_thread)
 {
     $url = 'https://new.imporsuitpro.com/Pedidos/mensaje_assistmant';
 
@@ -981,7 +981,10 @@ function enviar_asistente_gpt($id_assistmant, $mensaje, $celular_recibe)
     $postData = [
         'id_assistmant'   => $id_assistmant,
         'mensaje'         => $mensaje,
-        'celular_recibe'  => $celular_recibe
+        'id_thread'  => $id_thread,
+        'id_plataforma'  => $id_plataforma,
+        'telefono'  => $telefono,
+        'api_key_openai'  => $api_key_openai
     ];
 
     // Inicializar cURL
@@ -1010,6 +1013,49 @@ function enviar_asistente_gpt($id_assistmant, $mensaje, $celular_recibe)
 
     if (isset($respuesta['respuesta'])) {
         file_put_contents('debug_log.txt', "✅ Respuesta asistente: " . $respuesta['respuesta'] . "\n", FILE_APPEND);
+        return $respuesta['respuesta'];
+    } else {
+        file_put_contents('debug_log.txt', "⚠️ Respuesta sin estructura esperada: " . $response . "\n", FILE_APPEND);
+        return false;
+    }
+}
+
+function obtener_thread_id($celular_recibe, $api_key_openai)
+{
+    $url = 'https://new.imporsuitpro.com/Pedidos/obtener_thread_id';
+
+    // Crear los datos en formato FormData (multipart/form-data)
+    $postData = [
+        'id_cliente_chat_center'  => $celular_recibe,
+        'api_key'  => $api_key_openai
+    ];
+
+    // Inicializar cURL
+    $ch = curl_init($url);
+
+    // Configurar cURL
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+
+    // Ejecutar la petición
+    $response = curl_exec($ch);
+
+    // Verificar si hubo error
+    if (curl_errno($ch)) {
+        $error = curl_error($ch);
+        file_put_contents('debug_log.txt', "❌ Error en cURL: $error\n", FILE_APPEND);
+        curl_close($ch);
+        return false;
+    }
+
+    curl_close($ch);
+
+    // Decodificar la respuesta JSON
+    $respuesta = json_decode($response, true);
+
+    if (isset($respuesta['respuesta'])) {
+        file_put_contents('debug_log.txt', "✅ id_thread: " . $respuesta['respuesta'] . "\n", FILE_APPEND);
         return $respuesta['respuesta'];
     } else {
         file_put_contents('debug_log.txt', "⚠️ Respuesta sin estructura esperada: " . $response . "\n", FILE_APPEND);
@@ -1583,7 +1629,9 @@ if ($stmt->execute()) {
 
     $respuesta_asistente = "";
     if ($chat_cerrado == 1) {
-        $respuesta_asistente = enviar_asistente_gpt(3, $texto_mensaje, $id_cliente);
+        $id_thread = obtener_thread_id($id_cliente, $api_key_openai);
+
+        $respuesta_asistente = enviar_asistente_gpt(3, $texto_mensaje, $id_plataforma, $phone_whatsapp_from, $api_key_openai, $id_thread);
 
         enviar_mensaje_whatsapp($phone_whatsapp_from, $respuesta_asistente, $business_phone_id, $accessToken, $conn, $id_plataforma, $id_configuracion);
     }

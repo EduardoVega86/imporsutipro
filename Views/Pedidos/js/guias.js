@@ -205,8 +205,6 @@ const listGuias = async () => {
         transporte == 3
       ) {
         novedad = `<span>Esta novedad es de tipo operativo y no puede ser solventada</span>`;
-      } else if (guia.terminado == 1) {
-        novedad = `<span>Proceso de guia terminado</span>`;
       } else if (guia.solucionada == 1) {
         novedad = `<span>Novedad solventada</span>`;
       }
