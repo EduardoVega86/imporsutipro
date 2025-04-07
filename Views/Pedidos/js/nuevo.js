@@ -185,7 +185,46 @@ const listNuevoPedido = async () => {
     document.getElementById("monto_total").innerHTML = total.toFixed(2);
     document.getElementById("tableBody_nuevoPedido").innerHTML = content;
 
-    
+    const urllParams = new URLSearchParams(window.location.search);
+    const muesstra = urlParams.get("muestra");
+
+    if (muesstra === "1") {
+      const idProducto_calcular = urlParams.get("id_producto");
+      const priceValue = $("#costo_flete").val() || 0; // tarifa
+      const monto_total_general = total.toFixed(2); // total sin tarifa aún
+
+      let formData = new FormData();
+      formData.append("id_producto", idProducto_calcular);
+      formData.append("total", monto_total_general);
+      formData.append("tarifa", priceValue);
+      formData.append("costo", costo_general);
+
+      $.ajax({
+        url: SERVERURL + "calculadora/calcularGuiaDirectaMuestra",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function (response) {
+          $("#montoVenta_infoVenta").text(response.total);
+          $("#costo_infoVenta").text(response.costo);
+          $("#precioEnvio_infoVenta").text(response.tarifa);
+          $("#fulfillment_infoVenta").text(response.full);
+          $("#total_infoVenta").text(response.resultante);
+          $("#monto_total").text(response.resultante); // 🔥 Aquí actualizamos el monto total visible
+
+          // Si quieres que el DataTable refleje también ese valor
+          if (!dataTableNuevoPedidoIsInitialized) {
+            initDataTableNuevoPedido();
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          alert(errorThrown);
+        },
+      });
+    }
+
 
     if (eliminado == true) {
       eliminado = false;
