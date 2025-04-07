@@ -509,7 +509,7 @@ $(document).ready(function () {
       let url = SERVERURL + "calculadora/calcularGuiaDirecta";
       if (muestra === "1") {
         url = SERVERURL + "calculadora/calcularGuiaDirectaMuestra"; // 🔥 Usar el nuevo endpoint
-        btnGenerar.textContent = "Solicitar muestra";
+        generarGuiaBtn.textContent = "Solicitar muestra";
       }
 
       $.ajax({
