@@ -352,16 +352,17 @@ XML;
         }
 
         // 🔥 Total de Ganancia = 0 (porque es una muestra)
-        $resultante = 0;
+        $resultante = $costo + $tarifa;
 
         $data = [
-            "total" => number_format($total, 2, '.', ''), // 🔥 Ahora total = costo + tarifa
+            "total" => number_format($total, 2, '.', ''), // costo + tarifa
             "tarifa" => number_format($tarifa, 2, '.', ''),
             "costo" => number_format($costo, 2, '.', ''),
-            "resultante" => number_format($resultante, 2, '.', ''), // 🔥 Ganancia en 0
-            "generar" => true, // 🔥 No se genera ganancia en muestras
+            "resultante" => number_format($resultante, 2, '.', ''),
+            "generar" => true, // 🔥 No se genera ganancia en muestras, pero sí se puede generar guía
             "full" => $full
         ];
+
 
         return $data;
     }

@@ -65,6 +65,11 @@ $sku = isset($_GET['sku']) ? $_GET['sku'] : null;
                         </span> </span>
 
                 </div>
+                <?php if (isset($_GET['muestra']) && $_GET['muestra'] == "1"): ?>
+                    <div class="alert alert-info mt-2" id="mensaje_muestra">
+                        <strong>Nota:</strong> Este pedido es una <u>muestra gratuita</u>. Solo se cobrará el <b>envío</b> y el <b>costo del producto</b>. No se genera ganancia.
+                    </div>
+                <?php endif; ?>
             </div>
             <div style="padding-top: 40px;">
                 <h3 class="mb-3" style="text-decoration:underline;"><strong>Información de la venta</strong></h3>
