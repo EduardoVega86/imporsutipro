@@ -13,7 +13,7 @@
         <div class="row mb-4 text-center custom-cards">
             <!-- Card 1: Número de guias -->
             <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #007bff;">
+                <div class="card shadow-sm p-2 card-filtro" data-estado="" style="border-left: 5px solid #007bff; cursor: pointer;">
                     <h6 class="text-primary">
                         <i class="bx bx-box" style="font-size: 20px;"></i> # de guías
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
@@ -26,7 +26,7 @@
 
             <!-- Card 2: Guías por Recolectar/Generadas -->
             <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #ffc107;">
+                <div class="card shadow-sm p-2 card-filtro" data-estado="generada" style="border-left: 5px solid #ffc107; cursor: pointer;">
                     <h6 class="text-warning">
                         <i class="bx bx-package" style="font-size: 20px;"></i> Por recolectar
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
@@ -45,7 +45,7 @@
 
             <!-- Card 3: Guías en tránsito -->
             <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #28a745;">
+                <div class="card shadow-sm p-2 card-filtro" data-estado="en_transito" style="border-left: 5px solid #28a745; cursor: pointer;">
                     <h6 class="text-success">
                         <i class="bx bx-run" style="font-size: 20px;"></i> En tránsito
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
@@ -64,7 +64,7 @@
 
             <!-- Card 4: Guías en zona de entrega -->
             <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #17a2b8;">
+                <div class="card shadow-sm p-2 card-filtro" data-estado="zona_entrega" style="border-left: 5px solid #17a2b8; cursor: pointer;">
                     <h6 class="text-info">
                         <i class="bx bx-map-pin" style="font-size: 20px;"></i> Zona de entrega
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
@@ -83,7 +83,7 @@
 
             <!-- Card 5: Guías en entregadas -->
             <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #28a745;">
+                <div class="card shadow-sm p-2 card-filtro" data-estado="entregada" style="border-left: 5px solid #28a745; cursor: pointer;">
                     <h6 class="text-success">
                         <i class="bx bx-check-circle" style="font-size: 20px;"></i> Entregadas
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
@@ -102,7 +102,7 @@
 
             <!-- Card 6: Guías en novedad -->
             <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #fd7e14;">
+                <div class="card shadow-sm p-2 card-filtro" data-estado="novedad" style="border-left: 5px solid #fd7e14; cursor: pointer;">
                     <h6 style="color: #fd7e14;">
                         <i class="bx bx-error" style="font-size: 20px; color: #fd7e14;"></i> Novedad <!-- Ícono en naranja -->
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
@@ -121,7 +121,7 @@
 
             <!-- Card 7: Guías en devolución -->
             <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #dc3545;">
+                <div class="card shadow-sm p-2 card-filtro" data-estado="devolucion" style="border-left: 5px solid #dc3545; cursor: pointer;">
                     <h6 class="text-danger">
                         <i class="bx bx-undo" style="font-size: 20px;"></i> Devolución
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
@@ -277,8 +277,8 @@
                         <th class="centered">Acreditado</th>
                         <th class="centered">Impreso</th>
                         <th class="centered">Venta total</th>
-                        <th class="centered">Costo producto</th>
                         <th class="centered">Contiene</th>
+                        <th class="centered">Costo producto</th>
                         <th class="centered">Costo flete</th>
                         <th class="centered">Utilidad flete</th>
                         <th class="centered">Fulfillment</th>

@@ -2,6 +2,7 @@ let dataTable;
 let dataTableIsInitialized = false;
 let fecha_inicio = "";
 let fecha_fin = "";
+let actualizarCards = true; //por defecto si se actualizan
 
 // Configurar rango inicial
 let hoy = moment();
@@ -333,8 +334,8 @@ const listGuias = async () => {
           <td>${acreditado}</td>
           <td>${impresiones}</td>
           <td>${guia.monto_factura}</td>
-          <td>${guia.costo_producto}</td>
           <td>${guia.contiene}</td>
+          <td>${guia.costo_producto}</td>
           <td>${guia.costo_flete}</td>
           <td>${guia.utilidad}</td>
           <td></td>
@@ -362,77 +363,81 @@ const listGuias = async () => {
     document.getElementById("tableBody_guias").innerHTML = content;
 
     // Actualiza las cards con los totales enviados desde el servidor
-    const elementos = {
-      "num_pedidos" : "total",
-      "num_generadas" : "generada",
-      "num_transito" : "en_transito",
-      "num_entregadas" : "entregada",
-      "num_novedad" : "novedad",
-      "num_devolucion" : "devolucion",
-      "num_zona_entrega": "zona_entrega"
-    }
-
-    Object.entries(elementos).forEach(([id, key])=>{
-      let elemento = document.getElementById(id);
-      if(elemento){
-        elemento.innerText = totals[key];
+    if (actualizarCards) {
+      const elementos = {
+        "num_pedidos" : "total",
+        "num_generadas" : "generada",
+        "num_transito" : "en_transito",
+        "num_entregadas" : "entregada",
+        "num_novedad" : "novedad",
+        "num_devolucion" : "devolucion",
+        "num_zona_entrega": "zona_entrega"
+      };
+    
+      Object.entries(elementos).forEach(([id, key]) => {
+        let elemento = document.getElementById(id);
+        if (elemento) {
+          elemento.innerText = totals[key];
+        }
+      });
+    
+      if (totals.total > 0) {
+        let porcentajeGeneradas = Math.round((totals.generada / totals.total) * 100);
+        let porcentajeTransito = Math.round((totals.en_transito / totals.total) * 100);
+        let porcentajeEntregaZona = Math.round((totals.zona_entrega / totals.total) * 100);
+        let porcentajeEntrega = Math.round((totals.entregada / totals.total) * 100);
+        let porcentajeNovedad = Math.round((totals.novedad / totals.total) * 100);
+        let porcentajeDevolucion = 100 - (
+          porcentajeGeneradas + 
+          porcentajeTransito + 
+          porcentajeEntregaZona + 
+          porcentajeEntrega + 
+          porcentajeNovedad
+        );
+    
+        document.getElementById("progress_generadas").style.width = porcentajeGeneradas + "%";
+        document.getElementById("percent_generadas").innerText = porcentajeGeneradas + "%";
+    
+        document.getElementById("progress_transito").style.width = porcentajeTransito + "%";
+        document.getElementById("percent_transito").innerText = porcentajeTransito + "%";
+    
+        document.getElementById("progress_zonaentrega").style.width = porcentajeEntregaZona + "%";
+        document.getElementById("percent_zonaentrega").innerText = porcentajeEntregaZona + "%";
+    
+        document.getElementById("progress_entrega").style.width = porcentajeEntrega + "%";
+        document.getElementById("percent_entrega").innerText = porcentajeEntrega + "%";
+    
+        document.getElementById("progress_novedad").style.width = porcentajeNovedad + "%";
+        document.getElementById("percent_novedad").innerText = porcentajeNovedad + "%";
+    
+        document.getElementById("progress_devolucion").style.width = porcentajeDevolucion + "%";
+        document.getElementById("percent_devolucion").innerText = porcentajeDevolucion + "%";
+      } else {
+        // Si total es 0 o no se encontró nada, limpia todo
+        let progressBars = [
+          "progress_generadas",
+          "progress_transito",
+          "progress_zonaentrega",
+          "progress_entrega",
+          "progress_novedad",
+          "progress_devolucion",
+        ];
+        let percentTexts = [
+          "percent_generadas",
+          "percent_transito",
+          "percent_zonaentrega",
+          "percent_entrega",
+          "percent_novedad",
+          "percent_devolucion",
+        ];
+        progressBars.forEach((id) => {
+          document.getElementById(id).style.width = "0%";
+        });
+        percentTexts.forEach((id) => {
+          document.getElementById(id).innerText = "0%";
+        });
       }
-    })
-
-    // Totals.total es el total de guías
-    if (totals.total > 0) {
-      let porcentajeGeneradas = Math.round((totals.generada / totals.total) * 100);
-      let porcentajeTransito = Math.round((totals.en_transito / totals.total) * 100);
-      let porcentajeEntregaZona = Math.round((totals.zona_entrega /totals.total) * 100);
-      let porcentajeEntrega = Math.round((totals.entregada / totals.total) * 100);
-      let porcentajeNovedad = Math.round((totals.novedad / totals.total) * 100);
-  
-      // Calculamos el último porcentaje ajustándolo para que la suma sea 100%
-      let porcentajeDevolucion = 100 - (porcentajeGeneradas + porcentajeTransito + porcentajeEntrega + porcentajeEntregaZona + porcentajeNovedad);
-  
-      // Aplicamos los valores
-      document.getElementById("progress_generadas").style.width = porcentajeGeneradas + "%";
-      document.getElementById("percent_generadas").innerText = porcentajeGeneradas + "%";
-
-      document.getElementById("progress_transito").style.width = porcentajeTransito + "%";
-      document.getElementById("percent_transito").innerText = porcentajeTransito + "%";
- 
-      document.getElementById("progress_zonaentrega").style.width = porcentajeEntregaZona + "%";
-      document.getElementById("percent_zonaentrega").innerText = porcentajeEntregaZona + "%";      
-  
-      document.getElementById("progress_entrega").style.width = porcentajeEntrega + "%";
-      document.getElementById("percent_entrega").innerText = porcentajeEntrega + "%";
-  
-      document.getElementById("progress_novedad").style.width = porcentajeNovedad + "%";
-      document.getElementById("percent_novedad").innerText = porcentajeNovedad + "%";
-  
-      document.getElementById("progress_devolucion").style.width = porcentajeDevolucion + "%";
-      document.getElementById("percent_devolucion").innerText = porcentajeDevolucion + "%";
-    } else {
-      // Si total es 0 o no se encontró nada, limpia todo
-      let progressBars = [
-        "progress_generadas",
-        "progress_transito",
-        "progress_zonaentrega",
-        "progress_entrega",
-        "progress_novedad",
-        "progress_devolucion",
-      ];
-      let percentTexts = [
-        "percent_generadas",
-        "percent_transito",
-        "percent_zonaentrega",
-        "percent_entrega",
-        "percent_novedad",
-        "percent_devolucion",
-      ];
-      progressBars.forEach((id) => {
-        document.getElementById(id).style.width = "0%";
-      });
-      percentTexts.forEach((id) => {
-        document.getElementById(id).innerText = "0%";
-      });
-    }
+    }    
   } catch (ex) {
     alert(ex);
   }
@@ -1314,4 +1319,33 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+
+  //Cards interactivas, al dar click filtrar por tal.
+  let estadoSeleccionado = null;
+
+  document.querySelectorAll(".card-filtro").forEach((card) => {
+    card.addEventListener("click", async function () {
+      const estado = this.getAttribute("data-estado");
+  
+      if (estado === "" || estadoSeleccionado === estado) {
+        // 👉 Mostrar todos (sin filtro)
+        estadoSeleccionado = null;
+        $("#estado_q").val(""); // Resetea filtro estado
+        // Quitar resaltado de todas las cards
+        document.querySelectorAll(".card-filtro").forEach(c => c.classList.remove("selected"));
+      } else {
+        // 👉 Aplicar filtro
+        estadoSeleccionado = estado;
+        $("#estado_q").val(estado);
+        // Resaltar solo la card actual
+        document.querySelectorAll(".card-filtro").forEach(c => c.classList.remove("selected"));
+        this.classList.add("selected");
+      }
+  
+      actualizarCards = false;
+      await initDataTable();
+      actualizarCards = true; // restaurar para futuros usos
+    });
+  });
+  
 });

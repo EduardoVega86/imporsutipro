@@ -3570,8 +3570,9 @@ class PedidosModel extends Query
 
         // 1. Obtener datos actualizados de guía/pedido
         $bloque_info = $this->obtener_datos_cliente_para_assistant($id_plataforma, $telefono);
+        print_r("🧾 BLOQUE INFO:\n" . $bloque_info . "\n\n");
 
-        // 2. Enviar bloque de contexto como SYSTEM (solo contexto, no respuesta directa)
+        // 2. Enviar bloque de contexto
         if ($bloque_info) {
             $payload_contexto = [
                 "role" => "system",
@@ -3585,11 +3586,15 @@ class PedidosModel extends Query
                 CURLOPT_HTTPHEADER => $headers,
                 CURLOPT_POSTFIELDS => json_encode($payload_contexto, JSON_UNESCAPED_UNICODE)
             ]);
-            curl_exec($ch);
+            $response_contexto = curl_exec($ch);
             curl_close($ch);
+
+            print_r("📨 CONTEXTO ENVIADO:\n");
+            print_r($response_contexto);
+            print_r("\n\n");
         }
 
-        // 3. Enviar mensaje real del cliente (debe ser el último antes del run)
+        // 3. Enviar mensaje del usuario
         $payload_usuario = [
             "role" => "user",
             "content" => $mensaje
@@ -3602,8 +3607,12 @@ class PedidosModel extends Query
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_POSTFIELDS => json_encode($payload_usuario, JSON_UNESCAPED_UNICODE)
         ]);
-        curl_exec($ch);
+        $response_usuario = curl_exec($ch);
         curl_close($ch);
+
+        print_r("📨 MENSAJE USUARIO ENVIADO:\n");
+        print_r($response_usuario);
+        print_r("\n\n");
 
         // 4. Ejecutar el assistant
         $ch = curl_init("https://api.openai.com/v1/threads/$id_thread/runs");
@@ -3616,10 +3625,16 @@ class PedidosModel extends Query
                 "max_completion_tokens" => 200
             ])
         ]);
-        $run_response = json_decode(curl_exec($ch), true);
+        $run_response_raw = curl_exec($ch);
         curl_close($ch);
 
+        print_r("🚀 RESPUESTA RUN:\n");
+        print_r($run_response_raw);
+        print_r("\n\n");
+
+        $run_response = json_decode($run_response_raw, true);
         $run_id = $run_response['id'] ?? null;
+
         if (!$run_id) {
             return [
                 "error" => "No se pudo ejecutar el assistant",
@@ -3627,7 +3642,7 @@ class PedidosModel extends Query
             ];
         }
 
-        // 5. Esperar respuesta del assistant
+        // 5. Esperar la respuesta
         $intentos = 0;
         $max_intentos = 20;
 
@@ -3640,25 +3655,35 @@ class PedidosModel extends Query
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_HTTPHEADER => $headers
             ]);
-            $status_response = json_decode(curl_exec($ch), true);
+            $status_response_raw = curl_exec($ch);
             curl_close($ch);
 
+            $status_response = json_decode($status_response_raw, true);
             $status = $status_response['status'] ?? 'queued';
+
+            print_r("⌛ INTENTO $intentos - STATUS:\n");
+            print_r($status_response_raw);
+            print_r("\n\n");
         } while ($status !== 'completed' && $status !== 'failed' && $intentos < $max_intentos);
 
         if ($status === 'failed') {
             return ["error" => "Falló la ejecución del assistant", "run_status" => $status_response];
         }
 
-        // 6. Obtener la última respuesta del assistant
+        // 6. Obtener respuesta del assistant
         $ch = curl_init("https://api.openai.com/v1/threads/$id_thread/messages");
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTPHEADER => $headers
         ]);
-        $messages_response = json_decode(curl_exec($ch), true);
+        $messages_response_raw = curl_exec($ch);
         curl_close($ch);
 
+        print_r("📥 RESPUESTA FINAL:\n");
+        print_r($messages_response_raw);
+        print_r("\n\n");
+
+        $messages_response = json_decode($messages_response_raw, true);
         $mensajes = $messages_response['data'] ?? [];
         $respuesta = null;
 
