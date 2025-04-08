@@ -277,8 +277,8 @@
                         <th class="centered">Acreditado</th>
                         <th class="centered">Impreso</th>
                         <th class="centered">Venta total</th>
-                        <th class="centered">Costo producto</th>
                         <th class="centered">Contiene</th>
+                        <th class="centered">Costo producto</th>
                         <th class="centered">Costo flete</th>
                         <th class="centered">Utilidad flete</th>
                         <th class="centered">Fulfillment</th>
