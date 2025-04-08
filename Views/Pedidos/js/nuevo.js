@@ -762,7 +762,6 @@ let endpointNuevoPedido = (muestra === "1")
 
 //agregar funcion pedido
 function agregar_nuevoPedido() {
-  // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
   let transportadora_selected = $("#transportadora_selected").val();
   if (transportadora_selected == "servientrega") {
@@ -778,10 +777,20 @@ function agregar_nuevoPedido() {
     transportadora_selected = 3;
   }
 
+  // Obtener el parámetro muestra de la URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const muestra = urlParams.get("muestra");
+  let totalVenta;
+  if (muestra === "1") { // Si es pedido de muestra
+      let costoFlete = parseFloat($("#costo_flete").val()) || 0;
+      totalVenta = (costoFlete + parseFloat(costo_producto)).toFixed(2);
+  } else {
+      totalVenta = document.getElementById("monto_total").innerText;
+  }
+
   // Crea un objeto FormData
   var formData = new FormData();
-  var montoTotal = document.getElementById("monto_total").innerText;
-  formData.append("total_venta", montoTotal);
+  formData.append("total_venta", totalVenta);
   formData.append("nombre", $("#nombre").val());
   formData.append("telefono", $("#telefono").val());
   formData.append("calle_principal", $("#calle_principal").val());
@@ -818,11 +827,9 @@ function agregar_nuevoPedido() {
   formData.append("comentario", "Enviado por x");
   formData.append("id_transporte", 0);
 
-
-  
   // Realiza la solicitud AJAX
   $.ajax({
-    url: "" + SERVERURL + "/pedidos/nuevo_pedido",
+    url: SERVERURL + "/pedidos/nuevo_pedido",
     type: "POST",
     data: formData,
     processData: false,
@@ -834,9 +841,9 @@ function agregar_nuevoPedido() {
           icon: "error",
           title: response.title,
           text: response.message,
-          allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
-          allowEscapeKey: false, // Evita cerrar al presionar Escape
-          allowEnterKey: false, // Evita cerrar al presionar Enter
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          allowEnterKey: false,
         });
       } else if (response.status == 200) {
         Swal.fire({
@@ -845,12 +852,12 @@ function agregar_nuevoPedido() {
           text: response.message,
           showConfirmButton: false,
           timer: 2000,
-          allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
-          allowEscapeKey: false, // Evita cerrar al presionar Escape
-          allowEnterKey: false, // Evita cerrar al presionar Enter
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          allowEnterKey: false,
         }).then(() => {
           vaciarTmpPedidos();
-          window.location.href = "" + SERVERURL + "Pedidos/";
+          window.location.href = SERVERURL + "Pedidos/";
         });
       }
     },
@@ -860,6 +867,7 @@ function agregar_nuevoPedido() {
     },
   });
 }
+
 
 //Generar guia
 function generar_guia() {
@@ -880,8 +888,19 @@ function generar_guia() {
 
   // Crea un objeto FormData
   var formData = new FormData();
-  var montoTotal = document.getElementById("monto_total").innerText;
-  formData.append("total_venta", montoTotal);
+
+  // Obtener el parámetro muestra de la URL y calcular totalVenta en caso de ser muestra
+  const urlParams = new URLSearchParams(window.location.search);
+  const muestra = urlParams.get("muestra");
+  let totalVenta;
+  if (muestra === "1") {
+      let costoFlete = parseFloat($("#costo_flete").val()) || 0;
+      totalVenta = (costoFlete + parseFloat(costo_producto)).toFixed(2);
+  } else {
+      totalVenta = document.getElementById("monto_total").innerText;
+  }
+  formData.append("total_venta", totalVenta);
+
   formData.append("nombre", $("#nombre").val());
   formData.append("recaudo", $("#recaudo").val());
   formData.append("telefono", $("#telefono").val());
@@ -922,8 +941,6 @@ function generar_guia() {
   formData.append("url_google_speed_pedido", $("#url_google_speed_pedido").val());
 
   // Asignar el endpoint correcto según si es muestra o no
-  const urlParams = new URLSearchParams(window.location.search);
-  const muestra = urlParams.get("muestra");
   let endpointNuevoPedido = (muestra === "1")
       ? SERVERURL + "/pedidos/nuevo_pedido_muestra"
       : SERVERURL + "/pedidos/nuevo_pedido";
@@ -962,7 +979,7 @@ function generar_guia() {
           Swal.showLoading();
         },
       });
-      // Aquí continúa el flujo de generación de la guía...
+      // Flujo para la generación de la guía...
       if (response.status == 500) {
         Swal.fire({
           icon: "error",
@@ -1045,6 +1062,7 @@ function generar_guia() {
     },
   });
 }
+
 
 // Función para vaciar temporalmente los pedidos
 const vaciarTmpPedidos = async () => {
