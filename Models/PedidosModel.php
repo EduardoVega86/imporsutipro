@@ -3688,7 +3688,11 @@ class PedidosModel extends Query
         $respuesta = null;
 
         foreach (array_reverse($mensajes) as $msg) {
-            if ($msg['role'] === 'assistant') {
+            if (
+                $msg['role'] === 'assistant' &&
+                isset($msg['run_id']) &&
+                $msg['run_id'] === $run_id
+            ) {
                 $respuesta = $msg['content'][0]['text']['value'];
                 break;
             }
