@@ -745,6 +745,20 @@ function cargarCiudades() {
   }
 }
 
+// Función para vaciar temporalmente los pedidos
+const vaciarTmpPedidos = async () => {
+  try {
+    const response = await fetch("" + SERVERURL + "marketplace/vaciarTmp");
+    if (!response.ok) {
+      throw new Error("Error al vaciar los pedidos temporales");
+    }
+    const data = await response.json();
+    console.log("Respuesta de vaciarTmp:", data);
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+  }
+};
+
 function handleButtonClick(buttonId, callback) {
   var button = document.getElementById("guardarPedidoBtn");
   var button2 = document.getElementById("generarGuiaBtn");
@@ -1080,20 +1094,6 @@ function generar_guia() {
     },
   });
 }
-
-// Función para vaciar temporalmente los pedidos
-const vaciarTmpPedidos = async () => {
-  try {
-    const response = await fetch("" + SERVERURL + "marketplace/vaciarTmp");
-    if (!response.ok) {
-      throw new Error("Error al vaciar los pedidos temporales");
-    }
-    const data = await response.json();
-    console.log("Respuesta de vaciarTmp:", data);
-  } catch (error) {
-    console.error("Error al hacer la solicitud:", error);
-  }
-};
 
 function validar_devoluciones(telefono) {
   $.ajax({
