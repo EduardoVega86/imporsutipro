@@ -278,9 +278,10 @@
                         <th class="centered">Impreso</th>
                         <th class="centered">Venta total</th>
                         <th class="centered">Costo producto</th>
+                        <th class="centered">Contiene</th>
                         <th class="centered">Costo flete</th>
                         <th class="centered">Utilidad flete</th>
-                        <th class="centered">Fulfillment</th>
+                        <!-- <th class="centered">Fulfillment</th> -->
                         <th class="centered">Monto a recibir</th>
                         <th class="centered">Recaudo</th>
                         <th class="centered">Acciones</th>
@@ -289,6 +290,6 @@
                 <tbody id="tableBody_guias"></tbody>
             </table>
         </div>
-        
+
         <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias_administrador.js"></script>
         <?php require_once './Views/templates/footer.php'; ?>
