@@ -16,7 +16,7 @@
                 <div class="card shadow-sm p-2 card-filtro" data-estado="" style="border-left: 5px solid #007bff; cursor: pointer;">
                     <h6 class="text-primary">
                         <i class="bx bx-box" style="font-size: 20px;"></i> # de guías
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
+                        <i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip"
                             title="Cantidad total de pedidos registrados incluida las guias ya generadas">
                         </i>
                     </h6>
@@ -29,7 +29,7 @@
                 <div class="card shadow-sm p-2 card-filtro" data-estado="generada" style="border-left: 5px solid #ffc107; cursor: pointer;">
                     <h6 class="text-warning">
                         <i class="bx bx-package" style="font-size: 20px;"></i> Por recolectar
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
+                        <i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip"
                             title="Cantidad de guías que han sido generadas">
                         </i>
                     </h6>
@@ -48,7 +48,7 @@
                 <div class="card shadow-sm p-2 card-filtro" data-estado="en_transito" style="border-left: 5px solid #28a745; cursor: pointer;">
                     <h6 class="text-success">
                         <i class="bx bx-run" style="font-size: 20px;"></i> En tránsito
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
+                        <i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip"
                             title="Cantidad de guías que están en ruta o procesamiento">
                         </i>
                     </h6>
@@ -67,7 +67,7 @@
                 <div class="card shadow-sm p-2 card-filtro" data-estado="zona_entrega" style="border-left: 5px solid #17a2b8; cursor: pointer;">
                     <h6 class="text-info">
                         <i class="bx bx-map-pin" style="font-size: 20px;"></i> Zona de entrega
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
+                        <i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip"
                             title="Guías que se encuentran cerca del lugar de entrega ">
                         </i>
                     </h6>
@@ -86,7 +86,7 @@
                 <div class="card shadow-sm p-2 card-filtro" data-estado="entregada" style="border-left: 5px solid #28a745; cursor: pointer;">
                     <h6 class="text-success">
                         <i class="bx bx-check-circle" style="font-size: 20px;"></i> Entregadas
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
+                        <i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip"
                             title="Guías que ya fueron entregadas">
                         </i>
                     </h6>
@@ -105,7 +105,7 @@
                 <div class="card shadow-sm p-2 card-filtro" data-estado="novedad" style="border-left: 5px solid #fd7e14; cursor: pointer;">
                     <h6 style="color: #fd7e14;">
                         <i class="bx bx-error" style="font-size: 20px; color: #fd7e14;"></i> Novedad <!-- Ícono en naranja -->
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
+                        <i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip"
                             title="Guías que presentan alguna incidencia o novedad">
                         </i>
                     </h6>
@@ -126,7 +126,7 @@
                 <div class="card shadow-sm p-2 card-filtro" data-estado="devolucion" style="border-left: 5px solid #dc3545; cursor: pointer;">
                     <h6 class="text-danger">
                         <i class="bx bx-undo" style="font-size: 20px;"></i> Devolución
-                        <i class="bx bx-help-circle text-muted" data-toggle="tooltip"
+                        <i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip"
                             title="Guías que han sido devueltas o están en proceso de devolución">
                         </i>
                     </h6>
@@ -349,6 +349,13 @@
         $('#daterange').val(
             haceUnaSemana.format('YYYY-MM-DD') + ' - ' + hoy.format('YYYY-MM-DD')
         );
+
+        // Inicializar tooltips de Bootstrap 5
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
+            new bootstrap.Tooltip(el, {
+                trigger: 'hover'
+            });
+        });
     });
 </script>
 <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias.js"></script>
