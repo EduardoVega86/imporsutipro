@@ -1314,4 +1314,34 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+
+  //Cards interactivas, al dar click filtrar por tal.
+  let estadoSeleccionado = null;
+
+  document.querySelectorAll(".card-filtro").forEach((card) => {
+    card.addEventListener("click", async function () {
+      const estado = this.getAttribute("data-estado");
+  
+      if (estadoSeleccionado === estado) {
+        // Si la misma card fue presionada nuevamente → quitar el filtro
+        estadoSeleccionado = null;
+        $("#estado_q").val(""); // Quitar selección del filtro
+        this.classList.remove("selected");
+      } else {
+        // Aplicar nuevo filtro
+        estadoSeleccionado = estado;
+        $("#estado_q").val(estado);
+  
+        // Quitar clase "selected" a todas las demás cards
+        document.querySelectorAll(".card-filtro").forEach(c => c.classList.remove("selected"));
+        // Añadir clase a la seleccionada
+        this.classList.add("selected");
+      }
+  
+      await initDataTable();
+  
+      // Opcional: desplazar a la tabla
+      document.getElementById("datatable_guias").scrollIntoView({ behavior: "smooth" });
+    });
+  });
 });
