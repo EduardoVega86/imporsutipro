@@ -13,7 +13,7 @@
         <div class="row mb-4 text-center custom-cards">
             <!-- Card 1: Número de guias -->
             <div class="col-6 col-md-2">
-                <div class="card shadow-sm p-2" style="border-left: 5px solid #007bff;">
+                <div class="card shadow-sm p-2 card-filtro" data-estado="" style="border-left: 5px solid #007bff;">
                     <h6 class="text-primary">
                         <i class="bx bx-box" style="font-size: 20px;"></i> # de guías
                         <i class="bx bx-help-circle text-muted" data-toggle="tooltip"

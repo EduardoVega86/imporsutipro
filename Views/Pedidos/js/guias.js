@@ -319,24 +319,25 @@ const listGuias = async () => {
     });
     document.getElementById("tableBody_guias").innerHTML = content;
     
-    // Actualiza las cards con los totales enviados desde el servidor
-    const elementos = {
-      "num_pedidos": "total",
-      "num_generadas": "generada",
-      "num_transito": "en_transito",
-      "num_entregadas": "entregada",
-      "num_novedad": "novedad",
-      "num_devolucion": "devolucion",
-      "num_zona_entrega": "zona_entrega"
-    };
-  
-    Object.entries(elementos).forEach(([id, key]) => {
-        let elemento = document.getElementById(id);
-        if (elemento) {
-            elemento.innerText = totals[key];
-        }
-    });
     if(actualizarCards){
+      // Actualiza las cards con los totales enviados desde el servidor
+      const elementos = {
+        "num_pedidos": "total",
+        "num_generadas": "generada",
+        "num_transito": "en_transito",
+        "num_entregadas": "entregada",
+        "num_novedad": "novedad",
+        "num_devolucion": "devolucion",
+        "num_zona_entrega": "zona_entrega"
+      };
+    
+      Object.entries(elementos).forEach(([id, key]) => {
+          let elemento = document.getElementById(id);
+          if (elemento) {
+              elemento.innerText = totals[key];
+          }
+      });
+
       // Totals.total es el total de guías
       if (totals.total > 0) {
         // 1) Calculamos valores en decimales (sin redondear)
