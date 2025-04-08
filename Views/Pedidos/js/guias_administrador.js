@@ -1322,26 +1322,26 @@ document.addEventListener("DOMContentLoaded", function () {
     card.addEventListener("click", async function () {
       const estado = this.getAttribute("data-estado");
   
-      if (estadoSeleccionado === estado) {
-        // Si la misma card fue presionada nuevamente → quitar el filtro
+      if (estado === "" || estadoSeleccionado === estado) {
+        // 👉 Mostrar todos (sin filtro)
         estadoSeleccionado = null;
-        $("#estado_q").val(""); // Quitar selección del filtro
-        this.classList.remove("selected");
+        $("#estado_q").val(""); // Resetea filtro estado
+        // Quitar resaltado de todas las cards
+        document.querySelectorAll(".card-filtro").forEach(c => c.classList.remove("selected"));
       } else {
-        // Aplicar nuevo filtro
+        // 👉 Aplicar filtro
         estadoSeleccionado = estado;
         $("#estado_q").val(estado);
-  
-        // Quitar clase "selected" a todas las demás cards
+        // Resaltar solo la card actual
         document.querySelectorAll(".card-filtro").forEach(c => c.classList.remove("selected"));
-        // Añadir clase a la seleccionada
         this.classList.add("selected");
       }
   
       await initDataTable();
   
-      // Opcional: desplazar a la tabla
+      // Opcional: desplazarse hacia la tabla
       document.getElementById("datatable_guias").scrollIntoView({ behavior: "smooth" });
     });
   });
+  
 });
