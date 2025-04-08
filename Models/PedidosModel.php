@@ -3570,7 +3570,7 @@ class PedidosModel extends Query
 
         // 1. Obtener datos actualizados de guía/pedido
         $bloque_info = $this->obtener_datos_cliente_para_assistant($id_plataforma, $telefono);
-        print_r("🧾 BLOQUE INFO:\n" . $bloque_info . "\n\n");
+        /* print_r("🧾 BLOQUE INFO:\n" . $bloque_info . "\n\n"); */
 
         // 2. Enviar bloque de contexto
         if ($bloque_info) {
@@ -3589,9 +3589,9 @@ class PedidosModel extends Query
             $response_contexto = curl_exec($ch);
             curl_close($ch);
 
-            print_r("📨 CONTEXTO ENVIADO:\n");
+            /* print_r("📨 CONTEXTO ENVIADO:\n");
             print_r($response_contexto);
-            print_r("\n\n");
+            print_r("\n\n"); */
         }
 
         // 3. Enviar mensaje del usuario
@@ -3610,9 +3610,9 @@ class PedidosModel extends Query
         $response_usuario = curl_exec($ch);
         curl_close($ch);
 
-        print_r("📨 MENSAJE USUARIO ENVIADO:\n");
+        /* print_r("📨 MENSAJE USUARIO ENVIADO:\n");
         print_r($response_usuario);
-        print_r("\n\n");
+        print_r("\n\n"); */
 
         // 4. Ejecutar el assistant
         $ch = curl_init("https://api.openai.com/v1/threads/$id_thread/runs");
@@ -3628,9 +3628,9 @@ class PedidosModel extends Query
         $run_response_raw = curl_exec($ch);
         curl_close($ch);
 
-        print_r("🚀 RESPUESTA RUN:\n");
+        /* print_r("🚀 RESPUESTA RUN:\n");
         print_r($run_response_raw);
-        print_r("\n\n");
+        print_r("\n\n"); */
 
         $run_response = json_decode($run_response_raw, true);
         $run_id = $run_response['id'] ?? null;
@@ -3661,9 +3661,9 @@ class PedidosModel extends Query
             $status_response = json_decode($status_response_raw, true);
             $status = $status_response['status'] ?? 'queued';
 
-            print_r("⌛ INTENTO $intentos - STATUS:\n");
+            /* print_r("⌛ INTENTO $intentos - STATUS:\n");
             print_r($status_response_raw);
-            print_r("\n\n");
+            print_r("\n\n"); */
         } while ($status !== 'completed' && $status !== 'failed' && $intentos < $max_intentos);
 
         if ($status === 'failed') {
@@ -3679,9 +3679,9 @@ class PedidosModel extends Query
         $messages_response_raw = curl_exec($ch);
         curl_close($ch);
 
-        print_r("📥 RESPUESTA FINAL:\n");
+        /* print_r("📥 RESPUESTA FINAL:\n");
         print_r($messages_response_raw);
-        print_r("\n\n");
+        print_r("\n\n"); */
 
         $messages_response = json_decode($messages_response_raw, true);
         $mensajes = $messages_response['data'] ?? [];
