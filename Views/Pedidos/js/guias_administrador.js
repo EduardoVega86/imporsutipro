@@ -56,7 +56,7 @@ $(function() {
 // Configuración del DataTable
 const dataTableOptions = {
   columnDefs: [
-    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,14] },
+    { className: "centered", targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] },
     { orderable: false, targets: 0 }, // Evitar ordenar por la columna de checkboxes
   ],
   order: [[2, "desc"]], // Ordenar por la primera columna (fecha) en orden descendente
