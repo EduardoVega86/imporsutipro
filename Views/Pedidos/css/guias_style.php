@@ -184,6 +184,12 @@
         display: none !important;
     }
 
+    .card-filtro.selected {
+        box-shadow: 0 0 12px rgba(0, 123, 255, 0.7);
+        transform: scale(1.03);
+        transition: all 0.2s ease-in-out;
+        border: 2px solid #007bff !important;
+    }
 
     @media (min-width: 768px) {
         .custom-cards .col-md-2 {
