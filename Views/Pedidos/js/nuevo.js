@@ -121,7 +121,6 @@ const listNuevoPedido = async () => {
         cantidad: nuevoPedido.cantidad_tmp,
       });
 
-
       precio_costo = parseFloat(nuevoPedido.precio_tmp);
 
       if (!validar_direccion()) {
@@ -746,6 +745,20 @@ function cargarCiudades() {
   }
 }
 
+// Función para vaciar temporalmente los pedidos
+const vaciarTmpPedidos = async () => {
+  try {
+    const response = await fetch("" + SERVERURL + "marketplace/vaciarTmp");
+    if (!response.ok) {
+      throw new Error("Error al vaciar los pedidos temporales");
+    }
+    const data = await response.json();
+    console.log("Respuesta de vaciarTmp:", data);
+  } catch (error) {
+    console.error("Error al hacer la solicitud:", error);
+  }
+};
+
 function handleButtonClick(buttonId, callback) {
   var button = document.getElementById("guardarPedidoBtn");
   var button2 = document.getElementById("generarGuiaBtn");
@@ -756,9 +769,13 @@ function handleButtonClick(buttonId, callback) {
   callback();
 }
 
+let endpointNuevoPedido =
+  muestra === "1"
+    ? SERVERURL + "/pedidos/nuevo_pedido_muestra"
+    : SERVERURL + "/pedidos/nuevo_pedido";
+
 //agregar funcion pedido
 function agregar_nuevoPedido() {
-  // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
   let transportadora_selected = $("#transportadora_selected").val();
   if (transportadora_selected == "servientrega") {
@@ -774,10 +791,21 @@ function agregar_nuevoPedido() {
     transportadora_selected = 3;
   }
 
+  // Obtener el parámetro muestra de la URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const muestra = urlParams.get("muestra");
+  let totalVenta;
+  if (muestra === "1") {
+    // Si es pedido de muestra
+    let costoFlete = parseFloat($("#costo_flete").val()) || 0;
+    totalVenta = (costoFlete + parseFloat(costo_producto)).toFixed(2);
+  } else {
+    totalVenta = document.getElementById("monto_total").innerText;
+  }
+
   // Crea un objeto FormData
   var formData = new FormData();
-  var montoTotal = document.getElementById("monto_total").innerText;
-  formData.append("total_venta", montoTotal);
+  formData.append("total_venta", totalVenta);
   formData.append("nombre", $("#nombre").val());
   formData.append("telefono", $("#telefono").val());
   formData.append("calle_principal", $("#calle_principal").val());
@@ -816,7 +844,7 @@ function agregar_nuevoPedido() {
 
   // Realiza la solicitud AJAX
   $.ajax({
-    url: "" + SERVERURL + "/pedidos/nuevo_pedido",
+    url: SERVERURL + "/pedidos/nuevo_pedido",
     type: "POST",
     data: formData,
     processData: false,
@@ -828,9 +856,9 @@ function agregar_nuevoPedido() {
           icon: "error",
           title: response.title,
           text: response.message,
-          allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
-          allowEscapeKey: false, // Evita cerrar al presionar Escape
-          allowEnterKey: false, // Evita cerrar al presionar Enter
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          allowEnterKey: false,
         });
       } else if (response.status == 200) {
         Swal.fire({
@@ -839,12 +867,12 @@ function agregar_nuevoPedido() {
           text: response.message,
           showConfirmButton: false,
           timer: 2000,
-          allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
-          allowEscapeKey: false, // Evita cerrar al presionar Escape
-          allowEnterKey: false, // Evita cerrar al presionar Enter
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          allowEnterKey: false,
         }).then(() => {
           vaciarTmpPedidos();
-          window.location.href = "" + SERVERURL + "Pedidos/historial_2";
+          window.location.href = SERVERURL + "Pedidos/";
         });
       }
     },
@@ -857,8 +885,6 @@ function agregar_nuevoPedido() {
 
 //Generar guia
 function generar_guia() {
-  //   alert()
-  // Evita que el formulario se envíe de la forma tradicional
   event.preventDefault();
   let transportadora_selected = $("#transportadora_selected").val();
   if (transportadora_selected == "servientrega") {
@@ -876,8 +902,19 @@ function generar_guia() {
 
   // Crea un objeto FormData
   var formData = new FormData();
-  var montoTotal = document.getElementById("monto_total").innerText;
-  formData.append("total_venta", montoTotal);
+
+  // Obtener el parámetro muestra de la URL y calcular totalVenta en caso de ser muestra
+  const urlParams = new URLSearchParams(window.location.search);
+  const muestra = urlParams.get("muestra");
+  let totalVenta;
+  if (muestra === "1") {
+    let costoFlete = parseFloat($("#costo_flete").val()) || 0;
+    totalVenta = (costoFlete + parseFloat(costo_producto)).toFixed(2);
+  } else {
+    totalVenta = document.getElementById("monto_total").innerText;
+  }
+  formData.append("total_venta", totalVenta);
+
   formData.append("nombre", $("#nombre").val());
   formData.append("recaudo", $("#recaudo").val());
   formData.append("telefono", $("#telefono").val());
@@ -890,20 +927,20 @@ function generar_guia() {
   formData.append("observacion", $("#observacion").val());
   formData.append("nombre_responsable", $("#nombre_responsable").val());
   formData.append("transporte", 0);
-  formData.append("celular", $("#telefono").val()); // Asegúrate de obtener el valor correcto
+  formData.append("celular", $("#telefono").val());
   formData.append("id_producto_venta", id_producto_venta);
   formData.append("dropshipping", dropshipping);
   formData.append("importado", 0);
   formData.append("id_propietario", id_propietario_bodega);
   formData.append("identificacionO", 0);
   formData.append("celularO", celular_bodega);
-  formData.append("nombreO", nombre_bodega); // Corregir nombre de variable
+  formData.append("nombreO", nombre_bodega);
   formData.append("ciudadO", ciudad_bodega);
   formData.append("provinciaO", provincia_bodega);
   formData.append("direccionO", direccion_bodega);
-  formData.append("referenciaO", referencia_bodega); // Corregir nombre de variable
+  formData.append("referenciaO", referencia_bodega);
   formData.append("numeroCasaO", numeroCasa_bodega);
-  formData.append("valor_seguro", 0); // Corregir nombre de variable
+  formData.append("valor_seguro", 0);
   formData.append("no_piezas", 1);
   if (transportadora_selected == 3) {
     formData.append("contiene", contieneGintracom);
@@ -920,64 +957,69 @@ function generar_guia() {
     $("#url_google_speed_pedido").val()
   );
 
+  // Asignar el endpoint correcto según si es muestra o no
+  let endpointNuevoPedido =
+    muestra === "1"
+      ? SERVERURL + "/pedidos/nuevo_pedido_muestra"
+      : SERVERURL + "/pedidos/nuevo_pedido";
+
   // Realiza la solicitud AJAX
-  if (transportadora_selected == 1) {
+  if (transportadora_selected === 1) {
     generar_guiaTransportadora = "generarLaar";
-  } else if (transportadora_selected == 2) {
+  } else if (transportadora_selected === 2) {
     generar_guiaTransportadora = "generarServientrega";
-  } else if (transportadora_selected == 3) {
+  } else if (transportadora_selected === 3) {
     generar_guiaTransportadora = "generarGintracom";
-  } else if (transportadora_selected == 4) {
+  } else if (transportadora_selected === 4) {
     generar_guiaTransportadora = "generarSpeed";
   }
 
-  // Mostrar alerta de carga antes de realizar la solicitud AJAX
+  // Mostrar alerta de carga
   Swal.fire({
     title: "Cargando",
     text: "Creando nuevo pedido",
-    allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
-    allowEscapeKey: false, // Evita cerrar al presionar Escape
-    allowEnterKey: false, // Evita cerrar al presionar Enter
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    allowEnterKey: false,
     showConfirmButton: false,
     willOpen: () => {
       Swal.showLoading();
     },
   });
 
+  // Realizar la solicitud AJAX con el endpoint adecuado
   $.ajax({
-    url: "" + SERVERURL + "/pedidos/nuevo_pedido",
+    url: endpointNuevoPedido,
     type: "POST",
     data: formData,
     processData: false,
     contentType: false,
     success: function (response) {
       response = JSON.parse(response);
-
-      // Mostrar alerta de carga antes de realizar la solicitud AJAX
+      // Mostrar alerta de carga mientras se genera la guía
       Swal.fire({
         title: "Cargando",
         text: "Generando Guia del pedido",
-        allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
-        allowEscapeKey: false, // Evita cerrar al presionar Escape
-        allowEnterKey: false, // Evita cerrar al presionar Enter
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
         showConfirmButton: false,
         willOpen: () => {
           Swal.showLoading();
         },
       });
-
+      // Flujo para la generación de la guía...
       if (response.status == 500) {
         Swal.fire({
           icon: "error",
           title: response.title,
           text: response.message,
-          allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
-          allowEscapeKey: false, // Evita cerrar al presionar Escape
-          allowEnterKey: false, // Evita cerrar al presionar Enter
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          allowEnterKey: false,
         });
       } else if (response.status == 200) {
         formData.append("numero_factura", response.numero_factura);
-
         if (transportadora_selected == 2) {
           formData.append("flete", $("#flete").val());
           formData.append("seguro", $("#seguro").val());
@@ -985,37 +1027,34 @@ function generar_guia() {
           formData.append("otros", $("#otros").val());
           formData.append("impuestos", $("#impuestos").val());
         }
-
         $.ajax({
-          url: "" + SERVERURL + "/guias/" + generar_guiaTransportadora,
+          url: SERVERURL + "/guias/" + generar_guiaTransportadora,
           type: "POST",
           data: formData,
           processData: false,
           contentType: false,
           success: function (response) {
-
             if (response.status == 500) {
               Swal.fire({
                 icon: "error",
                 title:
                   "Error al crear la guia, no se encuentra la ciudad o provincia de destino",
-                allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
-                allowEscapeKey: false, // Evita cerrar al presionar Escape
-                allowEnterKey: false, // Evita cerrar al presionar Enter
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
               });
-              var button2 = document.getElementById("generarGuiaBtn");
-              button2.disabled = false;
+              document.getElementById("generarGuiaBtn").disabled = false;
             } else if (
               response.msj === "NO CUENTA CON NÚMERO DE GUÍAS ASIGNADAS"
             ) {
               Swal.fire({
                 icon: "warning",
                 title: "Servicio Temporalmente No Disponible",
-                text: "Estimado usuario, actualmente Servientrega está experimentando problemas de comunicación con nuestro sistema de generación de guías. Estamos trabajando junto con su equipo técnico para resolver este inconveniente a la mayor brevedad. Agradecemos su comprensión.",
-                timer: 5000, // Incrementa el tiempo para que el usuario tenga más oportunidad de leer
-                allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
-                allowEscapeKey: false, // Evita cerrar al presionar Escape
-                allowEnterKey: false, // Evita cerrar al presionar Enter
+                text: "Actualmente Servientrega presenta problemas de comunicación. Intente más tarde.",
+                timer: 5000,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
                 showConfirmButton: false,
               });
             } else if (response.status == 200) {
@@ -1023,24 +1062,23 @@ function generar_guia() {
                 icon: "success",
                 title: "Creacion de guia Completada",
                 showConfirmButton: false,
-                allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
-                allowEscapeKey: false, // Evita cerrar al presionar Escape
-                allowEnterKey: false, // Evita cerrar al presionar Enter
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
                 timer: 2000,
               }).then(() => {
                 vaciarTmpPedidos();
-                window.location.href = "" + SERVERURL + "Pedidos/guias";
+                window.location.href = SERVERURL + "Pedidos/guias";
               });
             } else if (response.status == 501) {
               Swal.fire({
                 icon: "warning",
                 title: response.message,
-                allowOutsideClick: false, // Evita cerrar al hacer clic fuera del modal
-                allowEscapeKey: false, // Evita cerrar al presionar Escape
-                allowEnterKey: false, // Evita cerrar al presionar Enter
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
               });
-              var button2 = document.getElementById("generarGuiaBtn");
-              button2.disabled = false; // Desactivar el botón
+              document.getElementById("generarGuiaBtn").disabled = false;
             }
           },
           error: function (error) {
@@ -1056,19 +1094,6 @@ function generar_guia() {
     },
   });
 }
-// Función para vaciar temporalmente los pedidos
-const vaciarTmpPedidos = async () => {
-  try {
-    const response = await fetch("" + SERVERURL + "marketplace/vaciarTmp");
-    if (!response.ok) {
-      throw new Error("Error al vaciar los pedidos temporales");
-    }
-    const data = await response.json();
-    console.log("Respuesta de vaciarTmp:", data);
-  } catch (error) {
-    console.error("Error al hacer la solicitud:", error);
-  }
-};
 
 function validar_devoluciones(telefono) {
   $.ajax({

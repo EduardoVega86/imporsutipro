@@ -1367,6 +1367,171 @@ class PedidosModel extends Query
         return $response;
     }
 
+    public function nuevo_pedido_muestra(
+        $fecha_factura,
+        $id_usuario,
+        $monto_factura,
+        $estado_factura,
+        $nombre_cliente,
+        $telefono_cliente,
+        $c_principal,
+        $ciudad_cot,
+        $c_secundaria,
+        $referencia,
+        $observacion,
+        $guia_enviada,
+        $transporte,
+        $identificacion,
+        $celular,
+        $id_producto_venta,
+        $dropshipping,
+        $id_plataforma,
+        $dueño_id,
+        $importado,
+        $plataforma_importa,
+        $cod,
+        $estado_guia_sistema,
+        $impreso,
+        $facturada,
+        $factura_numero,
+        $numero_guia,
+        $anulada,
+        $identificacionO,
+        $celularO,
+        $nombreO,
+        $ciudadO,
+        $provinciaO,
+        $direccionO,
+        $referenciaO,
+        $numeroCasaO,
+        $valor_segura,
+        $no_piezas,
+        $tipo_servicio,
+        $peso,
+        $contiene,
+        $costo_flete,
+        $costo_producto,
+        $comentario,
+        $id_transporte,
+        $provincia,
+        $id_bodega,
+        $nombre_responsable
+    ) {
+        $tmp = session_id();
+        $response = $this->initialResponse();
+
+        // Obtener el último número de factura y generar uno nuevo
+        $ultima_factura = $this->select("SELECT MAX(numero_factura) as factura_numero FROM facturas_cot");
+        $factura_numero = $ultima_factura[0]['factura_numero'];
+        if (!$factura_numero || $factura_numero == '') {
+            $factura_numero = 'COT-0000000000';
+        }
+        $nueva_factura = $this->incrementarNumeroFactura($factura_numero);
+
+        $sql = "INSERT INTO facturas_cot (
+            numero_factura, fecha_factura, id_usuario, monto_factura, estado_factura, 
+            nombre, telefono, c_principal, ciudad_cot, c_secundaria, 
+            referencia, observacion, guia_enviada, transporte, identificacion, celular, 
+            id_propietario, drogshipin, id_plataforma, importado, 
+            plataforma_importa, cod, estado_guia_sistema, impreso, facturada, 
+            anulada, identificacionO, nombreO, ciudadO, provinciaO, provincia,
+            direccionO, referenciaO, numeroCasaO, valor_seguro, no_piezas, tipo_servicio, 
+            peso, contiene, costo_flete, costo_producto, comentario, id_transporte, telefonoO, id_bodega, nombre_responsable
+        ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        )";
+
+        $data = array(
+            $nueva_factura,
+            $fecha_factura,
+            $id_usuario,
+            $monto_factura,
+            $estado_factura,
+            $nombre_cliente,
+            $telefono_cliente,
+            $c_principal,
+            $ciudad_cot,
+            $c_secundaria,
+            $referencia,
+            $observacion,
+            $guia_enviada,
+            $transporte,
+            $identificacion,
+            $celular,
+            $dueño_id,
+            $dropshipping,
+            $id_plataforma,
+            $importado,
+            $plataforma_importa,
+            $cod,
+            $estado_guia_sistema,
+            $impreso,
+            $facturada,
+            $anulada,
+            $identificacionO,
+            $nombreO,
+            $ciudadO,
+            $provinciaO,
+            $provincia,
+            $direccionO,
+            $referenciaO,
+            $numeroCasaO,
+            $valor_segura,
+            $no_piezas,
+            $tipo_servicio,
+            $peso,
+            $contiene,
+            $costo_flete,
+            $costo_producto,
+            $comentario,
+            $id_transporte,
+            $celularO,
+            $id_bodega,
+            $nombre_responsable
+        );
+
+        if (substr_count($sql, '?') !== count($data)) {
+            throw new Exception('La cantidad de placeholders en la consulta no coincide con la cantidad de elementos en el array de datos.');
+        }
+
+        $responses = $this->insert($sql, $data);
+
+        if ($responses === 1) {
+            $factura_id_result = $this->select("SELECT id_factura FROM facturas_cot WHERE numero_factura = '$nueva_factura'");
+            $factura_id = $factura_id_result[0]['id_factura'];
+            $tmp_cotizaciones = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$tmp'");
+
+            // Insertar cada registro de tmp_cotizacion en detalle_fact_cot
+            $detalle_sql = "INSERT INTO detalle_fact_cot (numero_factura, id_factura, id_producto, cantidad, desc_venta, precio_venta, id_plataforma, sku, id_inventario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            foreach ($tmp_cotizaciones as $tmp_item) {
+                $detalle_data = array(
+                    $nueva_factura,
+                    $factura_id,
+                    $tmp_item['id_producto'],
+                    $tmp_item['cantidad_tmp'],
+                    $tmp_item['desc_tmp'],
+                    $tmp_item['precio_tmp'],
+                    $tmp_item['id_plataforma'],
+                    $tmp_item['sku'],
+                    $tmp_item['id_inventario']
+                );
+                $guardar_detalle = $this->insert($detalle_sql, $detalle_data);
+            }
+
+            $response['status'] = 200;
+            $response['title'] = 'Petición exitosa';
+            $response['message'] = "Pedido de muestra creado correctamente";
+            $response["numero_factura"] = $nueva_factura;
+        } else {
+            $response['status'] = 500;
+            $response['title'] = 'Error';
+            $response['message'] = $responses['message'];
+        }
+
+        return $response;
+    }
+
+
     public function nuevo_pedido_shopify($fecha_factura, $id_usuario, $monto_factura, $estado_factura, $nombre_cliente, $telefono_cliente, $c_principal, $ciudad_cot, $c_secundaria, $referencia, $observacion, $guia_enviada, $transporte, $identificacion, $celular, $id_producto_venta, $dropshipping, $id_plataforma, $dueño_id, $importado, $plataforma_importa, $cod, $estado_guia_sistema, $impreso, $facturada, $factura_numero, $numero_guia, $anulada, $identificacionO, $celularO, $nombreO, $ciudadO, $provinciaO, $direccionO, $referenciaO, $numeroCasaO, $valor_segura, $no_piezas, $tipo_servicio, $peso, $contiene, $costo_flete, $costo_producto, $comentario, $id_transporte, $provincia, $productos, $id_bodega)
     {
         $tmp = session_id();
@@ -3408,7 +3573,7 @@ class PedidosModel extends Query
 
         if ($bloque_info) {
             $payload = [
-                "role" => "user", // Lo tratamos como info útil, no como system
+                "role" => "user",
                 "content" => "🧾 Información del cliente para usar como contexto:\n\n" . $bloque_info
             ];
 

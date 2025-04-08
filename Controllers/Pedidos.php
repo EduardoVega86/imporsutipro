@@ -424,6 +424,128 @@ class Pedidos extends Controller
         echo json_encode($response);
     }
 
+    public function nuevo_pedido_muestra()
+    {
+        $fecha_factura = date("Y-m-d H:i:s");
+        $id_usuario = $_SESSION['id'] ?? 0;
+
+        // Para pedido de muestra se calcula el monto como costo_producto + costo_flete
+        $costo_flete    = $_POST['costo_flete'] ?? 0;
+        $costo_producto = $_POST['costo_producto'] ?? 0;
+        $monto_factura  = $costo_flete + $costo_producto;
+
+        $estado_factura = 1;
+        $nombre_cliente = $_POST['nombre'];
+        $telefono_cliente = $_POST['telefono'];
+        $c_principal    = $_POST['calle_principal'];
+        $ciudad_cot     = $_POST['ciudad'];
+        $c_secundaria   = $_POST['calle_secundaria'];
+        $provincia      = $_POST['provincia'];
+        $referencia     = $_POST['referencia'];
+        $observacion    = $_POST['observacion'];
+        $nombre_responsable = $_POST['nombre_responsable'] ?? "";
+        $guia_enviada   = 0;
+        $transporte     = $_POST['transporte'];
+        $identificacion = $_POST['identificacion'] ?? "";
+        $celular        = $_POST['celular'] ?? $telefono_cliente;
+        $id_producto_venta = $_POST['id_producto_venta'];
+
+        $dropshipping   = $_POST['dropshipping'] ?? 0;
+        $id_plataforma  = $_SESSION['id_plataforma'] ?? $_POST['id_plataforma'];
+        $dueño_id       = $this->obtener_propietario($id_producto_venta);
+
+        if ($dueño_id == $id_plataforma) {
+            $dropshipping = 0;
+        } else {
+            $dropshipping = 1;
+        }
+
+        $importado          = $_POST['importado'] ?? 0;
+        $plataforma_importa = $_POST['plataforma_importa'] ?? 0;
+        $cod                = $_POST['recaudo'] ?? 0;
+        $estado_guia_sistema = 1;
+        $impreso            = 0;
+        $facturada          = 0;
+        $factura_numero     = 0;
+        $numero_guia        = 0;
+        $anulada            = 0;
+        $id_plataforma      = $_SESSION['id_plataforma'] ?? $_POST['id_plataforma'];
+
+        // Origen (datos de la bodega o quien envía el pedido)
+        $identificacionO = $_POST['identificacionO'] ?? "";
+        $celularO      = $_POST['celularO'] ?? $telefono_cliente;
+        $nombreO       = $_POST['nombreO'];
+        $ciudadO       = $_POST['ciudadO'] ?? 0;
+        $provinciaO    = $_POST['provinciaO'] ?? 0;
+        $direccionO    = $_POST['direccionO'] ?? "vacio";
+        $referenciaO   = $_POST['referenciaO'];
+        $numeroCasaO   = $_POST['numeroCasaO'] ?? 0;
+
+        $valor_segura  = $_POST['valor_segura'] ?? 0;
+        $no_piezas     = $_POST['no_piezas'] ?? 1;
+        $tipo_servicio = "201202002002013";
+        $peso          = "2";
+        $contiene      = $_POST['contiene'] ?? "";
+        $comentario    = $_POST['comentario'] ?? "";
+        $id_transporte = $_POST['id_transporte'] ?? 0;
+        $id_bodega     = $_POST['id_propietario']; // Código de la bodega
+
+        // Llamamos al nuevo método en el modelo para pedidos de muestra
+        $response = $this->model->nuevo_pedido_muestra(
+            $fecha_factura,
+            $id_usuario,
+            $monto_factura,
+            $estado_factura,
+            $nombre_cliente,
+            $telefono_cliente,
+            $c_principal,
+            $ciudad_cot,
+            $c_secundaria,
+            $referencia,
+            $observacion,
+            $guia_enviada,
+            $transporte,
+            $identificacion,
+            $celular,
+            $id_producto_venta,
+            $dropshipping,
+            $id_plataforma,
+            $dueño_id,
+            $importado,
+            $plataforma_importa,
+            $cod,
+            $estado_guia_sistema,
+            $impreso,
+            $facturada,
+            $factura_numero,
+            $numero_guia,
+            $anulada,
+            $identificacionO,
+            $celularO,
+            $nombreO,
+            $ciudadO,
+            $provinciaO,
+            $direccionO,
+            $referenciaO,
+            $numeroCasaO,
+            $valor_segura,
+            $no_piezas,
+            $tipo_servicio,
+            $peso,
+            $contiene,
+            $costo_flete,
+            $costo_producto,
+            $comentario,
+            $id_transporte,
+            $provincia,
+            $id_bodega,
+            $nombre_responsable
+        );
+
+        echo json_encode($response);
+    }
+
+
     public function nuevo_pedido_shopify()
     {
 
@@ -3128,10 +3250,8 @@ class Pedidos extends Controller
     {
         $id_plataforma = $_POST['id_plataforma'];
         $telefono = $_POST['telefono'];
-        $thread_id  = $this->model->obtener_datos_cliente_para_assistant($id_plataforma, $telefono);
-        echo json_encode([
-            "thread_id" => $thread_id
-        ]);
+        $response = $this->model->obtener_datos_cliente_para_assistant($id_plataforma, $telefono);
+        echo json_encode($response);
     }
 
     public function obtener_thread_id()

@@ -462,34 +462,68 @@ class MarketplaceModel extends Query
     }
     public function agregarTmpMuestra($id_producto, $cantidad, $plataforma, $sku, $id_inventario)
     {
-        $precio = 0; // 🔥 Aquí forzamos el precio a 0 para la muestra
+
+
+        $producto = $this->select("
+             SELECT pcp 
+               FROM inventario_bodegas 
+              WHERE id_inventario = $id_inventario
+         ");
+
+        if (empty($producto)) {
+            return [
+                'status' => 500,
+                'title' => 'Error',
+                'message' => 'No se encontró el producto para calcular el PCP.'
+            ];
+        }
+
+        // Asignamos el costo en lugar de 0
+        $precio = (float) $producto[0]['pcp'];
+
         $timestamp = session_id();
 
-        // Verificar si ya existe el producto en la cotización temporal
-        $cantidad_tmp = $this->select("SELECT * FROM tmp_cotizacion WHERE session_id = '$timestamp' AND id_inventario = $id_inventario");
+        // 2. Verificar si ya existe el producto en la cotización temporal
+        $cantidad_tmp = $this->select("
+            SELECT * 
+              FROM tmp_cotizacion 
+             WHERE session_id = '$timestamp' 
+               AND id_inventario = $id_inventario
+        ");
 
         if (empty($cantidad_tmp)) {
-            $id_inventario = $this->obtenerBodegaProducto($id_producto, $sku);
-
-            $sql = "INSERT INTO `tmp_cotizacion` (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `sku`, `id_inventario`) 
+            // 2.1 Si no existe, lo insertamos
+            $sql = "INSERT INTO `tmp_cotizacion`
+                   (`id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `id_plataforma`, `sku`, `id_inventario`) 
                     VALUES (?, ?, ?, ?, ?, ?, ?)";
-            $data = [$id_producto, $cantidad, $precio, $timestamp, $plataforma, $sku, $id_inventario];
+            $data = [
+                $id_producto,
+                $cantidad,
+                $precio,
+                $timestamp,
+                $plataforma,
+                $sku,
+                $id_inventario
+            ];
 
             try {
                 $insertar_caracteristica = $this->insert($sql, $data);
             } catch (Exception $e) {
                 return [
                     'status' => 500,
-                    'title' => 'Error SQL',
+                    'title'  => 'Error SQL',
                     'message' => 'Error en la consulta SQL: ' . $e->getMessage()
                 ];
             }
         } else {
+            // 2.2 Ya existe en tmp, solo actualizamos la cantidad
             $cantidad_anterior = $cantidad_tmp[0]["cantidad_tmp"];
-            $cantidad_nueva = $cantidad_anterior + $cantidad;
-            $id_tmp = $cantidad_tmp[0]["id_tmp"];
+            $cantidad_nueva    = $cantidad_anterior + $cantidad;
+            $id_tmp            = $cantidad_tmp[0]["id_tmp"];
 
-            $sql = "UPDATE `tmp_cotizacion` SET `cantidad_tmp` = ?, `precio_tmp` = ? WHERE `id_tmp` = ?";
+            $sql  = "UPDATE `tmp_cotizacion`
+                        SET `cantidad_tmp` = ?, `precio_tmp` = ?
+                      WHERE `id_tmp` = ?";
             $data = [$cantidad_nueva, $precio, $id_tmp];
 
             try {
@@ -497,7 +531,7 @@ class MarketplaceModel extends Query
             } catch (Exception $e) {
                 return [
                     'status' => 500,
-                    'title' => 'Error SQL',
+                    'title'  => 'Error SQL',
                     'message' => 'Error en la actualización SQL: ' . $e->getMessage()
                 ];
             }
@@ -505,18 +539,19 @@ class MarketplaceModel extends Query
 
         if ($insertar_caracteristica == 1) {
             return [
-                'status' => 200,
-                'title' => 'Petición exitosa',
-                'message' => 'Muestra agregada correctamente con precio 0'
+                'status'  => 200,
+                'title'   => 'Petición exitosa',
+                'message' => 'Muestra agregada con costo (PCP) en lugar de 0'
             ];
         } else {
             return [
-                'status' => 500,
-                'title' => 'Error',
+                'status'  => 500,
+                'title'   => 'Error',
                 'message' => 'No se pudo insertar la muestra en la base de datos.'
             ];
         }
     }
+
 
 
     public function obtenerBodegaProducto($id_producto, $sku)
