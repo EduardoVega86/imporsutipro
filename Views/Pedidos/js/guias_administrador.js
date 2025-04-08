@@ -337,6 +337,7 @@ const listGuias = async () => {
           <td>${guia.contiene}</td>
           <td>${guia.costo_flete}</td>
           <td>${guia.utilidad}</td>
+          <td></td>
           <td>${
             guia.monto_factura - guia.costo_producto - guia.costo_flete
           }</td>
