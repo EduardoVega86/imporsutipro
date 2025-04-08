@@ -121,7 +121,6 @@ const listNuevoPedido = async () => {
         cantidad: nuevoPedido.cantidad_tmp,
       });
 
-
       precio_costo = parseFloat(nuevoPedido.precio_tmp);
 
       if (!validar_direccion()) {
@@ -756,7 +755,8 @@ function handleButtonClick(buttonId, callback) {
   callback();
 }
 
-let endpointNuevoPedido = (muestra === "1")
+let endpointNuevoPedido =
+  muestra === "1"
     ? SERVERURL + "/pedidos/nuevo_pedido_muestra"
     : SERVERURL + "/pedidos/nuevo_pedido";
 
@@ -781,11 +781,12 @@ function agregar_nuevoPedido() {
   const urlParams = new URLSearchParams(window.location.search);
   const muestra = urlParams.get("muestra");
   let totalVenta;
-  if (muestra === "1") { // Si es pedido de muestra
-      let costoFlete = parseFloat($("#costo_flete").val()) || 0;
-      totalVenta = (costoFlete + parseFloat(costo_producto)).toFixed(2);
+  if (muestra === "1") {
+    // Si es pedido de muestra
+    let costoFlete = parseFloat($("#costo_flete").val()) || 0;
+    totalVenta = (costoFlete + parseFloat(costo_producto)).toFixed(2);
   } else {
-      totalVenta = document.getElementById("monto_total").innerText;
+    totalVenta = document.getElementById("monto_total").innerText;
   }
 
   // Crea un objeto FormData
@@ -868,7 +869,6 @@ function agregar_nuevoPedido() {
   });
 }
 
-
 //Generar guia
 function generar_guia() {
   event.preventDefault();
@@ -894,10 +894,12 @@ function generar_guia() {
   const muestra = urlParams.get("muestra");
   let totalVenta;
   if (muestra === "1") {
-      let costoFlete = parseFloat($("#costo_flete").val()) || 0;
-      totalVenta = (costoFlete + parseFloat(costo_producto)).toFixed(2);
+    let costoFlete = parseFloat($("#costo_flete").val()) || 0;
+    console.log("muestra: " + costoFlete);
+    totalVenta = (costoFlete + parseFloat(costo_producto)).toFixed(2);
   } else {
-      totalVenta = document.getElementById("monto_total").innerText;
+    totalVenta = document.getElementById("monto_total").innerText;
+    console.log("fuera de muestra: " + totalVenta);
   }
   formData.append("total_venta", totalVenta);
 
@@ -938,10 +940,14 @@ function generar_guia() {
   formData.append("costo_producto", costo_producto);
   formData.append("comentario", "Enviado por x");
   formData.append("id_transporte", transportadora_selected);
-  formData.append("url_google_speed_pedido", $("#url_google_speed_pedido").val());
+  formData.append(
+    "url_google_speed_pedido",
+    $("#url_google_speed_pedido").val()
+  );
 
   // Asignar el endpoint correcto según si es muestra o no
-  let endpointNuevoPedido = (muestra === "1")
+  let endpointNuevoPedido =
+    muestra === "1"
       ? SERVERURL + "/pedidos/nuevo_pedido_muestra"
       : SERVERURL + "/pedidos/nuevo_pedido";
 
@@ -1008,13 +1014,16 @@ function generar_guia() {
             if (response.status == 500) {
               Swal.fire({
                 icon: "error",
-                title: "Error al crear la guia, no se encuentra la ciudad o provincia de destino",
+                title:
+                  "Error al crear la guia, no se encuentra la ciudad o provincia de destino",
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 allowEnterKey: false,
               });
               document.getElementById("generarGuiaBtn").disabled = false;
-            } else if (response.msj === "NO CUENTA CON NÚMERO DE GUÍAS ASIGNADAS") {
+            } else if (
+              response.msj === "NO CUENTA CON NÚMERO DE GUÍAS ASIGNADAS"
+            ) {
               Swal.fire({
                 icon: "warning",
                 title: "Servicio Temporalmente No Disponible",
@@ -1062,7 +1071,6 @@ function generar_guia() {
     },
   });
 }
-
 
 // Función para vaciar temporalmente los pedidos
 const vaciarTmpPedidos = async () => {
