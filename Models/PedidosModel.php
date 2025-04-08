@@ -3568,12 +3568,13 @@ class PedidosModel extends Query
             'OpenAI-Beta: assistants=v2'
         ];
 
-        // 1. Obtener SOLO datos_guia o datos_pedido
+        // 1. Obtener datos actualizados de guía/pedido
         $bloque_info = $this->obtener_datos_cliente_para_assistant($id_plataforma, $telefono);
 
+        // 2. Enviar bloque de contexto como SYSTEM (solo contexto, no respuesta directa)
         if ($bloque_info) {
-            $payload = [
-                "role" => "user",
+            $payload_contexto = [
+                "role" => "system",
                 "content" => "🧾 Información del cliente para usar como contexto:\n\n" . $bloque_info
             ];
 
@@ -3582,27 +3583,29 @@ class PedidosModel extends Query
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_POST => true,
                 CURLOPT_HTTPHEADER => $headers,
-                CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_UNICODE)
+                CURLOPT_POSTFIELDS => json_encode($payload_contexto, JSON_UNESCAPED_UNICODE)
             ]);
             curl_exec($ch);
             curl_close($ch);
         }
 
-        // 2. Enviar mensaje actual del cliente
+        // 3. Enviar mensaje real del cliente (debe ser el último antes del run)
+        $payload_usuario = [
+            "role" => "user",
+            "content" => $mensaje
+        ];
+
         $ch = curl_init("https://api.openai.com/v1/threads/$id_thread/messages");
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => true,
             CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_POSTFIELDS => json_encode([
-                "role" => "user",
-                "content" => $mensaje
-            ])
+            CURLOPT_POSTFIELDS => json_encode($payload_usuario, JSON_UNESCAPED_UNICODE)
         ]);
         curl_exec($ch);
         curl_close($ch);
 
-        // 3. Ejecutar el assistant
+        // 4. Ejecutar el assistant
         $ch = curl_init("https://api.openai.com/v1/threads/$id_thread/runs");
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
@@ -3624,9 +3627,10 @@ class PedidosModel extends Query
             ];
         }
 
-        // 4. Esperar respuesta
+        // 5. Esperar respuesta del assistant
         $intentos = 0;
         $max_intentos = 20;
+
         do {
             sleep(1);
             $intentos++;
@@ -3646,7 +3650,7 @@ class PedidosModel extends Query
             return ["error" => "Falló la ejecución del assistant", "run_status" => $status_response];
         }
 
-        // 5. Obtener respuesta final
+        // 6. Obtener la última respuesta del assistant
         $ch = curl_init("https://api.openai.com/v1/threads/$id_thread/messages");
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
