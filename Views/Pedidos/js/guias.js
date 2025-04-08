@@ -1,5 +1,6 @@
 let dataTable;
 let dataTableIsInitialized = false;
+let actualizarCards = true; //por defecto si se actualizan
 
 const dataTableOptions = {
   columnDefs: [
@@ -335,89 +336,91 @@ const listGuias = async () => {
             elemento.innerText = totals[key];
         }
     });
-    // Totals.total es el total de guías
-    if (totals.total > 0) {
-      // 1) Calculamos valores en decimales (sin redondear)
-      let valGeneradas    = (totals.generada      / totals.total) * 100;
-      let valTransito     = (totals.en_transito   / totals.total) * 100;
-      let valEntregaZona  = (totals.zona_entrega  / totals.total) * 100;
-      let valEntrega      = (totals.entregada     / totals.total) * 100;
-      let valNovedad      = (totals.novedad       / totals.total) * 100;
-      let valDevolucion   = (totals.devolucion    / totals.total) * 100;
-    
-      // 2) Sumamos para ver qué falta o sobra
-      let sum = valGeneradas + valTransito + valEntregaZona + valEntrega + valNovedad + valDevolucion;
-      let diff = 100 - sum; // puede ser positivo o negativo
-    
-      // 3) Metemos en un array
-      let arr = [valGeneradas, valTransito, valEntregaZona, valEntrega, valNovedad, valDevolucion];
-    
-      // 4) Encontramos el que tenga el mayor valor
-      let maxIndex = 0;
-      let maxVal = arr[0];
-      for (let i = 1; i < arr.length; i++) {
-        if (arr[i] > maxVal) {
-          maxVal = arr[i];
-          maxIndex = i;
+    if(actualizarCards){
+      // Totals.total es el total de guías
+      if (totals.total > 0) {
+        // 1) Calculamos valores en decimales (sin redondear)
+        let valGeneradas    = (totals.generada      / totals.total) * 100;
+        let valTransito     = (totals.en_transito   / totals.total) * 100;
+        let valEntregaZona  = (totals.zona_entrega  / totals.total) * 100;
+        let valEntrega      = (totals.entregada     / totals.total) * 100;
+        let valNovedad      = (totals.novedad       / totals.total) * 100;
+        let valDevolucion   = (totals.devolucion    / totals.total) * 100;
+      
+        // 2) Sumamos para ver qué falta o sobra
+        let sum = valGeneradas + valTransito + valEntregaZona + valEntrega + valNovedad + valDevolucion;
+        let diff = 100 - sum; // puede ser positivo o negativo
+      
+        // 3) Metemos en un array
+        let arr = [valGeneradas, valTransito, valEntregaZona, valEntrega, valNovedad, valDevolucion];
+      
+        // 4) Encontramos el que tenga el mayor valor
+        let maxIndex = 0;
+        let maxVal = arr[0];
+        for (let i = 1; i < arr.length; i++) {
+          if (arr[i] > maxVal) {
+            maxVal = arr[i];
+            maxIndex = i;
+          }
         }
+      
+        // 5) Ajustamos la diferencia en el mayor
+        arr[maxIndex] += diff;
+      
+        // 6) Finalmente, redondeamos
+        arr = arr.map(v => Math.round(v));
+      
+        // Desempaquetamos de nuevo:
+        let porcentajeGeneradas    = arr[0];
+        let porcentajeTransito     = arr[1];
+        let porcentajeEntregaZona  = arr[2];
+        let porcentajeEntrega      = arr[3];
+        let porcentajeNovedad      = arr[4];
+        let porcentajeDevolucion   = arr[5];
+      
+        // 7) Asignamos a las barras
+        document.getElementById("progress_generadas").style.width = porcentajeGeneradas + "%";
+        document.getElementById("percent_generadas").innerText    = porcentajeGeneradas + "%";
+      
+        document.getElementById("progress_transito").style.width  = porcentajeTransito + "%";
+        document.getElementById("percent_transito").innerText     = porcentajeTransito + "%";
+      
+        document.getElementById("progress_zonaentrega").style.width = porcentajeEntregaZona + "%";
+        document.getElementById("percent_zonaentrega").innerText    = porcentajeEntregaZona + "%";
+      
+        document.getElementById("progress_entrega").style.width    = porcentajeEntrega + "%";
+        document.getElementById("percent_entrega").innerText       = porcentajeEntrega + "%";
+      
+        document.getElementById("progress_novedad").style.width    = porcentajeNovedad + "%";
+        document.getElementById("percent_novedad").innerText       = porcentajeNovedad + "%";
+      
+        document.getElementById("progress_devolucion").style.width = porcentajeDevolucion + "%";
+        document.getElementById("percent_devolucion").innerText    = porcentajeDevolucion + "%";
+      } else {
+        // Si totals.total == 0 => limpiar todas las barras
+        let progressBars = [
+          "progress_generadas",
+          "progress_transito",
+          "progress_zonaentrega",
+          "progress_entrega",
+          "progress_novedad",
+          "progress_devolucion",
+        ];
+        let percentTexts = [
+          "percent_generadas",
+          "percent_transito",
+          "percent_zonaentrega",
+          "percent_entrega",
+          "percent_novedad",
+          "percent_devolucion",
+        ];
+        progressBars.forEach((id) => {
+          document.getElementById(id).style.width = "0%";
+        });
+        percentTexts.forEach((id) => {
+          document.getElementById(id).innerText = "0%";
+        });
       }
-    
-      // 5) Ajustamos la diferencia en el mayor
-      arr[maxIndex] += diff;
-    
-      // 6) Finalmente, redondeamos
-      arr = arr.map(v => Math.round(v));
-    
-      // Desempaquetamos de nuevo:
-      let porcentajeGeneradas    = arr[0];
-      let porcentajeTransito     = arr[1];
-      let porcentajeEntregaZona  = arr[2];
-      let porcentajeEntrega      = arr[3];
-      let porcentajeNovedad      = arr[4];
-      let porcentajeDevolucion   = arr[5];
-    
-      // 7) Asignamos a las barras
-      document.getElementById("progress_generadas").style.width = porcentajeGeneradas + "%";
-      document.getElementById("percent_generadas").innerText    = porcentajeGeneradas + "%";
-    
-      document.getElementById("progress_transito").style.width  = porcentajeTransito + "%";
-      document.getElementById("percent_transito").innerText     = porcentajeTransito + "%";
-    
-      document.getElementById("progress_zonaentrega").style.width = porcentajeEntregaZona + "%";
-      document.getElementById("percent_zonaentrega").innerText    = porcentajeEntregaZona + "%";
-    
-      document.getElementById("progress_entrega").style.width    = porcentajeEntrega + "%";
-      document.getElementById("percent_entrega").innerText       = porcentajeEntrega + "%";
-    
-      document.getElementById("progress_novedad").style.width    = porcentajeNovedad + "%";
-      document.getElementById("percent_novedad").innerText       = porcentajeNovedad + "%";
-    
-      document.getElementById("progress_devolucion").style.width = porcentajeDevolucion + "%";
-      document.getElementById("percent_devolucion").innerText    = porcentajeDevolucion + "%";
-    } else {
-      // Si totals.total == 0 => limpiar todas las barras
-      let progressBars = [
-        "progress_generadas",
-        "progress_transito",
-        "progress_zonaentrega",
-        "progress_entrega",
-        "progress_novedad",
-        "progress_devolucion",
-      ];
-      let percentTexts = [
-        "percent_generadas",
-        "percent_transito",
-        "percent_zonaentrega",
-        "percent_entrega",
-        "percent_novedad",
-        "percent_devolucion",
-      ];
-      progressBars.forEach((id) => {
-        document.getElementById(id).style.width = "0%";
-      });
-      percentTexts.forEach((id) => {
-        document.getElementById(id).innerText = "0%";
-      });
     }    
   } catch (ex) {
     alert(ex);
@@ -904,6 +907,34 @@ window.addEventListener("load", async () => {
       }
     });
   }
+
+  //Cards interactivas, al dar click filtrar por tal.
+  let estadoSeleccionado = null;
+  
+  document.querySelectorAll(".card-filtro").forEach((card) => {
+    card.addEventListener("click", async function () {
+      const estado = this.getAttribute("data-estado");
+  
+      if (estado === "" || estadoSeleccionado === estado) {
+        // 👉 Mostrar todos (sin filtro)
+        estadoSeleccionado = null;
+        $("#estado_q").val(""); // Resetea filtro estado
+        // Quitar resaltado de todas las cards
+        document.querySelectorAll(".card-filtro").forEach(c => c.classList.remove("selected"));
+      } else {
+        // 👉 Aplicar filtro
+        estadoSeleccionado = estado;
+        $("#estado_q").val(estado);
+        // Resaltar solo la card actual
+        document.querySelectorAll(".card-filtro").forEach(c => c.classList.remove("selected"));
+        this.classList.add("selected");
+      }
+  
+      actualizarCards = false;
+      await initDataTable();
+      actualizarCards = true; // restaurar para futuros usos
+    });
+  });
 });
 
 function formatPhoneNumber(number) {
