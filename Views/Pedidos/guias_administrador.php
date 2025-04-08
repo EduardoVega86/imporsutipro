@@ -291,7 +291,7 @@
             </table>
         </div>
 
-        <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias_administrador.js">
+        <script>
             // Inicializar tooltips de Bootstrap 5
             document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
                 new bootstrap.Tooltip(el, {
@@ -299,4 +299,5 @@
                 });
             });
         </script>
+        <script src="<?php echo SERVERURL ?>/Views/Pedidos/js/guias_administrador.js"></script>
         <?php require_once './Views/templates/footer.php'; ?>
