@@ -3575,7 +3575,7 @@ class PedidosModel extends Query
         // 2. Enviar bloque de contexto
         if ($bloque_info) {
             $payload_contexto = [
-                "role" => "system",
+                "role" => "user",
                 "content" => "🧾 Información del cliente para usar como contexto:\n\n" . $bloque_info
             ];
 
