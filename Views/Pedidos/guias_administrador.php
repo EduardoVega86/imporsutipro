@@ -281,7 +281,7 @@
                         <th class="centered">Contiene</th>
                         <th class="centered">Costo flete</th>
                         <th class="centered">Utilidad flete</th>
-                        <!-- <th class="centered">Fulfillment</th> -->
+                        <th class="centered">Fulfillment</th>
                         <th class="centered">Monto a recibir</th>
                         <th class="centered">Recaudo</th>
                         <th class="centered">Acciones</th>
