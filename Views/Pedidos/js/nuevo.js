@@ -895,11 +895,9 @@ function generar_guia() {
   let totalVenta;
   if (muestra === "1") {
     let costoFlete = parseFloat($("#costo_flete").val()) || 0;
-    console.log("muestra: " + costoFlete);
     totalVenta = (costoFlete + parseFloat(costo_producto)).toFixed(2);
   } else {
     totalVenta = document.getElementById("monto_total").innerText;
-    console.log("fuera de muestra: " + totalVenta);
   }
   formData.append("total_venta", totalVenta);
 
@@ -950,6 +948,17 @@ function generar_guia() {
     muestra === "1"
       ? SERVERURL + "/pedidos/nuevo_pedido_muestra"
       : SERVERURL + "/pedidos/nuevo_pedido";
+
+  // Realiza la solicitud AJAX
+  if (transportadora_selected === 1) {
+    generar_guiaTransportadora = "generarLaar";
+  } else if (transportadora_selected === 2) {
+    generar_guiaTransportadora = "generarServientrega";
+  } else if (transportadora_selected === 3) {
+    generar_guiaTransportadora = "generarGintracom";
+  } else if (transportadora_selected === 4) {
+    generar_guiaTransportadora = "generarSpeed";
+  }
 
   // Mostrar alerta de carga
   Swal.fire({
