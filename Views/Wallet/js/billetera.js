@@ -109,7 +109,7 @@ function cargarDashboard_wallet() {
 }
 
 // TABLAS FACTURAS
-let filtro_facturas = "pendientes";
+let filtro_facturas = "abonadas";
 let dataTableFacturas;
 let dataTableFacturasIsInitialized = false;
 
